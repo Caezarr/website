@@ -1,0 +1,54 @@
+import type { Metadata } from "next";
+import type { SeoData } from "@/lib/types";
+import { getSiteUrl } from "@/lib/site-url";
+
+const HOME_TITLE = "Wonka - Leave no human behind";
+const DEFAULT_DESCRIPTION = "Your whole team working at full potential.";
+const SITE_NAME = "Wonka";
+
+export interface BuildMetadataOptions {
+  path: string;
+  fallbackTitle?: string;
+}
+
+export function buildMetadata(
+  seo: SeoData | null,
+  options: BuildMetadataOptions,
+): Metadata {
+  const { path, fallbackTitle } = options;
+  const isHome = path === "/";
+
+  const cmsTitle = seo?.metaTitle;
+  const title: Metadata["title"] = cmsTitle
+    ? { absolute: cmsTitle }
+    : isHome
+      ? { absolute: HOME_TITLE }
+      : (fallbackTitle ?? SITE_NAME);
+
+  const description = seo?.metaDescription || DEFAULT_DESCRIPTION;
+  const ogTitle = cmsTitle || (isHome ? HOME_TITLE : fallbackTitle ? `${fallbackTitle} - ${SITE_NAME}` : SITE_NAME);
+  const customOgImage = seo?.ogImage || undefined;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: path,
+    },
+    openGraph: {
+      type: "website",
+      siteName: SITE_NAME,
+      title: ogTitle,
+      description,
+      url: `${getSiteUrl()}${path}`,
+      locale: "en_US",
+      ...(customOgImage ? { images: [{ url: customOgImage }] } : {}),
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: ogTitle,
+      description,
+      ...(customOgImage ? { images: [customOgImage] } : {}),
+    },
+  };
+}

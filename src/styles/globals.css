@@ -1,0 +1,417 @@
+@import "tailwindcss";
+
+@source "../**/*.tsx";
+
+@theme {
+  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-serif), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+  --font-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", monospace;
+
+  /* Reset Tailwind's default color palette — we ship our own */
+  --color-*: initial;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+  --color-inherit: inherit;
+
+  /* Primary — Blue */
+  --color-blue-100: #e7effd;
+  --color-blue-200: #c9dafb;
+  --color-blue-300: #a9c3f8;
+  --color-blue-400: #75a3fd;
+  --color-blue-500: #4d86f5;
+  --color-blue-600: #2f6de0;
+  --color-blue-700: #1e54c2;
+  --color-blue-800: #123e9a;
+  --color-blue-900: #082c72;
+
+  /* Secondary — Green */
+  --color-green-100: #eaf6ee;
+  --color-green-200: #d6f0dd;
+  --color-green-300: #bee6c4;
+  --color-green-400: #9fd9ad;
+  --color-green-500: #7bcb93;
+  --color-green-600: #57b87a;
+  --color-green-700: #3f9d64;
+  --color-green-800: #2a6f4f;
+  --color-green-900: #173630;
+
+  /* Orange (waiting / pause state) */
+  --color-orange-300: #fde6c1;
+  --color-orange-900: #e89c32;
+
+  /* Neutral */
+  --color-white: #ffffff;
+  --color-light-gray: #f7f7f7;
+  --color-gray: #f6f6f4;
+  --color-mid-gray: #f0eeea;
+  --color-dark-gray: #d9d9d5;
+  --color-light-brown: #76766b;
+  --color-dark-brown: #3b2929;
+  --color-black: #0e1a16;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-button: 1rem;
+
+  --shadow-subtle: 0px 1px 1px 0px rgba(0, 0, 0, 0.08);
+  --shadow-subtle-hover: 0px 2px 6px 0px rgba(0, 0, 0, 0.12);
+
+  --animate-marquee: marquee 50s linear infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Semantic theme tokens — resolve at use-time so switching [data-theme] re-themes the page */
+@theme inline {
+  --color-background: var(--background);
+  --color-text: var(--text);
+  --color-border: var(--border);
+  --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+}
+
+:root {
+  /* Light theme (default) */
+  --background: var(--color-white);
+  --text: var(--color-black);
+  --border: var(--color-dark-gray);
+  --accent: var(--color-blue-900);
+  --accent-dark: var(--color-blue-400);
+}
+
+[data-theme="dark"] {
+  --background: var(--color-black);
+  --text: var(--color-white);
+  --border: var(--color-light-brown);
+  --accent: var(--color-blue-900);
+  --accent-dark: var(--color-blue-400);
+}
+
+/* Typography — Wonka design system. Use `type-*` (not `text-*`) to avoid clashing with Tailwind's text-{color} utilities. */
+
+@utility type-h1 {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 4.5rem;
+  line-height: 1;
+  letter-spacing: -0.028em;
+
+  @media (width >= 48rem) {
+    font-size: 5.5rem;
+    line-height: 4.25rem;
+  }
+}
+
+@utility type-h2 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 2.5rem;
+  line-height: 1.1;
+  letter-spacing: -0.047em;
+
+  @media (width >= 48rem) {
+    font-size: 3.25rem;
+    line-height: 1;
+  }
+
+  @media (width >= 64rem) {
+    font-size: 4rem;
+    line-height: 1;
+  }
+}
+
+@utility type-h3 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 3.5rem;
+  line-height: 1;
+  letter-spacing: -0.041em;
+
+  @media (width >= 48rem) {
+    font-size: 3.75rem;
+    line-height: 0.95;
+  }
+
+  @media (width >= 64rem) {
+    font-size: 5rem;
+    line-height: 0.9;
+  }
+}
+
+@utility type-h4 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 2.5rem;
+  line-height: 1.125;
+  letter-spacing: -0.038em;
+
+  @media (width >= 48rem) {
+    font-size: 2.625rem;
+    line-height: 1.12;
+  }
+
+  @media (width >= 64rem) {
+    font-size: 3.25rem;
+    line-height: 1.115;
+  }
+}
+
+@utility type-h5 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.75rem;
+  line-height: 1.214;
+  letter-spacing: -0.028em;
+
+  @media (width >= 48rem) {
+    font-size: 2rem;
+    line-height: 1.1875;
+  }
+
+  @media (width >= 64rem) {
+    font-size: 2.25rem;
+    line-height: 1.222;
+  }
+}
+
+@utility type-h6 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: 1.375rem;
+  line-height: 1.273;
+  letter-spacing: -0.036em;
+
+  @media (width >= 48rem) {
+    font-size: 1.5rem;
+    line-height: 1.25;
+  }
+
+  @media (width >= 64rem) {
+    font-size: 1.75rem;
+    line-height: 1.143;
+  }
+}
+
+@utility type-body {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 1rem;
+  line-height: 1.75rem;
+  letter-spacing: 0;
+}
+
+@utility type-paragraph-m {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  letter-spacing: 0;
+}
+
+@utility type-paragraph-m-bold {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  letter-spacing: 0;
+}
+
+@utility type-paragraph-s {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  letter-spacing: 0;
+}
+
+@utility type-eyebrow {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.625rem;
+  line-height: 1rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply type-body bg-background text-text antialiased;
+  }
+}
+
+/* Navigation dropdown (Base UI) */
+.nav-positioner {
+  --easing: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration: 0.3s;
+
+  width: var(--positioner-width);
+  height: var(--positioner-height);
+  max-width: var(--available-width);
+  transition-property: top, left, right, bottom;
+  transition-duration: var(--duration);
+  transition-timing-function: var(--easing);
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -10px;
+    height: 10px;
+  }
+
+  &[data-instant] {
+    transition: none;
+  }
+}
+
+.nav-popup {
+  position: relative;
+  transform-origin: var(--transform-origin);
+  width: var(--popup-width);
+  height: var(--popup-height);
+  transition-property: opacity, transform, width, height;
+  transition-duration: var(--duration);
+  transition-timing-function: var(--easing);
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+
+  &[data-ending-style] {
+    transition-duration: 0.15s;
+    transition-timing-function: ease;
+  }
+}
+
+.nav-viewport {
+  position: relative;
+  overflow: clip;
+  width: 100%;
+  height: 100%;
+}
+
+.nav-content {
+  box-sizing: border-box;
+  transition:
+    opacity calc(var(--duration) * 0.5) ease,
+    transform var(--duration) var(--easing);
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    opacity: 0;
+  }
+
+  &[data-starting-style] {
+    &[data-activation-direction="left"] {
+      transform: translateX(-40%);
+    }
+    &[data-activation-direction="right"] {
+      transform: translateX(40%);
+    }
+  }
+
+  &[data-ending-style] {
+    &[data-activation-direction="left"] {
+      transform: translateX(40%);
+    }
+    &[data-activation-direction="right"] {
+      transform: translateX(-40%);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-popup,
+  .nav-content,
+  .nav-positioner {
+    transition: none !important;
+  }
+}
+
+/* Button hover effects */
+:root {
+  --ease-bounce: linear(
+    0,
+    0.5737 7.6%,
+    0.8382 11.87%,
+    0.9463 14.19%,
+    1.0292 16.54%,
+    1.0886 18.97%,
+    1.1258 21.53%,
+    1.137 22.97%,
+    1.1424 24.48%,
+    1.1423 26.1%,
+    1.1366 27.86%,
+    1.1165 31.01%,
+    1.0507 38.62%,
+    1.0219 42.57%,
+    0.9995 46.99%,
+    0.9872 51.63%,
+    0.9842 58.77%,
+    1.0011 81.26%,
+    1
+  );
+}
+
+.group\/btn {
+  transition:
+    transform 0.45s var(--ease-bounce),
+    background-color 150ms ease,
+    box-shadow 150ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.group\/btn:active {
+  transform: scale(0.97);
+}
+
+.btn-arrow-out {
+  transition: translate 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.btn-arrow-in {
+  translate: -200% 0;
+  transition: translate 0.45s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .group\/btn:is(:hover, :focus-visible) .btn-arrow-out {
+    translate: 200% 0;
+  }
+
+  .group\/btn:is(:hover, :focus-visible) .btn-arrow-in {
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .group\/btn {
+    transition-duration: 0.01ms !important;
+  }
+
+  .btn-arrow-out,
+  .btn-arrow-in {
+    transition-duration: 0.01ms !important;
+  }
+}
