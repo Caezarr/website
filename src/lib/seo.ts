@@ -5,6 +5,7 @@ import { getSiteUrl } from "@/lib/site-url";
 const HOME_TITLE = "Wonka - Leave no human behind";
 const DEFAULT_DESCRIPTION = "Your whole team working at full potential.";
 const SITE_NAME = "Wonka";
+const DEFAULT_OG_IMAGE = "/opengraph-image.jpg";
 
 export interface BuildMetadataOptions {
   path: string;
@@ -42,13 +43,13 @@ export function buildMetadata(
       description,
       url: `${getSiteUrl()}${path}`,
       locale: "en_US",
-      ...(customOgImage ? { images: [{ url: customOgImage }] } : {}),
+      images: [{ url: customOgImage ?? DEFAULT_OG_IMAGE }],
     },
     twitter: {
       card: "summary_large_image",
       title: ogTitle,
       description,
-      ...(customOgImage ? { images: [customOgImage] } : {}),
+      images: [customOgImage ?? DEFAULT_OG_IMAGE],
     },
   };
 }
