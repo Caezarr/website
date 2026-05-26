@@ -58,7 +58,7 @@ export function Header({
 
         <div className="hidden flex-1 items-center justify-end lg:flex">
           {headerCta && (
-            <ButtonLink href={headerCta.href} variant="secondary">
+            <ButtonLink href="https://www.cal.eu/team/wonka-ai-experts/demonstration-call" variant="secondary">
               {headerCta.label}
             </ButtonLink>
           )}
