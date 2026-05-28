@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import { fontVariables } from "@/lib/fonts";
 import { CookieConsentProvider } from "@/components/cookie-consent/cookie-consent-provider";
 import { getSiteUrl } from "@/lib/site-url";
@@ -63,6 +64,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </noscript>
         )}
         <CookieConsentProvider>{children}</CookieConsentProvider>
+        <SpeedInsights />
       </body>
     </html>
   );
