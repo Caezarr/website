@@ -3,13 +3,18 @@
 import { defineConfig } from "sanity";
 import { structureTool } from "sanity/structure";
 import {
+  BookIcon,
   CogIcon,
   CommentIcon,
+  ComposeIcon,
   DocumentsIcon,
   DocumentTextIcon,
   HomeIcon,
+  LinkIcon,
   LockIcon,
+  UsersIcon,
 } from "@sanity/icons";
+import { documentInternationalization } from "@sanity/document-internationalization";
 import { schemaTypes } from "./sanity/schemas";
 
 export default defineConfig({
@@ -77,6 +82,39 @@ export default defineConfig({
               ),
             S.divider(),
             S.listItem()
+              .title("Blog")
+              .icon(DocumentTextIcon)
+              .child(
+                S.documentTypeList("blogPost")
+                  .title("Blog Posts")
+                  .defaultOrdering([{ field: "publishedAt", direction: "desc" }]),
+              ),
+            S.listItem()
+              .title("Glossary")
+              .icon(BookIcon)
+              .child(
+                S.documentTypeList("glossaryTerm").title("Glossary Terms"),
+              ),
+            S.listItem()
+              .title("Comparisons")
+              .icon(ComposeIcon)
+              .child(
+                S.documentTypeList("comparisonPage").title("Comparison Pages"),
+              ),
+            S.listItem()
+              .title("Connectors")
+              .icon(LinkIcon)
+              .child(
+                S.documentTypeList("connectorPage").title("Connector Pages"),
+              ),
+            S.listItem()
+              .title("Case Studies")
+              .icon(UsersIcon)
+              .child(
+                S.documentTypeList("caseStudy").title("Case Studies"),
+              ),
+            S.divider(),
+            S.listItem()
               .title("Site Settings")
               .icon(CogIcon)
               .child(
@@ -85,6 +123,20 @@ export default defineConfig({
                   .documentId("siteSettings"),
               ),
           ]),
+    }),
+    documentInternationalization({
+      supportedLanguages: [
+        { id: "en", title: "English" },
+        { id: "fr", title: "Français" },
+        { id: "nl", title: "Nederlands" },
+      ],
+      schemaTypes: [
+        "blogPost",
+        "glossaryTerm",
+        "comparisonPage",
+        "connectorPage",
+        "caseStudy",
+      ],
     }),
   ],
   schema: { types: schemaTypes },
