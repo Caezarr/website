@@ -6,18 +6,66 @@ import { getSiteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+const SITE_URL = "https://wonka-ai.com";
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Wonka AI",
+  url: SITE_URL,
+  logo: `${SITE_URL}/opengraph-image.jpg`,
+  sameAs: [
+    "https://www.linkedin.com/company/wonka-ai",
+    "https://twitter.com/wonka_ai",
+  ],
+  description:
+    "Wonka AI automates LinkedIn prospecting and sales outreach with AI, helping sales teams book more meetings and close more deals.",
+};
+
+const softwareApplicationSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Wonka AI",
+  applicationCategory: "BusinessApplication",
+  operatingSystem: "Web",
+  url: SITE_URL,
+  description:
+    "AI-powered LinkedIn prospecting and sales automation platform. Automate outreach, personalize messages at scale, and let your whole team prospect smarter.",
+  offers: {
+    "@type": "Offer",
+    priceCurrency: "EUR",
+    availability: "https://schema.org/OnlineOnly",
+  },
+  featureList: [
+    "AI LinkedIn prospecting",
+    "Automated sales outreach",
+    "Personalized message generation",
+    "Sales pipeline automation",
+    "Team collaboration for sales",
+  ],
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(getSiteUrl()),
     title: {
-      default: "Wonka - Leave no human behind",
-      template: "%s - Wonka",
+      default: "Wonka AI – AI-Powered LinkedIn Prospecting & Sales Automation",
+      template: "%s – Wonka AI",
     },
-    description: "Your whole team working at full potential.",
+    description:
+      "Wonka AI automates LinkedIn prospecting and sales outreach with AI. Help your whole team prospect smarter, book more meetings, and close more deals.",
     robots: {
       index: true,
       follow: true,
+    },
+    alternates: {
+      canonical: SITE_URL,
+      languages: {
+        "en-US": SITE_URL,
+        "fr-BE": SITE_URL,
+        "fr-FR": SITE_URL,
+        "x-default": SITE_URL,
+      },
     },
   };
 }
@@ -28,7 +76,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" dir="ltr">
       <body className={fontVariables}>
         {GTM_ID && (
           <>
@@ -63,6 +111,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
           </noscript>
         )}
         <CookieConsentProvider>{children}</CookieConsentProvider>
+        <Script
+          id="schema-organization"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
+        />
+        <Script
+          id="schema-software-application"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(softwareApplicationSchema),
+          }}
+        />
       </body>
     </html>
   );
