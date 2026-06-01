@@ -180,7 +180,7 @@ export function MobileNavOverlay({
 
         {headerCta && (
           <div className="flex">
-            <ButtonLink href={headerCta.href} variant="primary" className="w-full">
+            <ButtonLink href="https://www.cal.eu/team/wonka-ai-experts/demonstration-call" variant="primary" className="w-full">
               {headerCta.label}
             </ButtonLink>
           </div>
