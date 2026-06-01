@@ -9,6 +9,8 @@ export const slugUniqueByLanguage: SlugIsUniqueValidator = async (
   slug,
   { document, getClient },
 ) => {
+  if (!document) return true;
+
   const client = getClient({ apiVersion: "2026-03-01" });
   const id = document._id.replace(/^drafts\./, "");
 
