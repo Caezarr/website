@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity';
 import { UsersIcon } from '@sanity/icons';
+import { slugUniqueByLanguage } from "@sanity/lib/slugUniqueByLanguage";
 
 export const caseStudy = defineType({
   name: 'caseStudy',
@@ -18,7 +19,7 @@ export const caseStudy = defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: { source: 'clientName', maxLength: 100 },
+      options: { source: 'clientName', maxLength: 100, isUnique: slugUniqueByLanguage },
       validation: (Rule) => Rule.required(),
     }),
     defineField({

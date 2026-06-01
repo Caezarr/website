@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity';
 import { BookIcon } from '@sanity/icons';
+import { slugUniqueByLanguage } from "@sanity/lib/slugUniqueByLanguage";
 
 export const glossaryTerm = defineType({
   name: 'glossaryTerm',
@@ -18,7 +19,7 @@ export const glossaryTerm = defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: { source: 'term', maxLength: 100 },
+      options: { source: 'term', maxLength: 100, isUnique: slugUniqueByLanguage },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
