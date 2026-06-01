@@ -5,8 +5,17 @@ export default createMiddleware({
   locales,
   defaultLocale,
   localePrefix: 'as-needed',
+  localeDetection: false,
 });
 
 export const config = {
-  matcher: ['/((?!studio|api|_next|.*\\..*).*)'],
+  // Only intercept content hub routes — never the homepage, legal pages, or studio
+  matcher: [
+    '/(fr|nl)(.*)',
+    '/blog(.*)',
+    '/glossaire(.*)',
+    '/comparaisons(.*)',
+    '/connecteurs(.*)',
+    '/cas-clients(.*)',
+  ],
 };
