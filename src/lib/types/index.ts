@@ -120,3 +120,87 @@ export interface Testimonial {
   companyLogo: SanityImageWithDimensions | null;
   portrait: SanityImageData | null;
 }
+
+// ─── Content Hub Types ───────────────────────────────────────────
+
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+export interface BlogPost {
+  _id: string;
+  language: string;
+  title: string;
+  slug: { current: string };
+  publishedAt: string;
+  excerpt: string;
+  coverImage: SanityImageData | null;
+  category: string;
+  tags: string[] | null;
+  body: unknown[];
+  faq: FaqItem[] | null;
+  seo: SeoData | null;
+}
+
+export interface GlossaryTerm {
+  _id: string;
+  language: string;
+  term: string;
+  slug: { current: string };
+  shortDefinition: string;
+  body: unknown[];
+  tags: string[] | null;
+  faq: FaqItem[] | null;
+  seo: SeoData | null;
+}
+
+export interface ComparisonPage {
+  _id: string;
+  language: string;
+  title: string;
+  slug: { current: string };
+  competitor: string;
+  excerpt: string;
+  body: unknown[];
+  tags: string[] | null;
+  faq: FaqItem[] | null;
+  seo: SeoData | null;
+}
+
+export interface UseCase {
+  title: string;
+  description: string;
+  prompt: string;
+}
+
+export interface ConnectorPage {
+  _id: string;
+  language: string;
+  toolName: string;
+  slug: { current: string };
+  tagline: string;
+  description: string;
+  useCases: UseCase[];
+  toolLogo: SanityImageData | null;
+  tags: string[] | null;
+  faq: FaqItem[] | null;
+  seo: SeoData | null;
+}
+
+export interface CaseStudy {
+  _id: string;
+  language: string;
+  clientName: string;
+  slug: { current: string };
+  sector: string;
+  headline: string;
+  excerpt: string;
+  results: string[];
+  body: unknown[];
+  clientLogo: SanityImageData | null;
+  publishedAt: string | null;
+  tags: string[] | null;
+  faq: FaqItem[] | null;
+  seo: SeoData | null;
+}

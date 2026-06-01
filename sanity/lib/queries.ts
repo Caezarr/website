@@ -94,3 +94,176 @@ export const HOMEPAGE_CONTENT_QUERY = defineQuery(`
     }
   }
 `);
+
+// ─── Content Hub Queries ──────────────────────────────────────────
+
+const CONTENT_FIELDS = `
+  _id,
+  language,
+  slug,
+  tags,
+  seo {
+    metaTitle,
+    metaDescription,
+    "ogImage": ogImage.asset->url
+  }
+`;
+
+const FAQ_FIELDS = `
+  faq[] {
+    question,
+    answer
+  }
+`;
+
+const IMAGE_FIELDS = `
+  ...,
+  "alt": coalesce(alt, "")
+`;
+
+export const BLOG_POSTS_QUERY = defineQuery(`
+  *[_type == "blogPost" && language == $language] | order(publishedAt desc) {
+    ${CONTENT_FIELDS},
+    title,
+    publishedAt,
+    excerpt,
+    category,
+    coverImage { ${IMAGE_FIELDS} }
+  }
+`);
+
+export const BLOG_POST_QUERY = defineQuery(`
+  *[_type == "blogPost" && slug.current == $slug && language == $language][0] {
+    ${CONTENT_FIELDS},
+    title,
+    publishedAt,
+    excerpt,
+    category,
+    coverImage { ${IMAGE_FIELDS} },
+    body,
+    ${FAQ_FIELDS}
+  }
+`);
+
+export const BLOG_SLUGS_QUERY = defineQuery(`
+  *[_type == "blogPost"] { slug, language }
+`);
+
+export const GLOSSARY_TERMS_QUERY = defineQuery(`
+  *[_type == "glossaryTerm" && language == $language] | order(term asc) {
+    ${CONTENT_FIELDS},
+    term,
+    shortDefinition
+  }
+`);
+
+export const GLOSSARY_TERM_QUERY = defineQuery(`
+  *[_type == "glossaryTerm" && slug.current == $slug && language == $language][0] {
+    ${CONTENT_FIELDS},
+    term,
+    shortDefinition,
+    body,
+    ${FAQ_FIELDS}
+  }
+`);
+
+export const GLOSSARY_SLUGS_QUERY = defineQuery(`
+  *[_type == "glossaryTerm"] { slug, language }
+`);
+
+export const COMPARISON_PAGES_QUERY = defineQuery(`
+  *[_type == "comparisonPage" && language == $language] | order(_createdAt desc) {
+    ${CONTENT_FIELDS},
+    title,
+    competitor,
+    excerpt
+  }
+`);
+
+export const COMPARISON_PAGE_QUERY = defineQuery(`
+  *[_type == "comparisonPage" && slug.current == $slug && language == $language][0] {
+    ${CONTENT_FIELDS},
+    title,
+    competitor,
+    excerpt,
+    body,
+    ${FAQ_FIELDS}
+  }
+`);
+
+export const COMPARISON_SLUGS_QUERY = defineQuery(`
+  *[_type == "comparisonPage"] { slug, language }
+`);
+
+export const CONNECTOR_PAGES_QUERY = defineQuery(`
+  *[_type == "connectorPage" && language == $language] | order(toolName asc) {
+    ${CONTENT_FIELDS},
+    toolName,
+    tagline,
+    description,
+    toolLogo { ${IMAGE_FIELDS} }
+  }
+`);
+
+export const CONNECTOR_PAGE_QUERY = defineQuery(`
+  *[_type == "connectorPage" && slug.current == $slug && language == $language][0] {
+    ${CONTENT_FIELDS},
+    toolName,
+    tagline,
+    description,
+    useCases[] {
+      title,
+      description,
+      prompt
+    },
+    toolLogo { ${IMAGE_FIELDS} },
+    ${FAQ_FIELDS}
+  }
+`);
+
+export const CONNECTOR_SLUGS_QUERY = defineQuery(`
+  *[_type == "connectorPage"] { slug, language }
+`);
+
+export const CASE_STUDIES_QUERY = defineQuery(`
+  *[_type == "caseStudy" && language == $language] | order(publishedAt desc) {
+    ${CONTENT_FIELDS},
+    clientName,
+    sector,
+    headline,
+    excerpt,
+    results,
+    publishedAt,
+    clientLogo { ${IMAGE_FIELDS} }
+  }
+`);
+
+export const CASE_STUDY_QUERY = defineQuery(`
+  *[_type == "caseStudy" && slug.current == $slug && language == $language][0] {
+    ${CONTENT_FIELDS},
+    clientName,
+    sector,
+    headline,
+    excerpt,
+    results,
+    publishedAt,
+    body,
+    clientLogo { ${IMAGE_FIELDS} },
+    ${FAQ_FIELDS}
+  }
+`);
+
+export const CASE_STUDY_SLUGS_QUERY = defineQuery(`
+  *[_type == "caseStudy"] { slug, language }
+`);
+
+// All slugs for sitemap generation
+export const ALL_CONTENT_SLUGS_QUERY = defineQuery(`
+  {
+    "blogPosts": *[_type == "blogPost"] { slug, language },
+    "glossaryTerms": *[_type == "glossaryTerm"] { slug, language },
+    "comparisons": *[_type == "comparisonPage"] { slug, language },
+    "connectors": *[_type == "connectorPage"] { slug, language },
+    "caseStudies": *[_type == "caseStudy"] { slug, language }
+  }
+`);
