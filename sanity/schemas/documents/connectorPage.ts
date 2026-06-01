@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity';
 import { LinkIcon } from '@sanity/icons';
+import { slugUniqueByLanguage } from "@sanity/lib/slugUniqueByLanguage";
 
 export const connectorPage = defineType({
   name: 'connectorPage',
@@ -19,7 +20,7 @@ export const connectorPage = defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: { source: 'toolName', maxLength: 100 },
+      options: { source: 'toolName', maxLength: 100, isUnique: slugUniqueByLanguage },
       validation: (Rule) => Rule.required(),
     }),
     defineField({

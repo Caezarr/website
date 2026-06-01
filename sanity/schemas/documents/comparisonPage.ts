@@ -1,5 +1,6 @@
 import { defineType, defineField } from 'sanity';
 import { ComposeIcon } from '@sanity/icons';
+import { slugUniqueByLanguage } from "@sanity/lib/slugUniqueByLanguage";
 
 export const comparisonPage = defineType({
   name: 'comparisonPage',
@@ -19,7 +20,7 @@ export const comparisonPage = defineType({
       name: 'slug',
       title: 'Slug',
       type: 'slug',
-      options: { source: 'title', maxLength: 100 },
+      options: { source: 'title', maxLength: 100, isUnique: slugUniqueByLanguage },
       validation: (Rule) => Rule.required(),
     }),
     defineField({
