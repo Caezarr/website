@@ -5,6 +5,7 @@ import { CONNECTOR_PAGE_QUERY, CONNECTOR_SLUGS_QUERY } from "@sanity/lib/queries
 import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
+import { hubPath, itemPath } from "@/lib/locale-path";
 import { FaqSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/json-ld";
 import type { Locale } from "@/i18n/config";
 import type { ConnectorPage } from "@/lib/types";
@@ -28,8 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { data } = await sanityFetch({ query: CONNECTOR_PAGE_QUERY, params: { slug, language: locale } });
   if (!data) return {};
   const c = data as ConnectorPage;
-  const path = locale === "en" ? `/connecteurs/${slug}` : `/${locale}/connecteurs/${slug}`;
-  return buildMetadata(c.seo ?? null, { path, fallbackTitle: c.toolName });
+  return buildMetadata(c.seo ?? null, { path: itemPath('connectors', locale, slug), fallbackTitle: c.toolName });
 }
 
 export default async function ConnectorDetailPage({ params }: PageProps) {
@@ -40,8 +40,8 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
 
   const c = data as ConnectorPage;
   const siteUrl = getSiteUrl();
-  const pageUrl = `${siteUrl}${locale === "en" ? `/connecteurs/${slug}` : `/${locale}/connecteurs/${slug}`}`;
-  const hubUrl = `${siteUrl}${locale === "en" ? "/connecteurs" : `/${locale}/connecteurs`}`;
+  const pageUrl = `${siteUrl}${itemPath('connectors', locale, slug)}`;
+  const hubUrl = `${siteUrl}${hubPath('connectors', locale)}`;
 
   return (
     <main className="container mx-auto px-4 py-24 max-w-4xl">

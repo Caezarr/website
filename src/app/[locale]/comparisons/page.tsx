@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { sanityFetch } from "@sanity/lib/live";
 import { COMPARISON_PAGES_QUERY } from "@sanity/lib/queries";
 import { buildMetadata } from "@/lib/seo";
+import { hubPath, itemPath } from "@/lib/locale-path";
 import type { Locale } from "@/i18n/config";
 import type { ComparisonPage } from "@/lib/types";
 
@@ -11,7 +12,7 @@ interface PageProps { params: Promise<{ locale: Locale }> }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, { path: locale === "en" ? "/comparaisons" : `/${locale}/comparaisons`, fallbackTitle: "Comparisons" });
+  return buildMetadata(null, { path: hubPath('comparisons', locale), fallbackTitle: "Comparisons" });
 }
 
 export default async function ComparaisonsPage({ params }: PageProps) {
@@ -27,7 +28,7 @@ export default async function ComparaisonsPage({ params }: PageProps) {
       {!comparisons?.length ? <p className="type-body text-text/40">No comparisons yet.</p> : (
         <div className="grid gap-8 md:grid-cols-2">
           {(comparisons as ComparisonPage[]).map((c) => {
-            const href = locale === "en" ? `/comparaisons/${c.slug.current}` : `/${locale}/comparaisons/${c.slug.current}`;
+            const href = itemPath('comparisons', locale, c.slug.current);
             return (
               <a key={c._id} href={href} className="flex flex-col gap-2 p-6 border border-border rounded-lg hover:border-accent transition-colors">
                 <h2 className="type-h6">{c.title}</h2>

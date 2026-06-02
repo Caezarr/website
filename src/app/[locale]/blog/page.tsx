@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { sanityFetch } from "@sanity/lib/live";
 import { BLOG_POSTS_QUERY } from "@sanity/lib/queries";
 import { buildMetadata } from "@/lib/seo";
+import { hubPath, itemPath } from "@/lib/locale-path";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost } from "@/lib/types";
 
@@ -13,8 +14,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  const path = locale === "en" ? "/blog" : `/${locale}/blog`;
-  return buildMetadata(null, { path, fallbackTitle: "Blog" });
+  return buildMetadata(null, { path: hubPath('blog', locale), fallbackTitle: "Blog" });
 }
 
 export default async function BlogPage({ params }: PageProps) {
@@ -42,7 +42,7 @@ export default async function BlogPage({ params }: PageProps) {
       ) : (
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
           {(posts as BlogPost[]).map((post) => {
-            const href = locale === "en" ? `/blog/${post.slug.current}` : `/${locale}/blog/${post.slug.current}`;
+            const href = itemPath('blog', locale, post.slug.current);
             return (
               <article key={post._id} className="flex flex-col gap-3">
                 <span className="type-eyebrow text-text/40">{post.category}</span>

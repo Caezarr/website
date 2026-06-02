@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { sanityFetch } from "@sanity/lib/live";
 import { CASE_STUDIES_QUERY } from "@sanity/lib/queries";
 import { buildMetadata } from "@/lib/seo";
+import { hubPath, itemPath } from "@/lib/locale-path";
 import type { Locale } from "@/i18n/config";
 import type { CaseStudy } from "@/lib/types";
 
@@ -11,7 +12,7 @@ interface PageProps { params: Promise<{ locale: Locale }> }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, { path: locale === "en" ? "/cas-clients" : `/${locale}/cas-clients`, fallbackTitle: "Case Studies" });
+  return buildMetadata(null, { path: hubPath('case-studies', locale), fallbackTitle: "Case Studies" });
 }
 
 export default async function CasClientsPage({ params }: PageProps) {
@@ -27,7 +28,7 @@ export default async function CasClientsPage({ params }: PageProps) {
       {!cases?.length ? <p className="type-body text-text/40">No case studies yet.</p> : (
         <div className="grid gap-8 md:grid-cols-2">
           {(cases as CaseStudy[]).map((c) => {
-            const href = locale === "en" ? `/cas-clients/${c.slug.current}` : `/${locale}/cas-clients/${c.slug.current}`;
+            const href = itemPath('case-studies', locale, c.slug.current);
             return (
               <a key={c._id} href={href} className="flex flex-col gap-3 p-6 border border-border rounded-lg hover:border-accent transition-colors">
                 <span className="type-eyebrow text-text/40">{c.sector}</span>

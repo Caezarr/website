@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { sanityFetch } from "@sanity/lib/live";
 import { GLOSSARY_TERMS_QUERY } from "@sanity/lib/queries";
 import { buildMetadata } from "@/lib/seo";
+import { hubPath, itemPath } from "@/lib/locale-path";
 import type { Locale } from "@/i18n/config";
 import type { GlossaryTerm } from "@/lib/types";
 
@@ -11,7 +12,7 @@ interface PageProps { params: Promise<{ locale: Locale }> }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, { path: locale === "en" ? "/glossaire" : `/${locale}/glossaire`, fallbackTitle: "Glossary" });
+  return buildMetadata(null, { path: hubPath('glossary', locale), fallbackTitle: "Glossary" });
 }
 
 export default async function GlossairePage({ params }: PageProps) {
@@ -29,7 +30,7 @@ export default async function GlossairePage({ params }: PageProps) {
       ) : (
         <div className="flex flex-col divide-y divide-border">
           {(terms as GlossaryTerm[]).map((t) => {
-            const href = locale === "en" ? `/glossaire/${t.slug.current}` : `/${locale}/glossaire/${t.slug.current}`;
+            const href = itemPath('glossary', locale, t.slug.current);
             return (
               <div key={t._id} className="py-6">
                 <a href={href} className="type-h6 hover:underline block mb-2">{t.term}</a>

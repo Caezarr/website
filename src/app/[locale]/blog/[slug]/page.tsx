@@ -5,6 +5,7 @@ import { BLOG_POST_QUERY, BLOG_SLUGS_QUERY } from "@sanity/lib/queries";
 import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
+import { hubPath, itemPath } from "@/lib/locale-path";
 import { PortableText } from "@portabletext/react";
 import { ArticleSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld";
 import type { Locale } from "@/i18n/config";
@@ -28,8 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale, slug } = await params;
   const { data: post } = await sanityFetch({ query: BLOG_POST_QUERY, params: { slug, language: locale } });
   if (!post) return {};
-  const path = locale === "en" ? `/blog/${slug}` : `/${locale}/blog/${slug}`;
-  return buildMetadata((post as BlogPost).seo ?? null, { path, fallbackTitle: (post as BlogPost).title });
+  return buildMetadata((post as BlogPost).seo ?? null, { path: itemPath('blog', locale, slug), fallbackTitle: (post as BlogPost).title });
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
@@ -40,8 +40,8 @@ export default async function BlogPostPage({ params }: PageProps) {
 
   const p = post as BlogPost;
   const siteUrl = getSiteUrl();
-  const postUrl = `${siteUrl}${locale === "en" ? `/blog/${slug}` : `/${locale}/blog/${slug}`}`;
-  const hubUrl = `${siteUrl}${locale === "en" ? "/blog" : `/${locale}/blog`}`;
+  const postUrl = `${siteUrl}${itemPath('blog', locale, slug)}`;
+  const hubUrl = `${siteUrl}${hubPath('blog', locale)}`;
 
   return (
     <main className="container mx-auto px-4 py-24 max-w-3xl">

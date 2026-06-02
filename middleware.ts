@@ -1,21 +1,15 @@
 import createMiddleware from 'next-intl/middleware';
-import { locales, defaultLocale } from './src/i18n/config';
+import { routing } from './src/i18n/config';
 
-export default createMiddleware({
-  locales,
-  defaultLocale,
-  localePrefix: 'as-needed',
-  localeDetection: false,
-});
+export default createMiddleware(routing);
 
 export const config = {
-  // Only intercept content hub routes — never the homepage, legal pages, or studio
   matcher: [
+    // Locale-prefixed paths (fr/nl)
     '/(fr|nl)(.*)',
-    '/blog(.*)',
-    '/glossaire(.*)',
-    '/comparaisons(.*)',
-    '/connecteurs(.*)',
-    '/cas-clients(.*)',
+    // English content hub paths
+    '/(blog|connectors|glossary|comparisons|case-studies)(.*)',
+    // Localized path variants (FR/NL without prefix — needed for routing resolution)
+    '/(connecteurs|connectoren|glossaire|woordenlijst|comparaisons|vergelijkingen|cas-clients|klantcases)(.*)',
   ],
 };

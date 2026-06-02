@@ -5,6 +5,7 @@ import { GLOSSARY_TERM_QUERY, GLOSSARY_SLUGS_QUERY } from "@sanity/lib/queries";
 import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
+import { hubPath, itemPath } from "@/lib/locale-path";
 import { PortableText } from "@portabletext/react";
 import { DefinedTermSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld";
 import type { Locale } from "@/i18n/config";
@@ -24,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { data } = await sanityFetch({ query: GLOSSARY_TERM_QUERY, params: { slug, language: locale } });
   if (!data) return {};
   const t = data as GlossaryTerm;
-  return buildMetadata(t.seo ?? null, { path: locale === "en" ? `/glossaire/${slug}` : `/${locale}/glossaire/${slug}`, fallbackTitle: t.term });
+  return buildMetadata(t.seo ?? null, { path: itemPath('glossary', locale, slug), fallbackTitle: t.term });
 }
 
 export default async function GlossaryTermPage({ params }: PageProps) {
@@ -34,12 +35,13 @@ export default async function GlossaryTermPage({ params }: PageProps) {
 
   const t = data as GlossaryTerm;
   const siteUrl = getSiteUrl();
-  const pageUrl = `${siteUrl}${locale === "en" ? `/glossaire/${slug}` : `/${locale}/glossaire/${slug}`}`;
+  const pageUrl = `${siteUrl}${itemPath('glossary', locale, slug)}`;
+  const parentUrl = `${siteUrl}${hubPath('glossary', locale)}`;
 
   return (
     <main className="container mx-auto px-4 py-24 max-w-3xl">
       <DefinedTermSchema term={t.term} definition={t.shortDefinition} url={pageUrl} />
-      <BreadcrumbSchema items={[{ name: "Home", url: siteUrl }, { name: "Glossaire", url: `${siteUrl}${locale === "en" ? "/glossaire" : `/${locale}/glossaire`}` }, { name: t.term, url: pageUrl }]} />
+      <BreadcrumbSchema items={[{ name: "Home", url: siteUrl }, { name: "Glossaire", url: parentUrl }, { name: t.term, url: pageUrl }]} />
       {t.faq?.length ? <FaqSchema items={t.faq} /> : null}
       <h1 className="type-h2 mb-4">{t.term}</h1>
       <p className="type-body text-text/60 mb-12">{t.shortDefinition}</p>

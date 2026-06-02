@@ -11,9 +11,23 @@
  */
 
 import { createClient } from "next-sanity";
-import * as dotenv from "dotenv";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 
-dotenv.config();
+// Load .env manually — avoids conflicts with Bun's dotenvx wrapper
+const envPath = resolve(process.cwd(), ".env");
+try {
+  const lines = readFileSync(envPath, "utf-8").split("\n");
+  for (const line of lines) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq === -1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    const val = trimmed.slice(eq + 1).trim().replace(/^["']|["']$/g, "");
+    if (!process.env[key]) process.env[key] = val;
+  }
+} catch {}
 
 const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
