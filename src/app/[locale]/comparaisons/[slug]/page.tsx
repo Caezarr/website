@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@sanity/lib/live";
 import { COMPARISON_PAGE_QUERY, COMPARISON_SLUGS_QUERY } from "@sanity/lib/queries";
+import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import { PortableText } from "@portabletext/react";
@@ -14,7 +15,7 @@ export const dynamic = "force-static";
 interface PageProps { params: Promise<{ locale: Locale; slug: string }> }
 
 export async function generateStaticParams() {
-  const { data } = await sanityFetch({ query: COMPARISON_SLUGS_QUERY });
+  const data = await client.fetch(COMPARISON_SLUGS_QUERY);
   return (data ?? []).map((item: { slug: { current: string }; language: string }) => ({ locale: item.language, slug: item.slug.current }));
 }
 

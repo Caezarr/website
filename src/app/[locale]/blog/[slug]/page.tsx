@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@sanity/lib/live";
 import { BLOG_POST_QUERY, BLOG_SLUGS_QUERY } from "@sanity/lib/queries";
+import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import { PortableText } from "@portabletext/react";
@@ -16,7 +17,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  const { data } = await sanityFetch({ query: BLOG_SLUGS_QUERY });
+  const data = await client.fetch(BLOG_SLUGS_QUERY);
   return (data ?? []).map((item: { slug: { current: string }; language: string }) => ({
     locale: item.language,
     slug: item.slug.current,
