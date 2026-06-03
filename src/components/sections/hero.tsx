@@ -89,10 +89,7 @@ export function Hero({ meetingUrl }: HeroProps) {
               }}
             >
               {/* Glass pill inner */}
-              <div className="flex items-center gap-2.5 rounded-full bg-white/10 px-5 py-2.5 backdrop-blur-md">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="shrink-0 text-amber-300" aria-hidden>
-                  <path d="M2 19h20v2H2v-2zm18.5-9.5L17 13l-5-8-5 8-3.5-3.5L2 17h20l-1.5-7.5z"/>
-                </svg>
+              <div className="rounded-full bg-white/10 px-5 py-2.5 backdrop-blur-md">
                 <span className="type-eyebrow text-white/90">
                   #1 AI Start-up of the year &nbsp;·&nbsp; Belgium Startup Awards 2026
                 </span>
