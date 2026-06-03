@@ -12,7 +12,7 @@ interface PageProps { params: Promise<{ locale: Locale }> }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, { path: hubPath('connectors', locale), fallbackTitle: "Connectors" });
+  return buildMetadata(null, { path: hubPath('connectors', locale), fallbackTitle: "Connectors", locale });
 }
 
 export default async function ConnectorsPage({ params }: PageProps) {

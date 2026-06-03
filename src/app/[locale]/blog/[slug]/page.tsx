@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale, slug } = await params;
   const { data: post } = await sanityFetch({ query: BLOG_POST_QUERY, params: { slug, language: locale } });
   if (!post) return {};
-  return buildMetadata((post as BlogPost).seo ?? null, { path: itemPath('blog', locale, slug), fallbackTitle: (post as BlogPost).title });
+  return buildMetadata((post as BlogPost).seo ?? null, { path: itemPath('blog', locale, slug), fallbackTitle: (post as BlogPost).title, locale });
 }
 
 const relatedLabels = {

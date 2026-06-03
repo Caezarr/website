@@ -28,7 +28,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { data } = await sanityFetch({ query: COMPARISON_PAGE_QUERY, params: { slug, language: locale } });
   if (!data) return {};
   const c = data as ComparisonPage;
-  return buildMetadata(c.seo ?? null, { path: itemPath('comparisons', locale, slug), fallbackTitle: c.title });
+  return buildMetadata(c.seo ?? null, { path: itemPath('comparisons', locale, slug), fallbackTitle: c.title, locale });
 }
 
 export default async function ComparisonDetailPage({ params }: PageProps) {

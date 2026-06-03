@@ -12,7 +12,7 @@ interface PageProps { params: Promise<{ locale: Locale }> }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, { path: hubPath('glossary', locale), fallbackTitle: "Glossary" });
+  return buildMetadata(null, { path: hubPath('glossary', locale), fallbackTitle: "Glossary", locale });
 }
 
 export default async function GlossairePage({ params }: PageProps) {

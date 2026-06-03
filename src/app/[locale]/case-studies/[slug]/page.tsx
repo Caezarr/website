@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { data } = await sanityFetch({ query: CASE_STUDY_QUERY, params: { slug, language: locale } });
   if (!data) return {};
   const c = data as CaseStudy;
-  return buildMetadata(c.seo ?? null, { path: itemPath('case-studies', locale, slug), fallbackTitle: c.headline });
+  return buildMetadata(c.seo ?? null, { path: itemPath('case-studies', locale, slug), fallbackTitle: c.headline, locale });
 }
 
 export default async function CaseStudyDetailPage({ params }: PageProps) {

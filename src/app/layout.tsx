@@ -18,10 +18,9 @@ const organizationSchema = {
   logo: `${SITE_URL}/opengraph-image.jpg`,
   sameAs: [
     "https://www.linkedin.com/company/wonka-ai",
-    "https://twitter.com/wonka_ai",
   ],
   description:
-    "Wonka AI automates LinkedIn prospecting and sales outreach with AI, helping sales teams book more meetings and close more deals.",
+    "Wonka AI deploys private LLMs inside European enterprises — connected to your existing tools, processing everything on your own servers. Full data sovereignty, GDPR compliance, deployed in weeks.",
 };
 
 const softwareApplicationSchema = {
@@ -32,18 +31,19 @@ const softwareApplicationSchema = {
   operatingSystem: "Web",
   url: SITE_URL,
   description:
-    "AI-powered LinkedIn prospecting and sales automation platform. Automate outreach, personalize messages at scale, and let your whole team prospect smarter.",
+    "Private enterprise AI platform. Deploy a secure LLM inside your infrastructure, connected to SharePoint, Salesforce, Slack, Jira and more — with full data sovereignty and GDPR compliance.",
   offers: {
     "@type": "Offer",
     priceCurrency: "EUR",
     availability: "https://schema.org/OnlineOnly",
   },
   featureList: [
-    "AI LinkedIn prospecting",
-    "Automated sales outreach",
-    "Personalized message generation",
-    "Sales pipeline automation",
-    "Team collaboration for sales",
+    "Private LLM deployment on your infrastructure",
+    "GDPR-compliant enterprise AI",
+    "Connectors for SharePoint, Salesforce, Slack, Jira, HubSpot, Notion",
+    "Data sovereignty — no data leaves your environment",
+    "RAG on your internal documents and knowledge base",
+    "Deployed in weeks, not months",
   ],
 };
 
