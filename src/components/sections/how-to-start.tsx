@@ -22,7 +22,7 @@ const TOPICS: Topic[] = [
     question: "No AI strategy yet?",
     body: "No idea where to begin. We show you what's possible, map where AI creates real value, build the business cases, and create your AI policy.",
     ctaLabel: "Start AI",
-    ctaHref: "#",
+    ctaHref: "/start-ai",
   },
   {
     question: "Already using AI but it's not working for everyone?",
