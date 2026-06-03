@@ -80,16 +80,18 @@ export function Hero({ meetingUrl }: HeroProps) {
       <div className="flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="flex max-w-3xl flex-col items-center gap-6 text-center">
           <FadeIn delay={0.05}>
-            {/* Rotating gold border wrapper */}
-            <div
-              className="rounded-full p-[1.5px]"
-              style={{
-                background: "conic-gradient(from var(--award-angle), transparent 60%, #d97706 75%, #fde68a 82%, #d97706 88%, transparent 95%)",
-                animation: "award-spin 5s linear infinite",
-              }}
-            >
-              {/* Glass pill inner */}
-              <div className="rounded-full bg-white/10 px-5 py-2.5 backdrop-blur-md">
+            {/* Container — positions the rotating ring behind the glass pill */}
+            <div className="relative rounded-full">
+              {/* Rotating gold arc — sits behind, bleeds 1.5px outside */}
+              <div
+                className="absolute inset-[-1.5px] rounded-full"
+                style={{
+                  background: "conic-gradient(from var(--award-angle), transparent 65%, #b45309 75%, #fde68a 82%, #b45309 88%, transparent 96%)",
+                  animation: "award-spin 5s linear infinite",
+                }}
+              />
+              {/* Glass pill — covers the gradient center, only the ring shows */}
+              <div className="relative rounded-full bg-white/10 px-5 py-2.5 backdrop-blur-md">
                 <span className="type-eyebrow text-white/90">
                   #1 AI Start-up of the year &nbsp;·&nbsp; Belgium Startup Awards 2026
                 </span>
