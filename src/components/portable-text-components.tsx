@@ -2,7 +2,7 @@ import { PortableText, type PortableTextComponents } from "@portabletext/react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-type PTSpan = { _type: "span"; _key: string; text: string; marks?: string[] };
+type PTSpan = { _type: string; _key: string; text?: string; marks?: string[] };
 type PTBlock = {
   _type: "block";
   _key: string;
@@ -20,7 +20,9 @@ type Group = TableGroup | BlocksGroup;
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function blockText(block: PTBlock): string {
-  return (block.children ?? []).map((s) => s.text).join("");
+  return (block.children ?? [])
+    .map((s) => (s._type === "hardBreak" ? "\n" : (s.text ?? "")))
+    .join("");
 }
 
 function isTableRow(node: PTNode): node is PTBlock {
@@ -56,11 +58,13 @@ function groupNodes(body: PTNode[]): Group[] {
     if (isTableRow(node)) {
       flushBlocks();
       if (!tableKey) tableKey = node._key;
-      tableBuf.push(
-        blockText(node as PTBlock)
-          .split("|")
-          .map((c) => c.trim()),
-      );
+      // A single block may contain multiple rows separated by \n (Shift+Enter in Sanity)
+      const lines = blockText(node as PTBlock).split("\n").map((l) => l.trim()).filter(Boolean);
+      for (const line of lines) {
+        if (line.includes("|")) {
+          tableBuf.push(line.split("|").map((c) => c.trim()));
+        }
+      }
     } else {
       flushTable();
       blockBuf.push(node);
