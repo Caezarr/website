@@ -2,9 +2,9 @@ import type { Locale } from '@/i18n/config';
 
 const segments: Record<string, Record<Locale, string>> = {
   blog: { en: 'blog', fr: 'blog', nl: 'blog' },
-  connectors: { en: 'connectors', fr: 'connecteurs', nl: 'connectoren' },
-  glossary: { en: 'glossary', fr: 'glossaire', nl: 'woordenlijst' },
-  comparisons: { en: 'comparisons', fr: 'comparaisons', nl: 'vergelijkingen' },
+  connectors: { en: 'integrations', fr: 'integrations', nl: 'integrations' },
+  glossary: { en: 'learn', fr: 'apprendre', nl: 'leren' },
+  comparisons: { en: 'vs', fr: 'vs', nl: 'vs' },
   'case-studies': { en: 'case-studies', fr: 'cas-clients', nl: 'klantcases' },
 };
 

@@ -8,8 +8,8 @@ export const config = {
     // Locale-prefixed paths (fr/nl)
     '/(fr|nl)(.*)',
     // English content hub paths
-    '/(blog|connectors|glossary|comparisons|case-studies)(.*)',
-    // Localized path variants (FR/NL without prefix — needed for routing resolution)
-    '/(connecteurs|connectoren|glossaire|woordenlijst|comparaisons|vergelijkingen|cas-clients|klantcases)(.*)',
+    '/(blog|integrations|learn|vs|case-studies)(.*)',
+    // Localized path variants
+    '/(apprendre|leren|cas-clients|klantcases)(.*)',
   ],
 };
