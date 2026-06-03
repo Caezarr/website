@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@sanity/lib/live";
-import { BLOG_POST_QUERY, BLOG_SLUGS_QUERY, RELATED_GLOSSARY_TERMS_QUERY, MEETING_URL_QUERY } from "@sanity/lib/queries";
+import { BLOG_POST_QUERY, BLOG_SLUGS_QUERY, RELATED_GLOSSARY_TERMS_QUERY, RELATED_BLOG_POSTS_QUERY, MEETING_URL_QUERY } from "@sanity/lib/queries";
 import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
@@ -29,10 +29,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   return buildMetadata((post as BlogPost).seo ?? null, { path: itemPath('blog', locale, slug), fallbackTitle: (post as BlogPost).title, locale });
 }
 
-const relatedLabels = {
+const glossaryLabels = {
   en: "Related glossary terms",
   fr: "Termes de glossaire liés",
   nl: "Gerelateerde glossariumtermen",
+};
+
+const relatedPostLabels = {
+  en: "Related articles",
+  fr: "Articles liés",
+  nl: "Gerelateerde artikelen",
 };
 
 export default async function BlogPostPage({ params }: PageProps) {
@@ -41,8 +47,9 @@ export default async function BlogPostPage({ params }: PageProps) {
   if (!post) notFound();
 
   const p = post as BlogPost;
-  const [{ data: relatedTerms }, { data: meetingUrl }] = await Promise.all([
+  const [{ data: relatedTerms }, { data: relatedPosts }, { data: meetingUrl }] = await Promise.all([
     sanityFetch({ query: RELATED_GLOSSARY_TERMS_QUERY, params: { slug, language: locale, tags: p.tags ?? [] } }),
+    sanityFetch({ query: RELATED_BLOG_POSTS_QUERY, params: { slug, language: locale, tags: p.tags ?? [] } }),
     sanityFetch({ query: MEETING_URL_QUERY }),
   ]);
 
@@ -83,9 +90,24 @@ export default async function BlogPostPage({ params }: PageProps) {
           </section>
         ) : null}
 
+        {(relatedPosts as BlogPost[])?.length ? (
+          <section className="mt-16 border-t border-border pt-12">
+            <h2 className="type-h6 mb-6 text-text/50">{relatedPostLabels[locale]}</h2>
+            <div className="flex flex-col gap-4">
+              {(relatedPosts as BlogPost[]).map((post) => (
+                <a key={post._id} href={itemPath('blog', locale, post.slug.current)} className="group flex flex-col gap-1 rounded-lg border border-border p-4 hover:border-accent transition-colors">
+                  <span className="type-eyebrow text-text/30">{post.category}</span>
+                  <span className="type-paragraph-m-bold group-hover:text-accent transition-colors">{post.title}</span>
+                  <span className="type-paragraph-s text-text/50">{post.excerpt}</span>
+                </a>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
         {(relatedTerms as GlossaryTerm[])?.length ? (
           <section className="mt-16 border-t border-border pt-12">
-            <h2 className="type-h6 mb-6 text-text/50">{relatedLabels[locale]}</h2>
+            <h2 className="type-h6 mb-6 text-text/50">{glossaryLabels[locale]}</h2>
             <div className="flex flex-col gap-4">
               {(relatedTerms as GlossaryTerm[]).map((t) => (
                 <a key={t._id} href={itemPath('glossary', locale, t.slug.current)} className="group flex flex-col gap-1 rounded-lg border border-border p-4 hover:border-accent transition-colors">

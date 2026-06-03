@@ -269,7 +269,7 @@ export const RELATED_GLOSSARY_TERMS_QUERY = defineQuery(`
 `);
 
 export const RELATED_BLOG_POSTS_QUERY = defineQuery(`
-  *[_type == "blogPost" && language == $language && slug.current != $slug && count((tags[])[@ in $tags]) > 0] | order(publishedAt desc)[0..1] {
+  *[_type == "blogPost" && language == $language && slug.current != $slug && count((tags[])[@ in $tags]) > 0] | order(publishedAt desc)[0..2] {
     _id,
     title,
     slug,
