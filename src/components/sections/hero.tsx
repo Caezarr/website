@@ -82,9 +82,9 @@ export function Hero({ meetingUrl }: HeroProps) {
           <FadeIn delay={0.05}>
             <div className="relative flex items-center gap-3 overflow-hidden rounded-full px-5 py-2.5 shadow-[0_0_24px_rgba(234,179,8,0.35)]"
               style={{
-                background: "linear-gradient(90deg, #92400e, #d97706, #fbbf24, #fde68a, #fbbf24, #d97706, #92400e)",
-                backgroundSize: "200% auto",
-                animation: "shimmer 2.4s linear infinite",
+                background: "linear-gradient(90deg, #d97706, #fbbf24, #fde68a, #fcd34d, #fbbf24, #d97706)",
+                backgroundSize: "300% auto",
+                animation: "shimmer 6s ease-in-out infinite",
               }}
             >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="shrink-0 text-amber-900" aria-hidden>
