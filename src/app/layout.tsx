@@ -51,11 +51,11 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(getSiteUrl()),
     title: {
-      default: "Wonka AI – AI-Powered LinkedIn Prospecting & Sales Automation",
+      default: "Wonka AI – Private Enterprise AI, Deployed on Your Infrastructure",
       template: "%s – Wonka AI",
     },
     description:
-      "Wonka AI automates LinkedIn prospecting and sales outreach with AI. Help your whole team prospect smarter, book more meetings, and close more deals.",
+      "Wonka AI deploys a private LLM inside your enterprise — connected to SharePoint, Salesforce, Slack and more, with full data sovereignty and GDPR compliance.",
     robots: {
       index: true,
       follow: true,
