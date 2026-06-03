@@ -201,7 +201,12 @@ export default async function StartAIPage() {
 
       {/* DELIVERABLES — blue panel */}
       <section className="px-2 py-8 md:px-3">
-        <div className="relative overflow-hidden rounded-3xl bg-blue-700">
+        <div
+          className="relative overflow-hidden rounded-3xl"
+          style={{
+            background: "radial-gradient(ellipse at 15% 25%, #dce8ff 0%, #7ea3e8 50%, #6088d4 100%)",
+          }}
+        >
           <div className="relative mx-auto max-w-[1200px] px-8 py-16 md:px-14 md:py-20">
             <div className="text-center">
               <h2 className="mx-auto type-h4 text-white">
