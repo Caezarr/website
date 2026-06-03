@@ -102,18 +102,17 @@ export default async function StartAIPage() {
   return (
     <>
       {/* HERO */}
-      <section className="px-2 pt-2 md:px-3 md:pt-3">
-        <div className="relative overflow-hidden rounded-3xl bg-black">
-          <Image
-            src="/images/start-ai/hero.jpg"
-            alt=""
-            fill
-            unoptimized
-            sizes="100vw"
-            className="pointer-events-none object-cover opacity-80"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/70" />
-          <div className="relative mx-auto max-w-[1100px] px-6 pb-20 pt-32 md:pb-28 md:pt-40">
+      <section className="relative isolate w-full overflow-hidden bg-black">
+        <Image
+          src="/images/start-ai/hero.jpg"
+          alt=""
+          fill
+          unoptimized
+          sizes="100vw"
+          className="pointer-events-none object-cover opacity-80"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/10 to-black/70" />
+        <div className="relative mx-auto max-w-[1100px] px-6 pb-20 pt-32 md:pb-28 md:pt-40">
             <div className="mx-auto max-w-3xl text-center">
               <span className="inline-block rounded-full bg-white px-4 py-1.5 type-eyebrow text-text">
                 Start AI
@@ -133,7 +132,6 @@ export default async function StartAIPage() {
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* LOGOS STRIP */}
