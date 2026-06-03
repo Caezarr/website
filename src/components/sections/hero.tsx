@@ -80,9 +80,19 @@ export function Hero({ meetingUrl }: HeroProps) {
       <div className="flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="flex max-w-3xl flex-col items-center gap-6 text-center">
           <FadeIn delay={0.05}>
-            <div className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-sm">
-              <span aria-hidden>🏆</span>
-              <span className="type-eyebrow text-white/90">#1 AI Start-up of the year · Belgium Startup Awards 2026</span>
+            <div className="relative flex items-center gap-3 overflow-hidden rounded-full px-5 py-2.5 shadow-[0_0_24px_rgba(234,179,8,0.35)]"
+              style={{
+                background: "linear-gradient(90deg, #92400e, #d97706, #fbbf24, #fde68a, #fbbf24, #d97706, #92400e)",
+                backgroundSize: "200% auto",
+                animation: "shimmer 2.4s linear infinite",
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="shrink-0 text-amber-900" aria-hidden>
+                <path d="M2 19h20v2H2v-2zm18.5-9.5L17 13l-5-8-5 8-3.5-3.5L2 17h20l-1.5-7.5z"/>
+              </svg>
+              <span className="type-eyebrow tracking-widest text-amber-900">
+                #1 AI Start-up of the year &nbsp;·&nbsp; Belgium Startup Awards 2026
+              </span>
             </div>
           </FadeIn>
           <FadeIn delay={0.15}>
