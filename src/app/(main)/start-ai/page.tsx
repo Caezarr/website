@@ -202,7 +202,7 @@ export default async function StartAIPage() {
         <div
           className="relative overflow-hidden rounded-3xl"
           style={{
-            background: "radial-gradient(ellipse at 15% 25%, #dce8ff 0%, #7ea3e8 50%, #6088d4 100%)",
+            background: "radial-gradient(ellipse 90% 70% at 50% 35%, #6e8fda 0%, #8aaae8 35%, #b5c8f8 70%, #c8d8ff 100%)",
           }}
         >
           <div className="relative mx-auto max-w-[1200px] px-8 py-16 md:px-14 md:py-20">
