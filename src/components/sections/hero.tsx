@@ -79,6 +79,12 @@ export function Hero({ meetingUrl }: HeroProps) {
 
       <div className="flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="flex max-w-3xl flex-col items-center gap-6 text-center">
+          <FadeIn delay={0.05}>
+            <div className="flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-sm">
+              <span aria-hidden>🏆</span>
+              <span className="type-eyebrow text-white/90">#1 AI Start-up of the year · Belgium Startup Awards 2026</span>
+            </div>
+          </FadeIn>
           <FadeIn delay={0.15}>
             <h1 className="type-h3 max-w-[14ch] text-balance">
               Leave no human behind.
