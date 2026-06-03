@@ -80,19 +80,23 @@ export function Hero({ meetingUrl }: HeroProps) {
       <div className="flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="flex max-w-3xl flex-col items-center gap-6 text-center">
           <FadeIn delay={0.05}>
-            <div className="relative flex items-center gap-3 overflow-hidden rounded-full px-5 py-2.5 shadow-[0_0_24px_rgba(234,179,8,0.35)]"
+            {/* Rotating gold border wrapper */}
+            <div
+              className="rounded-full p-[1.5px]"
               style={{
-                background: "linear-gradient(90deg, #d97706, #fbbf24, #fde68a, #fcd34d, #fbbf24, #d97706)",
-                backgroundSize: "300% auto",
-                animation: "shimmer 6s ease-in-out infinite",
+                background: "conic-gradient(from var(--award-angle), transparent 60%, #d97706 75%, #fde68a 82%, #d97706 88%, transparent 95%)",
+                animation: "award-spin 5s linear infinite",
               }}
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="shrink-0 text-amber-900" aria-hidden>
-                <path d="M2 19h20v2H2v-2zm18.5-9.5L17 13l-5-8-5 8-3.5-3.5L2 17h20l-1.5-7.5z"/>
-              </svg>
-              <span className="type-eyebrow tracking-widest text-amber-900">
-                #1 AI Start-up of the year &nbsp;·&nbsp; Belgium Startup Awards 2026
-              </span>
+              {/* Glass pill inner */}
+              <div className="flex items-center gap-2.5 rounded-full bg-white/10 px-5 py-2.5 backdrop-blur-md">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="shrink-0 text-amber-300" aria-hidden>
+                  <path d="M2 19h20v2H2v-2zm18.5-9.5L17 13l-5-8-5 8-3.5-3.5L2 17h20l-1.5-7.5z"/>
+                </svg>
+                <span className="type-eyebrow text-white/90">
+                  #1 AI Start-up of the year &nbsp;·&nbsp; Belgium Startup Awards 2026
+                </span>
+              </div>
             </div>
           </FadeIn>
           <FadeIn delay={0.15}>

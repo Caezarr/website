@@ -67,6 +67,16 @@
   100% { background-position:  200% center; }
 }
 
+@property --award-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes award-spin {
+  to { --award-angle: 360deg; }
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);
