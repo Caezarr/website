@@ -12,7 +12,7 @@ interface PageProps { params: Promise<{ locale: Locale }> }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, { path: hubPath('case-studies', locale), fallbackTitle: "Case Studies", locale });
+  return buildMetadata(null, { path: hubPath('case-studies', locale), hreflang: 'hub', fallbackTitle: "Case Studies", locale });
 }
 
 export default async function CasClientsPage({ params }: PageProps) {

@@ -25,12 +25,15 @@ export async function generateMetadata({
 
   const alternateLanguages: Record<string, string> = {};
   locales.forEach((l) => {
+    // Use fr-FR (not fr-BE) to match buildMetadata and sitemap conventions
     alternateLanguages[l === 'en' ? 'en-US' : l === 'fr' ? 'fr-FR' : 'nl-BE'] =
       l === 'en' ? siteUrl : `${siteUrl}/${l}`;
   });
 
   return {
+    robots: { index: true, follow: true },
     alternates: {
+      // No canonical at layout level — each page sets its own
       languages: {
         ...alternateLanguages,
         'x-default': siteUrl,

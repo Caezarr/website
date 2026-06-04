@@ -34,6 +34,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     path: itemPath("blog", locale, slug),
     fallbackTitle: (post as BlogPost).title,
     locale,
+    hreflang: { section: "blog", slug },
   });
 }
 

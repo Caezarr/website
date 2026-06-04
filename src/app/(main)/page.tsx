@@ -29,7 +29,7 @@ async function getSiteSettings() {
 
 export async function generateMetadata(): Promise<Metadata> {
   const content = await getHomepageContent();
-  return buildMetadata(content?.seo ?? null, { path: "/" });
+  return buildMetadata(content?.seo ?? null, { path: "/", hreflang: "home" });
 }
 
 export default async function Home() {

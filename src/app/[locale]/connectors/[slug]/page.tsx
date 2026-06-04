@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { data } = await sanityFetch({ query: CONNECTOR_PAGE_QUERY, params: { slug, language: locale } });
   if (!data) return {};
   const c = data as ConnectorPage;
-  return buildMetadata(c.seo ?? null, { path: itemPath('connectors', locale, slug), fallbackTitle: c.toolName, locale });
+  return buildMetadata(c.seo ?? null, { path: itemPath('connectors', locale, slug), fallbackTitle: c.toolName, locale, hreflang: { section: 'connectors', slug } });
 }
 
 export default async function ConnectorDetailPage({ params }: PageProps) {
