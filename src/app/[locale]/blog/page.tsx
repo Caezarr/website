@@ -14,7 +14,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, { path: hubPath('blog', locale), fallbackTitle: "Blog", locale });
+  return buildMetadata(null, { path: hubPath('blog', locale), hreflang: 'hub', fallbackTitle: "Blog", locale });
 }
 
 export default async function BlogPage({ params }: PageProps) {

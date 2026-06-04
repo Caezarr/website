@@ -12,7 +12,7 @@ interface PageProps { params: Promise<{ locale: Locale }> }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, { path: hubPath('comparisons', locale), fallbackTitle: "Comparisons", locale });
+  return buildMetadata(null, { path: hubPath('comparisons', locale), hreflang: 'hub', fallbackTitle: "Comparisons", locale });
 }
 
 export default async function ComparaisonsPage({ params }: PageProps) {
