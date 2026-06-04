@@ -60,15 +60,8 @@ export async function generateMetadata(): Promise<Metadata> {
       index: true,
       follow: true,
     },
-    alternates: {
-      canonical: SITE_URL,
-      languages: {
-        "en-US": SITE_URL,
-        "fr-BE": SITE_URL,
-        "fr-FR": SITE_URL,
-        "x-default": SITE_URL,
-      },
-    },
+    // No canonical here — each page sets its own via buildMetadata
+    // No hreflang here — [locale]/layout.tsx and buildMetadata handle it per-page
   };
 }
 
