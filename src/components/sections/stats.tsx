@@ -4,9 +4,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import { useInView } from "motion/react";
 import { Section } from "@/components/ui/section";
-import { ArrowRightIcon } from "@/components/ui/icons/arrow-right";
 import { LogoMark } from "@/components/ui/logo-mark";
-import { FadeIn } from "@/components/animations/fade-in";
 import { CountUp } from "@/components/animations/count-up";
 
 export function Stats({ id }: { id?: string }) {
@@ -42,9 +40,14 @@ export function Stats({ id }: { id?: string }) {
             </p>
           </li>
           <li className="flex min-h-[14.4375rem] flex-col items-start justify-between gap-6 border-t border-dashed border-white/40 p-7.5 md:border-t-0 md:border-l">
-            <FadeIn play={inView} duration={0.5} x={-20}>
-              <span className="type-h1 whitespace-nowrap">100%</span>
-            </FadeIn>
+            <CountUp
+              from={0}
+              to={100}
+              suffix="%"
+              duration={1.6}
+              play={inView}
+              className="type-h1 whitespace-nowrap tabular-nums"
+            />
             <p className="type-paragraph-m max-w-[16.875rem]">
               Every Itzu employee has access to their personal WonkaChat that saves them multiple hours each week.
             </p>
