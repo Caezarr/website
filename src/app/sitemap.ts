@@ -52,6 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         },
       },
     },
+    { url: `${siteUrl}/ai-agents`, lastModified, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/start-ai`, lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${siteUrl}/terms`, lastModified, changeFrequency: "yearly", priority: 0.2 },
     { url: `${siteUrl}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.2 },
