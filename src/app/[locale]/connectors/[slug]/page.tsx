@@ -87,7 +87,7 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
                   {u.prompt && (
                     <div className="bg-text/[0.03] rounded-lg p-4">
                       <p className="type-paragraph-s text-text/40 mb-1">{examplePromptLabel}</p>
-                      <p className="type-paragraph-m italic">"{u.prompt}"</p>
+                      <p className="type-paragraph-m italic">&ldquo;{u.prompt}&rdquo;</p>
                     </div>
                   )}
                 </div>
