@@ -42,19 +42,11 @@ export function Stats({ id }: { id?: string }) {
             </p>
           </li>
           <li className="flex min-h-[14.4375rem] flex-col items-start justify-between gap-6 border-t border-dashed border-white/40 p-7.5 md:border-t-0 md:border-l">
-            <div className="flex items-center gap-[1.125rem]">
-              <FadeIn play={inView} duration={0.5} x={-20}>
-                <span className="type-h1 whitespace-nowrap">40</span>
-              </FadeIn>
-              <FadeIn play={inView} delay={0.1} duration={0.4} x={-20}>
-                <ArrowRightIcon className="h-5 w-8 shrink-0 text-white" />
-              </FadeIn>
-              <FadeIn play={inView} delay={0.2} duration={0.5} x={-20}>
-                <span className="type-h1 whitespace-nowrap">5</span>
-              </FadeIn>
-            </div>
+            <FadeIn play={inView} duration={0.5} x={-20}>
+              <span className="type-h1 whitespace-nowrap">100%</span>
+            </FadeIn>
             <p className="type-paragraph-m max-w-[16.875rem]">
-              Tasks that were taking 40 minutes are now taking 5 at AM Norman.
+              Every Itzu employee has access to their personal WonkaChat that saves them multiple hours each week.
             </p>
           </li>
           <li className="flex min-h-[14.4375rem] flex-col items-start justify-between gap-6 border-t border-dashed border-white/40 p-7.5 md:border-t-0 md:border-l">
