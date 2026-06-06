@@ -9,29 +9,51 @@ interface FooterProps {
   linkGroups: FooterLinkGroup[] | null;
 }
 
+type FooterDisplayLink = Omit<FooterLink, "href"> & {
+  href?: string;
+};
+
+type FooterDisplayGroup = Omit<FooterLinkGroup, "links"> & {
+  links: FooterDisplayLink[];
+};
+
 const LEGAL_LINKS = [
   { label: "Terms of use", href: "/terms" },
   { label: "Privacy policy", href: "/privacy" },
   { label: "Cookie policy", href: "/cookies" },
 ];
 
-const DEFAULT_LINK_GROUPS: FooterLinkGroup[] = [
+const FOOTER_LINK_GROUPS: FooterDisplayGroup[] = [
   {
     _key: "default-product",
     title: "Product",
     links: [
-      { _key: "ai-agents", label: "AI Agents", href: "/ai-agents" },
-      { _key: "integrations", label: "Integrations", href: "/integrations" },
-      { _key: "start-ai", label: "Start AI", href: "/start-ai" },
+      { _key: "start-ai", label: "StartAI", href: "/start-ai" },
+      { _key: "wonka-chat", label: "WonkaChat" },
+      { _key: "wonka-build", label: "WonkaBuild" },
+    ],
+  },
+  {
+    _key: "default-connect",
+    title: "Connect",
+    links: [
+      {
+        _key: "linkedin",
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/company/wonka-ai",
+        external: true,
+      },
     ],
   },
   {
     _key: "default-resources",
     title: "Resources",
     links: [
-      { _key: "case-studies", label: "Case Studies", href: "/case-studies" },
       { _key: "blog", label: "Blog", href: "/blog" },
-      { _key: "learn", label: "Learn", href: "/learn" },
+      { _key: "connectors", label: "Connectors", href: "/integrations" },
+      { _key: "glossary", label: "Glossary", href: "/learn" },
+      { _key: "comparisons", label: "Comparisons", href: "/vs" },
+      { _key: "case-studies", label: "Case Studies", href: "/case-studies" },
     ],
   },
   {
@@ -49,26 +71,13 @@ const DEFAULT_LINK_GROUPS: FooterLinkGroup[] = [
   },
 ];
 
-function mergeFooterLinkGroups(linkGroups: FooterLinkGroup[] | null): FooterLinkGroup[] {
-  if (!linkGroups?.length) return DEFAULT_LINK_GROUPS;
-
-  const existingHrefs = new Set(
-    linkGroups.flatMap((group) => group.links?.map((link) => link.href) ?? []),
-  );
-
-  const missingDefaultGroups = DEFAULT_LINK_GROUPS
-    .map((group) => ({
-      ...group,
-      links: group.links.filter((link) => !existingHrefs.has(link.href)),
-    }))
-    .filter((group) => group.links.length > 0);
-
-  return [...linkGroups, ...missingDefaultGroups];
-}
-
-function FooterColumnLink({ link }: { link: FooterLink }) {
+function FooterColumnLink({ link }: { link: FooterDisplayLink }) {
   const className =
     "type-paragraph-s text-text block w-full transition-opacity hover:opacity-60";
+
+  if (!link.href) {
+    return <span className="type-paragraph-s block w-full text-text/45">{link.label}</span>;
+  }
 
   if (link.external) {
     return (
@@ -84,7 +93,7 @@ function FooterColumnLink({ link }: { link: FooterLink }) {
   );
 }
 
-function FooterColumn({ group }: { group: FooterLinkGroup }) {
+function FooterColumn({ group }: { group: FooterDisplayGroup }) {
   return (
     <div className="flex flex-col gap-6">
       <p className="type-eyebrow text-text/60">{group.title}</p>
@@ -104,7 +113,8 @@ function FooterColumn({ group }: { group: FooterLinkGroup }) {
 
 export function Footer({ linkGroups }: FooterProps) {
   const year = new Date().getFullYear();
-  const groups = mergeFooterLinkGroups(linkGroups);
+  void linkGroups;
+  const groups = FOOTER_LINK_GROUPS;
   const groupCount = groups.length;
 
   return (
