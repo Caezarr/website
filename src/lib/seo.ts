@@ -5,9 +5,9 @@ import { locales } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 import { itemPath, hubPath } from "@/lib/locale-path";
 
-const HOME_TITLE = "Wonka AI - #1 AI Start-up Belgium";
+const HOME_TITLE = "Wonka AI - Private Enterprise AI Agents";
 const DEFAULT_DESCRIPTION =
-  "Deploy a private AI inside your company. Connected to SharePoint, Salesforce, Slack. No data leaves. Full GDPR compliance. #1 AI Start-up Belgium 2026.";
+  "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance and no data leaving your environment.";
 const SITE_NAME = "Wonka AI";
 const DEFAULT_OG_IMAGE = "/opengraph-image.jpg";
 
