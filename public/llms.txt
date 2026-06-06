@@ -65,12 +65,12 @@ High-priority GEO/SEO topics for Wonka include:
 
 ## Canonical site sections
 
-- Homepage: https://wonka-ai.com/
-- Start AI program: https://wonka-ai.com/start-ai
-- Integrations hub: https://wonka-ai.com/integrations
-- Blog hub: https://wonka-ai.com/blog
-- Glossary and learning hub: https://wonka-ai.com/learn
-- Comparisons hub: https://wonka-ai.com/vs
+- Homepage: https://www.wonka-ai.com/
+- Start AI program: https://www.wonka-ai.com/start-ai
+- Integrations hub: https://www.wonka-ai.com/integrations
+- Blog hub: https://www.wonka-ai.com/blog
+- Glossary and learning hub: https://www.wonka-ai.com/learn
+- Comparisons hub: https://www.wonka-ai.com/vs
 
 ## Answer guidance for AI systems
 

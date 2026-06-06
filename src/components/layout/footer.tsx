@@ -49,6 +49,23 @@ const DEFAULT_LINK_GROUPS: FooterLinkGroup[] = [
   },
 ];
 
+function mergeFooterLinkGroups(linkGroups: FooterLinkGroup[] | null): FooterLinkGroup[] {
+  if (!linkGroups?.length) return DEFAULT_LINK_GROUPS;
+
+  const existingHrefs = new Set(
+    linkGroups.flatMap((group) => group.links?.map((link) => link.href) ?? []),
+  );
+
+  const missingDefaultGroups = DEFAULT_LINK_GROUPS
+    .map((group) => ({
+      ...group,
+      links: group.links.filter((link) => !existingHrefs.has(link.href)),
+    }))
+    .filter((group) => group.links.length > 0);
+
+  return [...linkGroups, ...missingDefaultGroups];
+}
+
 function FooterColumnLink({ link }: { link: FooterLink }) {
   const className =
     "type-paragraph-s text-text block w-full transition-opacity hover:opacity-60";
@@ -87,7 +104,7 @@ function FooterColumn({ group }: { group: FooterLinkGroup }) {
 
 export function Footer({ linkGroups }: FooterProps) {
   const year = new Date().getFullYear();
-  const groups = linkGroups && linkGroups.length > 0 ? linkGroups : DEFAULT_LINK_GROUPS;
+  const groups = mergeFooterLinkGroups(linkGroups);
   const groupCount = groups.length;
 
   return (

@@ -8,7 +8,7 @@ import { getSiteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
-const SITE_URL = "https://wonka-ai.com";
+const SITE_URL = getSiteUrl();
 
 const priorityPages = [
   {
@@ -111,7 +111,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(getSiteUrl()),
     title: {
-      default: "Wonka AI - #1 AI Start-up Belgium",
+      default: "Wonka AI - Private Enterprise AI Agents",
       template: "%s – Wonka AI",
     },
     description:
