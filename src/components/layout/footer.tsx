@@ -15,6 +15,40 @@ const LEGAL_LINKS = [
   { label: "Cookie policy", href: "/cookies" },
 ];
 
+const DEFAULT_LINK_GROUPS: FooterLinkGroup[] = [
+  {
+    _key: "default-product",
+    title: "Product",
+    links: [
+      { _key: "ai-agents", label: "AI Agents", href: "/ai-agents" },
+      { _key: "integrations", label: "Integrations", href: "/integrations" },
+      { _key: "start-ai", label: "Start AI", href: "/start-ai" },
+    ],
+  },
+  {
+    _key: "default-resources",
+    title: "Resources",
+    links: [
+      { _key: "case-studies", label: "Case Studies", href: "/case-studies" },
+      { _key: "blog", label: "Blog", href: "/blog" },
+      { _key: "learn", label: "Learn", href: "/learn" },
+    ],
+  },
+  {
+    _key: "default-company",
+    title: "Company",
+    links: [
+      { _key: "home", label: "Home", href: "/" },
+      {
+        _key: "demo",
+        label: "Book a demo",
+        href: "https://www.cal.eu/team/wonka-ai-experts/demonstration-call",
+        external: true,
+      },
+    ],
+  },
+];
+
 function FooterColumnLink({ link }: { link: FooterLink }) {
   const className =
     "type-paragraph-s text-text block w-full transition-opacity hover:opacity-60";
@@ -53,7 +87,8 @@ function FooterColumn({ group }: { group: FooterLinkGroup }) {
 
 export function Footer({ linkGroups }: FooterProps) {
   const year = new Date().getFullYear();
-  const groupCount = linkGroups?.length ?? 0;
+  const groups = linkGroups && linkGroups.length > 0 ? linkGroups : DEFAULT_LINK_GROUPS;
+  const groupCount = groups.length;
 
   return (
     <Section
@@ -73,22 +108,20 @@ export function Footer({ linkGroups }: FooterProps) {
           </p>
         </div>
 
-        {linkGroups && linkGroups.length > 0 && (
-          <div
-            className={cn(
-              "grid gap-x-5 gap-y-10 sm:gap-y-12 lg:flex lg:flex-1 lg:gap-5",
-              groupCount === 1 && "grid-cols-1",
-              groupCount === 2 && "grid-cols-2",
-              groupCount >= 3 && "grid-cols-2 sm:grid-cols-3",
-            )}
-          >
-            {linkGroups.map((group) => (
-              <div key={group._key} className="lg:flex-1">
-                <FooterColumn group={group} />
-              </div>
-            ))}
-          </div>
-        )}
+        <div
+          className={cn(
+            "grid gap-x-5 gap-y-10 sm:gap-y-12 lg:flex lg:flex-1 lg:gap-5",
+            groupCount === 1 && "grid-cols-1",
+            groupCount === 2 && "grid-cols-2",
+            groupCount >= 3 && "grid-cols-2 sm:grid-cols-3",
+          )}
+        >
+          {groups.map((group) => (
+            <div key={group._key} className="lg:flex-1">
+              <FooterColumn group={group} />
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="type-eyebrow flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

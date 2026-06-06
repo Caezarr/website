@@ -10,9 +10,69 @@ import "@/styles/globals.css";
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
 const SITE_URL = "https://wonka-ai.com";
 
+const priorityPages = [
+  {
+    name: "AI Agents",
+    url: `${SITE_URL}/ai-agents`,
+    description: "Private AI agents connected to the business tools your company already uses.",
+  },
+  {
+    name: "Integrations",
+    url: `${SITE_URL}/integrations`,
+    description: "Connect Wonka AI to Odoo, Microsoft 365, CRM, ERP and internal knowledge systems.",
+  },
+  {
+    name: "Start AI",
+    url: `${SITE_URL}/start-ai`,
+    description: "A practical program to identify, prioritize and launch enterprise AI use cases.",
+  },
+  {
+    name: "Case Studies",
+    url: `${SITE_URL}/case-studies`,
+    description: "Customer stories and examples of private enterprise AI deployments.",
+  },
+  {
+    name: "Blog",
+    url: `${SITE_URL}/blog`,
+    description: "Insights on enterprise AI, private LLMs, automation and AI agents.",
+  },
+];
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  name: "Wonka AI",
+  alternateName: ["Wonka", "WonkaChat"],
+  url: SITE_URL,
+  publisher: { "@id": `${SITE_URL}/#organization` },
+  hasPart: priorityPages.map((page) => ({
+    "@type": "WebPage",
+    name: page.name,
+    url: page.url,
+    description: page.description,
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+  })),
+};
+
+const siteNavigationSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": `${SITE_URL}/#site-navigation`,
+  name: "Wonka AI primary pages",
+  itemListElement: priorityPages.map((page, index) => ({
+    "@type": "SiteNavigationElement",
+    position: index + 1,
+    name: page.name,
+    url: page.url,
+    description: page.description,
+  })),
+};
+
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
   name: "Wonka AI",
   url: SITE_URL,
   logo: `${SITE_URL}/opengraph-image.jpg`,
@@ -55,7 +115,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s – Wonka AI",
     },
     description:
-      "Deploy a private AI inside your company. Connected to SharePoint, Salesforce, Slack. No data leaves. Full GDPR compliance. #1 AI Start-up Belgium 2026.",
+      "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance and no data leaving your environment.",
     robots: {
       index: true,
       follow: true,
@@ -107,6 +167,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         )}
         <CookieConsentProvider>{children}</CookieConsentProvider>
         <Analytics />
+        <Script
+          id="schema-website"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
+          }}
+        />
+        <Script
+          id="schema-site-navigation"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(siteNavigationSchema),
+          }}
+        />
         <Script
           id="schema-organization"
           type="application/ld+json"
