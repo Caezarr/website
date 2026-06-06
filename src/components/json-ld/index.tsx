@@ -1,5 +1,6 @@
 import Script from "next/script";
 import type { FaqItem } from "@/lib/types";
+import { getSiteUrl } from "@/lib/site-url";
 
 interface ArticleSchemaProps {
   title: string;
@@ -10,6 +11,7 @@ interface ArticleSchemaProps {
 }
 
 export function ArticleSchema({ title, description, publishedAt, url, imageUrl }: ArticleSchemaProps) {
+  const siteUrl = getSiteUrl();
   const schema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -21,8 +23,8 @@ export function ArticleSchema({ title, description, publishedAt, url, imageUrl }
     publisher: {
       "@type": "Organization",
       name: "Wonka AI",
-      url: "https://wonka-ai.com",
-      logo: { "@type": "ImageObject", url: "https://wonka-ai.com/opengraph-image.jpg" },
+      url: siteUrl,
+      logo: { "@type": "ImageObject", url: `${siteUrl}/opengraph-image.jpg` },
     },
     ...(imageUrl && { image: imageUrl }),
   };
@@ -67,6 +69,7 @@ export function BreadcrumbSchema({ items }: { items: { name: string; url: string
 }
 
 export function DefinedTermSchema({ term, definition, url }: { term: string; definition: string; url: string }) {
+  const siteUrl = getSiteUrl();
   const schema = {
     "@context": "https://schema.org",
     "@type": "DefinedTerm",
@@ -76,7 +79,7 @@ export function DefinedTermSchema({ term, definition, url }: { term: string; def
     inDefinedTermSet: {
       "@type": "DefinedTermSet",
       name: "Wonka AI Glossary",
-      url: "https://wonka-ai.com/glossaire",
+      url: `${siteUrl}/learn`,
     },
   };
   return (

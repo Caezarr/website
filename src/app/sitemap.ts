@@ -46,17 +46,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       alternates: {
         languages: {
           "en-US": siteUrl,
-          "fr-FR": `${siteUrl}/fr`,
-          "nl-BE": `${siteUrl}/nl`,
           "x-default": siteUrl,
         },
       },
     },
     { url: `${siteUrl}/ai-agents`, lastModified, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/start-ai`, lastModified, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${siteUrl}/terms`, lastModified, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${siteUrl}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${siteUrl}/cookies`, lastModified, changeFrequency: "yearly", priority: 0.1 },
     // Hub pages with hreflang
     ...sections.flatMap((section) =>
       locales.map((locale) => ({

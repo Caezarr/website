@@ -36,7 +36,7 @@ export interface BuildMetadataOptions {
 
 /**
  * Build hreflang languages map for a given path.
- * - "home": all locales → their homepage path
+ * - "home": English homepage only; localized homepages are not published
  * - "hub": all locales → their hub path (requires section in path context – caller passes hubPath)
  * - { section, slug }: all locales → itemPath(section, locale, slug)
  * - undefined: returns empty (no cross-locale siblings known)
@@ -45,15 +45,13 @@ function buildLanguages(
   siteUrl: string,
   options: BuildMetadataOptions,
 ): Record<string, string> | undefined {
-  const { hreflang, path, locale = "en" } = options;
+  const { hreflang, path } = options;
 
   if (!hreflang) return undefined;
 
   if (hreflang === "home") {
     return {
       "en-US": siteUrl,
-      "fr-FR": `${siteUrl}/fr`,
-      "nl-BE": `${siteUrl}/nl`,
       "x-default": siteUrl,
     };
   }
