@@ -49,6 +49,7 @@ const FOOTER_LINK_GROUPS: FooterDisplayGroup[] = [
     _key: "default-resources",
     title: "Resources",
     links: [
+      { _key: "ai-agents", label: "AI Agents", href: "/ai-agents" },
       { _key: "blog", label: "Blog", href: "/blog" },
       { _key: "connectors", label: "Connectors", href: "/integrations" },
       { _key: "glossary", label: "Glossary", href: "/learn" },
