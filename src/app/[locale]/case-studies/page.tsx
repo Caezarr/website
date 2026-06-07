@@ -10,40 +10,105 @@ export const dynamic = "force-static";
 
 interface PageProps { params: Promise<{ locale: Locale }> }
 
+const copy = {
+  en: {
+    eyebrow: "Customer proof",
+    title: "How teams deploy private AI with Wonka",
+    subtitle: "Real workflows, connected systems and measurable outcomes from companies adopting private enterprise AI.",
+    proof: "What we prove",
+    all: "Customer stories",
+    empty: "Case studies are coming soon. In the meantime, explore integrations and AI agent workflows.",
+    metrics: ["Private deployment", "Connected stack", "Measurable workflow", "Human oversight"],
+  },
+  fr: {
+    eyebrow: "Preuve client",
+    title: "Comment les équipes déploient l'IA privée avec Wonka",
+    subtitle: "Workflows réels, systèmes connectés et résultats mesurables d'entreprises qui adoptent l'IA privée.",
+    proof: "Ce que l'on prouve",
+    all: "Cas clients",
+    empty: "Les cas clients arrivent bientôt. En attendant, explorez les intégrations et workflows d'agents IA.",
+    metrics: ["Déploiement privé", "Stack connectée", "Workflow mesurable", "Validation humaine"],
+  },
+  nl: {
+    eyebrow: "Customer proof",
+    title: "Hoe teams private AI uitrollen met Wonka",
+    subtitle: "Echte workflows, gekoppelde systemen en meetbare resultaten van bedrijven die private enterprise AI adopteren.",
+    proof: "Wat we bewijzen",
+    all: "Klantcases",
+    empty: "Klantcases komen binnenkort. Bekijk intussen integraties en AI-agent workflows.",
+    metrics: ["Private deployment", "Gekoppelde stack", "Meetbare workflow", "Menselijke controle"],
+  },
+} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; proof: string; all: string; empty: string; metrics: string[] }>;
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, { path: hubPath('case-studies', locale), hreflang: 'hub', fallbackTitle: "Case Studies", locale });
+  return buildMetadata(null, {
+    path: hubPath("case-studies", locale),
+    hreflang: "hub",
+    fallbackTitle: "AI Case Studies | Wonka AI",
+    locale,
+  });
 }
 
 export default async function CasClientsPage({ params }: PageProps) {
   const { locale } = await params;
-  const { data: cases } = await sanityFetch({ query: CASE_STUDIES_QUERY, params: { language: locale } });
+  const { data } = await sanityFetch({ query: CASE_STUDIES_QUERY, params: { language: locale } });
+  const cases = (data ?? []) as CaseStudy[];
+  const l = copy[locale];
 
   return (
-    <main className="container mx-auto px-4 py-24 max-w-5xl">
-      <h1 className="type-h2 mb-4">{locale === "fr" ? "Cas clients" : locale === "nl" ? "Klantcases" : "Case Studies"}</h1>
-      <p className="type-body text-text/60 mb-16">
-        {locale === "fr" ? "Comment nos clients déploient l'IA dans leur organisation." : locale === "nl" ? "Hoe onze klanten AI inzetten in hun organisatie." : "How our clients deploy AI across their organizations."}
-      </p>
-      {!cases?.length ? <p className="type-body text-text/40">No case studies yet.</p> : (
-        <div className="grid gap-8 md:grid-cols-2">
-          {(cases as CaseStudy[]).map((c) => {
-            const href = itemPath('case-studies', locale, c.slug.current);
-            return (
-              <a key={c._id} href={href} className="flex flex-col gap-3 p-6 border border-border rounded-lg hover:border-accent transition-colors">
-                <span className="type-eyebrow text-text/40">{c.sector}</span>
-                <h2 className="type-h6">{c.clientName}</h2>
-                <p className="type-paragraph-m text-text/60">{c.headline}</p>
-                {c.results?.length ? (
-                  <ul className="flex flex-col gap-1 mt-2">
-                    {c.results.slice(0, 2).map((r, i) => <li key={i} className="type-paragraph-s text-accent">→ {r}</li>)}
-                  </ul>
-                ) : null}
-              </a>
-            );
-          })}
+    <main className="bg-background">
+      <section className="border-b border-dashed border-border">
+        <div className="mx-auto max-w-[1200px] px-6 pb-14 pt-32 md:pt-36">
+          <p className="type-eyebrow text-text/40">{l.eyebrow}</p>
+          <h1 className="mt-4 type-h2 max-w-4xl">{l.title}</h1>
+          <p className="mt-5 max-w-3xl type-body leading-relaxed text-text/60">{l.subtitle}</p>
         </div>
-      )}
+      </section>
+
+      <section className="mx-auto max-w-[1200px] px-6 py-14">
+        <div className="mb-14 rounded-lg border border-border bg-mid-gray p-6">
+          <h2 className="type-h5 mb-5">{l.proof}</h2>
+          <div className="grid gap-3 md:grid-cols-4">
+            {l.metrics.map((metric) => (
+              <div key={metric} className="rounded-md border border-border bg-background p-4">
+                <span className="mb-4 block size-2 rounded-full bg-text" aria-hidden />
+                <p className="type-paragraph-m-bold">{metric}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {!cases.length ? (
+          <div className="rounded-lg border border-dashed border-border p-8">
+            <p className="type-body text-text/60">{l.empty}</p>
+          </div>
+        ) : (
+          <>
+            <h2 className="type-h5 mb-6">{l.all}</h2>
+            <div className="grid gap-5 md:grid-cols-2">
+              {cases.map((caseStudy) => (
+                <a
+                  key={caseStudy._id}
+                  href={itemPath("case-studies", locale, caseStudy.slug.current)}
+                  className="group flex min-h-72 flex-col rounded-lg border border-border p-6 transition-colors hover:border-accent"
+                >
+                  <span className="type-eyebrow text-text/40">{caseStudy.sector}</span>
+                  <h3 className="mt-4 type-h5 group-hover:text-accent">{caseStudy.clientName}</h3>
+                  <p className="mt-3 type-body text-text/65">{caseStudy.headline}</p>
+                  {caseStudy.results?.length ? (
+                    <ul className="mt-auto flex flex-col gap-2 pt-6">
+                      {caseStudy.results.slice(0, 3).map((result) => (
+                        <li key={result} className="type-paragraph-s text-accent">{result}</li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </a>
+              ))}
+            </div>
+          </>
+        )}
+      </section>
     </main>
   );
 }
