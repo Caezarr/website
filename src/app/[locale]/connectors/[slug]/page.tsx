@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@sanity/lib/live";
-import { CONNECTOR_PAGE_QUERY, CONNECTOR_SLUGS_QUERY, MEETING_URL_QUERY } from "@sanity/lib/queries";
+import { CONNECTOR_PAGE_QUERY, CONNECTOR_SLUGS_QUERY, MEETING_URL_QUERY, RELATED_BLOG_POSTS_QUERY, RELATED_CONNECTOR_PAGES_QUERY } from "@sanity/lib/queries";
 import { client } from "@sanity/lib/client";
 import { urlFor } from "@sanity/lib/image";
 import { buildMetadata } from "@/lib/seo";
@@ -13,7 +13,7 @@ import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
 import { ButtonLink } from "@/components/ui/button";
 import type { Locale } from "@/i18n/config";
-import type { ConnectorPage } from "@/lib/types";
+import type { BlogPost, ConnectorPage } from "@/lib/types";
 
 export const dynamic = "force-static";
 
@@ -47,6 +47,10 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
   if (!data) notFound();
 
   const c = data as ConnectorPage;
+  const [{ data: relatedConnectors }, { data: relatedPosts }] = await Promise.all([
+    sanityFetch({ query: RELATED_CONNECTOR_PAGES_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),
+    sanityFetch({ query: RELATED_BLOG_POSTS_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),
+  ]);
   const siteUrl = getSiteUrl();
   const pageUrl = `${siteUrl}${itemPath('connectors', locale, slug)}`;
   const hubUrl = `${siteUrl}${hubPath('connectors', locale)}`;
@@ -58,6 +62,8 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
   const hubLabel = { en: "Connectors", fr: "Connecteurs", nl: "Connectoren" }[locale];
   const primaryCtaLabel = { en: "Book a demo", fr: "Réserver une démo", nl: "Boek een demo" }[locale];
   const secondaryCtaLabel = { en: "Explore integrations", fr: "Voir les intégrations", nl: "Bekijk integraties" }[locale];
+  const relatedConnectorsLabel = { en: "Related integrations", fr: "Intégrations liées", nl: "Gerelateerde integraties" }[locale];
+  const relatedPostsLabel = { en: "Related guides", fr: "Guides liés", nl: "Gerelateerde gidsen" }[locale];
   const logoUrl = c.toolLogo ? urlFor(c.toolLogo).width(160).height(160).fit("max").url() : null;
   const metrics = [
     { label: { en: "Private AI", fr: "IA privée", nl: "Private AI" }[locale] },
@@ -188,6 +194,45 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
                 ))}
               </div>
             </div>
+          </section>
+        ) : null}
+
+        {((relatedConnectors as ConnectorPage[])?.length || (relatedPosts as BlogPost[])?.length) ? (
+          <section className="mx-auto grid max-w-[1200px] gap-8 px-6 py-16 lg:grid-cols-2">
+            {(relatedConnectors as ConnectorPage[])?.length ? (
+              <div>
+                <h2 className="type-h5 mb-5">{relatedConnectorsLabel}</h2>
+                <div className="grid gap-3">
+                  {(relatedConnectors as ConnectorPage[]).map((connector) => (
+                    <a
+                      key={connector._id}
+                      href={itemPath("connectors", locale, connector.slug.current)}
+                      className="group rounded-lg border border-border p-5 transition-colors hover:border-accent"
+                    >
+                      <span className="type-paragraph-m-bold group-hover:text-accent">{connector.toolName}</span>
+                      <p className="mt-2 type-paragraph-m text-text/60">{connector.tagline}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {(relatedPosts as BlogPost[])?.length ? (
+              <div>
+                <h2 className="type-h5 mb-5">{relatedPostsLabel}</h2>
+                <div className="grid gap-3">
+                  {(relatedPosts as BlogPost[]).map((post) => (
+                    <a
+                      key={post._id}
+                      href={itemPath("blog", locale, post.slug.current)}
+                      className="group rounded-lg border border-border p-5 transition-colors hover:border-accent"
+                    >
+                      <span className="type-eyebrow text-text/35">{post.category}</span>
+                      <p className="mt-2 type-paragraph-m-bold group-hover:text-accent">{post.title}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </section>
         ) : null}
 

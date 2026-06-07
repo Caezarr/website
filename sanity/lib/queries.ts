@@ -278,6 +278,26 @@ export const RELATED_BLOG_POSTS_QUERY = defineQuery(`
   }
 `);
 
+export const RELATED_CONNECTOR_PAGES_QUERY = defineQuery(`
+  *[_type == "connectorPage" && language == $language && slug.current != $slug && count((tags[])[@ in $tags]) > 0] | order(toolName asc)[0..3] {
+    _id,
+    toolName,
+    slug,
+    tagline,
+    toolLogo { ${IMAGE_FIELDS} }
+  }
+`);
+
+export const RELATED_COMPARISON_PAGES_QUERY = defineQuery(`
+  *[_type == "comparisonPage" && language == $language && slug.current != $slug && count((tags[])[@ in $tags]) > 0] | order(_createdAt desc)[0..2] {
+    _id,
+    title,
+    slug,
+    competitor,
+    excerpt
+  }
+`);
+
 export const MEETING_URL_QUERY = defineQuery(`
   *[_type == "siteSettings"][0].sharedLinks.meetingUrl
 `);
