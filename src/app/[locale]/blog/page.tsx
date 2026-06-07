@@ -18,6 +18,7 @@ const labels = {
     title: "Enterprise AI guides for teams shipping real workflows",
     subtitle: "Practical articles on AI agents, RAG, workflow automation, private deployments and enterprise AI strategy.",
     featured: "Featured guide",
+    guideType: "Enterprise AI guide",
     latest: "Latest articles",
     empty: "No posts yet.",
     clusters: ["AI Agents", "RAG", "Enterprise AI", "Workflow Automation", "Private AI"],
@@ -27,6 +28,7 @@ const labels = {
     title: "Guides IA entreprise pour les équipes qui déploient de vrais workflows",
     subtitle: "Articles pratiques sur les agents IA, le RAG, l'automatisation, les déploiements privés et la stratégie IA.",
     featured: "Guide à lire",
+    guideType: "Guide IA entreprise",
     latest: "Derniers articles",
     empty: "Aucun article pour le moment.",
     clusters: ["Agents IA", "RAG", "IA entreprise", "Automatisation", "IA privée"],
@@ -36,11 +38,12 @@ const labels = {
     title: "Enterprise AI-gidsen voor teams die echte workflows lanceren",
     subtitle: "Praktische artikels over AI-agents, RAG, workflowautomatisering, private deployments en enterprise AI-strategie.",
     featured: "Aanbevolen gids",
+    guideType: "Enterprise AI-gids",
     latest: "Laatste artikels",
     empty: "Nog geen artikelen.",
     clusters: ["AI-agents", "RAG", "Enterprise AI", "Workflowautomatisering", "Private AI"],
   },
-} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; featured: string; latest: string; empty: string; clusters: string[] }>;
+} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; featured: string; guideType: string; latest: string; empty: string; clusters: string[] }>;
 
 const categoryLabels: Record<string, Record<Locale, string>> = {
   "ai-strategy": { en: "AI Strategy", fr: "Stratégie IA", nl: "AI Strategie" },
@@ -67,6 +70,9 @@ export default async function BlogPage({ params }: PageProps) {
   const featured = posts[0];
   const rest = featured ? posts.slice(1) : posts;
   const l = labels[locale];
+  const featuredCategory = featured?.category
+    ? categoryLabels[featured.category]?.[locale] ?? featured.category
+    : l.guideType;
 
   return (
     <main className="bg-background">
@@ -102,8 +108,11 @@ export default async function BlogPage({ params }: PageProps) {
                 </div>
                 <div className="flex flex-col justify-between rounded-md border border-dashed border-border bg-background p-5">
                   <span className="type-eyebrow text-text/40">
-                    {featured.category ? categoryLabels[featured.category]?.[locale] ?? featured.category : "Article"}
+                    {featuredCategory}
                   </span>
+                  <p className="mt-6 type-paragraph-m text-text/55">
+                    {featured.excerpt}
+                  </p>
                   <time className="mt-12 type-paragraph-s text-text/40" dateTime={featured.publishedAt}>
                     {new Date(featured.publishedAt).toLocaleDateString(locale)}
                   </time>
@@ -117,7 +126,7 @@ export default async function BlogPage({ params }: PageProps) {
                 <article key={post._id} className="rounded-lg border border-border p-5 transition-colors hover:border-accent">
                   <a href={itemPath("blog", locale, post.slug.current)} className="group flex min-h-64 flex-col">
                     <span className="type-eyebrow text-text/40">
-                      {post.category ? categoryLabels[post.category]?.[locale] ?? post.category : "Article"}
+                      {post.category ? categoryLabels[post.category]?.[locale] ?? post.category : l.guideType}
                     </span>
                     <h3 className="mt-4 type-h6 group-hover:text-accent">{post.title}</h3>
                     <p className="mt-3 type-paragraph-m text-text/60">{post.excerpt}</p>
