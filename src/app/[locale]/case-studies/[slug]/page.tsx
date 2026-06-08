@@ -6,6 +6,7 @@ import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { getContentLanguages } from "@/lib/content-languages";
 import { PortableText } from "@portabletext/react";
 import { ArticleSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld";
 import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
@@ -27,7 +28,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { data } = await sanityFetch({ query: CASE_STUDY_QUERY, params: { slug, language: locale } });
   if (!data) return {};
   const c = data as CaseStudy;
-  return buildMetadata(c.seo ?? null, { path: itemPath('case-studies', locale, slug), fallbackTitle: c.headline, locale, hreflang: { section: 'case-studies', slug } });
+  const siteUrl = getSiteUrl();
+  const languages = await getContentLanguages(siteUrl, "case-studies", slug);
+  return buildMetadata(c.seo ?? null, { path: itemPath('case-studies', locale, slug), fallbackTitle: c.headline, locale, languages });
 }
 
 export default async function CaseStudyDetailPage({ params }: PageProps) {

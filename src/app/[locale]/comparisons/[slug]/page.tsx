@@ -6,6 +6,7 @@ import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { getContentLanguages } from "@/lib/content-languages";
 import { PortableText } from "@portabletext/react";
 import { ArticleSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld";
 import { ComparisonTable } from "@/components/sections/comparison-table";
@@ -30,7 +31,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { data } = await sanityFetch({ query: COMPARISON_PAGE_QUERY, params: { slug, language: locale } });
   if (!data) return {};
   const c = data as ComparisonPage;
-  return buildMetadata(c.seo ?? null, { path: itemPath('comparisons', locale, slug), fallbackTitle: c.title, locale, hreflang: { section: 'comparisons', slug } });
+  const siteUrl = getSiteUrl();
+  const languages = await getContentLanguages(siteUrl, "comparisons", slug);
+  return buildMetadata(c.seo ?? null, { path: itemPath('comparisons', locale, slug), fallbackTitle: c.title, locale, languages });
 }
 
 export default async function ComparisonDetailPage({ params }: PageProps) {

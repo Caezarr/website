@@ -6,6 +6,7 @@ import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { getContentLanguages } from "@/lib/content-languages";
 import { ArticleSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld";
 import { SmartPortableText } from "@/components/portable-text-components";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
@@ -32,11 +33,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale, slug } = await params;
   const { data: post } = await sanityFetch({ query: BLOG_POST_QUERY, params: { slug, language: locale } });
   if (!post) return {};
+  const siteUrl = getSiteUrl();
+  const languages = await getContentLanguages(siteUrl, "blog", slug);
   return buildMetadata((post as BlogPost).seo ?? null, {
     path: itemPath("blog", locale, slug),
     fallbackTitle: (post as BlogPost).title,
     locale,
-    hreflang: { section: "blog", slug },
+    languages,
   });
 }
 

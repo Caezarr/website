@@ -27,8 +27,20 @@ const redirects = async () => [
   { source: '/nl/connectoren/:slug*', destination: '/nl/integrations/:slug*', permanent: true },
 ];
 
+const headers = async () => [
+  {
+    source: '/fr/:path*',
+    headers: [{ key: 'Content-Language', value: 'fr-FR' }],
+  },
+  {
+    source: '/nl/:path*',
+    headers: [{ key: 'Content-Language', value: 'nl-BE' }],
+  },
+];
+
 const config: NextConfig = {
   redirects,
+  headers,
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }],
     qualities: [75, 90],

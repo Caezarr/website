@@ -6,6 +6,7 @@ import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { getContentLanguages } from "@/lib/content-languages";
 import { PortableText } from "@portabletext/react";
 import { DefinedTermSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
@@ -29,7 +30,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { data } = await sanityFetch({ query: GLOSSARY_TERM_QUERY, params: { slug, language: locale } });
   if (!data) return {};
   const t = data as GlossaryTerm;
-  return buildMetadata(t.seo ?? null, { path: itemPath('glossary', locale, slug), fallbackTitle: t.term, locale, hreflang: { section: 'glossary', slug } });
+  const siteUrl = getSiteUrl();
+  const languages = await getContentLanguages(siteUrl, "glossary", slug);
+  return buildMetadata(t.seo ?? null, { path: itemPath('glossary', locale, slug), fallbackTitle: t.term, locale, languages });
 }
 
 const relatedLabels = {
