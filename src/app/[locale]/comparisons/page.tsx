@@ -3,6 +3,8 @@ import { sanityFetch } from "@sanity/lib/live";
 import { COMPARISON_PAGES_QUERY } from "@sanity/lib/queries";
 import { buildMetadata } from "@/lib/seo";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { GuideLinkBand } from "@/components/sections/guide-link-band";
+import { getHubGuideLinks } from "@/lib/hub-guides";
 import type { Locale } from "@/i18n/config";
 import type { ComparisonPage } from "@/lib/types";
 
@@ -16,6 +18,9 @@ const copy = {
     title: "Compare Wonka with enterprise AI tools",
     subtitle: "Evaluate AI platforms by privacy, integrations, workflow depth, governance and European deployment readiness.",
     criteria: "Comparison criteria",
+    method: "How to read these comparisons",
+    methodBody: "Each comparison focuses on enterprise adoption: where company data is processed, which internal tools can be connected, how much workflow automation is possible, and whether governance fits European teams.",
+    guides: "Alternative and buyer guides",
     all: "All comparisons",
     empty: "No comparisons yet.",
     points: ["Private data", "Tool integrations", "Agent workflows", "Governance", "EU readiness"],
@@ -26,6 +31,9 @@ const copy = {
     title: "Comparez Wonka aux outils IA enterprise",
     subtitle: "Évaluez les plateformes IA selon la confidentialité, les intégrations, les workflows, la gouvernance et le déploiement européen.",
     criteria: "Critères de comparaison",
+    method: "Comment lire ces comparaisons",
+    methodBody: "Chaque comparaison se concentre sur l'adoption en entreprise : traitement des données, intégrations métier, profondeur des workflows automatisés et gouvernance adaptée aux équipes européennes.",
+    guides: "Guides d'alternatives et d'achat",
     all: "Toutes les comparaisons",
     empty: "Aucune comparaison pour le moment.",
     points: ["Données privées", "Intégrations", "Workflows agents", "Gouvernance", "Déploiement EU"],
@@ -36,19 +44,40 @@ const copy = {
     title: "Vergelijk Wonka met enterprise AI-tools",
     subtitle: "Evalueer AI-platformen op privacy, integraties, workflowdiepte, governance en Europese uitrol.",
     criteria: "Evaluatiecriteria",
+    method: "Hoe je deze vergelijkingen leest",
+    methodBody: "Elke vergelijking kijkt naar enterprise adoptie: waar bedrijfsdata verwerkt wordt, welke interne tools gekoppeld kunnen worden, hoeveel workflowautomatisering mogelijk is en of governance past bij Europese teams.",
+    guides: "Alternatieven en koopgidsen",
     all: "Alle vergelijkingen",
     empty: "Nog geen vergelijkingen.",
     points: ["Private data", "Integraties", "Agent workflows", "Governance", "EU-uitrol"],
     choose: "Vergelijk",
   },
-} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; criteria: string; all: string; empty: string; points: string[]; choose: string }>;
+} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; criteria: string; method: string; methodBody: string; guides: string; all: string; empty: string; points: string[]; choose: string }>;
+
+const seo = {
+  en: {
+    metaTitle: "Enterprise AI Comparisons | Wonka AI",
+    metaDescription: "Compare Wonka AI with ChatGPT Enterprise, Microsoft Copilot, Dust, Langdock and private LLM options for secure enterprise AI.",
+    ogImage: null,
+  },
+  fr: {
+    metaTitle: "Comparaisons IA Entreprise | Wonka AI",
+    metaDescription: "Comparez Wonka AI à ChatGPT Enterprise, Microsoft Copilot, Dust, Langdock et aux LLM privés pour l'IA sécurisée.",
+    ogImage: null,
+  },
+  nl: {
+    metaTitle: "Enterprise AI Vergelijkingen | Wonka AI",
+    metaDescription: "Vergelijk Wonka AI met ChatGPT Enterprise, Microsoft Copilot, Dust, Langdock en private LLM-opties voor veilige enterprise AI.",
+    ogImage: null,
+  },
+} satisfies Record<Locale, { metaTitle: string; metaDescription: string; ogImage: null }>;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, {
+  return buildMetadata(seo[locale], {
     path: hubPath("comparisons", locale),
     hreflang: "hub",
-    fallbackTitle: "Wonka AI Comparisons | Private Enterprise AI",
+    fallbackTitle: seo[locale].metaTitle,
     locale,
   });
 }
@@ -58,6 +87,7 @@ export default async function ComparaisonsPage({ params }: PageProps) {
   const { data } = await sanityFetch({ query: COMPARISON_PAGES_QUERY, params: { language: locale } });
   const comparisons = (data ?? []) as ComparisonPage[];
   const l = copy[locale];
+  const guideLinks = getHubGuideLinks(locale);
 
   return (
     <main className="bg-background">
@@ -81,6 +111,13 @@ export default async function ComparaisonsPage({ params }: PageProps) {
             ))}
           </div>
         </div>
+
+        <section className="mb-14 grid gap-6 rounded-lg border border-border p-6 lg:grid-cols-[280px_1fr]">
+          <h2 className="type-h5">{l.method}</h2>
+          <p className="type-body leading-relaxed text-text/60">{l.methodBody}</p>
+        </section>
+
+        <GuideLinkBand title={l.guides} links={guideLinks} />
 
         {!comparisons.length ? (
           <p className="type-body text-text/40">{l.empty}</p>

@@ -53,12 +53,30 @@ const categoryLabels: Record<string, Record<Locale, string>> = {
   tutorials: { en: "Tutorials", fr: "Tutoriels", nl: "Tutorials" },
 };
 
+const seo = {
+  en: {
+    metaTitle: "Enterprise AI Blog | Wonka AI",
+    metaDescription: "Read practical enterprise AI guides on AI agents, RAG, private deployments, automation workflows, Odoo AI and secure AI adoption.",
+    ogImage: null,
+  },
+  fr: {
+    metaTitle: "Blog IA Entreprise | Wonka AI",
+    metaDescription: "Explorez des guides pratiques sur les agents IA, le RAG, l'IA privée, l'automatisation, Odoo et l'adoption sécurisée de l'IA.",
+    ogImage: null,
+  },
+  nl: {
+    metaTitle: "Enterprise AI Blog | Wonka AI",
+    metaDescription: "Lees praktische gidsen over AI-agents, RAG, private deployments, workflowautomatisering, Odoo AI en veilige AI-adoptie.",
+    ogImage: null,
+  },
+} satisfies Record<Locale, { metaTitle: string; metaDescription: string; ogImage: null }>;
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, {
+  return buildMetadata(seo[locale], {
     path: hubPath("blog", locale),
     hreflang: "hub",
-    fallbackTitle: "Enterprise AI Blog | Wonka AI",
+    fallbackTitle: seo[locale].metaTitle,
     locale,
   });
 }

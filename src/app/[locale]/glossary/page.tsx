@@ -3,6 +3,8 @@ import { sanityFetch } from "@sanity/lib/live";
 import { GLOSSARY_TERMS_QUERY } from "@sanity/lib/queries";
 import { buildMetadata } from "@/lib/seo";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { GuideLinkBand } from "@/components/sections/guide-link-band";
+import { getHubGuideLinks } from "@/lib/hub-guides";
 import type { Locale } from "@/i18n/config";
 import type { GlossaryTerm } from "@/lib/types";
 
@@ -16,6 +18,7 @@ const copy = {
     title: "Enterprise AI glossary for private agents and workflows",
     subtitle: "Clear definitions for the concepts behind AI agents, RAG, automation, governance and private enterprise AI.",
     core: "Core concepts",
+    guides: "Practical enterprise AI guides",
     all: "All terms",
     empty: "No terms yet.",
     pillars: ["Agents", "RAG", "Automation", "Governance", "Private AI"],
@@ -25,6 +28,7 @@ const copy = {
     title: "Glossaire IA entreprise pour agents privés et workflows",
     subtitle: "Des définitions claires pour comprendre agents IA, RAG, automatisation, gouvernance et IA privée en entreprise.",
     core: "Concepts clés",
+    guides: "Guides pratiques IA entreprise",
     all: "Tous les termes",
     empty: "Aucun terme pour le moment.",
     pillars: ["Agents", "RAG", "Automatisation", "Gouvernance", "IA privée"],
@@ -34,20 +38,39 @@ const copy = {
     title: "Enterprise AI-woordenlijst voor private agents en workflows",
     subtitle: "Heldere definities voor AI-agents, RAG, automatisering, governance en private enterprise AI.",
     core: "Kernbegrippen",
+    guides: "Praktische enterprise AI-gidsen",
     all: "Alle termen",
     empty: "Nog geen termen.",
     pillars: ["Agents", "RAG", "Automatisering", "Governance", "Private AI"],
   },
-} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; core: string; all: string; empty: string; pillars: string[] }>;
+} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; core: string; guides: string; all: string; empty: string; pillars: string[] }>;
 
 const prioritySlugs = ["ai-agent", "agentic-ai", "ai-agents", "agentic-rag", "workflow-automation", "multi-agent-system"];
 
+const seo = {
+  en: {
+    metaTitle: "Enterprise AI Glossary | Wonka AI",
+    metaDescription: "Learn the key terms behind enterprise AI: AI agents, RAG, private LLMs, MCP, workflow automation, governance and secure deployment.",
+    ogImage: null,
+  },
+  fr: {
+    metaTitle: "Glossaire IA Entreprise | Wonka AI",
+    metaDescription: "Comprenez les termes clés de l'IA entreprise : agents IA, RAG, LLM privés, MCP, automatisation, gouvernance et déploiement sécurisé.",
+    ogImage: null,
+  },
+  nl: {
+    metaTitle: "Enterprise AI Woordenlijst | Wonka AI",
+    metaDescription: "Leer de belangrijkste begrippen rond enterprise AI: AI-agents, RAG, private LLMs, MCP, automatisering, governance en veilige uitrol.",
+    ogImage: null,
+  },
+} satisfies Record<Locale, { metaTitle: string; metaDescription: string; ogImage: null }>;
+
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, {
+  return buildMetadata(seo[locale], {
     path: hubPath("glossary", locale),
     hreflang: "hub",
-    fallbackTitle: "Enterprise AI Glossary | Wonka AI",
+    fallbackTitle: seo[locale].metaTitle,
     locale,
   });
 }
@@ -57,6 +80,7 @@ export default async function GlossairePage({ params }: PageProps) {
   const { data } = await sanityFetch({ query: GLOSSARY_TERMS_QUERY, params: { language: locale } });
   const terms = (data ?? []) as GlossaryTerm[];
   const l = copy[locale];
+  const guideLinks = getHubGuideLinks(locale);
   const coreTerms = terms
     .filter((term) => prioritySlugs.includes(term.slug.current))
     .sort((a, b) => prioritySlugs.indexOf(a.slug.current) - prioritySlugs.indexOf(b.slug.current));
@@ -100,6 +124,8 @@ export default async function GlossairePage({ params }: PageProps) {
                 </div>
               </div>
             ) : null}
+
+            <GuideLinkBand title={l.guides} links={guideLinks} />
 
             <h2 className="type-h5 mb-6">{l.all}</h2>
             <div className="grid gap-4 md:grid-cols-2">
