@@ -179,6 +179,10 @@ export default async function StartAIPage() {
               Start AI is built around a simple belief: successful AI adoption does not start with
               tools. It starts with clarity, alignment and the right priorities.
             </p>
+            <p className="mt-4 max-w-md type-paragraph-m text-text/60">
+              The program turns that clarity into decisions your leadership, operations and technical
+              teams can execute without adding another layer of complexity.
+            </p>
           </div>
           <div className="flex flex-col gap-6">
             {phases.map((p) => (
