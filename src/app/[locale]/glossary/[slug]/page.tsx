@@ -71,20 +71,23 @@ const contextLabels = {
     title: "Why this concept matters",
     body: "In enterprise AI projects, clear definitions prevent teams from buying or deploying the wrong thing. The same term can mean a product feature, a technical pattern, or an operating model. Wonka uses this glossary to connect concepts back to real workflows, private data, governance, and measurable adoption.",
     usage: "When evaluating this topic, look at the systems involved, the data boundaries, the human approval points, and whether the workflow can be repeated safely across teams.",
+    rollout: "The practical question is not only what the concept means, but how it changes day-to-day work. A useful enterprise AI pattern should help teams retrieve trusted context, keep evidence visible, and turn repeated requests into workflows that administrators can monitor.",
   },
   fr: {
     eyebrow: "Contexte entreprise",
     title: "Pourquoi ce concept compte",
     body: "Dans les projets IA d'entreprise, des définitions claires évitent aux équipes d'acheter ou de déployer la mauvaise chose. Le même terme peut désigner une fonctionnalité produit, un pattern technique ou un modèle opérationnel. Wonka relie ces notions aux workflows réels, aux données privées, à la gouvernance et à l'adoption mesurable.",
     usage: "Pour évaluer ce sujet, regardez les systèmes concernés, les limites de données, les points de validation humaine et la capacité du workflow à être répété en sécurité par plusieurs équipes.",
+    rollout: "La question pratique n'est pas seulement la définition du concept, mais son impact sur le travail quotidien. Un bon pattern IA enterprise doit aider les équipes à retrouver un contexte fiable, garder les preuves visibles et transformer les demandes répétées en workflows que les administrateurs peuvent suivre.",
   },
   nl: {
     eyebrow: "Enterprise context",
     title: "Waarom dit concept belangrijk is",
     body: "In enterprise AI-projecten voorkomen heldere definities dat teams de verkeerde oplossing kopen of uitrollen. Dezelfde term kan een productfunctie, een technisch patroon of een operationeel model betekenen. Wonka koppelt deze begrippen aan echte workflows, private data, governance en meetbare adoptie.",
     usage: "Beoordeel bij dit onderwerp welke systemen betrokken zijn, waar de datagrenzen liggen, welke menselijke goedkeuring nodig is en of de workflow veilig herhaald kan worden door meerdere teams.",
+    rollout: "De praktische vraag is niet alleen wat het concept betekent, maar hoe het dagelijks werk verandert. Een bruikbaar enterprise AI-patroon helpt teams betrouwbare context op te halen, bewijs zichtbaar te houden en terugkerende vragen om te zetten in workflows die beheerders kunnen opvolgen.",
   },
-} satisfies Record<Locale, { eyebrow: string; title: string; body: string; usage: string }>;
+} satisfies Record<Locale, { eyebrow: string; title: string; body: string; usage: string; rollout: string }>;
 
 export default async function GlossaryTermPage({ params }: PageProps) {
   const { locale, slug } = await params;
@@ -125,6 +128,7 @@ export default async function GlossaryTermPage({ params }: PageProps) {
           <div className="mt-5 grid gap-4">
             <p className="type-paragraph-m leading-relaxed text-text/65">{context.body}</p>
             <p className="type-paragraph-m leading-relaxed text-text/65">{context.usage}</p>
+            <p className="type-paragraph-m leading-relaxed text-text/65">{context.rollout}</p>
           </div>
         </section>
 

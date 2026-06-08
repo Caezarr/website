@@ -3,6 +3,8 @@ import { sanityFetch } from "@sanity/lib/live";
 import { GLOSSARY_TERMS_QUERY } from "@sanity/lib/queries";
 import { buildMetadata } from "@/lib/seo";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { HubPopularLinks } from "@/components/sections/hub-popular-links";
+import { getHubPopularLinks } from "@/lib/hub-popular-links";
 import type { Locale } from "@/i18n/config";
 import type { GlossaryTerm } from "@/lib/types";
 
@@ -17,6 +19,7 @@ const copy = {
     subtitle: "Clear definitions for the concepts behind AI agents, RAG, automation, governance and private enterprise AI.",
     core: "Core concepts",
     all: "All terms",
+    popular: "Popular AI guides",
     empty: "No terms yet.",
     pillars: ["Agents", "RAG", "Automation", "Governance", "Private AI"],
     explainer: "This glossary is written for teams evaluating enterprise AI in real operating environments. Each definition connects the concept to private data, existing tools, workflow design and the controls needed before AI reaches production.",
@@ -32,6 +35,7 @@ const copy = {
     subtitle: "Des définitions claires pour comprendre agents IA, RAG, automatisation, gouvernance et IA privée en entreprise.",
     core: "Concepts clés",
     all: "Tous les termes",
+    popular: "Guides IA populaires",
     empty: "Aucun terme pour le moment.",
     pillars: ["Agents", "RAG", "Automatisation", "Gouvernance", "IA privée"],
     explainer: "Ce glossaire est conçu pour les équipes qui évaluent l'IA entreprise dans des environnements réels. Chaque définition relie le concept aux données privées, aux outils existants, aux workflows et aux contrôles nécessaires avant la production.",
@@ -47,6 +51,7 @@ const copy = {
     subtitle: "Heldere definities voor AI-agents, RAG, automatisering, governance en private enterprise AI.",
     core: "Kernbegrippen",
     all: "Alle termen",
+    popular: "Populaire AI-gidsen",
     empty: "Nog geen termen.",
     pillars: ["Agents", "RAG", "Automatisering", "Governance", "Private AI"],
     explainer: "Deze woordenlijst is gemaakt voor teams die enterprise AI beoordelen in echte operationele omgevingen. Elke definitie koppelt het concept aan private data, bestaande tools, workflowontwerp en controles voor productie.",
@@ -56,7 +61,7 @@ const copy = {
       ogImage: null,
     },
   },
-} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; core: string; all: string; empty: string; pillars: string[]; explainer: string; seo: { metaTitle: string; metaDescription: string; ogImage: null } }>;
+} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; core: string; all: string; popular: string; empty: string; pillars: string[]; explainer: string; seo: { metaTitle: string; metaDescription: string; ogImage: null } }>;
 
 const prioritySlugs = ["ai-agent", "agentic-ai", "ai-agents", "agentic-rag", "workflow-automation", "multi-agent-system"];
 
@@ -136,6 +141,7 @@ export default async function GlossairePage({ params }: PageProps) {
                 </a>
               ))}
             </div>
+            <HubPopularLinks title={l.popular} links={getHubPopularLinks(locale)} />
           </>
         )}
       </section>

@@ -5,6 +5,8 @@ import { CONNECTOR_PAGES_QUERY } from "@sanity/lib/queries";
 import { urlFor } from "@sanity/lib/image";
 import { buildMetadata } from "@/lib/seo";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { HubPopularLinks } from "@/components/sections/hub-popular-links";
+import { getHubPopularLinks } from "@/lib/hub-popular-links";
 import type { Locale } from "@/i18n/config";
 import type { ConnectorPage } from "@/lib/types";
 
@@ -18,11 +20,12 @@ const copy = {
     title: "Connect private AI agents to your company stack",
     subtitle: "Explore the tools Wonka can connect to for private search, summaries, workflow automation and governed AI agents.",
     popular: "Popular integrations",
+    popularGuides: "Popular integration guides",
     all: "All connectors",
     categories: ["CRM", "Documents", "Project management", "Communication", "ERP", "Knowledge"],
     empty: "No connectors yet.",
     explainerTitle: "What a Wonka connector does",
-    explainerBody: "A Wonka connector links private AI agents to the tools where company work already happens. Instead of asking teams to move sensitive data into a generic assistant, Wonka keeps the operational context connected to trusted systems such as CRM, ERP, document storage and communication platforms.",
+    explainerBody: "A Wonka connector links private AI agents to the tools where company work already happens. Instead of asking teams to move sensitive data into a generic assistant, Wonka keeps the operational context connected to trusted systems such as CRM, ERP, document storage and communication platforms. Each connector is designed to preserve permissions, expose sources, and make answers usable inside real workflows rather than isolated chat sessions. This matters because enterprise AI adoption depends on trust: users need to know which system supplied the context, administrators need to know which permissions apply, and managers need to see whether the workflow produces measurable operational value.",
     explainerPoints: ["Source-aware answers from business tools", "Governed workflows with human review", "Private deployment for enterprise data"],
     seo: {
       metaTitle: "AI Integrations and Connectors | Wonka AI",
@@ -35,11 +38,12 @@ const copy = {
     title: "Connectez des agents IA privés à votre stack entreprise",
     subtitle: "Explorez les outils que Wonka peut connecter pour la recherche privée, les résumés, l'automatisation et les agents IA gouvernés.",
     popular: "Intégrations populaires",
+    popularGuides: "Guides d'intégration populaires",
     all: "Tous les connecteurs",
     categories: ["CRM", "Documents", "Gestion projet", "Communication", "ERP", "Connaissance"],
     empty: "Aucun connecteur pour le moment.",
     explainerTitle: "Ce que fait un connecteur Wonka",
-    explainerBody: "Un connecteur Wonka relie des agents IA privés aux outils où le travail existe déjà. Au lieu de déplacer des données sensibles dans un assistant générique, Wonka garde le contexte opérationnel connecté aux systèmes de confiance comme le CRM, l'ERP, les documents et les outils de communication.",
+    explainerBody: "Un connecteur Wonka relie des agents IA privés aux outils où le travail existe déjà. Au lieu de déplacer des données sensibles dans un assistant générique, Wonka garde le contexte opérationnel connecté aux systèmes de confiance comme le CRM, l'ERP, les documents et les outils de communication. Chaque connecteur est pensé pour préserver les permissions, afficher les sources et rendre les réponses utiles dans de vrais workflows plutôt que dans des conversations isolées. C'est essentiel pour l'adoption : les utilisateurs doivent savoir quel système fournit le contexte, les administrateurs doivent comprendre les permissions appliquées et les managers doivent mesurer la valeur opérationnelle du workflow.",
     explainerPoints: ["Réponses sourcées depuis les outils métier", "Workflows gouvernés avec validation humaine", "Déploiement privé pour les données enterprise"],
     seo: {
       metaTitle: "Connecteurs IA et intégrations | Wonka AI",
@@ -52,11 +56,12 @@ const copy = {
     title: "Koppel private AI-agents aan je bedrijfsstack",
     subtitle: "Ontdek de tools die Wonka kan verbinden voor private search, samenvattingen, workflowautomatisering en beheerde AI-agents.",
     popular: "Populaire integraties",
+    popularGuides: "Populaire integratiegidsen",
     all: "Alle connectoren",
     categories: ["CRM", "Documenten", "Projectmanagement", "Communicatie", "ERP", "Kennis"],
     empty: "Nog geen connectoren.",
     explainerTitle: "Wat een Wonka-connector doet",
-    explainerBody: "Een Wonka-connector koppelt private AI-agents aan de tools waar het werk al gebeurt. Teams hoeven gevoelige data niet naar een generieke assistent te verplaatsen: Wonka houdt operationele context verbonden met vertrouwde systemen zoals CRM, ERP, documentopslag en communicatietools.",
+    explainerBody: "Een Wonka-connector koppelt private AI-agents aan de tools waar het werk al gebeurt. Teams hoeven gevoelige data niet naar een generieke assistent te verplaatsen: Wonka houdt operationele context verbonden met vertrouwde systemen zoals CRM, ERP, documentopslag en communicatietools. Elke connector is ontworpen om permissies te respecteren, bronnen zichtbaar te maken en antwoorden bruikbaar te maken in echte workflows in plaats van losse chatsessies. Dat is belangrijk voor adoptie: gebruikers moeten weten welk systeem context leverde, beheerders moeten de permissies begrijpen en managers moeten zien of de workflow meetbare operationele waarde oplevert.",
     explainerPoints: ["Antwoorden met bronnen uit bedrijfstools", "Beheerste workflows met menselijke controle", "Private deployment voor enterprise data"],
     seo: {
       metaTitle: "AI-integraties en connectoren | Wonka AI",
@@ -192,6 +197,7 @@ export default async function ConnectorsPage({ params }: PageProps) {
                 ))}
               </div>
             </div>
+            <HubPopularLinks title={labels.popularGuides as string} links={getHubPopularLinks(locale)} />
           </>
         )}
       </section>

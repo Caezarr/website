@@ -3,6 +3,8 @@ import { sanityFetch } from "@sanity/lib/live";
 import { BLOG_POSTS_QUERY } from "@sanity/lib/queries";
 import { buildMetadata } from "@/lib/seo";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { HubPopularLinks } from "@/components/sections/hub-popular-links";
+import { getHubPopularLinks } from "@/lib/hub-popular-links";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost } from "@/lib/types";
 
@@ -20,6 +22,7 @@ const labels = {
     featured: "Featured guide",
     guideType: "Enterprise AI guide",
     latest: "Latest articles",
+    popular: "Popular enterprise AI guides",
     empty: "No posts yet.",
     clusters: ["AI Agents", "RAG", "Enterprise AI", "Workflow Automation", "Private AI"],
     seo: {
@@ -35,6 +38,7 @@ const labels = {
     featured: "Guide à lire",
     guideType: "Guide IA entreprise",
     latest: "Derniers articles",
+    popular: "Guides IA enterprise populaires",
     empty: "Aucun article pour le moment.",
     clusters: ["Agents IA", "RAG", "IA entreprise", "Automatisation", "IA privée"],
     seo: {
@@ -50,6 +54,7 @@ const labels = {
     featured: "Aanbevolen gids",
     guideType: "Enterprise AI-gids",
     latest: "Laatste artikels",
+    popular: "Populaire enterprise AI-gidsen",
     empty: "Nog geen artikelen.",
     clusters: ["AI-agents", "RAG", "Enterprise AI", "Workflowautomatisering", "Private AI"],
     seo: {
@@ -58,7 +63,7 @@ const labels = {
       ogImage: null,
     },
   },
-} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; featured: string; guideType: string; latest: string; empty: string; clusters: string[]; seo: { metaTitle: string; metaDescription: string; ogImage: null } }>;
+} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; featured: string; guideType: string; latest: string; popular: string; empty: string; clusters: string[]; seo: { metaTitle: string; metaDescription: string; ogImage: null } }>;
 
 const categoryLabels: Record<string, Record<Locale, string>> = {
   "ai-strategy": { en: "AI Strategy", fr: "Stratégie IA", nl: "AI Strategie" },
@@ -152,6 +157,7 @@ export default async function BlogPage({ params }: PageProps) {
                 </article>
               ))}
             </div>
+            <HubPopularLinks title={l.popular} links={getHubPopularLinks(locale)} />
           </>
         )}
       </section>

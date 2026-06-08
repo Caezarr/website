@@ -63,6 +63,11 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
     fr: `Une bonne comparaison avec ${c.competitor} doit aller au-delà des fonctionnalités d'interface. Les équipes enterprise doivent savoir où les données sont traitées, comment les systèmes internes sont connectés, si les réponses sont sourcées et quel niveau de gouvernance existe avant la mise en production.`,
     nl: `Een goede vergelijking met ${c.competitor} gaat verder dan interfacefuncties. Enterprise teams moeten weten waar data verwerkt wordt, hoe interne systemen gekoppeld zijn, of antwoorden bronnen bevatten en hoeveel governance beschikbaar is voor een AI-workflow in productie gaat.`,
   }[locale];
+  const adoptionBody = {
+    en: `For a production decision, the comparison should also cover implementation effort. A tool can look strong in a demo but still fail if it cannot connect to the systems teams use every day, if answers cannot be traced back to sources, or if administrators cannot control permissions and workflow boundaries.`,
+    fr: `Pour une décision de production, la comparaison doit aussi couvrir l'effort d'implémentation. Un outil peut sembler solide en démo mais échouer s'il ne se connecte pas aux systèmes utilisés chaque jour, si les réponses ne sont pas traçables ou si les administrateurs ne contrôlent pas les permissions et les limites des workflows.`,
+    nl: `Voor een productiebeslissing moet de vergelijking ook de implementatie-inspanning tonen. Een tool kan sterk lijken in een demo maar toch falen als hij niet koppelt met dagelijkse systemen, als antwoorden niet naar bronnen herleidbaar zijn of als beheerders permissies en workflowgrenzen niet kunnen controleren.`,
+  }[locale];
   const evaluationPoints = {
     en: ["Data control and hosting model", "Connectors to existing business systems", "Workflow automation with human oversight"],
     fr: ["Contrôle des données et modèle d'hébergement", "Connecteurs vers les systèmes métier existants", "Automatisation avec validation humaine"],
@@ -87,6 +92,7 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
         <section className="mt-16 rounded-lg border border-border bg-mid-gray p-6">
           <h2 className="type-h5">{evaluationTitle}</h2>
           <p className="mt-4 type-paragraph-m leading-relaxed text-text/65">{evaluationBody}</p>
+          <p className="mt-4 type-paragraph-m leading-relaxed text-text/65">{adoptionBody}</p>
           <div className="mt-6 grid gap-3">
             {evaluationPoints.map((point) => (
               <p key={point} className="rounded-md border border-border bg-background p-4 type-paragraph-m-bold">{point}</p>
