@@ -57,6 +57,17 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
   const relatedGuidesLabel = locale === "fr" ? "Guides liés" : locale === "nl" ? "Gerelateerde gidsen" : "Related guides";
   const relatedIntegrationsLabel = locale === "fr" ? "Intégrations liées" : locale === "nl" ? "Gerelateerde integraties" : "Related integrations";
   const exploreMoreLabel = locale === "fr" ? "Explorer les sujets IA liés" : locale === "nl" ? "Verken gerelateerde AI-thema's" : "Explore related AI topics";
+  const evaluationTitle = locale === "fr" ? "Ce qu'il faut comparer au-delà des fonctionnalités" : locale === "nl" ? "Wat je naast functies moet vergelijken" : "What to compare beyond features";
+  const evaluationBody = {
+    en: `A useful ${c.competitor} comparison should look beyond interface features. Enterprise teams need to know where data is processed, how internal systems are connected, whether answers include sources, and how much governance is available before an AI workflow reaches production.`,
+    fr: `Une bonne comparaison avec ${c.competitor} doit aller au-delà des fonctionnalités d'interface. Les équipes enterprise doivent savoir où les données sont traitées, comment les systèmes internes sont connectés, si les réponses sont sourcées et quel niveau de gouvernance existe avant la mise en production.`,
+    nl: `Een goede vergelijking met ${c.competitor} gaat verder dan interfacefuncties. Enterprise teams moeten weten waar data verwerkt wordt, hoe interne systemen gekoppeld zijn, of antwoorden bronnen bevatten en hoeveel governance beschikbaar is voor een AI-workflow in productie gaat.`,
+  }[locale];
+  const evaluationPoints = {
+    en: ["Data control and hosting model", "Connectors to existing business systems", "Workflow automation with human oversight"],
+    fr: ["Contrôle des données et modèle d'hébergement", "Connecteurs vers les systèmes métier existants", "Automatisation avec validation humaine"],
+    nl: ["Datacontrole en hostingmodel", "Connectoren met bestaande bedrijfssystemen", "Workflowautomatisering met menselijke controle"],
+  }[locale];
   const evergreenLinks = getEvergreenInternalLinks(locale, "comparisons", itemPath("comparisons", locale, slug));
 
   return (
@@ -72,6 +83,16 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
         <div className="prose prose-lg max-w-none">{c.body && <PortableText value={c.body as never} />}</div>
 
         <ComparisonTable locale={locale} competitor={c.competitor} />
+
+        <section className="mt-16 rounded-lg border border-border bg-mid-gray p-6">
+          <h2 className="type-h5">{evaluationTitle}</h2>
+          <p className="mt-4 type-paragraph-m leading-relaxed text-text/65">{evaluationBody}</p>
+          <div className="mt-6 grid gap-3">
+            {evaluationPoints.map((point) => (
+              <p key={point} className="rounded-md border border-border bg-background p-4 type-paragraph-m-bold">{point}</p>
+            ))}
+          </div>
+        </section>
 
         {c.faq?.length ? (
           <section className="mt-16 border-t border-border pt-12">
