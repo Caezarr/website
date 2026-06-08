@@ -11,6 +11,8 @@ import { ArticleSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld
 import { ComparisonTable } from "@/components/sections/comparison-table";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
+import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
+import { getEvergreenInternalLinks } from "@/lib/internal-links";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost, ComparisonPage, ConnectorPage } from "@/lib/types";
 
@@ -51,6 +53,8 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
   const parentLabel = locale === "fr" ? "Comparaisons" : locale === "nl" ? "Vergelijkingen" : "Comparisons";
   const relatedGuidesLabel = locale === "fr" ? "Guides liés" : locale === "nl" ? "Gerelateerde gidsen" : "Related guides";
   const relatedIntegrationsLabel = locale === "fr" ? "Intégrations liées" : locale === "nl" ? "Gerelateerde integraties" : "Related integrations";
+  const exploreMoreLabel = locale === "fr" ? "Explorer les sujets IA liés" : locale === "nl" ? "Verken gerelateerde AI-thema's" : "Explore related AI topics";
+  const evergreenLinks = getEvergreenInternalLinks(locale, "comparisons", itemPath("comparisons", locale, slug));
 
   return (
     <>
@@ -110,6 +114,8 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
             </div>
           </section>
         ) : null}
+
+        <InternalLinkGrid title={exploreMoreLabel} links={evergreenLinks} className="mt-16" />
 
         <WonkaSolves locale={locale} meetingUrl={meetingUrl as string | null} />
       </main>

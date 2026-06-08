@@ -11,7 +11,9 @@ import { hubPath, itemPath } from "@/lib/locale-path";
 import { FaqSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/json-ld";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
+import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
 import { ButtonLink } from "@/components/ui/button";
+import { getEvergreenInternalLinks } from "@/lib/internal-links";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost, ConnectorPage } from "@/lib/types";
 
@@ -64,6 +66,8 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
   const secondaryCtaLabel = { en: "Explore integrations", fr: "Voir les intégrations", nl: "Bekijk integraties" }[locale];
   const relatedConnectorsLabel = { en: "Related integrations", fr: "Intégrations liées", nl: "Gerelateerde integraties" }[locale];
   const relatedPostsLabel = { en: "Related guides", fr: "Guides liés", nl: "Gerelateerde gidsen" }[locale];
+  const exploreMoreLabel = { en: "Explore related AI topics", fr: "Explorer les sujets IA liés", nl: "Verken gerelateerde AI-thema's" }[locale];
+  const evergreenLinks = getEvergreenInternalLinks(locale, "connectors", itemPath("connectors", locale, slug));
   const logoUrl = c.toolLogo ? urlFor(c.toolLogo).width(160).height(160).fit("max").url() : null;
   const metrics = [
     { label: { en: "Private AI", fr: "IA privée", nl: "Private AI" }[locale] },
@@ -235,6 +239,10 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
             ) : null}
           </section>
         ) : null}
+
+        <div className="mx-auto max-w-[1200px] px-6 pb-16">
+          <InternalLinkGrid title={exploreMoreLabel} links={evergreenLinks} />
+        </div>
 
         <div className="mx-auto max-w-[1200px] px-6">
           <WonkaSolves locale={locale} meetingUrl={meetingUrl as string | null} />

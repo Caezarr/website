@@ -10,7 +10,9 @@ import { ArticleSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld
 import { SmartPortableText } from "@/components/portable-text-components";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
+import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
 import { ButtonLink } from "@/components/ui/button";
+import { getEvergreenInternalLinks } from "@/lib/internal-links";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost, ComparisonPage, ConnectorPage, GlossaryTerm } from "@/lib/types";
 
@@ -58,6 +60,7 @@ const labels = {
   relatedPosts:  { en: "Related articles",         fr: "Articles liés",     nl: "Gerelateerde artikelen" },
   relatedConnectors: { en: "Related integrations", fr: "Intégrations liées", nl: "Gerelateerde integraties" },
   relatedComparisons: { en: "Related comparisons", fr: "Comparaisons liées", nl: "Gerelateerde vergelijkingen" },
+  exploreMore: { en: "Explore related AI topics", fr: "Explorer les sujets IA liés", nl: "Verken gerelateerde AI-thema's" },
   faq:           { en: "Frequently asked questions", fr: "Questions fréquentes", nl: "Veelgestelde vragen" },
   backToBlog:    { en: "Blog", fr: "Blog", nl: "Blog" },
 };
@@ -85,6 +88,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   const hubUrl   = `${siteUrl}${hubPath("blog", locale)}`;
   const readMins = p.body ? estimateReadingTime(p.body as unknown[]) : 1;
   const catLabel = p.category ? (categoryLabels[p.category]?.[locale] ?? p.category) : null;
+  const evergreenLinks = getEvergreenInternalLinks(locale, "blog", itemPath("blog", locale, slug));
 
   const hasRightSidebar =
     (relatedPosts as BlogPost[])?.length > 0 ||
@@ -253,6 +257,10 @@ export default async function BlogPostPage({ params }: PageProps) {
             </aside>
           )}
         </div>
+      </div>
+
+      <div className="mx-auto max-w-[1200px] px-6 pb-16">
+        <InternalLinkGrid title={L(labels.exploreMore, locale)} links={evergreenLinks} />
       </div>
 
       <div className="mx-auto max-w-[1200px] px-6">

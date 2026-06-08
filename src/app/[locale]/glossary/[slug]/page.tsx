@@ -10,6 +10,8 @@ import { PortableText } from "@portabletext/react";
 import { DefinedTermSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
+import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
+import { getEvergreenInternalLinks } from "@/lib/internal-links";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost, ComparisonPage, ConnectorPage, GlossaryTerm } from "@/lib/types";
 
@@ -54,6 +56,12 @@ const parentLabels = {
   nl: "Woordenlijst",
 };
 
+const exploreMoreLabels = {
+  en: "Explore related AI topics",
+  fr: "Explorer les sujets IA liés",
+  nl: "Verken gerelateerde AI-thema's",
+};
+
 export default async function GlossaryTermPage({ params }: PageProps) {
   const { locale, slug } = await params;
   const { data } = await sanityFetch({ query: GLOSSARY_TERM_QUERY, params: { slug, language: locale } });
@@ -70,6 +78,7 @@ export default async function GlossaryTermPage({ params }: PageProps) {
   const siteUrl = getSiteUrl();
   const pageUrl = `${siteUrl}${itemPath('glossary', locale, slug)}`;
   const parentUrl = `${siteUrl}${hubPath('glossary', locale)}`;
+  const evergreenLinks = getEvergreenInternalLinks(locale, "glossary", itemPath("glossary", locale, slug));
 
   return (
     <>
@@ -144,6 +153,8 @@ export default async function GlossaryTermPage({ params }: PageProps) {
             </div>
           </section>
         ) : null}
+
+        <InternalLinkGrid title={exploreMoreLabels[locale]} links={evergreenLinks} className="mt-16" />
 
         <WonkaSolves locale={locale} meetingUrl={meetingUrl as string | null} />
       </main>
