@@ -7,7 +7,8 @@ import { CookieConsentProvider } from "@/components/cookie-consent/cookie-consen
 import { getSiteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
 
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+const GTM_ID = "GTM-5LCPHCRF";
+const GA_MEASUREMENT_ID = "G-K27JB3MYL1";
 const SITE_URL = getSiteUrl();
 
 const priorityPages = [
@@ -151,7 +152,7 @@ export default function RootLayout({
             />
             <Script
               id="gtm-script"
-              strategy="afterInteractive"
+              strategy="beforeInteractive"
               dangerouslySetInnerHTML={{
                 __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -172,6 +173,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             />
           </noscript>
         )}
+        {/* Google tag (gtag.js) */}
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+window.gtag = gtag;
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');`,
+          }}
+        />
         <CookieConsentProvider>{children}</CookieConsentProvider>
         <Analytics />
         <Script
