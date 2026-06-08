@@ -5,6 +5,8 @@ import { CONNECTOR_PAGES_QUERY } from "@sanity/lib/queries";
 import { urlFor } from "@sanity/lib/image";
 import { buildMetadata } from "@/lib/seo";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { HubPopularLinks } from "@/components/sections/hub-popular-links";
+import { getHubPopularLinks } from "@/lib/hub-popular-links";
 import type { Locale } from "@/i18n/config";
 import type { ConnectorPage } from "@/lib/types";
 
@@ -18,6 +20,7 @@ const copy = {
     title: "Connect private AI agents to your company stack",
     subtitle: "Explore the tools Wonka can connect to for private search, summaries, workflow automation and governed AI agents.",
     popular: "Popular integrations",
+    popularGuides: "Popular integration guides",
     all: "All connectors",
     categories: ["CRM", "Documents", "Project management", "Communication", "ERP", "Knowledge"],
     empty: "No connectors yet.",
@@ -35,6 +38,7 @@ const copy = {
     title: "Connectez des agents IA privés à votre stack entreprise",
     subtitle: "Explorez les outils que Wonka peut connecter pour la recherche privée, les résumés, l'automatisation et les agents IA gouvernés.",
     popular: "Intégrations populaires",
+    popularGuides: "Guides d'intégration populaires",
     all: "Tous les connecteurs",
     categories: ["CRM", "Documents", "Gestion projet", "Communication", "ERP", "Connaissance"],
     empty: "Aucun connecteur pour le moment.",
@@ -52,6 +56,7 @@ const copy = {
     title: "Koppel private AI-agents aan je bedrijfsstack",
     subtitle: "Ontdek de tools die Wonka kan verbinden voor private search, samenvattingen, workflowautomatisering en beheerde AI-agents.",
     popular: "Populaire integraties",
+    popularGuides: "Populaire integratiegidsen",
     all: "Alle connectoren",
     categories: ["CRM", "Documenten", "Projectmanagement", "Communicatie", "ERP", "Kennis"],
     empty: "Nog geen connectoren.",
@@ -192,6 +197,7 @@ export default async function ConnectorsPage({ params }: PageProps) {
                 ))}
               </div>
             </div>
+            <HubPopularLinks title={labels.popularGuides as string} links={getHubPopularLinks(locale)} />
           </>
         )}
       </section>

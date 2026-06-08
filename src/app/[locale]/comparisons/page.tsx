@@ -3,6 +3,8 @@ import { sanityFetch } from "@sanity/lib/live";
 import { COMPARISON_PAGES_QUERY } from "@sanity/lib/queries";
 import { buildMetadata } from "@/lib/seo";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { HubPopularLinks } from "@/components/sections/hub-popular-links";
+import { getHubPopularLinks } from "@/lib/hub-popular-links";
 import type { Locale } from "@/i18n/config";
 import type { ComparisonPage } from "@/lib/types";
 
@@ -17,10 +19,12 @@ const copy = {
     subtitle: "Evaluate AI platforms by privacy, integrations, workflow depth, governance and European deployment readiness.",
     criteria: "Comparison criteria",
     all: "All comparisons",
+    popular: "Popular comparison guides",
     empty: "No comparisons yet.",
     points: ["Private data", "Tool integrations", "Agent workflows", "Governance", "EU readiness"],
     choose: "Compare",
     explainer: "These comparisons focus on the buying questions that matter once AI leaves the demo stage: where data is hosted, which business systems are connected, how answers are sourced, and how teams keep control of automated workflows.",
+    decisionBody: "A useful evaluation should also include adoption risk. Teams need to understand whether the tool can reach the data they need, whether users can verify answers before acting, and whether the deployment model fits internal security expectations. That is why each comparison links product capabilities back to concrete workflows, not only feature checklists.",
     seo: {
       metaTitle: "Enterprise AI Comparisons | Wonka AI",
       metaDescription: "Compare Wonka AI with ChatGPT Enterprise, Microsoft Copilot, public LLMs and other enterprise AI platforms.",
@@ -33,10 +37,12 @@ const copy = {
     subtitle: "Évaluez les plateformes IA selon la confidentialité, les intégrations, les workflows, la gouvernance et le déploiement européen.",
     criteria: "Critères de comparaison",
     all: "Toutes les comparaisons",
+    popular: "Comparatifs populaires",
     empty: "Aucune comparaison pour le moment.",
     points: ["Données privées", "Intégrations", "Workflows agents", "Gouvernance", "Déploiement EU"],
     choose: "Comparer",
     explainer: "Ces comparaisons se concentrent sur les vraies questions d'achat après la démo : où les données sont hébergées, quels systèmes métier sont connectés, comment les réponses sont sourcées et comment les équipes gardent le contrôle des workflows automatisés.",
+    decisionBody: "Une bonne évaluation doit aussi intégrer le risque d'adoption. Les équipes doivent savoir si l'outil peut accéder aux données utiles, si les utilisateurs peuvent vérifier les réponses avant d'agir et si le modèle de déploiement respecte les attentes de sécurité internes. C'est pourquoi chaque comparaison relie les capacités produit à des workflows concrets, pas seulement à une liste de fonctionnalités.",
     seo: {
       metaTitle: "Comparatifs IA enterprise | Wonka AI",
       metaDescription: "Comparez Wonka AI à ChatGPT Enterprise, Microsoft Copilot, aux LLM publics et aux plateformes IA pour entreprises.",
@@ -49,17 +55,19 @@ const copy = {
     subtitle: "Evalueer AI-platformen op privacy, integraties, workflowdiepte, governance en Europese uitrol.",
     criteria: "Evaluatiecriteria",
     all: "Alle vergelijkingen",
+    popular: "Populaire vergelijkingsgidsen",
     empty: "Nog geen vergelijkingen.",
     points: ["Private data", "Integraties", "Agent workflows", "Governance", "EU-uitrol"],
     choose: "Vergelijk",
     explainer: "Deze vergelijkingen focussen op de koopvragen die belangrijk worden na de demo: waar data gehost wordt, welke bedrijfssystemen gekoppeld zijn, hoe antwoorden bronnen gebruiken en hoe teams controle houden over geautomatiseerde workflows.",
+    decisionBody: "Een nuttige evaluatie kijkt ook naar adoptierisico. Teams moeten weten of de tool de juiste data kan bereiken, of gebruikers antwoorden kunnen controleren voordat ze handelen en of het deploymentmodel past bij interne security-eisen. Daarom koppelt elke vergelijking productmogelijkheden aan concrete workflows, niet alleen aan featurelijsten.",
     seo: {
       metaTitle: "Enterprise AI-vergelijkingen | Wonka AI",
       metaDescription: "Vergelijk Wonka AI met ChatGPT Enterprise, Microsoft Copilot, publieke LLMs en andere enterprise AI-platformen.",
       ogImage: null,
     },
   },
-} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; criteria: string; all: string; empty: string; points: string[]; choose: string; explainer: string; seo: { metaTitle: string; metaDescription: string; ogImage: null } }>;
+} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; criteria: string; all: string; popular: string; empty: string; points: string[]; choose: string; explainer: string; decisionBody: string; seo: { metaTitle: string; metaDescription: string; ogImage: null } }>;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
@@ -91,6 +99,7 @@ export default async function ComparaisonsPage({ params }: PageProps) {
         <div className="mb-14 rounded-lg border border-border bg-mid-gray p-6">
           <h2 className="type-h5 mb-5">{l.criteria}</h2>
           <p className="mb-6 max-w-3xl type-paragraph-m leading-relaxed text-text/60">{l.explainer}</p>
+          <p className="mb-6 max-w-3xl type-paragraph-m leading-relaxed text-text/60">{l.decisionBody}</p>
           <div className="grid gap-3 md:grid-cols-5">
             {l.points.map((point, index) => (
               <div key={point} className="rounded-md border border-border bg-background p-4">
@@ -120,6 +129,7 @@ export default async function ComparaisonsPage({ params }: PageProps) {
                 </a>
               ))}
             </div>
+            <HubPopularLinks title={l.popular} links={getHubPopularLinks(locale)} />
           </>
         )}
       </section>
