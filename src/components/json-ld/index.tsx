@@ -93,17 +93,31 @@ export function SoftwareAppSchema({ name, description, url, features }: {
   const siteUrl = getSiteUrl();
   const schema = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "Service",
     name,
     description,
     url,
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
-    featureList: features,
-    publisher: {
+    serviceType: "Private enterprise AI integration",
+    provider: {
       "@type": "Organization",
       name: "Wonka AI",
       url: siteUrl,
+    },
+    audience: {
+      "@type": "BusinessAudience",
+      audienceType: "Enterprise teams",
+    },
+    areaServed: ["European Union", "United Kingdom"],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: `${name} capabilities`,
+      itemListElement: features.map((feature) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: feature,
+        },
+      })),
     },
     offers: {
       "@type": "Offer",
@@ -114,7 +128,7 @@ export function SoftwareAppSchema({ name, description, url, features }: {
     },
   };
   return (
-    <script id="schema-software-app" type="application/ld+json"
+    <script id="schema-service" type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
   );
 }
