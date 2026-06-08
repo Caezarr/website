@@ -7,7 +7,7 @@ import { CookieConsentProvider } from "@/components/cookie-consent/cookie-consen
 import { getSiteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
 
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+const GTM_ID = "GTM-5LCPHCRF";
 const GA_MEASUREMENT_ID = "G-K27JB3MYL1";
 const SITE_URL = getSiteUrl();
 
@@ -152,7 +152,7 @@ export default function RootLayout({
             />
             <Script
               id="gtm-script"
-              strategy="afterInteractive"
+              strategy="beforeInteractive"
               dangerouslySetInnerHTML={{
                 __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
