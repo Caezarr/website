@@ -64,6 +64,12 @@ const labels = {
   relatedConnectors: { en: "Related integrations", fr: "Intégrations liées", nl: "Gerelateerde integraties" },
   relatedComparisons: { en: "Related comparisons", fr: "Comparaisons liées", nl: "Gerelateerde vergelijkingen" },
   exploreMore: { en: "Explore related AI topics", fr: "Explorer les sujets IA liés", nl: "Verken gerelateerde AI-thema's" },
+  applyTitle: { en: "How to apply this in an enterprise AI rollout", fr: "Comment appliquer cela dans un déploiement IA entreprise", nl: "Hoe je dit toepast in een enterprise AI-uitrol" },
+  applyBody: {
+    en: "The practical next step is to map the idea to one workflow, one data source, and one measurable operational result. Wonka usually starts by connecting the systems teams already use, validating source-aware answers with users, then turning repeated requests into governed AI workflows.",
+    fr: "L'étape pratique consiste à relier l'idée à un workflow, une source de données et un résultat opérationnel mesurable. Wonka commence généralement par connecter les systèmes déjà utilisés, valider les réponses sourcées avec les utilisateurs, puis transformer les demandes répétées en workflows IA gouvernés.",
+    nl: "De praktische volgende stap is het idee koppelen aan één workflow, één databron en één meetbaar operationeel resultaat. Wonka start meestal met de systemen die teams al gebruiken, valideert antwoorden met bronnen en zet terugkerende vragen daarna om in beheerste AI-workflows.",
+  },
   faq:           { en: "Frequently asked questions", fr: "Questions fréquentes", nl: "Veelgestelde vragen" },
   backToBlog:    { en: "Blog", fr: "Blog", nl: "Blog" },
 };
@@ -149,6 +155,11 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div className="prose prose-lg max-w-none">
               {p.body && <SmartPortableText value={p.body as unknown[]} />}
             </div>
+
+            <section className="mt-16 rounded-lg border border-border bg-mid-gray p-6">
+              <h2 className="type-h5">{L(labels.applyTitle, locale)}</h2>
+              <p className="mt-4 type-paragraph-m leading-relaxed text-text/65">{L(labels.applyBody, locale)}</p>
+            </section>
 
             {/* FAQ */}
             {p.faq?.length ? (

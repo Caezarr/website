@@ -70,6 +70,33 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
   const relatedConnectorsLabel = { en: "Related integrations", fr: "Intégrations liées", nl: "Gerelateerde integraties" }[locale];
   const relatedPostsLabel = { en: "Related guides", fr: "Guides liés", nl: "Gerelateerde gidsen" }[locale];
   const exploreMoreLabel = { en: "Explore related AI topics", fr: "Explorer les sujets IA liés", nl: "Verken gerelateerde AI-thema's" }[locale];
+  const deploymentTitle = {
+    en: `How Wonka works with ${c.toolName}`,
+    fr: `Comment Wonka fonctionne avec ${c.toolName}`,
+    nl: `Hoe Wonka werkt met ${c.toolName}`,
+  }[locale];
+  const deploymentIntro = {
+    en: `Wonka connects to ${c.toolName} as a private AI layer for enterprise workflows. The goal is not to copy data into another generic assistant, but to let teams ask questions, summarize records, and trigger work from the systems they already trust.`,
+    fr: `Wonka se connecte à ${c.toolName} comme une couche d'IA privée pour les workflows d'entreprise. L'objectif n'est pas de copier les données dans un assistant générique, mais de permettre aux équipes de questionner, résumer et agir depuis les systèmes qu'elles utilisent déjà.`,
+    nl: `Wonka koppelt met ${c.toolName} als private AI-laag voor enterprise workflows. Het doel is niet om data naar een generieke assistent te kopiëren, maar teams te laten zoeken, samenvatten en handelen vanuit systemen die ze al vertrouwen.`,
+  }[locale];
+  const deploymentPoints = {
+    en: [
+      `Keep ${c.toolName} data connected to source-aware answers.`,
+      "Give users cited context before they act on an AI response.",
+      "Turn repeated operational questions into governed workflows.",
+    ],
+    fr: [
+      `Garder les données ${c.toolName} reliées à des réponses sourcées.`,
+      "Donner aux utilisateurs le contexte cité avant d'agir sur une réponse IA.",
+      "Transformer les questions opérationnelles répétées en workflows gouvernés.",
+    ],
+    nl: [
+      `Houd ${c.toolName}-data gekoppeld aan antwoorden met bronnen.`,
+      "Geef gebruikers geciteerde context voordat ze op een AI-antwoord handelen.",
+      "Zet terugkerende operationele vragen om in beheerste workflows.",
+    ],
+  }[locale];
   const evergreenLinks = getEvergreenInternalLinks(locale, "connectors", itemPath("connectors", locale, slug));
   const logoUrl = c.toolLogo ? urlFor(c.toolLogo).width(160).height(160).fit("max").url() : null;
   const metrics = [
@@ -184,6 +211,23 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
             </div>
           </section>
         ) : null}
+
+        <section className="mx-auto max-w-[1200px] px-6 pb-16">
+          <div className="grid gap-8 rounded-lg border border-border p-6 lg:grid-cols-[360px_1fr]">
+            <div>
+              <p className="type-eyebrow text-text/40">Private deployment</p>
+              <h2 className="mt-2 type-h5">{deploymentTitle}</h2>
+            </div>
+            <div>
+              <p className="type-body leading-relaxed text-text/65">{deploymentIntro}</p>
+              <div className="mt-6 grid gap-3">
+                {deploymentPoints.map((point) => (
+                  <p key={point} className="rounded-md border border-border bg-mid-gray p-4 type-paragraph-m text-text/65">{point}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
         {c.faq?.length ? (
           <section className="border-y border-dashed border-border bg-mid-gray">
