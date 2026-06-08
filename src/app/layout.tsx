@@ -92,8 +92,15 @@ const softwareApplicationSchema = {
   url: SITE_URL,
   description:
     "Private enterprise AI platform. Deploy a secure LLM inside your infrastructure, connected to SharePoint, Salesforce, Slack, Jira and more — with full data sovereignty and GDPR compliance.",
+  publisher: {
+    "@type": "Organization",
+    name: "Wonka AI",
+    url: SITE_URL,
+  },
   offers: {
     "@type": "Offer",
+    url: SITE_URL,
+    price: "0",
     priceCurrency: "EUR",
     availability: "https://schema.org/OnlineOnly",
   },
