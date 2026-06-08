@@ -8,6 +8,7 @@ import { getSiteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
 
 const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
+const GA_MEASUREMENT_ID = "G-K27JB3MYL1";
 const SITE_URL = getSiteUrl();
 
 const priorityPages = [
@@ -172,6 +173,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             />
           </noscript>
         )}
+        {/* Google tag (gtag.js) */}
+        <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`} />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+window.gtag = gtag;
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');`,
+          }}
+        />
         <CookieConsentProvider>{children}</CookieConsentProvider>
         <Analytics />
         <Script
