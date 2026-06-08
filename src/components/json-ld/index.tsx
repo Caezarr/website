@@ -90,6 +90,7 @@ export function DefinedTermSchema({ term, definition, url }: { term: string; def
 export function SoftwareAppSchema({ name, description, url, features }: {
   name: string; description: string; url: string; features: string[];
 }) {
+  const siteUrl = getSiteUrl();
   const schema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -99,7 +100,18 @@ export function SoftwareAppSchema({ name, description, url, features }: {
     applicationCategory: "BusinessApplication",
     operatingSystem: "Web",
     featureList: features,
-    offers: { "@type": "Offer", priceCurrency: "EUR", availability: "https://schema.org/OnlineOnly" },
+    publisher: {
+      "@type": "Organization",
+      name: "Wonka AI",
+      url: siteUrl,
+    },
+    offers: {
+      "@type": "Offer",
+      url,
+      price: "0",
+      priceCurrency: "EUR",
+      availability: "https://schema.org/OnlineOnly",
+    },
   };
   return (
     <script id="schema-software-app" type="application/ld+json"
