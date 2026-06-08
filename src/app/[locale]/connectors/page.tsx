@@ -21,6 +21,14 @@ const copy = {
     all: "All connectors",
     categories: ["CRM", "Documents", "Project management", "Communication", "ERP", "Knowledge"],
     empty: "No connectors yet.",
+    explainerTitle: "What a Wonka connector does",
+    explainerBody: "A Wonka connector links private AI agents to the tools where company work already happens. Instead of asking teams to move sensitive data into a generic assistant, Wonka keeps the operational context connected to trusted systems such as CRM, ERP, document storage and communication platforms.",
+    explainerPoints: ["Source-aware answers from business tools", "Governed workflows with human review", "Private deployment for enterprise data"],
+    seo: {
+      metaTitle: "AI Integrations and Connectors | Wonka AI",
+      metaDescription: "Explore Wonka AI connectors for Odoo, SharePoint, Salesforce, Slack, Google Drive, HubSpot and other enterprise systems.",
+      ogImage: null,
+    },
   },
   fr: {
     eyebrow: "Intégrations",
@@ -30,6 +38,14 @@ const copy = {
     all: "Tous les connecteurs",
     categories: ["CRM", "Documents", "Gestion projet", "Communication", "ERP", "Connaissance"],
     empty: "Aucun connecteur pour le moment.",
+    explainerTitle: "Ce que fait un connecteur Wonka",
+    explainerBody: "Un connecteur Wonka relie des agents IA privés aux outils où le travail existe déjà. Au lieu de déplacer des données sensibles dans un assistant générique, Wonka garde le contexte opérationnel connecté aux systèmes de confiance comme le CRM, l'ERP, les documents et les outils de communication.",
+    explainerPoints: ["Réponses sourcées depuis les outils métier", "Workflows gouvernés avec validation humaine", "Déploiement privé pour les données enterprise"],
+    seo: {
+      metaTitle: "Connecteurs IA et intégrations | Wonka AI",
+      metaDescription: "Explorez les connecteurs Wonka pour Odoo, SharePoint, Salesforce, Slack, Google Drive, HubSpot et les systèmes enterprise.",
+      ogImage: null,
+    },
   },
   nl: {
     eyebrow: "Integraties",
@@ -39,8 +55,16 @@ const copy = {
     all: "Alle connectoren",
     categories: ["CRM", "Documenten", "Projectmanagement", "Communicatie", "ERP", "Kennis"],
     empty: "Nog geen connectoren.",
+    explainerTitle: "Wat een Wonka-connector doet",
+    explainerBody: "Een Wonka-connector koppelt private AI-agents aan de tools waar het werk al gebeurt. Teams hoeven gevoelige data niet naar een generieke assistent te verplaatsen: Wonka houdt operationele context verbonden met vertrouwde systemen zoals CRM, ERP, documentopslag en communicatietools.",
+    explainerPoints: ["Antwoorden met bronnen uit bedrijfstools", "Beheerste workflows met menselijke controle", "Private deployment voor enterprise data"],
+    seo: {
+      metaTitle: "AI-integraties en connectoren | Wonka AI",
+      metaDescription: "Ontdek Wonka AI-connectoren voor Odoo, SharePoint, Salesforce, Slack, Google Drive, HubSpot en enterprise systemen.",
+      ogImage: null,
+    },
   },
-} satisfies Record<Locale, Record<string, string | string[]>>;
+} satisfies Record<Locale, Record<string, string | string[] | { metaTitle: string; metaDescription: string; ogImage: null }>>;
 
 const prioritySlugs = ["odoo", "sharepoint", "salesforce", "slack", "hubspot", "google-drive"];
 
@@ -69,7 +93,7 @@ function ConnectorLogo({ connector }: { connector: ConnectorPage }) {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, {
+  return buildMetadata(copy[locale].seo as { metaTitle: string; metaDescription: string; ogImage: null }, {
     path: hubPath("connectors", locale),
     hreflang: "hub",
     fallbackTitle: "AI Integrations and Connectors | Wonka AI",
@@ -108,6 +132,18 @@ export default async function ConnectorsPage({ params }: PageProps) {
           <p className="type-body text-text/40">{labels.empty}</p>
         ) : (
           <>
+            <div className="mb-14 grid gap-6 rounded-lg border border-border bg-mid-gray p-6 lg:grid-cols-[1fr_1.4fr]">
+              <div>
+                <h2 className="type-h5">{labels.explainerTitle}</h2>
+                <p className="mt-4 type-paragraph-m leading-relaxed text-text/65">{labels.explainerBody}</p>
+              </div>
+              <div className="grid gap-3 md:grid-cols-3">
+                {(labels.explainerPoints as string[]).map((point) => (
+                  <p key={point} className="rounded-md border border-border bg-background p-4 type-paragraph-m-bold">{point}</p>
+                ))}
+              </div>
+            </div>
+
             {popular.length ? (
               <div className="mb-14">
                 <h2 className="type-h5 mb-6">{labels.popular}</h2>

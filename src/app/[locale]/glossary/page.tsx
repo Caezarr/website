@@ -19,6 +19,12 @@ const copy = {
     all: "All terms",
     empty: "No terms yet.",
     pillars: ["Agents", "RAG", "Automation", "Governance", "Private AI"],
+    explainer: "This glossary is written for teams evaluating enterprise AI in real operating environments. Each definition connects the concept to private data, existing tools, workflow design and the controls needed before AI reaches production.",
+    seo: {
+      metaTitle: "Enterprise AI Glossary | Wonka AI",
+      metaDescription: "Clear definitions of AI agents, RAG, MCP, governance, private LLMs and workflow automation for enterprise teams.",
+      ogImage: null,
+    },
   },
   fr: {
     eyebrow: "Apprendre",
@@ -28,6 +34,12 @@ const copy = {
     all: "Tous les termes",
     empty: "Aucun terme pour le moment.",
     pillars: ["Agents", "RAG", "Automatisation", "Gouvernance", "IA privée"],
+    explainer: "Ce glossaire est conçu pour les équipes qui évaluent l'IA entreprise dans des environnements réels. Chaque définition relie le concept aux données privées, aux outils existants, aux workflows et aux contrôles nécessaires avant la production.",
+    seo: {
+      metaTitle: "Glossaire IA entreprise | Wonka AI",
+      metaDescription: "Définitions claires des agents IA, du RAG, du MCP, de la gouvernance, des LLM privés et de l'automatisation enterprise.",
+      ogImage: null,
+    },
   },
   nl: {
     eyebrow: "Leren",
@@ -37,14 +49,20 @@ const copy = {
     all: "Alle termen",
     empty: "Nog geen termen.",
     pillars: ["Agents", "RAG", "Automatisering", "Governance", "Private AI"],
+    explainer: "Deze woordenlijst is gemaakt voor teams die enterprise AI beoordelen in echte operationele omgevingen. Elke definitie koppelt het concept aan private data, bestaande tools, workflowontwerp en controles voor productie.",
+    seo: {
+      metaTitle: "Enterprise AI-woordenlijst | Wonka AI",
+      metaDescription: "Heldere definities van AI-agents, RAG, MCP, governance, private LLMs en workflowautomatisering voor enterprise teams.",
+      ogImage: null,
+    },
   },
-} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; core: string; all: string; empty: string; pillars: string[] }>;
+} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; core: string; all: string; empty: string; pillars: string[]; explainer: string; seo: { metaTitle: string; metaDescription: string; ogImage: null } }>;
 
 const prioritySlugs = ["ai-agent", "agentic-ai", "ai-agents", "agentic-rag", "workflow-automation", "multi-agent-system"];
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, {
+  return buildMetadata(copy[locale].seo, {
     path: hubPath("glossary", locale),
     hreflang: "hub",
     fallbackTitle: "Enterprise AI Glossary | Wonka AI",
@@ -86,6 +104,7 @@ export default async function GlossairePage({ params }: PageProps) {
             {coreTerms.length ? (
               <div className="mb-14">
                 <h2 className="type-h5 mb-6">{l.core}</h2>
+                <p className="mb-6 max-w-3xl type-paragraph-m leading-relaxed text-text/60">{l.explainer}</p>
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   {coreTerms.map((term) => (
                     <a

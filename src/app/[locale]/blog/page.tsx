@@ -22,6 +22,11 @@ const labels = {
     latest: "Latest articles",
     empty: "No posts yet.",
     clusters: ["AI Agents", "RAG", "Enterprise AI", "Workflow Automation", "Private AI"],
+    seo: {
+      metaTitle: "Enterprise AI Blog | Wonka AI",
+      metaDescription: "Read practical Wonka guides on private AI agents, RAG, workflow automation, governance and enterprise AI deployments.",
+      ogImage: null,
+    },
   },
   fr: {
     eyebrow: "Ressources",
@@ -32,6 +37,11 @@ const labels = {
     latest: "Derniers articles",
     empty: "Aucun article pour le moment.",
     clusters: ["Agents IA", "RAG", "IA entreprise", "Automatisation", "IA privée"],
+    seo: {
+      metaTitle: "Blog IA entreprise | Wonka AI",
+      metaDescription: "Guides Wonka sur les agents IA privés, le RAG, l'automatisation, la gouvernance et les déploiements IA en entreprise.",
+      ogImage: null,
+    },
   },
   nl: {
     eyebrow: "Resources",
@@ -42,8 +52,13 @@ const labels = {
     latest: "Laatste artikels",
     empty: "Nog geen artikelen.",
     clusters: ["AI-agents", "RAG", "Enterprise AI", "Workflowautomatisering", "Private AI"],
+    seo: {
+      metaTitle: "Enterprise AI Blog | Wonka AI",
+      metaDescription: "Lees Wonka-gidsen over private AI-agents, RAG, workflowautomatisering, governance en enterprise AI-uitrol.",
+      ogImage: null,
+    },
   },
-} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; featured: string; guideType: string; latest: string; empty: string; clusters: string[] }>;
+} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; featured: string; guideType: string; latest: string; empty: string; clusters: string[]; seo: { metaTitle: string; metaDescription: string; ogImage: null } }>;
 
 const categoryLabels: Record<string, Record<Locale, string>> = {
   "ai-strategy": { en: "AI Strategy", fr: "Stratégie IA", nl: "AI Strategie" },
@@ -55,7 +70,7 @@ const categoryLabels: Record<string, Record<Locale, string>> = {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, {
+  return buildMetadata(labels[locale].seo, {
     path: hubPath("blog", locale),
     hreflang: "hub",
     fallbackTitle: "Enterprise AI Blog | Wonka AI",
