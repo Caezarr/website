@@ -14,7 +14,7 @@ import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
 import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
 import { ButtonLink } from "@/components/ui/button";
-import { getEvergreenInternalLinks } from "@/lib/internal-links";
+import { getContextualInternalLinks, getEvergreenInternalLinks } from "@/lib/internal-links";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost, ConnectorPage } from "@/lib/types";
 
@@ -70,6 +70,7 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
   const relatedConnectorsLabel = { en: "Related integrations", fr: "Intégrations liées", nl: "Gerelateerde integraties" }[locale];
   const relatedPostsLabel = { en: "Related guides", fr: "Guides liés", nl: "Gerelateerde gidsen" }[locale];
   const exploreMoreLabel = { en: "Explore related AI topics", fr: "Explorer les sujets IA liés", nl: "Verken gerelateerde AI-thema's" }[locale];
+  const contextualGuidesLabel = { en: "Recommended guides for this integration", fr: "Guides recommandés pour cette intégration", nl: "Aanbevolen gidsen voor deze integratie" }[locale];
   const deploymentTitle = {
     en: `How Wonka works with ${c.toolName}`,
     fr: `Comment Wonka fonctionne avec ${c.toolName}`,
@@ -112,6 +113,7 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
       "Zet terugkerende operationele vragen om in beheerste workflows.",
     ],
   }[locale];
+  const contextualLinks = getContextualInternalLinks(locale, "connectors", slug);
   const evergreenLinks = getEvergreenInternalLinks(locale, "connectors", itemPath("connectors", locale, slug));
   const logoUrl = c.toolLogo ? urlFor(c.toolLogo).width(160).height(160).fit("max").url() : null;
   const metrics = [
@@ -308,6 +310,12 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
               </div>
             ) : null}
           </section>
+        ) : null}
+
+        {contextualLinks.length ? (
+          <div className="mx-auto max-w-[1200px] px-6 pb-16">
+            <InternalLinkGrid title={contextualGuidesLabel} links={contextualLinks} />
+          </div>
         ) : null}
 
         <div className="mx-auto max-w-[1200px] px-6 pb-16">

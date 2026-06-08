@@ -99,3 +99,91 @@ export function getEvergreenInternalLinks(locale: Locale, section: DetailSection
 
   return links.filter((link) => link.href !== currentHref).slice(0, 4);
 }
+
+const contextualCopy = {
+  odooAgent: {
+    eyebrow: { en: "Odoo guide", fr: "Guide Odoo", nl: "Odoo-gids" },
+    title: {
+      en: "Odoo AI Agent",
+      fr: "Agent IA Odoo",
+      nl: "Odoo AI-agent",
+    },
+    description: {
+      en: "See how autonomous AI can read ERP context, prepare actions and support controlled Odoo workflows.",
+      fr: "Découvrez comment une IA autonome peut lire le contexte ERP, préparer des actions et assister les workflows Odoo.",
+      nl: "Lees hoe autonome AI ERP-context kan gebruiken, acties kan voorbereiden en Odoo-workflows kan ondersteunen.",
+    },
+    slug: { en: "odoo-ai-agent", fr: "odoo-agent-ia", nl: "nl-odoo-ai-agent" },
+  },
+  odooChatbot: {
+    eyebrow: { en: "Odoo guide", fr: "Guide Odoo", nl: "Odoo-gids" },
+    title: {
+      en: "Odoo AI Chatbot",
+      fr: "Chatbot IA Odoo",
+      nl: "Odoo AI-chatbot",
+    },
+    description: {
+      en: "Compare a simple chatbot with an AI assistant that can search records, explain context and support ERP actions.",
+      fr: "Comparez un simple chatbot avec un assistant IA capable de chercher, expliquer et agir dans le contexte ERP.",
+      nl: "Vergelijk een eenvoudige chatbot met een AI-assistent die records zoekt, context uitlegt en ERP-acties ondersteunt.",
+    },
+    slug: { en: "odoo-chatbot", fr: "fr-odoo-chatbot", nl: "nl-odoo-chatbot" },
+  },
+  dustComparison: {
+    eyebrow: { en: "Deep comparison", fr: "Comparatif complet", nl: "Uitgebreide vergelijking" },
+    title: {
+      en: "Wonka AI vs Dust.tt",
+      fr: "Wonka AI vs Dust.tt",
+      nl: "Wonka AI vs Dust.tt",
+    },
+    description: {
+      en: "A practical breakdown of private enterprise AI, connectors, governance and deployment tradeoffs.",
+      fr: "Un comparatif pratique sur l'IA privée, les connecteurs, la gouvernance et les choix de déploiement.",
+      nl: "Een praktische vergelijking van private enterprise AI, connectoren, governance en implementatiekeuzes.",
+    },
+    slug: { en: "wonka-vs-dust", fr: "fr-wonka-vs-dust", nl: "nl-wonka-vs-dust" },
+  },
+  langdockComparison: {
+    eyebrow: { en: "Deep comparison", fr: "Comparatif complet", nl: "Uitgebreide vergelijking" },
+    title: {
+      en: "Wonka AI vs Langdock",
+      fr: "Wonka AI vs Langdock",
+      nl: "Wonka AI vs Langdock",
+    },
+    description: {
+      en: "Understand the differences in pricing, private deployment, workflows and enterprise AI operations.",
+      fr: "Comprendre les différences de prix, de déploiement privé, de workflows et d'opérations IA enterprise.",
+      nl: "Begrijp de verschillen in prijs, private deployment, workflows en enterprise AI-operaties.",
+    },
+    slug: { en: "wonka-vs-langdock", fr: "fr-wonka-vs-langdock", nl: "nl-wonka-vs-langdock" },
+  },
+} as const;
+
+function contextualLink(key: keyof typeof contextualCopy, locale: Locale): InternalLink {
+  const item = contextualCopy[key];
+  return {
+    href: itemPath("blog", locale, item.slug[locale]),
+    eyebrow: item.eyebrow[locale],
+    title: item.title[locale],
+    description: item.description[locale],
+  };
+}
+
+export function getContextualInternalLinks(locale: Locale, section: "connectors" | "comparisons", slug: string): InternalLink[] {
+  if (section === "connectors" && slug === "odoo") {
+    return [
+      contextualLink("odooAgent", locale),
+      contextualLink("odooChatbot", locale),
+    ];
+  }
+
+  if (section === "comparisons" && slug === "wonka-ai-vs-dust") {
+    return [contextualLink("dustComparison", locale)];
+  }
+
+  if (section === "comparisons" && slug === "wonka-ai-vs-langdock") {
+    return [contextualLink("langdockComparison", locale)];
+  }
+
+  return [];
+}

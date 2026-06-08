@@ -13,7 +13,7 @@ import { ComparisonTable } from "@/components/sections/comparison-table";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
 import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
-import { getEvergreenInternalLinks } from "@/lib/internal-links";
+import { getContextualInternalLinks, getEvergreenInternalLinks } from "@/lib/internal-links";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost, ComparisonPage, ConnectorPage } from "@/lib/types";
 
@@ -56,6 +56,7 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
   const parentLabel = locale === "fr" ? "Comparaisons" : locale === "nl" ? "Vergelijkingen" : "Comparisons";
   const relatedGuidesLabel = locale === "fr" ? "Guides liés" : locale === "nl" ? "Gerelateerde gidsen" : "Related guides";
   const relatedIntegrationsLabel = locale === "fr" ? "Intégrations liées" : locale === "nl" ? "Gerelateerde integraties" : "Related integrations";
+  const contextualGuidesLabel = locale === "fr" ? "Analyse détaillée liée" : locale === "nl" ? "Gerelateerde diepgaande analyse" : "Related deep dive";
   const exploreMoreLabel = locale === "fr" ? "Explorer les sujets IA liés" : locale === "nl" ? "Verken gerelateerde AI-thema's" : "Explore related AI topics";
   const evaluationTitle = locale === "fr" ? "Ce qu'il faut comparer au-delà des fonctionnalités" : locale === "nl" ? "Wat je naast functies moet vergelijken" : "What to compare beyond features";
   const evaluationBody = {
@@ -73,6 +74,7 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
     fr: ["Contrôle des données et modèle d'hébergement", "Connecteurs vers les systèmes métier existants", "Automatisation avec validation humaine"],
     nl: ["Datacontrole en hostingmodel", "Connectoren met bestaande bedrijfssystemen", "Workflowautomatisering met menselijke controle"],
   }[locale];
+  const contextualLinks = getContextualInternalLinks(locale, "comparisons", slug);
   const evergreenLinks = getEvergreenInternalLinks(locale, "comparisons", itemPath("comparisons", locale, slug));
 
   return (
@@ -143,6 +145,10 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
               ) : null}
             </div>
           </section>
+        ) : null}
+
+        {contextualLinks.length ? (
+          <InternalLinkGrid title={contextualGuidesLabel} links={contextualLinks} className="mt-16" />
         ) : null}
 
         <InternalLinkGrid title={exploreMoreLabel} links={evergreenLinks} className="mt-16" />
