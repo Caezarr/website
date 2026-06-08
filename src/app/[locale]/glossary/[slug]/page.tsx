@@ -65,6 +65,27 @@ const exploreMoreLabels = {
   nl: "Verken gerelateerde AI-thema's",
 };
 
+const contextLabels = {
+  en: {
+    eyebrow: "Enterprise context",
+    title: "Why this concept matters",
+    body: "In enterprise AI projects, clear definitions prevent teams from buying or deploying the wrong thing. The same term can mean a product feature, a technical pattern, or an operating model. Wonka uses this glossary to connect concepts back to real workflows, private data, governance, and measurable adoption.",
+    usage: "When evaluating this topic, look at the systems involved, the data boundaries, the human approval points, and whether the workflow can be repeated safely across teams.",
+  },
+  fr: {
+    eyebrow: "Contexte entreprise",
+    title: "Pourquoi ce concept compte",
+    body: "Dans les projets IA d'entreprise, des définitions claires évitent aux équipes d'acheter ou de déployer la mauvaise chose. Le même terme peut désigner une fonctionnalité produit, un pattern technique ou un modèle opérationnel. Wonka relie ces notions aux workflows réels, aux données privées, à la gouvernance et à l'adoption mesurable.",
+    usage: "Pour évaluer ce sujet, regardez les systèmes concernés, les limites de données, les points de validation humaine et la capacité du workflow à être répété en sécurité par plusieurs équipes.",
+  },
+  nl: {
+    eyebrow: "Enterprise context",
+    title: "Waarom dit concept belangrijk is",
+    body: "In enterprise AI-projecten voorkomen heldere definities dat teams de verkeerde oplossing kopen of uitrollen. Dezelfde term kan een productfunctie, een technisch patroon of een operationeel model betekenen. Wonka koppelt deze begrippen aan echte workflows, private data, governance en meetbare adoptie.",
+    usage: "Beoordeel bij dit onderwerp welke systemen betrokken zijn, waar de datagrenzen liggen, welke menselijke goedkeuring nodig is en of de workflow veilig herhaald kan worden door meerdere teams.",
+  },
+} satisfies Record<Locale, { eyebrow: string; title: string; body: string; usage: string }>;
+
 export default async function GlossaryTermPage({ params }: PageProps) {
   const { locale, slug } = await params;
   const { data } = await sanityFetch({ query: GLOSSARY_TERM_QUERY, params: { slug, language: locale } });
@@ -82,6 +103,7 @@ export default async function GlossaryTermPage({ params }: PageProps) {
   const pageUrl = `${siteUrl}${itemPath('glossary', locale, slug)}`;
   const parentUrl = `${siteUrl}${hubPath('glossary', locale)}`;
   const evergreenLinks = getEvergreenInternalLinks(locale, "glossary", itemPath("glossary", locale, slug));
+  const context = contextLabels[locale];
 
   return (
     <>
@@ -96,6 +118,15 @@ export default async function GlossaryTermPage({ params }: PageProps) {
         <div className="prose prose-lg max-w-none">
           {t.body && <PortableText value={t.body as never} />}
         </div>
+
+        <section className="mt-16 rounded-lg border border-border bg-mid-gray p-6">
+          <p className="type-eyebrow text-text/40">{context.eyebrow}</p>
+          <h2 className="mt-3 type-h5">{context.title}</h2>
+          <div className="mt-5 grid gap-4">
+            <p className="type-paragraph-m leading-relaxed text-text/65">{context.body}</p>
+            <p className="type-paragraph-m leading-relaxed text-text/65">{context.usage}</p>
+          </div>
+        </section>
 
         {t.faq?.length ? (
           <section className="mt-16 border-t border-border pt-12">
