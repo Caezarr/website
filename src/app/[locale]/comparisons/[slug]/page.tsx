@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@sanity/lib/live";
-import { COMPARISON_PAGE_QUERY, COMPARISON_SLUGS_QUERY, MEETING_URL_QUERY } from "@sanity/lib/queries";
+import { COMPARISON_PAGE_QUERY, COMPARISON_SLUGS_QUERY, MEETING_URL_QUERY, RELATED_BLOG_POSTS_QUERY, RELATED_CONNECTOR_PAGES_QUERY } from "@sanity/lib/queries";
 import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
@@ -11,8 +11,10 @@ import { ArticleSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld
 import { ComparisonTable } from "@/components/sections/comparison-table";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
+import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
+import { getEvergreenInternalLinks } from "@/lib/internal-links";
 import type { Locale } from "@/i18n/config";
-import type { ComparisonPage } from "@/lib/types";
+import type { BlogPost, ComparisonPage, ConnectorPage } from "@/lib/types";
 
 export const dynamic = "force-static";
 
@@ -40,11 +42,19 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
   if (!data) notFound();
 
   const c = data as ComparisonPage;
+  const [{ data: relatedPosts }, { data: relatedConnectors }] = await Promise.all([
+    sanityFetch({ query: RELATED_BLOG_POSTS_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),
+    sanityFetch({ query: RELATED_CONNECTOR_PAGES_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),
+  ]);
   const siteUrl = getSiteUrl();
   const pageUrl = `${siteUrl}${itemPath('comparisons', locale, slug)}`;
   const parentUrl = `${siteUrl}${hubPath('comparisons', locale)}`;
 
   const parentLabel = locale === "fr" ? "Comparaisons" : locale === "nl" ? "Vergelijkingen" : "Comparisons";
+  const relatedGuidesLabel = locale === "fr" ? "Guides liés" : locale === "nl" ? "Gerelateerde gidsen" : "Related guides";
+  const relatedIntegrationsLabel = locale === "fr" ? "Intégrations liées" : locale === "nl" ? "Gerelateerde integraties" : "Related integrations";
+  const exploreMoreLabel = locale === "fr" ? "Explorer les sujets IA liés" : locale === "nl" ? "Verken gerelateerde AI-thema's" : "Explore related AI topics";
+  const evergreenLinks = getEvergreenInternalLinks(locale, "comparisons", itemPath("comparisons", locale, slug));
 
   return (
     <>
@@ -71,6 +81,41 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
             ))}
           </section>
         ) : null}
+
+        {((relatedPosts as BlogPost[])?.length || (relatedConnectors as ConnectorPage[])?.length) ? (
+          <section className="mt-16 border-t border-border pt-12">
+            <div className="grid gap-8 md:grid-cols-2">
+              {(relatedPosts as BlogPost[])?.length ? (
+                <div>
+                  <h2 className="type-h6 mb-5 text-text/50">{relatedGuidesLabel}</h2>
+                  <div className="grid gap-3">
+                    {(relatedPosts as BlogPost[]).map((post) => (
+                      <a key={post._id} href={itemPath("blog", locale, post.slug.current)} className="group rounded-lg border border-border p-4 transition-colors hover:border-accent">
+                        <span className="type-eyebrow text-text/30">{post.category}</span>
+                        <p className="mt-2 type-paragraph-m-bold group-hover:text-accent">{post.title}</p>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              {(relatedConnectors as ConnectorPage[])?.length ? (
+                <div>
+                  <h2 className="type-h6 mb-5 text-text/50">{relatedIntegrationsLabel}</h2>
+                  <div className="grid gap-3">
+                    {(relatedConnectors as ConnectorPage[]).map((connector) => (
+                      <a key={connector._id} href={itemPath("connectors", locale, connector.slug.current)} className="group rounded-lg border border-border p-4 transition-colors hover:border-accent">
+                        <p className="type-paragraph-m-bold group-hover:text-accent">{connector.toolName}</p>
+                        <p className="mt-1 line-clamp-2 type-paragraph-s text-text/50">{connector.tagline}</p>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          </section>
+        ) : null}
+
+        <InternalLinkGrid title={exploreMoreLabel} links={evergreenLinks} className="mt-16" />
 
         <WonkaSolves locale={locale} meetingUrl={meetingUrl as string | null} />
       </main>

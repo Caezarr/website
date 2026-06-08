@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@sanity/lib/live";
-import { GLOSSARY_TERM_QUERY, GLOSSARY_SLUGS_QUERY, RELATED_BLOG_POSTS_QUERY, MEETING_URL_QUERY } from "@sanity/lib/queries";
+import { GLOSSARY_TERM_QUERY, GLOSSARY_SLUGS_QUERY, RELATED_BLOG_POSTS_QUERY, RELATED_CONNECTOR_PAGES_QUERY, RELATED_COMPARISON_PAGES_QUERY, MEETING_URL_QUERY } from "@sanity/lib/queries";
 import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
@@ -10,8 +10,10 @@ import { PortableText } from "@portabletext/react";
 import { DefinedTermSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
+import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
+import { getEvergreenInternalLinks } from "@/lib/internal-links";
 import type { Locale } from "@/i18n/config";
-import type { GlossaryTerm, BlogPost } from "@/lib/types";
+import type { BlogPost, ComparisonPage, ConnectorPage, GlossaryTerm } from "@/lib/types";
 
 export const dynamic = "force-static";
 
@@ -36,10 +38,28 @@ const relatedLabels = {
   nl: "Gerelateerde artikelen",
 };
 
+const relatedConnectorLabels = {
+  en: "Related integrations",
+  fr: "Intégrations liées",
+  nl: "Gerelateerde integraties",
+};
+
+const relatedComparisonLabels = {
+  en: "Related comparisons",
+  fr: "Comparaisons liées",
+  nl: "Gerelateerde vergelijkingen",
+};
+
 const parentLabels = {
   en: "Glossary",
   fr: "Glossaire",
   nl: "Woordenlijst",
+};
+
+const exploreMoreLabels = {
+  en: "Explore related AI topics",
+  fr: "Explorer les sujets IA liés",
+  nl: "Verken gerelateerde AI-thema's",
 };
 
 export default async function GlossaryTermPage({ params }: PageProps) {
@@ -48,14 +68,17 @@ export default async function GlossaryTermPage({ params }: PageProps) {
   if (!data) notFound();
 
   const t = data as GlossaryTerm;
-  const [{ data: relatedPosts }, { data: meetingUrl }] = await Promise.all([
+  const [{ data: relatedPosts }, { data: relatedConnectors }, { data: relatedComparisons }, { data: meetingUrl }] = await Promise.all([
     sanityFetch({ query: RELATED_BLOG_POSTS_QUERY, params: { slug, language: locale, tags: t.tags ?? [] } }),
+    sanityFetch({ query: RELATED_CONNECTOR_PAGES_QUERY, params: { slug, language: locale, tags: t.tags ?? [] } }),
+    sanityFetch({ query: RELATED_COMPARISON_PAGES_QUERY, params: { slug, language: locale, tags: t.tags ?? [] } }),
     sanityFetch({ query: MEETING_URL_QUERY }),
   ]);
 
   const siteUrl = getSiteUrl();
   const pageUrl = `${siteUrl}${itemPath('glossary', locale, slug)}`;
   const parentUrl = `${siteUrl}${hubPath('glossary', locale)}`;
+  const evergreenLinks = getEvergreenInternalLinks(locale, "glossary", itemPath("glossary", locale, slug));
 
   return (
     <>
@@ -97,6 +120,41 @@ export default async function GlossaryTermPage({ params }: PageProps) {
             </div>
           </section>
         ) : null}
+
+        {((relatedConnectors as ConnectorPage[])?.length || (relatedComparisons as ComparisonPage[])?.length) ? (
+          <section className="mt-16 border-t border-border pt-12">
+            <div className="grid gap-8 md:grid-cols-2">
+              {(relatedConnectors as ConnectorPage[])?.length ? (
+                <div>
+                  <h2 className="type-h6 mb-6 text-text/50">{relatedConnectorLabels[locale]}</h2>
+                  <div className="flex flex-col gap-4">
+                    {(relatedConnectors as ConnectorPage[]).map((connector) => (
+                      <a key={connector._id} href={itemPath("connectors", locale, connector.slug.current)} className="group rounded-lg border border-border p-4 transition-colors hover:border-accent">
+                        <span className="type-paragraph-m-bold group-hover:text-accent">{connector.toolName}</span>
+                        <span className="mt-1 block type-paragraph-s text-text/50">{connector.tagline}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+              {(relatedComparisons as ComparisonPage[])?.length ? (
+                <div>
+                  <h2 className="type-h6 mb-6 text-text/50">{relatedComparisonLabels[locale]}</h2>
+                  <div className="flex flex-col gap-4">
+                    {(relatedComparisons as ComparisonPage[]).map((comparison) => (
+                      <a key={comparison._id} href={itemPath("comparisons", locale, comparison.slug.current)} className="group rounded-lg border border-border p-4 transition-colors hover:border-accent">
+                        <span className="type-eyebrow text-text/30">Wonka vs {comparison.competitor}</span>
+                        <span className="mt-1 block type-paragraph-m-bold group-hover:text-accent">{comparison.title}</span>
+                      </a>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+            </div>
+          </section>
+        ) : null}
+
+        <InternalLinkGrid title={exploreMoreLabels[locale]} links={evergreenLinks} className="mt-16" />
 
         <WonkaSolves locale={locale} meetingUrl={meetingUrl as string | null} />
       </main>

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@sanity/lib/live";
-import { BLOG_POST_QUERY, BLOG_SLUGS_QUERY, RELATED_GLOSSARY_TERMS_QUERY, RELATED_BLOG_POSTS_QUERY, MEETING_URL_QUERY } from "@sanity/lib/queries";
+import { BLOG_POST_QUERY, BLOG_SLUGS_QUERY, RELATED_GLOSSARY_TERMS_QUERY, RELATED_BLOG_POSTS_QUERY, RELATED_CONNECTOR_PAGES_QUERY, RELATED_COMPARISON_PAGES_QUERY, MEETING_URL_QUERY } from "@sanity/lib/queries";
 import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
@@ -10,9 +10,11 @@ import { ArticleSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld
 import { SmartPortableText } from "@/components/portable-text-components";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
+import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
 import { ButtonLink } from "@/components/ui/button";
+import { getEvergreenInternalLinks } from "@/lib/internal-links";
 import type { Locale } from "@/i18n/config";
-import type { BlogPost, GlossaryTerm } from "@/lib/types";
+import type { BlogPost, ComparisonPage, ConnectorPage, GlossaryTerm } from "@/lib/types";
 
 export const dynamic = "force-static";
 
@@ -56,6 +58,9 @@ const labels = {
   readingTime:   { en: "min read", fr: "min de lecture", nl: "min leestijd" },
   relatedGlossary: { en: "Related glossary terms", fr: "Termes liés", nl: "Gerelateerde termen" },
   relatedPosts:  { en: "Related articles",         fr: "Articles liés",     nl: "Gerelateerde artikelen" },
+  relatedConnectors: { en: "Related integrations", fr: "Intégrations liées", nl: "Gerelateerde integraties" },
+  relatedComparisons: { en: "Related comparisons", fr: "Comparaisons liées", nl: "Gerelateerde vergelijkingen" },
+  exploreMore: { en: "Explore related AI topics", fr: "Explorer les sujets IA liés", nl: "Verken gerelateerde AI-thema's" },
   faq:           { en: "Frequently asked questions", fr: "Questions fréquentes", nl: "Veelgestelde vragen" },
   backToBlog:    { en: "Blog", fr: "Blog", nl: "Blog" },
 };
@@ -70,9 +75,11 @@ export default async function BlogPostPage({ params }: PageProps) {
   if (!post) notFound();
 
   const p = post as BlogPost;
-  const [{ data: relatedTerms }, { data: relatedPosts }, { data: meetingUrl }] = await Promise.all([
+  const [{ data: relatedTerms }, { data: relatedPosts }, { data: relatedConnectors }, { data: relatedComparisons }, { data: meetingUrl }] = await Promise.all([
     sanityFetch({ query: RELATED_GLOSSARY_TERMS_QUERY, params: { slug, language: locale, tags: p.tags ?? [] } }),
     sanityFetch({ query: RELATED_BLOG_POSTS_QUERY,     params: { slug, language: locale, tags: p.tags ?? [] } }),
+    sanityFetch({ query: RELATED_CONNECTOR_PAGES_QUERY, params: { slug, language: locale, tags: p.tags ?? [] } }),
+    sanityFetch({ query: RELATED_COMPARISON_PAGES_QUERY, params: { slug, language: locale, tags: p.tags ?? [] } }),
     sanityFetch({ query: MEETING_URL_QUERY }),
   ]);
 
@@ -81,8 +88,13 @@ export default async function BlogPostPage({ params }: PageProps) {
   const hubUrl   = `${siteUrl}${hubPath("blog", locale)}`;
   const readMins = p.body ? estimateReadingTime(p.body as unknown[]) : 1;
   const catLabel = p.category ? (categoryLabels[p.category]?.[locale] ?? p.category) : null;
+  const evergreenLinks = getEvergreenInternalLinks(locale, "blog", itemPath("blog", locale, slug));
 
-  const hasRightSidebar = (relatedPosts as BlogPost[])?.length > 0 || (relatedTerms as GlossaryTerm[])?.length > 0;
+  const hasRightSidebar =
+    (relatedPosts as BlogPost[])?.length > 0 ||
+    (relatedTerms as GlossaryTerm[])?.length > 0 ||
+    (relatedConnectors as ConnectorPage[])?.length > 0 ||
+    (relatedComparisons as ComparisonPage[])?.length > 0;
 
   return (
     <>
@@ -177,6 +189,42 @@ export default async function BlogPostPage({ params }: PageProps) {
                   </div>
                 )}
 
+                {(relatedConnectors as ConnectorPage[])?.length > 0 && (
+                  <div>
+                    <p className="type-eyebrow text-text/40 mb-4">{L(labels.relatedConnectors, locale)}</p>
+                    <div className="flex flex-col gap-3">
+                      {(relatedConnectors as ConnectorPage[]).map((connector) => (
+                        <a
+                          key={connector._id}
+                          href={itemPath("connectors", locale, connector.slug.current)}
+                          className="group flex flex-col gap-1 rounded-lg border border-border bg-mid-gray p-4 hover:border-accent hover:bg-background transition-all"
+                        >
+                          <span className="type-paragraph-m-bold group-hover:text-accent transition-colors">{connector.toolName}</span>
+                          <span className="type-paragraph-s text-text/50 line-clamp-2">{connector.tagline}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {(relatedComparisons as ComparisonPage[])?.length > 0 && (
+                  <div>
+                    <p className="type-eyebrow text-text/40 mb-4">{L(labels.relatedComparisons, locale)}</p>
+                    <div className="flex flex-col gap-3">
+                      {(relatedComparisons as ComparisonPage[]).map((comparison) => (
+                        <a
+                          key={comparison._id}
+                          href={itemPath("comparisons", locale, comparison.slug.current)}
+                          className="group flex flex-col gap-1 rounded-lg border border-border bg-mid-gray p-4 hover:border-accent hover:bg-background transition-all"
+                        >
+                          <span className="type-eyebrow text-text/35">Wonka vs {comparison.competitor}</span>
+                          <span className="type-paragraph-m-bold group-hover:text-accent transition-colors">{comparison.title}</span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 {/* Related glossary */}
                 {(relatedTerms as GlossaryTerm[])?.length > 0 && (
                   <div>
@@ -209,6 +257,10 @@ export default async function BlogPostPage({ params }: PageProps) {
             </aside>
           )}
         </div>
+      </div>
+
+      <div className="mx-auto max-w-[1200px] px-6 pb-16">
+        <InternalLinkGrid title={L(labels.exploreMore, locale)} links={evergreenLinks} />
       </div>
 
       <div className="mx-auto max-w-[1200px] px-6">

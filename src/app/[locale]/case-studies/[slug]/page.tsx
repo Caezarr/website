@@ -1,15 +1,17 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@sanity/lib/live";
-import { CASE_STUDY_QUERY, CASE_STUDY_SLUGS_QUERY } from "@sanity/lib/queries";
+import { CASE_STUDY_QUERY, CASE_STUDY_SLUGS_QUERY, RELATED_BLOG_POSTS_QUERY, RELATED_CONNECTOR_PAGES_QUERY } from "@sanity/lib/queries";
 import { client } from "@sanity/lib/client";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import { hubPath, itemPath } from "@/lib/locale-path";
 import { PortableText } from "@portabletext/react";
 import { ArticleSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld";
+import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
+import { getEvergreenInternalLinks } from "@/lib/internal-links";
 import type { Locale } from "@/i18n/config";
-import type { CaseStudy } from "@/lib/types";
+import type { BlogPost, CaseStudy, ConnectorPage } from "@/lib/types";
 
 export const dynamic = "force-static";
 
@@ -34,9 +36,17 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
   if (!data) notFound();
 
   const c = data as CaseStudy;
+  const [{ data: relatedPosts }, { data: relatedConnectors }] = await Promise.all([
+    sanityFetch({ query: RELATED_BLOG_POSTS_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),
+    sanityFetch({ query: RELATED_CONNECTOR_PAGES_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),
+  ]);
   const siteUrl = getSiteUrl();
   const pageUrl = `${siteUrl}${itemPath('case-studies', locale, slug)}`;
   const parentUrl = `${siteUrl}${hubPath('case-studies', locale)}`;
+  const relatedGuidesLabel = locale === "fr" ? "Guides liés" : locale === "nl" ? "Gerelateerde gidsen" : "Related guides";
+  const relatedIntegrationsLabel = locale === "fr" ? "Intégrations liées" : locale === "nl" ? "Gerelateerde integraties" : "Related integrations";
+  const exploreMoreLabel = locale === "fr" ? "Explorer les sujets IA liés" : locale === "nl" ? "Verken gerelateerde AI-thema's" : "Explore related AI topics";
+  const evergreenLinks = getEvergreenInternalLinks(locale, "case-studies", itemPath("case-studies", locale, slug));
 
   return (
     <main className="container mx-auto px-4 py-24 max-w-3xl">
@@ -61,6 +71,41 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
           {c.faq.map((item, i) => <div key={i} className="mb-6"><h3 className="type-paragraph-m-bold mb-2">{item.question}</h3><p className="type-paragraph-m text-text/60">{item.answer}</p></div>)}
         </section>
       ) : null}
+
+      {((relatedPosts as BlogPost[])?.length || (relatedConnectors as ConnectorPage[])?.length) ? (
+        <section className="mt-16 border-t border-border pt-12">
+          <div className="grid gap-8 md:grid-cols-2">
+            {(relatedConnectors as ConnectorPage[])?.length ? (
+              <div>
+                <h2 className="type-h6 mb-5 text-text/50">{relatedIntegrationsLabel}</h2>
+                <div className="grid gap-3">
+                  {(relatedConnectors as ConnectorPage[]).map((connector) => (
+                    <a key={connector._id} href={itemPath("connectors", locale, connector.slug.current)} className="group rounded-lg border border-border p-4 transition-colors hover:border-accent">
+                      <p className="type-paragraph-m-bold group-hover:text-accent">{connector.toolName}</p>
+                      <p className="mt-1 line-clamp-2 type-paragraph-s text-text/50">{connector.tagline}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {(relatedPosts as BlogPost[])?.length ? (
+              <div>
+                <h2 className="type-h6 mb-5 text-text/50">{relatedGuidesLabel}</h2>
+                <div className="grid gap-3">
+                  {(relatedPosts as BlogPost[]).map((post) => (
+                    <a key={post._id} href={itemPath("blog", locale, post.slug.current)} className="group rounded-lg border border-border p-4 transition-colors hover:border-accent">
+                      <span className="type-eyebrow text-text/30">{post.category}</span>
+                      <p className="mt-2 type-paragraph-m-bold group-hover:text-accent">{post.title}</p>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </section>
+      ) : null}
+
+      <InternalLinkGrid title={exploreMoreLabel} links={evergreenLinks} className="mt-16" />
     </main>
   );
 }
