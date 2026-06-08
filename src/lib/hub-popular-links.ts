@@ -25,6 +25,16 @@ const links = {
       description: "Understand how enterprise AI platforms differ beyond chat.",
     },
     {
+      href: itemPath("blog", "en", "wonka-vs-dust"),
+      title: "Wonka AI vs Dust.tt",
+      description: "Compare private deployment, connectors and governance in detail.",
+    },
+    {
+      href: itemPath("blog", "en", "wonka-vs-langdock"),
+      title: "Wonka AI vs Langdock",
+      description: "Review pricing, workflows and enterprise AI operating models.",
+    },
+    {
       href: itemPath("blog", "en", "notebooklm-alternatives"),
       title: "NotebookLM alternatives",
       description: "Evaluate document AI options for company knowledge and teams.",
@@ -57,6 +67,16 @@ const links = {
       description: "Comprenez les différences entre plateformes IA enterprise.",
     },
     {
+      href: itemPath("blog", "fr", "fr-wonka-vs-dust"),
+      title: "Wonka AI vs Dust.tt",
+      description: "Comparez le déploiement privé, les connecteurs et la gouvernance.",
+    },
+    {
+      href: itemPath("blog", "fr", "fr-wonka-vs-langdock"),
+      title: "Wonka AI vs Langdock",
+      description: "Analysez les prix, les workflows et le modèle opérationnel IA.",
+    },
+    {
       href: itemPath("blog", "fr", "alternatives-notebooklm"),
       title: "Alternatives à NotebookLM",
       description: "Comparez les options IA documentaire pour les équipes.",
@@ -87,6 +107,16 @@ const links = {
       href: itemPath("blog", "nl", "langdock-alternatieven"),
       title: "Langdock alternatieven",
       description: "Vergelijk enterprise AI-platformen voorbij chatfuncties.",
+    },
+    {
+      href: itemPath("blog", "nl", "nl-wonka-vs-dust"),
+      title: "Wonka AI vs Dust.tt",
+      description: "Vergelijk private deployment, connectoren en governance.",
+    },
+    {
+      href: itemPath("blog", "nl", "nl-wonka-vs-langdock"),
+      title: "Wonka AI vs Langdock",
+      description: "Bekijk prijzen, workflows en enterprise AI-operatiemodellen.",
     },
     {
       href: itemPath("blog", "nl", "notebooklm-alternatieven"),
