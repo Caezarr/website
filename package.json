@@ -9,6 +9,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "postbuild": "node scripts/externalize-next-flight.mjs",
     "start": "next start",
     "lint": "eslint"
   },

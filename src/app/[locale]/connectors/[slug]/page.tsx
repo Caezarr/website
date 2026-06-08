@@ -80,6 +80,21 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
     fr: `Wonka se connecte à ${c.toolName} comme une couche d'IA privée pour les workflows d'entreprise. L'objectif n'est pas de copier les données dans un assistant générique, mais de permettre aux équipes de questionner, résumer et agir depuis les systèmes qu'elles utilisent déjà.`,
     nl: `Wonka koppelt met ${c.toolName} als private AI-laag voor enterprise workflows. Het doel is niet om data naar een generieke assistent te kopiëren, maar teams te laten zoeken, samenvatten en handelen vanuit systemen die ze al vertrouwen.`,
   }[locale];
+  const deploymentDetail = {
+    en: `In practice, this means Wonka can use ${c.toolName} as part of a controlled enterprise AI workflow: retrieving the right context, summarizing relevant records, keeping references visible, and routing the next action to the people or systems that should own it. This gives teams a way to adopt AI without losing the audit trail around important business data.`,
+    fr: `En pratique, Wonka peut utiliser ${c.toolName} dans un workflow IA enterprise contrôlé : récupérer le bon contexte, résumer les informations utiles, garder les références visibles et orienter l'action suivante vers les personnes ou systèmes responsables. Les équipes peuvent ainsi adopter l'IA sans perdre la traçabilité autour des données métier importantes.`,
+    nl: `In de praktijk kan Wonka ${c.toolName} gebruiken binnen een gecontroleerde enterprise AI-workflow: de juiste context ophalen, relevante records samenvatten, verwijzingen zichtbaar houden en de volgende actie naar de juiste mensen of systemen sturen. Zo kunnen teams AI inzetten zonder de audit trail rond belangrijke bedrijfsdata te verliezen.`,
+  }[locale];
+  const rolloutTitle = {
+    en: "What to validate before rollout",
+    fr: "Ce qu'il faut valider avant le déploiement",
+    nl: "Wat je valideert voor de uitrol",
+  }[locale];
+  const rolloutBody = {
+    en: `A reliable ${c.toolName} integration should answer three questions before it reaches production: which users can access which records, what evidence is shown with each AI answer, and how repeated requests become governed workflows instead of one-off prompts. This is where connector quality matters most for enterprise adoption. The integration should preserve existing permissions, support review by the business owner, and make the output useful inside the workflow where the decision already happens. For most teams, the value is not another search box; it is a shorter path from trusted context to the next operational action. That is why Wonka treats connectors as part of the operating layer: the AI experience, the source system and the approval path stay connected from the first answer to the final action.`,
+    fr: `Une intégration ${c.toolName} fiable doit répondre à trois questions avant la production : quels utilisateurs accèdent à quelles données, quelles preuves accompagnent chaque réponse IA et comment les demandes répétées deviennent des workflows gouvernés plutôt que de simples prompts ponctuels. C'est là que la qualité du connecteur compte vraiment pour l'adoption enterprise. L'intégration doit préserver les permissions existantes, permettre la revue par le responsable métier et rendre la sortie utile dans le workflow où la décision se prend déjà. Pour la plupart des équipes, la valeur n'est pas une nouvelle barre de recherche, mais un chemin plus court entre le contexte fiable et l'action opérationnelle suivante. C'est pourquoi Wonka traite les connecteurs comme une partie de la couche opérationnelle : l'expérience IA, le système source et le chemin de validation restent reliés de la première réponse à l'action finale.`,
+    nl: `Een betrouwbare ${c.toolName}-integratie moet drie vragen beantwoorden voor productie: welke gebruikers krijgen toegang tot welke records, welk bewijs staat naast elk AI-antwoord en hoe worden terugkerende vragen beheerste workflows in plaats van losse prompts. Daar wordt connectorkwaliteit belangrijk voor enterprise adoptie. De integratie moet bestaande permissies respecteren, review door de business owner ondersteunen en de output bruikbaar maken in de workflow waar de beslissing al gebeurt. Voor de meeste teams is de waarde niet nog een zoekbalk, maar een kortere weg van betrouwbare context naar de volgende operationele actie. Daarom behandelt Wonka connectoren als onderdeel van de operationele laag: de AI-ervaring, het bronsysteem en het goedkeuringspad blijven verbonden van het eerste antwoord tot de finale actie.`,
+  }[locale];
   const deploymentPoints = {
     en: [
       `Keep ${c.toolName} data connected to source-aware answers.`,
@@ -220,12 +235,20 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
             </div>
             <div>
               <p className="type-body leading-relaxed text-text/65">{deploymentIntro}</p>
+              <p className="mt-4 type-body leading-relaxed text-text/65">{deploymentDetail}</p>
               <div className="mt-6 grid gap-3">
                 {deploymentPoints.map((point) => (
                   <p key={point} className="rounded-md border border-border bg-mid-gray p-4 type-paragraph-m text-text/65">{point}</p>
                 ))}
               </div>
             </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-[1200px] px-6 pb-16">
+          <div className="rounded-lg border border-border bg-mid-gray p-6">
+            <h2 className="type-h5">{rolloutTitle}</h2>
+            <p className="mt-4 max-w-3xl type-paragraph-m leading-relaxed text-text/65">{rolloutBody}</p>
           </div>
         </section>
 
