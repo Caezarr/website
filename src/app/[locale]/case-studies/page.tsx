@@ -19,6 +19,15 @@ const copy = {
     all: "Customer stories",
     empty: "Case studies are coming soon. In the meantime, explore integrations and AI agent workflows.",
     metrics: ["Private deployment", "Connected stack", "Measurable workflow", "Human oversight"],
+    explainer: "Wonka case studies focus on practical enterprise deployments: the systems connected, the teams involved, the workflow automated and the measurable operational result. The goal is to show how private AI moves from experiment to repeatable production use.",
+    evaluationTitle: "How to read these customer stories",
+    evaluationBody: "When reviewing an enterprise AI case study, look for the operational path behind the result. A strong deployment starts with a narrow workflow, connects the trusted source systems, defines who can validate an AI answer, then measures whether the workflow becomes faster, safer or easier to repeat. Wonka uses this structure to separate useful AI rollouts from generic demos.",
+    evaluationPoints: ["Which workflow changed?", "Which systems were connected?", "How was adoption measured?"],
+    seo: {
+      metaTitle: "Private AI Case Studies | Wonka AI",
+      metaDescription: "Explore Wonka AI case studies showing private enterprise AI deployments, connected workflows and measurable business outcomes.",
+      ogImage: null,
+    },
   },
   fr: {
     eyebrow: "Preuve client",
@@ -28,6 +37,15 @@ const copy = {
     all: "Cas clients",
     empty: "Les cas clients arrivent bientôt. En attendant, explorez les intégrations et workflows d'agents IA.",
     metrics: ["Déploiement privé", "Stack connectée", "Workflow mesurable", "Validation humaine"],
+    explainer: "Les cas clients Wonka montrent des déploiements IA enterprise concrets : systèmes connectés, équipes impliquées, workflow automatisé et résultat opérationnel mesurable. L'objectif est de montrer comment l'IA privée passe de l'expérimentation à un usage répété en production.",
+    evaluationTitle: "Comment lire ces cas clients",
+    evaluationBody: "Pour évaluer un cas client IA enterprise, regardez le chemin opérationnel derrière le résultat. Un bon déploiement part d'un workflow précis, connecte les systèmes sources fiables, définit qui peut valider une réponse IA, puis mesure si le travail devient plus rapide, plus sûr ou plus facile à répéter. Wonka utilise cette structure pour distinguer les vrais déploiements des simples démos.",
+    evaluationPoints: ["Quel workflow a changé ?", "Quels systèmes ont été connectés ?", "Comment l'adoption a été mesurée ?"],
+    seo: {
+      metaTitle: "Cas clients IA privée | Wonka AI",
+      metaDescription: "Découvrez des cas clients Wonka sur l'IA privée en entreprise, les workflows connectés et les résultats métier mesurables.",
+      ogImage: null,
+    },
   },
   nl: {
     eyebrow: "Customer proof",
@@ -37,12 +55,21 @@ const copy = {
     all: "Klantcases",
     empty: "Klantcases komen binnenkort. Bekijk intussen integraties en AI-agent workflows.",
     metrics: ["Private deployment", "Gekoppelde stack", "Meetbare workflow", "Menselijke controle"],
+    explainer: "Wonka-klantcases tonen praktische enterprise deployments: de systemen die gekoppeld zijn, de teams die ermee werken, de workflow die geautomatiseerd wordt en het meetbare operationele resultaat. Zo wordt private AI herhaalbaar in productie.",
+    evaluationTitle: "Hoe je deze klantcases leest",
+    evaluationBody: "Bij een enterprise AI-klantcase is vooral het operationele pad achter het resultaat belangrijk. Een sterke deployment begint met een afgebakende workflow, koppelt betrouwbare bronsystemen, bepaalt wie een AI-antwoord kan valideren en meet daarna of het werk sneller, veiliger of beter herhaalbaar wordt. Wonka gebruikt dit kader om echte rollouts te onderscheiden van demo's.",
+    evaluationPoints: ["Welke workflow veranderde?", "Welke systemen werden gekoppeld?", "Hoe werd adoptie gemeten?"],
+    seo: {
+      metaTitle: "Private AI-klantcases | Wonka AI",
+      metaDescription: "Bekijk Wonka AI-klantcases over private enterprise AI, gekoppelde workflows en meetbare bedrijfsresultaten.",
+      ogImage: null,
+    },
   },
-} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; proof: string; all: string; empty: string; metrics: string[] }>;
+} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; proof: string; all: string; empty: string; metrics: string[]; explainer: string; evaluationTitle: string; evaluationBody: string; evaluationPoints: string[]; seo: { metaTitle: string; metaDescription: string; ogImage: null } }>;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, {
+  return buildMetadata(copy[locale].seo, {
     path: hubPath("case-studies", locale),
     hreflang: "hub",
     fallbackTitle: "AI Case Studies | Wonka AI",
@@ -69,12 +96,25 @@ export default async function CasClientsPage({ params }: PageProps) {
       <section className="mx-auto max-w-[1200px] px-6 py-14">
         <div className="mb-14 rounded-lg border border-border bg-mid-gray p-6">
           <h2 className="type-h5 mb-5">{l.proof}</h2>
+          <p className="mb-6 max-w-3xl type-paragraph-m leading-relaxed text-text/60">{l.explainer}</p>
           <div className="grid gap-3 md:grid-cols-4">
             {l.metrics.map((metric) => (
               <div key={metric} className="rounded-md border border-border bg-background p-4">
                 <span className="mb-4 block size-2 rounded-full bg-text" aria-hidden />
                 <p className="type-paragraph-m-bold">{metric}</p>
               </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-14 grid gap-6 rounded-lg border border-border p-6 lg:grid-cols-[1fr_1.2fr]">
+          <div>
+            <h2 className="type-h5">{l.evaluationTitle}</h2>
+            <p className="mt-4 type-paragraph-m leading-relaxed text-text/65">{l.evaluationBody}</p>
+          </div>
+          <div className="grid gap-3">
+            {l.evaluationPoints.map((point) => (
+              <p key={point} className="rounded-md border border-border bg-mid-gray p-4 type-paragraph-m-bold">{point}</p>
             ))}
           </div>
         </div>

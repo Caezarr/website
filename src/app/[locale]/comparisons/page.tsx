@@ -20,6 +20,12 @@ const copy = {
     empty: "No comparisons yet.",
     points: ["Private data", "Tool integrations", "Agent workflows", "Governance", "EU readiness"],
     choose: "Compare",
+    explainer: "These comparisons focus on the buying questions that matter once AI leaves the demo stage: where data is hosted, which business systems are connected, how answers are sourced, and how teams keep control of automated workflows.",
+    seo: {
+      metaTitle: "Enterprise AI Comparisons | Wonka AI",
+      metaDescription: "Compare Wonka AI with ChatGPT Enterprise, Microsoft Copilot, public LLMs and other enterprise AI platforms.",
+      ogImage: null,
+    },
   },
   fr: {
     eyebrow: "Comparaisons",
@@ -30,6 +36,12 @@ const copy = {
     empty: "Aucune comparaison pour le moment.",
     points: ["Données privées", "Intégrations", "Workflows agents", "Gouvernance", "Déploiement EU"],
     choose: "Comparer",
+    explainer: "Ces comparaisons se concentrent sur les vraies questions d'achat après la démo : où les données sont hébergées, quels systèmes métier sont connectés, comment les réponses sont sourcées et comment les équipes gardent le contrôle des workflows automatisés.",
+    seo: {
+      metaTitle: "Comparatifs IA enterprise | Wonka AI",
+      metaDescription: "Comparez Wonka AI à ChatGPT Enterprise, Microsoft Copilot, aux LLM publics et aux plateformes IA pour entreprises.",
+      ogImage: null,
+    },
   },
   nl: {
     eyebrow: "Vergelijkingen",
@@ -40,12 +52,18 @@ const copy = {
     empty: "Nog geen vergelijkingen.",
     points: ["Private data", "Integraties", "Agent workflows", "Governance", "EU-uitrol"],
     choose: "Vergelijk",
+    explainer: "Deze vergelijkingen focussen op de koopvragen die belangrijk worden na de demo: waar data gehost wordt, welke bedrijfssystemen gekoppeld zijn, hoe antwoorden bronnen gebruiken en hoe teams controle houden over geautomatiseerde workflows.",
+    seo: {
+      metaTitle: "Enterprise AI-vergelijkingen | Wonka AI",
+      metaDescription: "Vergelijk Wonka AI met ChatGPT Enterprise, Microsoft Copilot, publieke LLMs en andere enterprise AI-platformen.",
+      ogImage: null,
+    },
   },
-} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; criteria: string; all: string; empty: string; points: string[]; choose: string }>;
+} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; criteria: string; all: string; empty: string; points: string[]; choose: string; explainer: string; seo: { metaTitle: string; metaDescription: string; ogImage: null } }>;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return buildMetadata(null, {
+  return buildMetadata(copy[locale].seo, {
     path: hubPath("comparisons", locale),
     hreflang: "hub",
     fallbackTitle: "Wonka AI Comparisons | Private Enterprise AI",
@@ -72,6 +90,7 @@ export default async function ComparaisonsPage({ params }: PageProps) {
       <section className="mx-auto max-w-[1200px] px-6 py-14">
         <div className="mb-14 rounded-lg border border-border bg-mid-gray p-6">
           <h2 className="type-h5 mb-5">{l.criteria}</h2>
+          <p className="mb-6 max-w-3xl type-paragraph-m leading-relaxed text-text/60">{l.explainer}</p>
           <div className="grid gap-3 md:grid-cols-5">
             {l.points.map((point, index) => (
               <div key={point} className="rounded-md border border-border bg-background p-4">
