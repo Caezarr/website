@@ -8,6 +8,7 @@ import { urlFor } from "@sanity/lib/image";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { getContentLanguages } from "@/lib/content-languages";
 import { FaqSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/json-ld";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
@@ -36,7 +37,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { data } = await sanityFetch({ query: CONNECTOR_PAGE_QUERY, params: { slug, language: locale } });
   if (!data) return {};
   const c = data as ConnectorPage;
-  return buildMetadata(c.seo ?? null, { path: itemPath('connectors', locale, slug), fallbackTitle: c.toolName, locale, hreflang: { section: 'connectors', slug } });
+  const siteUrl = getSiteUrl();
+  const languages = await getContentLanguages(siteUrl, "connectors", slug);
+  return buildMetadata(c.seo ?? null, { path: itemPath('connectors', locale, slug), fallbackTitle: c.toolName, locale, languages });
 }
 
 export default async function ConnectorDetailPage({ params }: PageProps) {

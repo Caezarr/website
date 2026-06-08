@@ -4,6 +4,7 @@ import { getSiteUrl } from "@/lib/site-url";
 import { locales } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 import { itemPath, hubPath } from "@/lib/locale-path";
+import { HREFLANG } from "@/lib/hreflang";
 
 const HOME_TITLE = "Wonka AI - Private Enterprise AI Agents";
 const DEFAULT_DESCRIPTION =
@@ -17,16 +18,11 @@ const OG_LOCALE: Record<string, string> = {
   nl: "nl_BE",
 };
 
-const HREFLANG: Record<string, string> = {
-  en: "en-US",
-  fr: "fr-FR",
-  nl: "nl-BE",
-};
-
 export interface BuildMetadataOptions {
   path: string;
   fallbackTitle?: string;
   locale?: string;
+  languages?: Record<string, string>;
   /** Pass section + slug to generate per-locale hreflang alternates */
   hreflang?: {
     section: "blog" | "connectors" | "glossary" | "comparisons" | "case-studies";
@@ -46,6 +42,8 @@ function buildLanguages(
   options: BuildMetadataOptions,
 ): Record<string, string> | undefined {
   const { hreflang, path } = options;
+
+  if (options.languages) return options.languages;
 
   if (!hreflang) return undefined;
 
