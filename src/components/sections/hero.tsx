@@ -59,6 +59,56 @@ function BackedBy() {
   );
 }
 
+function AwardLaurelIcon() {
+  return (
+    <svg
+      width="64"
+      height="36"
+      viewBox="0 0 64 36"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+      className="h-9 w-16 shrink-0"
+    >
+      <defs>
+        <linearGradient id="award-gold" x1="10" y1="3" x2="54" y2="33" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#fff0b0" />
+          <stop offset="0.36" stopColor="#d29a27" />
+          <stop offset="0.72" stopColor="#f7cd62" />
+          <stop offset="1" stopColor="#a66e12" />
+        </linearGradient>
+      </defs>
+      <g stroke="url(#award-gold)" strokeWidth="1.15" strokeLinecap="round" opacity="0.86">
+        <path d="M22.4 28.2C17 24.9 14.3 20.1 14.4 15.3C14.5 10.8 17 7 20.7 4.1" />
+        <path d="M41.6 28.2C47 24.9 49.7 20.1 49.6 15.3C49.5 10.8 47 7 43.3 4.1" />
+      </g>
+      <g fill="url(#award-gold)" filter="drop-shadow(0 0 5px rgba(246, 190, 65, 0.35))">
+        <path d="M19.3 25.7C16.1 25.5 14.2 23.8 13.6 21.1C16.7 21.3 18.8 23 19.3 25.7Z" />
+        <path d="M16.5 21.2C13.6 20.4 12.2 18.2 12.6 15.6C15.4 16.4 16.9 18.5 16.5 21.2Z" />
+        <path d="M15.8 16.4C13.4 14.8 12.7 12.4 13.8 9.9C16.2 11.5 16.9 13.9 15.8 16.4Z" />
+        <path d="M17.4 11.6C15.6 9.2 15.7 6.8 17.5 4.7C19.2 7.1 19.2 9.6 17.4 11.6Z" />
+        <path d="M21 7.5C20.1 4.9 21 2.7 23.2 1.2C24 3.9 23.1 6.2 21 7.5Z" />
+        <path d="M44.7 25.7C47.9 25.5 49.8 23.8 50.4 21.1C47.3 21.3 45.2 23 44.7 25.7Z" />
+        <path d="M47.5 21.2C50.4 20.4 51.8 18.2 51.4 15.6C48.6 16.4 47.1 18.5 47.5 21.2Z" />
+        <path d="M48.2 16.4C50.6 14.8 51.3 12.4 50.2 9.9C47.8 11.5 47.1 13.9 48.2 16.4Z" />
+        <path d="M46.6 11.6C48.4 9.2 48.3 6.8 46.5 4.7C44.8 7.1 44.8 9.6 46.6 11.6Z" />
+        <path d="M43 7.5C43.9 4.9 43 2.7 40.8 1.2C40 3.9 40.9 6.2 43 7.5Z" />
+      </g>
+      <text
+        x="32"
+        y="23"
+        textAnchor="middle"
+        fill="url(#award-gold)"
+        fontSize="17"
+        fontWeight="900"
+        fontFamily="Inter, ui-sans-serif, system-ui, sans-serif"
+      >
+        1
+      </text>
+    </svg>
+  );
+}
+
 export function Hero({ meetingUrl }: HeroProps) {
   return (
     <section
@@ -79,6 +129,20 @@ export function Hero({ meetingUrl }: HeroProps) {
 
       <div className="flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="flex max-w-3xl flex-col items-center gap-6 text-center">
+          <FadeIn delay={0.05}>
+            <div
+              className="award-marble-badge relative flex max-w-[min(92vw,47rem)] items-center gap-3 overflow-hidden rounded-full border border-[#c9962c]/90 px-4 py-2 text-white backdrop-blur-md md:gap-5 md:px-5"
+              style={{ animation: "award-glow 3s ease-in-out infinite" }}
+            >
+              <span className="relative z-10 flex items-center">
+                <AwardLaurelIcon />
+              </span>
+              <span className="relative z-10 h-8 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c] to-transparent" aria-hidden />
+              <span className="type-eyebrow relative z-10 text-left text-[0.68rem] leading-4 tracking-[0.12em] text-white/92 md:text-[0.75rem] md:leading-5">
+                #1 AI START-UP OF THE YEAR - BELGIUM STARTUP AWARDS 2026
+              </span>
+            </div>
+          </FadeIn>
           <FadeIn delay={0.15}>
             <h1 className="type-h3 max-w-[14ch] text-balance">
               Leave no human behind.
