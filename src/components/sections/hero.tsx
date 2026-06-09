@@ -59,6 +59,56 @@ function BackedBy() {
   );
 }
 
+function AwardLaurelIcon() {
+  return (
+    <svg
+      width="44"
+      height="32"
+      viewBox="0 0 44 32"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden
+      className="h-8 w-11 shrink-0 text-[#d9a731]"
+    >
+      <path
+        d="M12.9 25.8C8.6 23.5 6.2 19.3 6.2 15.1C6.2 10.9 8.4 7.1 11.4 4.6"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
+      <path
+        d="M31.1 25.8C35.4 23.5 37.8 19.3 37.8 15.1C37.8 10.9 35.6 7.1 32.6 4.6"
+        stroke="currentColor"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
+      <path
+        d="M10.1 21.8L6.8 21.2M9.1 18.3L5.6 17.7M9.1 14.5L5.6 13.7M10.2 10.8L6.9 9.5M12.4 7.5L9.8 5.4"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+      />
+      <path
+        d="M33.9 21.8L37.2 21.2M34.9 18.3L38.4 17.7M34.9 14.5L38.4 13.7M33.8 10.8L37.1 9.5M31.6 7.5L34.2 5.4"
+        stroke="currentColor"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+      />
+      <text
+        x="22"
+        y="20.5"
+        textAnchor="middle"
+        fill="currentColor"
+        fontSize="13"
+        fontWeight="700"
+        fontFamily="Inter, ui-sans-serif, system-ui, sans-serif"
+      >
+        1
+      </text>
+    </svg>
+  );
+}
+
 export function Hero({ meetingUrl }: HeroProps) {
   return (
     <section
@@ -80,9 +130,15 @@ export function Hero({ meetingUrl }: HeroProps) {
       <div className="flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="flex max-w-3xl flex-col items-center gap-6 text-center">
           <FadeIn delay={0.05}>
-            <div className="flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 backdrop-blur-sm" style={{ border: "1px solid rgba(251, 191, 36, 0.7)", animation: "award-glow 3s ease-in-out infinite" }}>
-              <span aria-hidden>🏆</span>
-              <span className="type-eyebrow text-white/90">#1 AI Start-up of the year · Belgium Startup Awards 2026</span>
+            <div
+              className="flex max-w-[min(90vw,41rem)] items-center gap-3 rounded-full border border-[#d9a731]/85 bg-black/75 px-4 py-2.5 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] backdrop-blur-md md:gap-5 md:px-6"
+              style={{ animation: "award-glow 3s ease-in-out infinite" }}
+            >
+              <AwardLaurelIcon />
+              <span className="h-7 w-px shrink-0 bg-[#d9a731]/75" aria-hidden />
+              <span className="type-eyebrow text-left text-[0.68rem] leading-4 tracking-[0.12em] text-white/90 md:text-[0.75rem] md:leading-5">
+                #1 AI START-UP OF THE YEAR - BELGIUM STARTUP AWARDS 2026
+              </span>
             </div>
           </FadeIn>
           <FadeIn delay={0.15}>
