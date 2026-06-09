@@ -62,42 +62,40 @@ function BackedBy() {
 function AwardLaurelIcon() {
   return (
     <svg
-      width="58"
+      width="64"
       height="36"
-      viewBox="0 0 58 36"
+      viewBox="0 0 64 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden
-      className="h-9 w-[3.625rem] shrink-0"
+      className="h-9 w-16 shrink-0"
     >
       <defs>
-        <linearGradient id="award-gold" x1="8" y1="3" x2="50" y2="33" gradientUnits="userSpaceOnUse">
+        <linearGradient id="award-gold" x1="10" y1="3" x2="54" y2="33" gradientUnits="userSpaceOnUse">
           <stop stopColor="#fff0b0" />
           <stop offset="0.36" stopColor="#d29a27" />
           <stop offset="0.72" stopColor="#f7cd62" />
           <stop offset="1" stopColor="#a66e12" />
         </linearGradient>
       </defs>
-      <g stroke="url(#award-gold)" strokeWidth="1" strokeLinecap="round" opacity="0.85">
-        <path d="M18.8 28C13.9 24.7 11.6 20.2 11.8 15.5C12 10.9 14.6 6.9 18.2 4.1" />
-        <path d="M39.2 28C44.1 24.7 46.4 20.2 46.2 15.5C46 10.9 43.4 6.9 39.8 4.1" />
+      <g stroke="url(#award-gold)" strokeWidth="1.15" strokeLinecap="round" opacity="0.86">
+        <path d="M22.4 28.2C17 24.9 14.3 20.1 14.4 15.3C14.5 10.8 17 7 20.7 4.1" />
+        <path d="M41.6 28.2C47 24.9 49.7 20.1 49.6 15.3C49.5 10.8 47 7 43.3 4.1" />
       </g>
       <g fill="url(#award-gold)" filter="drop-shadow(0 0 5px rgba(246, 190, 65, 0.35))">
-        <ellipse cx="15" cy="24.6" rx="1.05" ry="3.05" transform="rotate(-55 15 24.6)" />
-        <ellipse cx="12.9" cy="21.2" rx="1.05" ry="2.9" transform="rotate(-68 12.9 21.2)" />
-        <ellipse cx="11.9" cy="17.4" rx="1" ry="2.8" transform="rotate(-83 11.9 17.4)" />
-        <ellipse cx="12.5" cy="13.3" rx="1" ry="2.75" transform="rotate(-104 12.5 13.3)" />
-        <ellipse cx="14.3" cy="9.5" rx="0.95" ry="2.65" transform="rotate(-125 14.3 9.5)" />
-        <ellipse cx="17.1" cy="6.2" rx="0.9" ry="2.55" transform="rotate(-146 17.1 6.2)" />
-        <ellipse cx="43" cy="24.6" rx="1.05" ry="3.05" transform="rotate(55 43 24.6)" />
-        <ellipse cx="45.1" cy="21.2" rx="1.05" ry="2.9" transform="rotate(68 45.1 21.2)" />
-        <ellipse cx="46.1" cy="17.4" rx="1" ry="2.8" transform="rotate(83 46.1 17.4)" />
-        <ellipse cx="45.5" cy="13.3" rx="1" ry="2.75" transform="rotate(104 45.5 13.3)" />
-        <ellipse cx="43.7" cy="9.5" rx="0.95" ry="2.65" transform="rotate(125 43.7 9.5)" />
-        <ellipse cx="40.9" cy="6.2" rx="0.9" ry="2.55" transform="rotate(146 40.9 6.2)" />
+        <path d="M19.3 25.7C16.1 25.5 14.2 23.8 13.6 21.1C16.7 21.3 18.8 23 19.3 25.7Z" />
+        <path d="M16.5 21.2C13.6 20.4 12.2 18.2 12.6 15.6C15.4 16.4 16.9 18.5 16.5 21.2Z" />
+        <path d="M15.8 16.4C13.4 14.8 12.7 12.4 13.8 9.9C16.2 11.5 16.9 13.9 15.8 16.4Z" />
+        <path d="M17.4 11.6C15.6 9.2 15.7 6.8 17.5 4.7C19.2 7.1 19.2 9.6 17.4 11.6Z" />
+        <path d="M21 7.5C20.1 4.9 21 2.7 23.2 1.2C24 3.9 23.1 6.2 21 7.5Z" />
+        <path d="M44.7 25.7C47.9 25.5 49.8 23.8 50.4 21.1C47.3 21.3 45.2 23 44.7 25.7Z" />
+        <path d="M47.5 21.2C50.4 20.4 51.8 18.2 51.4 15.6C48.6 16.4 47.1 18.5 47.5 21.2Z" />
+        <path d="M48.2 16.4C50.6 14.8 51.3 12.4 50.2 9.9C47.8 11.5 47.1 13.9 48.2 16.4Z" />
+        <path d="M46.6 11.6C48.4 9.2 48.3 6.8 46.5 4.7C44.8 7.1 44.8 9.6 46.6 11.6Z" />
+        <path d="M43 7.5C43.9 4.9 43 2.7 40.8 1.2C40 3.9 40.9 6.2 43 7.5Z" />
       </g>
       <text
-        x="29"
+        x="32"
         y="23"
         textAnchor="middle"
         fill="url(#award-gold)"
