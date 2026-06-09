@@ -7,12 +7,72 @@ import { CookieConsentProvider } from "@/components/cookie-consent/cookie-consen
 import { getSiteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
 
-const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID;
-const SITE_URL = "https://wonka-ai.com";
+const GTM_ID = "GTM-5LCPHCRF";
+const SITE_URL = getSiteUrl();
+
+const priorityPages = [
+  {
+    name: "AI Agents",
+    url: `${SITE_URL}/ai-agents`,
+    description: "Private AI agents connected to the business tools your company already uses.",
+  },
+  {
+    name: "Integrations",
+    url: `${SITE_URL}/integrations`,
+    description: "Connect Wonka AI to Odoo, Microsoft 365, CRM, ERP and internal knowledge systems.",
+  },
+  {
+    name: "Start AI",
+    url: `${SITE_URL}/start-ai`,
+    description: "A practical program to identify, prioritize and launch enterprise AI use cases.",
+  },
+  {
+    name: "Case Studies",
+    url: `${SITE_URL}/case-studies`,
+    description: "Customer stories and examples of private enterprise AI deployments.",
+  },
+  {
+    name: "Blog",
+    url: `${SITE_URL}/blog`,
+    description: "Insights on enterprise AI, private LLMs, automation and AI agents.",
+  },
+];
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  name: "Wonka AI",
+  alternateName: ["Wonka", "WonkaChat"],
+  url: SITE_URL,
+  publisher: { "@id": `${SITE_URL}/#organization` },
+  hasPart: priorityPages.map((page) => ({
+    "@type": "WebPage",
+    name: page.name,
+    url: page.url,
+    description: page.description,
+    isPartOf: { "@id": `${SITE_URL}/#website` },
+  })),
+};
+
+const siteNavigationSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  "@id": `${SITE_URL}/#site-navigation`,
+  name: "Wonka AI primary pages",
+  itemListElement: priorityPages.map((page, index) => ({
+    "@type": "SiteNavigationElement",
+    position: index + 1,
+    name: page.name,
+    url: page.url,
+    description: page.description,
+  })),
+};
 
 const organizationSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
   name: "Wonka AI",
   url: SITE_URL,
   logo: `${SITE_URL}/opengraph-image.jpg`,
@@ -32,8 +92,15 @@ const softwareApplicationSchema = {
   url: SITE_URL,
   description:
     "Private enterprise AI platform. Deploy a secure LLM inside your infrastructure, connected to SharePoint, Salesforce, Slack, Jira and more — with full data sovereignty and GDPR compliance.",
+  publisher: {
+    "@type": "Organization",
+    name: "Wonka AI",
+    url: SITE_URL,
+  },
   offers: {
     "@type": "Offer",
+    url: SITE_URL,
+    price: "0",
     priceCurrency: "EUR",
     availability: "https://schema.org/OnlineOnly",
   },
@@ -51,24 +118,17 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(getSiteUrl()),
     title: {
-      default: "Wonka AI – Private Enterprise AI, Deployed on Your Infrastructure",
+      default: "Wonka AI - Private Enterprise AI Agents",
       template: "%s – Wonka AI",
     },
     description:
-      "Wonka AI deploys a private LLM inside your enterprise — connected to SharePoint, Salesforce, Slack and more, with full data sovereignty and GDPR compliance.",
+      "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance and no data leaving your environment.",
     robots: {
       index: true,
       follow: true,
     },
-    alternates: {
-      canonical: SITE_URL,
-      languages: {
-        "en-US": SITE_URL,
-        "fr-BE": SITE_URL,
-        "fr-FR": SITE_URL,
-        "x-default": SITE_URL,
-      },
-    },
+    // No canonical here — each page sets its own via buildMetadata
+    // No hreflang here — [locale]/layout.tsx and buildMetadata handle it per-page
   };
 }
 
@@ -91,7 +151,7 @@ export default function RootLayout({
             />
             <Script
               id="gtm-script"
-              strategy="afterInteractive"
+              strategy="beforeInteractive"
               dangerouslySetInnerHTML={{
                 __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -114,6 +174,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         )}
         <CookieConsentProvider>{children}</CookieConsentProvider>
         <Analytics />
+        <Script
+          id="schema-website"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(websiteSchema),
+          }}
+        />
+        <Script
+          id="schema-site-navigation"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(siteNavigationSchema),
+          }}
+        />
         <Script
           id="schema-organization"
           type="application/ld+json"

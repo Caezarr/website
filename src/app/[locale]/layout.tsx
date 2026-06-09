@@ -1,7 +1,5 @@
-import type { Metadata } from 'next';
 import type { Locale } from '@/i18n/config';
 import { locales } from '@/i18n/config';
-import { getSiteUrl } from '@/lib/site-url';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';

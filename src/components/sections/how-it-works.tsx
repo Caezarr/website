@@ -127,7 +127,7 @@ export function HowItWorks({ id }: { id?: string }) {
           ))}
         </ol>
 
-        <div className="flex flex-col gap-6 lg:hidden">
+        <div className="flex flex-col gap-6 lg:hidden" aria-hidden="true">
           <div ref={emblaRef} className="-mx-6 overflow-hidden md:-mx-8">
             <ol className="flex sm:pl-6 md:pl-8">
               {STEPS.map((step, i) => (

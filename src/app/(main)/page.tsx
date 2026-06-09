@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getLocale } from "next-intl/server";
 import { sanityFetch } from "@sanity/lib/live";
 import { HOMEPAGE_CONTENT_QUERY, SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
 import type { HomepageContent, SiteSettings } from "@/lib/types";
@@ -28,8 +29,9 @@ async function getSiteSettings() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = await getHomepageContent();
-  return buildMetadata(content?.seo ?? null, { path: "/" });
+  const [content, locale] = await Promise.all([getHomepageContent(), getLocale()]);
+  const path = locale === "en" ? "/" : `/${locale}`;
+  return buildMetadata(content?.seo ?? null, { path, locale, hreflang: "home" });
 }
 
 export default async function Home() {

@@ -5,32 +5,23 @@ import { ALL_CONTENT_SLUGS_QUERY } from "@sanity/lib/queries";
 import { hubPath, itemPath } from "@/lib/locale-path";
 import { locales } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
+import { buildExistingItemLanguages, buildHubLanguages } from "@/lib/hreflang";
 
-type SlugItem = { slug: { current: string }; language: string };
+type SlugItem = { slug: { current: string }; language: string; _updatedAt?: string };
 
 const sections = ["blog", "connectors", "glossary", "comparisons", "case-studies"] as const;
 
-// Build hreflang alternates: for a given slug+section, map every locale to its URL
-function buildAlternates(
-  siteUrl: string,
-  section: (typeof sections)[number],
-  slug: string,
-): Record<string, string> {
-  return Object.fromEntries(
-    locales.map((locale) => [
-      locale === "en" ? "en-US" : locale === "fr" ? "fr-FR" : "nl-BE",
-      `${siteUrl}${itemPath(section, locale as Locale, slug)}`,
-    ])
-  );
+function latestModified(items: SlugItem[]): Date {
+  const latest = items
+    .map((item) => item._updatedAt ? new Date(item._updatedAt).getTime() : 0)
+    .filter(Boolean)
+    .sort((a, b) => b - a)[0];
+
+  return latest ? new Date(latest) : new Date();
 }
 
-function buildHubAlternates(siteUrl: string, section: (typeof sections)[number]): Record<string, string> {
-  return Object.fromEntries(
-    locales.map((locale) => [
-      locale === "en" ? "en-US" : locale === "fr" ? "fr-FR" : "nl-BE",
-      `${siteUrl}${hubPath(section, locale as Locale)}`,
-    ])
-  );
+function uniqueByUrl(entries: MetadataRoute.Sitemap): MetadataRoute.Sitemap {
+  return Array.from(new Map(entries.map((entry) => [entry.url, entry])).values());
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
@@ -46,16 +37,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       alternates: {
         languages: {
           "en-US": siteUrl,
-          "fr-FR": `${siteUrl}/fr`,
-          "nl-BE": `${siteUrl}/nl`,
           "x-default": siteUrl,
         },
       },
     },
+    { url: `${siteUrl}/ai-agents`, lastModified, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/start-ai`, lastModified, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${siteUrl}/terms`, lastModified, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${siteUrl}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.2 },
-    { url: `${siteUrl}/cookies`, lastModified, changeFrequency: "yearly", priority: 0.1 },
     // Hub pages with hreflang
     ...sections.flatMap((section) =>
       locales.map((locale) => ({
@@ -63,7 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified,
         changeFrequency: "weekly" as const,
         priority: 0.8,
-        alternates: { languages: buildHubAlternates(siteUrl, section) },
+        alternates: { languages: buildHubLanguages(siteUrl, section, locales) },
       }))
     ),
   ];
@@ -91,56 +78,56 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       ...Object.entries(blogBySlag).flatMap(([slug, items]) =>
         items.map((item) => ({
           url: `${siteUrl}${itemPath("blog", item.language as Locale, slug)}`,
-          lastModified,
+          lastModified: item._updatedAt ? new Date(item._updatedAt) : latestModified(items),
           changeFrequency: "monthly" as const,
           priority: 0.7,
-          alternates: { languages: buildAlternates(siteUrl, "blog", slug) },
+          alternates: { languages: buildExistingItemLanguages(siteUrl, "blog", items) },
         }))
       ),
       // Glossary
       ...Object.entries(glossaryBySlug).flatMap(([slug, items]) =>
         items.map((item) => ({
           url: `${siteUrl}${itemPath("glossary", item.language as Locale, slug)}`,
-          lastModified,
+          lastModified: item._updatedAt ? new Date(item._updatedAt) : latestModified(items),
           changeFrequency: "monthly" as const,
           priority: 0.6,
-          alternates: { languages: buildAlternates(siteUrl, "glossary", slug) },
+          alternates: { languages: buildExistingItemLanguages(siteUrl, "glossary", items) },
         }))
       ),
       // Comparisons
       ...Object.entries(comparisonsBySlug).flatMap(([slug, items]) =>
         items.map((item) => ({
           url: `${siteUrl}${itemPath("comparisons", item.language as Locale, slug)}`,
-          lastModified,
+          lastModified: item._updatedAt ? new Date(item._updatedAt) : latestModified(items),
           changeFrequency: "monthly" as const,
           priority: 0.7,
-          alternates: { languages: buildAlternates(siteUrl, "comparisons", slug) },
+          alternates: { languages: buildExistingItemLanguages(siteUrl, "comparisons", items) },
         }))
       ),
       // Connectors
       ...Object.entries(connectorsBySlug).flatMap(([slug, items]) =>
         items.map((item) => ({
           url: `${siteUrl}${itemPath("connectors", item.language as Locale, slug)}`,
-          lastModified,
+          lastModified: item._updatedAt ? new Date(item._updatedAt) : latestModified(items),
           changeFrequency: "monthly" as const,
           priority: 0.8,
-          alternates: { languages: buildAlternates(siteUrl, "connectors", slug) },
+          alternates: { languages: buildExistingItemLanguages(siteUrl, "connectors", items) },
         }))
       ),
       // Case studies
       ...Object.entries(caseStudiesBySlug).flatMap(([slug, items]) =>
         items.map((item) => ({
           url: `${siteUrl}${itemPath("case-studies", item.language as Locale, slug)}`,
-          lastModified,
+          lastModified: item._updatedAt ? new Date(item._updatedAt) : latestModified(items),
           changeFrequency: "monthly" as const,
           priority: 0.7,
-          alternates: { languages: buildAlternates(siteUrl, "case-studies", slug) },
+          alternates: { languages: buildExistingItemLanguages(siteUrl, "case-studies", items) },
         }))
       ),
     ];
 
-    return [...staticPages, ...contentPages];
+    return uniqueByUrl([...staticPages, ...contentPages]);
   } catch {
-    return staticPages;
+    return uniqueByUrl(staticPages);
   }
 }

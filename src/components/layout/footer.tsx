@@ -9,15 +9,76 @@ interface FooterProps {
   linkGroups: FooterLinkGroup[] | null;
 }
 
+type FooterDisplayLink = Omit<FooterLink, "href"> & {
+  href?: string;
+};
+
+type FooterDisplayGroup = Omit<FooterLinkGroup, "links"> & {
+  links: FooterDisplayLink[];
+};
+
 const LEGAL_LINKS = [
   { label: "Terms of use", href: "/terms" },
   { label: "Privacy policy", href: "/privacy" },
   { label: "Cookie policy", href: "/cookies" },
 ];
 
-function FooterColumnLink({ link }: { link: FooterLink }) {
+const FOOTER_LINK_GROUPS: FooterDisplayGroup[] = [
+  {
+    _key: "default-product",
+    title: "Product",
+    links: [
+      { _key: "start-ai", label: "StartAI", href: "/start-ai" },
+      { _key: "wonka-chat", label: "WonkaChat" },
+      { _key: "wonka-build", label: "WonkaBuild" },
+    ],
+  },
+  {
+    _key: "default-connect",
+    title: "Connect",
+    links: [
+      {
+        _key: "linkedin",
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/company/wonka-ai",
+        external: true,
+      },
+    ],
+  },
+  {
+    _key: "default-resources",
+    title: "Resources",
+    links: [
+      { _key: "ai-agents", label: "AI Agents", href: "/ai-agents" },
+      { _key: "blog", label: "Blog", href: "/blog" },
+      { _key: "connectors", label: "Connectors", href: "/integrations" },
+      { _key: "glossary", label: "Glossary", href: "/learn" },
+      { _key: "comparisons", label: "Comparisons", href: "/vs" },
+      { _key: "case-studies", label: "Case Studies", href: "/case-studies" },
+    ],
+  },
+  {
+    _key: "default-company",
+    title: "Company",
+    links: [
+      { _key: "home", label: "Home", href: "/" },
+      {
+        _key: "demo",
+        label: "Book a demo",
+        href: "https://www.cal.eu/team/wonka-ai-experts/demonstration-call",
+        external: true,
+      },
+    ],
+  },
+];
+
+function FooterColumnLink({ link }: { link: FooterDisplayLink }) {
   const className =
     "type-paragraph-s text-text block w-full transition-opacity hover:opacity-60";
+
+  if (!link.href) {
+    return <span className="type-paragraph-s block w-full text-text/45">{link.label}</span>;
+  }
 
   if (link.external) {
     return (
@@ -33,7 +94,7 @@ function FooterColumnLink({ link }: { link: FooterLink }) {
   );
 }
 
-function FooterColumn({ group }: { group: FooterLinkGroup }) {
+function FooterColumn({ group }: { group: FooterDisplayGroup }) {
   return (
     <div className="flex flex-col gap-6">
       <p className="type-eyebrow text-text/60">{group.title}</p>
@@ -53,7 +114,9 @@ function FooterColumn({ group }: { group: FooterLinkGroup }) {
 
 export function Footer({ linkGroups }: FooterProps) {
   const year = new Date().getFullYear();
-  const groupCount = linkGroups?.length ?? 0;
+  void linkGroups;
+  const groups = FOOTER_LINK_GROUPS;
+  const groupCount = groups.length;
 
   return (
     <Section
@@ -73,22 +136,20 @@ export function Footer({ linkGroups }: FooterProps) {
           </p>
         </div>
 
-        {linkGroups && linkGroups.length > 0 && (
-          <div
-            className={cn(
-              "grid gap-x-5 gap-y-10 sm:gap-y-12 lg:flex lg:flex-1 lg:gap-5",
-              groupCount === 1 && "grid-cols-1",
-              groupCount === 2 && "grid-cols-2",
-              groupCount >= 3 && "grid-cols-2 sm:grid-cols-3",
-            )}
-          >
-            {linkGroups.map((group) => (
-              <div key={group._key} className="lg:flex-1">
-                <FooterColumn group={group} />
-              </div>
-            ))}
-          </div>
-        )}
+        <div
+          className={cn(
+            "grid gap-x-5 gap-y-10 sm:gap-y-12 lg:flex lg:flex-1 lg:gap-5",
+            groupCount === 1 && "grid-cols-1",
+            groupCount === 2 && "grid-cols-2",
+            groupCount >= 3 && "grid-cols-2 sm:grid-cols-3",
+          )}
+        >
+          {groups.map((group) => (
+            <div key={group._key} className="lg:flex-1">
+              <FooterColumn group={group} />
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="type-eyebrow flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

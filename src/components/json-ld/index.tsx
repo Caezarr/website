@@ -1,5 +1,5 @@
-import Script from "next/script";
 import type { FaqItem } from "@/lib/types";
+import { getSiteUrl } from "@/lib/site-url";
 
 interface ArticleSchemaProps {
   title: string;
@@ -10,6 +10,7 @@ interface ArticleSchemaProps {
 }
 
 export function ArticleSchema({ title, description, publishedAt, url, imageUrl }: ArticleSchemaProps) {
+  const siteUrl = getSiteUrl();
   const schema = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -21,13 +22,13 @@ export function ArticleSchema({ title, description, publishedAt, url, imageUrl }
     publisher: {
       "@type": "Organization",
       name: "Wonka AI",
-      url: "https://wonka-ai.com",
-      logo: { "@type": "ImageObject", url: "https://wonka-ai.com/opengraph-image.jpg" },
+      url: siteUrl,
+      logo: { "@type": "ImageObject", url: `${siteUrl}/opengraph-image.jpg` },
     },
     ...(imageUrl && { image: imageUrl }),
   };
   return (
-    <Script id="schema-article" type="application/ld+json"
+    <script id="schema-article" type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
   );
 }
@@ -44,7 +45,7 @@ export function FaqSchema({ items }: { items: FaqItem[] }) {
     })),
   };
   return (
-    <Script id="schema-faq" type="application/ld+json"
+    <script id="schema-faq" type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
   );
 }
@@ -61,12 +62,13 @@ export function BreadcrumbSchema({ items }: { items: { name: string; url: string
     })),
   };
   return (
-    <Script id="schema-breadcrumb" type="application/ld+json"
+    <script id="schema-breadcrumb" type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
   );
 }
 
 export function DefinedTermSchema({ term, definition, url }: { term: string; definition: string; url: string }) {
+  const siteUrl = getSiteUrl();
   const schema = {
     "@context": "https://schema.org",
     "@type": "DefinedTerm",
@@ -76,11 +78,11 @@ export function DefinedTermSchema({ term, definition, url }: { term: string; def
     inDefinedTermSet: {
       "@type": "DefinedTermSet",
       name: "Wonka AI Glossary",
-      url: "https://wonka-ai.com/glossaire",
+      url: `${siteUrl}/learn`,
     },
   };
   return (
-    <Script id="schema-defined-term" type="application/ld+json"
+    <script id="schema-defined-term" type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
   );
 }
@@ -88,19 +90,45 @@ export function DefinedTermSchema({ term, definition, url }: { term: string; def
 export function SoftwareAppSchema({ name, description, url, features }: {
   name: string; description: string; url: string; features: string[];
 }) {
+  const siteUrl = getSiteUrl();
   const schema = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "Service",
     name,
     description,
     url,
-    applicationCategory: "BusinessApplication",
-    operatingSystem: "Web",
-    featureList: features,
-    offers: { "@type": "Offer", priceCurrency: "EUR", availability: "https://schema.org/OnlineOnly" },
+    serviceType: "Private enterprise AI integration",
+    provider: {
+      "@type": "Organization",
+      name: "Wonka AI",
+      url: siteUrl,
+    },
+    audience: {
+      "@type": "BusinessAudience",
+      audienceType: "Enterprise teams",
+    },
+    areaServed: ["European Union", "United Kingdom"],
+    hasOfferCatalog: {
+      "@type": "OfferCatalog",
+      name: `${name} capabilities`,
+      itemListElement: features.map((feature) => ({
+        "@type": "Offer",
+        itemOffered: {
+          "@type": "Service",
+          name: feature,
+        },
+      })),
+    },
+    offers: {
+      "@type": "Offer",
+      url,
+      price: "0",
+      priceCurrency: "EUR",
+      availability: "https://schema.org/OnlineOnly",
+    },
   };
   return (
-    <Script id="schema-software-app" type="application/ld+json"
+    <script id="schema-service" type="application/ld+json"
       dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
   );
 }
