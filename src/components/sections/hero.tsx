@@ -68,7 +68,7 @@ function AwardLaurelIcon() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden
-      className="h-9 w-16 shrink-0"
+      className="h-6 w-11 shrink-0"
     >
       <defs>
         <linearGradient id="award-gold" x1="10" y1="3" x2="54" y2="33" gradientUnits="userSpaceOnUse">
@@ -131,14 +131,14 @@ export function Hero({ meetingUrl }: HeroProps) {
         <div className="flex max-w-3xl flex-col items-center gap-6 text-center">
           <FadeIn delay={0.05}>
             <div
-              className="award-marble-badge relative flex max-w-[min(92vw,47rem)] items-center gap-3 overflow-hidden rounded-full border border-[#c9962c]/90 px-4 py-2 text-white backdrop-blur-md md:gap-5 md:px-5"
+              className="award-marble-badge relative flex max-w-[min(90vw,36rem)] items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-3 py-1.5 text-white backdrop-blur-md md:gap-3 md:px-4"
               style={{ animation: "award-glow 3s ease-in-out infinite" }}
             >
               <span className="relative z-10 flex items-center">
                 <AwardLaurelIcon />
               </span>
-              <span className="relative z-10 h-8 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c] to-transparent" aria-hidden />
-              <span className="type-eyebrow relative z-10 text-left text-[0.68rem] leading-4 tracking-[0.12em] text-white/92 md:text-[0.75rem] md:leading-5">
+              <span className="relative z-10 h-5 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" aria-hidden />
+              <span className="type-eyebrow relative z-10 text-left text-[0.56rem] leading-3 tracking-[0.14em] text-white/88 md:text-[0.66rem] md:leading-4">
                 #1 AI START-UP OF THE YEAR - BELGIUM STARTUP AWARDS 2026
               </span>
             </div>
