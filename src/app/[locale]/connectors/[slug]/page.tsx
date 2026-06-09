@@ -218,8 +218,6 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
                   <h3 className="type-body mb-3 font-medium">{u.title}</h3>
                   <p className="type-paragraph-m mb-6 text-text/60">{u.description}</p>
                   {u.prompt && (
-                    <div className="bg-text/[0.03] rounded-lg p-4">
-                      <p className="type-paragraph-s text-text/40 mb-1">{examplePromptLabel}</p>
                     <div className="mt-auto rounded-md border border-dashed border-border bg-background p-4">
                       <p className="type-eyebrow mb-2 text-text/35">{examplePromptLabel}</p>
                       <p className="type-paragraph-m italic">&ldquo;{u.prompt}&rdquo;</p>
