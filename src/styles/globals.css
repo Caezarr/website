@@ -67,8 +67,53 @@
 }
 
 @keyframes award-glow {
-  0%, 100% { box-shadow: 0 0 6px 0px rgba(251, 191, 36, 0.25); }
-  50%      { box-shadow: 0 0 16px 2px rgba(251, 191, 36, 0.55); }
+  0%, 100% {
+    box-shadow:
+      0 0 7px 0 rgba(219, 161, 43, 0.35),
+      0 0 22px -10px rgba(255, 220, 120, 0.8),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.78);
+  }
+  50% {
+    box-shadow:
+      0 0 12px 1px rgba(219, 161, 43, 0.62),
+      0 0 34px -8px rgba(255, 220, 120, 0.92),
+      inset 0 1px 0 rgba(255, 255, 255, 0.24),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.78);
+  }
+}
+
+.award-marble-badge {
+  background:
+    radial-gradient(120% 180% at 16% -40%, rgba(255, 255, 255, 0.2), transparent 38%),
+    radial-gradient(90% 160% at 88% 120%, rgba(255, 255, 255, 0.12), transparent 44%),
+    linear-gradient(118deg, rgba(255, 255, 255, 0.04) 0 13%, transparent 16% 31%, rgba(255, 255, 255, 0.08) 33%, transparent 39% 58%, rgba(255, 255, 255, 0.05) 60%, transparent 72%),
+    linear-gradient(180deg, #202020 0%, #111 52%, #191817 100%);
+}
+
+.award-marble-badge::before,
+.award-marble-badge::after {
+  content: "";
+  position: absolute;
+  inset: -45%;
+  pointer-events: none;
+}
+
+.award-marble-badge::before {
+  opacity: 0.62;
+  background:
+    linear-gradient(24deg, transparent 0 22%, rgba(255, 255, 255, 0.16) 23%, transparent 25% 43%, rgba(194, 139, 34, 0.16) 44%, transparent 47% 100%),
+    linear-gradient(151deg, transparent 0 35%, rgba(255, 255, 255, 0.13) 36%, transparent 39% 68%, rgba(255, 255, 255, 0.08) 69%, transparent 72%);
+  filter: blur(9px);
+  transform: rotate(-3deg);
+}
+
+.award-marble-badge::after {
+  inset: 0;
+  opacity: 0.48;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 30%),
+    radial-gradient(70% 85% at 50% -30%, rgba(255, 225, 150, 0.24), transparent 62%);
 }
 
 /* Semantic theme tokens — resolve at use-time so switching [data-theme] re-themes the page */

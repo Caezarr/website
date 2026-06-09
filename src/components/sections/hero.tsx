@@ -62,45 +62,47 @@ function BackedBy() {
 function AwardLaurelIcon() {
   return (
     <svg
-      width="44"
-      height="32"
-      viewBox="0 0 44 32"
+      width="58"
+      height="36"
+      viewBox="0 0 58 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       aria-hidden
-      className="h-8 w-11 shrink-0 text-[#d9a731]"
+      className="h-9 w-[3.625rem] shrink-0"
     >
-      <path
-        d="M12.9 25.8C8.6 23.5 6.2 19.3 6.2 15.1C6.2 10.9 8.4 7.1 11.4 4.6"
-        stroke="currentColor"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-      />
-      <path
-        d="M31.1 25.8C35.4 23.5 37.8 19.3 37.8 15.1C37.8 10.9 35.6 7.1 32.6 4.6"
-        stroke="currentColor"
-        strokeWidth="1.3"
-        strokeLinecap="round"
-      />
-      <path
-        d="M10.1 21.8L6.8 21.2M9.1 18.3L5.6 17.7M9.1 14.5L5.6 13.7M10.2 10.8L6.9 9.5M12.4 7.5L9.8 5.4"
-        stroke="currentColor"
-        strokeWidth="1.15"
-        strokeLinecap="round"
-      />
-      <path
-        d="M33.9 21.8L37.2 21.2M34.9 18.3L38.4 17.7M34.9 14.5L38.4 13.7M33.8 10.8L37.1 9.5M31.6 7.5L34.2 5.4"
-        stroke="currentColor"
-        strokeWidth="1.15"
-        strokeLinecap="round"
-      />
+      <defs>
+        <linearGradient id="award-gold" x1="8" y1="3" x2="50" y2="33" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#fff0b0" />
+          <stop offset="0.36" stopColor="#d29a27" />
+          <stop offset="0.72" stopColor="#f7cd62" />
+          <stop offset="1" stopColor="#a66e12" />
+        </linearGradient>
+      </defs>
+      <g stroke="url(#award-gold)" strokeWidth="1" strokeLinecap="round" opacity="0.85">
+        <path d="M18.8 28C13.9 24.7 11.6 20.2 11.8 15.5C12 10.9 14.6 6.9 18.2 4.1" />
+        <path d="M39.2 28C44.1 24.7 46.4 20.2 46.2 15.5C46 10.9 43.4 6.9 39.8 4.1" />
+      </g>
+      <g fill="url(#award-gold)" filter="drop-shadow(0 0 5px rgba(246, 190, 65, 0.35))">
+        <ellipse cx="15" cy="24.6" rx="1.05" ry="3.05" transform="rotate(-55 15 24.6)" />
+        <ellipse cx="12.9" cy="21.2" rx="1.05" ry="2.9" transform="rotate(-68 12.9 21.2)" />
+        <ellipse cx="11.9" cy="17.4" rx="1" ry="2.8" transform="rotate(-83 11.9 17.4)" />
+        <ellipse cx="12.5" cy="13.3" rx="1" ry="2.75" transform="rotate(-104 12.5 13.3)" />
+        <ellipse cx="14.3" cy="9.5" rx="0.95" ry="2.65" transform="rotate(-125 14.3 9.5)" />
+        <ellipse cx="17.1" cy="6.2" rx="0.9" ry="2.55" transform="rotate(-146 17.1 6.2)" />
+        <ellipse cx="43" cy="24.6" rx="1.05" ry="3.05" transform="rotate(55 43 24.6)" />
+        <ellipse cx="45.1" cy="21.2" rx="1.05" ry="2.9" transform="rotate(68 45.1 21.2)" />
+        <ellipse cx="46.1" cy="17.4" rx="1" ry="2.8" transform="rotate(83 46.1 17.4)" />
+        <ellipse cx="45.5" cy="13.3" rx="1" ry="2.75" transform="rotate(104 45.5 13.3)" />
+        <ellipse cx="43.7" cy="9.5" rx="0.95" ry="2.65" transform="rotate(125 43.7 9.5)" />
+        <ellipse cx="40.9" cy="6.2" rx="0.9" ry="2.55" transform="rotate(146 40.9 6.2)" />
+      </g>
       <text
-        x="22"
-        y="20.5"
+        x="29"
+        y="23"
         textAnchor="middle"
-        fill="currentColor"
-        fontSize="13"
-        fontWeight="700"
+        fill="url(#award-gold)"
+        fontSize="17"
+        fontWeight="900"
         fontFamily="Inter, ui-sans-serif, system-ui, sans-serif"
       >
         1
@@ -131,12 +133,14 @@ export function Hero({ meetingUrl }: HeroProps) {
         <div className="flex max-w-3xl flex-col items-center gap-6 text-center">
           <FadeIn delay={0.05}>
             <div
-              className="flex max-w-[min(90vw,41rem)] items-center gap-3 rounded-full border border-[#d9a731]/85 bg-black/75 px-4 py-2.5 text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.18)] backdrop-blur-md md:gap-5 md:px-6"
+              className="award-marble-badge relative flex max-w-[min(92vw,47rem)] items-center gap-3 overflow-hidden rounded-full border border-[#c9962c]/90 px-4 py-2 text-white backdrop-blur-md md:gap-5 md:px-5"
               style={{ animation: "award-glow 3s ease-in-out infinite" }}
             >
-              <AwardLaurelIcon />
-              <span className="h-7 w-px shrink-0 bg-[#d9a731]/75" aria-hidden />
-              <span className="type-eyebrow text-left text-[0.68rem] leading-4 tracking-[0.12em] text-white/90 md:text-[0.75rem] md:leading-5">
+              <span className="relative z-10 flex items-center">
+                <AwardLaurelIcon />
+              </span>
+              <span className="relative z-10 h-8 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c] to-transparent" aria-hidden />
+              <span className="type-eyebrow relative z-10 text-left text-[0.68rem] leading-4 tracking-[0.12em] text-white/92 md:text-[0.75rem] md:leading-5">
                 #1 AI START-UP OF THE YEAR - BELGIUM STARTUP AWARDS 2026
               </span>
             </div>
