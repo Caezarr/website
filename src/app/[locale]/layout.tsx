@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import type { Locale } from '@/i18n/config';
 import { locales } from '@/i18n/config';
 import { notFound } from 'next/navigation';
