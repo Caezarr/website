@@ -68,6 +68,12 @@ const FOOTER_LINK_GROUPS: FooterDisplayGroup[] = [
         href: "https://www.cal.eu/team/wonka-ai-experts/demonstration-call",
         external: true,
       },
+      {
+        _key: "careers",
+        label: "Careers",
+        href: "https://wonka-ai.odoo.com/jobs",
+        external: true,
+      },
     ],
   },
 ];
