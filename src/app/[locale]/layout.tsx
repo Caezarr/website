@@ -4,6 +4,7 @@ import { locales } from '@/i18n/config';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
+import { getSiteUrl } from '@/lib/site-url';
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
