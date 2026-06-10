@@ -15,24 +15,24 @@ export const metadata: Metadata = {
 const speakers = [
   {
     id: "brieuc",
-    name: "Brieuc",
+    name: "Brieuc De Voghel",
     role: "Fondateur · Odovia Integration",
     expertise: "Expert Odoo",
-    initials: "B",
+    photo: "/events/conference-erp/brieuc.png",
   },
   {
     id: "cedric",
     name: "Cédric Gilissen",
     role: "Fondateur & CEO · Wonka AI",
     expertise: "Expert IA",
-    initials: "C",
+    photo: "/events/conference-erp/cedric.png",
   },
   {
     id: "theau",
     name: "Théau Lepouttre",
     role: "Country Manager · Wonka AI",
     expertise: "Expert IA",
-    initials: "T",
+    photo: "/events/conference-erp/theau.png",
   },
 ];
 
@@ -198,7 +198,7 @@ export default function ConferenceErpPage() {
               Nous espérons vous voir le 25.
             </p>
             <p className="text-light-brown text-base pt-4">
-              Cédric Gilissen & Brieuc
+              Cédric Gilissen & Brieuc De Voghel
               <br />
               <span className="text-sm">Wonka AI · Odovia Integration</span>
             </p>
@@ -282,17 +282,14 @@ export default function ConferenceErpPage() {
           <div className="grid md:grid-cols-3 gap-12 md:gap-8">
             {speakers.map((speaker) => (
               <div key={speaker.id} className="flex flex-col gap-5">
-                <div className="w-full aspect-[3/4] bg-white/5 border border-white/10 flex items-end justify-start p-4 relative overflow-hidden">
-                  <span
-                    className="font-serif text-white/10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
-                    style={{ fontSize: "10rem", lineHeight: 1 }}
-                  >
-                    {speaker.initials}
-                  </span>
-                  {/* Replace this div with <Image> once photos are available */}
-                  <span className="text-white/20 text-xs uppercase tracking-widest relative z-10">
-                    Photo à venir
-                  </span>
+                <div className="w-full aspect-[3/4] bg-white/5 border border-white/10 relative overflow-hidden">
+                  <Image
+                    src={speaker.photo}
+                    alt={speaker.name}
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover object-top"
+                  />
                 </div>
                 <div>
                   <p className="text-white font-medium text-lg leading-tight">{speaker.name}</p>
