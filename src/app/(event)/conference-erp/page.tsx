@@ -59,7 +59,7 @@ const schedule = [
     type: "main" as const,
   },
   {
-    time: "11h30",
+    time: "11h00",
     label: "Réseautage",
     description:
       "Échanges libres entre les participants présents. Clôture à 11h30.",
@@ -198,7 +198,7 @@ export default function ConferenceErpPage() {
               Nous espérons vous voir le 25.
             </p>
             <p className="text-light-brown text-base pt-4">
-              Cédric Gilissen & Brieuc De Voghel
+              Cédric Gilissen, Brieuc De Voghel & Théau Lepouttre
               <br />
               <span className="text-sm">Wonka AI · Odovia Integration</span>
             </p>
