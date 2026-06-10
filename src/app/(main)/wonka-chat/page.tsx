@@ -46,17 +46,17 @@ const useCases = [
   { label: "Governance", title: "Govern AI use across the company", body: "One platform, one policy. See who uses what and stop sensitive data leaks." },
 ];
 
-const connectors = [
-  { name: "Odoo", logo: "/images/solution/card-3/logos/odoo.svg" },
-  { name: "SharePoint", logo: "/images/visual/sharepoint.svg" },
-  { name: "Outlook", logo: "/images/solution/card-3/logos/outlook.svg" },
-  { name: "Microsoft Teams", logo: "/images/solution/card-3/logos/teams.svg" },
-  { name: "Salesforce", logo: "/images/solution/card-3/logos/salesforce.svg" },
-  { name: "HubSpot", logo: "/images/solution/card-3/logos/hubspot.svg" },
-  { name: "Jira", logo: "/images/solution/card-3/logos/jira.svg" },
-  { name: "Notion", logo: "/images/solution/card-3/logos/notion.svg" },
-  { name: "Google Drive", logo: "/images/solution/card-3/logos/googledrive.svg" },
-  { name: "Slack", logo: "/images/solution/card-3/logos/slack.svg" },
+const clientLogos = [
+  { name: "D'Ieteren", logo: "/images/wonka-chat/logos/dieteren.svg" },
+  { name: "NMBS", logo: "/images/wonka-chat/logos/nmbs.svg" },
+  { name: "Luminus", logo: "/images/wonka-chat/logos/luminus.svg" },
+  { name: "PwC", logo: "/images/wonka-chat/logos/pwc.svg" },
+  { name: "Stellantis", logo: "/images/wonka-chat/logos/stellantis.svg" },
+];
+
+const integrations = [
+  "Google Workspace", "Microsoft 365", "Slack", "Salesforce", "HubSpot",
+  "Notion", "Jira", "Asana", "Outlook", "Teams", "Dropbox", "OneDrive",
 ];
 
 const faqItems = [
@@ -158,6 +158,17 @@ export default async function WonkaChatPage() {
               </Link>
             </div>
           </div>
+          <div className="mx-auto mt-12 max-w-[1400px] md:mt-16">
+            <Image
+              src="/images/wonka-chat/wonka-hero-flow-v2.png"
+              alt="WonkaChat turning incoming documents and emails into reviewed actions across your tools"
+              width={1920}
+              height={694}
+              priority
+              sizes="(min-width: 1400px) 1400px, 100vw"
+              className="h-auto w-full"
+            />
+          </div>
         </section>
 
         {/* LOGOS STRIP */}
@@ -165,21 +176,17 @@ export default async function WonkaChatPage() {
           <div className="border-t border-dashed border-border" />
         </div>
         <div className="mx-auto max-w-[1200px] px-6 py-10">
-          <div className="flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-            <Image
-              src="/images/hero/proof-1.svg"
-              alt="PwC, Engie, Buildwise, Xerius"
-              width={287}
-              height={24}
-              className="h-6 w-auto opacity-60 brightness-0"
-            />
-            <Image
-              src="/images/hero/proof-2.svg"
-              alt="Luminus, Cambio, Zorgi, ODTH"
-              width={289}
-              height={24}
-              className="h-6 w-auto opacity-60 brightness-0"
-            />
+          <div className="flex flex-wrap items-center justify-center gap-x-14 gap-y-8">
+            {clientLogos.map((logo) => (
+              <Image
+                key={logo.name}
+                src={logo.logo}
+                alt={logo.name}
+                width={120}
+                height={32}
+                className="h-7 w-auto opacity-60 brightness-0 md:h-8"
+              />
+            ))}
           </div>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-2 text-center">
             <span className="type-body text-text/70">Trusted by Belgian teams of every size</span>
@@ -193,7 +200,7 @@ export default async function WonkaChatPage() {
 
         {/* PROBLEM */}
         <section className="mx-auto max-w-[1200px] px-6 py-18 md:py-24">
-          <div className="grid gap-12 md:grid-cols-[1fr_1fr] md:items-start md:gap-16">
+          <div className="grid gap-12 md:grid-cols-[1fr_1.1fr] md:items-start md:gap-16">
             <div>
               <Eyebrow>The problem today</Eyebrow>
               <h2 className="mt-6 type-h4">
@@ -201,18 +208,24 @@ export default async function WonkaChatPage() {
                 <br />
                 <span className="text-text/50">Just not for everyone.</span>
               </h2>
-            </div>
-            <div className="border-l border-dashed border-border pl-6 md:pl-10">
-              <p className="type-body text-text/65">
+              <p className="mt-6 max-w-md type-body text-text/65">
                 Most AI tools create value for the people who already know how to use them. Everyone
                 else keeps doing repetitive work manually — copy-pasting data, forwarding requests,
                 checking documents and updating systems.
               </p>
-              <p className="mt-4 type-body font-medium text-text/80">
+              <p className="mt-4 max-w-md type-body font-medium text-text/80">
                 WonkaChat changes that. It gives your whole team access to AI in a way that is
                 simple, practical and built for daily work.
               </p>
             </div>
+            <Image
+              src="/images/wonka-chat/wonka-problem-people.png"
+              alt="Team members and the repetitive jobs WonkaChat removes"
+              width={1650}
+              height={1920}
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="h-auto w-full"
+            />
           </div>
         </section>
 
@@ -233,10 +246,10 @@ export default async function WonkaChatPage() {
             </div>
             <div className="mt-14">
               <Image
-                src="/images/visual/visual-center.webp"
-                alt="WonkaChat turning incoming documents and emails into reviewed actions across your tools"
-                width={1664}
-                height={1080}
+                src="/images/wonka-chat/wonka-vis-15.png"
+                alt="Documents flow into WonkaChat which extracts details and produces reviewable outputs"
+                width={1920}
+                height={544}
                 sizes="(min-width: 1200px) 1024px, 100vw"
                 className="mx-auto h-auto w-full max-w-5xl"
               />
@@ -245,32 +258,69 @@ export default async function WonkaChatPage() {
         </section>
 
         {/* FROM PROMPT TO EXECUTION */}
-        <section className="mx-auto grid max-w-[1200px] gap-12 px-6 py-18 md:grid-cols-[1fr_1fr] md:py-24">
-          <div>
+        <section className="mx-auto max-w-[1200px] px-6 py-18 md:py-24">
+          <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
             <Eyebrow>From prompt to execution</Eyebrow>
             <h2 className="mt-6 type-h4">
               One sentence becomes
               <br />
               <span className="text-text/50">a finished workflow.</span>
             </h2>
-          </div>
-          <div className="border-l border-dashed border-border pl-6 md:pl-10">
-            <p className="type-body text-text/70">
+            <p className="mt-6 max-w-2xl type-body text-text/65">
               Speak or type a request. WonkaChat turns it into the right sequence of actions in your
               real systems — Odoo, your CRM, Slack — and reports back when it&apos;s done.
             </p>
-            <div className="mt-8 bg-black p-6 text-white">
-              <p className="type-eyebrow text-white/35">Example prompt</p>
-              <p className="mt-4 type-body text-white/78">
-                Create an opportunity in Odoo for Acme — 25k, kickoff in 3 weeks. Then notify
-                #sales-eu.
+          </div>
+          <div className="mt-14 grid gap-10 md:grid-cols-2 md:items-center md:gap-16">
+            <Image
+              src="/images/wonka-chat/wonka-vis-10.png"
+              alt="Voice prompt: create an opportunity in Odoo"
+              width={1104}
+              height={1093}
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="h-auto w-full"
+            />
+            <Image
+              src="/images/wonka-chat/wonka-vis-13.png"
+              alt="The prompt becomes a sequence of actions across Odoo and Slack"
+              width={1104}
+              height={969}
+              sizes="(min-width: 768px) 50vw, 100vw"
+              className="h-auto w-full"
+            />
+          </div>
+        </section>
+
+        {/* AUTONOMY */}
+        <section className="border-y border-dashed border-border bg-mid-gray">
+          <div className="mx-auto max-w-[1200px] px-6 py-18 md:py-24">
+            <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
+              <Eyebrow>Built to act, not just chat</Eyebrow>
+              <h2 className="mt-6 type-h4">
+                Work moves forward
+                <br />
+                <span className="text-text/50">while you focus.</span>
+              </h2>
+              <p className="mt-6 max-w-2xl type-body text-text/65">
+                WonkaChat picks up tasks, drafts the work, validates it against your rules and
+                notifies the right people — autonomously.
               </p>
+            </div>
+            <div className="mt-14">
+              <Image
+                src="/images/wonka-chat/wonka-vis-16.png"
+                alt="Kanban board where AI autonomously moves tasks from To Do to Done"
+                width={1916}
+                height={1028}
+                sizes="(min-width: 1200px) 1024px, 100vw"
+                className="mx-auto h-auto w-full max-w-5xl"
+              />
             </div>
           </div>
         </section>
 
         {/* USE CASES */}
-        <section id="use-cases" className="border-y border-dashed border-border bg-mid-gray">
+        <section id="use-cases" className="border-b border-dashed border-border">
           <div className="mx-auto max-w-[1200px] px-6 py-18 md:py-24">
             <div className="max-w-3xl">
               <Eyebrow>Use cases</Eyebrow>
@@ -286,7 +336,7 @@ export default async function WonkaChatPage() {
             </div>
             <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
               {useCases.map((u) => (
-                <article key={u.title} className="rounded-lg bg-background p-7 md:p-8">
+                <article key={u.title} className="rounded-lg bg-mid-gray p-7 md:p-8">
                   <p className="type-eyebrow text-text/35">{u.label}</p>
                   <h3 className="mt-4 type-h6">{u.title}</h3>
                   <p className="mt-3 type-paragraph-m text-text/65">{u.body}</p>
@@ -298,8 +348,8 @@ export default async function WonkaChatPage() {
 
         {/* INTEGRATIONS */}
         <section className="mx-auto max-w-[1200px] px-6 py-18 md:py-24">
-          <div className="grid gap-10 md:grid-cols-[0.75fr_1.25fr] md:items-start">
-            <div className="md:sticky md:top-24">
+          <div className="grid items-center gap-12 md:grid-cols-[1fr_1fr] md:gap-16">
+            <div>
               <Eyebrow>Connected to your stack</Eyebrow>
               <h2 className="mt-6 type-h4">
                 All your tools,
@@ -310,27 +360,31 @@ export default async function WonkaChatPage() {
                 WonkaChat plugs into the systems you already use — CRM, productivity, comms, project
                 tools — and orchestrates them. Need a new connector? We&apos;ll build it.
               </p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                {integrations.map((name) => (
+                  <span
+                    key={name}
+                    className="rounded-full border border-dashed border-border bg-background px-3 py-1.5 type-paragraph-s text-text/75"
+                  >
+                    {name}
+                  </span>
+                ))}
+              </div>
               <div className="mt-8">
                 <ButtonLink href="/integrations" variant="primary">
                   Explore integrations
                 </ButtonLink>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-px overflow-hidden border border-border bg-border md:grid-cols-5">
-              {connectors.map((connector) => (
-                <div
-                  key={connector.name}
-                  className="group flex h-28 items-center justify-center bg-background p-6 md:h-32"
-                >
-                  <Image
-                    src={connector.logo}
-                    alt={connector.name}
-                    width={92}
-                    height={34}
-                    className="max-h-9 w-auto max-w-[7rem] object-contain grayscale transition duration-300 group-hover:grayscale-0"
-                  />
-                </div>
-              ))}
+            <div className="flex justify-center md:justify-end">
+              <Image
+                src="/images/wonka-chat/wonka-vis-12.png"
+                alt="WonkaChat orchestrating updates across CRM, Slack and pipeline systems"
+                width={1076}
+                height={1069}
+                sizes="(min-width: 768px) 460px, 100vw"
+                className="h-auto w-full max-w-[460px]"
+              />
             </div>
           </div>
         </section>
