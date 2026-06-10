@@ -17,22 +17,22 @@ const testimonials = [
     name: "Elise De Smet",
     role: "COO, Luminus",
     initials: "ED",
-    quote: "WonkaChat replaced four different AI tools and gave us one secure place to work.",
-    sub: "Our team finally has consistent answers, and IT finally has visibility into how AI is used.",
+    quote: "In six weeks Wonka gave us more clarity on AI than a year of internal debate.",
+    sub: "Their team translated abstract ambitions into a roadmap our leadership actually believes in.",
   },
   {
     name: "Dirk Gevers",
     role: "CEO, Cambio",
     initials: "DG",
-    quote: "Onboarding new hires used to take weeks. With WonkaChat it takes hours.",
-    sub: "They ask questions, the agent answers — and we kept all our data inside Europe.",
+    quote: "A roadmap our entire leadership team actually understands and believes in.",
+    sub: "We moved from scattered AI experiments to one shared direction in just a few weeks.",
   },
   {
     name: "Sofie Claes",
     role: "CTO, ODTH",
     initials: "SC",
-    quote: "The first AI tool our entire company actually uses every day.",
-    sub: "It connects the tools we already have, so people get real work done without switching context.",
+    quote: "We shipped two production AI use cases before the program even ended.",
+    sub: "Wonka kept us focused on impact and made sure the right people stayed involved.",
   },
 ];
 
