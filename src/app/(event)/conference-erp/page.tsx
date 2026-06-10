@@ -186,12 +186,9 @@ export default function ConferenceErpPage() {
           </div>
           <div className="space-y-6 max-w-xl">
             <p className="text-black text-lg leading-relaxed">
-              La plupart des conversations sur l'IA commencent par la peur.
-            </p>
-            <p className="text-black text-lg leading-relaxed">
-              Nous préférons commencer par une question différente : que se passe-t-il quand une IA
-              privée et souveraine comprend enfin ce que contient votre ERP, vos commandes, vos
-              stocks, vos clients, vos processus, et sait quoi en faire ?
+              Que se passe-t-il quand une IA privée et souveraine comprend enfin ce que contient
+              votre ERP, vos commandes, vos stocks, vos clients, vos processus, et sait quoi en
+              faire ?
             </p>
             <p className="text-black text-lg leading-relaxed">
               Nous invitons un petit groupe de dirigeants à passer une matinée ensemble pour une

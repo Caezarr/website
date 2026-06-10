@@ -33,6 +33,7 @@ const redirects = async () => [
   { source: '/services/start-ai-old', destination: '/start-ai', permanent: true },
   { source: '/services/:slug*', destination: '/', permanent: true },
   { source: '/products/wonka-chat-odoo', destination: '/integrations/odoo', permanent: true },
+  { source: '/products/wonka-chat', destination: '/wonka-chat', permanent: true },
   { source: '/products/:slug*', destination: '/ai-agents', permanent: true },
   { source: '/product/enterprise', destination: '/', permanent: true },
   { source: '/resources/itzu-enhances-hr-services-with-wonkas-ai-solutions', destination: '/case-studies', permanent: true },
