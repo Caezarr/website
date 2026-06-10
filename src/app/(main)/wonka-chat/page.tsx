@@ -7,11 +7,9 @@ import { BreadcrumbSchema, FaqSchema, SoftwareAppSchema } from "@/components/jso
 import { Cta } from "@/components/sections/cta";
 import { ButtonLink } from "@/components/ui/button";
 import { Eyebrow } from "@/components/ui/eyebrow";
-import { BadgeGdpr } from "@/components/ui/icons/badge-gdpr";
-import { BadgeIso } from "@/components/ui/icons/badge-iso";
-import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
 import { WonkaChatFaqAccordion } from "@/components/wonka-chat/faq-accordion";
 import { WonkaChatTestimonialsSlider } from "@/components/wonka-chat/testimonials-slider";
+import { WonkaChatUseCasesTabs } from "@/components/wonka-chat/use-cases-tabs";
 import { getSiteUrl } from "@/lib/site-url";
 import type { SiteSettings } from "@/lib/types";
 
@@ -37,15 +35,6 @@ function CalendarIcon({ className }: { className?: string }) {
   );
 }
 
-const useCases = [
-  { label: "HR", title: "Automate new employee setup", body: "Accounts, access and training material spun up by an agent in minutes instead of days." },
-  { label: "Knowledge", title: "Create perfect documentation", body: "Meeting notes, reports and internal comms generated in your voice, with context from your records." },
-  { label: "Search", title: "Retrieve company info instantly", body: "Ask anything. The agent pulls fresh, accurate answers from your stack into the conversation." },
-  { label: "Support", title: "Answer customer questions faster", body: "One assistant that knows your products, policies and history — so replies stop waiting on humans." },
-  { label: "Sales", title: "Keep your CRM clean and current", body: "Update deals, log calls and create tasks from chat. WonkaChat writes back to your systems." },
-  { label: "Governance", title: "Govern AI use across the company", body: "One platform, one policy. See who uses what and stop sensitive data leaks." },
-];
-
 const clientLogos = [
   { name: "D'Ieteren", logo: "/images/wonka-chat/logos/dieteren.svg" },
   { name: "NMBS", logo: "/images/wonka-chat/logos/nmbs.svg" },
@@ -54,36 +43,69 @@ const clientLogos = [
   { name: "Stellantis", logo: "/images/wonka-chat/logos/stellantis.svg" },
 ];
 
-const integrations = [
-  "Google Workspace", "Microsoft 365", "Slack", "Salesforce", "HubSpot",
-  "Notion", "Jira", "Asana", "Outlook", "Teams", "Dropbox", "OneDrive",
+const features = [
+  {
+    title: "Chat for your company",
+    description:
+      "Give your employees one simple place to ask questions, find information and get support from AI. WonkaChat works like a familiar chat experience, but with your company context and workflows built in.",
+    image: "/images/wonka-chat/feature-chat.png",
+    alt: "Voice prompt creating an opportunity in Odoo",
+  },
+  {
+    title: "Choose your own AI model",
+    description:
+      "WonkaChat gives your company flexibility. Use the AI model that fits your needs, preferences and security requirements.",
+    image: "/images/wonka-chat/feature-models.png",
+    alt: "Choose between leading AI models",
+  },
+  {
+    title: "Connected to your tools",
+    description:
+      "WonkaChat connects to the systems your team already uses, so employees can access information and trigger actions without switching between tools.",
+    image: "/images/wonka-chat/feature-tools.png",
+    alt: "Connected to the tools your team uses",
+    cta: "Discover all integrations",
+  },
+  {
+    title: "Create AI agents for specific tasks",
+    description:
+      "Build agents that understand a role, task or workflow. From sales follow-up to finance checks or support summaries, agents help employees get specific work done faster.",
+    image: "/images/wonka-chat/wonka-vis-10.png",
+    alt: "Create AI agents for specific tasks",
+  },
+  {
+    title: "Built for every employee",
+    description:
+      "WonkaChat is designed so the whole organisation can work with AI, not just technical teams or early adopters. Employees use simple language, shared agents and guided workflows.",
+    image: "/images/wonka-chat/feature-employee.png",
+    alt: "Built for every employee",
+  },
 ];
 
 const faqItems = [
   {
-    question: "What is WonkaChat?",
-    answer:
-      "WonkaChat is a secure AI workspace that connects to your tools, executes tasks across them and gives your whole team one consistent place to use AI.",
+    question: "Is WonkaChat only for technical teams?",
+    answer: "No. WonkaChat is built for every employee. People can use AI through simple chat, shared agents and guided workflows.",
   },
   {
-    question: "How is it different from ChatGPT or Copilot?",
-    answer:
-      "ChatGPT helps you think — WonkaChat helps you finish. It connects to your systems, executes tasks in them, and keeps your data inside European infrastructure.",
+    question: "Can WonkaChat connect to our existing tools?",
+    answer: "Yes. WonkaChat can connect to company tools such as CRM, ERP, email, documents, project tools and internal databases.",
   },
   {
-    question: "Where is our data stored?",
-    answer:
-      "All data is processed and stored in European data centers. We never train foundation models on your content.",
+    question: "Do we need to choose one AI model?",
+    answer: "No. WonkaChat is designed to be flexible, so your organisation can work with the AI model that fits your needs.",
   },
   {
-    question: "Which tools does it integrate with?",
-    answer:
-      "Google Workspace, Microsoft 365, Slack, all major CRMs, project management tools and many more. If we don't support a tool yet, we'll build the connector.",
+    question: "Can we control what AI can access?",
+    answer: "Yes. You can manage access, permissions and which agents are available to which users or teams.",
   },
   {
-    question: "How long does it take to deploy?",
-    answer:
-      "Most teams are up and running in less than two weeks, including integrations and team rollout.",
+    question: "Can actions require human approval?",
+    answer: "Yes. WonkaChat supports human-in-the-loop workflows, so important actions can be reviewed before they are executed.",
+  },
+  {
+    question: "Is WonkaChat a replacement for ChatGPT or Copilot?",
+    answer: "WonkaChat is different. It is built as a company AI workspace, connected to your tools, agents, workflows and governance.",
   },
 ];
 
@@ -123,7 +145,7 @@ export default async function WonkaChatPage() {
         name="WonkaChat"
         description={description}
         url={pageUrl}
-        features={useCases.map((u) => u.title)}
+        features={features.map((f) => f.title)}
       />
       <FaqSchema items={faqItems} />
 
@@ -151,10 +173,10 @@ export default async function WonkaChatPage() {
                 Book a demo
               </ButtonLink>
               <Link
-                href="#use-cases"
+                href="#how-it-works"
                 className="type-paragraph-m-bold text-text underline underline-offset-4"
               >
-                See what it does
+                See how it works
               </Link>
             </div>
           </div>
@@ -229,200 +251,98 @@ export default async function WonkaChatPage() {
           </div>
         </section>
 
-        {/* SOLUTION */}
-        <section className="border-y border-dashed border-border bg-mid-gray">
-          <div className="mx-auto max-w-[1200px] px-6 py-18 md:py-24">
-            <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
-              <Eyebrow>One workspace</Eyebrow>
+        {/* WHAT IS WONKACHAT */}
+        <section id="how-it-works" className="border-y border-dashed border-border bg-mid-gray">
+          <div className="mx-auto max-w-[900px] px-6 py-18 md:py-24">
+            <div className="flex flex-col items-center text-center">
+              <Eyebrow>What is WonkaChat?</Eyebrow>
               <h2 className="mt-6 type-h3">
-                Ask once.
+                One AI workspace
                 <br />
-                <span className="text-text/50">Get real work done.</span>
+                <span className="text-text/50">for your entire company.</span>
               </h2>
               <p className="mt-6 max-w-2xl type-body text-text/65">
-                Drop in your data — a spreadsheet, an email, a doc — and WonkaChat extracts what
-                matters, understands the intent, and finishes the task across your tools.
+                WonkaChat brings AI, agents, company knowledge and tool connections together in one
+                secure workspace. Your team can ask questions, get support and move work forward —
+                without needing to become AI experts.
               </p>
-            </div>
-            <div className="mt-14">
-              <Image
-                src="/images/wonka-chat/wonka-vis-15.png"
-                alt="Documents flow into WonkaChat which extracts details and produces reviewable outputs"
-                width={1920}
-                height={544}
-                sizes="(min-width: 1200px) 1024px, 100vw"
-                className="mx-auto h-auto w-full max-w-5xl"
-              />
             </div>
           </div>
         </section>
 
-        {/* FROM PROMPT TO EXECUTION */}
+        {/* PRODUCT FEATURES — STICKY SCROLL */}
         <section className="mx-auto max-w-[1200px] px-6 py-18 md:py-24">
-          <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
-            <Eyebrow>From prompt to execution</Eyebrow>
-            <h2 className="mt-6 type-h4">
-              One sentence becomes
-              <br />
-              <span className="text-text/50">a finished workflow.</span>
-            </h2>
-            <p className="mt-6 max-w-2xl type-body text-text/65">
-              Speak or type a request. WonkaChat turns it into the right sequence of actions in your
-              real systems — Odoo, your CRM, Slack — and reports back when it&apos;s done.
-            </p>
-          </div>
-          <div className="mt-14 grid gap-10 md:grid-cols-2 md:items-center md:gap-16">
-            <Image
-              src="/images/wonka-chat/wonka-vis-10.png"
-              alt="Voice prompt: create an opportunity in Odoo"
-              width={1104}
-              height={1093}
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="h-auto w-full"
-            />
-            <Image
-              src="/images/wonka-chat/wonka-vis-13.png"
-              alt="The prompt becomes a sequence of actions across Odoo and Slack"
-              width={1104}
-              height={969}
-              sizes="(min-width: 768px) 50vw, 100vw"
-              className="h-auto w-full"
-            />
-          </div>
-        </section>
-
-        {/* AUTONOMY */}
-        <section className="border-y border-dashed border-border bg-mid-gray">
-          <div className="mx-auto max-w-[1200px] px-6 py-18 md:py-24">
-            <div className="mx-auto flex max-w-2xl flex-col items-center text-center">
-              <Eyebrow>Built to act, not just chat</Eyebrow>
+          <div className="grid gap-12 md:grid-cols-[1fr_1.4fr] md:gap-20">
+            <div className="md:sticky md:top-24 md:self-start">
+              <Eyebrow>Product features</Eyebrow>
               <h2 className="mt-6 type-h4">
-                Work moves forward
+                Everything your team needs
                 <br />
-                <span className="text-text/50">while you focus.</span>
+                <span className="text-text/50">to work with AI.</span>
               </h2>
-              <p className="mt-6 max-w-2xl type-body text-text/65">
-                WonkaChat picks up tasks, drafts the work, validates it against your rules and
-                notifies the right people — autonomously.
+              <p className="mt-6 type-body text-text/65">
+                WonkaChat is built to make AI useful across the organisation: simple enough for every
+                employee, powerful enough for real workflows, and flexible enough to connect with the
+                tools you already use.
               </p>
+              <div className="mt-8">
+                <ButtonLink href={meetingUrl ?? "#contact"} variant="primary">
+                  <VideoIcon className="h-4 w-4" />
+                  Book a demo
+                </ButtonLink>
+              </div>
             </div>
-            <div className="mt-14">
-              <Image
-                src="/images/wonka-chat/wonka-vis-16.png"
-                alt="Kanban board where AI autonomously moves tasks from To Do to Done"
-                width={1916}
-                height={1028}
-                sizes="(min-width: 1200px) 1024px, 100vw"
-                className="mx-auto h-auto w-full max-w-5xl"
-              />
-            </div>
-          </div>
-        </section>
 
-        {/* USE CASES */}
-        <section id="use-cases" className="border-b border-dashed border-border">
-          <div className="mx-auto max-w-[1200px] px-6 py-18 md:py-24">
-            <div className="max-w-3xl">
-              <Eyebrow>Use cases</Eyebrow>
-              <h2 className="mt-6 type-h3">
-                What WonkaChat
-                <br />
-                <span className="text-text/50">does for your team.</span>
-              </h2>
-              <p className="mt-6 max-w-2xl type-body text-text/65">
-                From onboarding a new hire to keeping your CRM clean — WonkaChat handles the work
-                that lives between your tools.
-              </p>
-            </div>
-            <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-              {useCases.map((u) => (
-                <article key={u.title} className="rounded-lg bg-mid-gray p-7 md:p-8">
-                  <p className="type-eyebrow text-text/35">{u.label}</p>
-                  <h3 className="mt-4 type-h6">{u.title}</h3>
-                  <p className="mt-3 type-paragraph-m text-text/65">{u.body}</p>
+            <div className="flex flex-col gap-28 md:gap-40">
+              {features.map((f, idx) => (
+                <article key={f.title}>
+                  <div className="mb-8 w-full overflow-hidden">
+                    <Image
+                      src={f.image}
+                      alt={f.alt}
+                      width={1200}
+                      height={800}
+                      sizes="(min-width: 768px) 55vw, 100vw"
+                      className="h-auto w-full"
+                    />
+                  </div>
+                  <h3 className="type-h6">{f.title}</h3>
+                  <p className="mt-3 type-paragraph-m text-text/65">{f.description}</p>
+                  {idx === 2 && f.cta && (
+                    <Link
+                      href="/integrations"
+                      className="mt-6 inline-flex items-center gap-1.5 type-paragraph-m-bold text-text underline underline-offset-4"
+                    >
+                      {f.cta}
+                    </Link>
+                  )}
                 </article>
               ))}
             </div>
           </div>
         </section>
 
-        {/* INTEGRATIONS */}
-        <section className="mx-auto max-w-[1200px] px-6 py-18 md:py-24">
-          <div className="grid items-center gap-12 md:grid-cols-[1fr_1fr] md:gap-16">
-            <div>
-              <Eyebrow>Connected to your stack</Eyebrow>
-              <h2 className="mt-6 type-h4">
-                All your tools,
-                <br />
-                <span className="text-text/50">working as one team.</span>
-              </h2>
-              <p className="mt-6 max-w-md type-body text-text/65">
-                WonkaChat plugs into the systems you already use — CRM, productivity, comms, project
-                tools — and orchestrates them. Need a new connector? We&apos;ll build it.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-2">
-                {integrations.map((name) => (
-                  <span
-                    key={name}
-                    className="rounded-full border border-dashed border-border bg-background px-3 py-1.5 type-paragraph-s text-text/75"
-                  >
-                    {name}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-8">
-                <ButtonLink href="/integrations" variant="primary">
-                  Explore integrations
-                </ButtonLink>
-              </div>
-            </div>
-            <div className="flex justify-center md:justify-end">
-              <Image
-                src="/images/wonka-chat/wonka-vis-12.png"
-                alt="WonkaChat orchestrating updates across CRM, Slack and pipeline systems"
-                width={1076}
-                height={1069}
-                sizes="(min-width: 768px) 460px, 100vw"
-                className="h-auto w-full max-w-[460px]"
-              />
+        {/* USE CASES */}
+        <section className="border-y border-dashed border-border bg-background">
+          <div className="mx-auto max-w-[1280px] px-6 py-18 md:py-24">
+            <Eyebrow>Use cases</Eyebrow>
+            <div className="mt-6">
+              <WonkaChatUseCasesTabs />
             </div>
           </div>
         </section>
 
-        {/* SECURITY */}
-        <section className="px-2 py-8 md:px-3">
-          <div className="relative overflow-hidden rounded-3xl bg-black">
+        {/* SECURITY BANNER */}
+        <section className="px-2 py-8 md:px-3 md:py-12">
+          <div className="overflow-hidden rounded-3xl">
             <Image
-              src="/images/security/banner-bg.avif"
-              alt=""
-              fill
-              unoptimized
+              src="/images/wonka-chat/security-banner.png"
+              alt="Your data is always yours. GDPR, ISO 27001 and NIS2 compliant."
+              width={1920}
+              height={600}
               sizes="100vw"
-              className="pointer-events-none object-cover opacity-50"
+              className="block h-auto w-full"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/70" />
-            <div className="relative mx-auto grid max-w-[1100px] gap-10 px-8 py-16 md:grid-cols-[1.6fr_1fr] md:items-center md:py-20">
-              <div>
-                <span className="type-eyebrow text-white/60">Security &amp; governance</span>
-                <h2 className="mt-3 type-h4 text-white">Your data is always yours.</h2>
-                <p className="mt-4 max-w-xl type-body text-white/75">
-                  We don&apos;t train on it. We don&apos;t store what doesn&apos;t need to be
-                  stored. Everything runs in a secure European environment that only your team can
-                  access. No lock-in. No complications.
-                </p>
-                <div className="mt-8 flex flex-wrap items-center gap-4">
-                  <BadgeGdpr className="size-16" />
-                  <BadgeIso className="size-16" />
-                  <BadgeNis2 className="size-16" />
-                </div>
-              </div>
-              <div className="md:justify-self-end">
-                <ButtonLink href={meetingUrl ?? "#contact"} variant="primary">
-                  <VideoIcon className="h-4 w-4" />
-                  Schedule a call
-                </ButtonLink>
-              </div>
-            </div>
           </div>
         </section>
 
@@ -433,12 +353,13 @@ export default async function WonkaChatPage() {
               <Eyebrow>What clients say</Eyebrow>
             </div>
             <h2 className="mt-6 type-h4">
-              Real teams,
+              Honest feedback
               <br />
-              <span className="text-text/50">real results.</span>
+              <span className="text-text/50">from valued people.</span>
             </h2>
             <p className="mx-auto mt-5 max-w-xl type-body text-text/60">
-              From leaders who replaced a stack of unauthorized AI tools with one secure workspace.
+              Real feedback from leaders who trusted Wonka to turn AI ambition into a concrete plan
+              their teams could act on.
             </p>
           </div>
           <div className="mt-14">
@@ -449,12 +370,16 @@ export default async function WonkaChatPage() {
         {/* CONTACT */}
         <section id="contact" className="mx-auto max-w-2xl px-6 py-18 text-center md:py-24">
           <div className="flex flex-col items-center">
-            <Eyebrow>Talk to us</Eyebrow>
+            <Eyebrow>Book a demo</Eyebrow>
           </div>
-          <h2 className="mt-6 type-h4">See WonkaChat on your stack.</h2>
+          <h2 className="mt-6 type-h4">
+            Want to see what WonkaChat
+            <br />
+            <span className="text-text/50">could do for your team?</span>
+          </h2>
           <p className="mx-auto mt-4 max-w-xl type-body text-text/65">
-            Jump on a 30-minute discovery call. We&apos;ll show you exactly how WonkaChat fits into
-            the tools your team already uses.
+            Book a short demo and we&apos;ll show how WonkaChat can connect to your tools, support
+            your workflows and make AI accessible across your organisation.
           </p>
           <div className="mt-10 flex flex-col items-center gap-4">
             <div className="relative h-24 w-24 overflow-hidden rounded-full ring-4 ring-border">
@@ -470,10 +395,10 @@ export default async function WonkaChatPage() {
               <div className="type-body font-medium">Jordy Callens</div>
               <div className="type-paragraph-s text-text/55">Partner, Wonka</div>
             </div>
-            <div className="mt-2">
+            <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
               <ButtonLink href={meetingUrl ?? "#"} variant="primary">
                 <CalendarIcon className="h-4 w-4" />
-                Book a discovery call
+                Book a demo
               </ButtonLink>
             </div>
           </div>
