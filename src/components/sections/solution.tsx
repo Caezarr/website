@@ -12,6 +12,7 @@ import {
   type SolutionCardVariant,
 } from "@/components/sections/solution/card-shape";
 import { CardThreeVisual } from "@/components/sections/solution/card-3-visual";
+import { CardFourVisual } from "@/components/sections/solution/card-4-visual";
 import { cn } from "@/lib/utils";
 import type { SolutionData } from "@/lib/types";
 
@@ -49,8 +50,8 @@ const CARD_VISUALS: Array<CardVisual | null> = [
     aspectClass: "aspect-[3/2] md:aspect-[1760/872]",
   },
   {
-    kind: "image",
-    src: "/images/solution/card-4/assess-ai.png",
+    kind: "component",
+    component: CardFourVisual,
     aspectClass: "aspect-[3/2] md:aspect-[1760/816]",
   },
   {
