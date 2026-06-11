@@ -124,13 +124,11 @@ export function WonkaChatUseCasesTabs() {
 
   return (
     <div>
-      <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between md:gap-12">
-        <h2 className="type-h3">
-          The work that used to wait
-          <br />
-          <span className="text-text/55">now doesn&apos;t. Across teams.</span>
+      <div className="flex flex-col gap-8">
+        <h2 className="type-h4 text-text lg:whitespace-nowrap">
+          The work that used to wait now doesn&apos;t. Across teams.
         </h2>
-        <div className="flex flex-wrap gap-2 md:justify-end">
+        <div className="flex flex-wrap gap-2">
           {useCaseTabs.map((t, i) => (
             <button
               key={t.key}
