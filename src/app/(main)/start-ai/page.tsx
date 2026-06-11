@@ -104,7 +104,7 @@ export default async function StartAIPage() {
       {/* HERO */}
       <section className="relative isolate w-full overflow-hidden bg-black">
         <Image
-          src="/images/start-ai/hero.jpg"
+          src="/images/start-ai/wonka-waterfall.png"
           alt=""
           fill
           unoptimized

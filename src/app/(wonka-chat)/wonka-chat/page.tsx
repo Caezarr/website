@@ -48,8 +48,8 @@ const features = [
     title: "Chat for your company",
     description:
       "Give your employees one simple place to ask questions, find information and get support from AI. WonkaChat works like a familiar chat experience, but with your company context and workflows built in.",
-    image: "/images/wonka-chat/feature-chat.png",
-    alt: "Voice prompt creating an opportunity in Odoo",
+    image: "/images/wonka-chat/create-ai-agents-for-specific-tasks.png",
+    alt: "Create AI agents for specific tasks in WonkaChat",
   },
   {
     title: "Choose your own AI model",
@@ -79,6 +79,24 @@ const features = [
       "WonkaChat is designed so the whole organisation can work with AI, not just technical teams or early adopters. Employees use simple language, shared agents and guided workflows.",
     image: "/images/wonka-chat/feature-employee.png",
     alt: "Built for every employee",
+  },
+];
+
+const securityBadges = [
+  {
+    name: "GDPR compliant",
+    image: "/images/wonka-chat/badges/gdpr-badge.png",
+    detail: "European privacy standards",
+  },
+  {
+    name: "ISO 27001",
+    image: "/images/wonka-chat/badges/iso-badge.png",
+    detail: "Information security controls",
+  },
+  {
+    name: "NIS2 ready",
+    image: "/images/wonka-chat/badges/nis-badge.png",
+    detail: "Built for regulated teams",
   },
 ];
 
@@ -228,7 +246,7 @@ export default async function WonkaChatPage() {
               <h2 className="mt-6 type-h4">
                 Your AI works.
                 <br />
-                <span className="text-text/50">Just not for everyone.</span>
+                Just not for everyone.
               </h2>
               <p className="mt-6 max-w-md type-body text-text/65">
                 Most AI tools create value for the people who already know how to use them. Everyone
@@ -259,7 +277,7 @@ export default async function WonkaChatPage() {
               <h2 className="mt-6 type-h3">
                 One AI workspace
                 <br />
-                <span className="text-text/50">for your entire company.</span>
+                for your entire company.
               </h2>
               <p className="mt-6 max-w-2xl type-body text-text/65">
                 WonkaChat brings AI, agents, company knowledge and tool connections together in one
@@ -278,7 +296,7 @@ export default async function WonkaChatPage() {
               <h2 className="mt-6 type-h4">
                 Everything your team needs
                 <br />
-                <span className="text-text/50">to work with AI.</span>
+                to work with AI.
               </h2>
               <p className="mt-6 type-body text-text/65">
                 WonkaChat is built to make AI useful across the organisation: simple enough for every
@@ -334,15 +352,45 @@ export default async function WonkaChatPage() {
 
         {/* SECURITY BANNER */}
         <section className="px-2 py-8 md:px-3 md:py-12">
-          <div className="overflow-hidden rounded-3xl">
-            <Image
-              src="/images/wonka-chat/security-banner.png"
-              alt="Your data is always yours. GDPR, ISO 27001 and NIS2 compliant."
-              width={1920}
-              height={600}
-              sizes="100vw"
-              className="block h-auto w-full"
-            />
+          <div className="relative overflow-hidden rounded-3xl bg-[#071714] px-6 py-14 text-white md:px-12 md:py-18">
+            <div className="pointer-events-none absolute inset-0 opacity-60" aria-hidden>
+              <div className="absolute left-[8%] top-[-20%] h-72 w-72 rounded-full bg-[#2adf92]/20 blur-3xl" />
+              <div className="absolute bottom-[-24%] right-[10%] h-80 w-80 rounded-full bg-[#79a7ff]/18 blur-3xl" />
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.12),transparent_42%)]" />
+            </div>
+
+            <div className="relative mx-auto grid max-w-[1180px] gap-10 md:grid-cols-[1.05fr_1fr] md:items-center">
+              <div>
+                <Eyebrow className="text-white/65">Security</Eyebrow>
+                <h2 className="mt-6 max-w-xl type-h4 text-white">
+                  Your data is always yours.
+                </h2>
+                <p className="mt-5 max-w-xl type-body text-white/70">
+                  WonkaChat is designed for companies that need AI to be useful, governed and
+                  secure. Your team gets the speed of AI with the controls your organisation expects.
+                </p>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-3 md:gap-5">
+                {securityBadges.map((badge) => (
+                  <article
+                    key={badge.name}
+                    className="flex flex-col items-center rounded-2xl border border-white/12 bg-white/[0.07] px-4 py-6 text-center shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur"
+                  >
+                    <Image
+                      src={badge.image}
+                      alt={badge.name}
+                      width={148}
+                      height={148}
+                      sizes="148px"
+                      className="h-24 w-24 object-contain md:h-28 md:w-28"
+                    />
+                    <h3 className="mt-5 type-paragraph-m-bold text-white">{badge.name}</h3>
+                    <p className="mt-2 type-paragraph-s text-white/60">{badge.detail}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -355,7 +403,7 @@ export default async function WonkaChatPage() {
             <h2 className="mt-6 type-h4">
               Honest feedback
               <br />
-              <span className="text-text/50">from valued people.</span>
+              from valued people.
             </h2>
             <p className="mx-auto mt-5 max-w-xl type-body text-text/60">
               Real feedback from leaders who trusted Wonka to turn AI ambition into a concrete plan
@@ -375,7 +423,7 @@ export default async function WonkaChatPage() {
           <h2 className="mt-6 type-h4">
             Want to see what WonkaChat
             <br />
-            <span className="text-text/50">could do for your team?</span>
+            could do for your team?
           </h2>
           <p className="mx-auto mt-4 max-w-xl type-body text-text/65">
             Book a short demo and we&apos;ll show how WonkaChat can connect to your tools, support
