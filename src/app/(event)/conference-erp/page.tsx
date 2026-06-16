@@ -38,28 +38,28 @@ const speakers = [
 
 const schedule = [
   {
-    time: "8h30",
-    label: "Arrivée & petit-déjeuner",
+    time: "9h00",
+    label: "Arrivée & café",
     description:
       "Accueil autour d'un café. Premiers échanges informels entre participants sélectionnés.",
     type: "optional" as const,
   },
   {
-    time: "9h00",
-    label: "Conférence de Cédric Gilissen",
+    time: "9h30",
+    label: "Début de la conférence",
     description:
-      "Comment l'IA transforme concrètement les entreprises qui utilisent un ERP. Cas Odoo, résultats réels, mise en œuvre en semaines.",
+      "Cédric Gilissen ouvre la matinée : comment l'IA transforme concrètement les entreprises qui utilisent un ERP. Cas Odoo, résultats réels, mise en œuvre en semaines.",
     type: "main" as const,
   },
   {
-    time: "10h00",
+    time: "10h30",
     label: "Questions & Réponses",
     description:
-      "Session ouverte avec Brieuc, Cédric et Théau. Votre situation spécifique, des réponses directes.",
+      "Session ouverte avec Brieuc, Cédric et Théau jusqu'à 11h. Votre situation spécifique, des réponses directes.",
     type: "main" as const,
   },
   {
-    time: "11h30",
+    time: "11h00",
     label: "Réseautage",
     description:
       "Échanges libres entre les participants présents. Clôture à 11h30.",
@@ -329,7 +329,13 @@ export default function ConferenceErpPage() {
                 <br />
                 25 juin 2026
               </p>
-              <p className="text-light-brown text-sm mt-5">Lieu à confirmer</p>
+              <div className="text-light-brown text-sm mt-5 leading-relaxed">
+                <p>Lieu à confirmer</p>
+                <p className="text-black/80 mt-2">Le Baratineur</p>
+                <p>341 Rue Saint-Charles O</p>
+                <p>Longueuil, QC J4H 1E7</p>
+                <p>Canada</p>
+              </div>
             </div>
 
             <div className="space-y-0 divide-y divide-dark-gray">
