@@ -15,24 +15,24 @@ export const metadata: Metadata = {
 const speakers = [
   {
     id: "brieuc",
-    name: "Brieuc",
+    name: "Brieuc De Voghel",
     role: "Fondateur · Odovia Integration",
     expertise: "Expert Odoo",
-    initials: "B",
+    photo: "/events/conference-erp/brieuc.png",
   },
   {
     id: "cedric",
     name: "Cédric Gilissen",
     role: "Fondateur & CEO · Wonka AI",
     expertise: "Expert IA",
-    initials: "C",
+    photo: "/events/conference-erp/cedric.png",
   },
   {
     id: "theau",
     name: "Théau Lepouttre",
     role: "Country Manager · Wonka AI",
     expertise: "Expert IA",
-    initials: "T",
+    photo: "/events/conference-erp/theau.png",
   },
 ];
 
@@ -127,7 +127,7 @@ export default function ConferenceErpPage() {
 
         <div className="relative max-w-6xl mx-auto w-full px-6 pb-24 pt-48">
           <p className="text-white/40 text-xs uppercase tracking-[0.2em] mb-10 font-medium">
-            Invitation privée · Mercredi 25 juin 2026
+            Invitation privée · Jeudi 25 juin 2026
           </p>
 
           <h1
@@ -282,17 +282,14 @@ export default function ConferenceErpPage() {
           <div className="grid md:grid-cols-3 gap-12 md:gap-8">
             {speakers.map((speaker) => (
               <div key={speaker.id} className="flex flex-col gap-5">
-                <div className="w-full aspect-[3/4] bg-white/5 border border-white/10 flex items-end justify-start p-4 relative overflow-hidden">
-                  <span
-                    className="font-serif text-white/10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none"
-                    style={{ fontSize: "10rem", lineHeight: 1 }}
-                  >
-                    {speaker.initials}
-                  </span>
-                  {/* Replace this div with <Image> once photos are available */}
-                  <span className="text-white/20 text-xs uppercase tracking-widest relative z-10">
-                    Photo à venir
-                  </span>
+                <div className="w-full aspect-[3/4] bg-white/5 border border-white/10 relative overflow-hidden">
+                  <Image
+                    src={speaker.photo}
+                    alt={speaker.name}
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover object-top"
+                  />
                 </div>
                 <div>
                   <p className="text-white font-medium text-lg leading-tight">{speaker.name}</p>
@@ -325,13 +322,12 @@ export default function ConferenceErpPage() {
                 La matinée
               </p>
               <p className="font-serif text-black text-2xl leading-tight mt-3">
-                Mercredi
+                Jeudi
                 <br />
                 25 juin 2026
               </p>
               <div className="text-light-brown text-sm mt-5 leading-relaxed">
-                <p>Lieu à confirmer</p>
-                <p className="text-black/80 mt-2">Le Baratineur</p>
+                <p className="text-black/80">Le Baratineur</p>
                 <p>341 Rue Saint-Charles O</p>
                 <p>Longueuil, QC J4H 1E7</p>
                 <p>Canada</p>
