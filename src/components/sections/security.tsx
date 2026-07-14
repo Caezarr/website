@@ -16,20 +16,8 @@ export function Security({ id }: { id?: string }) {
           className="object-cover mix-blend-luminosity"
         />
         <div className="relative grid grid-cols-1 gap-10 md:grid-cols-2 md:items-center md:gap-5">
-          <div className="flex max-w-[35.125rem] flex-col gap-10">
+          <div className="flex max-w-[35.125rem] flex-col">
             <h2 className="type-h4">Your data is always yours.</h2>
-            <div className="flex flex-col gap-4">
-              <p className="type-body opacity-80">
-                We don&apos;t train on it. We don&apos;t store what doesn&apos;t
-                need to be stored. Everything runs in a secure environment that
-                only your team can access.
-              </p>
-              <hr className="border-t border-dashed border-white/40" />
-              <p className="type-body opacity-80">
-                And if you ever want to leave, you can. No lock-in. No
-                complications.
-              </p>
-            </div>
           </div>
           <ul className="grid grid-cols-3">
             <li className="flex min-h-40 items-center justify-center border border-dashed border-white/40 px-3 py-2.5 md:min-h-[14.4375rem] md:px-7">

@@ -145,17 +145,17 @@ export function Hero({ meetingUrl }: HeroProps) {
           </FadeIn>
           <FadeIn delay={0.15}>
             <h1 className="type-h3 max-w-[14ch] text-balance">
-              Leave no human behind.
+              Your AI partner for repetitive work.
             </h1>
           </FadeIn>
           <FadeIn delay={0.3}>
-            <p className="type-body max-w-[27.125rem] text-text/90">
-              Your whole team working at full potential.
+            <p className="type-body max-w-[32rem] leading-6 text-text/90">
+              Your team is too good for repetitive work. We design your AI strategy, then build the applications and agents that handle it.
             </p>
           </FadeIn>
           <FadeIn delay={0.4}>
             <ButtonLink href={meetingUrl ?? "#"} variant="primary" className="mt-2">
-              Become AI-native
+              Book a 30 min call
             </ButtonLink>
           </FadeIn>
           <FadeIn delay={0.5}>

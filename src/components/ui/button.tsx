@@ -21,7 +21,7 @@ const buttonVariants = cva(
   },
 );
 
-const VARIANTS_WITH_ARROW = new Set(["primary", "underline"]);
+const VARIANTS_WITH_ARROW = new Set(["primary", "secondary", "underline"]);
 
 type ButtonVariant = NonNullable<VariantProps<typeof buttonVariants>["variant"]>;
 

@@ -181,7 +181,7 @@ export function MobileNavOverlay({
         {headerCta && (
           <div className="flex">
             <ButtonLink href="https://www.cal.eu/team/wonka-ai-experts/demonstration-call" variant="primary" className="w-full">
-              {headerCta.label}
+              Book a 30 min call
             </ButtonLink>
           </div>
         )}

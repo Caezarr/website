@@ -273,7 +273,7 @@ const ICON_SPECS: Record<IconKind, IconSpec> = {
   chat: {
     render: () => <LogoMark className="block h-full w-full" />,
     widthRefPx: 14,
-    aspectRatio: "58 / 63",
+    aspectRatio: "137 / 150",
   },
   jira: {
     src: "/images/visual/jira.svg",
@@ -297,7 +297,7 @@ const ICON_SPECS: Record<IconKind, IconSpec> = {
   },
 };
 
-export function Visual({ id }: { id?: string }) {
+export function CoordinatingAppsVisual({ id }: { id?: string }) {
   const [tick, setTick] = useState(0);
   const reduce = useReducedMotion() ?? false;
 

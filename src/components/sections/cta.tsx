@@ -28,11 +28,10 @@ export function Cta({ id, meetingUrl }: CtaProps) {
           Your team is too good for this work.
         </h2>
         <p className="type-body max-w-[35.125rem] text-text opacity-80">
-          Let&apos;s find out what they should stop doing. One call. No prep
-          needed.
+          Let&apos;s find out where Wonka AI can make a difference.
         </p>
         <ButtonLink href={meetingUrl ?? "#"} variant="primary">
-          Let&apos;s talk
+          Book a 30 min call
         </ButtonLink>
       </div>
     </Section>

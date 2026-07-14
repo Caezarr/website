@@ -7,7 +7,6 @@ import { buildMetadata } from "@/lib/seo";
 import { Hero } from "@/components/sections/hero";
 import { Problem } from "@/components/sections/problem";
 import { Solution } from "@/components/sections/solution";
-import { Visual } from "@/components/sections/visual";
 import { HowItWorks } from "@/components/sections/how-it-works";
 import { Stats } from "@/components/sections/stats";
 import { UseCases } from "@/components/sections/use-cases";
@@ -44,7 +43,6 @@ export default async function Home() {
     <>
       <Hero meetingUrl={meetingUrl} />
       <Problem id="problem" />
-      <Visual />
       <Solution id="solution" data={content?.solution ?? null} />
       <Stats id="stats" />
       <HowItWorks id="how-it-works" />
