@@ -1,3 +1,4 @@
+import { resolveTeamMeetingUrl } from "@/lib/resolve-meeting-url";
 import { LogoMark } from "@/components/ui/logo-mark";
 import { ButtonLink } from "@/components/ui/button";
 import type { Locale } from "@/i18n/config";
@@ -56,7 +57,7 @@ export function WonkaSolves({ locale, meetingUrl }: WonkaSolvesProps) {
           </div>
           <h2 className="type-h4">{t.headline}</h2>
           <p className="type-paragraph-m text-text/60">{t.body}</p>
-          <ButtonLink href={meetingUrl ?? "https://www.cal.eu/team/wonka-ai-experts/demonstration-call"} variant="primary" className="self-start">
+          <ButtonLink href={resolveTeamMeetingUrl(meetingUrl)} variant="primary" className="self-start">
             {t.cta}
           </ButtonLink>
         </div>

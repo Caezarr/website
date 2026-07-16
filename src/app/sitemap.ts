@@ -43,7 +43,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     { url: `${siteUrl}/ai-agents`, lastModified, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/start-ai`, lastModified, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${siteUrl}/wonka-build`, lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${siteUrl}/wonka-chat`, lastModified, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${siteUrl}/contact`, lastModified, changeFrequency: "monthly", priority: 0.85 },
     // Hub pages with hreflang
     ...sections.flatMap((section) =>
       locales.map((locale) => ({

@@ -30,7 +30,7 @@ const FOOTER_LINK_GROUPS: FooterDisplayGroup[] = [
     links: [
       { _key: "start-ai", label: "Start AI", href: "/start-ai" },
       { _key: "wonka-chat", label: "WonkaChat", href: "/wonka-chat" },
-      { _key: "wonka-build", label: "WonkaBuild" },
+      { _key: "wonka-build", label: "Wonka Build", href: "/wonka-build" },
     ],
   },
   {
@@ -74,6 +74,7 @@ const FOOTER_LINK_GROUPS: FooterDisplayGroup[] = [
         href: "https://wonka-ai.odoo.com/jobs",
         external: true,
       },
+      { _key: "contact", label: "Contact", href: "/contact" },
     ],
   },
 ];

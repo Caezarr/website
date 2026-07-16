@@ -11,6 +11,19 @@ export interface CtaButtonData {
   href: string;
 }
 
+export interface SectionHeaderData {
+  eyebrow: string | null;
+  heading: string | null;
+  body: string | null;
+  supplemental?: string | null;
+}
+
+export interface FaqItem {
+  _key?: string;
+  question: string;
+  answer: string;
+}
+
 export interface SeoData {
   metaTitle: string | null;
   metaDescription: string | null;
@@ -51,6 +64,9 @@ export interface FooterLinkGroup {
 
 export interface SharedLinks {
   meetingUrl: string | null;
+  startAiMeetingUrl: string | null;
+  wonkaBuildMeetingUrl: string | null;
+  wonkaChatMeetingUrl: string | null;
   meetingLabel: string | null;
   startAiUrl: string | null;
   wonkaBuildUrl: string | null;
@@ -117,7 +133,9 @@ export interface HomepageCtaData {
 }
 
 export interface SecurityData {
+  eyebrow: string | null;
   heading: string | null;
+  body: string | null;
 }
 
 export interface UseCaseWorkflow {
@@ -134,8 +152,16 @@ export interface UseCaseIndustry {
 }
 
 export interface UseCasesData {
+  eyebrow: string | null;
+  heading: string | null;
   industries: UseCaseIndustry[] | null;
 }
+
+export type {
+  StartAiContent,
+  WonkaBuildContent,
+  WonkaChatContent,
+} from "./page-sections";
 
 export interface HomepageContent {
   hero: HeroData | null;

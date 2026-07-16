@@ -12,6 +12,7 @@ import {
   type SolutionCardVariant,
 } from "@/components/sections/solution/card-shape";
 import { cn } from "@/lib/utils";
+import { headingClass } from "@/lib/design-tokens";
 import type { SolutionData, SolutionStep } from "@/lib/types";
 
 const EYEBROW = "How we work";
@@ -144,7 +145,7 @@ export function Solution({ id, data }: SolutionProps) {
             <Eyebrow>{eyebrow}</Eyebrow>
           </FadeIn>
           <FadeIn play={headerInView} delay={0.1}>
-            <h2 className="type-h4 max-w-[44.875rem] text-center text-text">
+            <h2 className={cn(headingClass.section, "max-w-[44.875rem] text-center text-text")}>
               {heading}
             </h2>
           </FadeIn>

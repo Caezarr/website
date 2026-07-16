@@ -7,6 +7,7 @@ import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import { hubPath, itemPath } from "@/lib/locale-path";
 import { getContentLanguages } from "@/lib/content-languages";
+import { resolveTeamMeetingUrl } from "@/lib/resolve-meeting-url";
 import { PortableText } from "@portabletext/react";
 import { ArticleSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld";
 import { ComparisonTable } from "@/components/sections/comparison-table";
@@ -44,6 +45,7 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
   ]);
   if (!data) notFound();
 
+  const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null);
   const c = data as ComparisonPage;
   const [{ data: relatedPosts }, { data: relatedConnectors }] = await Promise.all([
     sanityFetch({ query: RELATED_BLOG_POSTS_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),
@@ -153,9 +155,9 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
 
         <InternalLinkGrid title={exploreMoreLabel} links={evergreenLinks} className="mt-16" />
 
-        <WonkaSolves locale={locale} meetingUrl={meetingUrl as string | null} />
+        <WonkaSolves locale={locale} meetingUrl={bookingUrl} />
       </main>
-      <Cta meetingUrl={meetingUrl as string | null} />
+      <Cta meetingUrl={bookingUrl} />
     </>
   );
 }

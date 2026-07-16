@@ -44,6 +44,38 @@ export default defineConfig({
                           .schemaType("homepageContent")
                           .documentId("homepageContent"),
                       ),
+                    S.listItem()
+                      .title("WonkaChat")
+                      .icon(HomeIcon)
+                      .child(
+                        S.document()
+                          .schemaType("wonkaChatContent")
+                          .documentId("wonkaChatContent"),
+                      ),
+                    S.listItem()
+                      .title("Start AI")
+                      .icon(HomeIcon)
+                      .child(
+                        S.document()
+                          .schemaType("startAiContent")
+                          .documentId("startAiContent"),
+                      ),
+                    S.listItem()
+                      .title("Wonka Build")
+                      .icon(HomeIcon)
+                      .child(
+                        S.document()
+                          .schemaType("wonkaBuildContent")
+                          .documentId("wonkaBuildContent"),
+                      ),
+                    S.listItem()
+                      .title("Contact")
+                      .icon(DocumentTextIcon)
+                      .child(
+                        S.document()
+                          .schemaType("contactPageContent")
+                          .documentId("contactPageContent"),
+                      ),
                     S.divider(),
                     S.listItem()
                       .title("Terms of Use")

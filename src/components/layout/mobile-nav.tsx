@@ -66,20 +66,27 @@ function MobileNavAccordion({
           isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
         )}
       >
-        <div className="overflow-hidden">
+          <div className="overflow-hidden">
           <div className="flex flex-col gap-1 pb-1 pl-4 pt-2">
             {item.children?.map((child) => (
               <Link
                 key={child._key}
                 href={child.href}
                 onClick={onNavigate}
-                className="type-paragraph-s py-1.5 text-light-brown transition-colors hover:text-black"
+                className="flex flex-col gap-1 rounded-xs px-3 py-3 transition-[background-color,box-shadow] duration-200 hover:bg-light-gray hover:shadow-subtle-hover"
               >
-                {child.label}
+                <span className="type-paragraph-m-bold text-black">
+                  {child.label}
+                </span>
+                {child.description && (
+                  <span className="type-paragraph-s text-light-brown">
+                    {child.description}
+                  </span>
+                )}
               </Link>
             ))}
           </div>
-        </div>
+          </div>
       </div>
     </div>
   );

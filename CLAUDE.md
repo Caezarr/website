@@ -226,7 +226,18 @@ To tune the bloom: edit the `radial-gradient(…)` CSS string. Position via `at 
 
 1. Export the shape from Figma as SVG.
 2. Add a `*_PATH` constant with the `d` attribute, and a case in `ButtonBackgroundShape` with the matching `viewBox` and `fill`.
-3. Add the variant to the `cva` config with `isolate`, an explicit `h-[X]` (matching the path's vertical extent), and the right horizontal padding + text utility.
+3. Add the variant to the `cva` config with `isolate`, an explicit `h-[X]` (matching the path's vertical extent), and the right horizontal padding + type utility.
+
+## Page layout primitives
+
+Homepage is the design source of truth. Reuse these on all marketing pages:
+
+- **`src/lib/design-tokens.ts`** — `headingClass` (hero / section / subsection / card) and `radius` (xs / sm / full)
+- **`SectionHeader`** — eyebrow + `type-h4` title + body; single-color titles only (no grey second lines)
+- **`Surface`** — `card` (`rounded-sm`), `panel` (wide banners), `callout` (`rounded-xs`), `pill` (`rounded-full`)
+- **`Section`** — standard content width (`max-w-[84rem]`); use `wide` for full-bleed panels
+
+Do not use `rounded-lg`, `rounded-2xl`, or `rounded-3xl` on marketing pages.
 
 ## Architecture Rules
 

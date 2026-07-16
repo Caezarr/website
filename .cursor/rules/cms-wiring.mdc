@@ -11,37 +11,49 @@ When editing marketing sections, homepage copy, CTAs, or navigation, preserve CM
 
 Never remove or bypass CMS variables while hardcoding replacement copy in components. If copy or links are editable in Sanity Studio, the component must still read them.
 
-## Two content sources
+## Content sources
 
 | Source | Document | Use for |
 |--------|----------|---------|
-| Site-wide | `siteSettings` | Nav, footer, `headerCta`, `sharedLinks` |
-| Page-specific | `homepageContent` (page singletons) | Section headings, body copy, arrays for that page |
+| Site-wide | `siteSettings` | Nav, footer, `headerCta`, `sharedLinks` (booking URLs per page, product page URLs, meeting label) |
+| Page-specific | Page singletons (`homepageContent`, `startAiContent`, `wonkaBuildContent`, `wonkaChatContent`, `contactPageContent`, …) | Section copy, arrays, images for that page |
+| Collections | `testimonial`, blog, etc. | Shared lists reused across pages |
 
 PageLayout forwards `siteSettings` to Header/Footer only. Page routes fetch their own content and pass props into sections.
 
-## Before merging section redesigns
+## Reusable section pattern (product pages)
 
-1. Props still used — `{headerCta.label}`, `data?.steps`, not string literals when CMS fields exist
-2. Parent still passes props from `sanityFetch`
-3. Schema, GROQ query, types, and component props stay in sync
-4. Shared URLs live in `siteSettings.sharedLinks`, not scattered in components
-5. `headerCta` renders `{headerCta.label}` and `{headerCta.href}` when present
+1. **Sanity object type** in `sanity/schemas/objects/` (e.g. `sectionHeader`, `productHero`, `faqSection`)
+2. **Page document** references those objects in grouped fields
+3. **GROQ query** with shared field fragments in `sanity/lib/queries.ts`
+4. **TypeScript types** in `src/lib/types/page-sections.ts`
+5. **Code defaults** in `src/lib/page-defaults/` + merge via `resolve-pages.ts`
+6. **Section component** in `src/components/sections/` — UI shell, receives resolved `data` prop
+7. **Page route** — `sanityFetch` + `resolve*Content()` + compose sections
+
+Shared sections used across pages: `Security`, `UseCases`, `Testimonials`, `Cta`. Product-specific layouts use the reusable primitives (`ProductHero`, `LogoStrip`, `SplitContent`, `StickyFeatures`, etc.).
 
 ## Hardcoding is allowed only as fallbacks
 
 ```tsx
-const steps = data?.steps?.length ? data.steps : DEFAULT_STEPS;
-const label = meetingLabel ?? "Book a 30 min call";
+const content = resolveStartAiContent(cms);
+const label = meetingLabel ?? DEFAULT_MEETING_LABEL;
 ```
 
-## New homepage sections
+Defaults live in `src/lib/page-defaults/`. Components render CMS values when present, otherwise fall back to defaults — never the other way around.
 
-Require: Sanity schema → GROQ query → TypeScript type → section `data` prop → page route → Studio seed. Archive replaced sections under `src/components/archived/`; do not drop queries/fields until replacements are wired.
+## Adding a new marketing page
+
+1. Create page singleton schema under `sanity/schemas/documents/`
+2. Register in `sanity/schemas/index.ts` + Studio structure in `sanity.config.ts`
+3. Add `*_CONTENT_QUERY` with shared GROQ fragments
+4. Add types + defaults + `resolve*Content()` helper
+5. Compose existing section components in the page route
+6. Use `buildMetadata()` with page `seo` field
 
 ## Anti-patterns
 
-- `{headerCta && ...}` with hardcoded label/href inside
-- `data?: SolutionData` accepted but ignored in the component
-- Hardcoding meeting labels in many files instead of `sharedLinks.meetingLabel`
+- Page routes with large inline copy/constants instead of CMS + defaults
+- Duplicate section UI per page when a shared component already exists
+- Hardcoding meeting labels instead of `sharedLinks.meetingLabel`
 - Product URLs inline when they belong in `sharedLinks`

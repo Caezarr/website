@@ -4,6 +4,7 @@ import { sanityFetch } from "@sanity/lib/live";
 import { HOMEPAGE_CONTENT_QUERY, SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
 import type { HomepageContent, SiteSettings } from "@/lib/types";
 import { buildMetadata } from "@/lib/seo";
+import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import { Hero } from "@/components/sections/hero";
 import { Problem } from "@/components/sections/problem";
 import { Solution } from "@/components/sections/solution";
@@ -39,7 +40,7 @@ export default async function Home() {
     getSiteSettings(),
   ]);
   const sharedLinks = settings?.sharedLinks ?? null;
-  const meetingUrl = sharedLinks?.meetingUrl ?? null;
+  const meetingUrl = resolveMeetingUrl(sharedLinks, "default");
   const meetingLabel = sharedLinks?.meetingLabel ?? null;
 
   return (

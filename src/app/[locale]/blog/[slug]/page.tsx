@@ -14,6 +14,7 @@ import { Cta } from "@/components/sections/cta";
 import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
 import { ButtonLink } from "@/components/ui/button";
 import { getEvergreenInternalLinks } from "@/lib/internal-links";
+import { resolveTeamMeetingUrl } from "@/lib/resolve-meeting-url";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost, ComparisonPage, ConnectorPage, GlossaryTerm } from "@/lib/types";
 
@@ -92,6 +93,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     sanityFetch({ query: MEETING_URL_QUERY }),
   ]);
 
+  const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null);
   const siteUrl  = getSiteUrl();
   const postUrl  = `${siteUrl}${itemPath("blog", locale, slug)}`;
   const hubUrl   = `${siteUrl}${hubPath("blog", locale)}`;
@@ -262,7 +264,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 <div className="rounded-xl border border-border bg-mid-gray p-6">
                   <p className="type-body font-medium mb-1">Ready to start?</p>
                   <p className="type-paragraph-s text-text/55 mb-4">30-minute call, no slides.</p>
-                  <ButtonLink href={meetingUrl as string ?? "#"} variant="primary">
+                  <ButtonLink href={bookingUrl} variant="primary">
                     Book a call
                   </ButtonLink>
                 </div>
@@ -278,9 +280,9 @@ export default async function BlogPostPage({ params }: PageProps) {
       </div>
 
       <div className="mx-auto max-w-[1200px] px-6">
-        <WonkaSolves locale={locale} meetingUrl={meetingUrl as string | null} />
+        <WonkaSolves locale={locale} meetingUrl={bookingUrl} />
       </div>
-      <Cta meetingUrl={meetingUrl as string | null} />
+      <Cta meetingUrl={bookingUrl} />
     </>
   );
 }

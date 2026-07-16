@@ -2,7 +2,9 @@ import Image from "next/image";
 import { ButtonLink } from "@/components/ui/button";
 import { FadeIn } from "@/components/animations/fade-in";
 import { HeroMarquee } from "./hero-marquee";
+import { cn } from "@/lib/utils";
 import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { headingClass } from "@/lib/design-tokens";
 import type { HeroData } from "@/lib/types";
 
 export const HERO_BG_IMAGE = "/images/hero-bg.avif";
@@ -159,7 +161,7 @@ export function Hero({ data, meetingUrl, meetingLabel }: HeroProps) {
             </div>
           </FadeIn>
           <FadeIn delay={0.15}>
-            <h1 className="type-h3 max-w-[14ch] text-balance">
+            <h1 className={cn(headingClass.hero, "max-w-[14ch] text-balance")}>
               {title}
             </h1>
           </FadeIn>
