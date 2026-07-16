@@ -51,6 +51,10 @@ export interface FooterLinkGroup {
 
 export interface SharedLinks {
   meetingUrl: string | null;
+  meetingLabel: string | null;
+  startAiUrl: string | null;
+  wonkaBuildUrl: string | null;
+  wonkaChatUrl: string | null;
 }
 
 export interface SiteSettings {
@@ -73,7 +77,47 @@ export interface SolutionStep {
 }
 
 export interface SolutionData {
+  eyebrow: string | null;
+  heading: string | null;
+  body: string | null;
   steps: SolutionStep[] | null;
+}
+
+export interface WhatWeDoCard {
+  _key: string;
+  tagline: string;
+  body: string;
+  cta: CtaButtonData;
+}
+
+export interface WhatWeDoData {
+  eyebrow: string | null;
+  heading: string | null;
+  cards: WhatWeDoCard[] | null;
+}
+
+export interface HowToStartData {
+  eyebrow: string | null;
+  heading: string | null;
+  body: string | null;
+  calloutHeading: string | null;
+  outcomesHeading: string | null;
+  outcomes: string[] | null;
+}
+
+export interface HeroData {
+  awardBadge: string | null;
+  title: string | null;
+  subtitle: string | null;
+}
+
+export interface HomepageCtaData {
+  heading: string | null;
+  body: string | null;
+}
+
+export interface SecurityData {
+  heading: string | null;
 }
 
 export interface UseCaseWorkflow {
@@ -94,7 +138,12 @@ export interface UseCasesData {
 }
 
 export interface HomepageContent {
+  hero: HeroData | null;
   solution: SolutionData | null;
+  whatWeDo: WhatWeDoData | null;
+  howToStart: HowToStartData | null;
+  security: SecurityData | null;
+  cta: HomepageCtaData | null;
   useCases: UseCasesData | null;
   seo: SeoData | null;
 }

@@ -38,19 +38,40 @@ export default async function Home() {
     getHomepageContent(),
     getSiteSettings(),
   ]);
-  const meetingUrl = settings?.sharedLinks?.meetingUrl ?? null;
+  const sharedLinks = settings?.sharedLinks ?? null;
+  const meetingUrl = sharedLinks?.meetingUrl ?? null;
+  const meetingLabel = sharedLinks?.meetingLabel ?? null;
+
   return (
     <>
-      <Hero meetingUrl={meetingUrl} />
+      <Hero
+        data={content?.hero ?? null}
+        meetingUrl={meetingUrl}
+        meetingLabel={meetingLabel}
+      />
       <Problem id="problem" />
       <Solution id="solution" data={content?.solution ?? null} />
       <Stats id="stats" />
-      <HowItWorks id="how-it-works" />
+      <HowItWorks
+        id="how-it-works"
+        data={content?.whatWeDo ?? null}
+        sharedLinks={sharedLinks}
+      />
       <UseCases id="use-cases" data={content?.useCases ?? null} />
-      <HowToStart id="how-to-start" meetingUrl={meetingUrl} />
-      <Security id="security" />
+      <HowToStart
+        id="how-to-start"
+        data={content?.howToStart ?? null}
+        meetingUrl={meetingUrl}
+        meetingLabel={meetingLabel}
+      />
+      <Security id="security" data={content?.security ?? null} />
       <Testimonials id="testimonials" />
-      <Cta id="get-started" meetingUrl={meetingUrl} />
+      <Cta
+        id="get-started"
+        data={content?.cta ?? null}
+        meetingUrl={meetingUrl}
+        meetingLabel={meetingLabel}
+      />
     </>
   );
 }

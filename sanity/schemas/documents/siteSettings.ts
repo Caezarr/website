@@ -29,6 +29,31 @@ export const siteSettings = defineType({
           validation: (Rule) =>
             Rule.uri({ scheme: ["http", "https", "mailto", "tel"] }),
         }),
+        defineField({
+          name: "meetingLabel",
+          title: "Schedule a call button label",
+          type: "string",
+          description:
+            "Label for booking CTAs site-wide (hero, header-adjacent sections, footer CTA). Falls back to “Book a 30 min call” when empty.",
+        }),
+        defineField({
+          name: "startAiUrl",
+          title: "Start AI page URL",
+          type: "string",
+          description: "Relative path or full URL for Start AI product links.",
+        }),
+        defineField({
+          name: "wonkaBuildUrl",
+          title: "Wonka Build page URL",
+          type: "string",
+          description: "Relative path or full URL for Wonka Build product links.",
+        }),
+        defineField({
+          name: "wonkaChatUrl",
+          title: "WonkaChat page URL",
+          type: "string",
+          description: "Relative path or full URL for WonkaChat product links.",
+        }),
       ],
     }),
 

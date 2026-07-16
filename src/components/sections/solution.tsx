@@ -19,6 +19,8 @@ const HEADING = "Wonka AI makes AI work for your whole organisation.";
 const BODY =
   "Most AI looks great on launch day and gathers dust by week three. We start with your current processes, work backwards from everyday use, and stay until your whole team is genuinely using it.";
 
+const SOLUTION_STEP_COUNT = 4;
+
 const STEPS: SolutionStep[] = [
   {
     _key: "step-1",
@@ -84,8 +86,12 @@ interface SolutionProps {
   id?: string;
 }
 
-export function Solution({ id }: SolutionProps) {
-  const steps = STEPS;
+export function Solution({ id, data }: SolutionProps) {
+  const eyebrow = data?.eyebrow ?? EYEBROW;
+  const heading = data?.heading ?? HEADING;
+  const body = data?.body ?? BODY;
+  const steps =
+    data?.steps?.length === SOLUTION_STEP_COUNT ? data.steps : STEPS;
   const [activeIndex, setActiveIndex] = useState(0);
   const cardRefs = useRef<Array<HTMLElement | null>>([]);
   const headerRef = useRef<HTMLDivElement>(null);
@@ -128,23 +134,23 @@ export function Solution({ id }: SolutionProps) {
   }, [steps.length]);
 
   return (
-    <Section id={id} className="py-20 md:py-30" aria-label={EYEBROW}>
+    <Section id={id} className="py-20 md:py-30" aria-label={eyebrow}>
       <div className="flex flex-col gap-16">
         <div
           ref={headerRef}
           className="flex flex-col items-center gap-6 border-b border-dashed border-border pb-10"
         >
           <FadeIn play={headerInView}>
-            <Eyebrow>{EYEBROW}</Eyebrow>
+            <Eyebrow>{eyebrow}</Eyebrow>
           </FadeIn>
           <FadeIn play={headerInView} delay={0.1}>
             <h2 className="type-h4 max-w-[44.875rem] text-center text-text">
-              {HEADING}
+              {heading}
             </h2>
           </FadeIn>
           <FadeIn play={headerInView} delay={0.2}>
             <p className="type-body max-w-[44.875rem] text-center text-text opacity-80">
-              {BODY}
+              {body}
             </p>
           </FadeIn>
         </div>

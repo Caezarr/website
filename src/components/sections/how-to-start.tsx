@@ -8,9 +8,18 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { ButtonLink } from "@/components/ui/button";
 import { CheckmarkIcon } from "@/components/ui/icons/checkmark-icon";
 import { FadeIn } from "@/components/animations/fade-in";
+import { MultilineText, DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
 import { cn } from "@/lib/utils";
+import type { HowToStartData } from "@/lib/types";
 
-const OUTCOMES: string[] = [
+const DEFAULT_EYEBROW = "How to start";
+const DEFAULT_HEADING = "Not sure how to get started?";
+const DEFAULT_BODY =
+  "That's exactly why we talk.\nBook a 30-minute call. Tell us how you work, and we'll tell you where AI would actually make a difference, and where it wouldn't.";
+const DEFAULT_CALLOUT_HEADING = "30 minutes.\nYou'll know if it makes sense.";
+const DEFAULT_OUTCOMES_HEADING = "You walk away with";
+
+const DEFAULT_OUTCOMES: string[] = [
   "A sense of what's realistic to achieve, and how fast.",
   "A clear next step, whether that's Start AI, Wonka Build, or WonkaChat.",
   "Answers to your specific AI questions.",
@@ -19,10 +28,26 @@ const OUTCOMES: string[] = [
 
 interface HowToStartProps {
   id?: string;
+  data?: HowToStartData | null;
   meetingUrl?: string | null;
+  meetingLabel?: string | null;
 }
 
-export function HowToStart({ id, meetingUrl }: HowToStartProps) {
+export function HowToStart({
+  id,
+  data,
+  meetingUrl,
+  meetingLabel,
+}: HowToStartProps) {
+  const eyebrow = data?.eyebrow ?? DEFAULT_EYEBROW;
+  const heading = data?.heading ?? DEFAULT_HEADING;
+  const body = data?.body ?? DEFAULT_BODY;
+  const calloutHeading = data?.calloutHeading ?? DEFAULT_CALLOUT_HEADING;
+  const outcomesHeading = data?.outcomesHeading ?? DEFAULT_OUTCOMES_HEADING;
+  const outcomes =
+    data?.outcomes?.length ? data.outcomes : DEFAULT_OUTCOMES;
+  const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
+
   const headerRef = useRef<HTMLDivElement>(null);
   const headerInView = useInView(headerRef, { once: true, amount: 0.5 });
 
@@ -35,23 +60,22 @@ export function HowToStart({ id, meetingUrl }: HowToStartProps) {
       <div className="flex flex-col gap-16 md:gap-20">
         <div ref={headerRef} className="flex flex-col items-center gap-6">
           <FadeIn play={headerInView}>
-            <Eyebrow>How to start</Eyebrow>
+            <Eyebrow>{eyebrow}</Eyebrow>
           </FadeIn>
           <FadeIn play={headerInView} delay={0.1}>
-            <h2
+            <MultilineText
+              text={heading}
+              as="h2"
               id="how-to-start-heading"
               className="type-h4 max-w-[44.875rem] text-center text-text"
-            >
-              Not sure how to get started?
-            </h2>
+            />
           </FadeIn>
           <FadeIn play={headerInView} delay={0.2}>
-            <p className="type-body max-w-[35.125rem] text-center text-text opacity-80">
-              That&apos;s exactly why we talk.
-              <br />
-              Book a 30-minute call. Tell us how you work, and we&apos;ll tell you
-              where AI would actually make a difference, and where it wouldn&apos;t.
-            </p>
+            <MultilineText
+              text={body}
+              as="p"
+              className="type-body max-w-[35.125rem] text-center text-text opacity-80"
+            />
           </FadeIn>
         </div>
 
@@ -70,28 +94,26 @@ export function HowToStart({ id, meetingUrl }: HowToStartProps) {
             />
 
             <div className="relative flex flex-col items-start gap-6">
-              <h3 className="type-h5 max-w-[44.875rem] text-text">
-                30 minutes.
-                <br />
-                You&apos;ll know if it makes sense.
-              </h3>
+              <MultilineText
+                text={calloutHeading}
+                as="h3"
+                className="type-h5 max-w-[44.875rem] text-text"
+              />
               <ButtonLink href={meetingUrl ?? "#"} variant="primary">
-                Book a 30 min call
+                {ctaLabel}
               </ButtonLink>
             </div>
           </div>
 
           <div className="flex flex-col gap-8 rounded-sm border border-border bg-light-gray px-7 py-10 lg:flex-row lg:items-stretch lg:gap-6">
-            <h3 className="type-h5 flex-1 text-text">
-              You walk away with
-            </h3>
+            <h3 className="type-h5 flex-1 text-text">{outcomesHeading}</h3>
             <ul className="flex flex-1 flex-col justify-center gap-2">
-              {OUTCOMES.map((outcome, i) => (
+              {outcomes.map((outcome, i) => (
                 <li
-                  key={i}
+                  key={outcome}
                   className={cn(
                     "flex items-center gap-2.5",
-                    i < OUTCOMES.length - 1 &&
+                    i < outcomes.length - 1 &&
                       "border-b border-dashed border-border pb-2",
                   )}
                 >

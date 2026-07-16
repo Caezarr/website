@@ -3,8 +3,18 @@ import { Section } from "@/components/ui/section";
 import { BadgeGdpr } from "@/components/ui/icons/badge-gdpr";
 import { BadgeIso } from "@/components/ui/icons/badge-iso";
 import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
+import type { SecurityData } from "@/lib/types";
 
-export function Security({ id }: { id?: string }) {
+const DEFAULT_HEADING = "Your data is always yours.";
+
+interface SecurityProps {
+  id?: string;
+  data?: SecurityData | null;
+}
+
+export function Security({ id, data }: SecurityProps) {
+  const heading = data?.heading ?? DEFAULT_HEADING;
+
   return (
     <Section id={id} wide className="bg-background">
       <div className="relative overflow-hidden rounded-sm bg-blue-900 p-7.5 text-white md:p-12">
@@ -17,7 +27,7 @@ export function Security({ id }: { id?: string }) {
         />
         <div className="relative grid grid-cols-1 gap-10 md:grid-cols-2 md:items-center md:gap-5">
           <div className="flex max-w-[35.125rem] flex-col">
-            <h2 className="type-h4">Your data is always yours.</h2>
+            <h2 className="type-h4">{heading}</h2>
           </div>
           <ul className="grid grid-cols-3">
             <li className="flex min-h-40 items-center justify-center border border-dashed border-white/40 px-3 py-2.5 md:min-h-[14.4375rem] md:px-7">

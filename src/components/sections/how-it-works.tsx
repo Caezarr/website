@@ -6,15 +6,21 @@ import { Section } from "@/components/ui/section";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { ButtonLink } from "@/components/ui/button";
 import { FadeIn } from "@/components/animations/fade-in";
+import { MultilineText } from "@/lib/cms-text";
+import type { SharedLinks, WhatWeDoCard, WhatWeDoData } from "@/lib/types";
 
-interface ServiceCard {
+interface ResolvedCard {
+  _key: string;
   tagline: string;
   body: string;
   ctaLabel: string;
   ctaHref: string;
 }
 
-const CARDS: ServiceCard[] = [
+const DEFAULT_EYEBROW = "What we do";
+const DEFAULT_HEADING = "Everything you need\nto make AI work.";
+
+const DEFAULT_CARDS: Omit<ResolvedCard, "_key">[] = [
   {
     tagline: "Know AI matters, but not where to start?",
     body: "We analyze your processes, map where AI creates real value, and build your roadmap with concrete actions.",
@@ -35,8 +41,47 @@ const CARDS: ServiceCard[] = [
   },
 ];
 
-export function HowItWorks({ id = "how-it-works" }: { id?: string }) {
+function resolveCards(
+  data: WhatWeDoData | null | undefined,
+  sharedLinks: SharedLinks | null | undefined,
+): ResolvedCard[] {
+  const productUrls = [
+    sharedLinks?.startAiUrl ?? "/start-ai",
+    sharedLinks?.wonkaBuildUrl ?? "/ai-agents",
+    sharedLinks?.wonkaChatUrl ?? "/wonka-chat",
+  ];
+  const source: Array<WhatWeDoCard | Omit<ResolvedCard, "_key">> =
+    data?.cards?.length ? data.cards : DEFAULT_CARDS;
+
+  return source.map((card, i) => {
+    const fallback = DEFAULT_CARDS[i] ?? DEFAULT_CARDS[0];
+    const cmsCard = "cta" in card ? card : null;
+
+    return {
+      _key: cmsCard?._key ?? `default-${i}`,
+      tagline: card.tagline,
+      body: card.body,
+      ctaLabel: cmsCard?.cta?.label ?? fallback.ctaLabel,
+      ctaHref: cmsCard?.cta?.href || productUrls[i] || fallback.ctaHref,
+    };
+  });
+}
+
+interface HowItWorksProps {
+  id?: string;
+  data?: WhatWeDoData | null;
+  sharedLinks?: SharedLinks | null;
+}
+
+export function HowItWorks({
+  id = "how-it-works",
+  data,
+  sharedLinks,
+}: HowItWorksProps) {
   const headingId = `${id}-heading`;
+  const eyebrow = data?.eyebrow ?? DEFAULT_EYEBROW;
+  const heading = data?.heading ?? DEFAULT_HEADING;
+  const cards = resolveCards(data, sharedLinks);
   const headerRef = useRef<HTMLDivElement>(null);
   const headerInView = useInView(headerRef, { once: true, amount: 0.5 });
   const cardsRef = useRef<HTMLUListElement>(null);
@@ -47,23 +92,21 @@ export function HowItWorks({ id = "how-it-works" }: { id?: string }) {
       <div className="flex flex-col gap-16">
         <div ref={headerRef} className="flex flex-col items-center gap-6">
           <FadeIn play={headerInView}>
-            <Eyebrow>What we do</Eyebrow>
+            <Eyebrow>{eyebrow}</Eyebrow>
           </FadeIn>
           <FadeIn play={headerInView} delay={0.1}>
-            <h2
+            <MultilineText
+              text={heading}
+              as="h2"
               id={headingId}
               className="type-h4 max-w-[44.875rem] text-center text-text"
-            >
-              Everything you need
-              <br />
-              to make AI work.
-            </h2>
+            />
           </FadeIn>
         </div>
 
         <ul ref={cardsRef} className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
-          {CARDS.map((card, i) => (
-            <li key={card.tagline} className="h-full">
+          {cards.map((card, i) => (
+            <li key={card._key} className="h-full">
               <FadeIn
                 play={cardsInView}
                 delay={i * 0.12}

@@ -28,7 +28,7 @@ const FOOTER_LINK_GROUPS: FooterDisplayGroup[] = [
     _key: "default-product",
     title: "Product",
     links: [
-      { _key: "start-ai", label: "StartAI", href: "/start-ai" },
+      { _key: "start-ai", label: "Start AI", href: "/start-ai" },
       { _key: "wonka-chat", label: "WonkaChat", href: "/wonka-chat" },
       { _key: "wonka-build", label: "WonkaBuild" },
     ],
