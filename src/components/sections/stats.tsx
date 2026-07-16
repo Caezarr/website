@@ -49,7 +49,7 @@ export function Stats({ id }: { id?: string }) {
             </p>
           </li>
           <li className="flex min-h-[14.4375rem] flex-col items-start justify-between gap-6 border-t border-dashed border-white/40 p-7.5 md:border-t-0 md:border-l">
-            <LogoMark className="text-white" />
+            <LogoMark variant="light" />
             <p className="type-paragraph-m max-w-[14.5625rem]">
               With Wonka, your usual working day is finished at 3 pm.
             </p>

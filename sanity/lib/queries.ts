@@ -3,7 +3,11 @@ import { defineQuery } from "next-sanity";
 export const SITE_SETTINGS_QUERY = defineQuery(`
   *[_type == "siteSettings"][0] {
     sharedLinks {
-      meetingUrl
+      meetingUrl,
+      meetingLabel,
+      startAiUrl,
+      wonkaBuildUrl,
+      wonkaChatUrl
     },
     navigation[] {
       _key,
@@ -68,12 +72,48 @@ export const LEGAL_PAGE_QUERY = defineQuery(`
 
 export const HOMEPAGE_CONTENT_QUERY = defineQuery(`
   *[_type == "homepageContent"][0] {
+    hero {
+      awardBadge,
+      title,
+      subtitle
+    },
     solution {
+      eyebrow,
+      heading,
+      body,
       steps[] {
         _key,
         title,
         body
       }
+    },
+    whatWeDo {
+      eyebrow,
+      heading,
+      cards[] {
+        _key,
+        tagline,
+        body,
+        cta {
+          label,
+          href
+        }
+      }
+    },
+    howToStart {
+      eyebrow,
+      heading,
+      body,
+      calloutHeading,
+      outcomesHeading,
+      outcomes
+    },
+    security {
+      heading
+    },
+    cta {
+      heading,
+      body
     },
     useCases {
       industries[] {

@@ -1,0 +1,47 @@
+---
+description: Preserve Sanity CMS variables when refactoring marketing sections
+alwaysApply: true
+---
+
+# CMS wiring — never break the content layer
+
+When editing marketing sections, homepage copy, CTAs, or navigation, preserve CMS-driven values. Visual and layout refactors are fine; disconnecting Sanity is not.
+
+## Golden rule
+
+Never remove or bypass CMS variables while hardcoding replacement copy in components. If copy or links are editable in Sanity Studio, the component must still read them.
+
+## Two content sources
+
+| Source | Document | Use for |
+|--------|----------|---------|
+| Site-wide | `siteSettings` | Nav, footer, `headerCta`, `sharedLinks` |
+| Page-specific | `homepageContent` (page singletons) | Section headings, body copy, arrays for that page |
+
+PageLayout forwards `siteSettings` to Header/Footer only. Page routes fetch their own content and pass props into sections.
+
+## Before merging section redesigns
+
+1. Props still used — `{headerCta.label}`, `data?.steps`, not string literals when CMS fields exist
+2. Parent still passes props from `sanityFetch`
+3. Schema, GROQ query, types, and component props stay in sync
+4. Shared URLs live in `siteSettings.sharedLinks`, not scattered in components
+5. `headerCta` renders `{headerCta.label}` and `{headerCta.href}` when present
+
+## Hardcoding is allowed only as fallbacks
+
+```tsx
+const steps = data?.steps?.length ? data.steps : DEFAULT_STEPS;
+const label = meetingLabel ?? "Book a 30 min call";
+```
+
+## New homepage sections
+
+Require: Sanity schema → GROQ query → TypeScript type → section `data` prop → page route → Studio seed. Archive replaced sections under `src/components/archived/`; do not drop queries/fields until replacements are wired.
+
+## Anti-patterns
+
+- `{headerCta && ...}` with hardcoded label/href inside
+- `data?: SolutionData` accepted but ignored in the component
+- Hardcoding meeting labels in many files instead of `sharedLinks.meetingLabel`
+- Product URLs inline when they belong in `sharedLinks`

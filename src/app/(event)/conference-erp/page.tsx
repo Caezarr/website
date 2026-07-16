@@ -76,12 +76,11 @@ export default function ConferenceErpPage() {
         <div className="max-w-6xl mx-auto px-6 flex items-center justify-between h-14">
           <div className="flex items-center gap-4">
             <Image
-              src="/wonka-logo.svg"
+              src="/images/brand/wonka-logo-white.svg"
               alt="Wonka AI"
-              width={86}
-              height={19}
+              width={300}
+              height={69}
               style={{ height: 19, width: "auto" }}
-              className="invert"
             />
             <span className="text-white/20 text-sm select-none">×</span>
             <Image
@@ -390,12 +389,12 @@ export default function ConferenceErpPage() {
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
           <div className="flex items-center gap-5">
             <Image
-              src="/wonka-logo.svg"
+              src="/images/brand/wonka-logo-white.svg"
               alt="Wonka AI"
-              width={86}
-              height={19}
+              width={300}
+              height={69}
               style={{ height: 19, width: "auto" }}
-              className="invert opacity-50"
+              className="opacity-50"
             />
             <span className="text-white/20 text-sm select-none">×</span>
             <Image
