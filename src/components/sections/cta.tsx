@@ -1,7 +1,9 @@
 import Image from "next/image";
 import { Section } from "@/components/ui/section";
 import { ButtonLink } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { headingClass } from "@/lib/design-tokens";
 import type { HomepageCtaData } from "@/lib/types";
 
 const DEFAULT_HEADING = "Your team is too good for this work.";
@@ -35,7 +37,7 @@ export function Cta({ id, data, meetingUrl, meetingLabel }: CtaProps) {
         className="pointer-events-none object-cover opacity-80"
       />
       <div className="relative flex flex-col items-center gap-6 text-center">
-        <h2 className="type-h4 text-text xl:whitespace-nowrap">{heading}</h2>
+        <h2 className={cn(headingClass.section, "text-text xl:whitespace-nowrap")}>{heading}</h2>
         <p className="type-body max-w-[35.125rem] text-text opacity-80">{body}</p>
         <ButtonLink href={meetingUrl ?? "#"} variant="primary">
           {ctaLabel}

@@ -13,6 +13,7 @@ import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
 import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
 import { getEvergreenInternalLinks } from "@/lib/internal-links";
+import { resolveTeamMeetingUrl } from "@/lib/resolve-meeting-url";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost, ComparisonPage, ConnectorPage, GlossaryTerm } from "@/lib/types";
 
@@ -102,6 +103,7 @@ export default async function GlossaryTermPage({ params }: PageProps) {
     sanityFetch({ query: MEETING_URL_QUERY }),
   ]);
 
+  const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null);
   const siteUrl = getSiteUrl();
   const pageUrl = `${siteUrl}${itemPath('glossary', locale, slug)}`;
   const parentUrl = `${siteUrl}${hubPath('glossary', locale)}`;
@@ -194,9 +196,9 @@ export default async function GlossaryTermPage({ params }: PageProps) {
 
         <InternalLinkGrid title={exploreMoreLabels[locale]} links={evergreenLinks} className="mt-16" />
 
-        <WonkaSolves locale={locale} meetingUrl={meetingUrl as string | null} />
+        <WonkaSolves locale={locale} meetingUrl={bookingUrl} />
       </main>
-      <Cta meetingUrl={meetingUrl as string | null} />
+      <Cta meetingUrl={bookingUrl} />
     </>
   );
 }

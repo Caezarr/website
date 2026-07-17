@@ -4,11 +4,13 @@ import Image from "next/image";
 import { useRef } from "react";
 import { useInView } from "motion/react";
 import { Section } from "@/components/ui/section";
+import { Surface } from "@/components/ui/surface";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { ButtonLink } from "@/components/ui/button";
 import { CheckmarkIcon } from "@/components/ui/icons/checkmark-icon";
 import { FadeIn } from "@/components/animations/fade-in";
 import { MultilineText, DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { headingClass } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 import type { HowToStartData } from "@/lib/types";
 
@@ -67,7 +69,7 @@ export function HowToStart({
               text={heading}
               as="h2"
               id="how-to-start-heading"
-              className="type-h4 max-w-[44.875rem] text-center text-text"
+              className={cn(headingClass.section, "max-w-[44.875rem] text-center text-text")}
             />
           </FadeIn>
           <FadeIn play={headerInView} delay={0.2}>
@@ -80,9 +82,10 @@ export function HowToStart({
         </div>
 
         <div className="flex flex-col gap-3.5">
-          <div
+          <Surface
+            variant="callout"
             data-theme="dark"
-            className="relative overflow-hidden rounded-xs bg-black p-7"
+            className="relative bg-black p-7"
           >
             <Image
               src="/images/how-to-start/how-to-start-bg.avif"
@@ -103,9 +106,12 @@ export function HowToStart({
                 {ctaLabel}
               </ButtonLink>
             </div>
-          </div>
+          </Surface>
 
-          <div className="flex flex-col gap-8 rounded-sm border border-border bg-light-gray px-7 py-10 lg:flex-row lg:items-stretch lg:gap-6">
+          <Surface
+            variant="card"
+            className="flex flex-col gap-8 border border-border bg-light-gray px-7 py-10 lg:flex-row lg:items-stretch lg:gap-6"
+          >
             <h3 className="type-h5 flex-1 text-text">{outcomesHeading}</h3>
             <ul className="flex flex-1 flex-col justify-center gap-2">
               {outcomes.map((outcome, i) => (
@@ -122,7 +128,7 @@ export function HowToStart({
                 </li>
               ))}
             </ul>
-          </div>
+          </Surface>
         </div>
       </div>
     </Section>

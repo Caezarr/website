@@ -7,6 +7,7 @@ import { BreadcrumbSchema, FaqSchema, SoftwareAppSchema } from "@/components/jso
 import { Cta } from "@/components/sections/cta";
 import { ButtonLink } from "@/components/ui/button";
 import { getSiteUrl } from "@/lib/site-url";
+import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import type { SiteSettings } from "@/lib/types";
 
 export const dynamic = "force-static";
@@ -104,7 +105,10 @@ export default async function AiAgentsPage() {
   const siteUrl = getSiteUrl();
   const pageUrl = `${siteUrl}${pagePath}`;
   const { data: settings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
-  const meetingUrl = (settings as SiteSettings | null)?.sharedLinks?.meetingUrl ?? null;
+  const meetingUrl = resolveMeetingUrl(
+    (settings as SiteSettings | null)?.sharedLinks,
+    "default",
+  );
 
   return (
     <>

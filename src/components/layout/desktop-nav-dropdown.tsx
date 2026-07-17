@@ -12,7 +12,7 @@ export function NavDropdownContent({ items }: NavDropdownContentProps) {
   const pathname = usePathname();
 
   return (
-    <ul className="flex w-max min-w-[220px] flex-col gap-0.5 p-1.5">
+    <ul className="flex w-max min-w-[17.5rem] flex-col gap-1">
       {items.map((child) => {
         const isActive =
           !child.href.startsWith("/#") &&
@@ -24,15 +24,17 @@ export function NavDropdownContent({ items }: NavDropdownContentProps) {
               render={<Link href={child.href} />}
               active={isActive}
               className={cn(
-                "flex w-full flex-col gap-0.5 rounded-lg px-3 py-2 text-decoration-none transition-colors hover:bg-light-gray",
-                isActive && "bg-light-gray",
+                "flex w-full flex-col gap-1 rounded-xs px-4 py-3 text-decoration-none transition-[background-color,box-shadow] duration-200",
+                "hover:bg-light-gray hover:shadow-subtle-hover",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2",
+                isActive && "bg-mid-gray shadow-subtle",
               )}
             >
-              <span className="text-sm font-bold text-text">
+              <span className="type-paragraph-m-bold text-text">
                 {child.label}
               </span>
               {child.description && (
-                <span className="text-xs font-medium text-text/60">
+                <span className="type-paragraph-s text-light-brown">
                   {child.description}
                 </span>
               )}

@@ -139,6 +139,8 @@ interface ButtonLinkProps extends VariantProps<typeof buttonVariants> {
   href: string;
   className?: string;
   children: React.ReactNode;
+  target?: React.HTMLAttributeAnchorTarget;
+  rel?: string;
 }
 
 function ButtonLink({
@@ -146,12 +148,21 @@ function ButtonLink({
   variant = "primary",
   className,
   children,
+  target,
+  rel,
   ...props
 }: ButtonLinkProps) {
+  const isExternal = /^https?:\/\//.test(href);
+  const opensInNewTab =
+    target === "_blank" || (isExternal && target !== "_self");
+
   return (
     <Link
       href={href}
       className={cn(buttonVariants({ variant }), className)}
+      {...(opensInNewTab
+        ? { target: "_blank", rel: rel ?? "noopener noreferrer" }
+        : {})}
       {...props}
     >
       <ButtonBackgroundShape variant={variant} />

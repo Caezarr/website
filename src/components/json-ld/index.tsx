@@ -1,5 +1,6 @@
 import type { FaqItem } from "@/lib/types";
 import { getSiteUrl } from "@/lib/site-url";
+import { JsonLd } from "./json-ld";
 
 interface ArticleSchemaProps {
   title: string;
@@ -27,10 +28,7 @@ export function ArticleSchema({ title, description, publishedAt, url, imageUrl }
     },
     ...(imageUrl && { image: imageUrl }),
   };
-  return (
-    <script id="schema-article" type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-  );
+  return <JsonLd id="schema-article" data={schema} />;
 }
 
 export function FaqSchema({ items }: { items: FaqItem[] }) {
@@ -44,10 +42,7 @@ export function FaqSchema({ items }: { items: FaqItem[] }) {
       acceptedAnswer: { "@type": "Answer", text: item.answer },
     })),
   };
-  return (
-    <script id="schema-faq" type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-  );
+  return <JsonLd id="schema-faq" data={schema} />;
 }
 
 export function BreadcrumbSchema({ items }: { items: { name: string; url: string }[] }) {
@@ -61,10 +56,7 @@ export function BreadcrumbSchema({ items }: { items: { name: string; url: string
       item: item.url,
     })),
   };
-  return (
-    <script id="schema-breadcrumb" type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-  );
+  return <JsonLd id="schema-breadcrumb" data={schema} />;
 }
 
 export function DefinedTermSchema({ term, definition, url }: { term: string; definition: string; url: string }) {
@@ -81,10 +73,7 @@ export function DefinedTermSchema({ term, definition, url }: { term: string; def
       url: `${siteUrl}/learn`,
     },
   };
-  return (
-    <script id="schema-defined-term" type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-  );
+  return <JsonLd id="schema-defined-term" data={schema} />;
 }
 
 export function SoftwareAppSchema({ name, description, url, features }: {
@@ -127,8 +116,5 @@ export function SoftwareAppSchema({ name, description, url, features }: {
       availability: "https://schema.org/OnlineOnly",
     },
   };
-  return (
-    <script id="schema-service" type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
-  );
+  return <JsonLd id="schema-service" data={schema} />;
 }

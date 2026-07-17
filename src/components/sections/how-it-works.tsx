@@ -7,6 +7,8 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { ButtonLink } from "@/components/ui/button";
 import { FadeIn } from "@/components/animations/fade-in";
 import { MultilineText } from "@/lib/cms-text";
+import { headingClass } from "@/lib/design-tokens";
+import { cn } from "@/lib/utils";
 import type { SharedLinks, WhatWeDoCard, WhatWeDoData } from "@/lib/types";
 
 interface ResolvedCard {
@@ -31,7 +33,7 @@ const DEFAULT_CARDS: Omit<ResolvedCard, "_key">[] = [
     tagline: "Repetitive work no tool seems to solve?",
     body: "We build custom AI applications that fit your systems and run in your day-to-day work.",
     ctaLabel: "Discover Wonka Build",
-    ctaHref: "/ai-agents",
+    ctaHref: "/wonka-build",
   },
   {
     tagline: "Ready to give your whole team AI?",
@@ -47,7 +49,7 @@ function resolveCards(
 ): ResolvedCard[] {
   const productUrls = [
     sharedLinks?.startAiUrl ?? "/start-ai",
-    sharedLinks?.wonkaBuildUrl ?? "/ai-agents",
+    sharedLinks?.wonkaBuildUrl ?? "/wonka-build",
     sharedLinks?.wonkaChatUrl ?? "/wonka-chat",
   ];
   const source: Array<WhatWeDoCard | Omit<ResolvedCard, "_key">> =
@@ -99,7 +101,7 @@ export function HowItWorks({
               text={heading}
               as="h2"
               id={headingId}
-              className="type-h4 max-w-[44.875rem] text-center text-text"
+              className={cn(headingClass.section, "max-w-[44.875rem] text-center text-text")}
             />
           </FadeIn>
         </div>

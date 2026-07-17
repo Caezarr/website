@@ -32,7 +32,13 @@ function isDropdownActive(item: NavItem, pathname: string) {
     (pathname === item.href || pathname.startsWith(item.href + "/"))
   )
     return true;
-  return false;
+  return (
+    item.children?.some(
+      (child) =>
+        !child.href.startsWith("/#") &&
+        (pathname === child.href || pathname.startsWith(child.href + "/")),
+    ) ?? false
+  );
 }
 
 interface DesktopNavProps {
@@ -84,7 +90,7 @@ export function DesktopNav({ navItems }: DesktopNavProps) {
           collisionPadding={20}
           className="nav-positioner z-100"
         >
-          <NavigationMenu.Popup className="nav-popup rounded-xl border border-border bg-background shadow-lg">
+          <NavigationMenu.Popup className="nav-popup overflow-hidden rounded-sm border border-dashed border-border bg-background p-2 shadow-subtle">
             <NavigationMenu.Viewport className="nav-viewport" />
           </NavigationMenu.Popup>
         </NavigationMenu.Positioner>
