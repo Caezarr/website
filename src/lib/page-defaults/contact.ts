@@ -1,7 +1,7 @@
+import type { SeoData } from "@/lib/types";
 import type {
   ContactPageResolved,
   ContactPersonResolved,
-  SeoData,
   SectionHeaderData,
 } from "@/lib/types/page-sections";
 

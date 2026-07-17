@@ -1,6 +1,7 @@
 import { createClient } from "next-sanity";
 import { readFileSync } from "fs";
 import { resolve } from "path";
+import { WONKA_BUILD_DEFAULTS } from "../src/lib/page-defaults/wonka-build";
 
 const envPath = resolve(process.cwd(), ".env");
 for (const line of readFileSync(envPath, "utf-8").split("\n")) {
@@ -22,9 +23,6 @@ const client = createClient({
 });
 
 async function seed() {
-  const { WONKA_BUILD_DEFAULTS } = await import(
-    "../src/lib/page-defaults/wonka-build.ts"
-  );
   const d = WONKA_BUILD_DEFAULTS;
 
   const document = {

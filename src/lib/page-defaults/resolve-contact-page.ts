@@ -4,12 +4,12 @@ import {
   resolveSectionHeader,
 } from "@/lib/resolve-cms";
 import { CONTACT_DEFAULTS } from "@/lib/page-defaults/contact";
+import type { SeoData } from "@/lib/types";
 import type {
   ContactPageContent,
   ContactPageResolved,
   ContactPersonData,
   ContactPersonResolved,
-  SeoData,
 } from "@/lib/types/page-sections";
 
 function resolveSeo(
@@ -39,9 +39,9 @@ function resolveContactPeople(
     return {
       _key: person._key,
       portrait: person.portrait,
-      name: resolveOptionalString(person.name, fallback?.name ?? ""),
+      name: resolveOptionalString(person.name, fallback?.name ?? "") ?? "",
       role: resolveOptionalString(person.role, fallback?.role ?? null),
-      email: resolveOptionalString(person.email, fallback?.email ?? ""),
+      email: resolveOptionalString(person.email, fallback?.email ?? "") ?? "",
       fallbackPortrait: fallback?.fallbackPortrait ?? null,
     };
   });
