@@ -8,13 +8,14 @@ import {
 import { START_AI_DEFAULTS } from "@/lib/page-defaults/start-ai";
 import { WONKA_BUILD_DEFAULTS } from "@/lib/page-defaults/wonka-build";
 import { WONKA_CHAT_DEFAULTS } from "@/lib/page-defaults/wonka-chat";
+import { WONKA_CHAT_ODOO_DEFAULTS } from "@/lib/page-defaults/wonka-chat-odoo";
 import {
   hasSanityImage,
   resolveItems,
   resolveOptionalString,
   resolveSectionHeader,
 } from "@/lib/resolve-cms";
-import type { SeoData, UseCasesData } from "@/lib/types";
+import type { CtaButtonData, SeoData, UseCasesData } from "@/lib/types";
 import type {
   CardGridData,
   ContactSectionData,
@@ -24,12 +25,20 @@ import type {
   FeatureItem,
   FeatureItemResolved,
   IndustriesSectionData,
+  IconFeatureGridData,
+  IconFeatureGridSectionData,
+  IconFeatureItemData,
+  IconFeatureItemResolved,
   LogoStripData,
   LogoStripResolved,
   NumberedCardsCmsData,
   NumberedCardsData,
   ProductHeroData,
   ProductHeroResolved,
+  ProblemBentoCardData,
+  ProblemBentoCardResolved,
+  ProblemBentoData,
+  ProblemBentoSectionData,
   PromoPanelData,
   PromoPanelResolved,
   SectionHeaderData,
@@ -39,7 +48,13 @@ import type {
   StickyFeaturesResolved,
   StartAiContent,
   WonkaBuildContent,
+  WorkflowStepsData,
+  WorkflowStepsSectionData,
+  WorkflowStepItemData,
+  WorkflowStepResolved,
+  WorkflowStepVisual,
   WonkaChatContent,
+  WonkaChatOdooContent,
 } from "@/lib/types/page-sections";
 
 export interface StartAiResolvedContent {
@@ -67,6 +82,17 @@ export interface WonkaBuildResolvedContent {
   testimonials: SectionHeaderData;
   contact: ContactSectionResolved;
   faq: FaqSectionData & { header: SectionHeaderData };
+  seo: SeoData;
+}
+
+export interface WonkaChatOdooResolvedContent {
+  hero: ProductHeroResolved;
+  logoStrip: LogoStripResolved;
+  problem: ProblemBentoData;
+  features: StickyFeaturesResolved;
+  workflowSteps: WorkflowStepsData;
+  capabilities: IconFeatureGridData;
+  contact: ContactSectionResolved;
   seo: SeoData;
 }
 
@@ -102,6 +128,17 @@ function resolveHeroTheme(
   return cmsTheme;
 }
 
+function resolveSecondaryLink(
+  cms: ProductHeroData | null | undefined,
+): CtaButtonData | null {
+  const label = cms?.secondaryLink?.label?.trim();
+  const href = cms?.secondaryLink?.href?.trim();
+  if (label && href) {
+    return { label, href };
+  }
+  return null;
+}
+
 function resolveHero(
   cms: ProductHeroData | null | undefined,
   defaults: ProductHeroResolved,
@@ -110,14 +147,11 @@ function resolveHero(
     eyebrow: resolveOptionalString(cms?.eyebrow, defaults.eyebrow),
     title: resolveOptionalString(cms?.title, defaults.title),
     subtitle: resolveOptionalString(cms?.subtitle, defaults.subtitle),
-    secondaryText: resolveOptionalString(
-      cms?.secondaryText,
-      defaults.secondaryText,
-    ),
+    secondaryText: resolveOptionalString(cms?.secondaryText, null),
     theme: resolveHeroTheme(cms, defaults),
     backgroundImage: cms?.backgroundImage ?? null,
     heroImage: cms?.heroImage ?? null,
-    secondaryLink: cms?.secondaryLink ?? defaults.secondaryLink,
+    secondaryLink: resolveSecondaryLink(cms),
     fallbackBackground: defaults.fallbackBackground,
     fallbackHero: defaults.fallbackHero,
   };
@@ -344,6 +378,128 @@ export function resolveWonkaBuildContent(
   };
 }
 
+function resolveProblemBentoCards(
+  cms: ProblemBentoCardData[] | null | undefined,
+  defaults: ProblemBentoCardResolved[],
+): ProblemBentoCardResolved[] {
+  const source = cms?.length ? cms : defaults;
+
+  return source.map((card, index) => {
+    const fallback = defaults[index] ?? defaults[0];
+
+    return {
+      _key: card._key,
+      title: resolveOptionalString(card.title, fallback?.title ?? "") ?? "",
+      body: resolveOptionalString(card.body, fallback?.body ?? "") ?? "",
+      image: cms?.length ? (card.image ?? null) : null,
+      fallbackImage: fallback?.fallbackImage ?? null,
+    };
+  });
+}
+
+function resolveProblemBento(
+  cms: ProblemBentoSectionData | null | undefined,
+  defaults: ProblemBentoData,
+): ProblemBentoData {
+  return {
+    header: resolveSectionHeader(cms?.header, defaults.header),
+    largeCards: resolveProblemBentoCards(cms?.largeCards, defaults.largeCards),
+    smallCards: resolveProblemBentoCards(cms?.smallCards, defaults.smallCards),
+  };
+}
+
+function resolveIconFeatureItems(
+  cms: IconFeatureItemData[] | null | undefined,
+  defaults: IconFeatureItemResolved[],
+): IconFeatureItemResolved[] {
+  const source = cms?.length ? cms : defaults;
+
+  return source.map((item, index) => {
+    const fallback = defaults[index] ?? defaults[0];
+
+    return {
+      _key: item._key,
+      icon: resolveOptionalString(item.icon, fallback?.icon ?? "") ?? "",
+      title: resolveOptionalString(item.title, fallback?.title ?? "") ?? "",
+      body: resolveOptionalString(item.body, fallback?.body ?? "") ?? "",
+      image: cms?.length ? (item.image ?? null) : null,
+      fallbackImage: fallback?.fallbackImage ?? null,
+    };
+  });
+}
+
+function resolveIconFeatureGrid(
+  cms: IconFeatureGridSectionData | null | undefined,
+  defaults: IconFeatureGridData,
+): IconFeatureGridData {
+  return {
+    header: resolveSectionHeader(cms?.header, defaults.header),
+    items: resolveIconFeatureItems(cms?.items, defaults.items),
+  };
+}
+
+const WORKFLOW_STEP_LAYOUT: Array<{
+  variant: WorkflowStepResolved["variant"];
+  mirror: boolean;
+  svgFillClassName: string;
+  divBgClassName: string;
+  visual: WorkflowStepVisual;
+}> = [
+  {
+    variant: "trapezoid",
+    mirror: false,
+    svgFillClassName: "fill-light-gray",
+    divBgClassName: "bg-light-gray",
+    visual: "step1",
+  },
+  {
+    variant: "rectangle",
+    mirror: false,
+    svgFillClassName: "fill-mid-gray",
+    divBgClassName: "bg-mid-gray",
+    visual: "step2",
+  },
+  {
+    variant: "trapezoid",
+    mirror: true,
+    svgFillClassName: "fill-light-gray",
+    divBgClassName: "bg-light-gray",
+    visual: "step3",
+  },
+];
+
+function resolveWorkflowSteps(
+  cms: WorkflowStepsSectionData | null | undefined,
+  defaults: WorkflowStepsData,
+): WorkflowStepsData {
+  const source = cms?.steps?.length ? cms.steps : defaults.steps;
+
+  return {
+    header: resolveSectionHeader(cms?.header, defaults.header),
+    steps: source.map((step, index) => {
+      const fallback = defaults.steps[index] ?? defaults.steps[0];
+      const layout = WORKFLOW_STEP_LAYOUT[index] ?? WORKFLOW_STEP_LAYOUT[0];
+      const visual = (cms?.steps?.length
+        ? step.visual
+        : fallback.visual) as WorkflowStepVisual;
+
+      return {
+        _key: step._key,
+        title: resolveOptionalString(step.title, fallback?.title ?? "") ?? "",
+        body: resolveOptionalString(step.body, fallback?.body ?? "") ?? "",
+        visual: visual ?? layout.visual,
+        image: cms?.steps?.length ? (step.image ?? null) : null,
+        fallbackImage: fallback?.fallbackImage ?? null,
+        variant: fallback?.variant ?? layout.variant,
+        mirror: fallback?.mirror ?? layout.mirror,
+        svgFillClassName:
+          fallback?.svgFillClassName ?? layout.svgFillClassName,
+        divBgClassName: fallback?.divBgClassName ?? layout.divBgClassName,
+      };
+    }),
+  };
+}
+
 function resolveSplitContent(
   cms: SplitContentData | null | undefined,
   defaults: SplitContentResolved,
@@ -405,6 +561,23 @@ export function resolveWonkaChatContent(
       header: resolveSectionHeader(cms?.faq?.header, d.faq.header!),
       items: resolveItems(cms?.faq?.items, d.faq.items ?? []),
     },
+    seo: resolveSeo(cms?.seo, d.seo),
+  };
+}
+
+export function resolveWonkaChatOdooContent(
+  cms: WonkaChatOdooContent | null,
+): WonkaChatOdooResolvedContent {
+  const d = WONKA_CHAT_ODOO_DEFAULTS;
+
+  return {
+    hero: resolveHero(cms?.hero, d.hero),
+    logoStrip: resolveLogoStrip(cms?.logoStrip, d.logoStrip),
+    problem: resolveProblemBento(cms?.problem, d.problem),
+    features: resolveFeatures(cms?.features, d.features),
+    workflowSteps: resolveWorkflowSteps(cms?.workflowSteps, d.workflowSteps),
+    capabilities: resolveIconFeatureGrid(cms?.capabilities, d.capabilities),
+    contact: resolveContact(cms?.contact, d.contact),
     seo: resolveSeo(cms?.seo, d.seo),
   };
 }

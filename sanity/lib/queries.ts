@@ -174,6 +174,57 @@ const FAQ_SECTION_FIELDS = `
   }
 `;
 
+const PROBLEM_BENTO_CARD_FIELDS = `
+  _key,
+  title,
+  body,
+  image {
+    ${IMAGE_WITH_ALT_FIELDS}
+  }
+`;
+
+const PROBLEM_BENTO_FIELDS = `
+  header {
+    ${SECTION_HEADER_FIELDS}
+  },
+  largeCards[] {
+    ${PROBLEM_BENTO_CARD_FIELDS}
+  },
+  smallCards[] {
+    ${PROBLEM_BENTO_CARD_FIELDS}
+  }
+`;
+
+const ICON_FEATURE_GRID_FIELDS = `
+  header {
+    ${SECTION_HEADER_FIELDS}
+  },
+  items[] {
+    _key,
+    icon,
+    title,
+    body,
+    image {
+      ${IMAGE_WITH_ALT_FIELDS}
+    }
+  }
+`;
+
+const WORKFLOW_STEPS_FIELDS = `
+  header {
+    ${SECTION_HEADER_FIELDS}
+  },
+  steps[] {
+    _key,
+    title,
+    body,
+    visual,
+    image {
+      ${IMAGE_WITH_ALT_FIELDS}
+    }
+  }
+`;
+
 const PAGE_CONTENT_FIELDS = `
   hero {
     ${PRODUCT_HERO_FIELDS}
@@ -383,6 +434,38 @@ export const WONKA_BUILD_CONTENT_QUERY = defineQuery(`
     },
     promo {
       ${PROMO_PANEL_FIELDS}
+    }
+  }
+`);
+
+export const WONKA_CHAT_ODOO_CONTENT_QUERY = defineQuery(`
+  *[_type == "wonkaChatOdooContent"][0] {
+    hero {
+      ${PRODUCT_HERO_FIELDS}
+    },
+    logoStrip {
+      ${LOGO_STRIP_FIELDS}
+    },
+    problem {
+      ${PROBLEM_BENTO_FIELDS}
+    },
+    features {
+      ${STICKY_FEATURES_FIELDS}
+    },
+    workflowSteps {
+      ${WORKFLOW_STEPS_FIELDS}
+    },
+    capabilities {
+      ${ICON_FEATURE_GRID_FIELDS}
+    },
+    security {
+      ${SECURITY_SECTION_FIELDS}
+    },
+    contact {
+      ${CONTACT_SECTION_FIELDS}
+    },
+    seo {
+      ${SEO_FIELDS}
     }
   }
 `);

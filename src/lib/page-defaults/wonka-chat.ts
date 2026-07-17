@@ -30,15 +30,11 @@ export const WONKA_CHAT_DEFAULTS: WonkaChatDefaults = {
     title: "The AI workspace your whole team can actually use.",
     subtitle:
       "WonkaChat connects to your company tools, understands your workflows and helps your team get work done through simple conversation.",
-    secondaryText:
-      "Not just another chatbot. A secure AI platform with agents, tool connections and human-in-the-loop control.",
+    secondaryText: null,
     theme: "light",
     backgroundImage: null,
     heroImage: null,
-    secondaryLink: {
-      label: "See how it works",
-      href: "#how-it-works",
-    },
+    secondaryLink: null,
     fallbackBackground: null,
     fallbackHero: {
       src: "/images/wonka-chat/wonka-hero-flow-v2.png",
