@@ -26,6 +26,18 @@ import { cardGridSection } from "./objects/cardGridSection";
 
 import { promoPanel } from "./objects/promoPanel";
 
+import { problemBentoCard } from "./objects/problemBentoCard";
+
+import { problemBentoSection } from "./objects/problemBentoSection";
+
+import { iconFeatureItem } from "./objects/iconFeatureItem";
+
+import { iconFeatureGridSection } from "./objects/iconFeatureGridSection";
+
+import { workflowStepItem } from "./objects/workflowStepItem";
+
+import { workflowStepsSection } from "./objects/workflowStepsSection";
+
 import { contactDetail } from "./objects/contactDetail";
 
 import { contactPerson } from "./objects/contactPerson";
@@ -47,6 +59,8 @@ import { wonkaChatContent } from "./documents/wonkaChatContent";
 import { wonkaBuildContent } from "./documents/wonkaBuildContent";
 
 import { startAiContent } from "./documents/startAiContent";
+
+import { wonkaChatOdooContent } from "./documents/wonkaChatOdooContent";
 
 import { legalPage } from "./documents/legalPage";
 
@@ -96,6 +110,18 @@ export const schemaTypes = [
 
   cardGridSection,
 
+  problemBentoCard,
+
+  problemBentoSection,
+
+  iconFeatureItem,
+
+  iconFeatureGridSection,
+
+  workflowStepItem,
+
+  workflowStepsSection,
+
   promoPanel,
 
   contactDetail,
@@ -117,6 +143,8 @@ export const schemaTypes = [
   homepageContent,
 
   wonkaChatContent,
+
+  wonkaChatOdooContent,
 
   startAiContent,
 

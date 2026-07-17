@@ -134,6 +134,79 @@ export interface CardGridData {
   cards: CardGridItem[] | null;
 }
 
+export interface ProblemBentoCardData {
+  _key: string;
+  title: string;
+  body: string;
+  image: SanityImageData | null;
+}
+
+export interface ProblemBentoCardResolved extends ProblemBentoCardData {
+  fallbackImage: StaticImage | null;
+}
+
+export interface ProblemBentoSectionData {
+  header: SectionHeaderData | null;
+  largeCards: ProblemBentoCardData[] | null;
+  smallCards: ProblemBentoCardData[] | null;
+}
+
+export interface ProblemBentoData {
+  header: SectionHeaderData;
+  largeCards: ProblemBentoCardResolved[];
+  smallCards: ProblemBentoCardResolved[];
+}
+
+export interface IconFeatureItemData {
+  _key: string;
+  icon: string;
+  title: string;
+  body: string;
+  image: SanityImageData | null;
+}
+
+export interface IconFeatureItemResolved extends IconFeatureItemData {
+  fallbackImage: StaticImage | null;
+}
+
+export interface IconFeatureGridSectionData {
+  header: SectionHeaderData | null;
+  items: IconFeatureItemData[] | null;
+}
+
+export interface IconFeatureGridData {
+  header: SectionHeaderData;
+  items: IconFeatureItemResolved[];
+}
+
+export type WorkflowStepVisual = "step1" | "step2" | "step3";
+
+export interface WorkflowStepItemData {
+  _key: string;
+  title: string;
+  body: string;
+  visual: WorkflowStepVisual;
+  image: SanityImageData | null;
+}
+
+export interface WorkflowStepsSectionData {
+  header: SectionHeaderData | null;
+  steps: WorkflowStepItemData[] | null;
+}
+
+export interface WorkflowStepResolved extends WorkflowStepItemData {
+  fallbackImage: StaticImage | null;
+  variant: "trapezoid" | "rectangle";
+  mirror: boolean;
+  svgFillClassName: string;
+  divBgClassName: string;
+}
+
+export interface WorkflowStepsData {
+  header: SectionHeaderData;
+  steps: WorkflowStepResolved[];
+}
+
 export interface PromoPanelData {
   eyebrow: string | null;
   heading: string | null;
@@ -202,6 +275,18 @@ export interface WonkaChatContent {
   testimonials: SectionHeaderData | null;
   contact: ContactSectionData | null;
   faq: FaqSectionData | null;
+  seo: SeoData | null;
+}
+
+export interface WonkaChatOdooContent {
+  hero: ProductHeroData | null;
+  logoStrip: LogoStripData | null;
+  problem: ProblemBentoSectionData | null;
+  features: StickyFeaturesData | null;
+  workflowSteps: WorkflowStepsSectionData | null;
+  capabilities: IconFeatureGridSectionData | null;
+  security: SecurityData | null;
+  contact: ContactSectionData | null;
   seo: SeoData | null;
 }
 

@@ -124,6 +124,14 @@ export function ProductHero({ data, meetingUrl, meetingLabel }: ProductHeroProps
             <ButtonLink href={meetingUrl ?? "#contact"} variant="primary">
               {ctaLabel}
             </ButtonLink>
+            {data.secondaryLink?.href && data.secondaryLink.label ? (
+              <Link
+                href={data.secondaryLink.href}
+                className="type-paragraph-m-bold text-white underline underline-offset-4"
+              >
+                {data.secondaryLink.label}
+              </Link>
+            ) : null}
           </div>
         </div>
       </div>

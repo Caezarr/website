@@ -53,6 +53,14 @@ export default defineConfig({
                           .documentId("wonkaChatContent"),
                       ),
                     S.listItem()
+                      .title("WonkaChat · Odoo")
+                      .icon(HomeIcon)
+                      .child(
+                        S.document()
+                          .schemaType("wonkaChatOdooContent")
+                          .documentId("wonkaChatOdooContent"),
+                      ),
+                    S.listItem()
                       .title("Start AI")
                       .icon(HomeIcon)
                       .child(

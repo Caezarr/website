@@ -32,7 +32,6 @@ async function seed() {
       eyebrow: d.hero.eyebrow,
       title: d.hero.title,
       subtitle: d.hero.subtitle,
-      secondaryText: d.hero.secondaryText,
       theme: d.hero.theme,
     },
     logoStrip: {

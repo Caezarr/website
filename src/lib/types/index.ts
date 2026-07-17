@@ -161,6 +161,7 @@ export type {
   StartAiContent,
   WonkaBuildContent,
   WonkaChatContent,
+  WonkaChatOdooContent,
 } from "./page-sections";
 
 export interface HomepageContent {
