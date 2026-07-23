@@ -8,6 +8,7 @@ import { Cta } from "@/components/sections/cta";
 import { ButtonLink } from "@/components/ui/button";
 import { getSiteUrl } from "@/lib/site-url";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
+import { meetingTrackProps } from "@/lib/meeting-track";
 import type { SiteSettings } from "@/lib/types";
 
 export const dynamic = "force-static";
@@ -143,7 +144,11 @@ export default async function AiAgentsPage() {
                 APIs, so teams can ask, analyze and act without sending sensitive work into generic AI tools.
               </p>
               <div className="mt-9 flex flex-wrap items-center gap-4">
-                <ButtonLink href={meetingUrl ?? "#contact"} variant="primary">
+                <ButtonLink
+                  href={meetingUrl ?? "#contact"}
+                  variant="primary"
+                  {...meetingTrackProps("general")}
+                >
                   Map an agent workflow
                 </ButtonLink>
                 <Link href="https://www.wonka-ai.com/integrations" className="type-paragraph-m-bold text-white underline underline-offset-4">
@@ -268,7 +273,7 @@ export default async function AiAgentsPage() {
         </section>
       </main>
 
-      <Cta id="contact" meetingUrl={meetingUrl} />
+      <Cta id="contact" meetingUrl={meetingUrl} meetingTrackType="general" />
     </>
   );
 }

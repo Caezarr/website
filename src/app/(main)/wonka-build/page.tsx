@@ -77,6 +77,7 @@ function WonkaBuildSections({
         data={content.hero}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
+        meetingTrackType="wonka-build"
       />
       <LogoStrip data={content.logoStrip} />
       <NumberedCards data={content.phases} className="py-24" />
@@ -85,6 +86,7 @@ function WonkaBuildSections({
         data={content.industries}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
+        meetingTrackType="wonka-build"
       />
       <Testimonials
         id="testimonials"
@@ -96,6 +98,7 @@ function WonkaBuildSections({
         data={content.contact}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
+        meetingTrackType="wonka-build"
         className="py-24"
       />
       <FaqSection data={content.faq} bordered={false} className="py-24" />

@@ -103,7 +103,7 @@ export default async function WonkaChatPage() {
         />
       </main>
 
-      <Cta meetingUrl={meetingUrl} meetingLabel={meetingLabel} />
+      <Cta meetingUrl={meetingUrl} meetingLabel={meetingLabel} meetingTrackType="wonka-chat" />
     </>
   );
 }
@@ -125,6 +125,7 @@ function WonkaChatSections({
         data={content.hero}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
+        meetingTrackType="wonka-chat"
       />
       <LogoStrip data={content.logoStrip} />
       <SplitContent data={content.problem} className="py-18 md:py-24" />
@@ -133,6 +134,7 @@ function WonkaChatSections({
         data={content.features}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
+        meetingTrackType="wonka-chat"
         className="py-18 md:py-24"
       />
       <UseCases id="use-cases" data={content.useCases} />
@@ -151,6 +153,7 @@ function WonkaChatSections({
         data={content.contact}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
+        meetingTrackType="wonka-chat"
         className="py-18 text-center md:py-24"
       />
       <FaqSection data={content.faq} className="py-18 md:py-24" />

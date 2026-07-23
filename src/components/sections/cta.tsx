@@ -3,6 +3,7 @@ import { Section } from "@/components/ui/section";
 import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass } from "@/lib/design-tokens";
 import type { HomepageCtaData } from "@/lib/types";
 
@@ -14,9 +15,16 @@ interface CtaProps {
   data?: HomepageCtaData | null;
   meetingUrl?: string | null;
   meetingLabel?: string | null;
+  meetingTrackType?: MeetingTrackType;
 }
 
-export function Cta({ id, data, meetingUrl, meetingLabel }: CtaProps) {
+export function Cta({
+  id,
+  data,
+  meetingUrl,
+  meetingLabel,
+  meetingTrackType = "general",
+}: CtaProps) {
   const heading = data?.heading ?? DEFAULT_HEADING;
   const body = data?.body ?? DEFAULT_BODY;
   const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
@@ -39,7 +47,11 @@ export function Cta({ id, data, meetingUrl, meetingLabel }: CtaProps) {
       <div className="relative flex flex-col items-center gap-6 text-center">
         <h2 className={cn(headingClass.section, "text-text xl:whitespace-nowrap")}>{heading}</h2>
         <p className="type-body max-w-[35.125rem] text-text opacity-80">{body}</p>
-        <ButtonLink href={meetingUrl ?? "#"} variant="primary">
+        <ButtonLink
+          href={meetingUrl ?? "#"}
+          variant="primary"
+          {...meetingTrackProps(meetingTrackType)}
+        >
           {ctaLabel}
         </ButtonLink>
       </div>

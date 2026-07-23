@@ -4,6 +4,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { resolveImageAlt, resolveImageSrc } from "@/lib/cms-image";
 import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass, radius } from "@/lib/design-tokens";
 import { hasSanityImage } from "@/lib/resolve-cms";
 import type { ProductHeroResolved } from "@/lib/types/page-sections";
@@ -12,9 +13,15 @@ interface ProductHeroProps {
   data: ProductHeroResolved;
   meetingUrl?: string | null;
   meetingLabel?: string | null;
+  meetingTrackType: MeetingTrackType;
 }
 
-export function ProductHero({ data, meetingUrl, meetingLabel }: ProductHeroProps) {
+export function ProductHero({
+  data,
+  meetingUrl,
+  meetingLabel,
+  meetingTrackType,
+}: ProductHeroProps) {
   const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
   const theme = data.theme ?? "dark";
   const eyebrow = data.eyebrow ?? "";
@@ -56,7 +63,11 @@ export function ProductHero({ data, meetingUrl, meetingLabel }: ProductHeroProps
             </p>
           ) : null}
           <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-            <ButtonLink href={meetingUrl ?? "#contact"} variant="primary">
+            <ButtonLink
+              href={meetingUrl ?? "#contact"}
+              variant="primary"
+              {...meetingTrackProps(meetingTrackType)}
+            >
               {ctaLabel}
             </ButtonLink>
             {data.secondaryLink?.href && data.secondaryLink.label ? (
@@ -121,7 +132,11 @@ export function ProductHero({ data, meetingUrl, meetingLabel }: ProductHeroProps
             </p>
           ) : null}
           <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <ButtonLink href={meetingUrl ?? "#contact"} variant="primary">
+            <ButtonLink
+              href={meetingUrl ?? "#contact"}
+              variant="primary"
+              {...meetingTrackProps(meetingTrackType)}
+            >
               {ctaLabel}
             </ButtonLink>
             {data.secondaryLink?.href && data.secondaryLink.label ? (

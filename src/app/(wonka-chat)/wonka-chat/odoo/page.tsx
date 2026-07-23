@@ -77,6 +77,7 @@ export default async function WonkaChatOdooPage() {
           data={content.hero}
           meetingUrl={meetingUrl}
           meetingLabel={meetingLabel}
+          meetingTrackType="wonka-chat"
         />
         <LogoStrip data={content.logoStrip} />
         <ProblemBento id="the-problem" data={content.problem} />
@@ -85,6 +86,7 @@ export default async function WonkaChatOdooPage() {
             data={content.features}
             meetingUrl={meetingUrl}
             meetingLabel={meetingLabel}
+            meetingTrackType="wonka-chat"
             className="py-18 md:py-24"
           />
         </div>
@@ -100,11 +102,12 @@ export default async function WonkaChatOdooPage() {
           data={content.contact}
           meetingUrl={meetingUrl}
           meetingLabel={meetingLabel}
+          meetingTrackType="wonka-chat"
           className="py-18 text-center md:py-24"
         />
       </main>
 
-      <Cta meetingUrl={meetingUrl} meetingLabel={meetingLabel} />
+      <Cta meetingUrl={meetingUrl} meetingLabel={meetingLabel} meetingTrackType="wonka-chat" />
     </>
   );
 }

@@ -4,6 +4,7 @@ import { Section } from "@/components/ui/section";
 import { Surface } from "@/components/ui/surface";
 import { resolveImageSrc } from "@/lib/cms-image";
 import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass } from "@/lib/design-tokens";
 import type { PromoPanelResolved } from "@/lib/types/page-sections";
 
@@ -11,6 +12,7 @@ interface PromoPanelProps {
   data: PromoPanelResolved;
   meetingUrl?: string | null;
   meetingLabel?: string | null;
+  meetingTrackType: MeetingTrackType;
   className?: string;
 }
 
@@ -18,6 +20,7 @@ export function PromoPanel({
   data,
   meetingUrl,
   meetingLabel,
+  meetingTrackType,
   className,
 }: PromoPanelProps) {
   const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
@@ -57,7 +60,11 @@ export function PromoPanel({
             </div>
             {showCta ? (
               <div className="md:justify-self-end">
-                <ButtonLink href={meetingUrl ?? "#contact"} variant="primary">
+                <ButtonLink
+                  href={meetingUrl ?? "#contact"}
+                  variant="primary"
+                  {...meetingTrackProps(meetingTrackType)}
+                >
                   {ctaLabel}
                 </ButtonLink>
               </div>
@@ -96,7 +103,11 @@ export function PromoPanel({
           </div>
           {showCta ? (
             <div className="md:justify-self-end">
-              <ButtonLink href={meetingUrl ?? "#contact"} variant="primary">
+              <ButtonLink
+                href={meetingUrl ?? "#contact"}
+                variant="primary"
+                {...meetingTrackProps(meetingTrackType)}
+              >
                 {ctaLabel}
               </ButtonLink>
             </div>

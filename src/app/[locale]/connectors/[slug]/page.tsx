@@ -10,6 +10,7 @@ import { getSiteUrl } from "@/lib/site-url";
 import { hubPath, itemPath } from "@/lib/locale-path";
 import { getContentLanguages } from "@/lib/content-languages";
 import { resolveTeamMeetingUrl } from "@/lib/resolve-meeting-url";
+import { meetingTrackProps } from "@/lib/meeting-track";
 import { FaqSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/json-ld";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
@@ -162,7 +163,11 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
               <p className="mt-6 max-w-3xl type-body leading-relaxed text-text/65">{c.description}</p>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <ButtonLink href={bookingUrl} variant="primary">
+                <ButtonLink
+                  href={bookingUrl}
+                  variant="primary"
+                  {...meetingTrackProps("general")}
+                >
                   {primaryCtaLabel}
                 </ButtonLink>
                 <ButtonLink href={hubPath("connectors", locale)} variant="secondary">

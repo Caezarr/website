@@ -4,6 +4,7 @@ import { FadeIn } from "@/components/animations/fade-in";
 import { HeroMarquee } from "./hero-marquee";
 import { cn } from "@/lib/utils";
 import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass } from "@/lib/design-tokens";
 import type { HeroData } from "@/lib/types";
 
@@ -19,6 +20,7 @@ interface HeroProps {
   data?: HeroData | null;
   meetingUrl?: string | null;
   meetingLabel?: string | null;
+  meetingTrackType?: MeetingTrackType;
 }
 
 function NvidiaInceptionLogo() {
@@ -121,7 +123,7 @@ function AwardLaurelIcon() {
   );
 }
 
-export function Hero({ data, meetingUrl, meetingLabel }: HeroProps) {
+export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "general" }: HeroProps) {
   const awardBadge = data?.awardBadge ?? DEFAULT_AWARD_BADGE;
   const title = data?.title ?? DEFAULT_TITLE;
   const subtitle = data?.subtitle ?? DEFAULT_SUBTITLE;
@@ -171,7 +173,12 @@ export function Hero({ data, meetingUrl, meetingLabel }: HeroProps) {
             </p>
           </FadeIn>
           <FadeIn delay={0.4}>
-            <ButtonLink href={meetingUrl ?? "#"} variant="primary" className="mt-2">
+            <ButtonLink
+              href={meetingUrl ?? "#"}
+              variant="primary"
+              className="mt-2"
+              {...meetingTrackProps(meetingTrackType)}
+            >
               {ctaLabel}
             </ButtonLink>
           </FadeIn>

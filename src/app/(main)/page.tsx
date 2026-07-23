@@ -72,6 +72,7 @@ export default async function Home() {
         data={content?.cta ?? null}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
+        meetingTrackType="general"
       />
     </>
   );

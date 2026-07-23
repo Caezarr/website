@@ -10,6 +10,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { CheckmarkIcon } from "@/components/ui/icons/checkmark-icon";
 import { FadeIn } from "@/components/animations/fade-in";
 import { MultilineText, DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 import type { HowToStartData } from "@/lib/types";
@@ -33,6 +34,7 @@ interface HowToStartProps {
   data?: HowToStartData | null;
   meetingUrl?: string | null;
   meetingLabel?: string | null;
+  meetingTrackType?: MeetingTrackType;
 }
 
 export function HowToStart({
@@ -40,6 +42,7 @@ export function HowToStart({
   data,
   meetingUrl,
   meetingLabel,
+  meetingTrackType = "general",
 }: HowToStartProps) {
   const eyebrow = data?.eyebrow ?? DEFAULT_EYEBROW;
   const heading = data?.heading ?? DEFAULT_HEADING;
@@ -102,7 +105,11 @@ export function HowToStart({
                 as="h3"
                 className="type-h5 max-w-[44.875rem] text-text"
               />
-              <ButtonLink href={meetingUrl ?? "#"} variant="primary">
+              <ButtonLink
+                href={meetingUrl ?? "#"}
+                variant="primary"
+                {...meetingTrackProps(meetingTrackType)}
+              >
                 {ctaLabel}
               </ButtonLink>
             </div>
