@@ -5,6 +5,7 @@ import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { resolveImageAlt, resolveImageSrc } from "@/lib/cms-image";
 import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { radius } from "@/lib/design-tokens";
 import { hasSanityImage } from "@/lib/resolve-cms";
 import { cn } from "@/lib/utils";
@@ -14,6 +15,7 @@ interface ContactBlockProps {
   data: ContactSectionResolved;
   meetingUrl?: string | null;
   meetingLabel?: string | null;
+  meetingTrackType: MeetingTrackType;
   id?: string;
   className?: string;
 }
@@ -22,6 +24,7 @@ export function ContactBlock({
   data,
   meetingUrl,
   meetingLabel,
+  meetingTrackType,
   id = "contact",
   className,
 }: ContactBlockProps) {
@@ -80,7 +83,11 @@ export function ContactBlock({
           </div>
         ) : null}
         <div className="mt-2 flex flex-wrap items-center justify-center gap-3">
-          <ButtonLink href={meetingUrl ?? "#"} variant="primary">
+          <ButtonLink
+            href={meetingUrl ?? "#"}
+            variant="primary"
+            {...meetingTrackProps(meetingTrackType)}
+          >
             {ctaLabel}
           </ButtonLink>
         </div>

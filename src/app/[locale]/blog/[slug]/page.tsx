@@ -15,6 +15,7 @@ import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
 import { ButtonLink } from "@/components/ui/button";
 import { getEvergreenInternalLinks } from "@/lib/internal-links";
 import { resolveTeamMeetingUrl } from "@/lib/resolve-meeting-url";
+import { meetingTrackProps } from "@/lib/meeting-track";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost, ComparisonPage, ConnectorPage, GlossaryTerm } from "@/lib/types";
 
@@ -264,7 +265,11 @@ export default async function BlogPostPage({ params }: PageProps) {
                 <div className="rounded-xl border border-border bg-mid-gray p-6">
                   <p className="type-body font-medium mb-1">Ready to start?</p>
                   <p className="type-paragraph-s text-text/55 mb-4">30-minute call, no slides.</p>
-                  <ButtonLink href={bookingUrl} variant="primary">
+                  <ButtonLink
+                    href={bookingUrl}
+                    variant="primary"
+                    {...meetingTrackProps("general")}
+                  >
                     Book a call
                   </ButtonLink>
                 </div>

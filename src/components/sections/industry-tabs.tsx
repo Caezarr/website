@@ -7,6 +7,7 @@ import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Surface } from "@/components/ui/surface";
 import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass, radius } from "@/lib/design-tokens";
 import type { IndustriesSectionData } from "@/lib/types/page-sections";
 
@@ -14,6 +15,7 @@ interface IndustryTabsProps {
   data: IndustriesSectionData;
   meetingUrl: string | null;
   meetingLabel?: string | null;
+  meetingTrackType: MeetingTrackType;
   className?: string;
 }
 
@@ -21,6 +23,7 @@ export function IndustryTabs({
   data,
   meetingUrl,
   meetingLabel,
+  meetingTrackType,
   className,
 }: IndustryTabsProps) {
   const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
@@ -83,7 +86,11 @@ export function IndustryTabs({
                   </p>
                 ) : null}
                 <div className="mt-8">
-                  <ButtonLink href={meetingUrl ?? "#contact"} variant="primary">
+                  <ButtonLink
+                    href={meetingUrl ?? "#contact"}
+                    variant="primary"
+                    {...meetingTrackProps(meetingTrackType)}
+                  >
                     {ctaLabel}
                   </ButtonLink>
                 </div>

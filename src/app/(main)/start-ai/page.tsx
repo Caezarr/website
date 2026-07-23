@@ -74,6 +74,7 @@ function StartAiSections({
         data={content.hero}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
+        meetingTrackType="start-ai"
       />
       <LogoStrip data={content.logoStrip} />
       <NumberedCards data={content.phases} className="py-24" />
@@ -82,12 +83,14 @@ function StartAiSections({
         data={content.industries}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
+        meetingTrackType="start-ai"
       />
       <CardGrid data={content.whyNow} className="py-24" />
       <PromoPanel
         data={content.promo}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
+        meetingTrackType="start-ai"
       />
       <Testimonials
         id="testimonials"
@@ -99,6 +102,7 @@ function StartAiSections({
         data={content.contact}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
+        meetingTrackType="start-ai"
         className="py-24"
       />
       <FaqSection data={content.faq} bordered={false} className="py-24" />

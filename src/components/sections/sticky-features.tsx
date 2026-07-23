@@ -6,6 +6,7 @@ import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { resolveImageAlt, resolveImageSrc } from "@/lib/cms-image";
 import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass } from "@/lib/design-tokens";
 import { hasSanityImage } from "@/lib/resolve-cms";
 import type { StickyFeaturesResolved } from "@/lib/types/page-sections";
@@ -14,6 +15,7 @@ interface StickyFeaturesProps {
   data: StickyFeaturesResolved;
   meetingUrl?: string | null;
   meetingLabel?: string | null;
+  meetingTrackType: MeetingTrackType;
   className?: string;
 }
 
@@ -21,6 +23,7 @@ export function StickyFeatures({
   data,
   meetingUrl,
   meetingLabel,
+  meetingTrackType,
   className,
 }: StickyFeaturesProps) {
   const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
@@ -47,7 +50,11 @@ export function StickyFeatures({
           ) : null}
           {showCta ? (
             <div className="mt-8">
-              <ButtonLink href={meetingUrl ?? "#contact"} variant="primary">
+              <ButtonLink
+                href={meetingUrl ?? "#contact"}
+                variant="primary"
+                {...meetingTrackProps(meetingTrackType)}
+              >
                 {ctaLabel}
               </ButtonLink>
             </div>

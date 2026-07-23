@@ -5,6 +5,7 @@ import { CookieConsentProvider } from "@/components/cookie-consent/cookie-consen
 import { InlineScript } from "@/components/inline-script";
 import { JsonLd } from "@/components/json-ld/json-ld";
 import { META_PIXEL_ID, MetaPixel } from "@/components/meta-pixel";
+import { ATTRIBUTION_TRACKER_SCRIPT } from "@/lib/attribution-tracker-script";
 import { fontVariables } from "@/lib/fonts";
 import { getSiteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
@@ -176,6 +177,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <InlineScript
           id="apollo-tracker"
           html={`function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,o.onload=function(){window.trackingFunctions.onLoad({appId:"691d86987b3dc0000db97e49"})},document.head.appendChild(o)}initApollo();`}
+        />
+        <InlineScript
+          id="wonka-attribution-tracker"
+          html={ATTRIBUTION_TRACKER_SCRIPT}
         />
         <noscript>
           <img
