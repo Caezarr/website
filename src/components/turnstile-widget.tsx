@@ -24,16 +24,25 @@ declare global {
 }
 
 interface TurnstileWidgetProps {
+  resetKey?: number;
   onToken: (token: string) => void;
   onExpire: () => void;
   onError?: () => void;
 }
 
-export function TurnstileWidget({ onToken, onExpire, onError }: TurnstileWidgetProps) {
+export function TurnstileWidget({
+  resetKey = 0,
+  onToken,
+  onExpire,
+  onError,
+}: TurnstileWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   const callbacksRef = useRef({ onToken, onExpire, onError });
-  callbacksRef.current = { onToken, onExpire, onError };
+
+  useEffect(() => {
+    callbacksRef.current = { onToken, onExpire, onError };
+  }, [onToken, onExpire, onError]);
 
   useEffect(() => {
     if (!SITE_KEY || !containerRef.current) return;
@@ -65,7 +74,7 @@ export function TurnstileWidget({ onToken, onExpire, onError }: TurnstileWidgetP
         delete window.onTurnstileLoad;
       }
     };
-  }, []);
+  }, [resetKey]);
 
   if (!SITE_KEY) return null;
 
