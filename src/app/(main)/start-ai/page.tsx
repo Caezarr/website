@@ -70,12 +70,7 @@ function StartAiSections({
 }) {
   return (
     <>
-      <ProductHero
-        data={content.hero}
-        meetingUrl={meetingUrl}
-        meetingLabel={meetingLabel}
-        meetingTrackType="start-ai"
-      />
+      <ProductHero data={content.hero} leadForm />
       <LogoStrip data={content.logoStrip} />
       <NumberedCards data={content.phases} className="py-24" />
       <DeliverablesPanel data={content.deliverables} />
