@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
+import { StartAiHeroForm } from "@/components/sections/start-ai-hero-form";
 import { resolveImageAlt, resolveImageSrc } from "@/lib/cms-image";
 import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
 import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
@@ -11,18 +12,70 @@ import type { ProductHeroResolved } from "@/lib/types/page-sections";
 
 interface ProductHeroProps {
   data: ProductHeroResolved;
+  leadForm?: boolean;
   meetingUrl?: string | null;
   meetingLabel?: string | null;
-  meetingTrackType: MeetingTrackType;
+  meetingTrackType?: MeetingTrackType;
+}
+
+function HeroCta({
+  leadForm,
+  meetingUrl,
+  meetingLabel,
+  meetingTrackType,
+  secondaryLink,
+  theme,
+}: {
+  leadForm?: boolean;
+  meetingUrl?: string | null;
+  meetingLabel?: string | null;
+  meetingTrackType?: MeetingTrackType;
+  secondaryLink: ProductHeroResolved["secondaryLink"];
+  theme: "dark" | "light";
+}) {
+  if (leadForm) {
+    return (
+      <div className="mt-9">
+        <StartAiHeroForm theme={theme} />
+      </div>
+    );
+  }
+
+  const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
+  const isDark = theme === "dark";
+
+  return (
+    <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+      <ButtonLink
+        href={meetingUrl ?? "#contact"}
+        variant="primary"
+        {...(meetingTrackType ? meetingTrackProps(meetingTrackType) : {})}
+      >
+        {ctaLabel}
+      </ButtonLink>
+      {secondaryLink?.href && secondaryLink.label ? (
+        <Link
+          href={secondaryLink.href}
+          className={
+            isDark
+              ? "type-paragraph-m-bold text-white underline underline-offset-4"
+              : "type-paragraph-m-bold text-text underline underline-offset-4"
+          }
+        >
+          {secondaryLink.label}
+        </Link>
+      ) : null}
+    </div>
+  );
 }
 
 export function ProductHero({
   data,
+  leadForm = false,
   meetingUrl,
   meetingLabel,
   meetingTrackType,
 }: ProductHeroProps) {
-  const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
   const theme = data.theme ?? "dark";
   const eyebrow = data.eyebrow ?? "";
   const title = data.title ?? "";
@@ -62,23 +115,14 @@ export function ProductHero({
               {secondaryText}
             </p>
           ) : null}
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-4">
-            <ButtonLink
-              href={meetingUrl ?? "#contact"}
-              variant="primary"
-              {...meetingTrackProps(meetingTrackType)}
-            >
-              {ctaLabel}
-            </ButtonLink>
-            {data.secondaryLink?.href && data.secondaryLink.label ? (
-              <Link
-                href={data.secondaryLink.href}
-                className="type-paragraph-m-bold text-text underline underline-offset-4"
-              >
-                {data.secondaryLink.label}
-              </Link>
-            ) : null}
-          </div>
+          <HeroCta
+            leadForm={leadForm}
+            meetingUrl={meetingUrl}
+            meetingLabel={meetingLabel}
+            meetingTrackType={meetingTrackType}
+            secondaryLink={data.secondaryLink}
+            theme="light"
+          />
         </div>
         {heroSrc ? (
           <div className="mx-auto mt-12 max-w-[1400px] md:mt-16">
@@ -131,23 +175,14 @@ export function ProductHero({
               {subtitle}
             </p>
           ) : null}
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-            <ButtonLink
-              href={meetingUrl ?? "#contact"}
-              variant="primary"
-              {...meetingTrackProps(meetingTrackType)}
-            >
-              {ctaLabel}
-            </ButtonLink>
-            {data.secondaryLink?.href && data.secondaryLink.label ? (
-              <Link
-                href={data.secondaryLink.href}
-                className="type-paragraph-m-bold text-white underline underline-offset-4"
-              >
-                {data.secondaryLink.label}
-              </Link>
-            ) : null}
-          </div>
+          <HeroCta
+            leadForm={leadForm}
+            meetingUrl={meetingUrl}
+            meetingLabel={meetingLabel}
+            meetingTrackType={meetingTrackType}
+            secondaryLink={data.secondaryLink}
+            theme="dark"
+          />
         </div>
       </div>
     </section>

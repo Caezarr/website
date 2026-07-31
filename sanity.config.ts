@@ -9,6 +9,7 @@ import {
   ComposeIcon,
   DocumentsIcon,
   DocumentTextIcon,
+  EnvelopeIcon,
   HomeIcon,
   LinkIcon,
   LockIcon,
@@ -119,6 +120,15 @@ export default defineConfig({
                 S.documentTypeList("testimonial")
                   .title("Testimonials")
                   .defaultOrdering([{ field: "order", direction: "asc" }]),
+              ),
+            S.listItem()
+              .title("Start AI Leads")
+              .icon(EnvelopeIcon)
+              .schemaType("startAiLead")
+              .child(
+                S.documentTypeList("startAiLead")
+                  .title("Start AI Leads")
+                  .defaultOrdering([{ field: "submittedAt", direction: "desc" }]),
               ),
             S.divider(),
             S.listItem()
