@@ -78,6 +78,8 @@ import { connectorPage } from "./documents/connectorPage";
 
 import { caseStudy } from "./documents/caseStudy";
 
+import { siteLead } from "./documents/siteLead";
+
 import { startAiLead } from "./documents/startAiLead";
 
 
@@ -167,6 +169,8 @@ export const schemaTypes = [
   connectorPage,
 
   caseStudy,
+
+  siteLead,
 
   startAiLead,
 

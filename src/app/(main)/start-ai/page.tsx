@@ -70,7 +70,7 @@ function StartAiSections({
 }) {
   return (
     <>
-      <ProductHero data={content.hero} leadForm />
+      <ProductHero data={content.hero} leadForm="start-ai-hero" />
       <LogoStrip data={content.logoStrip} />
       <NumberedCards data={content.phases} className="py-24" />
       <DeliverablesPanel data={content.deliverables} />

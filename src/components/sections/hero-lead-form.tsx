@@ -1,48 +1,85 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import { useCallback, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { isTurnstileEnabled, TurnstileWidget } from "@/components/turnstile-widget";
 import { radius } from "@/lib/design-tokens";
+import { LEAD_FORM_COPY, type LeadSource } from "@/lib/lead-capture";
 import { cn } from "@/lib/utils";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
-interface StartAiHeroFormProps {
+interface HeroLeadFormProps {
+  source: LeadSource;
   theme?: "dark" | "light";
 }
 
-export function StartAiHeroForm({ theme = "dark" }: StartAiHeroFormProps) {
+export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
+  const formId = useId();
+  const emailId = `${formId}-email`;
+  const copy = LEAD_FORM_COPY[source];
+  const turnstileEnabled = isTurnstileEnabled();
   const [state, setState] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const isDark = theme === "dark";
+
+  const resetTurnstile = useCallback(() => {
+    setTurnstileToken(null);
+    setTurnstileResetKey((key) => key + 1);
+  }, []);
+
+  const handleTurnstileExpire = useCallback(() => {
+    setTurnstileToken(null);
+  }, []);
+
+  const handleTurnstileError = useCallback(() => {
+    setTurnstileToken(null);
+    setErrorMessage("Verification failed. Please try again.");
+    setState("error");
+  }, []);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setState("loading");
     setErrorMessage(null);
 
+    if (turnstileEnabled && !turnstileToken) {
+      setErrorMessage("Please complete the verification check.");
+      setState("error");
+      return;
+    }
+
     const form = event.currentTarget;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
     const website = (form.elements.namedItem("website") as HTMLInputElement).value;
 
     try {
-      const response = await fetch("/api/start-ai-lead", {
+      const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, website }),
+        body: JSON.stringify({
+          email,
+          source,
+          website,
+          ...(turnstileToken ? { turnstileToken } : {}),
+        }),
       });
 
       if (!response.ok) {
         const data = (await response.json().catch(() => null)) as { error?: string } | null;
+        if (turnstileEnabled) resetTurnstile();
         setErrorMessage(data?.error ?? "Something went wrong. Please try again.");
         setState("error");
         return;
       }
 
       form.reset();
+      setTurnstileToken(null);
       setState("success");
     } catch {
+      if (turnstileEnabled) resetTurnstile();
       setErrorMessage("Something went wrong. Please try again.");
       setState("error");
     }
@@ -56,7 +93,7 @@ export function StartAiHeroForm({ theme = "dark" }: StartAiHeroFormProps) {
           isDark ? "text-white/90" : "text-text/80",
         )}
       >
-        Thanks — we&apos;ll be in touch with more Start AI info.
+        {copy.successMessage}
       </p>
     );
   }
@@ -67,11 +104,11 @@ export function StartAiHeroForm({ theme = "dark" }: StartAiHeroFormProps) {
       className="mx-auto flex w-full max-w-xl flex-col items-stretch gap-3"
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
-        <label htmlFor="start-ai-email" className="sr-only">
+        <label htmlFor={emailId} className="sr-only">
           Email address
         </label>
         <input
-          id="start-ai-email"
+          id={emailId}
           name="email"
           type="email"
           required
@@ -87,9 +124,16 @@ export function StartAiHeroForm({ theme = "dark" }: StartAiHeroFormProps) {
           )}
         />
         <Button type="submit" variant="primary" disabled={state === "loading"}>
-          {state === "loading" ? "Sending…" : "Get more info"}
+          {state === "loading" ? "Sending…" : copy.submitLabel}
         </Button>
       </div>
+
+      <TurnstileWidget
+        resetKey={turnstileResetKey}
+        onToken={setTurnstileToken}
+        onExpire={handleTurnstileExpire}
+        onError={handleTurnstileError}
+      />
 
       <input
         tabIndex={-1}
@@ -105,17 +149,6 @@ export function StartAiHeroForm({ theme = "dark" }: StartAiHeroFormProps) {
           {errorMessage}
         </p>
       ) : null}
-
-      <p className={cn("type-paragraph-s", isDark ? "text-white/50" : "text-text/50")}>
-        We&apos;ll use your email to send Start AI info. See our{" "}
-        <Link
-          href="/privacy"
-          className={cn("underline underline-offset-2", isDark ? "text-white/70" : "text-text/70")}
-        >
-          Privacy Policy
-        </Link>
-        .
-      </p>
     </form>
   );
 }

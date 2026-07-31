@@ -121,12 +121,7 @@ function WonkaChatSections({
 }) {
   return (
     <>
-      <ProductHero
-        data={content.hero}
-        meetingUrl={meetingUrl}
-        meetingLabel={meetingLabel}
-        meetingTrackType="wonka-chat"
-      />
+      <ProductHero data={content.hero} leadForm="wonka-chat-hero" />
       <LogoStrip data={content.logoStrip} />
       <SplitContent data={content.problem} className="py-18 md:py-24" />
       <CenteredBanner id="how-it-works" header={content.overview} />

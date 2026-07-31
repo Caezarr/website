@@ -73,12 +73,7 @@ export default async function WonkaChatOdooPage() {
       />
 
       <main className="bg-background text-text">
-        <ProductHero
-          data={content.hero}
-          meetingUrl={meetingUrl}
-          meetingLabel={meetingLabel}
-          meetingTrackType="wonka-chat"
-        />
+        <ProductHero data={content.hero} leadForm="wonka-chat-odoo-hero" />
         <LogoStrip data={content.logoStrip} />
         <ProblemBento id="the-problem" data={content.problem} />
         <div id="how-it-works">

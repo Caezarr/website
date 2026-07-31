@@ -1,29 +1,32 @@
 import { defineType, defineField } from "sanity";
 
+/**
+ * @deprecated Legacy lead type from PR #57. New leads use `siteLead`.
+ * Kept so existing documents remain visible in Studio until migrated.
+ * Run: bun run scripts/migrate-start-ai-leads.ts
+ */
 export const startAiLead = defineType({
   name: "startAiLead",
-  title: "Start AI Lead",
+  title: "Start AI Lead (legacy)",
   type: "document",
   fields: [
     defineField({
       name: "email",
       title: "Email",
       type: "string",
-      validation: (Rule) => Rule.required().email(),
+      readOnly: true,
     }),
     defineField({
       name: "submittedAt",
       title: "Submitted at",
       type: "datetime",
-      validation: (Rule) => Rule.required(),
+      readOnly: true,
     }),
     defineField({
       name: "source",
       title: "Source",
       type: "string",
-      description: "Where the lead was captured on the site.",
-      initialValue: "start-ai-hero",
-      validation: (Rule) => Rule.required(),
+      readOnly: true,
     }),
   ],
   orderings: [
@@ -40,13 +43,13 @@ export const startAiLead = defineType({
     },
     prepare({ title, subtitle }) {
       return {
-        title: title ?? "Lead",
+        title: title ?? "Legacy lead",
         subtitle: subtitle
-          ? new Date(subtitle).toLocaleString("en-GB", {
+          ? `Legacy · ${new Date(subtitle).toLocaleString("en-GB", {
               dateStyle: "medium",
               timeStyle: "short",
-            })
-          : undefined,
+            })}`
+          : "Legacy",
       };
     },
   },
