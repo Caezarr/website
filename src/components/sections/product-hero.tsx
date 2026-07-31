@@ -2,17 +2,18 @@ import Image from "next/image";
 import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
-import { StartAiHeroForm } from "@/components/sections/start-ai-hero-form";
+import { HeroLeadForm } from "@/components/sections/hero-lead-form";
 import { resolveImageAlt, resolveImageSrc } from "@/lib/cms-image";
 import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
 import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass, radius } from "@/lib/design-tokens";
+import type { LeadSource } from "@/lib/lead-capture";
 import { hasSanityImage } from "@/lib/resolve-cms";
 import type { ProductHeroResolved } from "@/lib/types/page-sections";
 
 interface ProductHeroProps {
   data: ProductHeroResolved;
-  leadForm?: boolean;
+  leadForm?: LeadSource;
   meetingUrl?: string | null;
   meetingLabel?: string | null;
   meetingTrackType?: MeetingTrackType;
@@ -26,7 +27,7 @@ function HeroCta({
   secondaryLink,
   theme,
 }: {
-  leadForm?: boolean;
+  leadForm?: LeadSource;
   meetingUrl?: string | null;
   meetingLabel?: string | null;
   meetingTrackType?: MeetingTrackType;
@@ -36,7 +37,7 @@ function HeroCta({
   if (leadForm) {
     return (
       <div className="mt-9">
-        <StartAiHeroForm theme={theme} />
+        <HeroLeadForm source={leadForm} theme={theme} />
       </div>
     );
   }
@@ -71,7 +72,7 @@ function HeroCta({
 
 export function ProductHero({
   data,
-  leadForm = false,
+  leadForm,
   meetingUrl,
   meetingLabel,
   meetingTrackType,

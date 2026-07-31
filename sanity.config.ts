@@ -122,13 +122,35 @@ export default defineConfig({
                   .defaultOrdering([{ field: "order", direction: "asc" }]),
               ),
             S.listItem()
-              .title("Start AI Leads")
+              .title("Leads")
               .icon(EnvelopeIcon)
-              .schemaType("startAiLead")
               .child(
-                S.documentTypeList("startAiLead")
-                  .title("Start AI Leads")
-                  .defaultOrdering([{ field: "submittedAt", direction: "desc" }]),
+                S.list()
+                  .title("Leads")
+                  .items([
+                    S.listItem()
+                      .title("Start AI")
+                      .child(
+                        S.documentTypeList("siteLead")
+                          .title("Start AI Leads")
+                          .filter('_type == "siteLead" && source == "start-ai-hero"')
+                          .defaultOrdering([
+                            { field: "submittedAt", direction: "desc" },
+                          ]),
+                      ),
+                    S.listItem()
+                      .title("WonkaChat")
+                      .child(
+                        S.documentTypeList("siteLead")
+                          .title("WonkaChat Leads")
+                          .filter(
+                            '_type == "siteLead" && source in ["wonka-chat-hero", "wonka-chat-odoo-hero"]',
+                          )
+                          .defaultOrdering([
+                            { field: "submittedAt", direction: "desc" },
+                          ]),
+                      ),
+                  ]),
               ),
             S.divider(),
             S.listItem()

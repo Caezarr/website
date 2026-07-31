@@ -1,8 +1,14 @@
 import { defineType, defineField } from "sanity";
 
-export const startAiLead = defineType({
-  name: "startAiLead",
-  title: "Start AI Lead",
+const SOURCE_OPTIONS = [
+  { title: "Start AI hero", value: "start-ai-hero" },
+  { title: "WonkaChat hero", value: "wonka-chat-hero" },
+  { title: "WonkaChat Odoo hero", value: "wonka-chat-odoo-hero" },
+];
+
+export const siteLead = defineType({
+  name: "siteLead",
+  title: "Site Lead",
   type: "document",
   fields: [
     defineField({
@@ -22,7 +28,7 @@ export const startAiLead = defineType({
       title: "Source",
       type: "string",
       description: "Where the lead was captured on the site.",
-      initialValue: "start-ai-hero",
+      options: { list: SOURCE_OPTIONS },
       validation: (Rule) => Rule.required(),
     }),
   ],
@@ -36,17 +42,25 @@ export const startAiLead = defineType({
   preview: {
     select: {
       title: "email",
-      subtitle: "submittedAt",
+      source: "source",
+      submittedAt: "submittedAt",
     },
-    prepare({ title, subtitle }) {
+    prepare({ title, source, submittedAt }) {
+      const sourceLabel =
+        SOURCE_OPTIONS.find((option) => option.value === source)?.title ?? source;
       return {
         title: title ?? "Lead",
-        subtitle: subtitle
-          ? new Date(subtitle).toLocaleString("en-GB", {
-              dateStyle: "medium",
-              timeStyle: "short",
-            })
-          : undefined,
+        subtitle: [
+          sourceLabel,
+          submittedAt
+            ? new Date(submittedAt).toLocaleString("en-GB", {
+                dateStyle: "medium",
+                timeStyle: "short",
+              })
+            : null,
+        ]
+          .filter(Boolean)
+          .join(" · "),
       };
     },
   },

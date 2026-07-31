@@ -1,9 +1,11 @@
+import { isLeadSource } from "@/lib/lead-capture";
 import { getSanityWriteClient } from "@sanity/lib/write-client";
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 interface LeadPayload {
   email?: unknown;
+  source?: unknown;
   website?: unknown;
 }
 
@@ -32,6 +34,10 @@ export async function POST(request: Request) {
     return Response.json({ error: "Please enter a valid email address." }, { status: 400 });
   }
 
+  if (!isLeadSource(payload.source)) {
+    return Response.json({ error: "Invalid lead source." }, { status: 400 });
+  }
+
   const client = getSanityWriteClient();
   if (!client) {
     return Response.json(
@@ -42,10 +48,10 @@ export async function POST(request: Request) {
 
   try {
     await client.create({
-      _type: "startAiLead",
+      _type: "siteLead",
       email,
       submittedAt: new Date().toISOString(),
-      source: "start-ai-hero",
+      source: payload.source,
     });
   } catch {
     return Response.json(

@@ -1,18 +1,22 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
+import { useId, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { radius } from "@/lib/design-tokens";
+import { LEAD_FORM_COPY, type LeadSource } from "@/lib/lead-capture";
 import { cn } from "@/lib/utils";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
-interface StartAiHeroFormProps {
+interface HeroLeadFormProps {
+  source: LeadSource;
   theme?: "dark" | "light";
 }
 
-export function StartAiHeroForm({ theme = "dark" }: StartAiHeroFormProps) {
+export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
+  const formId = useId();
+  const emailId = `${formId}-email`;
+  const copy = LEAD_FORM_COPY[source];
   const [state, setState] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const isDark = theme === "dark";
@@ -27,10 +31,10 @@ export function StartAiHeroForm({ theme = "dark" }: StartAiHeroFormProps) {
     const website = (form.elements.namedItem("website") as HTMLInputElement).value;
 
     try {
-      const response = await fetch("/api/start-ai-lead", {
+      const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, website }),
+        body: JSON.stringify({ email, source, website }),
       });
 
       if (!response.ok) {
@@ -56,7 +60,7 @@ export function StartAiHeroForm({ theme = "dark" }: StartAiHeroFormProps) {
           isDark ? "text-white/90" : "text-text/80",
         )}
       >
-        Thanks — we&apos;ll be in touch with more Start AI info.
+        {copy.successMessage}
       </p>
     );
   }
@@ -67,11 +71,11 @@ export function StartAiHeroForm({ theme = "dark" }: StartAiHeroFormProps) {
       className="mx-auto flex w-full max-w-xl flex-col items-stretch gap-3"
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
-        <label htmlFor="start-ai-email" className="sr-only">
+        <label htmlFor={emailId} className="sr-only">
           Email address
         </label>
         <input
-          id="start-ai-email"
+          id={emailId}
           name="email"
           type="email"
           required
@@ -87,7 +91,7 @@ export function StartAiHeroForm({ theme = "dark" }: StartAiHeroFormProps) {
           )}
         />
         <Button type="submit" variant="primary" disabled={state === "loading"}>
-          {state === "loading" ? "Sending…" : "Get more info"}
+          {state === "loading" ? "Sending…" : copy.submitLabel}
         </Button>
       </div>
 
@@ -105,17 +109,6 @@ export function StartAiHeroForm({ theme = "dark" }: StartAiHeroFormProps) {
           {errorMessage}
         </p>
       ) : null}
-
-      <p className={cn("type-paragraph-s", isDark ? "text-white/50" : "text-text/50")}>
-        We&apos;ll use your email to send Start AI info. See our{" "}
-        <Link
-          href="/privacy"
-          className={cn("underline underline-offset-2", isDark ? "text-white/70" : "text-text/70")}
-        >
-          Privacy Policy
-        </Link>
-        .
-      </p>
     </form>
   );
 }
