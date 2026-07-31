@@ -31,6 +31,14 @@ export const siteLead = defineType({
       options: { list: SOURCE_OPTIONS },
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "clientIp",
+      title: "Client IP",
+      type: "string",
+      description: "Captured server-side for abuse prevention. Not shown publicly.",
+      readOnly: true,
+      hidden: ({ document }) => !document?.clientIp,
+    }),
   ],
   orderings: [
     {

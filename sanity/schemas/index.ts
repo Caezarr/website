@@ -80,6 +80,8 @@ import { caseStudy } from "./documents/caseStudy";
 
 import { siteLead } from "./documents/siteLead";
 
+import { startAiLead } from "./documents/startAiLead";
+
 
 
 export const schemaTypes = [
@@ -169,6 +171,8 @@ export const schemaTypes = [
   caseStudy,
 
   siteLead,
+
+  startAiLead,
 
 ];
 

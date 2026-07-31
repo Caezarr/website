@@ -133,7 +133,9 @@ export default defineConfig({
                       .child(
                         S.documentTypeList("siteLead")
                           .title("Start AI Leads")
-                          .filter('_type == "siteLead" && source == "start-ai-hero"')
+                          .filter(
+                            '(_type == "siteLead" || _type == "startAiLead") && (source == "start-ai-hero" || !defined(source))',
+                          )
                           .defaultOrdering([
                             { field: "submittedAt", direction: "desc" },
                           ]),

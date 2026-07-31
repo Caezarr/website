@@ -1,7 +1,8 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useCallback, useId, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { isTurnstileEnabled, TurnstileWidget } from "@/components/turnstile-widget";
 import { radius } from "@/lib/design-tokens";
 import { LEAD_FORM_COPY, type LeadSource } from "@/lib/lead-capture";
 import { cn } from "@/lib/utils";
@@ -17,14 +18,32 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
   const formId = useId();
   const emailId = `${formId}-email`;
   const copy = LEAD_FORM_COPY[source];
+  const turnstileEnabled = isTurnstileEnabled();
   const [state, setState] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const isDark = theme === "dark";
+
+  const handleTurnstileExpire = useCallback(() => {
+    setTurnstileToken(null);
+  }, []);
+
+  const handleTurnstileError = useCallback(() => {
+    setTurnstileToken(null);
+    setErrorMessage("Verification failed. Please try again.");
+    setState("error");
+  }, []);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setState("loading");
     setErrorMessage(null);
+
+    if (turnstileEnabled && !turnstileToken) {
+      setErrorMessage("Please complete the verification check.");
+      setState("error");
+      return;
+    }
 
     const form = event.currentTarget;
     const email = (form.elements.namedItem("email") as HTMLInputElement).value;
@@ -34,7 +53,12 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
       const response = await fetch("/api/lead", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, source, website }),
+        body: JSON.stringify({
+          email,
+          source,
+          website,
+          ...(turnstileToken ? { turnstileToken } : {}),
+        }),
       });
 
       if (!response.ok) {
@@ -45,6 +69,7 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
       }
 
       form.reset();
+      setTurnstileToken(null);
       setState("success");
     } catch {
       setErrorMessage("Something went wrong. Please try again.");
@@ -94,6 +119,12 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
           {state === "loading" ? "Sending…" : copy.submitLabel}
         </Button>
       </div>
+
+      <TurnstileWidget
+        onToken={setTurnstileToken}
+        onExpire={handleTurnstileExpire}
+        onError={handleTurnstileError}
+      />
 
       <input
         tabIndex={-1}
