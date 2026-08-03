@@ -9,6 +9,7 @@ import {
   anonymizeCompanyResearch,
   normalizeTarget,
 } from "@/lib/agent-blueprint";
+import { isAgentBlueprintRateLimited } from "@/lib/agent-blueprint-rate-limit";
 import { researchCompany, designAgents } from "@/lib/agent-blueprint-requesty";
 import { searchBenchmark } from "@/lib/agent-blueprint-search";
 import { getSanityWriteClient } from "@sanity/lib/write-client";
@@ -29,23 +30,6 @@ interface UpdatePayload {
 
 const ASSESSMENT_ID_PATTERN =
   /^agent-blueprint\.[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-const RATE_LIMIT_MAX = 5;
-const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000;
-
-async function isRateLimited(clientIp: string): Promise<boolean> {
-  const client = getSanityWriteClient();
-  if (!client) return true;
-  const since = new Date(Date.now() - RATE_LIMIT_WINDOW_MS).toISOString();
-  const count = await client.fetch<number>(
-    `count(*[
-      _type == "agentBlueprintAssessment"
-      && clientIp == $clientIp
-      && submittedAt > $since
-    ])`,
-    { clientIp, since },
-  );
-  return count >= RATE_LIMIT_MAX;
-}
 
 function publicError(status = 500) {
   return Response.json(
@@ -97,7 +81,7 @@ export async function POST(request: Request) {
   const clientIp = getClientIp(request);
   if (clientIp) {
     try {
-      if (await isRateLimited(clientIp)) {
+      if (await isAgentBlueprintRateLimited(client, clientIp)) {
         return Response.json(
           { error: "Too many requests. Please try again later." },
           { status: 429 },
