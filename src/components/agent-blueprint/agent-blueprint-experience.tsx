@@ -23,7 +23,6 @@ type ExperienceState = "idle" | "loading" | "result" | "error";
 
 interface BlueprintApiResponse {
   assessmentId: string;
-  emailCaptured: boolean;
   result: AgentBlueprintResult;
 }
 
@@ -352,73 +351,6 @@ function AgentDetailPanel({
   );
 }
 
-function UnlockForm({
-  assessmentId,
-  onUnlocked,
-}: {
-  assessmentId: string;
-  onUnlocked: () => void;
-}) {
-  const [email, setEmail] = useState("");
-  const [state, setState] = useState<"idle" | "loading" | "error">("idle");
-
-  async function submit(event: React.FormEvent) {
-    event.preventDefault();
-    setState("loading");
-    try {
-      const response = await fetch("/api/agent-blueprint", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ assessmentId, email }),
-      });
-      if (!response.ok) {
-        setState("error");
-        return;
-      }
-      onUnlocked();
-    } catch {
-      setState("error");
-    }
-  }
-
-  return (
-    <form
-      id="blueprint-unlock"
-      onSubmit={submit}
-      className="scroll-mt-20 rounded-sm border border-blue-300 bg-blue-100 p-4 md:flex md:items-center md:justify-between md:gap-8 md:px-5"
-    >
-      <div>
-        <p className="type-paragraph-m-bold">Unlock agents 02 and 03</p>
-        <p className="type-paragraph-s text-text/60 mt-1">
-          Add your work email. The blueprint stays anonymous.
-        </p>
-      </div>
-      <div className="mt-4 flex min-w-0 gap-2 md:mt-0 md:w-[25rem]">
-        <label className="sr-only" htmlFor="blueprint-unlock-email">
-          Work email
-        </label>
-        <input
-          id="blueprint-unlock-email"
-          type="email"
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          required
-          placeholder="you@company.com"
-          className="type-paragraph-m min-w-0 flex-1 rounded-sm border border-blue-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-400"
-        />
-        <Button type="submit" disabled={state === "loading"}>
-          {state === "loading" ? "Unlocking…" : "Unlock"}
-        </Button>
-      </div>
-      {state === "error" ? (
-        <p className="type-paragraph-s mt-2 text-blue-900 md:hidden">
-          Please enter a valid work email.
-        </p>
-      ) : null}
-    </form>
-  );
-}
-
 function BlueprintResults({
   response,
   meetingUrl,
@@ -426,7 +358,6 @@ function BlueprintResults({
   response: BlueprintApiResponse;
   meetingUrl: string;
 }) {
-  const [unlocked, setUnlocked] = useState(response.emailCaptured);
   const [selectedAgentIndex, setSelectedAgentIndex] = useState(0);
   const selectedAgent = response.result.agents[selectedAgentIndex];
   const weeklySavings = useMemo(
@@ -499,7 +430,6 @@ function BlueprintResults({
             aria-label="Recommended agents"
           >
             {response.result.agents.map((agent, index) => {
-              const isLocked = !unlocked && index > 0;
               const isSelected = selectedAgentIndex === index;
               return (
                 <button
@@ -508,15 +438,6 @@ function BlueprintResults({
                   role="tab"
                   aria-selected={isSelected}
                   onClick={() => {
-                    if (isLocked) {
-                      document
-                        .getElementById("blueprint-unlock")
-                        ?.scrollIntoView({
-                          behavior: "smooth",
-                          block: "center",
-                        });
-                      return;
-                    }
                     setSelectedAgentIndex(index);
                     if (window.innerWidth < 1024) {
                       window.setTimeout(() => {
@@ -534,7 +455,6 @@ function BlueprintResults({
                     isSelected
                       ? "bg-black text-white"
                       : "bg-white hover:bg-blue-50",
-                    isLocked && "opacity-60",
                   )}
                 >
                   <div className="flex items-center justify-between gap-3">
@@ -547,9 +467,8 @@ function BlueprintResults({
                       Agent 0{index + 1}
                     </span>
                     <span className="type-paragraph-s">
-                      {isLocked
-                        ? "Locked"
-                        : `${agent.weeklyHoursSaved.min}–${agent.weeklyHoursSaved.max}h/w`}
+                      {agent.weeklyHoursSaved.min}–{agent.weeklyHoursSaved.max}
+                      h/w
                     </span>
                   </div>
                   <p className="type-paragraph-m-bold mt-3 min-h-10">
@@ -571,13 +490,7 @@ function BlueprintResults({
                         : "border-border text-text/55",
                     )}
                   >
-                    <span>
-                      {isLocked
-                        ? "Unlock details"
-                        : isSelected
-                          ? "Viewing now"
-                          : "View details"}
-                    </span>
+                    <span>{isSelected ? "Viewing now" : "View details"}</span>
                     <span aria-hidden>{isSelected ? "●" : "→"}</span>
                   </div>
                 </button>
@@ -597,15 +510,6 @@ function BlueprintResults({
             </AnimatePresence>
           </div>
         </div>
-
-        {!unlocked ? (
-          <div className="mt-4">
-            <UnlockForm
-              assessmentId={response.assessmentId}
-              onUnlocked={() => setUnlocked(true)}
-            />
-          </div>
-        ) : null}
 
         <div className="mt-5 rounded-sm bg-[#0f2119] px-5 py-5 text-white sm:flex sm:items-center sm:justify-between sm:gap-8 md:px-6">
           <div>
@@ -762,7 +666,7 @@ export function AgentBlueprintExperience({
                 htmlFor={`${formId}-target`}
                 className="type-paragraph-m-bold"
               >
-                Company website or work email
+                Company website
               </label>
               <div className="mt-3 flex flex-col gap-3 sm:flex-row">
                 <input
@@ -771,7 +675,8 @@ export function AgentBlueprintExperience({
                   type="text"
                   required
                   disabled={state === "loading"}
-                  placeholder="company.com or you@company.com"
+                  inputMode="url"
+                  placeholder="company.com"
                   className="type-paragraph-m min-w-0 flex-1 rounded-sm border border-white/20 bg-white/10 px-4 py-3 text-white outline-none placeholder:text-white/35 focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
                 />
                 <Button

@@ -1,7 +1,6 @@
 import {
   getClientIp,
   isTurnstileRequired,
-  normalizeLeadEmail,
   verifyTurnstileToken,
 } from "@/lib/lead-api";
 import {
@@ -23,7 +22,6 @@ interface CreatePayload {
 
 interface UpdatePayload {
   assessmentId?: unknown;
-  email?: unknown;
   event?: unknown;
   website?: unknown;
 }
@@ -53,7 +51,7 @@ export async function POST(request: Request) {
   const target = normalizeTarget(payload.target);
   if (!target) {
     return Response.json(
-      { error: "Enter a valid company website or work email." },
+      { error: "Enter a valid company website." },
       { status: 400 },
     );
   }
@@ -100,9 +98,6 @@ export async function POST(request: Request) {
       _id: assessmentId,
       _type: "agentBlueprintAssessment",
       targetDomain: target.domain,
-      ...(target.email
-        ? { submittedEmail: target.email, emailCapturedAt: now }
-        : {}),
       anonymous: true,
       status: "processing",
       submittedAt: now,
@@ -171,7 +166,6 @@ export async function POST(request: Request) {
     return Response.json(
       {
         assessmentId,
-        emailCaptured: Boolean(target.email),
         result,
       },
       { status: 201 },
@@ -226,25 +220,5 @@ export async function PATCH(request: Request) {
     return Response.json({ ok: true });
   }
 
-  const email = normalizeLeadEmail(payload.email);
-  if (!email) {
-    return Response.json(
-      { error: "Enter a valid work email." },
-      { status: 400 },
-    );
-  }
-
-  try {
-    await client
-      .patch(payload.assessmentId)
-      .set({
-        submittedEmail: email,
-        emailCapturedAt: now,
-      })
-      .commit();
-  } catch {
-    return publicError();
-  }
-
-  return Response.json({ ok: true });
+  return Response.json({ error: "Invalid update." }, { status: 400 });
 }

@@ -1,5 +1,3 @@
-import { EMAIL_PATTERN } from "@/lib/lead-api";
-
 export const AGENT_TIERS = [
   "Copilot",
   "Human in the loop",
@@ -60,7 +58,6 @@ export interface BenchmarkPattern {
 export interface NormalizedTarget {
   domain: string;
   website: string;
-  email: string | null;
 }
 
 const DOMAIN_PATTERN =
@@ -69,18 +66,12 @@ const DOMAIN_PATTERN =
 export function normalizeTarget(value: unknown): NormalizedTarget | null {
   if (typeof value !== "string") return null;
   const input = value.trim().toLowerCase();
-  if (!input || input.length > 320) return null;
-
-  const email = EMAIL_PATTERN.test(input) ? input : null;
-  const candidate = email ? input.split("@").at(-1) : input;
-  if (!candidate) return null;
+  if (!input || input.length > 320 || input.includes("@")) return null;
 
   let hostname: string;
   try {
     const url = new URL(
-      /^[a-z][a-z\d+.-]*:\/\//i.test(candidate)
-        ? candidate
-        : `https://${candidate}`,
+      /^[a-z][a-z\d+.-]*:\/\//i.test(input) ? input : `https://${input}`,
     );
     if (url.protocol !== "http:" && url.protocol !== "https:") return null;
     hostname = url.hostname.replace(/^www\./, "").replace(/\.$/, "");
@@ -94,7 +85,6 @@ export function normalizeTarget(value: unknown): NormalizedTarget | null {
   return {
     domain: hostname,
     website: `https://${hostname}`,
-    email,
   };
 }
 
