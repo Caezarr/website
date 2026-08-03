@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import {
@@ -12,6 +13,10 @@ import type {
   AgentBlueprintAgent,
   AgentBlueprintResult,
 } from "@/lib/agent-blueprint";
+import {
+  type ConnectedTool,
+  resolveConnectedTools,
+} from "@/lib/agent-blueprint-tools";
 import { cn } from "@/lib/utils";
 
 type ExperienceState = "idle" | "loading" | "result" | "error";
@@ -168,17 +173,44 @@ function LoadingPanel({ activeStage }: { activeStage: number }) {
   );
 }
 
+const logoDevToken =
+  process.env.NEXT_PUBLIC_LOGO_DEV_TOKEN ?? "pk_W2OQu1QTRouRcByKgmxjCA";
+
+function ToolLogo({ tool }: { tool: ConnectedTool }) {
+  const [failed, setFailed] = useState(false);
+
+  return (
+    <span className="flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-[0.3rem] border border-black/8 bg-white">
+      {failed ? (
+        <span className="type-paragraph-s font-semibold text-text/65">
+          {tool.name.charAt(0)}
+        </span>
+      ) : (
+        <Image
+          src={`https://img.logo.dev/${tool.domain}?token=${logoDevToken}&size=48&format=png`}
+          alt=""
+          width={24}
+          height={24}
+          unoptimized
+          className="size-6 object-contain p-[3px]"
+          onError={() => setFailed(true)}
+        />
+      )}
+    </span>
+  );
+}
+
 function ToolChain({ tools }: { tools: string[] }) {
+  const connectedTools = resolveConnectedTools(tools);
+
   return (
     <div className="flex flex-wrap items-center gap-2">
-      {tools.map((tool, index) => (
-        <div key={`${tool}-${index}`} className="flex items-center gap-2">
+      {connectedTools.map((tool, index) => (
+        <div key={tool.name} className="flex items-center gap-2">
           {index > 0 ? <span className="h-px w-3 bg-border" /> : null}
-          <span className="inline-flex items-center gap-2 rounded-sm border border-border bg-background px-2.5 py-1.5 type-paragraph-s text-text/75">
-            <span className="flex size-5 items-center justify-center rounded-sm bg-black type-paragraph-s text-white">
-              {tool.charAt(0).toUpperCase()}
-            </span>
-            {tool}
+          <span className="inline-flex min-h-9 items-center gap-2 rounded-sm border border-border bg-background px-2 py-1 type-paragraph-s text-text/75">
+            <ToolLogo tool={tool} />
+            {tool.name}
           </span>
         </div>
       ))}
@@ -234,7 +266,7 @@ function AgentCard({
           <p className="type-body">{agent.mission}</p>
           <p className="mt-4 type-paragraph-m text-text/55">{agent.whyNow}</p>
           <div className="mt-6">
-            <p className="type-eyebrow text-text/35">Connected tools</p>
+            <p className="type-eyebrow text-text/35">Example integrations</p>
             <div className="mt-3">
               <ToolChain tools={agent.tools} />
             </div>

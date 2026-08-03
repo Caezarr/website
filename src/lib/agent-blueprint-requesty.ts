@@ -270,6 +270,8 @@ export async function designAgents(
 
 Design exactly three practical agents, ranked by expected business value. Every recommendation must be grounded in the supplied anonymised benchmark patterns; never invent a use case without benchmark support.
 
+For each agent's tools, return 3 to 5 concrete integration examples from this catalogue whenever relevant: SharePoint, Microsoft Teams, Outlook, OneDrive, Odoo ERP, SAP, Microsoft Dynamics 365, Salesforce, HubSpot, Slack, Jira, Confluence, Google Drive, GitHub, Airtable, Asana, Notion and Box. Prefer products that fit the workflow. Do not return generic categories such as "document repository", "CRM", "ERP system" or "project workspace".
+
 Use these tiers exactly:
 - Copilot: a person works directly with the agent.
 - Human in the loop: an external event or submitted data triggers a workflow, with a human validating or controlling it in an interface.
