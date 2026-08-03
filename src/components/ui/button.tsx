@@ -135,12 +135,10 @@ function Button({
   );
 }
 
-interface ButtonLinkProps extends VariantProps<typeof buttonVariants> {
+interface ButtonLinkProps
+  extends VariantProps<typeof buttonVariants>,
+    Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, "href"> {
   href: string;
-  className?: string;
-  children: React.ReactNode;
-  target?: React.HTMLAttributeAnchorTarget;
-  rel?: string;
 }
 
 function ButtonLink({

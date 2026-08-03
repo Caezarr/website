@@ -152,6 +152,15 @@ export default defineConfig({
                             { field: "submittedAt", direction: "desc" },
                           ]),
                       ),
+                    S.listItem()
+                      .title("Agent Blueprints")
+                      .child(
+                        S.documentTypeList("agentBlueprintAssessment")
+                          .title("Agent Blueprint Assessments")
+                          .defaultOrdering([
+                            { field: "submittedAt", direction: "desc" },
+                          ]),
+                      ),
                   ]),
               ),
             S.divider(),
