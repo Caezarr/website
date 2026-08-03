@@ -1,28 +1,96 @@
 export interface ConnectedTool {
   name: string;
   domain: string;
+  iconUrl?: string;
 }
 
+const connectorIcon = (filename: string) =>
+  `https://stwonkachatpweu001.blob.core.windows.net/mcp-logo/${filename}`;
+
 const tools = {
-  airtable: { name: "Airtable", domain: "airtable.com" },
-  asana: { name: "Asana", domain: "asana.com" },
-  azure: { name: "Azure AI", domain: "azure.microsoft.com" },
-  box: { name: "Box", domain: "box.com" },
-  confluence: { name: "Confluence", domain: "atlassian.com" },
-  dynamics: { name: "Dynamics 365", domain: "dynamics.microsoft.com" },
-  github: { name: "GitHub", domain: "github.com" },
-  googleDrive: { name: "Google Drive", domain: "drive.google.com" },
-  hubspot: { name: "HubSpot", domain: "hubspot.com" },
-  jira: { name: "Jira", domain: "jira.com" },
-  notion: { name: "Notion", domain: "notion.so" },
-  odoo: { name: "Odoo ERP", domain: "odoo.com" },
-  oneDrive: { name: "OneDrive", domain: "onedrive.com" },
-  outlook: { name: "Outlook", domain: "outlook.com" },
-  salesforce: { name: "Salesforce", domain: "salesforce.com" },
+  airtable: {
+    name: "Airtable",
+    domain: "airtable.com",
+    iconUrl: connectorIcon("airtable.svg"),
+  },
+  asana: {
+    name: "Asana",
+    domain: "asana.com",
+    iconUrl: connectorIcon("asana.svg"),
+  },
+  azure: { name: "Azure AI", domain: "azure.com" },
+  box: { name: "Box", domain: "box.com", iconUrl: connectorIcon("box.svg") },
+  confluence: {
+    name: "Confluence",
+    domain: "atlassian.com",
+    iconUrl: connectorIcon("confluence.svg"),
+  },
+  dynamics: {
+    name: "Dynamics 365",
+    domain: "dynamics.microsoft.com",
+    iconUrl: connectorIcon("Dynamics365.svg.png"),
+  },
+  github: {
+    name: "GitHub",
+    domain: "github.com",
+    iconUrl: connectorIcon("github.svg"),
+  },
+  googleDrive: {
+    name: "Google Drive",
+    domain: "drive.google.com",
+    iconUrl: connectorIcon("google_drive.png"),
+  },
+  hubspot: {
+    name: "HubSpot",
+    domain: "hubspot.com",
+    iconUrl: connectorIcon("hubspot.svg"),
+  },
+  jira: {
+    name: "Jira",
+    domain: "jira.com",
+    iconUrl: connectorIcon("jira.svg"),
+  },
+  notion: {
+    name: "Notion",
+    domain: "notion.so",
+    iconUrl: connectorIcon("notion.svg"),
+  },
+  odoo: {
+    name: "Odoo ERP",
+    domain: "odoo.com",
+    iconUrl: connectorIcon("odoo.png"),
+  },
+  oneDrive: {
+    name: "OneDrive",
+    domain: "onedrive.com",
+    iconUrl: connectorIcon("onedrive.svg"),
+  },
+  outlook: {
+    name: "Outlook",
+    domain: "outlook.com",
+    iconUrl: connectorIcon("outlook.svg"),
+  },
+  salesforce: {
+    name: "Salesforce",
+    domain: "salesforce.com",
+    iconUrl: connectorIcon("salesforce.svg"),
+  },
   sap: { name: "SAP", domain: "sap.com" },
-  sharePoint: { name: "SharePoint", domain: "sharepoint.com" },
-  slack: { name: "Slack", domain: "slack.com" },
-  teams: { name: "Microsoft Teams", domain: "teams.microsoft.com" },
+  sharePoint: {
+    name: "SharePoint",
+    domain: "sharepoint.com",
+    iconUrl: connectorIcon("sharepoint.png"),
+  },
+  slack: {
+    name: "Slack",
+    domain: "slack.com",
+    iconUrl: connectorIcon("slack.svg"),
+  },
+  teams: {
+    name: "Microsoft Teams",
+    domain: "teams.microsoft.com",
+    iconUrl: connectorIcon("microsoft_teams.svg"),
+  },
 } satisfies Record<string, ConnectedTool>;
 
 const toolRules: Array<[RegExp, ConnectedTool]> = [

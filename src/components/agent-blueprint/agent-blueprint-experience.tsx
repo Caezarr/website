@@ -187,7 +187,10 @@ function ToolLogo({ tool }: { tool: ConnectedTool }) {
         </span>
       ) : (
         <Image
-          src={`https://img.logo.dev/${tool.domain}?token=${logoDevToken}&size=48&format=png`}
+          src={
+            tool.iconUrl ??
+            `https://img.logo.dev/${tool.domain}?token=${logoDevToken}&size=48&format=png`
+          }
           alt=""
           width={24}
           height={24}
