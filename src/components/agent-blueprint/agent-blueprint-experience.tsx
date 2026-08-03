@@ -206,7 +206,7 @@ function ToolLogo({ tool }: { tool: ConnectedTool }) {
   const [failed, setFailed] = useState(false);
 
   return (
-    <span className="flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-[0.3rem] border border-black/8 bg-white">
+    <span className="flex size-8 shrink-0 items-center justify-center overflow-hidden rounded-[0.4rem] border border-black/8 bg-white">
       {failed ? (
         <span className="type-paragraph-s text-text/65 font-semibold">
           {tool.name.charAt(0)}
@@ -218,10 +218,10 @@ function ToolLogo({ tool }: { tool: ConnectedTool }) {
             `https://img.logo.dev/${tool.domain}?token=${logoDevToken}&size=48&format=png`
           }
           alt=""
-          width={24}
-          height={24}
+          width={32}
+          height={32}
           unoptimized
-          className="size-6 object-contain p-[3px]"
+          className="size-8 object-contain p-1"
           onError={() => setFailed(true)}
         />
       )}
@@ -233,12 +233,14 @@ function ToolChain({ tools }: { tools: string[] }) {
   const connectedTools = resolveConnectedTools(tools);
 
   return (
-    <div className="flex flex-wrap items-center gap-2">
-      {connectedTools.map((tool, index) => (
-        <div key={tool.name} className="flex items-center gap-2">
-          {index > 0 ? <span className="bg-border h-px w-3" /> : null}
-          <span className="border-border bg-background type-paragraph-s text-text/75 inline-flex min-h-9 items-center gap-2 rounded-sm border px-2 py-1">
-            <ToolLogo tool={tool} />
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+      {connectedTools.map((tool) => (
+        <div
+          key={tool.name}
+          className="border-border bg-light-gray flex min-h-12 items-center gap-2.5 rounded-sm border px-2.5 py-2"
+        >
+          <ToolLogo tool={tool} />
+          <span className="type-paragraph-s text-text/70 min-w-0 truncate">
             {tool.name}
           </span>
         </div>
@@ -300,7 +302,12 @@ function AgentDetailPanel({
             <p className="type-paragraph-m text-text/65 mt-2">{agent.whyNow}</p>
           </div>
           <div className="mt-5">
-            <p className="type-eyebrow text-text/35">Example integrations</p>
+            <div className="flex items-center justify-between">
+              <p className="type-eyebrow text-text/35">Suggested stack</p>
+              <p className="type-paragraph-s text-text/35">
+                Example integrations
+              </p>
+            </div>
             <div className="mt-3">
               <ToolChain tools={agent.tools} />
             </div>
@@ -475,9 +482,23 @@ function BlueprintResults({
           </div>
         </div>
 
-        <div className="mt-7 grid gap-4 lg:grid-cols-[20rem_1fr]">
+        <div className="mt-7">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="type-paragraph-m-bold">
+                Choose an agent to explore
+              </p>
+              <p className="type-paragraph-s text-text/45 mt-1">
+                Compare the workflow, integrations and weekly time saved.
+              </p>
+            </div>
+            <p className="type-paragraph-s text-text/35 hidden sm:block">
+              {selectedAgentIndex + 1} of {response.result.agents.length}
+            </p>
+          </div>
+
           <div
-            className="flex snap-x gap-2 overflow-x-auto pb-2 lg:grid lg:overflow-visible lg:pb-0"
+            className="border-border bg-border mt-3 flex snap-x gap-px overflow-x-auto rounded-sm border sm:grid sm:grid-cols-3 sm:overflow-visible"
             role="tablist"
             aria-label="Recommended agents"
           >
@@ -513,10 +534,10 @@ function BlueprintResults({
                     }
                   }}
                   className={cn(
-                    "group min-w-[15rem] flex-1 snap-start rounded-sm border p-4 text-left transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none lg:min-w-0",
+                    "group relative min-w-[15rem] flex-1 snap-start p-4 text-left transition-colors focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none sm:min-w-0",
                     isSelected
-                      ? "border-black bg-black text-white"
-                      : "border-border hover:border-text/35 bg-white",
+                      ? "bg-black text-white"
+                      : "bg-white hover:bg-blue-50",
                     isLocked && "opacity-60",
                   )}
                 >
@@ -535,7 +556,9 @@ function BlueprintResults({
                         : `${agent.weeklyHoursSaved.min}–${agent.weeklyHoursSaved.max}h/w`}
                     </span>
                   </div>
-                  <p className="type-paragraph-m-bold mt-3">{agent.name}</p>
+                  <p className="type-paragraph-m-bold mt-3 min-h-10">
+                    {agent.name}
+                  </p>
                   <p
                     className={cn(
                       "type-paragraph-s mt-1",
@@ -544,20 +567,39 @@ function BlueprintResults({
                   >
                     {agent.tier}
                   </p>
+                  <div
+                    className={cn(
+                      "type-paragraph-s mt-4 flex items-center justify-between border-t pt-3",
+                      isSelected
+                        ? "border-white/12 text-blue-300"
+                        : "border-border text-text/55",
+                    )}
+                  >
+                    <span>
+                      {isLocked
+                        ? "Unlock details"
+                        : isSelected
+                          ? "Viewing now"
+                          : "View details"}
+                    </span>
+                    <span aria-hidden>{isSelected ? "●" : "→"}</span>
+                  </div>
                 </button>
               );
             })}
           </div>
 
-          <AnimatePresence mode="wait">
-            {selectedAgent ? (
-              <AgentDetailPanel
-                key={selectedAgent.id}
-                agent={selectedAgent}
-                index={selectedAgentIndex}
-              />
-            ) : null}
-          </AnimatePresence>
+          <div className="mt-4">
+            <AnimatePresence mode="wait">
+              {selectedAgent ? (
+                <AgentDetailPanel
+                  key={selectedAgent.id}
+                  agent={selectedAgent}
+                  index={selectedAgentIndex}
+                />
+              ) : null}
+            </AnimatePresence>
+          </div>
         </div>
 
         {!unlocked ? (
