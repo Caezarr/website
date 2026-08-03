@@ -154,6 +154,7 @@ export async function POST(request: Request) {
           mission: agent.mission,
           tools: agent.tools,
           expectedImpact: agent.expectedImpact,
+          weeklyHoursSaved: agent.weeklyHoursSaved,
           effort: agent.effort,
         })),
         sources: result.sources.map((source, index) => ({

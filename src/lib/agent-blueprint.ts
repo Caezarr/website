@@ -20,6 +20,10 @@ export interface AgentBlueprintAgent {
   workflow: string[];
   humanControl: string;
   expectedImpact: string;
+  weeklyHoursSaved: {
+    min: number;
+    max: number;
+  };
   effort: "Low" | "Medium" | "High";
   benchmarkPattern: string;
 }
@@ -74,7 +78,9 @@ export function normalizeTarget(value: unknown): NormalizedTarget | null {
   let hostname: string;
   try {
     const url = new URL(
-      /^[a-z][a-z\d+.-]*:\/\//i.test(candidate) ? candidate : `https://${candidate}`,
+      /^[a-z][a-z\d+.-]*:\/\//i.test(candidate)
+        ? candidate
+        : `https://${candidate}`,
     );
     if (url.protocol !== "http:" && url.protocol !== "https:") return null;
     hostname = url.hostname.replace(/^www\./, "").replace(/\.$/, "");
@@ -82,7 +88,8 @@ export function normalizeTarget(value: unknown): NormalizedTarget | null {
     return null;
   }
 
-  if (!DOMAIN_PATTERN.test(hostname) || hostname.endsWith(".local")) return null;
+  if (!DOMAIN_PATTERN.test(hostname) || hostname.endsWith(".local"))
+    return null;
 
   return {
     domain: hostname,
@@ -91,7 +98,9 @@ export function normalizeTarget(value: unknown): NormalizedTarget | null {
   };
 }
 
-export function isAgentBlueprintResult(value: unknown): value is Omit<AgentBlueprintResult, "sources"> {
+export function isAgentBlueprintResult(
+  value: unknown,
+): value is Omit<AgentBlueprintResult, "sources"> {
   if (!value || typeof value !== "object") return false;
   const candidate = value as Partial<AgentBlueprintResult>;
   return (
@@ -111,9 +120,7 @@ function redactText(value: string, identifiers: string[]): string {
     .filter((identifier) => identifier.trim().length >= 3)
     .sort((a, b) => b.length - a.length)
     .reduce((text, identifier) => {
-      const escaped = identifier
-        .trim()
-        .replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const escaped = identifier.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       return text.replace(new RegExp(escaped, "gi"), "the company");
     }, value)
     .replace(/\bthe company(?:\s+the company)+\b/gi, "the company");
@@ -191,6 +198,11 @@ function isAgentBlueprintAgent(value: unknown): value is AgentBlueprintAgent {
     agent.workflow.every((item) => typeof item === "string") &&
     typeof agent.humanControl === "string" &&
     typeof agent.expectedImpact === "string" &&
+    Boolean(agent.weeklyHoursSaved) &&
+    typeof agent.weeklyHoursSaved?.min === "number" &&
+    typeof agent.weeklyHoursSaved?.max === "number" &&
+    agent.weeklyHoursSaved.min >= 0 &&
+    agent.weeklyHoursSaved.max >= agent.weeklyHoursSaved.min &&
     ["Low", "Medium", "High"].includes(agent.effort ?? "") &&
     typeof agent.benchmarkPattern === "string"
   );

@@ -95,6 +95,7 @@ const AGENT_BLUEPRINT_SCHEMA = {
           "workflow",
           "humanControl",
           "expectedImpact",
+          "weeklyHoursSaved",
           "effort",
           "benchmarkPattern",
         ],
@@ -128,6 +129,15 @@ const AGENT_BLUEPRINT_SCHEMA = {
           },
           humanControl: { type: "string" },
           expectedImpact: { type: "string" },
+          weeklyHoursSaved: {
+            type: "object",
+            additionalProperties: false,
+            required: ["min", "max"],
+            properties: {
+              min: { type: "number", minimum: 0, maximum: 80 },
+              max: { type: "number", minimum: 0, maximum: 80 },
+            },
+          },
           effort: { type: "string", enum: ["Low", "Medium", "High"] },
           benchmarkPattern: { type: "string" },
         },
@@ -178,10 +188,9 @@ function extractSources(
       ];
     });
 
-  return Array.from(new Map(sources.map((source) => [source.url, source])).values()).slice(
-    0,
-    8,
-  );
+  return Array.from(
+    new Map(sources.map((source) => [source.url, source])).values(),
+  ).slice(0, 8);
 }
 
 async function createResponse<T>(
@@ -278,6 +287,8 @@ Use these tiers exactly:
 - Fully autonomous: a scheduled or workflow-based agent operates without routine human input, with appropriate controls.
 
 Prioritise generative-AI workflows. Deprioritise machine learning, computer vision, voicebots, and commodity chatbots. Be direct, specific, and consultative.
+
+Estimate weeklyHoursSaved conservatively for a typical mid-sized team using the workflow every week. Return a plausible minimum and maximum number of team hours saved, with min less than or equal to max. Base the estimate on recurring manual steps removed; never present it as guaranteed.
 
 Privacy is absolute: never output any company, client, brand, domain, person, or source name from either the researched context or benchmark. Describe the target only by sector and operating model. "benchmarkPattern" must explain the reusable pattern, never its source.
 

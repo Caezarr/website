@@ -29,20 +29,24 @@ interface BlueprintApiResponse {
 
 const progressStages = [
   {
-    label: "Researching the company",
-    detail: "Reading public signals, business model and market context",
+    label: "Reading company signals",
+    detail: "Business model, priorities and public context",
   },
   {
-    label: "Searching the benchmark",
-    detail: "Matching against 570 real-world generative AI use cases",
+    label: "Matching 570 use cases",
+    detail: "Finding the closest proven workflow patterns",
   },
   {
-    label: "Designing your agent team",
-    detail: "Ranking workflows by fit, impact and autonomy",
+    label: "Building the first agent",
+    detail: "Defining its mission, trigger and expected value",
   },
   {
-    label: "Adding controls & tools",
-    detail: "Mapping triggers, connectors and human validation",
+    label: "Assembling the agent team",
+    detail: "Balancing copilot, approval and autonomous work",
+  },
+  {
+    label: "Connecting tools & controls",
+    detail: "Adding integrations, guardrails and time estimates",
   },
 ];
 
@@ -63,114 +67,136 @@ function SparkIcon({ className }: { className?: string }) {
   );
 }
 
-function AgentGlyph({ index }: { index: number }) {
-  return (
-    <div className="relative flex size-14 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/[0.07]">
-      <span className="absolute inset-1 rounded-full border border-dashed border-white/20" />
-      <SparkIcon className="size-5 text-blue-400" />
-      <span className="absolute -right-1 -top-1 flex size-5 items-center justify-center rounded-full bg-white type-paragraph-s text-black">
-        {index + 1}
-      </span>
-    </div>
-  );
-}
-
 function FoundryPreview({ activeStage = -1 }: { activeStage?: number }) {
   const reducedMotion = useReducedMotion();
+  const isLoading = activeStage >= 0;
+  const progress = [16, 36, 60, 80, 94][Math.max(activeStage, 0)] ?? 16;
+  const agentStates = [
+    activeStage >= 2 ? (activeStage >= 3 ? "ready" : "building") : "waiting",
+    activeStage >= 3 ? (activeStage >= 4 ? "ready" : "building") : "waiting",
+    activeStage >= 3 ? (activeStage >= 4 ? "ready" : "building") : "waiting",
+  ] as const;
+
   return (
-    <div className="relative min-h-[25rem] overflow-hidden rounded-sm border border-white/12 bg-[#111c18] p-5 md:min-h-[29rem] md:p-7">
-      <div className="flex items-center justify-between border-b border-dashed border-white/15 pb-4">
-        <span className="type-eyebrow text-white/45">Agent foundry</span>
-        <span className="flex items-center gap-2 type-paragraph-s text-green-300">
-          <span className="size-1.5 rounded-full bg-green-400" />
-          Private analysis
+    <div
+      id="agent-foundry"
+      className="scroll-mt-24 overflow-hidden rounded-sm border border-white/12 bg-[#111c18]"
+      aria-live={isLoading ? "polite" : undefined}
+    >
+      <div className="flex items-center justify-between border-b border-dashed border-white/15 px-5 py-4 md:px-6">
+        <div>
+          <span className="type-eyebrow text-white/40">Agent foundry</span>
+          <p className="type-paragraph-m-bold mt-1 text-white">
+            {isLoading
+              ? progressStages[activeStage]?.label
+              : "Your agent team will appear here"}
+          </p>
+        </div>
+        <span className="type-paragraph-s flex items-center gap-2 text-green-300">
+          <motion.span
+            className="size-2 rounded-full bg-green-400"
+            animate={
+              isLoading && !reducedMotion
+                ? { opacity: [0.35, 1, 0.35] }
+                : undefined
+            }
+            transition={{ duration: 1.3, repeat: Infinity }}
+          />
+          Private
         </span>
       </div>
 
-      <div className="relative mt-8 grid gap-4">
-        <div className="absolute bottom-6 left-7 top-6 w-px bg-white/12" />
-        {[
-          ["Company signal", "Public web"],
-          ["Benchmark match", "570 use cases"],
-          ["Agent architecture", "3 control levels"],
-        ].map(([label, detail], index) => {
-          const isActive = activeStage >= index || activeStage === -1;
-          return (
-            <motion.div
-              key={label}
-              initial={reducedMotion ? false : { opacity: 0, x: 14 }}
-              animate={{
-                opacity: isActive ? 1 : 0.3,
-                x: 0,
-              }}
-              transition={{ delay: activeStage === -1 ? index * 0.16 : 0 }}
-              className="relative z-10 grid grid-cols-[3.5rem_1fr] items-center gap-4"
-            >
-              <AgentGlyph index={index} />
-              <div className="rounded-sm border border-white/10 bg-black/25 p-4">
-                <p className="type-paragraph-m-bold text-white">{label}</p>
-                <p className="mt-1 type-paragraph-s text-white/45">{detail}</p>
-              </div>
-            </motion.div>
-          );
-        })}
-      </div>
-
-      <div className="absolute bottom-0 right-0 flex items-end gap-1 p-4">
-        {[28, 46, 36, 62, 50].map((height, index) => (
-          <motion.span
-            key={height}
-            className="w-1 rounded-full bg-blue-400/60"
-            animate={reducedMotion ? undefined : { height: [8, height, 8] }}
-            transition={{
-              duration: 1.8,
-              delay: index * 0.14,
-              repeat: Infinity,
-            }}
-            style={{ height: 8 }}
+      <div className="px-5 py-5 md:px-6 md:py-6">
+        <div className="h-1 overflow-hidden rounded-full bg-white/8">
+          <motion.div
+            className="h-full rounded-full bg-blue-400"
+            initial={false}
+            animate={{ width: isLoading ? `${progress}%` : "8%" }}
+            transition={{ duration: reducedMotion ? 0 : 0.6, ease: "easeOut" }}
           />
-        ))}
+        </div>
+
+        <div className="mt-6 grid gap-3">
+          {[
+            ["Copilot", "Works side by side with your team"],
+            ["Human in the loop", "Acts, then asks for approval"],
+            ["Autonomous", "Runs scheduled, controlled workflows"],
+          ].map(([tier, detail], index) => {
+            const agentState = isLoading ? agentStates[index] : "waiting";
+            return (
+              <motion.div
+                key={tier}
+                initial={false}
+                animate={{ opacity: agentState === "waiting" ? 0.38 : 1 }}
+                className={cn(
+                  "relative grid min-h-[5.4rem] grid-cols-[2.75rem_1fr_auto] items-center gap-3 overflow-hidden rounded-sm border px-4 py-3",
+                  agentState === "ready"
+                    ? "border-green-300/25 bg-green-300/[0.06]"
+                    : agentState === "building"
+                      ? "border-blue-400/40 bg-blue-400/[0.08]"
+                      : "border-white/10 bg-black/20",
+                )}
+              >
+                {agentState === "building" && !reducedMotion ? (
+                  <motion.span
+                    className="absolute inset-y-0 w-24 bg-gradient-to-r from-transparent via-blue-300/10 to-transparent"
+                    animate={{ x: [-120, 520] }}
+                    transition={{
+                      duration: 1.6,
+                      repeat: Infinity,
+                      ease: "linear",
+                    }}
+                  />
+                ) : null}
+                <div
+                  className={cn(
+                    "relative flex size-10 items-center justify-center rounded-full border",
+                    agentState === "ready"
+                      ? "border-green-300/30 bg-green-300/15 text-green-300"
+                      : "border-white/12 bg-white/[0.05] text-blue-300",
+                  )}
+                >
+                  {agentState === "ready" ? (
+                    <span aria-hidden>✓</span>
+                  ) : (
+                    <SparkIcon className="size-4" />
+                  )}
+                </div>
+                <div className="relative">
+                  <p className="type-paragraph-m-bold text-white">{tier}</p>
+                  <p className="type-paragraph-s mt-1 text-white/45">
+                    {detail}
+                  </p>
+                </div>
+                <span className="type-paragraph-s relative text-white/40">
+                  {agentState === "ready"
+                    ? "Ready"
+                    : agentState === "building"
+                      ? "Building…"
+                      : `0${index + 1}`}
+                </span>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        <div className="mt-5 flex items-center justify-between border-t border-dashed border-white/12 pt-4">
+          <p className="type-paragraph-s text-white/40">
+            {isLoading
+              ? progressStages[activeStage]?.detail
+              : "Research → benchmark → agent architecture"}
+          </p>
+          <p className="type-paragraph-s text-white/60">
+            {isLoading ? `${progress}%` : "≈ 30 sec"}
+          </p>
+        </div>
       </div>
     </div>
   );
 }
 
 function LoadingPanel({ activeStage }: { activeStage: number }) {
-  return (
-    <div aria-live="polite">
-      <FoundryPreview activeStage={activeStage} />
-      <div className="mt-5 grid gap-2">
-        {progressStages.map((stage, index) => (
-          <div
-            key={stage.label}
-            className={cn(
-              "flex items-start gap-3 rounded-sm border px-4 py-3 transition-colors",
-              index === activeStage
-                ? "border-blue-400/50 bg-blue-400/10"
-                : index < activeStage
-                  ? "border-white/10 bg-white/[0.03]"
-                  : "border-transparent opacity-35",
-            )}
-          >
-            <span
-              className={cn(
-                "mt-1 size-2 shrink-0 rounded-full",
-                index < activeStage
-                  ? "bg-green-400"
-                  : index === activeStage
-                    ? "animate-pulse bg-blue-400"
-                    : "bg-white/30",
-              )}
-            />
-            <div>
-              <p className="type-paragraph-m-bold text-white">{stage.label}</p>
-              <p className="type-paragraph-s text-white/45">{stage.detail}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+  return <FoundryPreview activeStage={activeStage} />;
 }
 
 const logoDevToken =
@@ -182,7 +208,7 @@ function ToolLogo({ tool }: { tool: ConnectedTool }) {
   return (
     <span className="flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-[0.3rem] border border-black/8 bg-white">
       {failed ? (
-        <span className="type-paragraph-s font-semibold text-text/65">
+        <span className="type-paragraph-s text-text/65 font-semibold">
           {tool.name.charAt(0)}
         </span>
       ) : (
@@ -210,8 +236,8 @@ function ToolChain({ tools }: { tools: string[] }) {
     <div className="flex flex-wrap items-center gap-2">
       {connectedTools.map((tool, index) => (
         <div key={tool.name} className="flex items-center gap-2">
-          {index > 0 ? <span className="h-px w-3 bg-border" /> : null}
-          <span className="inline-flex min-h-9 items-center gap-2 rounded-sm border border-border bg-background px-2 py-1 type-paragraph-s text-text/75">
+          {index > 0 ? <span className="bg-border h-px w-3" /> : null}
+          <span className="border-border bg-background type-paragraph-s text-text/75 inline-flex min-h-9 items-center gap-2 rounded-sm border px-2 py-1">
             <ToolLogo tool={tool} />
             {tool.name}
           </span>
@@ -221,96 +247,98 @@ function ToolChain({ tools }: { tools: string[] }) {
   );
 }
 
-function AgentCard({
+function AgentDetailPanel({
   agent,
   index,
-  locked,
 }: {
   agent: AgentBlueprintAgent;
   index: number;
-  locked: boolean;
 }) {
   const reducedMotion = useReducedMotion();
+
   return (
     <motion.article
+      key={agent.id}
       initial={reducedMotion ? false : { opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.1 }}
-      className="relative overflow-hidden rounded-sm border border-border bg-white"
+      transition={{ duration: 0.28 }}
+      id="agent-detail-panel"
+      className="border-border scroll-mt-20 overflow-hidden rounded-sm border bg-white"
     >
-      <div className="flex items-start justify-between gap-4 border-b border-dashed border-border p-5 md:p-7">
-        <div className="flex items-start gap-4">
-          <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-black text-white">
+      <div className="border-border flex flex-col gap-5 border-b border-dashed p-5 sm:flex-row sm:items-center sm:justify-between md:p-6">
+        <div className="flex items-center gap-4">
+          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-black text-white">
             <SparkIcon className="size-4" />
           </div>
           <div>
             <span
               className={cn(
-                "inline-flex rounded-full px-2.5 py-1 type-paragraph-s",
+                "type-paragraph-s inline-flex rounded-full px-2.5 py-1",
                 tierStyles[agent.tier],
               )}
             >
               {agent.tier}
             </span>
-            <h3 className="mt-3 type-h6">{agent.name}</h3>
+            <h3 className="type-h5 mt-2">{agent.name}</h3>
           </div>
         </div>
-        <span className="type-eyebrow text-text/30">0{index + 1}</span>
+        <div className="flex items-end gap-2 sm:text-right">
+          <span className="type-h4 text-blue-700">
+            {agent.weeklyHoursSaved.min}–{agent.weeklyHoursSaved.max}h
+          </span>
+          <span className="type-paragraph-s text-text/45 pb-1">
+            saved / week
+          </span>
+        </div>
       </div>
 
-      <div
-        className={cn(
-          "grid gap-7 p-5 md:grid-cols-[1fr_0.85fr] md:p-7",
-          locked && "select-none blur-[7px]",
-        )}
-        aria-hidden={locked}
-      >
+      <div className="grid gap-6 p-5 md:grid-cols-[0.9fr_1.1fr] md:p-6">
         <div>
           <p className="type-body">{agent.mission}</p>
-          <p className="mt-4 type-paragraph-m text-text/55">{agent.whyNow}</p>
-          <div className="mt-6">
+          <div className="mt-5 rounded-sm bg-blue-50 p-4">
+            <p className="type-eyebrow text-blue-700/55">Why this one</p>
+            <p className="type-paragraph-m text-text/65 mt-2">{agent.whyNow}</p>
+          </div>
+          <div className="mt-5">
             <p className="type-eyebrow text-text/35">Example integrations</p>
             <div className="mt-3">
               <ToolChain tools={agent.tools} />
             </div>
           </div>
         </div>
-        <div className="rounded-sm bg-mid-gray p-5">
-          <p className="type-eyebrow text-text/35">Workflow</p>
+        <div className="bg-mid-gray rounded-sm p-5">
+          <div className="flex items-center justify-between">
+            <p className="type-eyebrow text-text/35">How it works</p>
+            <span className="type-eyebrow text-text/25">
+              Agent 0{index + 1}
+            </span>
+          </div>
           <ol className="mt-4 space-y-3">
             {agent.workflow.map((step, stepIndex) => (
-              <li key={step} className="flex gap-3 type-paragraph-s text-text/70">
+              <li
+                key={step}
+                className="type-paragraph-s text-text/70 flex gap-3"
+              >
                 <span className="text-blue-600">0{stepIndex + 1}</span>
                 {step}
               </li>
             ))}
           </ol>
-          <div className="mt-5 border-t border-dashed border-border pt-4">
+          <div className="border-border mt-5 border-t border-dashed pt-4">
             <p className="type-paragraph-s text-text/50">Human control</p>
-            <p className="mt-1 type-paragraph-m-bold">{agent.humanControl}</p>
+            <p className="type-paragraph-m-bold mt-1">{agent.humanControl}</p>
           </div>
         </div>
       </div>
 
-      {locked ? (
-        <div className="absolute inset-x-0 bottom-0 top-[8rem] flex items-center justify-center bg-white/55 p-6 backdrop-blur-[2px]">
-          <div className="rounded-sm border border-border bg-white px-5 py-4 text-center shadow-subtle">
-            <p className="type-paragraph-m-bold">Unlock the full architecture</p>
-            <p className="mt-1 type-paragraph-s text-text/55">
-              Add your work email below to reveal tools, workflow and controls.
-            </p>
-          </div>
+      <div className="border-border grid grid-cols-2 border-t border-dashed">
+        <div className="p-4 md:px-6">
+          <p className="type-paragraph-s text-text/40">Business impact</p>
+          <p className="type-paragraph-m-bold mt-1">{agent.expectedImpact}</p>
         </div>
-      ) : null}
-
-      <div className="grid grid-cols-2 border-t border-dashed border-border">
-        <div className="p-4 md:px-7">
-          <p className="type-paragraph-s text-text/40">Expected impact</p>
-          <p className="mt-1 type-paragraph-m-bold">{agent.expectedImpact}</p>
-        </div>
-        <div className="border-l border-dashed border-border p-4 md:px-7">
+        <div className="border-border border-l border-dashed p-4 md:px-6">
           <p className="type-paragraph-s text-text/40">Build effort</p>
-          <p className="mt-1 type-paragraph-m-bold">{agent.effort}</p>
+          <p className="type-paragraph-m-bold mt-1">{agent.effort}</p>
         </div>
       </div>
     </motion.article>
@@ -348,16 +376,17 @@ function UnlockForm({
 
   return (
     <form
+      id="blueprint-unlock"
       onSubmit={submit}
-      className="rounded-sm border border-blue-300 bg-blue-100 p-5 md:flex md:items-center md:justify-between md:gap-8 md:p-7"
+      className="scroll-mt-20 rounded-sm border border-blue-300 bg-blue-100 p-4 md:flex md:items-center md:justify-between md:gap-8 md:px-5"
     >
       <div>
-        <p className="type-h6">Reveal your complete agent team.</p>
-        <p className="mt-2 type-paragraph-m text-text/60">
-          Add your work email. We’ll keep the blueprint anonymous.
+        <p className="type-paragraph-m-bold">Unlock agents 02 and 03</p>
+        <p className="type-paragraph-s text-text/60 mt-1">
+          Add your work email. The blueprint stays anonymous.
         </p>
       </div>
-      <div className="mt-5 flex min-w-0 gap-2 md:mt-0 md:w-[27rem]">
+      <div className="mt-4 flex min-w-0 gap-2 md:mt-0 md:w-[25rem]">
         <label className="sr-only" htmlFor="blueprint-unlock-email">
           Work email
         </label>
@@ -368,14 +397,14 @@ function UnlockForm({
           onChange={(event) => setEmail(event.target.value)}
           required
           placeholder="you@company.com"
-          className="min-w-0 flex-1 rounded-sm border border-blue-300 bg-white px-4 py-3 type-paragraph-m outline-none focus:ring-2 focus:ring-blue-400"
+          className="type-paragraph-m min-w-0 flex-1 rounded-sm border border-blue-300 bg-white px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-400"
         />
         <Button type="submit" disabled={state === "loading"}>
           {state === "loading" ? "Unlocking…" : "Unlock"}
         </Button>
       </div>
       {state === "error" ? (
-        <p className="mt-2 type-paragraph-s text-blue-900 md:hidden">
+        <p className="type-paragraph-s mt-2 text-blue-900 md:hidden">
           Please enter a valid work email.
         </p>
       ) : null}
@@ -391,6 +420,19 @@ function BlueprintResults({
   meetingUrl: string;
 }) {
   const [unlocked, setUnlocked] = useState(response.emailCaptured);
+  const [selectedAgentIndex, setSelectedAgentIndex] = useState(0);
+  const selectedAgent = response.result.agents[selectedAgentIndex];
+  const weeklySavings = useMemo(
+    () =>
+      response.result.agents.reduce(
+        (total, agent) => ({
+          min: total.min + agent.weeklyHoursSaved.min,
+          max: total.max + agent.weeklyHoursSaved.max,
+        }),
+        { min: 0, max: 0 },
+      ),
+    [response.result.agents],
+  );
 
   const trackDemoClick = useCallback(() => {
     void fetch("/api/agent-blueprint", {
@@ -405,46 +447,121 @@ function BlueprintResults({
   }, [response.assessmentId]);
 
   return (
-    <section id="blueprint-results" className="border-t border-dashed border-border bg-light-gray">
-      <div className="mx-auto max-w-[84rem] px-6 py-16 md:px-8 md:py-24 lg:px-12">
-        <div className="grid gap-8 border-b border-dashed border-border pb-12 md:grid-cols-[0.75fr_1.25fr]">
+    <section
+      id="blueprint-results"
+      className="border-border bg-light-gray scroll-mt-16 border-t border-dashed"
+    >
+      <div className="mx-auto max-w-[84rem] px-6 py-10 md:px-8 md:py-12 lg:px-12">
+        <div className="border-border grid gap-6 border-b border-dashed pb-7 lg:grid-cols-[1fr_auto] lg:items-end">
           <div>
             <span className="type-eyebrow text-blue-700">Blueprint ready</span>
-            <p className="mt-4 type-paragraph-m text-text/50">
-              Anonymous profile · {response.result.sector}
-            </p>
-          </div>
-          <div>
-            <h2 className="type-h4">{response.result.headline}</h2>
-            <p className="mt-5 max-w-3xl type-body text-text/65">
+            <h2 className="type-h4 mt-3 max-w-4xl">
+              {response.result.headline}
+            </h2>
+            <p className="type-paragraph-m text-text/55 mt-3 max-w-3xl">
               {response.result.summary}
             </p>
-            <div className="mt-6 flex flex-wrap gap-2">
-              {response.result.signals.map((signal) => (
-                <span
-                  key={signal}
-                  className="rounded-full border border-border bg-white px-3 py-1.5 type-paragraph-s text-text/65"
-                >
-                  {signal}
-                </span>
-              ))}
-            </div>
+          </div>
+          <div className="min-w-[15rem] rounded-sm bg-black px-5 py-4 text-white">
+            <p className="type-eyebrow text-white/40">
+              Estimated time recovered
+            </p>
+            <p className="type-h3 mt-2 text-white">
+              {weeklySavings.min}–{weeklySavings.max}h
+            </p>
+            <p className="type-paragraph-s text-white/45">
+              per week, across the team
+            </p>
           </div>
         </div>
 
-        <div className="mt-10 grid gap-5">
-          {response.result.agents.map((agent, index) => (
-            <AgentCard
-              key={agent.id}
-              agent={agent}
-              index={index}
-              locked={!unlocked && index > 0}
-            />
-          ))}
+        <div className="mt-7 grid gap-4 lg:grid-cols-[20rem_1fr]">
+          <div
+            className="flex snap-x gap-2 overflow-x-auto pb-2 lg:grid lg:overflow-visible lg:pb-0"
+            role="tablist"
+            aria-label="Recommended agents"
+          >
+            {response.result.agents.map((agent, index) => {
+              const isLocked = !unlocked && index > 0;
+              const isSelected = selectedAgentIndex === index;
+              return (
+                <button
+                  key={agent.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isSelected}
+                  onClick={() => {
+                    if (isLocked) {
+                      document
+                        .getElementById("blueprint-unlock")
+                        ?.scrollIntoView({
+                          behavior: "smooth",
+                          block: "center",
+                        });
+                      return;
+                    }
+                    setSelectedAgentIndex(index);
+                    if (window.innerWidth < 1024) {
+                      window.setTimeout(() => {
+                        document
+                          .getElementById("agent-detail-panel")
+                          ?.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                          });
+                      }, 80);
+                    }
+                  }}
+                  className={cn(
+                    "group min-w-[15rem] flex-1 snap-start rounded-sm border p-4 text-left transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none lg:min-w-0",
+                    isSelected
+                      ? "border-black bg-black text-white"
+                      : "border-border hover:border-text/35 bg-white",
+                    isLocked && "opacity-60",
+                  )}
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <span
+                      className={cn(
+                        "type-eyebrow",
+                        isSelected ? "text-blue-300" : "text-text/35",
+                      )}
+                    >
+                      Agent 0{index + 1}
+                    </span>
+                    <span className="type-paragraph-s">
+                      {isLocked
+                        ? "Locked"
+                        : `${agent.weeklyHoursSaved.min}–${agent.weeklyHoursSaved.max}h/w`}
+                    </span>
+                  </div>
+                  <p className="type-paragraph-m-bold mt-3">{agent.name}</p>
+                  <p
+                    className={cn(
+                      "type-paragraph-s mt-1",
+                      isSelected ? "text-white/50" : "text-text/45",
+                    )}
+                  >
+                    {agent.tier}
+                  </p>
+                </button>
+              );
+            })}
+          </div>
+
+          <AnimatePresence mode="wait">
+            {selectedAgent ? (
+              <AgentDetailPanel
+                key={selectedAgent.id}
+                agent={selectedAgent}
+                index={selectedAgentIndex}
+              />
+            ) : null}
+          </AnimatePresence>
         </div>
 
         {!unlocked ? (
-          <div className="mt-6">
+          <div className="mt-4">
             <UnlockForm
               assessmentId={response.assessmentId}
               onUnlocked={() => setUnlocked(true)}
@@ -452,42 +569,30 @@ function BlueprintResults({
           </div>
         ) : null}
 
-        {response.result.sources.length > 0 ? (
-          <div className="mt-10 border-t border-dashed border-border pt-7">
-            <p className="type-eyebrow text-text/35">Public signals reviewed</p>
-            <div className="mt-4 flex flex-wrap gap-x-6 gap-y-2">
-              {response.result.sources.map((source) => (
-                <a
-                  key={source.url}
-                  href={source.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="type-paragraph-s text-text/55 underline decoration-border underline-offset-4 hover:text-text"
-                >
-                  {source.title}
-                </a>
-              ))}
-            </div>
-          </div>
-        ) : null}
-
-        <div className="mt-14 rounded-sm bg-black px-6 py-10 text-white md:flex md:items-center md:justify-between md:gap-10 md:px-10">
+        <div className="mt-5 rounded-sm bg-[#0f2119] px-5 py-5 text-white sm:flex sm:items-center sm:justify-between sm:gap-8 md:px-6">
           <div>
-            <p className="type-eyebrow text-white/40">From blueprint to production</p>
-            <h2 className="mt-4 max-w-2xl type-h4 text-white">
-              Validate the first agent with a Wonka advisor.
-            </h2>
+            <p className="type-paragraph-m-bold text-white">
+              Which agent should you build first?
+            </p>
+            <p className="type-paragraph-s mt-1 text-white/45">
+              Validate the estimate, integrations and delivery scope with Wonka.
+            </p>
           </div>
           <ButtonLink
             href={meetingUrl}
             onClick={trackDemoClick}
             data-track="meeting"
             data-meeting-type="general"
-            className="mt-7 shrink-0 md:mt-0"
+            className="mt-4 shrink-0 sm:mt-0"
           >
             Book a demo
           </ButtonLink>
         </div>
+
+        <p className="type-paragraph-s text-text/38 mt-4">
+          Time savings are directional estimates based on recurring tasks in the
+          benchmark. Validate them against real volumes before investment.
+        </p>
       </div>
     </section>
   );
@@ -499,6 +604,7 @@ export function AgentBlueprintExperience({
   meetingUrl: string;
 }) {
   const formId = useId();
+  const reducedMotion = useReducedMotion();
   const turnstileEnabled = isTurnstileEnabled();
   const [state, setState] = useState<ExperienceState>("idle");
   const [response, setResponse] = useState<BlueprintApiResponse | null>(null);
@@ -510,20 +616,28 @@ export function AgentBlueprintExperience({
   useEffect(() => {
     if (state !== "loading") return;
     const interval = window.setInterval(() => {
-      setActiveStage((current) => Math.min(current + 1, progressStages.length - 1));
-    }, 3_200);
+      setActiveStage((current) =>
+        Math.min(current + 1, progressStages.length - 1),
+      );
+    }, 4_200);
     return () => window.clearInterval(interval);
   }, [state]);
+
+  useEffect(() => {
+    if (state !== "result" || !response) return;
+    const timeout = window.setTimeout(() => {
+      document.getElementById("blueprint-results")?.scrollIntoView({
+        behavior: reducedMotion ? "auto" : "smooth",
+        block: "start",
+      });
+    }, 120);
+    return () => window.clearTimeout(timeout);
+  }, [reducedMotion, response, state]);
 
   const resetTurnstile = useCallback(() => {
     setTurnstileToken(null);
     setTurnstileResetKey((key) => key + 1);
   }, []);
-
-  const progressLabel = useMemo(
-    () => progressStages[activeStage]?.label ?? progressStages[0].label,
-    [activeStage],
-  );
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -536,13 +650,21 @@ export function AgentBlueprintExperience({
     }
 
     const form = event.currentTarget;
-    const target = (form.elements.namedItem("target") as HTMLInputElement).value;
+    const target = (form.elements.namedItem("target") as HTMLInputElement)
+      .value;
     const anonymous = (form.elements.namedItem("anonymous") as HTMLInputElement)
       .checked;
-    const website = (form.elements.namedItem("website") as HTMLInputElement).value;
+    const website = (form.elements.namedItem("website") as HTMLInputElement)
+      .value;
 
     setActiveStage(0);
     setState("loading");
+    window.setTimeout(() => {
+      document.getElementById("agent-foundry")?.scrollIntoView({
+        behavior: reducedMotion ? "auto" : "smooth",
+        block: "center",
+      });
+    }, 80);
 
     try {
       const apiResponse = await fetch("/api/agent-blueprint", {
@@ -573,11 +695,6 @@ export function AgentBlueprintExperience({
 
       setResponse(data);
       setState("result");
-      window.setTimeout(() => {
-        document
-          .getElementById("blueprint-results")
-          ?.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
     } catch {
       setError("We could not build the blueprint right now. Please try again.");
       setState("error");
@@ -587,20 +704,26 @@ export function AgentBlueprintExperience({
 
   return (
     <>
-      <section className="overflow-hidden border-b border-dashed border-white/15 bg-black text-white">
-        <div className="mx-auto grid max-w-[84rem] gap-12 px-6 pb-16 pt-28 md:px-8 md:pb-24 md:pt-36 lg:grid-cols-[0.92fr_1.08fr] lg:px-12">
+      <section className="min-h-[92svh] overflow-hidden border-b border-dashed border-white/15 bg-black text-white">
+        <div className="mx-auto grid max-w-[84rem] gap-10 px-6 pt-24 pb-12 md:px-8 md:pt-32 md:pb-16 lg:min-h-[92svh] lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-12">
           <div className="self-center">
-            <span className="type-eyebrow text-blue-300">AI Agent Blueprint</span>
-            <h1 className="mt-6 max-w-3xl type-h2 text-white">
-              Discover the agents your business should build next.
+            <span className="type-eyebrow text-blue-300">
+              AI Agent Blueprint
+            </span>
+            <h1 className="type-h2 mt-6 max-w-3xl text-white">
+              Enter your company. Watch your agent team take shape.
             </h1>
-            <p className="mt-6 max-w-xl type-body text-white/62">
-              We research your company, compare it with 570 real AI use cases,
-              and design a private agent team for your industry.
+            <p className="type-body mt-6 max-w-xl text-white/62">
+              In about 30 seconds, we research the business, match 570 real use
+              cases and build three practical agents with a weekly time-saving
+              estimate.
             </p>
 
             <form onSubmit={submit} className="mt-9 max-w-xl">
-              <label htmlFor={`${formId}-target`} className="type-paragraph-m-bold">
+              <label
+                htmlFor={`${formId}-target`}
+                className="type-paragraph-m-bold"
+              >
                 Company website or work email
               </label>
               <div className="mt-3 flex flex-col gap-3 sm:flex-row">
@@ -611,18 +734,20 @@ export function AgentBlueprintExperience({
                   required
                   disabled={state === "loading"}
                   placeholder="company.com or you@company.com"
-                  className="min-w-0 flex-1 rounded-sm border border-white/20 bg-white/10 px-4 py-3 type-paragraph-m text-white outline-none placeholder:text-white/35 focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
+                  className="type-paragraph-m min-w-0 flex-1 rounded-sm border border-white/20 bg-white/10 px-4 py-3 text-white outline-none placeholder:text-white/35 focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
                 />
                 <Button
                   type="submit"
                   disabled={state === "loading"}
                   className="h-[3.25rem]"
                 >
-                  {state === "loading" ? progressLabel : "Design my agents"}
+                  {state === "loading"
+                    ? "Building agents…"
+                    : "Build my agent team"}
                 </Button>
               </div>
 
-              <label className="mt-4 flex cursor-pointer items-start gap-3 type-paragraph-s text-white/55">
+              <label className="type-paragraph-s mt-4 flex cursor-pointer items-start gap-3 text-white/55">
                 <input
                   name="anonymous"
                   type="checkbox"
@@ -631,8 +756,8 @@ export function AgentBlueprintExperience({
                   className="mt-0.5 size-4 accent-blue-400"
                 />
                 <span>
-                  Keep my output anonymous. Company and benchmark client names
-                  will never appear in the blueprint.
+                  Keep the blueprint anonymous. No company or benchmark client
+                  name will appear.
                 </span>
               </label>
 
@@ -656,11 +781,14 @@ export function AgentBlueprintExperience({
               />
 
               {state === "error" && error ? (
-                <p role="alert" className="mt-4 type-paragraph-s text-orange-300">
+                <p
+                  role="alert"
+                  className="type-paragraph-s mt-4 text-orange-300"
+                >
                   {error}
                 </p>
               ) : null}
-              <p className="mt-4 type-paragraph-s text-white/35">
+              <p className="type-paragraph-s mt-4 text-white/35">
                 Public web research only. By continuing, you agree to our{" "}
                 <Link href="/privacy" className="underline underline-offset-4">
                   privacy policy
@@ -669,15 +797,15 @@ export function AgentBlueprintExperience({
               </p>
             </form>
 
-            <div className="mt-10 grid grid-cols-3 gap-px overflow-hidden rounded-sm bg-white/10">
+            <div className="type-paragraph-s mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-white/40">
               {[
-                ["570", "use cases"],
-                ["3", "agent levels"],
-                ["100%", "anonymous"],
-              ].map(([value, label]) => (
-                <div key={label} className="bg-black p-4">
-                  <p className="type-h6 text-white">{value}</p>
-                  <p className="mt-1 type-paragraph-s text-white/35">{label}</p>
+                "Public company signals",
+                "570 benchmark use cases",
+                "3 agents with controls",
+              ].map((label, index) => (
+                <div key={label} className="flex items-center gap-3">
+                  {index > 0 ? <span className="text-white/15">→</span> : null}
+                  <span>{label}</span>
                 </div>
               ))}
             </div>
@@ -704,41 +832,7 @@ export function AgentBlueprintExperience({
 
       {state === "result" && response ? (
         <BlueprintResults response={response} meetingUrl={meetingUrl} />
-      ) : (
-        <section className="bg-background px-6 py-16 text-text md:px-8 md:py-24 lg:px-12">
-          <div className="mx-auto grid max-w-[84rem] gap-10 md:grid-cols-[0.7fr_1.3fr]">
-            <div>
-              <span className="type-eyebrow text-text/40">How it works</span>
-              <h2 className="mt-5 type-h4">Evidence first. Agents second.</h2>
-            </div>
-            <div className="grid gap-px overflow-hidden rounded-sm border border-border bg-border md:grid-cols-3">
-              {[
-                [
-                  "01",
-                  "Research",
-                  "Public signals reveal the operating model, priorities and likely systems.",
-                ],
-                [
-                  "02",
-                  "Benchmark",
-                  "Azure AI Search finds the closest patterns in a private use-case library.",
-                ],
-                [
-                  "03",
-                  "Architecture",
-                  "Three agents emerge with tools, triggers, controls and expected impact.",
-                ],
-              ].map(([number, title, body]) => (
-                <article key={number} className="bg-background p-6 md:p-7">
-                  <p className="type-eyebrow text-text/30">{number}</p>
-                  <h3 className="mt-8 type-h6">{title}</h3>
-                  <p className="mt-3 type-paragraph-m text-text/55">{body}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      ) : null}
     </>
   );
 }

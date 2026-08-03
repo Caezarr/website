@@ -65,8 +65,20 @@ export const agentBlueprintAssessment = defineType({
             defineField({ name: "name", type: "string" }),
             defineField({ name: "tier", type: "string" }),
             defineField({ name: "mission", type: "text", rows: 3 }),
-            defineField({ name: "tools", type: "array", of: [{ type: "string" }] }),
+            defineField({
+              name: "tools",
+              type: "array",
+              of: [{ type: "string" }],
+            }),
             defineField({ name: "expectedImpact", type: "string" }),
+            defineField({
+              name: "weeklyHoursSaved",
+              type: "object",
+              fields: [
+                defineField({ name: "min", type: "number" }),
+                defineField({ name: "max", type: "number" }),
+              ],
+            }),
             defineField({ name: "effort", type: "string" }),
           ],
           preview: {
@@ -92,8 +104,16 @@ export const agentBlueprintAssessment = defineType({
         }),
       ],
     }),
-    defineField({ name: "submittedAt", title: "Submitted at", type: "datetime" }),
-    defineField({ name: "completedAt", title: "Completed at", type: "datetime" }),
+    defineField({
+      name: "submittedAt",
+      title: "Submitted at",
+      type: "datetime",
+    }),
+    defineField({
+      name: "completedAt",
+      title: "Completed at",
+      type: "datetime",
+    }),
     defineField({
       name: "emailCapturedAt",
       title: "Email captured at",
@@ -154,11 +174,14 @@ export const agentBlueprintAssessment = defineType({
     prepare({ domain, sector, status, submittedAt }) {
       return {
         title: domain ?? "Agent blueprint",
-        subtitle: [sector, status, submittedAt && new Date(submittedAt).toLocaleString("en-GB")]
+        subtitle: [
+          sector,
+          status,
+          submittedAt && new Date(submittedAt).toLocaleString("en-GB"),
+        ]
           .filter(Boolean)
           .join(" · "),
       };
     },
   },
 });
-
