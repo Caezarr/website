@@ -459,27 +459,23 @@ function BlueprintResults({
       className="border-border bg-light-gray scroll-mt-16 border-t border-dashed"
     >
       <div className="mx-auto max-w-[84rem] px-6 py-10 md:px-8 md:py-12 lg:px-12">
-        <div className="border-border grid gap-6 border-b border-dashed pb-7 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div>
-            <span className="type-eyebrow text-blue-700">Blueprint ready</span>
-            <h2 className="type-h4 mt-3 max-w-4xl">
-              {response.result.headline}
-            </h2>
-            <p className="type-paragraph-m text-text/55 mt-3 max-w-3xl">
-              {response.result.summary}
-            </p>
-          </div>
-          <div className="min-w-[15rem] rounded-sm bg-black px-5 py-4 text-white">
-            <p className="type-eyebrow text-white/40">
-              Estimated time recovered
-            </p>
-            <p className="type-h3 mt-2 text-white">
-              {weeklySavings.min}–{weeklySavings.max}h
-            </p>
-            <p className="type-paragraph-s text-white/45">
-              per week, across the team
-            </p>
-          </div>
+        <div className="border-border border-b border-dashed pb-7">
+          <span className="type-eyebrow text-blue-700">Blueprint ready</span>
+          <h2 className="type-h4 mt-3 max-w-5xl">{response.result.headline}</h2>
+          <p className="type-paragraph-m text-text/55 mt-3 max-w-4xl">
+            {response.result.summary}
+          </p>
+          <p className="type-paragraph-m mt-5 flex flex-wrap items-baseline gap-x-2">
+            <span className="type-eyebrow text-text/40">Estimated impact</span>
+            <span>
+              <strong className="type-paragraph-l font-medium text-blue-700">
+                {weeklySavings.min}–{weeklySavings.max} hours
+              </strong>{" "}
+              <span className="text-text/60">
+                returned to the team each week.
+              </span>
+            </span>
+          </p>
         </div>
 
         <div className="mt-7">
