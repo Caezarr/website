@@ -84,6 +84,7 @@ export const designSystemManifest = {
     "storybook": {
       "script": "bun run storybook",
       "buildScript": "bun run storybook:build",
+      "publicUrl": "https://design-system.wonka-ai.com",
       "runtimeStoryPathTemplate": "/?path=/story/{storyId}"
     },
     "agentCli": {

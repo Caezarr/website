@@ -709,7 +709,6 @@ function AgentWorkbench({ theme = "light" }: { theme?: "light" | "dark" }) {
 const meta = {
   title: "Governance/Agent Workbench",
   component: AgentWorkbench,
-  tags: ["autodocs"],
   parameters: {
     docs: {
       description: {

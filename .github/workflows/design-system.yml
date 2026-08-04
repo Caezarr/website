@@ -4,6 +4,7 @@ on:
   pull_request:
     paths:
       - ".storybook/**"
+      - "apps/design-system-docs/**"
       - "design-system/**"
       - "packages/**"
       - "public/**"
@@ -23,6 +24,7 @@ on:
       - main
     paths:
       - ".storybook/**"
+      - "apps/design-system-docs/**"
       - "design-system/**"
       - "packages/**"
       - "public/**"
@@ -90,10 +92,10 @@ jobs:
           postcss.config.mjs
           vitest.config.ts
 
-      - name: Build Storybook
+      - name: Build deployable Storybook
         env:
           STORYBOOK_DISABLE_TELEMETRY: "1"
-        run: bun run storybook:build
+        run: bun run --cwd apps/design-system-docs build
 
       - name: Install Chromium
         run: bunx playwright install chromium --with-deps
@@ -105,10 +107,11 @@ jobs:
 
       - name: Verify static discovery
         run: |
-          test -f storybook-static/index.json
-          test -f storybook-static/.well-known/design-system.json
-          test -f storybook-static/design-system/manifest.json
-          test -f storybook-static/design-system/channels.json
-          test -f storybook-static/design-system/rules.json
-          test -f storybook-static/design-system/patterns.json
-          test -f storybook-static/design-system/schemas/pattern-catalog.schema.json
+          test -f apps/design-system-docs/dist/index.html
+          test -f apps/design-system-docs/dist/index.json
+          test -f apps/design-system-docs/dist/.well-known/design-system.json
+          test -f apps/design-system-docs/dist/design-system/manifest.json
+          test -f apps/design-system-docs/dist/design-system/channels.json
+          test -f apps/design-system-docs/dist/design-system/rules.json
+          test -f apps/design-system-docs/dist/design-system/patterns.json
+          test -f apps/design-system-docs/dist/design-system/schemas/pattern-catalog.schema.json

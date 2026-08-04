@@ -1,4 +1,11 @@
-import { Badge, ButtonLink, Eyebrow, Section, Surface } from "@wonka/react";
+import {
+  Badge,
+  Button,
+  ButtonLink,
+  Eyebrow,
+  Section,
+  Surface,
+} from "@wonka/react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import type { ReactNode } from "react";
 import { LogoMark } from "@/components/ui/logo-mark";
@@ -518,13 +525,18 @@ function ProductCandidate() {
             A procurement owner must review cited evidence before the agent can
             propose a decision.
           </p>
-          <ButtonLink
+          <Button
             className="mt-4 self-start text-xs"
-            href="#product-evidence"
+            onClick={() =>
+              document
+                .getElementById("product-evidence")
+                ?.scrollIntoView({ behavior: "smooth", block: "start" })
+            }
+            type="button"
             variant="underline"
           >
             Review cited evidence
-          </ButtonLink>
+          </Button>
           <dl className="border-border mt-auto grid gap-3 border-t pt-4 text-xs">
             <div className="flex justify-between gap-3">
               <dt className="text-text/70">Citations</dt>
@@ -938,10 +950,27 @@ function ArtifactLab() {
               and website previews from the same machine-readable Wonka system.
             </p>
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <ButtonLink href="#artifact-gallery">Inspect previews</ButtonLink>
-              <ButtonLink href="#policy-ledger" variant="underline">
+              <Button
+                onClick={() =>
+                  document
+                    .getElementById("artifact-gallery")
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                }
+                type="button"
+              >
+                Inspect previews
+              </Button>
+              <Button
+                onClick={() =>
+                  document
+                    .getElementById("policy-ledger")
+                    ?.scrollIntoView({ behavior: "smooth", block: "start" })
+                }
+                type="button"
+                variant="underline"
+              >
                 Read channel policies
-              </ButtonLink>
+              </Button>
             </div>
           </div>
 
