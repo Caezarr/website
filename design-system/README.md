@@ -42,6 +42,15 @@ bun run storybook:build
 bun run test:storybook
 ```
 
+## Published interfaces
+
+- `https://design-system.wonka-ai.com` is the human-facing Storybook.
+- `https://www.wonka-ai.com/design-system` is the human and machine catalog hub.
+- `https://www.wonka-ai.com/.well-known/design-system.json` is the agent discovery document.
+
+The Storybook deploys as the isolated `apps/design-system-docs` Vercel project.
+Its static build settings must not be applied to the main Next.js project.
+
 ## Token model
 
 Tokens use four layers:

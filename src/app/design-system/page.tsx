@@ -82,9 +82,26 @@ export default function DesignSystemPage() {
             The canonical brand and interface system for products, websites,
             campaigns, presentations, and agent-generated artifacts.
           </p>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <a
+              className="focus-visible:ring-info rounded-sm bg-white px-5 py-3 text-sm font-medium text-black transition-opacity hover:opacity-90 focus-visible:ring-2 focus-visible:outline-none"
+              href={manifest.interfaces.storybook.publicUrl}
+            >
+              Open Storybook
+            </a>
+            <a
+              className="focus-visible:ring-info rounded-sm border border-white/30 px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-white/10 focus-visible:ring-2 focus-visible:outline-none"
+              href="#catalogs"
+            >
+              Browse contracts
+            </a>
+          </div>
         </section>
 
-        <section className="grid gap-10 py-16 lg:grid-cols-[1fr_1.25fr]">
+        <section
+          className="grid gap-10 py-16 lg:grid-cols-[1fr_1.25fr]"
+          id="catalogs"
+        >
           <div>
             <p className="type-eyebrow mb-4 text-blue-700">
               Machine-readable by default
