@@ -1,13 +1,13 @@
 {
   "$schema": "/design-system/schemas/component-catalog.schema.json",
   "schemaVersion": "1.0.0",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "components": [
     {
       "id": "component.button",
       "name": "Button",
       "status": "beta",
-      "source": "src/components/ui/button.tsx",
+      "source": "packages/react/src/button.tsx",
       "storyId": "actions-button",
       "exports": [
         "Button",
@@ -25,10 +25,17 @@
         "underline"
       ],
       "tokens": [
+        "radius.button",
+        "typography.paragraph-m-bold",
+        "typography.paragraph-s",
+        "motion.duration.normal",
+        "semantic.color.text",
         "component.button.primary.background",
         "component.button.primary.foreground",
         "component.button.secondary.background",
         "component.button.secondary.foreground",
+        "component.button.effect.drop-shadow",
+        "component.button.effect.highlight",
         "component.focus-ring.color"
       ],
       "accessibility": [
@@ -52,7 +59,7 @@
       "id": "component.badge",
       "name": "Badge",
       "status": "beta",
-      "source": "src/components/ui/badge.tsx",
+      "source": "packages/react/src/badge.tsx",
       "storyId": "data-display-badge",
       "exports": [
         "Badge"
@@ -67,6 +74,7 @@
         "default"
       ],
       "tokens": [
+        "radius.full",
         "semantic.color.surface-muted",
         "semantic.color.text"
       ],
@@ -86,7 +94,7 @@
       "id": "component.section",
       "name": "Section",
       "status": "beta",
-      "source": "src/components/ui/section.tsx",
+      "source": "packages/react/src/section.tsx",
       "storyId": "layout-section",
       "exports": [
         "Section"
@@ -117,7 +125,7 @@
       "id": "component.surface",
       "name": "Surface",
       "status": "beta",
-      "source": "src/components/ui/surface.tsx",
+      "source": "packages/react/src/surface.tsx",
       "storyId": "layout-surface",
       "exports": [
         "Surface",
@@ -156,7 +164,7 @@
       "id": "component.eyebrow",
       "name": "Eyebrow",
       "status": "beta",
-      "source": "src/components/ui/eyebrow.tsx",
+      "source": "packages/react/src/eyebrow.tsx",
       "storyId": "data-display-eyebrow",
       "exports": [
         "Eyebrow"
@@ -203,11 +211,12 @@
         "presentation"
       ],
       "variants": [
-        "wordmark",
-        "mark-dark",
-        "mark-light"
+        "wordmark"
       ],
       "tokens": [],
+      "assets": [
+        "asset.logo.wordmark"
+      ],
       "accessibility": [
         "Decorative logo instances stay hidden from assistive technology; linked home logos require an accessible link label."
       ],
@@ -217,6 +226,41 @@
         ],
         "dont": [
           "Stretch, recolor, rotate, or rebuild the logo."
+        ]
+      }
+    },
+    {
+      "id": "component.logo-mark",
+      "name": "Logo mark",
+      "status": "beta",
+      "source": "src/components/ui/logo-mark.tsx",
+      "storyId": "assets-logo",
+      "exports": [
+        "LogoMark"
+      ],
+      "channels": [
+        "product",
+        "website",
+        "campaign",
+        "presentation"
+      ],
+      "variants": [
+        "dark",
+        "light"
+      ],
+      "tokens": [],
+      "assets": [
+        "asset.logo.mark"
+      ],
+      "accessibility": [
+        "Decorative marks stay hidden from assistive technology; meaningful linked marks require an accessible link label."
+      ],
+      "usage": {
+        "do": [
+          "Select the dark or light treatment for the actual background."
+        ],
+        "dont": [
+          "Stretch, recolor, rotate, or rebuild the mark."
         ]
       }
     }

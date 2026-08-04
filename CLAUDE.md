@@ -139,7 +139,7 @@ Icons are mapped in `src/lib/icon-map.tsx`. When adding a new icon: create the c
 
 ### Color tokens
 
-The canonical source is `design-system/tokens/wonka.tokens.json`. `bun run ds:build` generates `src/styles/generated/tokens.css`, TypeScript data, and the public agent catalog. `src/styles/globals.css` imports the generated CSS. Always use tokens, never raw hex or `bg-[#...]`.
+The canonical source is `packages/tokens/src/wonka.tokens.json`. `bun run ds:build` generates the private `@wonka/tokens` CSS/TypeScript data, compatibility mirrors, and the public agent catalog. `src/styles/globals.css` imports `@wonka/tokens/tailwind.css`. Always use tokens, never raw hex or `bg-[#...]`.
 
 **Raw palette** (the "default" variables — fixed colors, do not change between themes):
 
@@ -167,8 +167,10 @@ Default theme is light — no toggle needed. Switch by setting `data-theme="dark
 
 - `bun run storybook` — human-facing foundations and component documentation.
 - `bun run storybook:build` — static production Storybook.
+- `bun run test:storybook` — render and accessibility tests in light and dark themes.
 - `bun run ds:check` — schema, reference, asset, and generated-file validation.
 - `bun run ds:query -- search <term>` — JSON search for agents and tooling.
+- `bun run ds:query -- policy --channel <channel>` — complete generation policy for product, website, campaign, or presentation.
 - `public/.well-known/design-system.json` — public discovery document.
 - `public/design-system/*.json` — deterministic machine-readable catalogs.
 

@@ -30,7 +30,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Approved wordmark and mark treatments. Asset rights and clear-space metadata will be enforced by the brand asset catalog.",
+          "Candidate wordmark and mark treatments. Rights and clear-space metadata remain explicit in the asset catalog until human approval.",
       },
     },
   },
@@ -39,4 +39,4 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const ApprovedTreatments: Story = {};
+export const CandidateTreatments: Story = {};

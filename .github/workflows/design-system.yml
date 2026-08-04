@@ -5,15 +5,18 @@ on:
     paths:
       - ".storybook/**"
       - "design-system/**"
-      - "public/design-system/**"
-      - "public/.well-known/design-system.json"
+      - "packages/**"
+      - "public/**"
       - "scripts/design-system/**"
-      - "src/app/design-system/**"
-      - "src/components/ui/**"
-      - "src/design-system/**"
-      - "src/styles/**"
+      - "src/**"
+      - "next.config.ts"
+      - "postcss.config.mjs"
+      - "tsconfig.json"
+      - "vitest.config.ts"
+      - "vitest.shims.d.ts"
       - "package.json"
       - "bun.lock"
+      - "eslint.config.mjs"
       - ".github/workflows/design-system.yml"
   push:
     branches:
@@ -21,15 +24,18 @@ on:
     paths:
       - ".storybook/**"
       - "design-system/**"
-      - "public/design-system/**"
-      - "public/.well-known/design-system.json"
+      - "packages/**"
+      - "public/**"
       - "scripts/design-system/**"
-      - "src/app/design-system/**"
-      - "src/components/ui/**"
-      - "src/design-system/**"
-      - "src/styles/**"
+      - "src/**"
+      - "next.config.ts"
+      - "postcss.config.mjs"
+      - "tsconfig.json"
+      - "vitest.config.ts"
+      - "vitest.shims.d.ts"
       - "package.json"
       - "bun.lock"
+      - "eslint.config.mjs"
       - ".github/workflows/design-system.yml"
 
 permissions:
@@ -38,7 +44,7 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
 
     steps:
       - name: Check out repository
@@ -67,21 +73,40 @@ jobs:
         run: >
           bunx eslint
           .storybook
+          packages
           scripts/design-system
           src/design-system
           src/components/ui/*.stories.tsx
           src/components/ui/button.tsx
           src/components/ui/badge.tsx
+          src/components/ui/eyebrow.tsx
+          src/components/ui/logo.tsx
+          src/components/ui/logo-mark.tsx
+          src/components/ui/section.tsx
+          src/components/ui/surface.tsx
+          src/lib/design-tokens.ts
           src/lib/fonts.ts
           src/app/design-system/page.tsx
+          postcss.config.mjs
+          vitest.config.ts
 
       - name: Build Storybook
         env:
           STORYBOOK_DISABLE_TELEMETRY: "1"
         run: bun run storybook:build
 
+      - name: Install Chromium
+        run: bunx playwright install chromium --with-deps
+
+      - name: Test Storybook in light and dark themes
+        env:
+          STORYBOOK_DISABLE_TELEMETRY: "1"
+        run: bun run test:storybook
+
       - name: Verify static discovery
         run: |
           test -f storybook-static/index.json
           test -f storybook-static/.well-known/design-system.json
           test -f storybook-static/design-system/manifest.json
+          test -f storybook-static/design-system/channels.json
+          test -f storybook-static/design-system/rules.json

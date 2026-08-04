@@ -10,7 +10,8 @@
     "id",
     "manifest",
     "llms",
-    "humanDocs"
+    "humanDocs",
+    "catalogs"
   ],
   "properties": {
     "$schema": { "type": "string" },
@@ -18,6 +19,26 @@
     "id": { "const": "wonka-design-system" },
     "manifest": { "type": "string" },
     "llms": { "type": "string" },
-    "humanDocs": { "type": "string" }
+    "humanDocs": { "type": "string" },
+    "catalogs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tokens",
+        "components",
+        "assets",
+        "rules",
+        "exceptions",
+        "channels"
+      ],
+      "properties": {
+        "tokens": { "type": "string" },
+        "components": { "type": "string" },
+        "assets": { "type": "string" },
+        "rules": { "type": "string" },
+        "exceptions": { "type": "string" },
+        "channels": { "type": "string" }
+      }
+    }
   }
 }

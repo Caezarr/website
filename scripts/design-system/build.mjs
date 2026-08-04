@@ -7,10 +7,21 @@ const scriptDirectory = dirname(fileURLToPath(import.meta.url));
 export const repositoryRoot = resolve(scriptDirectory, "../..");
 
 const sourcePaths = {
-  tokens: resolve(repositoryRoot, "design-system/tokens/wonka.tokens.json"),
+  tokens: resolve(repositoryRoot, "packages/tokens/src/wonka.tokens.json"),
   manifest: resolve(repositoryRoot, "design-system/manifest.json"),
   components: resolve(repositoryRoot, "design-system/components.json"),
   assets: resolve(repositoryRoot, "design-system/assets.json"),
+  rules: resolve(repositoryRoot, "design-system/rules/catalog.json"),
+  exceptions: resolve(
+    repositoryRoot,
+    "design-system/rules/exceptions.json",
+  ),
+  channels: [
+    resolve(repositoryRoot, "design-system/channels/product.json"),
+    resolve(repositoryRoot, "design-system/channels/website.json"),
+    resolve(repositoryRoot, "design-system/channels/campaign.json"),
+    resolve(repositoryRoot, "design-system/channels/presentation.json"),
+  ],
   agentGuide: resolve(repositoryRoot, "design-system/llms.txt"),
   manifestSchema: resolve(
     repositoryRoot,
@@ -27,6 +38,26 @@ const sourcePaths = {
   discoverySchema: resolve(
     repositoryRoot,
     "design-system/schemas/discovery.schema.json",
+  ),
+  tokenCatalogSchema: resolve(
+    repositoryRoot,
+    "design-system/schemas/token-catalog.schema.json",
+  ),
+  ruleSchema: resolve(
+    repositoryRoot,
+    "design-system/schemas/rule-catalog.schema.json",
+  ),
+  exceptionSchema: resolve(
+    repositoryRoot,
+    "design-system/schemas/rule-exceptions.schema.json",
+  ),
+  channelSchema: resolve(
+    repositoryRoot,
+    "design-system/schemas/channel.schema.json",
+  ),
+  channelCatalogSchema: resolve(
+    repositoryRoot,
+    "design-system/schemas/channel-catalog.schema.json",
   ),
 };
 
@@ -198,6 +229,95 @@ function formatSourceValueForCss(rawValue, tokenById, type) {
   return formatCssValue(rawValue, type);
 }
 
+const TYPOGRAPHY_PROPERTIES = {
+  fontFamily: "font-family",
+  fontWeight: "font-weight",
+  fontSize: "font-size",
+  lineHeight: "line-height",
+  letterSpacing: "letter-spacing",
+  textTransform: "text-transform",
+};
+
+function typographyPropertyValue(rawValue, tokenById) {
+  const id = referenceId(rawValue);
+  if (id) {
+    if (!tokenById.has(id)) {
+      throw new Error(`Unknown typography token reference: ${id}`);
+    }
+    if (id.startsWith("font.family.")) {
+      const family = id.slice("font.family.".length);
+      return `var(--font-${family}, var(${tokenCssVariable(id)}))`;
+    }
+    return `var(${tokenCssVariable(id)})`;
+  }
+  return formatCssValue(rawValue);
+}
+
+function generateTypographyUtilities(tokens, tokenById) {
+  const lines = [
+    "",
+    "/* Typography utilities generated from canonical composite tokens. */",
+  ];
+
+  for (const token of tokens.filter((candidate) =>
+    candidate.id.startsWith("typography."),
+  )) {
+    lines.push("", `@utility type-${token.id.slice("typography.".length)} {`);
+
+    for (const [property, cssProperty] of Object.entries(
+      TYPOGRAPHY_PROPERTIES,
+    )) {
+      const rawValue = token.value[property];
+      if (rawValue === undefined) {
+        continue;
+      }
+      const baseValue =
+        rawValue !== null &&
+        typeof rawValue === "object" &&
+        !Array.isArray(rawValue)
+          ? rawValue.mobile
+          : rawValue;
+      lines.push(
+        `  ${cssProperty}: ${typographyPropertyValue(baseValue, tokenById)};`,
+      );
+    }
+
+    for (const [breakpoint, width] of [
+      ["tablet", "48rem"],
+      ["desktop", "64rem"],
+    ]) {
+      const responsiveProperties = Object.entries(
+        TYPOGRAPHY_PROPERTIES,
+      ).filter(([property]) => {
+        const rawValue = token.value[property];
+        return (
+          rawValue !== null &&
+          typeof rawValue === "object" &&
+          !Array.isArray(rawValue) &&
+          rawValue[breakpoint] !== undefined
+        );
+      });
+      if (responsiveProperties.length === 0) {
+        continue;
+      }
+      lines.push("", `  @media (width >= ${width}) {`);
+      for (const [property, cssProperty] of responsiveProperties) {
+        lines.push(
+          `    ${cssProperty}: ${typographyPropertyValue(
+            token.value[property][breakpoint],
+            tokenById,
+          )};`,
+        );
+      }
+      lines.push("  }");
+    }
+
+    lines.push("}");
+  }
+
+  return lines;
+}
+
 function generateCss(tokens) {
   const tokenById = new Map(tokens.map((token) => [token.id, token]));
   const primitiveThemeTokens = tokens.filter(
@@ -278,9 +398,22 @@ function generateCss(tokens) {
       lines.push(`  ${tokenCssVariable(token.id)}: ${value};`);
     }
   }
-  lines.push("}", "");
+  lines.push("}");
+  lines.push(...generateTypographyUtilities(tokens, tokenById), "");
 
   return lines.join("\n");
+}
+
+function hasGeneratedCssVariable(token) {
+  return [
+    "color.",
+    "radius.",
+    "shadow.",
+    "font.",
+    "motion.",
+    "semantic.color.",
+    "component.",
+  ].some((prefix) => token.id.startsWith(prefix));
 }
 
 function publicManifest(manifest) {
@@ -318,6 +451,38 @@ function publicAssets(catalog) {
   };
 }
 
+function publicRules(catalog) {
+  return {
+    ...catalog,
+    $schema: "/design-system/schemas/rule-catalog.schema.json",
+  };
+}
+
+function publicExceptions(catalog) {
+  return {
+    ...catalog,
+    $schema: "/design-system/schemas/rule-exceptions.schema.json",
+  };
+}
+
+function publicChannels(channels, manifest, components) {
+  return {
+    $schema: "/design-system/schemas/channel-catalog.schema.json",
+    schemaVersion: "1.0.0",
+    version: manifest.version,
+    brandVersionId: manifest.brandVersionId,
+    channels: channels.map((channel) => ({
+      ...channel,
+      $schema: "/design-system/schemas/channel.schema.json",
+      compatibleComponentIds: components.components
+        .filter((component) =>
+          component.channels.some((alias) => channel.aliases.includes(alias)),
+        )
+        .map((component) => component.id),
+    })),
+  };
+}
+
 function json(value) {
   return `${JSON.stringify(value, null, 2)}\n`;
 }
@@ -327,22 +492,26 @@ export function createArtifacts() {
   const manifest = readJson(sourcePaths.manifest);
   const components = readJson(sourcePaths.components);
   const assets = readJson(sourcePaths.assets);
+  const rules = readJson(sourcePaths.rules);
+  const exceptions = readJson(sourcePaths.exceptions);
+  const channels = sourcePaths.channels.map(readJson);
   const tokens = collectTokens(tokenSource);
   const { resolveToken } = createResolver(tokens);
 
   const publicTokenCatalog = {
+    $schema: "/design-system/schemas/token-catalog.schema.json",
     schemaVersion: "1.0.0",
     version: tokenSource.$version,
     brandVersionId: manifest.brandVersionId,
-    source: "design-system/tokens/wonka.tokens.json",
+    source: "packages/tokens/src/wonka.tokens.json",
     themes: manifest.themes.map((theme) => theme.id),
     tokens: tokens.map((token) => ({
       id: token.id,
       type: token.type,
       description: token.description,
-      cssVariable: token.id.startsWith("semantic.color.")
+      cssVariable: hasGeneratedCssVariable(token)
         ? tokenCssVariable(token.id)
-        : tokenCssVariable(token.id),
+        : null,
       values: {
         light: resolveToken(token.id, "light"),
         dark: resolveToken(token.id, "dark"),
@@ -359,6 +528,37 @@ export function createArtifacts() {
     "export type DesignSystemTheme = (typeof tokenCatalog.themes)[number];",
     "",
   ].join("\n");
+  const compatibilityTypescript = [
+    "/* This file is generated by `bun run ds:build`. Do not edit directly. */",
+    "",
+    'export { tokenCatalog } from "@wonka/tokens";',
+    'export type { DesignSystemTheme, TokenId } from "@wonka/tokens";',
+    "",
+  ].join("\n");
+
+  const publicRuleCatalog = publicRules(rules);
+  const publicExceptionCatalog = publicExceptions(exceptions);
+  const publicChannelCatalog = publicChannels(
+    channels,
+    manifest,
+    components,
+  );
+  const generatedContracts = [
+    "/* This file is generated by `bun run ds:build`. Do not edit directly. */",
+    "",
+    `export const designSystemManifest = ${JSON.stringify(publicManifest(manifest), null, 2)} as const;`,
+    "",
+    `export const ruleCatalog = ${JSON.stringify(publicRuleCatalog, null, 2)} as const;`,
+    "",
+    `export const exceptionCatalog = ${JSON.stringify(publicExceptionCatalog, null, 2)} as const;`,
+    "",
+    `export const channelCatalog = ${JSON.stringify(publicChannelCatalog, null, 2)} as const;`,
+    "",
+    'export type RuleId = (typeof ruleCatalog.rules)[number]["id"];',
+    'export type ChannelId = (typeof channelCatalog.channels)[number]["id"];',
+    'export type ChannelAlias = (typeof channelCatalog.channels)[number]["aliases"][number];',
+    "",
+  ].join("\n");
 
   return new Map([
     [
@@ -366,11 +566,27 @@ export function createArtifacts() {
       generateCss(tokens),
     ],
     [
-      resolve(repositoryRoot, "src/design-system/generated/tokens.ts"),
+      resolve(repositoryRoot, "packages/tokens/src/generated/tokens.css"),
+      generateCss(tokens),
+    ],
+    [
+      resolve(repositoryRoot, "packages/tokens/src/generated/tokens.ts"),
       generatedTypescript,
     ],
     [
+      resolve(repositoryRoot, "src/design-system/generated/tokens.ts"),
+      compatibilityTypescript,
+    ],
+    [
+      resolve(repositoryRoot, "src/design-system/generated/contracts.ts"),
+      generatedContracts,
+    ],
+    [
       resolve(repositoryRoot, "public/design-system/tokens.json"),
+      json(publicTokenCatalog),
+    ],
+    [
+      resolve(repositoryRoot, "packages/tokens/src/generated/catalog.json"),
       json(publicTokenCatalog),
     ],
     [
@@ -386,8 +602,27 @@ export function createArtifacts() {
       json(publicAssets(assets)),
     ],
     [
+      resolve(repositoryRoot, "public/design-system/rules.json"),
+      json(publicRuleCatalog),
+    ],
+    [
+      resolve(repositoryRoot, "public/design-system/exceptions.json"),
+      json(publicExceptionCatalog),
+    ],
+    [
+      resolve(repositoryRoot, "public/design-system/channels.json"),
+      json(publicChannelCatalog),
+    ],
+    [
       resolve(repositoryRoot, "public/design-system/llms.txt"),
       readFileSync(sourcePaths.agentGuide, "utf8"),
+    ],
+    [
+      resolve(
+        repositoryRoot,
+        "public/design-system/schemas/token-catalog.schema.json",
+      ),
+      readFileSync(sourcePaths.tokenCatalogSchema, "utf8"),
     ],
     [
       resolve(
@@ -418,6 +653,34 @@ export function createArtifacts() {
       readFileSync(sourcePaths.discoverySchema, "utf8"),
     ],
     [
+      resolve(
+        repositoryRoot,
+        "public/design-system/schemas/rule-catalog.schema.json",
+      ),
+      readFileSync(sourcePaths.ruleSchema, "utf8"),
+    ],
+    [
+      resolve(
+        repositoryRoot,
+        "public/design-system/schemas/rule-exceptions.schema.json",
+      ),
+      readFileSync(sourcePaths.exceptionSchema, "utf8"),
+    ],
+    [
+      resolve(
+        repositoryRoot,
+        "public/design-system/schemas/channel.schema.json",
+      ),
+      readFileSync(sourcePaths.channelSchema, "utf8"),
+    ],
+    [
+      resolve(
+        repositoryRoot,
+        "public/design-system/schemas/channel-catalog.schema.json",
+      ),
+      readFileSync(sourcePaths.channelCatalogSchema, "utf8"),
+    ],
+    [
       resolve(repositoryRoot, "public/.well-known/design-system.json"),
       json({
         $schema: "/design-system/schemas/discovery.schema.json",
@@ -426,6 +689,14 @@ export function createArtifacts() {
         manifest: "/design-system/manifest.json",
         llms: "/design-system/llms.txt",
         humanDocs: "/design-system",
+        catalogs: {
+          tokens: "/design-system/tokens.json",
+          components: "/design-system/components.json",
+          assets: "/design-system/assets.json",
+          rules: "/design-system/rules.json",
+          exceptions: "/design-system/exceptions.json",
+          channels: "/design-system/channels.json",
+        },
       }),
     ],
   ]);

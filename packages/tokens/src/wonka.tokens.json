@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
   "$name": "Wonka design tokens",
-  "$version": "0.1.0",
+  "$version": "0.2.0",
   "$description": "Canonical, channel-neutral design decisions for Wonka products, campaigns, presentations, and agent-generated artifacts.",
   "color": {
     "$type": "color",
@@ -141,10 +141,12 @@
         "fontWeight": "{font.weight.regular}",
         "fontSize": {
           "mobile": "4.5rem",
+          "tablet": "5.5rem",
           "desktop": "5.5rem"
         },
         "lineHeight": {
           "mobile": "1",
+          "tablet": "4.25rem",
           "desktop": "4.25rem"
         },
         "letterSpacing": "-0.028em"
@@ -160,7 +162,11 @@
           "tablet": "3.25rem",
           "desktop": "4rem"
         },
-        "lineHeight": "1",
+        "lineHeight": {
+          "mobile": "1.1",
+          "tablet": "1",
+          "desktop": "1"
+        },
         "letterSpacing": "-0.047em"
       }
     },
@@ -410,6 +416,18 @@
         "foreground": {
           "$type": "color",
           "$value": "{color.neutral.black}"
+        }
+      },
+      "effect": {
+        "drop-shadow": {
+          "$type": "shadow",
+          "$value": "0 1px 0.5px rgba(0, 0, 0, 0.12)",
+          "$description": "Optical lift for the signal-cut button silhouette."
+        },
+        "highlight": {
+          "$type": "string",
+          "$value": "radial-gradient(ellipse 70% 110% at 65% 115%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 65%)",
+          "$description": "Subtle highlight contained by the primary button mask."
         }
       }
     },

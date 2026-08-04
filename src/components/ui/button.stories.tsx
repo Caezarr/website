@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import { expect, userEvent, within } from "storybook/test";
 import { Button, ButtonLink } from "./button";
 
 const meta = {
@@ -27,7 +28,18 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Primary: Story = {};
+export const Primary: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const button = canvas.getByRole("button", {
+      name: "Start a project",
+    });
+
+    await userEvent.tab();
+    await expect(button).toHaveFocus();
+    await expect(button).toBeEnabled();
+  },
+};
 
 export const Secondary: Story = {
   args: {
@@ -56,11 +68,23 @@ export const Link: Story = {
       Talk to Wonka
     </ButtonLink>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(
+      canvas.getByRole("link", { name: "Talk to Wonka" }),
+    ).toHaveAttribute("href", "/contact");
+  },
 };
 
 export const Disabled: Story = {
   args: {
     disabled: true,
     children: "Unavailable",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(
+      canvas.getByRole("button", { name: "Unavailable" }),
+    ).toBeDisabled();
   },
 };

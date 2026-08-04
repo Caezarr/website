@@ -62,6 +62,7 @@ const headers = async () => [
 ];
 
 const config: NextConfig = {
+  transpilePackages: ["@wonka/react", "@wonka/tokens"],
   redirects,
   headers,
   turbopack: {

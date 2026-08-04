@@ -4,5 +4,13 @@
   "id": "wonka-design-system",
   "manifest": "/design-system/manifest.json",
   "llms": "/design-system/llms.txt",
-  "humanDocs": "/design-system"
+  "humanDocs": "/design-system",
+  "catalogs": {
+    "tokens": "/design-system/tokens.json",
+    "components": "/design-system/components.json",
+    "assets": "/design-system/assets.json",
+    "rules": "/design-system/rules.json",
+    "exceptions": "/design-system/exceptions.json",
+    "channels": "/design-system/channels.json"
+  }
 }

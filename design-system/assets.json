@@ -1,7 +1,7 @@
 {
   "$schema": "./schemas/asset-catalog.schema.json",
   "schemaVersion": "1.0.0",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "assets": [
     {
       "id": "asset.logo.wordmark",
@@ -19,14 +19,21 @@
           "path": "public/images/brand/wonka-logo-white.svg",
           "mimeType": "image/svg+xml",
           "theme": "dark"
+        },
+        {
+          "path": "public/images/brand/wonka-logo-mask.png",
+          "mimeType": "image/png",
+          "theme": "all"
         }
       ],
       "usage": {
         "allowed": [
-          "Primary brand identification on approved light or dark backgrounds."
+          "Primary brand identification on approved light or dark backgrounds.",
+          "The monochrome mask may inherit an approved semantic foreground token."
         ],
         "forbidden": [
-          "Stretching, rotating, recoloring, outlining, or reconstructing the wordmark."
+          "Stretching, rotating, outlining, or reconstructing the wordmark.",
+          "Applying colors outside approved semantic foreground tokens."
         ],
         "clearspace": "Keep clear space equal to at least the height of the lowercase o.",
         "minSize": "120px wide for digital use."

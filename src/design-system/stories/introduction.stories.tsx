@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
-import manifest from "../../../design-system/manifest.json";
+import { designSystemManifest as manifest } from "../generated/contracts";
 
 function Introduction() {
   return (

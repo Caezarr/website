@@ -59,6 +59,14 @@
             "type": "array",
             "items": { "type": "string" }
           },
+          "assets": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "pattern": "^asset\\.[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+            }
+          },
           "accessibility": {
             "type": "array",
             "items": { "type": "string" }

@@ -33,7 +33,22 @@ const catalogs = [
   {
     label: "Assets",
     href: "/design-system/assets.json",
-    description: "Approved files, hashes, usage rules, and rights status.",
+    description: "Candidate files, hashes, usage rules, and review status.",
+  },
+  {
+    label: "Rules",
+    href: "/design-system/rules.json",
+    description: "Stable policy IDs, enforcement modes, scope, and provenance.",
+  },
+  {
+    label: "Channels",
+    href: "/design-system/channels.json",
+    description: "Product, website, campaign, and presentation contracts.",
+  },
+  {
+    label: "Exceptions",
+    href: "/design-system/exceptions.json",
+    description: "Exact, expiring deviations from approved rules.",
   },
   {
     label: "Agent guide",

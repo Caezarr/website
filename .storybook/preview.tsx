@@ -48,6 +48,7 @@ const preview: Preview = {
         order: [
           "Getting Started",
           "Foundations",
+          "Governance",
           "Assets",
           "Actions",
           "Forms & Inputs",
