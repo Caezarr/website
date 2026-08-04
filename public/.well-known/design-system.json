@@ -11,6 +11,7 @@
     "assets": "/design-system/assets.json",
     "rules": "/design-system/rules.json",
     "exceptions": "/design-system/exceptions.json",
+    "patterns": "/design-system/patterns.json",
     "channels": "/design-system/channels.json"
   }
 }

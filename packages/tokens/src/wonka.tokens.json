@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
   "$name": "Wonka design tokens",
-  "$version": "0.2.0",
+  "$version": "0.3.0",
   "$description": "Canonical, channel-neutral design decisions for Wonka products, campaigns, presentations, and agent-generated artifacts.",
   "color": {
     "$type": "color",

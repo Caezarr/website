@@ -3,7 +3,7 @@
   "schemaVersion": "1.0.0",
   "id": "wonka-design-system",
   "name": "Wonka Design System",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "brandVersionId": "wonka-brand-v0.1.0",
   "status": "beta",
   "approval": {
@@ -60,6 +60,7 @@
     "assets": "design-system/assets.json",
     "rules": "design-system/rules/catalog.json",
     "exceptions": "design-system/rules/exceptions.json",
+    "patterns": "design-system/patterns.json",
     "channels": "design-system/channels"
   },
   "generated": {
@@ -70,6 +71,7 @@
     "assetCatalog": "public/design-system/assets.json",
     "ruleCatalog": "public/design-system/rules.json",
     "exceptionCatalog": "public/design-system/exceptions.json",
+    "patternCatalog": "public/design-system/patterns.json",
     "channelCatalog": "public/design-system/channels.json",
     "contractTypescript": "src/design-system/generated/contracts.ts",
     "manifest": "public/design-system/manifest.json",
@@ -79,7 +81,8 @@
   "interfaces": {
     "storybook": {
       "script": "bun run storybook",
-      "buildScript": "bun run storybook:build"
+      "buildScript": "bun run storybook:build",
+      "runtimeStoryPathTemplate": "/?path=/story/{storyId}"
     },
     "agentCli": {
       "script": "bun run ds:query --",
@@ -94,6 +97,8 @@
         "rules",
         "rule <id>",
         "exceptions",
+        "patterns [--channel <id|alias>]",
+        "pattern <id>",
         "channels",
         "channel <id|alias>",
         "policy --channel <id|alias>",

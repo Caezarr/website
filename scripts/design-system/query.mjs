@@ -12,7 +12,14 @@ function output(value) {
 
 function argumentValue(flag) {
   const index = process.argv.indexOf(flag);
-  return index >= 0 ? process.argv[index + 1] : null;
+  if (index < 0) {
+    return null;
+  }
+  const value = process.argv[index + 1];
+  if (!value || value.startsWith("--")) {
+    throw new Error(`${flag} requires a value.`);
+  }
+  return value;
 }
 
 const manifest = readJson("public/design-system/manifest.json");
@@ -21,6 +28,7 @@ const componentCatalog = readJson("public/design-system/components.json");
 const assetCatalog = readJson("public/design-system/assets.json");
 const ruleCatalog = readJson("public/design-system/rules.json");
 const exceptionCatalog = readJson("public/design-system/exceptions.json");
+const patternCatalog = readJson("public/design-system/patterns.json");
 const channelCatalog = readJson("public/design-system/channels.json");
 const [command = "manifest", target, ...rest] = process.argv.slice(2);
 
@@ -82,9 +90,7 @@ switch (command) {
 
   case "component": {
     const component = componentCatalog.components.find(
-      (item) =>
-        item.id === target ||
-        item.id === `component.${target}`,
+      (item) => item.id === target || item.id === `component.${target}`,
     );
     if (!component) {
       throw new Error(`Unknown component: ${target}`);
@@ -99,9 +105,7 @@ switch (command) {
 
   case "asset": {
     const asset = assetCatalog.assets.find(
-      (item) =>
-        item.id === target ||
-        item.id === `asset.${target}`,
+      (item) => item.id === target || item.id === `asset.${target}`,
     );
     if (!asset) {
       throw new Error(`Unknown asset: ${target}`);
@@ -121,18 +125,14 @@ switch (command) {
       throw new Error(`Unknown channel: ${requestedChannel}`);
     }
     output(
-      ruleCatalog.rules.filter((rule) =>
-        rule.channelIds.includes(channel.id),
-      ),
+      ruleCatalog.rules.filter((rule) => rule.channelIds.includes(channel.id)),
     );
     break;
   }
 
   case "rule": {
     const rule = ruleCatalog.rules.find(
-      (item) =>
-        item.id === target ||
-        item.id === `rule.${target}`,
+      (item) => item.id === target || item.id === `rule.${target}`,
     );
     if (!rule) {
       throw new Error(`Unknown rule: ${target}`);
@@ -149,18 +149,47 @@ switch (command) {
         .map((rule) => rule.id),
     );
     const exceptions = requestedRule
-        ? exceptionCatalog.exceptions.filter(
-            (exception) =>
-              exception.ruleId === requestedRule ||
-              exception.ruleId === `rule.${requestedRule}`,
-          )
-        : exceptionCatalog.exceptions;
+      ? exceptionCatalog.exceptions.filter(
+          (exception) =>
+            exception.ruleId === requestedRule ||
+            exception.ruleId === `rule.${requestedRule}`,
+        )
+      : exceptionCatalog.exceptions;
     output(
       exceptions.map((exception) => ({
         ...exception,
         effective: isExceptionEffective(exception, activeRuleIds),
       })),
     );
+    break;
+  }
+
+  case "patterns": {
+    const requestedChannel = argumentValue("--channel");
+    if (!requestedChannel) {
+      output(patternCatalog.patterns);
+      break;
+    }
+    const channel = findChannel(requestedChannel);
+    if (!channel) {
+      throw new Error(`Unknown channel: ${requestedChannel}`);
+    }
+    output(
+      patternCatalog.patterns.filter((pattern) =>
+        pattern.channelIds.includes(channel.id),
+      ),
+    );
+    break;
+  }
+
+  case "pattern": {
+    const pattern = patternCatalog.patterns.find(
+      (item) => item.id === target || item.id === `pattern.${target}`,
+    );
+    if (!pattern) {
+      throw new Error(`Unknown pattern: ${target}`);
+    }
+    output(pattern);
     break;
   }
 
@@ -188,8 +217,7 @@ switch (command) {
       rule.channelIds.includes(channel.id),
     );
     const approved =
-      manifest.approval.status === "approved" &&
-      channel.lifecycle === "active";
+      manifest.approval.status === "approved" && channel.lifecycle === "active";
     const rules = channelRules.filter(
       (rule) => approved && rule.lifecycle === "active",
     );
@@ -200,41 +228,37 @@ switch (command) {
         !["deprecated", "retired"].includes(rule.lifecycle),
     );
     const ruleIds = new Set(rules.map((rule) => rule.id));
-    const compatibleComponentIds = new Set(
-      channel.compatibleComponentIds,
-    );
+    const compatibleComponentIds = new Set(channel.compatibleComponentIds);
     const compatibleAssetIds = new Set(channel.compatibleAssetIds);
     const compatibleAssets = assetCatalog.assets.filter((asset) =>
       compatibleAssetIds.has(asset.id),
     );
+    const today = new Date().toISOString().slice(0, 10);
+    const rightsExpired = (asset) =>
+      Boolean(asset.rights.expiresAt && asset.rights.expiresAt < today);
+    const rightsCoverChannel = (asset) =>
+      asset.rights.license === "verified_redistributable" ||
+      (channel.distribution === "internal" &&
+        asset.rights.license === "verified_internal");
+    const assetIsBlocked = (asset) =>
+      asset.lifecycle === "superseded" ||
+      rightsExpired(asset) ||
+      !rightsCoverChannel(asset);
     const independentlyUsableAsset = (asset) =>
-      asset.lifecycle === "active" &&
-      ["verified_internal", "verified_redistributable"].includes(
-        asset.rights.license,
-      );
+      asset.lifecycle === "active" && !assetIsBlocked(asset);
     const effectiveAssets = approved
       ? compatibleAssets.filter(independentlyUsableAsset)
       : [];
-    const effectiveAssetIds = new Set(
-      effectiveAssets.map((asset) => asset.id),
-    );
+    const effectiveAssetIds = new Set(effectiveAssets.map((asset) => asset.id));
     const blockedAssetIds = new Set(
-      compatibleAssets
-        .filter(
-          (asset) =>
-            !["verified_internal", "verified_redistributable"].includes(
-              asset.rights.license,
-            ),
-        )
-        .map((asset) => asset.id),
+      compatibleAssets.filter(assetIsBlocked).map((asset) => asset.id),
     );
     const compatibleComponents = componentCatalog.components.filter(
       (component) => compatibleComponentIds.has(component.id),
     );
     const componentIsBlocked = (component) =>
-      (component.assets ?? []).some((assetId) =>
-        blockedAssetIds.has(assetId),
-      );
+      ["deprecated", "retired"].includes(component.status) ||
+      (component.assets ?? []).some((assetId) => blockedAssetIds.has(assetId));
     const effectiveComponents = compatibleComponents.filter(
       (component) =>
         approved &&
@@ -246,6 +270,47 @@ switch (command) {
     );
     const effectiveComponentIds = new Set(
       effectiveComponents.map((component) => component.id),
+    );
+    const compatiblePatterns = patternCatalog.patterns.filter(
+      (pattern) =>
+        pattern.kind === "artifact" && pattern.channelIds.includes(channel.id),
+    );
+    const blockedRuleIds = new Set(
+      channelRules
+        .filter((rule) => ["deprecated", "retired"].includes(rule.lifecycle))
+        .map((rule) => rule.id),
+    );
+    const patternIsBlocked = (pattern) =>
+      ["deprecated", "retired"].includes(pattern.status) ||
+      pattern.requiredAssetIds.some((assetId) =>
+        blockedAssetIds.has(assetId),
+      ) ||
+      pattern.requiredRuleIds.some(
+        (ruleId) =>
+          blockedRuleIds.has(ruleId) ||
+          !channelRules.some((rule) => rule.id === ruleId),
+      ) ||
+      pattern.requiredComponentIds.some((componentId) => {
+        const component = compatibleComponents.find(
+          (candidate) => candidate.id === componentId,
+        );
+        return !component || componentIsBlocked(component);
+      });
+    const effectivePatterns = compatiblePatterns.filter(
+      (pattern) =>
+        approved &&
+        pattern.status === "stable" &&
+        !patternIsBlocked(pattern) &&
+        pattern.requiredComponentIds.every((componentId) =>
+          effectiveComponentIds.has(componentId),
+        ) &&
+        pattern.requiredAssetIds.every((assetId) =>
+          effectiveAssetIds.has(assetId),
+        ) &&
+        pattern.requiredRuleIds.every((ruleId) => effectiveRuleIds.has(ruleId)),
+    );
+    const effectivePatternIds = new Set(
+      effectivePatterns.map((pattern) => pattern.id),
     );
     const allowedTokens = tokenCatalog.tokens.filter((token) =>
       channel.tokenSets.some(
@@ -263,6 +328,7 @@ switch (command) {
       candidateTokens: approved ? [] : allowedTokens,
       rules,
       candidateRules,
+      blockedRules: channelRules.filter((rule) => blockedRuleIds.has(rule.id)),
       components: effectiveComponents,
       candidateComponents: compatibleComponents.filter(
         (component) =>
@@ -272,20 +338,19 @@ switch (command) {
       blockedComponents: compatibleComponents.filter(componentIsBlocked),
       assets: effectiveAssets,
       candidateAssets: compatibleAssets.filter(
-        (asset) =>
-          !effectiveAssetIds.has(asset.id) &&
-          ["verified_internal", "verified_redistributable"].includes(
-            asset.rights.license,
-          ),
+        (asset) => !effectiveAssetIds.has(asset.id) && !assetIsBlocked(asset),
       ),
-      blockedAssets: compatibleAssets.filter(
-        (asset) =>
-          !["verified_internal", "verified_redistributable"].includes(
-            asset.rights.license,
-          ),
+      blockedAssets: compatibleAssets.filter(assetIsBlocked),
+      patterns: effectivePatterns,
+      candidatePatterns: compatiblePatterns.filter(
+        (pattern) =>
+          !effectivePatternIds.has(pattern.id) &&
+          !patternIsBlocked(pattern) &&
+          !["deprecated", "retired"].includes(pattern.status),
       ),
-      effectiveExceptions: exceptionCatalog.exceptions.filter(
-        (exception) => isExceptionEffective(exception, ruleIds),
+      blockedPatterns: compatiblePatterns.filter(patternIsBlocked),
+      effectiveExceptions: exceptionCatalog.exceptions.filter((exception) =>
+        isExceptionEffective(exception, ruleIds),
       ),
       manifestApproval: manifest.approval,
       humanApprovalRequired: manifest.governance.humanApprovalRequired,
@@ -311,16 +376,19 @@ switch (command) {
     const rules = ruleCatalog.rules.filter((rule) =>
       JSON.stringify(rule).toLowerCase().includes(query),
     );
+    const patterns = patternCatalog.patterns.filter((pattern) =>
+      JSON.stringify(pattern).toLowerCase().includes(query),
+    );
     const channels = channelCatalog.channels.filter((channel) =>
       JSON.stringify(channel).toLowerCase().includes(query),
     );
 
-    output({ query, tokens, components, assets, rules, channels });
+    output({ query, tokens, components, assets, rules, patterns, channels });
     break;
   }
 
   default:
     throw new Error(
-      `Unknown command: ${command}. Use manifest, tokens, token, components, component, assets, asset, rules, rule, exceptions, channels, channel, policy, or search.`,
+      `Unknown command: ${command}. Use manifest, tokens, token, components, component, assets, asset, rules, rule, exceptions, patterns, pattern, channels, channel, policy, or search.`,
     );
 }

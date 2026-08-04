@@ -4,16 +4,12 @@
   "id": "channel.campaign",
   "name": "Campaign",
   "description": "Paid, organic, event, and launch creative that remains recognisably Wonka at multiple aspect ratios.",
-  "aliases": [
-    "campaign"
-  ],
+  "aliases": ["campaign"],
   "lifecycle": "review_required",
   "stability": "experimental",
   "introducedIn": "0.2.0",
-  "allowedThemes": [
-    "light",
-    "dark"
-  ],
+  "allowedThemes": ["light", "dark"],
+  "distribution": "external",
   "tokenSets": [
     "color",
     "semantic.color",
@@ -54,12 +50,7 @@
       "enforcement": "human_review"
     }
   ],
-  "exportTargets": [
-    "png",
-    "jpg",
-    "mp4",
-    "html"
-  ],
+  "exportTargets": ["png", "jpg", "mp4", "html"],
   "provenance": {
     "source": "Wonka Brand DNA and AI Creative Studio contracts",
     "owner": "Wonka Design System",

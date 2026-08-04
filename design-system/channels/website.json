@@ -4,17 +4,12 @@
   "id": "channel.website",
   "name": "Website",
   "description": "Editorial and conversion-oriented browser experiences built from Wonka’s shared foundations.",
-  "aliases": [
-    "website",
-    "web"
-  ],
+  "aliases": ["website", "web"],
   "lifecycle": "review_required",
   "stability": "beta",
   "introducedIn": "0.2.0",
-  "allowedThemes": [
-    "light",
-    "dark"
-  ],
+  "allowedThemes": ["light", "dark"],
+  "distribution": "external",
   "tokenSets": [
     "color",
     "semantic.color",
@@ -63,13 +58,7 @@
       "enforcement": "human_review"
     }
   ],
-  "exportTargets": [
-    "react",
-    "css",
-    "html",
-    "png",
-    "pdf"
-  ],
+  "exportTargets": ["react", "css", "html", "png", "pdf"],
   "provenance": {
     "source": "Wonka website primitives",
     "owner": "Wonka Design System",

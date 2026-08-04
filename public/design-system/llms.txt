@@ -1,6 +1,6 @@
 # Wonka Design System
 
-Version: 0.2.0
+Version: 0.3.0
 Brand version: wonka-brand-v0.1.0
 Status: beta
 
@@ -15,8 +15,9 @@ Use this system to create Wonka product interfaces, websites, campaigns, present
 3. `/design-system/components.json`
 4. `/design-system/assets.json`
 5. `/design-system/rules.json`
-6. `/design-system/channels.json`
-7. The relevant Storybook foundation or component page
+6. `/design-system/patterns.json`
+7. `/design-system/channels.json`
+8. The relevant Storybook foundation, component, or composition page
 
 Repository-local equivalents live under `design-system/`.
 
@@ -27,11 +28,13 @@ Repository-local equivalents live under `design-system/`.
 - Use component tokens when a component contract defines them.
 - Respect the requested channel and theme.
 - Query the complete channel policy before creating an artifact.
-- Use only entries returned under `policy.tokens`, `policy.components`, and `policy.assets` for effective output.
-- Candidate or blocked tokens, components, rules, and assets require human review.
+- Select a compatible pattern before composing; follow its slots, required dependencies, and agent trace contract.
+- Use only entries returned under `policy.tokens`, `policy.components`, `policy.assets`, and `policy.patterns` for effective output.
+- Candidate or blocked tokens, components, rules, assets, and patterns require human review.
 - Use only assets returned under `policy.assets`; `candidateAssets` and `blockedAssets` require human approval.
 - Preserve visible focus, sufficient contrast, keyboard access, and reduced-motion behavior.
-- Return the design-system version, brand version, token IDs, component IDs, and asset paths used.
+- Return the canonical trace fields: `designSystemVersion`, `brandVersionId`, `channel`, `theme`, `policyStatus`, exact `tokens`, `components`, `assets`, `patterns`, and `unresolvedDecisions`.
+- Report exact stable IDs; never use wildcards or silently omit an unresolved review.
 - Treat `beta`, `deprecated`, and `retired` statuses as meaningful constraints.
 - Never activate or publish a new brand version without human approval.
 - Treat `review_required` as unapproved; do not present it as an active brand decision.
@@ -47,6 +50,8 @@ bun run ds:query -- components
 bun run ds:query -- component component.button
 bun run ds:query -- asset asset.logo.wordmark
 bun run ds:query -- rule rule.no-raw-color
+bun run ds:query -- patterns
+bun run ds:query -- pattern pattern.presentation.decision-slide
 bun run ds:query -- channel presentation
 bun run ds:query -- policy --channel campaign
 bun run ds:query -- search focus

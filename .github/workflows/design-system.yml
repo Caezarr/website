@@ -110,3 +110,5 @@ jobs:
           test -f storybook-static/design-system/manifest.json
           test -f storybook-static/design-system/channels.json
           test -f storybook-static/design-system/rules.json
+          test -f storybook-static/design-system/patterns.json
+          test -f storybook-static/design-system/schemas/pattern-catalog.schema.json

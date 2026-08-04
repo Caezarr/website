@@ -19,6 +19,7 @@
     "typecheck": "tsc --noEmit",
     "ds:build": "node scripts/design-system/build.mjs",
     "ds:check": "node scripts/design-system/validate.mjs",
+    "preds:query": "node scripts/design-system/validate.mjs --quiet",
     "ds:query": "node scripts/design-system/query.mjs",
     "storybook": "bun run ds:build && storybook dev -p 6006",
     "storybook:build": "bun run ds:build && storybook build",

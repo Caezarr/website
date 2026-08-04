@@ -3,7 +3,7 @@
 export const tokenCatalog = {
   "$schema": "/design-system/schemas/token-catalog.schema.json",
   "schemaVersion": "1.0.0",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "brandVersionId": "wonka-brand-v0.1.0",
   "source": "packages/tokens/src/wonka.tokens.json",
   "themes": [

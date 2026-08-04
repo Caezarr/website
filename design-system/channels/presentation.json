@@ -4,23 +4,13 @@
   "id": "channel.presentation",
   "name": "Presentation",
   "description": "Executive, sales, workshop, and product decks that share the same tokens and branded hierarchy.",
-  "aliases": [
-    "presentation"
-  ],
+  "aliases": ["presentation"],
   "lifecycle": "review_required",
   "stability": "experimental",
   "introducedIn": "0.2.0",
-  "allowedThemes": [
-    "light",
-    "dark"
-  ],
-  "tokenSets": [
-    "color",
-    "semantic.color",
-    "typography",
-    "radius",
-    "component"
-  ],
+  "allowedThemes": ["light", "dark"],
+  "distribution": "external",
+  "tokenSets": ["color", "semantic.color", "typography", "radius", "component"],
   "compatibleAssetIds": [
     "asset.logo.wordmark",
     "asset.logo.mark",
@@ -53,11 +43,7 @@
       "enforcement": "human_review"
     }
   ],
-  "exportTargets": [
-    "pptx",
-    "pdf",
-    "png"
-  ],
+  "exportTargets": ["pptx", "pdf", "png"],
   "provenance": {
     "source": "Wonka deck and website shared-system goal",
     "owner": "Wonka Design System",

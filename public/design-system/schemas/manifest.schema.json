@@ -22,7 +22,7 @@
   ],
   "properties": {
     "$schema": { "type": "string" },
-    "schemaVersion": { "type": "string" },
+    "schemaVersion": { "const": "1.0.0" },
     "id": { "type": "string", "pattern": "^[a-z0-9-]+$" },
     "name": { "type": "string", "minLength": 1 },
     "version": {
@@ -105,6 +105,7 @@
         "assets": { "type": "string", "minLength": 1 },
         "rules": { "type": "string", "minLength": 1 },
         "exceptions": { "type": "string", "minLength": 1 },
+        "patterns": { "type": "string", "minLength": 1 },
         "channels": { "type": "string", "minLength": 1 }
       }
     },
@@ -133,6 +134,7 @@
         "assetCatalog": { "type": "string", "minLength": 1 },
         "ruleCatalog": { "type": "string", "minLength": 1 },
         "exceptionCatalog": { "type": "string", "minLength": 1 },
+        "patternCatalog": { "type": "string", "minLength": 1 },
         "channelCatalog": { "type": "string", "minLength": 1 },
         "contractTypescript": { "type": "string", "minLength": 1 },
         "manifest": { "type": "string", "minLength": 1 },

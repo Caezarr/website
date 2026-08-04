@@ -2,6 +2,7 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { relative, resolve } from "node:path";
 import Ajv2020 from "ajv/dist/2020.js";
+import { loadCsf } from "storybook/internal/csf-tools";
 import {
   collectTokens,
   createResolver,
@@ -37,9 +38,8 @@ function createSchemaValidator() {
     type: "string",
     validate(value) {
       return (
-        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(
-          value,
-        ) && !Number.isNaN(Date.parse(value))
+        /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(value) &&
+        !Number.isNaN(Date.parse(value))
       );
     },
   });
@@ -52,6 +52,7 @@ function validateSchemas({
   assets,
   rules,
   exceptions,
+  patterns,
   channels,
 }) {
   const ajv = createSchemaValidator();
@@ -64,9 +65,7 @@ function validateSchemas({
     },
     {
       name: "components",
-      schema: readJson(
-        "design-system/schemas/component-catalog.schema.json",
-      ),
+      schema: readJson("design-system/schemas/component-catalog.schema.json"),
       value: components,
     },
     {
@@ -81,15 +80,16 @@ function validateSchemas({
     },
     {
       name: "exceptions",
-      schema: readJson(
-        "design-system/schemas/rule-exceptions.schema.json",
-      ),
+      schema: readJson("design-system/schemas/rule-exceptions.schema.json"),
       value: exceptions,
     },
+    {
+      name: "patterns",
+      schema: readJson("design-system/schemas/pattern-catalog.schema.json"),
+      value: patterns,
+    },
   ];
-  const channelSchema = readJson(
-    "design-system/schemas/channel.schema.json",
-  );
+  const channelSchema = readJson("design-system/schemas/channel.schema.json");
 
   for (const contract of contracts) {
     const validate = ajv.compile(contract.schema);
@@ -118,9 +118,7 @@ function validateSchemas({
 
 function validatePublishedSchemas() {
   const ajv = createSchemaValidator();
-  const channelSchema = readJson(
-    "design-system/schemas/channel.schema.json",
-  );
+  const channelSchema = readJson("design-system/schemas/channel.schema.json");
   ajv.addSchema(channelSchema);
 
   const contracts = [
@@ -131,44 +129,37 @@ function validatePublishedSchemas() {
     },
     {
       name: "published token catalog",
-      schema: readJson(
-        "design-system/schemas/token-catalog.schema.json",
-      ),
+      schema: readJson("design-system/schemas/token-catalog.schema.json"),
       value: readJson("public/design-system/tokens.json"),
     },
     {
       name: "published component catalog",
-      schema: readJson(
-        "design-system/schemas/component-catalog.schema.json",
-      ),
+      schema: readJson("design-system/schemas/component-catalog.schema.json"),
       value: readJson("public/design-system/components.json"),
     },
     {
       name: "published asset catalog",
-      schema: readJson(
-        "design-system/schemas/asset-catalog.schema.json",
-      ),
+      schema: readJson("design-system/schemas/asset-catalog.schema.json"),
       value: readJson("public/design-system/assets.json"),
     },
     {
       name: "published rule catalog",
-      schema: readJson(
-        "design-system/schemas/rule-catalog.schema.json",
-      ),
+      schema: readJson("design-system/schemas/rule-catalog.schema.json"),
       value: readJson("public/design-system/rules.json"),
     },
     {
       name: "published exception catalog",
-      schema: readJson(
-        "design-system/schemas/rule-exceptions.schema.json",
-      ),
+      schema: readJson("design-system/schemas/rule-exceptions.schema.json"),
       value: readJson("public/design-system/exceptions.json"),
     },
     {
+      name: "published pattern catalog",
+      schema: readJson("design-system/schemas/pattern-catalog.schema.json"),
+      value: readJson("public/design-system/patterns.json"),
+    },
+    {
       name: "published channel catalog",
-      schema: readJson(
-        "design-system/schemas/channel-catalog.schema.json",
-      ),
+      schema: readJson("design-system/schemas/channel-catalog.schema.json"),
       value: readJson("public/design-system/channels.json"),
     },
     {
@@ -194,21 +185,13 @@ function validatePublishedSchemas() {
 function validatePublishedTokenCssVariables() {
   const catalog = readJson("public/design-system/tokens.json");
   const css = readFileSync(
-    resolve(
-      repositoryRoot,
-      "packages/tokens/src/generated/tokens.css",
-    ),
+    resolve(repositoryRoot, "packages/tokens/src/generated/tokens.css"),
     "utf8",
   );
 
   for (const token of catalog.tokens) {
-    if (
-      token.cssVariable !== null &&
-      !css.includes(`${token.cssVariable}:`)
-    ) {
-      fail(
-        `${token.id} advertises missing CSS variable ${token.cssVariable}.`,
-      );
+    if (token.cssVariable !== null && !css.includes(`${token.cssVariable}:`)) {
+      fail(`${token.id} advertises missing CSS variable ${token.cssVariable}.`);
     }
   }
 }
@@ -258,9 +241,7 @@ function validateTokens(tokenSource) {
 
   for (const reference of references) {
     if (!ids.has(reference.target)) {
-      fail(
-        `${reference.source} references unknown token ${reference.target}.`,
-      );
+      fail(`${reference.source} references unknown token ${reference.target}.`);
     }
   }
 
@@ -302,10 +283,7 @@ function validateManifest(manifest) {
     manifest.approval?.status === "approved" &&
     manifest.approval.approvedBy &&
     manifest.approval.approvedAt;
-  if (
-    manifest.approval?.status === "approved" &&
-    !approved
-  ) {
+  if (manifest.approval?.status === "approved" && !approved) {
     fail("An approved manifest requires approval provenance.");
   }
   if (
@@ -329,6 +307,7 @@ function validateManifest(manifest) {
     assets: "design-system/assets.json",
     rules: "design-system/rules/catalog.json",
     exceptions: "design-system/rules/exceptions.json",
+    patterns: "design-system/patterns.json",
     channels: "design-system/channels",
   };
   const expectedGenerated = {
@@ -339,6 +318,7 @@ function validateManifest(manifest) {
     assetCatalog: "public/design-system/assets.json",
     ruleCatalog: "public/design-system/rules.json",
     exceptionCatalog: "public/design-system/exceptions.json",
+    patternCatalog: "public/design-system/patterns.json",
     channelCatalog: "public/design-system/channels.json",
     contractTypescript: "src/design-system/generated/contracts.ts",
     manifest: "public/design-system/manifest.json",
@@ -349,8 +329,7 @@ function validateManifest(manifest) {
     fail("Manifest source paths must match the build inputs.");
   }
   if (
-    JSON.stringify(manifest.generated) !==
-    JSON.stringify(expectedGenerated)
+    JSON.stringify(manifest.generated) !== JSON.stringify(expectedGenerated)
   ) {
     fail("Manifest generated paths must match the build outputs.");
   }
@@ -363,6 +342,7 @@ function validatePackages(
   assetCatalog,
   ruleCatalog,
   exceptionCatalog,
+  patternCatalog,
   tokenPackage,
   reactPackage,
   rootPackage,
@@ -374,7 +354,9 @@ function validatePackages(
     fail("React package must remain @wonka/react.");
   }
   if (!tokenPackage.private || !reactPackage.private) {
-    fail("Design-system packages must remain private until publication approval.");
+    fail(
+      "Design-system packages must remain private until publication approval.",
+    );
   }
   if (tokenPackage.version !== tokenSource.$version) {
     fail(
@@ -392,6 +374,7 @@ function validatePackages(
     ["asset catalog", assetCatalog.version],
     ["rule catalog", ruleCatalog.version],
     ["exception catalog", exceptionCatalog.version],
+    ["pattern catalog", patternCatalog.version],
     ["@wonka/tokens", tokenPackage.version],
     ["@wonka/react", reactPackage.version],
   ]) {
@@ -441,9 +424,7 @@ function validatePackages(
         if (
           typeof path !== "string" ||
           !path.startsWith("./") ||
-          !existsSync(
-            resolve(repositoryRoot, packageDirectory, path.slice(2)),
-          )
+          !existsSync(resolve(repositoryRoot, packageDirectory, path.slice(2)))
         ) {
           fail(`${packageName} export ${exportName} has an invalid target.`);
         }
@@ -547,7 +528,9 @@ function validateAssets(catalog) {
       ) &&
       (!asset.provenance?.approvedBy || !asset.provenance?.approvedAt)
     ) {
-      fail(`${asset.id} cannot have verified rights without approval provenance.`);
+      fail(
+        `${asset.id} cannot have verified rights without approval provenance.`,
+      );
     }
     if (
       asset.rights.expiresAt &&
@@ -577,17 +560,12 @@ function validateRules(catalog, exceptionCatalog, tokenIds) {
       }
     }
 
-    if (
-      ["raw_color", "forbidden_pattern"].includes(rule.validator.kind)
-    ) {
+    if (["raw_color", "forbidden_pattern"].includes(rule.validator.kind)) {
       if (!rule.validator.pattern) {
         fail(`${rule.id} requires a validator pattern.`);
       }
       try {
-        new RegExp(
-          rule.validator.pattern,
-          rule.validator.flags ?? "",
-        );
+        new RegExp(rule.validator.pattern, rule.validator.flags ?? "");
       } catch {
         fail(`${rule.id} contains an invalid validator pattern.`);
       }
@@ -634,7 +612,9 @@ function validateRules(catalog, exceptionCatalog, tokenIds) {
       relative(repositoryRoot, resolvedPath) !== exceptionPath ||
       !existsSync(resolvedPath)
     ) {
-      fail(`${exception.id} targets an invalid or missing file: ${exceptionPath}.`);
+      fail(
+        `${exception.id} targets an invalid or missing file: ${exceptionPath}.`,
+      );
     }
     const include = rule.scope.include.map(globPattern);
     const exclude = rule.scope.exclude.map(globPattern);
@@ -649,12 +629,12 @@ function validateRules(catalog, exceptionCatalog, tokenIds) {
         fail(`${exception.id} cannot be approved without approval provenance.`);
       }
       if (rule.lifecycle !== "active") {
-        fail(`${exception.id} cannot be approved for inactive rule ${rule.id}.`);
+        fail(
+          `${exception.id} cannot be approved for inactive rule ${rule.id}.`,
+        );
       }
       const currentFingerprints = new Set(
-        ruleFindings(rule, exceptionPath).map(
-          (finding) => finding.fingerprint,
-        ),
+        ruleFindings(rule, exceptionPath).map((finding) => finding.fingerprint),
       );
       if (!currentFingerprints.has(exception.scope.fingerprint)) {
         fail(`${exception.id} does not match a current ${rule.id} finding.`);
@@ -668,12 +648,7 @@ function validateRules(catalog, exceptionCatalog, tokenIds) {
   return { ruleById, ruleIds };
 }
 
-function validateChannels(
-  channels,
-  manifest,
-  assetIds,
-  ruleById,
-) {
+function validateChannels(channels, manifest, assetIds, ruleById) {
   const channelIds = new Set();
   const aliases = new Map();
   const themeIds = new Set(manifest.themes.map((theme) => theme.id));
@@ -683,6 +658,10 @@ function validateChannels(
       fail(`Duplicate channel id: ${channel.id}`);
     }
     channelIds.add(channel.id);
+
+    if (!["internal", "external"].includes(channel.distribution)) {
+      fail(`${channel.id} requires an explicit distribution scope.`);
+    }
 
     if (channel.lifecycle === "active") {
       if (!channel.provenance?.approvedBy || !channel.provenance?.approvedAt) {
@@ -742,15 +721,12 @@ function validateChannels(
       }
     }
     for (const channel of channels.filter((candidate) =>
-      component.channels.some((alias) =>
-        candidate.aliases.includes(alias),
-      ),
+      component.channels.some((alias) => candidate.aliases.includes(alias)),
     )) {
       for (const tokenId of component.tokens) {
         if (
           !channel.tokenSets.some(
-            (set) =>
-              tokenId === set || tokenId.startsWith(`${set}.`),
+            (set) => tokenId === set || tokenId.startsWith(`${set}.`),
           )
         ) {
           fail(
@@ -767,6 +743,187 @@ function validateChannels(
       }
     }
   }
+
+  return { channelIds, aliases };
+}
+
+function compareVersions(first, second) {
+  const firstParts = first.split(".").map(Number);
+  const secondParts = second.split(".").map(Number);
+
+  for (let index = 0; index < 3; index += 1) {
+    if (firstParts[index] !== secondParts[index]) {
+      return firstParts[index] - secondParts[index];
+    }
+  }
+
+  return 0;
+}
+
+function validatePatterns(
+  catalog,
+  manifest,
+  tokenIds,
+  componentIds,
+  assetIds,
+  ruleById,
+  channels,
+) {
+  const traceabilityFields = [
+    "designSystemVersion",
+    "brandVersionId",
+    "channel",
+    "theme",
+    "policyStatus",
+    "tokens",
+    "components",
+    "assets",
+    "patterns",
+    "unresolvedDecisions",
+  ];
+  const ids = new Set();
+  const channelById = new Map(channels.map((channel) => [channel.id, channel]));
+  const componentById = new Map(
+    readJson("design-system/components.json").components.map((component) => [
+      component.id,
+      component,
+    ]),
+  );
+
+  if (catalog.brandVersionId !== manifest.brandVersionId) {
+    fail(
+      `Pattern catalog brand version ${catalog.brandVersionId} does not match manifest ${manifest.brandVersionId}.`,
+    );
+  }
+
+  for (const pattern of catalog.patterns) {
+    if (ids.has(pattern.id)) {
+      fail(`Duplicate pattern id: ${pattern.id}`);
+    }
+    ids.add(pattern.id);
+
+    if (compareVersions(pattern.introducedIn, manifest.version) > 0) {
+      fail(
+        `${pattern.id} cannot be introduced in future version ${pattern.introducedIn}.`,
+      );
+    }
+
+    const sourcePath = resolve(repositoryRoot, pattern.source);
+    if (
+      relative(repositoryRoot, sourcePath) !== pattern.source ||
+      !/^src\/.+\.stories\.(?:js|jsx|mjs|ts|tsx)$/.test(pattern.source) ||
+      !existsSync(sourcePath)
+    ) {
+      fail(`${pattern.id} source does not exist: ${pattern.source}`);
+    }
+    const source = readFileSync(sourcePath, "utf8");
+    let resolvedStoryIds;
+    try {
+      const csf = loadCsf(source, {
+        fileName: pattern.source,
+        makeTitle: (title) => title,
+      }).parse();
+      resolvedStoryIds = new Set(csf.stories.map((story) => story.id));
+    } catch (error) {
+      fail(
+        `${pattern.id} source is not valid Storybook CSF: ${
+          error instanceof Error ? error.message : error
+        }`,
+      );
+    }
+    if (!resolvedStoryIds.has(pattern.storyId)) {
+      fail(
+        `${pattern.id} story ${pattern.storyId} is not exported by ${pattern.source}.`,
+      );
+    }
+
+    const slotIds = new Set();
+    for (const slot of pattern.slots) {
+      if (slotIds.has(slot.id)) {
+        fail(`${pattern.id} has duplicate slot ${slot.id}.`);
+      }
+      slotIds.add(slot.id);
+    }
+    if (!pattern.slots.some((slot) => slot.required)) {
+      fail(`${pattern.id} requires at least one required composition slot.`);
+    }
+
+    for (const tokenSet of pattern.requiredTokenSets) {
+      if (
+        ![...tokenIds].some(
+          (tokenId) =>
+            tokenId === tokenSet || tokenId.startsWith(`${tokenSet}.`),
+        )
+      ) {
+        fail(`${pattern.id} references unknown token set ${tokenSet}.`);
+      }
+    }
+    for (const componentId of pattern.requiredComponentIds) {
+      if (!componentIds.has(componentId)) {
+        fail(`${pattern.id} references unknown component ${componentId}.`);
+      }
+    }
+    for (const assetId of pattern.requiredAssetIds) {
+      if (!assetIds.has(assetId)) {
+        fail(`${pattern.id} references unknown asset ${assetId}.`);
+      }
+    }
+    for (const ruleId of pattern.requiredRuleIds) {
+      if (!ruleById.has(ruleId)) {
+        fail(`${pattern.id} references unknown rule ${ruleId}.`);
+      }
+    }
+    if (pattern.requiredRuleIds.includes("rule.agent-traceability")) {
+      for (const field of traceabilityFields) {
+        if (!pattern.agent.requiredTraceFields.includes(field)) {
+          fail(
+            `${pattern.id} requires rule.agent-traceability but omits trace field ${field}.`,
+          );
+        }
+      }
+    }
+
+    for (const channelId of pattern.channelIds) {
+      const channel = channelById.get(channelId);
+      if (!channel) {
+        fail(`${pattern.id} references unknown channel ${channelId}.`);
+      }
+
+      for (const tokenSet of pattern.requiredTokenSets) {
+        if (!channel.tokenSets.includes(tokenSet)) {
+          fail(
+            `${pattern.id} requires token set ${tokenSet}, unavailable in ${channelId}.`,
+          );
+        }
+      }
+      for (const componentId of pattern.requiredComponentIds) {
+        const component = componentById.get(componentId);
+        if (
+          !component.channels.some((alias) => channel.aliases.includes(alias))
+        ) {
+          fail(
+            `${pattern.id} requires ${componentId}, incompatible with ${channelId}.`,
+          );
+        }
+      }
+      for (const assetId of pattern.requiredAssetIds) {
+        if (!channel.compatibleAssetIds.includes(assetId)) {
+          fail(
+            `${pattern.id} requires ${assetId}, unavailable in ${channelId}.`,
+          );
+        }
+      }
+      for (const ruleId of pattern.requiredRuleIds) {
+        if (!ruleById.get(ruleId).channelIds.includes(channelId)) {
+          fail(
+            `${pattern.id} requires ${ruleId}, which does not govern ${channelId}.`,
+          );
+        }
+      }
+    }
+  }
+
+  return ids;
 }
 
 function globPattern(pattern) {
@@ -852,8 +1009,7 @@ function validatePatternRules(ruleCatalog, exceptionCatalog) {
     for (const exception of approvedExceptions.filter(
       (candidate) => candidate.ruleId === rule.id,
     )) {
-      const fingerprints =
-        exceptions.get(exception.scope.path) ?? new Set();
+      const fingerprints = exceptions.get(exception.scope.path) ?? new Set();
       fingerprints.add(exception.scope.fingerprint);
       exceptions.set(exception.scope.path, fingerprints);
     }
@@ -923,11 +1079,14 @@ function ruleFindings(rule, path) {
 function relativeLuminance(hex) {
   const normalized = hex.replace("#", "");
   if (!/^[0-9a-f]{6}$/i.test(normalized)) {
-    fail(`DS008 contrast validation requires a six-digit hex color, got ${hex}.`);
+    fail(
+      `DS008 contrast validation requires a six-digit hex color, got ${hex}.`,
+    );
   }
 
   const channels = [0, 2, 4].map((offset) => {
-    const channel = Number.parseInt(normalized.slice(offset, offset + 2), 16) / 255;
+    const channel =
+      Number.parseInt(normalized.slice(offset, offset + 2), 16) / 255;
     return channel <= 0.04045
       ? channel / 12.92
       : ((channel + 0.055) / 1.055) ** 2.4;
@@ -967,6 +1126,7 @@ try {
   const assets = readJson("design-system/assets.json");
   const rules = readJson("design-system/rules/catalog.json");
   const exceptions = readJson("design-system/rules/exceptions.json");
+  const patterns = readJson("design-system/patterns.json");
   const channels = [
     readJson("design-system/channels/product.json"),
     readJson("design-system/channels/website.json"),
@@ -984,6 +1144,7 @@ try {
     assets,
     rules,
     exceptions,
+    patterns,
     channels,
   });
   validateManifest(manifest);
@@ -994,33 +1155,30 @@ try {
     assets,
     rules,
     exceptions,
+    patterns,
     tokenPackage,
     reactPackage,
     rootPackage,
   );
   const assetIds = validateAssets(assets);
   const componentIds = validateComponents(components, tokenIds, assetIds);
-  const { ruleById, ruleIds } = validateRules(
-    rules,
-    exceptions,
-    tokenIds,
-  );
-  validateChannels(
-    channels,
+  const { ruleById, ruleIds } = validateRules(rules, exceptions, tokenIds);
+  validateChannels(channels, manifest, assetIds, ruleById);
+  const patternIds = validatePatterns(
+    patterns,
     manifest,
+    tokenIds,
+    componentIds,
     assetIds,
     ruleById,
+    channels,
   );
   validatePatternRules(rules, exceptions);
   const contrastRules = [...ruleById.values()].filter(
-    (rule) =>
-      rule.validator.kind === "contrast" &&
-      rule.lifecycle === "active",
+    (rule) => rule.validator.kind === "contrast" && rule.lifecycle === "active",
   );
   if (
-    ![...ruleById.values()].some(
-      (rule) => rule.validator.kind === "contrast",
-    )
+    ![...ruleById.values()].some((rule) => rule.validator.kind === "contrast")
   ) {
     fail("A contrast validation rule is required.");
   }
@@ -1031,9 +1189,11 @@ try {
   validatePublishedSchemas();
   validatePublishedTokenCssVariables();
 
-  console.log(
-    `Design system valid: ${tokenIds.size} tokens, ${componentIds.size} components, ${assetIds.size} assets, ${ruleIds.size} rules, ${channels.length} channels, version ${manifest.version}.`,
-  );
+  if (!process.argv.includes("--quiet")) {
+    console.log(
+      `Design system valid: ${tokenIds.size} tokens, ${componentIds.size} components, ${assetIds.size} assets, ${ruleIds.size} rules, ${patternIds.size} patterns, ${channels.length} channels, version ${manifest.version}.`,
+    );
+  }
 } catch (error) {
   console.error(error instanceof Error ? error.message : error);
   process.exitCode = 1;

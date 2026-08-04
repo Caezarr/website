@@ -4,17 +4,12 @@
   "id": "channel.product",
   "name": "Product",
   "description": "Task-oriented interfaces for Wonka products, internal tools, and agent workspaces.",
-  "aliases": [
-    "product",
-    "app"
-  ],
+  "aliases": ["product", "app"],
   "lifecycle": "review_required",
   "stability": "beta",
   "introducedIn": "0.2.0",
-  "allowedThemes": [
-    "light",
-    "dark"
-  ],
+  "allowedThemes": ["light", "dark"],
+  "distribution": "external",
   "tokenSets": [
     "color",
     "semantic.color",
@@ -61,13 +56,15 @@
       "value": "Interactive elements define loading, empty, error, disabled, focus, and success states where applicable.",
       "level": "required",
       "enforcement": "contract"
+    },
+    {
+      "id": "distribution",
+      "value": "Treat Product as externally distributed by default. Internal-only surfaces require a dedicated channel before verified_internal assets can be selected.",
+      "level": "required",
+      "enforcement": "contract"
     }
   ],
-  "exportTargets": [
-    "react",
-    "css",
-    "html"
-  ],
+  "exportTargets": ["react", "css", "html"],
   "provenance": {
     "source": "Wonka product primitives",
     "owner": "Wonka Design System",

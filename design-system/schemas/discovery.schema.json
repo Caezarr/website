@@ -37,6 +37,7 @@
         "assets": { "type": "string" },
         "rules": { "type": "string" },
         "exceptions": { "type": "string" },
+        "patterns": { "type": "string" },
         "channels": { "type": "string" }
       }
     }

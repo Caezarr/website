@@ -41,6 +41,12 @@ const catalogs = [
     description: "Stable policy IDs, enforcement modes, scope, and provenance.",
   },
   {
+    label: "Patterns",
+    href: "/design-system/patterns.json",
+    description:
+      "Composition slots, dependencies, review triggers, and agent traces.",
+  },
+  {
     label: "Channels",
     href: "/design-system/channels.json",
     description: "Product, website, campaign, and presentation contracts.",
@@ -59,7 +65,7 @@ const catalogs = [
 
 export default function DesignSystemPage() {
   return (
-    <main className="min-h-screen bg-background px-6 py-16 text-text md:px-10 md:py-24">
+    <main className="bg-background text-text min-h-screen px-6 py-16 md:px-10 md:py-24">
       <div className="mx-auto max-w-6xl">
         <section className="relative isolate overflow-hidden rounded-sm bg-black px-7 py-16 text-white md:px-12 md:py-24">
           <div
@@ -67,7 +73,7 @@ export default function DesignSystemPage() {
             className="absolute right-[-8%] bottom-[-42%] -z-10 h-[68%] w-[90%] rotate-[-2deg] bg-gradient-to-r from-blue-900 via-blue-400 to-green-400 opacity-90 [clip-path:polygon(4%_8%,100%_0,94%_100%,0_86%)]"
           />
           <p className="type-eyebrow mb-5 font-mono text-blue-300">
-            {manifest.brandVersionId} · {manifest.status}
+            v{manifest.version} · {manifest.brandVersionId} · {manifest.status}
           </p>
           <h1 className="type-h3 mb-7 max-w-4xl">
             One Wonka, across every surface.
@@ -90,7 +96,7 @@ export default function DesignSystemPage() {
           <div className="grid gap-4 sm:grid-cols-2">
             {catalogs.map((catalog) => (
               <Link
-                className="group rounded-sm border border-border bg-surface p-5 transition-shadow hover:shadow-subtle-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-info"
+                className="group border-border bg-surface hover:shadow-subtle-hover focus-visible:ring-info rounded-sm border p-5 transition-shadow focus-visible:ring-2 focus-visible:outline-none"
                 href={catalog.href}
                 key={catalog.href}
               >

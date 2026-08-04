@@ -49,6 +49,7 @@ const preview: Preview = {
           "Getting Started",
           "Foundations",
           "Governance",
+          "Compositions",
           "Assets",
           "Actions",
           "Forms & Inputs",

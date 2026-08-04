@@ -6,18 +6,19 @@ The system is developed as private workspace packages inside the website reposit
 
 ## Source and generated files
 
-| Role | Canonical source | Generated consumer |
-| --- | --- | --- |
-| Tokens | `../packages/tokens/src/wonka.tokens.json` | `../packages/tokens/src/generated/tokens.css` |
-| Token API | `../packages/tokens/src/wonka.tokens.json` | `../packages/tokens/src/generated/tokens.ts` |
-| Agent token catalog | `../packages/tokens/src/wonka.tokens.json` | `public/design-system/tokens.json` |
-| Component catalog | `components.json` | `public/design-system/components.json` |
-| Asset catalog | `assets.json` | `public/design-system/assets.json` |
-| Rule catalog | `rules/catalog.json` | `public/design-system/rules.json` |
-| Exceptions | `rules/exceptions.json` | `public/design-system/exceptions.json` |
-| Channel contracts | `channels/*.json` | `public/design-system/channels.json` |
-| System manifest | `manifest.json` | `public/design-system/manifest.json` |
-| Agent guidance | `llms.txt` | `public/design-system/llms.txt` |
+| Role                 | Canonical source                           | Generated consumer                            |
+| -------------------- | ------------------------------------------ | --------------------------------------------- |
+| Tokens               | `../packages/tokens/src/wonka.tokens.json` | `../packages/tokens/src/generated/tokens.css` |
+| Token API            | `../packages/tokens/src/wonka.tokens.json` | `../packages/tokens/src/generated/tokens.ts`  |
+| Agent token catalog  | `../packages/tokens/src/wonka.tokens.json` | `public/design-system/tokens.json`            |
+| Component catalog    | `components.json`                          | `public/design-system/components.json`        |
+| Asset catalog        | `assets.json`                              | `public/design-system/assets.json`            |
+| Rule catalog         | `rules/catalog.json`                       | `public/design-system/rules.json`             |
+| Exceptions           | `rules/exceptions.json`                    | `public/design-system/exceptions.json`        |
+| Composition patterns | `patterns.json`                            | `public/design-system/patterns.json`          |
+| Channel contracts    | `channels/*.json`                          | `public/design-system/channels.json`          |
+| System manifest      | `manifest.json`                            | `public/design-system/manifest.json`          |
+| Agent guidance       | `llms.txt`                                 | `public/design-system/llms.txt`               |
 
 Never edit generated files directly.
 
@@ -32,6 +33,7 @@ bun run ds:query -- token semantic.color.background --theme dark
 bun run ds:query -- component component.button
 bun run ds:query -- asset asset.logo.wordmark
 bun run ds:query -- rule rule.no-raw-color
+bun run ds:query -- pattern pattern.presentation.decision-slide
 bun run ds:query -- channel presentation
 bun run ds:query -- policy --channel campaign
 bun run ds:query -- search focus
@@ -49,13 +51,19 @@ Tokens use four layers:
 3. **Component:** approved decisions for a component, such as `component.button.primary.background`.
 4. **Channel:** product, website, campaign, and presentation contracts that preserve semantic intent.
 
+Patterns sit above those layers. Each pattern declares composition slots, compatible
+channels, required dependencies, human-review triggers, and the trace fields an agent
+must return. Pattern IDs are stable contracts; Storybook is their visual projection.
+
 Consumers use semantic or component tokens. Raw primitive values are reserved for illustrations, data visualisation, and explicitly approved fixed-color assets.
+
+Channel distribution is resolved fail-closed. `external` is the default exposure for any mixed or client-facing surface; `verified_internal` assets are eligible only in a dedicated `internal` channel. Product remains external until internal product tooling has its own channel contract.
 
 ## Change lifecycle
 
 Brand entities use `draft → beta → stable → deprecated → retired`. Rules and channels remain `review_required` until a human approver and timestamp are recorded.
 
-Every candidate release has a semantic version and an immutable `brandVersionId`. Breaking token or component changes require a major version. A release is only effective when the manifest and its channel are human-approved.
+Every candidate release has a semantic version and an immutable `brandVersionId`. Breaking token, component, pattern-slot, trace-field, or story-contract changes require a major version; additive patterns require a minor version. A release is only effective when the manifest and its channel are human-approved.
 
 Rule exceptions suppress one fingerprinted finding in one exact file. They carry an owner, approval provenance, and expiry, and can only target an active rule that explicitly permits exceptions. File-wide and directory-wide exemptions are rejected.
 

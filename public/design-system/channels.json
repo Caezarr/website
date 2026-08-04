@@ -1,7 +1,7 @@
 {
   "$schema": "/design-system/schemas/channel-catalog.schema.json",
   "schemaVersion": "1.0.0",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "brandVersionId": "wonka-brand-v0.1.0",
   "channels": [
     {
@@ -21,6 +21,7 @@
         "light",
         "dark"
       ],
+      "distribution": "external",
       "tokenSets": [
         "color",
         "semantic.color",
@@ -67,6 +68,12 @@
           "value": "Interactive elements define loading, empty, error, disabled, focus, and success states where applicable.",
           "level": "required",
           "enforcement": "contract"
+        },
+        {
+          "id": "distribution",
+          "value": "Treat Product as externally distributed by default. Internal-only surfaces require a dedicated channel before verified_internal assets can be selected.",
+          "level": "required",
+          "enforcement": "contract"
         }
       ],
       "exportTargets": [
@@ -106,6 +113,7 @@
         "light",
         "dark"
       ],
+      "distribution": "external",
       "tokenSets": [
         "color",
         "semantic.color",
@@ -193,6 +201,7 @@
         "light",
         "dark"
       ],
+      "distribution": "external",
       "tokenSets": [
         "color",
         "semantic.color",
@@ -271,6 +280,7 @@
         "light",
         "dark"
       ],
+      "distribution": "external",
       "tokenSets": [
         "color",
         "semantic.color",

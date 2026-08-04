@@ -1,4 +1,10 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  renameSync,
+  writeFileSync,
+} from "node:fs";
 import { createHash } from "node:crypto";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
@@ -12,10 +18,8 @@ const sourcePaths = {
   components: resolve(repositoryRoot, "design-system/components.json"),
   assets: resolve(repositoryRoot, "design-system/assets.json"),
   rules: resolve(repositoryRoot, "design-system/rules/catalog.json"),
-  exceptions: resolve(
-    repositoryRoot,
-    "design-system/rules/exceptions.json",
-  ),
+  exceptions: resolve(repositoryRoot, "design-system/rules/exceptions.json"),
+  patterns: resolve(repositoryRoot, "design-system/patterns.json"),
   channels: [
     resolve(repositoryRoot, "design-system/channels/product.json"),
     resolve(repositoryRoot, "design-system/channels/website.json"),
@@ -50,6 +54,10 @@ const sourcePaths = {
   exceptionSchema: resolve(
     repositoryRoot,
     "design-system/schemas/rule-exceptions.schema.json",
+  ),
+  patternSchema: resolve(
+    repositoryRoot,
+    "design-system/schemas/pattern-catalog.schema.json",
   ),
   channelSchema: resolve(
     repositoryRoot,
@@ -173,7 +181,9 @@ export function createResolver(tokens) {
 
   function resolveToken(id, mode = "light", stack = []) {
     if (stack.includes(id)) {
-      throw new Error(`Circular token reference: ${[...stack, id].join(" → ")}`);
+      throw new Error(
+        `Circular token reference: ${[...stack, id].join(" → ")}`,
+      );
     }
 
     const token = registry.get(id);
@@ -286,17 +296,17 @@ function generateTypographyUtilities(tokens, tokenById) {
       ["tablet", "48rem"],
       ["desktop", "64rem"],
     ]) {
-      const responsiveProperties = Object.entries(
-        TYPOGRAPHY_PROPERTIES,
-      ).filter(([property]) => {
-        const rawValue = token.value[property];
-        return (
-          rawValue !== null &&
-          typeof rawValue === "object" &&
-          !Array.isArray(rawValue) &&
-          rawValue[breakpoint] !== undefined
-        );
-      });
+      const responsiveProperties = Object.entries(TYPOGRAPHY_PROPERTIES).filter(
+        ([property]) => {
+          const rawValue = token.value[property];
+          return (
+            rawValue !== null &&
+            typeof rawValue === "object" &&
+            !Array.isArray(rawValue) &&
+            rawValue[breakpoint] !== undefined
+          );
+        },
+      );
       if (responsiveProperties.length === 0) {
         continue;
       }
@@ -359,7 +369,7 @@ function generateCss(tokens) {
       `  ${tokenCssVariable(token.id)}: var(${internalSemanticVariable(token.id)});`,
     );
   }
-  lines.push("}", "", ":root, [data-theme=\"light\"] {");
+  lines.push("}", "", ':root, [data-theme="light"] {');
 
   for (const token of semanticColors) {
     const rawValue = token.modes?.light ?? token.value;
@@ -371,12 +381,10 @@ function generateCss(tokens) {
   }
 
   for (const key of ["background", "text", "border", "accent", "accent-dark"]) {
-    lines.push(
-      `  --${key}: var(--ds-semantic-color-${key});`,
-    );
+    lines.push(`  --${key}: var(--ds-semantic-color-${key});`);
   }
 
-  lines.push("}", "", "[data-theme=\"dark\"] {");
+  lines.push("}", "", '[data-theme="dark"] {');
   for (const token of semanticColors) {
     const rawValue = token.modes?.dark ?? token.value;
     const value = formatSourceValueForCss(rawValue, tokenById, token.type);
@@ -386,9 +394,7 @@ function generateCss(tokens) {
     );
   }
   for (const key of ["background", "text", "border", "accent", "accent-dark"]) {
-    lines.push(
-      `  --${key}: var(--ds-semantic-color-${key});`,
-    );
+    lines.push(`  --${key}: var(--ds-semantic-color-${key});`);
   }
   lines.push("}", "", ":root {");
 
@@ -465,6 +471,13 @@ function publicExceptions(catalog) {
   };
 }
 
+function publicPatterns(catalog) {
+  return {
+    ...catalog,
+    $schema: "/design-system/schemas/pattern-catalog.schema.json",
+  };
+}
+
 function publicChannels(channels, manifest, components) {
   return {
     $schema: "/design-system/schemas/channel-catalog.schema.json",
@@ -494,6 +507,7 @@ export function createArtifacts() {
   const assets = readJson(sourcePaths.assets);
   const rules = readJson(sourcePaths.rules);
   const exceptions = readJson(sourcePaths.exceptions);
+  const patterns = readJson(sourcePaths.patterns);
   const channels = sourcePaths.channels.map(readJson);
   const tokens = collectTokens(tokenSource);
   const { resolveToken } = createResolver(tokens);
@@ -524,7 +538,7 @@ export function createArtifacts() {
     "",
     `export const tokenCatalog = ${JSON.stringify(publicTokenCatalog, null, 2)} as const;`,
     "",
-    "export type TokenId = (typeof tokenCatalog.tokens)[number][\"id\"];",
+    'export type TokenId = (typeof tokenCatalog.tokens)[number]["id"];',
     "export type DesignSystemTheme = (typeof tokenCatalog.themes)[number];",
     "",
   ].join("\n");
@@ -538,11 +552,8 @@ export function createArtifacts() {
 
   const publicRuleCatalog = publicRules(rules);
   const publicExceptionCatalog = publicExceptions(exceptions);
-  const publicChannelCatalog = publicChannels(
-    channels,
-    manifest,
-    components,
-  );
+  const publicPatternCatalog = publicPatterns(patterns);
+  const publicChannelCatalog = publicChannels(channels, manifest, components);
   const generatedContracts = [
     "/* This file is generated by `bun run ds:build`. Do not edit directly. */",
     "",
@@ -552,9 +563,12 @@ export function createArtifacts() {
     "",
     `export const exceptionCatalog = ${JSON.stringify(publicExceptionCatalog, null, 2)} as const;`,
     "",
+    `export const patternCatalog = ${JSON.stringify(publicPatternCatalog, null, 2)} as const;`,
+    "",
     `export const channelCatalog = ${JSON.stringify(publicChannelCatalog, null, 2)} as const;`,
     "",
     'export type RuleId = (typeof ruleCatalog.rules)[number]["id"];',
+    'export type PatternId = (typeof patternCatalog.patterns)[number]["id"];',
     'export type ChannelId = (typeof channelCatalog.channels)[number]["id"];',
     'export type ChannelAlias = (typeof channelCatalog.channels)[number]["aliases"][number];',
     "",
@@ -608,6 +622,10 @@ export function createArtifacts() {
     [
       resolve(repositoryRoot, "public/design-system/exceptions.json"),
       json(publicExceptionCatalog),
+    ],
+    [
+      resolve(repositoryRoot, "public/design-system/patterns.json"),
+      json(publicPatternCatalog),
     ],
     [
       resolve(repositoryRoot, "public/design-system/channels.json"),
@@ -669,6 +687,13 @@ export function createArtifacts() {
     [
       resolve(
         repositoryRoot,
+        "public/design-system/schemas/pattern-catalog.schema.json",
+      ),
+      readFileSync(sourcePaths.patternSchema, "utf8"),
+    ],
+    [
+      resolve(
+        repositoryRoot,
         "public/design-system/schemas/channel.schema.json",
       ),
       readFileSync(sourcePaths.channelSchema, "utf8"),
@@ -695,6 +720,7 @@ export function createArtifacts() {
           assets: "/design-system/assets.json",
           rules: "/design-system/rules.json",
           exceptions: "/design-system/exceptions.json",
+          patterns: "/design-system/patterns.json",
           channels: "/design-system/channels.json",
         },
       }),
@@ -718,7 +744,9 @@ export function writeArtifacts({ check = false } = {}) {
     }
 
     mkdirSync(dirname(path), { recursive: true });
-    writeFileSync(path, content);
+    const temporaryPath = `${path}.${process.pid}.tmp`;
+    writeFileSync(temporaryPath, content);
+    renameSync(temporaryPath, path);
   }
 
   if (check && mismatches.length > 0) {
