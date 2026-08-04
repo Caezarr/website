@@ -3,14 +3,14 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "group/btn relative inline-flex cursor-pointer items-center justify-center gap-2 rounded-[0.5rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "group/btn relative inline-flex cursor-pointer items-center justify-center gap-2 rounded-[0.5rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ds-component-focus-ring-color)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
         primary:
-          "type-paragraph-m-bold isolate h-[2.6875rem] px-[1.125rem] text-white",
+          "type-paragraph-m-bold isolate h-[2.6875rem] px-[1.125rem] text-[var(--ds-component-button-primary-foreground)]",
         secondary:
-          "type-paragraph-s isolate h-[2rem] px-[0.75rem] text-black",
+          "type-paragraph-s isolate h-[2rem] px-[0.75rem] text-[var(--ds-component-button-secondary-foreground)]",
         underline:
           "type-paragraph-m-bold rounded-none text-text",
       },
@@ -64,7 +64,11 @@ function ButtonBackgroundShape({ variant }: { variant: ButtonVariant | null | un
   if (variant === "primary") {
     return (
       <>
-        <ButtonShape viewBox="0 0 167 43" d={PRIMARY_PATH} fill="var(--color-blue-400)" />
+        <ButtonShape
+          viewBox="0 0 167 43"
+          d={PRIMARY_PATH}
+          fill="var(--ds-component-button-primary-background)"
+        />
         <span
           aria-hidden
           className="pointer-events-none absolute inset-0 -z-10 transition-opacity duration-200 group-hover/btn:opacity-80"
@@ -83,7 +87,13 @@ function ButtonBackgroundShape({ variant }: { variant: ButtonVariant | null | un
     );
   }
   if (variant === "secondary") {
-    return <ButtonShape viewBox="0 0 122 32" d={SECONDARY_PATH} fill="var(--color-white)" />;
+    return (
+      <ButtonShape
+        viewBox="0 0 122 32"
+        d={SECONDARY_PATH}
+        fill="var(--ds-component-button-secondary-background)"
+      />
+    );
   }
   return null;
 }

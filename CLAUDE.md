@@ -139,7 +139,7 @@ Icons are mapped in `src/lib/icon-map.tsx`. When adding a new icon: create the c
 
 ### Color tokens
 
-Defined in `src/styles/globals.css`. Two layers — always use tokens, never raw hex or `bg-[#...]`.
+The canonical source is `design-system/tokens/wonka.tokens.json`. `bun run ds:build` generates `src/styles/generated/tokens.css`, TypeScript data, and the public agent catalog. `src/styles/globals.css` imports the generated CSS. Always use tokens, never raw hex or `bg-[#...]`.
 
 **Raw palette** (the "default" variables — fixed colors, do not change between themes):
 
@@ -162,6 +162,17 @@ Tailwind's default color palette is wiped (`--color-*: initial`); only the token
 | `bg-accent-dark` | `blue-400` | `blue-400` |
 
 Default theme is light — no toggle needed. Switch by setting `data-theme="dark"` on `<html>` (or any ancestor; vars cascade).
+
+### Design-system interfaces
+
+- `bun run storybook` — human-facing foundations and component documentation.
+- `bun run storybook:build` — static production Storybook.
+- `bun run ds:check` — schema, reference, asset, and generated-file validation.
+- `bun run ds:query -- search <term>` — JSON search for agents and tooling.
+- `public/.well-known/design-system.json` — public discovery document.
+- `public/design-system/*.json` — deterministic machine-readable catalogs.
+
+Read `design-system/README.md` before changing the token or catalog contracts.
 
 **When to use which:**
 - Use **semantic tokens** for anything theme-aware: page background, body text, default borders, brand accents.

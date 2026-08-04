@@ -1,63 +1,13 @@
 @import "tailwindcss";
+@import "./generated/tokens.css";
 @plugin "@tailwindcss/typography";
 
 @source "../**/*.tsx";
 
 @theme {
-  --font-sans: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-serif), ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
-  --font-mono: ui-monospace, "Cascadia Mono", "Segoe UI Mono", monospace;
-
-  /* Reset Tailwind's default color palette — we ship our own */
-  --color-*: initial;
-  --color-transparent: transparent;
-  --color-current: currentColor;
-  --color-inherit: inherit;
-
-  /* Primary — Blue */
-  --color-blue-100: #e7effd;
-  --color-blue-200: #c9dafb;
-  --color-blue-300: #a9c3f8;
-  --color-blue-400: #75a3fd;
-  --color-blue-500: #4d86f5;
-  --color-blue-600: #2f6de0;
-  --color-blue-700: #1e54c2;
-  --color-blue-800: #123e9a;
-  --color-blue-900: #082c72;
-
-  /* Secondary — Green */
-  --color-green-100: #eaf6ee;
-  --color-green-200: #d6f0dd;
-  --color-green-300: #bee6c4;
-  --color-green-400: #9fd9ad;
-  --color-green-500: #7bcb93;
-  --color-green-600: #57b87a;
-  --color-green-700: #3f9d64;
-  --color-green-800: #2a6f4f;
-  --color-green-900: #173630;
-
-  /* Orange (waiting / pause state) */
-  --color-orange-300: #fde6c1;
-  --color-orange-900: #e89c32;
-
-  /* Neutral */
-  --color-white: #ffffff;
-  --color-light-gray: #f7f7f7;
-  --color-gray: #f6f6f4;
-  --color-mid-gray: #f0eeea;
-  --color-dark-gray: #d9d9d5;
-  --color-light-brown: #76766b;
-  --color-dark-brown: #3b2929;
-  --color-black: #0e1a16;
-
-  --radius-xs: 0.25rem;
-  --radius-sm: 0.5rem;
-  --radius-md: 0.75rem;
-  --radius-lg: 1rem;
-  --radius-button: 1rem;
-
-  --shadow-subtle: 0px 1px 1px 0px rgba(0, 0, 0, 0.08);
-  --shadow-subtle-hover: 0px 2px 6px 0px rgba(0, 0, 0, 0.12);
+  --font-sans: var(--font-wonka-sans), var(--ds-font-family-sans);
+  --font-serif: var(--font-wonka-serif), var(--ds-font-family-serif);
+  --font-mono: var(--ds-font-family-mono);
 
   --animate-marquee: marquee 50s linear infinite;
 }
@@ -115,32 +65,6 @@
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.18), transparent 30%),
     radial-gradient(70% 85% at 50% -30%, rgba(255, 225, 150, 0.24), transparent 62%);
-}
-
-/* Semantic theme tokens — resolve at use-time so switching [data-theme] re-themes the page */
-@theme inline {
-  --color-background: var(--background);
-  --color-text: var(--text);
-  --color-border: var(--border);
-  --color-accent: var(--accent);
-  --color-accent-dark: var(--accent-dark);
-}
-
-:root {
-  /* Light theme (default) */
-  --background: var(--color-white);
-  --text: var(--color-black);
-  --border: var(--color-dark-gray);
-  --accent: var(--color-blue-900);
-  --accent-dark: var(--color-blue-400);
-}
-
-[data-theme="dark"] {
-  --background: var(--color-black);
-  --text: var(--color-white);
-  --border: var(--color-light-brown);
-  --accent: var(--color-blue-900);
-  --accent-dark: var(--color-blue-400);
 }
 
 /* Typography — Wonka design system. Use `type-*` (not `text-*`) to avoid clashing with Tailwind's text-{color} utilities. */

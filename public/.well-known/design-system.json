@@ -1,0 +1,8 @@
+{
+  "$schema": "/design-system/schemas/discovery.schema.json",
+  "schemaVersion": "1.0.0",
+  "id": "wonka-design-system",
+  "manifest": "/design-system/manifest.json",
+  "llms": "/design-system/llms.txt",
+  "humanDocs": "/design-system"
+}

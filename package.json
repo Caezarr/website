@@ -7,10 +7,18 @@
     "bun": ">=1.1.0"
   },
   "scripts": {
+    "predev": "bun run ds:build",
     "dev": "next dev --turbopack",
+    "prebuild": "bun run ds:build",
     "build": "next build && node scripts/externalize-next-flight.mjs",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "ds:build": "node scripts/design-system/build.mjs",
+    "ds:check": "node scripts/design-system/validate.mjs",
+    "ds:query": "node scripts/design-system/query.mjs",
+    "storybook": "bun run ds:build && storybook dev -p 6006",
+    "storybook:build": "bun run ds:build && storybook build"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",
@@ -33,6 +41,9 @@
     "tailwind-merge": "^3.5.0"
   },
   "devDependencies": {
+    "@storybook/addon-a11y": "10.5.6",
+    "@storybook/addon-docs": "10.5.6",
+    "@storybook/nextjs-vite": "10.5.6",
     "@tailwindcss/postcss": "^4.2.4",
     "@types/node": "^20",
     "@types/react": "^19",
@@ -41,6 +52,7 @@
     "eslint-config-next": "16.2.4",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "storybook": "10.5.6",
     "tailwindcss": "^4.2.4",
     "typescript": "^5"
   }

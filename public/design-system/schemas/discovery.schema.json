@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonka-ai.com/design-system/schemas/discovery.schema.json",
+  "title": "Wonka Design System Discovery",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "$schema",
+    "schemaVersion",
+    "id",
+    "manifest",
+    "llms",
+    "humanDocs"
+  ],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "const": "1.0.0" },
+    "id": { "const": "wonka-design-system" },
+    "manifest": { "type": "string" },
+    "llms": { "type": "string" },
+    "humanDocs": { "type": "string" }
+  }
+}

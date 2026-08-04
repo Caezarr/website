@@ -64,6 +64,9 @@ const headers = async () => [
 const config: NextConfig = {
   redirects,
   headers,
+  turbopack: {
+    root: process.cwd(),
+  },
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }],
     qualities: [75, 90],

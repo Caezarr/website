@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wonka-ai.com/design-system/schemas/asset-catalog.schema.json",
+  "title": "Wonka Asset Catalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "version", "assets"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "schemaVersion": { "type": "string" },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "lifecycle",
+          "stability",
+          "files",
+          "usage",
+          "rights",
+          "provenance"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^asset\\.[a-z0-9]+(?:[.-][a-z0-9]+)*$"
+          },
+          "name": { "type": "string" },
+          "kind": { "enum": ["logo", "icon", "image", "font", "video"] },
+          "lifecycle": {
+            "enum": [
+              "draft",
+              "extracted",
+              "review_required",
+              "approved",
+              "active",
+              "superseded"
+            ]
+          },
+          "stability": {
+            "enum": ["experimental", "beta", "stable", "deprecated"]
+          },
+          "files": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["path", "mimeType", "theme"],
+              "properties": {
+                "path": { "type": "string" },
+                "mimeType": { "type": "string" },
+                "theme": { "enum": ["light", "dark", "all"] }
+              }
+            }
+          },
+          "usage": { "type": "object" },
+          "rights": { "type": "object" },
+          "provenance": { "type": "object" }
+        }
+      }
+    }
+  }
+}

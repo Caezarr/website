@@ -13,7 +13,7 @@ const sans = localFont({
       style: "normal",
     },
   ],
-  variable: "--font-sans",
+  variable: "--font-wonka-sans",
   display: "swap",
 });
 
@@ -25,7 +25,7 @@ const serif = localFont({
       style: "normal",
     },
   ],
-  variable: "--font-serif",
+  variable: "--font-wonka-serif",
   display: "swap",
 });
 
