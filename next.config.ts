@@ -62,8 +62,12 @@ const headers = async () => [
 ];
 
 const config: NextConfig = {
+  transpilePackages: ["@wonka/react", "@wonka/tokens"],
   redirects,
   headers,
+  turbopack: {
+    root: process.cwd(),
+  },
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }],
     qualities: [75, 90],
