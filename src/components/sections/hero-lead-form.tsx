@@ -22,13 +22,7 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
   const [state, setState] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const [turnstileResetKey, setTurnstileResetKey] = useState(0);
   const isDark = theme === "dark";
-
-  const resetTurnstile = useCallback(() => {
-    setTurnstileToken(null);
-    setTurnstileResetKey((key) => key + 1);
-  }, []);
 
   const handleTurnstileExpire = useCallback(() => {
     setTurnstileToken(null);
@@ -69,7 +63,6 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
 
       if (!response.ok) {
         const data = (await response.json().catch(() => null)) as { error?: string } | null;
-        if (turnstileEnabled) resetTurnstile();
         setErrorMessage(data?.error ?? "Something went wrong. Please try again.");
         setState("error");
         return;
@@ -79,7 +72,6 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
       setTurnstileToken(null);
       setState("success");
     } catch {
-      if (turnstileEnabled) resetTurnstile();
       setErrorMessage("Something went wrong. Please try again.");
       setState("error");
     }
@@ -129,7 +121,6 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
       </div>
 
       <TurnstileWidget
-        resetKey={turnstileResetKey}
         onToken={setTurnstileToken}
         onExpire={handleTurnstileExpire}
         onError={handleTurnstileError}
