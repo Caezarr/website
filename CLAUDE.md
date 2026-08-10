@@ -74,7 +74,7 @@ src/
 The `siteSettings` singleton drives the entire site shell:
 - **Navigation**: Array of nav items (link or dropdown), with labels and optional children. Optional `headerCta` for a CTA button in the header.
 - **Footer**: Dynamic link groups, social links, contact info, copyright name — all editable in Studio.
-- **Shared Links** (`siteSettings.sharedLinks`): centralized URLs reused across CTAs site-wide so the client can update once and every button updates. Currently: `meetingUrl` (powers "Schedule a call", "Book a 30 min call", "Let's talk", "Become AI-native"). To add another shared URL, extend the `sharedLinks` object in the schema, the GROQ query, and the `SharedLinks` type — then thread it through the page route.
+- **Shared Links** (`siteSettings.sharedLinks`): centralized URLs reused across CTAs site-wide so the client can update once and every button updates. Currently: `meetingUrl`, `meetingLabel`, `startAiUrl`, `wonkaBuildUrl`, `wonkaChatUrl`. To add another shared URL, extend the `sharedLinks` object in the schema, the GROQ query, and the `SharedLinks` type — then thread it through the page route.
 - **PageLayout** (`src/components/layout/page-layout.tsx`) is an async server component that fetches siteSettings and passes data as props to Header and Footer. Accepts `headerVariant`: `"overlay-dark"` (default — absolute, light text/logo, sits over a dark hero) or `"inline-light"` (in-flow, dark text/logo, used by the `(legal)` route group for white pages).
 - **Using siteSettings inside page sections**: PageLayout only forwards settings to Header/Footer. If a section needs a value (e.g. a shared link), the page route fetches `siteSettings` itself (in parallel with its own content via `Promise.all`) and passes the field down as a prop — see `src/app/(main)/page.tsx` for the `meetingUrl` pattern. `sanityFetch` dedupes the second fetch.
 
@@ -226,7 +226,18 @@ To tune the bloom: edit the `radial-gradient(…)` CSS string. Position via `at 
 
 1. Export the shape from Figma as SVG.
 2. Add a `*_PATH` constant with the `d` attribute, and a case in `ButtonBackgroundShape` with the matching `viewBox` and `fill`.
-3. Add the variant to the `cva` config with `isolate`, an explicit `h-[X]` (matching the path's vertical extent), and the right horizontal padding + text utility.
+3. Add the variant to the `cva` config with `isolate`, an explicit `h-[X]` (matching the path's vertical extent), and the right horizontal padding + type utility.
+
+## Page layout primitives
+
+Homepage is the design source of truth. Reuse these on all marketing pages:
+
+- **`src/lib/design-tokens.ts`** — `headingClass` (hero / section / subsection / card) and `radius` (xs / sm / full)
+- **`SectionHeader`** — eyebrow + `type-h4` title + body; single-color titles only (no grey second lines)
+- **`Surface`** — `card` (`rounded-sm`), `panel` (wide banners), `callout` (`rounded-xs`), `pill` (`rounded-full`)
+- **`Section`** — standard content width (`max-w-[84rem]`); use `wide` for full-bleed panels
+
+Do not use `rounded-lg`, `rounded-2xl`, or `rounded-3xl` on marketing pages.
 
 ## Architecture Rules
 

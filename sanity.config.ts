@@ -9,6 +9,7 @@ import {
   ComposeIcon,
   DocumentsIcon,
   DocumentTextIcon,
+  EnvelopeIcon,
   HomeIcon,
   LinkIcon,
   LockIcon,
@@ -43,6 +44,46 @@ export default defineConfig({
                         S.document()
                           .schemaType("homepageContent")
                           .documentId("homepageContent"),
+                      ),
+                    S.listItem()
+                      .title("WonkaChat")
+                      .icon(HomeIcon)
+                      .child(
+                        S.document()
+                          .schemaType("wonkaChatContent")
+                          .documentId("wonkaChatContent"),
+                      ),
+                    S.listItem()
+                      .title("WonkaChat · Odoo")
+                      .icon(HomeIcon)
+                      .child(
+                        S.document()
+                          .schemaType("wonkaChatOdooContent")
+                          .documentId("wonkaChatOdooContent"),
+                      ),
+                    S.listItem()
+                      .title("Start AI")
+                      .icon(HomeIcon)
+                      .child(
+                        S.document()
+                          .schemaType("startAiContent")
+                          .documentId("startAiContent"),
+                      ),
+                    S.listItem()
+                      .title("Wonka Build")
+                      .icon(HomeIcon)
+                      .child(
+                        S.document()
+                          .schemaType("wonkaBuildContent")
+                          .documentId("wonkaBuildContent"),
+                      ),
+                    S.listItem()
+                      .title("Contact")
+                      .icon(DocumentTextIcon)
+                      .child(
+                        S.document()
+                          .schemaType("contactPageContent")
+                          .documentId("contactPageContent"),
                       ),
                     S.divider(),
                     S.listItem()
@@ -79,6 +120,39 @@ export default defineConfig({
                 S.documentTypeList("testimonial")
                   .title("Testimonials")
                   .defaultOrdering([{ field: "order", direction: "asc" }]),
+              ),
+            S.listItem()
+              .title("Leads")
+              .icon(EnvelopeIcon)
+              .child(
+                S.list()
+                  .title("Leads")
+                  .items([
+                    S.listItem()
+                      .title("Start AI")
+                      .child(
+                        S.documentTypeList("siteLead")
+                          .title("Start AI Leads")
+                          .filter(
+                            '(_type == "siteLead" || _type == "startAiLead") && (source == "start-ai-hero" || !defined(source))',
+                          )
+                          .defaultOrdering([
+                            { field: "submittedAt", direction: "desc" },
+                          ]),
+                      ),
+                    S.listItem()
+                      .title("WonkaChat")
+                      .child(
+                        S.documentTypeList("siteLead")
+                          .title("WonkaChat Leads")
+                          .filter(
+                            '_type == "siteLead" && source in ["wonka-chat-hero", "wonka-chat-odoo-hero"]',
+                          )
+                          .defaultOrdering([
+                            { field: "submittedAt", direction: "desc" },
+                          ]),
+                      ),
+                  ]),
               ),
             S.divider(),
             S.listItem()

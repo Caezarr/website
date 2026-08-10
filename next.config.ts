@@ -31,8 +31,7 @@ const redirects = async () => [
   { source: '/services/start-ai-en', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-nl', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-old', destination: '/start-ai', permanent: true },
-  { source: '/services/:slug*', destination: '/', permanent: true },
-  { source: '/products/wonka-chat-odoo', destination: '/integrations/odoo', permanent: true },
+  { source: '/products/wonka-chat-odoo', destination: '/wonka-chat/odoo', permanent: true },
   { source: '/products/wonka-chat', destination: '/wonka-chat', permanent: true },
   { source: '/products/:slug*', destination: '/ai-agents', permanent: true },
   { source: '/product/enterprise', destination: '/', permanent: true },
@@ -46,8 +45,7 @@ const redirects = async () => [
   { source: '/resources', destination: '/blog', permanent: true },
   { source: '/post/:slug*', destination: '/blog', permanent: true },
   { source: '/team', destination: '/', permanent: true },
-  { source: '/contact', destination: '/', permanent: true },
-  { source: '/fr/contact', destination: '/', permanent: true },
+  { source: '/fr/contact', destination: '/contact', permanent: true },
   { source: '/book-a-meeting', destination: '/', permanent: true },
 ];
 

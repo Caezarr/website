@@ -1,9 +1,12 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { fontVariables } from "@/lib/fonts";
 import { CookieConsentProvider } from "@/components/cookie-consent/cookie-consent-provider";
+import { InlineScript } from "@/components/inline-script";
+import { JsonLd } from "@/components/json-ld/json-ld";
+import { META_PIXEL_ID, MetaPixel } from "@/components/meta-pixel";
+import { ATTRIBUTION_TRACKER_SCRIPT } from "@/lib/attribution-tracker-script";
+import { fontVariables } from "@/lib/fonts";
 import { getSiteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
 
@@ -25,6 +28,11 @@ const priorityPages = [
     name: "Start AI",
     url: `${SITE_URL}/start-ai`,
     description: "A practical program to identify, prioritize and launch enterprise AI use cases.",
+  },
+  {
+    name: "Wonka Build",
+    url: `${SITE_URL}/wonka-build`,
+    description: "Custom AI applications built for your systems and day-to-day workflows.",
   },
   {
     name: "Case Studies",
@@ -142,23 +150,17 @@ export default function RootLayout({
       <body className={fontVariables}>
         {GTM_ID && (
           <>
-            <Script
+            <InlineScript
               id="gtm-consent-default"
-              strategy="beforeInteractive"
-              dangerouslySetInnerHTML={{
-                __html: `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});`,
-              }}
+              html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}window.gtag=gtag;gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied',functionality_storage:'granted',security_storage:'granted',wait_for_update:500});`}
             />
-            <Script
+            <InlineScript
               id="gtm-script"
-              strategy="beforeInteractive"
-              dangerouslySetInnerHTML={{
-                __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              html={`(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
 j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${GTM_ID}');`,
-              }}
+})(window,document,'script','dataLayer','${GTM_ID}');`}
             />
           </>
         )}
@@ -172,43 +174,32 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             />
           </noscript>
         )}
-        <Script
+        <InlineScript
           id="apollo-tracker"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{
-            __html: `function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,o.onload=function(){window.trackingFunctions.onLoad({appId:"691d86987b3dc0000db97e49"})},document.head.appendChild(o)}initApollo();`,
-          }}
+          html={`function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,o.onload=function(){window.trackingFunctions.onLoad({appId:"691d86987b3dc0000db97e49"})},document.head.appendChild(o)}initApollo();`}
         />
-        <CookieConsentProvider>{children}</CookieConsentProvider>
+        <InlineScript
+          id="wonka-attribution-tracker"
+          html={ATTRIBUTION_TRACKER_SCRIPT}
+        />
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            alt=""
+            style={{ display: "none" }}
+            src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
+          />
+        </noscript>
+        <CookieConsentProvider>
+          {children}
+          <MetaPixel />
+        </CookieConsentProvider>
         <Analytics />
-        <Script
-          id="schema-website"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(websiteSchema),
-          }}
-        />
-        <Script
-          id="schema-site-navigation"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(siteNavigationSchema),
-          }}
-        />
-        <Script
-          id="schema-organization"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(organizationSchema),
-          }}
-        />
-        <Script
-          id="schema-software-application"
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(softwareApplicationSchema),
-          }}
-        />
+        <JsonLd id="schema-website" data={websiteSchema} />
+        <JsonLd id="schema-site-navigation" data={siteNavigationSchema} />
+        <JsonLd id="schema-organization" data={organizationSchema} />
+        <JsonLd id="schema-software-application" data={softwareApplicationSchema} />
         <SpeedInsights />
       </body>
     </html>

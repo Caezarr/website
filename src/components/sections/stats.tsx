@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRef } from "react";
 import { useInView } from "motion/react";
 import { Section } from "@/components/ui/section";
+import { Surface } from "@/components/ui/surface";
 import { LogoMark } from "@/components/ui/logo-mark";
 import { FadeIn } from "@/components/animations/fade-in";
 import { CountUp } from "@/components/animations/count-up";
@@ -14,7 +15,7 @@ export function Stats({ id }: { id?: string }) {
 
   return (
     <Section id={id} wide className="bg-background">
-      <div className="relative overflow-hidden rounded-sm p-5 text-white">
+      <Surface variant="panel" className="p-5 text-white">
         <Image
           src="/images/banner-bg.avif"
           alt=""
@@ -49,13 +50,13 @@ export function Stats({ id }: { id?: string }) {
             </p>
           </li>
           <li className="flex min-h-[14.4375rem] flex-col items-start justify-between gap-6 border-t border-dashed border-white/40 p-7.5 md:border-t-0 md:border-l">
-            <LogoMark className="text-white" />
+            <LogoMark variant="light" />
             <p className="type-paragraph-m max-w-[14.5625rem]">
               With Wonka, your usual working day is finished at 3 pm.
             </p>
           </li>
         </ul>
-      </div>
+      </Surface>
     </Section>
   );
 }

@@ -1,9 +1,262 @@
 import { defineQuery } from "next-sanity";
 
+const SECURITY_SECTION_FIELDS = `
+  eyebrow,
+  heading,
+  body
+`;
+
+const USE_CASES_SECTION_FIELDS = `
+  eyebrow,
+  heading,
+  industries[] {
+    _key,
+    label,
+    workflows[] {
+      _key,
+      title,
+      description,
+      bullets
+    }
+  }
+`;
+
+const SEO_FIELDS = `
+  metaTitle,
+  metaDescription,
+  "ogImage": ogImage.asset->url
+`;
+
+const IMAGE_WITH_ALT_FIELDS = `
+  ...,
+  "alt": coalesce(alt, "")
+`;
+
+const CTA_BUTTON_FIELDS = `
+  label,
+  href
+`;
+
+const SECTION_HEADER_FIELDS = `
+  eyebrow,
+  heading,
+  body,
+  supplemental
+`;
+
+const PRODUCT_HERO_FIELDS = `
+  eyebrow,
+  title,
+  subtitle,
+  secondaryText,
+  theme,
+  backgroundImage {
+    ${IMAGE_WITH_ALT_FIELDS}
+  },
+  heroImage {
+    ${IMAGE_WITH_ALT_FIELDS}
+  },
+  secondaryLink {
+    ${CTA_BUTTON_FIELDS}
+  }
+`;
+
+const LOGO_STRIP_FIELDS = `
+  logos[] {
+    ${IMAGE_WITH_ALT_FIELDS}
+  },
+  proofLines
+`;
+
+const SPLIT_CONTENT_FIELDS = `
+  eyebrow,
+  heading,
+  body,
+  image {
+    ${IMAGE_WITH_ALT_FIELDS}
+  }
+`;
+
+const STICKY_FEATURES_FIELDS = `
+  header {
+    ${SECTION_HEADER_FIELDS}
+  },
+  showCta,
+  features[] {
+    _key,
+    title,
+    description,
+    image {
+      ${IMAGE_WITH_ALT_FIELDS}
+    },
+    link {
+      ${CTA_BUTTON_FIELDS}
+    }
+  }
+`;
+
+const NUMBERED_CARDS_FIELDS = `
+  eyebrow,
+  heading,
+  body,
+  items[] {
+    _key,
+    number,
+    title,
+    subtitle,
+    body
+  }
+`;
+
+const DELIVERABLES_PANEL_FIELDS = `
+  heading,
+  items[] {
+    _key,
+    title,
+    body
+  }
+`;
+
+const INDUSTRIES_SECTION_FIELDS = `
+  header {
+    ${SECTION_HEADER_FIELDS}
+  },
+  industries[] {
+    _key,
+    label,
+    body,
+    bullets,
+    clients
+  }
+`;
+
+const CARD_GRID_FIELDS = `
+  header {
+    ${SECTION_HEADER_FIELDS}
+  },
+  cards[] {
+    _key,
+    title,
+    body
+  }
+`;
+
+const PROMO_PANEL_FIELDS = `
+  eyebrow,
+  heading,
+  body,
+  variant,
+  backgroundImage {
+    ${IMAGE_WITH_ALT_FIELDS}
+  },
+  showCta
+`;
+
+const CONTACT_SECTION_FIELDS = `
+  header {
+    ${SECTION_HEADER_FIELDS}
+  },
+  portrait {
+    ${IMAGE_WITH_ALT_FIELDS}
+  },
+  personName,
+  personRole
+`;
+
+const FAQ_SECTION_FIELDS = `
+  header {
+    ${SECTION_HEADER_FIELDS}
+  },
+  items[] {
+    _key,
+    question,
+    answer
+  }
+`;
+
+const PROBLEM_BENTO_CARD_FIELDS = `
+  _key,
+  title,
+  body,
+  image {
+    ${IMAGE_WITH_ALT_FIELDS}
+  }
+`;
+
+const PROBLEM_BENTO_FIELDS = `
+  header {
+    ${SECTION_HEADER_FIELDS}
+  },
+  largeCards[] {
+    ${PROBLEM_BENTO_CARD_FIELDS}
+  },
+  smallCards[] {
+    ${PROBLEM_BENTO_CARD_FIELDS}
+  }
+`;
+
+const ICON_FEATURE_GRID_FIELDS = `
+  header {
+    ${SECTION_HEADER_FIELDS}
+  },
+  items[] {
+    _key,
+    icon,
+    title,
+    body,
+    image {
+      ${IMAGE_WITH_ALT_FIELDS}
+    }
+  }
+`;
+
+const WORKFLOW_STEPS_FIELDS = `
+  header {
+    ${SECTION_HEADER_FIELDS}
+  },
+  steps[] {
+    _key,
+    title,
+    body,
+    visual,
+    image {
+      ${IMAGE_WITH_ALT_FIELDS}
+    }
+  }
+`;
+
+const PAGE_CONTENT_FIELDS = `
+  hero {
+    ${PRODUCT_HERO_FIELDS}
+  },
+  logoStrip {
+    ${LOGO_STRIP_FIELDS}
+  },
+  testimonials {
+    ${SECTION_HEADER_FIELDS}
+  },
+  contact {
+    ${CONTACT_SECTION_FIELDS}
+  },
+  faq {
+    ${FAQ_SECTION_FIELDS}
+  },
+  seo {
+    ${SEO_FIELDS}
+  }
+`;
+
 export const SITE_SETTINGS_QUERY = defineQuery(`
   *[_type == "siteSettings"][0] {
     sharedLinks {
-      meetingUrl
+      meetingUrl,
+      startAiMeetingUrl,
+      wonkaBuildMeetingUrl,
+      wonkaChatMeetingUrl,
+      meetingLabel,
+      startAiUrl,
+      wonkaBuildUrl,
+      wonkaChatUrl
     },
     navigation[] {
       _key,
@@ -68,29 +321,151 @@ export const LEGAL_PAGE_QUERY = defineQuery(`
 
 export const HOMEPAGE_CONTENT_QUERY = defineQuery(`
   *[_type == "homepageContent"][0] {
+    hero {
+      awardBadge,
+      title,
+      subtitle
+    },
     solution {
+      eyebrow,
+      heading,
+      body,
       steps[] {
         _key,
         title,
         body
       }
     },
-    useCases {
-      industries[] {
+    whatWeDo {
+      eyebrow,
+      heading,
+      cards[] {
         _key,
-        label,
-        workflows[] {
-          _key,
-          title,
-          description,
-          bullets
+        tagline,
+        body,
+        cta {
+          label,
+          href
         }
       }
+    },
+    howToStart {
+      eyebrow,
+      heading,
+      body,
+      calloutHeading,
+      outcomesHeading,
+      outcomes
+    },
+    security {
+      ${SECURITY_SECTION_FIELDS}
+    },
+    cta {
+      heading,
+      body
+    },
+    useCases {
+      ${USE_CASES_SECTION_FIELDS}
     },
     seo {
       metaTitle,
       metaDescription,
       "ogImage": ogImage.asset->url
+    }
+  }
+`);
+
+export const WONKA_CHAT_CONTENT_QUERY = defineQuery(`
+  *[_type == "wonkaChatContent"][0] {
+    ${PAGE_CONTENT_FIELDS},
+    problem {
+      ${SPLIT_CONTENT_FIELDS}
+    },
+    overview {
+      ${SECTION_HEADER_FIELDS}
+    },
+    features {
+      ${STICKY_FEATURES_FIELDS}
+    },
+    useCases {
+      ${USE_CASES_SECTION_FIELDS}
+    },
+    security {
+      ${SECURITY_SECTION_FIELDS}
+    }
+  }
+`);
+
+export const START_AI_CONTENT_QUERY = defineQuery(`
+  *[_type == "startAiContent"][0] {
+    ${PAGE_CONTENT_FIELDS},
+    phases {
+      ${NUMBERED_CARDS_FIELDS}
+    },
+    deliverables {
+      ${DELIVERABLES_PANEL_FIELDS}
+    },
+    industries {
+      ${INDUSTRIES_SECTION_FIELDS}
+    },
+    whyNow {
+      ${CARD_GRID_FIELDS}
+    },
+    promo {
+      ${PROMO_PANEL_FIELDS}
+    }
+  }
+`);
+
+export const WONKA_BUILD_CONTENT_QUERY = defineQuery(`
+  *[_type == "wonkaBuildContent"][0] {
+    ${PAGE_CONTENT_FIELDS},
+    phases {
+      ${NUMBERED_CARDS_FIELDS}
+    },
+    deliverables {
+      ${DELIVERABLES_PANEL_FIELDS}
+    },
+    industries {
+      ${INDUSTRIES_SECTION_FIELDS}
+    },
+    whyNow {
+      ${CARD_GRID_FIELDS}
+    },
+    promo {
+      ${PROMO_PANEL_FIELDS}
+    }
+  }
+`);
+
+export const WONKA_CHAT_ODOO_CONTENT_QUERY = defineQuery(`
+  *[_type == "wonkaChatOdooContent"][0] {
+    hero {
+      ${PRODUCT_HERO_FIELDS}
+    },
+    logoStrip {
+      ${LOGO_STRIP_FIELDS}
+    },
+    problem {
+      ${PROBLEM_BENTO_FIELDS}
+    },
+    features {
+      ${STICKY_FEATURES_FIELDS}
+    },
+    workflowSteps {
+      ${WORKFLOW_STEPS_FIELDS}
+    },
+    capabilities {
+      ${ICON_FEATURE_GRID_FIELDS}
+    },
+    security {
+      ${SECURITY_SECTION_FIELDS}
+    },
+    contact {
+      ${CONTACT_SECTION_FIELDS}
+    },
+    seo {
+      ${SEO_FIELDS}
     }
   }
 `);
@@ -300,6 +675,47 @@ export const RELATED_COMPARISON_PAGES_QUERY = defineQuery(`
 
 export const MEETING_URL_QUERY = defineQuery(`
   *[_type == "siteSettings"][0].sharedLinks.meetingUrl
+`);
+
+const CONTACT_DETAIL_FIELDS = `
+  _key,
+  label,
+  value,
+  href
+`;
+
+const CONTACT_PERSON_FIELDS = `
+  _key,
+  portrait {
+    ${IMAGE_WITH_ALT_FIELDS}
+  },
+  name,
+  role,
+  email
+`;
+
+export const CONTACT_PAGE_CONTENT_QUERY = defineQuery(`
+  *[_type == "contactPageContent"][0] {
+    general {
+      header {
+        ${SECTION_HEADER_FIELDS}
+      },
+      details[] {
+        ${CONTACT_DETAIL_FIELDS}
+      }
+    },
+    team {
+      header {
+        ${SECTION_HEADER_FIELDS}
+      },
+      people[] {
+        ${CONTACT_PERSON_FIELDS}
+      }
+    },
+    seo {
+      ${SEO_FIELDS}
+    }
+  }
 `);
 
 export const CONTENT_SLUG_LOCALES_QUERY = defineQuery(`

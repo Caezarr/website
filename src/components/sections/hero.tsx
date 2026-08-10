@@ -2,11 +2,25 @@ import Image from "next/image";
 import { ButtonLink } from "@/components/ui/button";
 import { FadeIn } from "@/components/animations/fade-in";
 import { HeroMarquee } from "./hero-marquee";
+import { cn } from "@/lib/utils";
+import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
+import { headingClass } from "@/lib/design-tokens";
+import type { HeroData } from "@/lib/types";
 
 export const HERO_BG_IMAGE = "/images/hero-bg.avif";
 
+const DEFAULT_AWARD_BADGE =
+  "#1 AI START-UP OF THE YEAR - BELGIUM STARTUP AWARDS 2026";
+const DEFAULT_TITLE = "Your AI partner for repetitive work.";
+const DEFAULT_SUBTITLE =
+  "Your team is too good for repetitive work. We design your AI strategy, then build the applications and agents that handle it.";
+
 interface HeroProps {
+  data?: HeroData | null;
   meetingUrl?: string | null;
+  meetingLabel?: string | null;
+  meetingTrackType?: MeetingTrackType;
 }
 
 function NvidiaInceptionLogo() {
@@ -109,7 +123,12 @@ function AwardLaurelIcon() {
   );
 }
 
-export function Hero({ meetingUrl }: HeroProps) {
+export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "general" }: HeroProps) {
+  const awardBadge = data?.awardBadge ?? DEFAULT_AWARD_BADGE;
+  const title = data?.title ?? DEFAULT_TITLE;
+  const subtitle = data?.subtitle ?? DEFAULT_SUBTITLE;
+  const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
+
   return (
     <section
       data-theme="dark"
@@ -139,23 +158,28 @@ export function Hero({ meetingUrl }: HeroProps) {
               </span>
               <span className="relative z-10 h-5 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" aria-hidden />
               <span className="type-eyebrow relative z-10 text-left text-[0.56rem] leading-3 tracking-[0.14em] text-white/88 md:text-[0.66rem] md:leading-4">
-                #1 AI START-UP OF THE YEAR - BELGIUM STARTUP AWARDS 2026
+                {awardBadge}
               </span>
             </div>
           </FadeIn>
           <FadeIn delay={0.15}>
-            <h1 className="type-h3 max-w-[14ch] text-balance">
-              Leave no human behind.
+            <h1 className={cn(headingClass.hero, "max-w-[14ch] text-balance")}>
+              {title}
             </h1>
           </FadeIn>
           <FadeIn delay={0.3}>
-            <p className="type-body max-w-[27.125rem] text-text/90">
-              Your whole team working at full potential.
+            <p className="type-body max-w-[32rem] leading-6 text-text/90">
+              {subtitle}
             </p>
           </FadeIn>
           <FadeIn delay={0.4}>
-            <ButtonLink href={meetingUrl ?? "#"} variant="primary" className="mt-2">
-              Become AI-native
+            <ButtonLink
+              href={meetingUrl ?? "#"}
+              variant="primary"
+              className="mt-2"
+              {...meetingTrackProps(meetingTrackType)}
+            >
+              {ctaLabel}
             </ButtonLink>
           </FadeIn>
           <FadeIn delay={0.5}>

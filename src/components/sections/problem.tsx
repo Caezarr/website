@@ -104,7 +104,7 @@ export function Problem({ id }: { id?: string }) {
   return (
     <Section
       id={id}
-      className="bg-background pt-[15vh] pb-[20vh] md:pt-[30vh] md:pb-[25vh]"
+      className="bg-background pt-[15vh] pb-[14vh] md:pt-[30vh] md:pb-[18vh]"
       containerClassName="flex max-w-[42.3125rem] flex-col gap-6 md:gap-8"
       aria-label="Problem"
     >

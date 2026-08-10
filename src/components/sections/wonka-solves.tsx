@@ -1,3 +1,5 @@
+import { resolveTeamMeetingUrl } from "@/lib/resolve-meeting-url";
+import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { LogoMark } from "@/components/ui/logo-mark";
 import { ButtonLink } from "@/components/ui/button";
 import type { Locale } from "@/i18n/config";
@@ -41,9 +43,14 @@ const copy = {
 interface WonkaSolvesProps {
   locale: Locale;
   meetingUrl?: string | null;
+  meetingTrackType?: MeetingTrackType;
 }
 
-export function WonkaSolves({ locale, meetingUrl }: WonkaSolvesProps) {
+export function WonkaSolves({
+  locale,
+  meetingUrl,
+  meetingTrackType = "general",
+}: WonkaSolvesProps) {
   const t = copy[locale];
 
   return (
@@ -56,7 +63,12 @@ export function WonkaSolves({ locale, meetingUrl }: WonkaSolvesProps) {
           </div>
           <h2 className="type-h4">{t.headline}</h2>
           <p className="type-paragraph-m text-text/60">{t.body}</p>
-          <ButtonLink href={meetingUrl ?? "https://www.cal.eu/team/wonka-ai-experts/demonstration-call"} variant="primary" className="self-start">
+          <ButtonLink
+            href={resolveTeamMeetingUrl(meetingUrl)}
+            variant="primary"
+            className="self-start"
+            {...meetingTrackProps(meetingTrackType)}
+          >
             {t.cta}
           </ButtonLink>
         </div>

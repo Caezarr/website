@@ -3,9 +3,65 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import type { NavItem, CtaButtonData } from "@/lib/types";
+import { isNavLinkActive, isNavItemActive } from "@/lib/nav-active";
+import { SHOW_LANGUAGE_SWITCHER } from "@/lib/nav-defaults";
+import { LanguageSwitcher } from "./language-switcher";
+import type { NavDropdownChild, NavItem } from "@/lib/types";
+
+function MobileNavChildLink({
+  child,
+  siblingHrefs,
+  onNavigate,
+}: {
+  child: NavDropdownChild;
+  siblingHrefs: string[];
+  onNavigate: () => void;
+}) {
+  const pathname = usePathname();
+  const isActive =
+    !child.disabled &&
+    isNavLinkActive(pathname, child.href, siblingHrefs);
+
+  if (child.disabled) {
+    return (
+      <span
+        aria-disabled="true"
+        className="flex cursor-not-allowed flex-col gap-1 rounded-xs px-3 py-3"
+      >
+        <span className="type-paragraph-m-bold text-black/35">
+          {child.label}
+        </span>
+        {child.description && (
+          <span className="type-paragraph-s text-light-brown/60">
+            {child.description}
+          </span>
+        )}
+      </span>
+    );
+  }
+
+  return (
+    <Link
+      href={child.href}
+      target={child.external ? "_blank" : undefined}
+      rel={child.external ? "noopener noreferrer" : undefined}
+      onClick={onNavigate}
+      aria-current={isActive ? "page" : undefined}
+      className={cn(
+        "flex flex-col gap-1 rounded-xs px-3 py-3 transition-[background-color,box-shadow] duration-200 hover:bg-light-gray hover:shadow-subtle-hover",
+        isActive && "bg-mid-gray shadow-subtle",
+      )}
+    >
+      <span className="type-paragraph-m-bold text-black">{child.label}</span>
+      {child.description && (
+        <span className="type-paragraph-s text-light-brown">
+          {child.description}
+        </span>
+      )}
+    </Link>
+  );
+}
 
 function MobileNavAccordion({
   item,
@@ -15,6 +71,9 @@ function MobileNavAccordion({
   onNavigate: () => void;
 }) {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
+  const siblingHrefs = item.children?.map((child) => child.href) ?? [];
+  const isSectionActive = isNavItemActive(pathname, item);
 
   return (
     <div>
@@ -23,19 +82,35 @@ function MobileNavAccordion({
           <Link
             href={item.href}
             onClick={onNavigate}
-            className="type-paragraph-m text-black transition-colors"
+            aria-current={
+              isNavLinkActive(pathname, item.href, siblingHrefs)
+                ? "page"
+                : undefined
+            }
+            className={cn(
+              "type-paragraph-m text-black transition-colors",
+              (isNavLinkActive(pathname, item.href, siblingHrefs) ||
+                isSectionActive) &&
+                "text-black/60",
+            )}
           >
             {item.label}
           </Link>
         ) : (
           <button
+            type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="type-paragraph-m text-black transition-colors"
+            aria-expanded={isOpen}
+            className={cn(
+              "type-paragraph-m text-black transition-colors",
+              isSectionActive && "text-black/60",
+            )}
           >
             {item.label}
           </button>
         )}
         <button
+          type="button"
           onClick={() => setIsOpen(!isOpen)}
           className="-mr-2 p-2"
           aria-expanded={isOpen}
@@ -69,14 +144,12 @@ function MobileNavAccordion({
         <div className="overflow-hidden">
           <div className="flex flex-col gap-1 pb-1 pl-4 pt-2">
             {item.children?.map((child) => (
-              <Link
+              <MobileNavChildLink
                 key={child._key}
-                href={child.href}
-                onClick={onNavigate}
-                className="type-paragraph-s py-1.5 text-light-brown transition-colors hover:text-black"
-              >
-                {child.label}
-              </Link>
+                child={child}
+                siblingHrefs={siblingHrefs}
+                onNavigate={onNavigate}
+              />
             ))}
           </div>
         </div>
@@ -94,9 +167,11 @@ export function MobileNavToggle({
 }) {
   return (
     <button
+      type="button"
       onClick={onToggle}
       className="inline-flex h-10 w-10 items-center justify-center rounded-[1rem] bg-white text-black shadow-subtle transition-all active:scale-[0.97]"
       aria-label="Toggle menu"
+      aria-expanded={isOpen}
     >
       <svg
         className="size-5"
@@ -127,12 +202,10 @@ export function MobileNavOverlay({
   isOpen,
   onClose,
   navItems,
-  headerCta,
 }: {
   isOpen: boolean;
   onClose: () => void;
   navItems: NavItem[];
-  headerCta?: CtaButtonData | null;
 }) {
   const pathname = usePathname();
 
@@ -149,14 +222,25 @@ export function MobileNavOverlay({
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") onClose();
+    }
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isOpen, onClose]);
+
   return (
     <div
       className={cn(
-        "fixed inset-x-0 top-[3.5rem] bottom-0 z-30 bg-white transition-opacity duration-200 lg:hidden",
+        "fixed inset-x-0 top-[3.5rem] bottom-0 z-30 overflow-y-auto bg-white transition-opacity duration-200 lg:hidden",
         isOpen ? "opacity-100" : "pointer-events-none opacity-0",
       )}
     >
-      <nav className="flex flex-col gap-2 px-6 pt-4">
+      <nav className="flex flex-col gap-2 px-6 pb-8 pt-4">
         {navItems.map((item) =>
           item.itemType === "link" ? (
             <Link
@@ -176,15 +260,14 @@ export function MobileNavOverlay({
           ),
         )}
 
-        <div className="h-px w-full bg-black/10" />
-
-        {headerCta && (
-          <div className="flex">
-            <ButtonLink href="https://www.cal.eu/team/wonka-ai-experts/demonstration-call" variant="primary" className="w-full">
-              {headerCta.label}
-            </ButtonLink>
-          </div>
-        )}
+        {SHOW_LANGUAGE_SWITCHER ? (
+          <>
+            <div className="h-px w-full bg-black/10" />
+            <div className="py-2">
+              <LanguageSwitcher />
+            </div>
+          </>
+        ) : null}
       </nav>
     </div>
   );
