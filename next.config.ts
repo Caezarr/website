@@ -31,7 +31,6 @@ const redirects = async () => [
   { source: '/services/start-ai-en', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-nl', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-old', destination: '/start-ai', permanent: true },
-  { source: '/services/:slug*', destination: '/', permanent: true },
   { source: '/products/wonka-chat-odoo', destination: '/wonka-chat/odoo', permanent: true },
   { source: '/products/wonka-chat', destination: '/wonka-chat', permanent: true },
   { source: '/products/:slug*', destination: '/ai-agents', permanent: true },
@@ -62,12 +61,8 @@ const headers = async () => [
 ];
 
 const config: NextConfig = {
-  transpilePackages: ["@wonka/react", "@wonka/tokens"],
   redirects,
   headers,
-  turbopack: {
-    root: process.cwd(),
-  },
   images: {
     remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }],
     qualities: [75, 90],
