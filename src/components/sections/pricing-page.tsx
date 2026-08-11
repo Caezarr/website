@@ -265,7 +265,7 @@ function BillingCycleToggle({
   );
 }
 
-function PricingBulletList({
+function PricingFeatureList({
   items,
   inverted = false,
 }: {
@@ -273,14 +273,35 @@ function PricingBulletList({
   inverted?: boolean;
 }) {
   return (
-    <ul
-      className={cn(
-        "ml-4 list-disc space-y-1.5 type-paragraph-m",
-        inverted ? "text-white/75" : "text-text/70",
-      )}
-    >
+    <ul className="space-y-3">
       {items.map((item) => (
-        <li key={item}>{item}</li>
+        <li key={item} className="flex items-start gap-2.5">
+          <span
+            aria-hidden
+            className={cn(
+              "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full",
+              inverted ? "bg-white/15 text-white" : "bg-blue-100 text-blue-700",
+            )}
+          >
+            <svg
+              className="size-3"
+              viewBox="0 0 12 12"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+            >
+              <path d="m2.25 6.25 2.25 2.25 5.25-5.25" />
+            </svg>
+          </span>
+          <span
+            className={cn(
+              "type-paragraph-m",
+              inverted ? "text-white/85" : "text-text/80",
+            )}
+          >
+            {item}
+          </span>
+        </li>
       ))}
     </ul>
   );
@@ -288,12 +309,14 @@ function PricingBulletList({
 
 function PricingCard({
   title,
+  badge,
   children,
   className,
   emphasized = false,
   inverted = false,
 }: {
   title: string;
+  badge?: string;
   children: React.ReactNode;
   className?: string;
   emphasized?: boolean;
@@ -313,14 +336,29 @@ function PricingCard({
         className,
       )}
     >
-      <h2
-        className={cn(
-          "type-paragraph-m-bold",
-          emphasized || inverted ? "text-white" : "text-text",
-        )}
-      >
-        {title}
-      </h2>
+      <div className="flex min-h-6 items-center justify-between gap-3">
+        <h2
+          className={cn(
+            "type-paragraph-m-bold",
+            emphasized || inverted ? "text-white" : "text-text",
+          )}
+        >
+          {title}
+        </h2>
+        {badge ? (
+          <span
+            className={cn(
+              radius.full,
+              "type-eyebrow px-2.5 py-1",
+              emphasized || inverted
+                ? "bg-white/15 text-white"
+                : "bg-blue-100 text-blue-700",
+            )}
+          >
+            {badge}
+          </span>
+        ) : null}
+      </div>
       <div className="mt-5 flex flex-1 flex-col gap-4">{children}</div>
     </Surface>
   );
@@ -342,26 +380,16 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
 
   const includedItems = aiModelsIncluded
     ? [
-        "AI Chat",
-        "AI Agents",
-        "AI Apps",
-        "AI Automations",
-        "All integrations",
+        "Secure AI chat grounded in company knowledge",
+        "Approved tools and data connections",
         "Governance and audit logs",
-        "EU hosting",
-        "EU-hosted AI models",
-        "No add-ons, no usage bills",
+        "EU-hosted AI models with usage included",
       ]
     : [
-        "AI Chat",
-        "AI Agents",
-        "AI Apps",
-        "AI Automations",
-        "All integrations",
+        "Secure AI chat grounded in company knowledge",
+        "Approved tools and data connections",
         "Governance and audit logs",
-        "EU hosting",
-        "Connect your own API key",
-        "You are billed directly by your model provider",
+        "Your own model API key and provider billing",
       ];
 
   return (
@@ -369,8 +397,10 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
       <div className="mx-auto max-w-2xl">
         <SectionHeader
           align="center"
-          heading="AI Workspace pricing."
-          body="Calculate your pricing based on the size of your team to make use of the full AI Workspace."
+          heading="One workspace. Pricing that scales with your team."
+          body="Choose your team size and usage level. Every paid seat includes the controls needed to use AI safely at work."
+          headingAs="h1"
+          headingRole="hero"
         />
       </div>
 
@@ -379,13 +409,13 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
         className="mx-auto mt-10 max-w-5xl border border-dashed border-border bg-white p-6"
       >
         <div className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1 md:justify-start">
-          <p className="type-paragraph-m-bold text-text">Calculate your pricing</p>
+          <p className="type-paragraph-m-bold text-text">Build your plan</p>
           <button
             type="button"
             onClick={() => setBreakdownOpen(true)}
             className="type-paragraph-m text-text/60 underline underline-offset-4 transition-colors hover:text-text"
           >
-            (Show pricing breakdown)
+            View pricing breakdown
           </button>
         </div>
         <div className="mt-5 flex flex-col items-center gap-6 lg:flex-row lg:flex-nowrap lg:items-center lg:justify-between lg:gap-6">
@@ -459,27 +489,28 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
       <div className="mt-5 grid gap-5 lg:grid-cols-3">
         <PricingCard
           title="Free trial"
+          badge="7 days"
           className="order-1 bg-light-gray"
         >
           <p className={cn(priceAmountClass, "text-text")}>Free</p>
           <p className="type-paragraph-m text-text/70">
-            7-day trial. No credit card needed.
+            Test Wonka with a real company use case. No credit card required.
           </p>
-          <div className="mt-6">
-            <p className="type-paragraph-m-bold text-text">
-              What&apos;s included:
+          <div className="mt-4 border-t border-dashed border-border pt-5">
+            <p className="type-eyebrow text-text/55">
+              Included in your trial
             </p>
-            <div className="mt-3">
-              <PricingBulletList
+            <div className="mt-4">
+              <PricingFeatureList
                 items={[
-                  "€5 in AI credits",
-                  "Full use of the AI Workspace",
-                  "TODO",
+                  "Full AI Workspace access",
+                  "Secure AI chat with company knowledge",
+                  "€5 in included AI usage",
                 ]}
               />
             </div>
           </div>
-          <div className="mt-auto flex justify-center pt-2">
+          <div className="mt-auto flex justify-start pt-6">
             <ButtonLink
               href={bookingHref}
               variant="secondary"
@@ -492,6 +523,7 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
 
         <PricingCard
           title="AI Workspace"
+          badge="Recommended"
           emphasized
           className="order-2"
         >
@@ -518,31 +550,22 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
                 billingNote="Per user / month (excl. VAT)"
                 inverted
                 description={
-                  <>
-                    5x more usage than Standard seat.{" "}
-                    <button
-                      type="button"
-                      tabIndex={aiModelsIncluded ? 0 : -1}
-                      className="underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-400"
-                    >
-                      Learn more.
-                    </button>
-                  </>
+                  <>5× more included model usage than Standard.</>
                 }
               />
             </div>
           </div>
 
-          <div className="mt-6">
-            <p className="type-paragraph-m-bold text-white">
-              What&apos;s included:
+          <div className="mt-4 border-t border-dashed border-white/25 pt-5">
+            <p className="type-eyebrow text-white/65">
+              Everything your team needs
             </p>
-            <div className="mt-3">
-              <PricingBulletList items={includedItems} inverted />
+            <div className="mt-4">
+              <PricingFeatureList items={includedItems} inverted />
             </div>
           </div>
 
-          <div className="mt-auto flex justify-center pt-2">
+          <div className="mt-auto flex justify-start pt-6">
             <ButtonLink
               href={bookingHref}
               variant="secondary"
@@ -553,23 +576,33 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
           </div>
         </PricingCard>
 
-        <PricingCard title="Enterprise" inverted className="order-3">
+        <PricingCard
+          title="Enterprise"
+          badge="1,000+ seats"
+          inverted
+          className="order-3"
+        >
           <p className={cn(priceAmountClass, "text-white")}>Custom</p>
           <p className="type-paragraph-m text-white/70">
-            For 1000+ seats or dedicated deployment.
+            Dedicated infrastructure and deployment for complex organisations.
           </p>
-          <div className="mt-6">
-            <p className="type-paragraph-m-bold text-white">
-              What&apos;s included:
+          <div className="mt-4 border-t border-dashed border-white/25 pt-5">
+            <p className="type-eyebrow text-white/65">
+              Built for your environment
             </p>
-            <div className="mt-3">
-              <PricingBulletList
+            <div className="mt-4">
+              <PricingFeatureList
                 inverted
-                items={["1000+ seats", "Managed, own cloud or on-premise"]}
+                items={[
+                  "Everything in AI Workspace",
+                  "Managed cloud, own cloud, or on-premise",
+                  "Deployment tailored to security requirements",
+                  "Volume pricing for large teams",
+                ]}
               />
             </div>
           </div>
-          <div className="mt-auto flex justify-center pt-2">
+          <div className="mt-auto flex justify-start pt-6">
             <ButtonLink
               href={bookingHref}
               variant="secondary"
