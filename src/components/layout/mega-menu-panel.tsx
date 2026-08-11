@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { isNavLinkActive } from "@/lib/nav-active";
-import { NavStatusLabel } from "./nav-status-label";
+import { NavStatusTooltip } from "./nav-status-tooltip";
 import type { NavDropdownChild, NavItem } from "@/lib/types";
 
 interface MegaMenuPanelProps {
@@ -37,23 +37,26 @@ function MegaMenuLink({
   );
 
   if (child.disabled) {
+    const tooltipId = `desktop-nav-${child._key}-status`;
+
     return (
       <span
+        role="link"
         aria-disabled="true"
+        aria-describedby={tooltipId}
+        tabIndex={0}
         className={cn(
-          "flex flex-col gap-1 py-1",
+          "group relative flex cursor-default flex-col gap-1 py-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2",
           compact && "inline-flex py-0",
         )}
       >
-        <span className="flex items-center gap-2">
-          <span className={labelClass}>{child.label}</span>
-          <NavStatusLabel />
-        </span>
+        <span className={labelClass}>{child.label}</span>
         {!compact && child.description && (
           <span className="type-paragraph-s text-text/30">
             {child.description}
           </span>
         )}
+        <NavStatusTooltip id={tooltipId} />
       </span>
     );
   }

@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { isNavLinkActive, isNavItemActive } from "@/lib/nav-active";
 import { SHOW_LANGUAGE_SWITCHER } from "@/lib/nav-defaults";
 import { LanguageSwitcher } from "./language-switcher";
-import { NavStatusLabel } from "./nav-status-label";
+import { NavStatusTooltip } from "./nav-status-tooltip";
 import type { NavDropdownChild, NavItem } from "@/lib/types";
 
 function MobileNavChildLink({
@@ -25,22 +25,25 @@ function MobileNavChildLink({
     isNavLinkActive(pathname, child.href, siblingHrefs);
 
   if (child.disabled) {
+    const tooltipId = `mobile-nav-${child._key}-status`;
+
     return (
       <span
+        role="link"
         aria-disabled="true"
-        className="flex flex-col gap-1 rounded-xs px-3 py-3"
+        aria-describedby={tooltipId}
+        tabIndex={0}
+        className="group relative flex cursor-default flex-col gap-1 rounded-xs px-3 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
       >
-        <span className="flex items-center gap-2">
-          <span className="type-paragraph-m-bold text-black/35">
-            {child.label}
-          </span>
-          <NavStatusLabel />
+        <span className="type-paragraph-m-bold text-black/35">
+          {child.label}
         </span>
         {child.description && (
           <span className="type-paragraph-s text-light-brown/60">
             {child.description}
           </span>
         )}
+        <NavStatusTooltip id={tooltipId} />
       </span>
     );
   }
