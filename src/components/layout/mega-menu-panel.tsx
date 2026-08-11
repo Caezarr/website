@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { isNavLinkActive } from "@/lib/nav-active";
+import { NavStatusLabel } from "./nav-status-label";
 import type { NavDropdownChild, NavItem } from "@/lib/types";
 
 interface MegaMenuPanelProps {
@@ -40,11 +41,14 @@ function MegaMenuLink({
       <span
         aria-disabled="true"
         className={cn(
-          "flex cursor-not-allowed flex-col gap-1 py-1",
+          "flex flex-col gap-1 py-1",
           compact && "inline-flex py-0",
         )}
       >
-        <span className={labelClass}>{child.label}</span>
+        <span className="flex items-center gap-2">
+          <span className={labelClass}>{child.label}</span>
+          <NavStatusLabel />
+        </span>
         {!compact && child.description && (
           <span className="type-paragraph-s text-text/30">
             {child.description}

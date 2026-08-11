@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { isNavLinkActive, isNavItemActive } from "@/lib/nav-active";
 import { SHOW_LANGUAGE_SWITCHER } from "@/lib/nav-defaults";
 import { LanguageSwitcher } from "./language-switcher";
+import { NavStatusLabel } from "./nav-status-label";
 import type { NavDropdownChild, NavItem } from "@/lib/types";
 
 function MobileNavChildLink({
@@ -27,10 +28,13 @@ function MobileNavChildLink({
     return (
       <span
         aria-disabled="true"
-        className="flex cursor-not-allowed flex-col gap-1 rounded-xs px-3 py-3"
+        className="flex flex-col gap-1 rounded-xs px-3 py-3"
       >
-        <span className="type-paragraph-m-bold text-black/35">
-          {child.label}
+        <span className="flex items-center gap-2">
+          <span className="type-paragraph-m-bold text-black/35">
+            {child.label}
+          </span>
+          <NavStatusLabel />
         </span>
         {child.description && (
           <span className="type-paragraph-s text-light-brown/60">
