@@ -37,6 +37,9 @@ export interface NavDropdownChild {
   label: string;
   href: string;
   description?: string;
+  /** Shown in nav but not clickable until the page is live again. */
+  disabled?: boolean;
+  external?: boolean;
 }
 
 export interface NavItem {
