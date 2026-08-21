@@ -1,5 +1,6 @@
 export const LEAD_SOURCES = [
   "start-ai-hero",
+  "start-ai-flanders-hero",
   "wonka-chat-hero",
   "wonka-chat-odoo-hero",
 ] as const;
@@ -20,6 +21,11 @@ export const LEAD_FORM_COPY: Record<
   "start-ai-hero": {
     submitLabel: "Get more info",
     successMessage: "Thanks — we'll be in touch with more Start AI info.",
+  },
+  "start-ai-flanders-hero": {
+    submitLabel: "Check subsidy eligibility",
+    successMessage:
+      "Thanks — we'll be in touch about Start AI and the KMO-portefeuille.",
   },
   "wonka-chat-hero": {
     submitLabel: "Try WonkaChat",
