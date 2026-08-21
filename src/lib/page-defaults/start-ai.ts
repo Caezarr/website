@@ -261,6 +261,8 @@ export const START_AI_DEFAULTS: StartAiDefaults = {
     variant: "darkImage",
     backgroundImage: null,
     showCta: true,
+    ctaHref: "/services/start-ai-subsidized-flanders",
+    ctaLabel: "Learn about the subsidy",
     fallbackBackground: {
       src: "/images/how-to-start/how-to-start-bg.avif",
       alt: "",

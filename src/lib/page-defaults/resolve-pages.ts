@@ -187,6 +187,8 @@ function resolvePromo(
     variant: resolvePromoVariant(cms, defaults),
     backgroundImage: cms?.backgroundImage ?? null,
     showCta: cms?.showCta ?? defaults.showCta,
+    ctaHref: resolveOptionalString(cms?.ctaHref, defaults.ctaHref),
+    ctaLabel: resolveOptionalString(cms?.ctaLabel, defaults.ctaLabel),
     fallbackBackground: defaults.fallbackBackground,
   };
 }
