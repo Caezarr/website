@@ -31,6 +31,7 @@ import type { HomepageContent, SiteSettings, WonkaChatContent } from "@/lib/type
 export const dynamic = "force-static";
 
 const pagePath = "/wonka-chat";
+const TRIAL_URL = "https://wonka.chat/register";
 
 async function getPageBundle() {
   const [{ data: settings }, { data: homepage }, { data: content }] =
@@ -121,14 +122,70 @@ function WonkaChatSections({
 }) {
   return (
     <>
-      <ProductHero data={content.hero} leadForm="wonka-chat-hero" />
+      <ProductHero
+        data={{
+          ...content.hero,
+          eyebrow: "Wonka Workspace",
+          title: "The AI workspace for your entire organization.",
+          subtitle:
+            "Let your entire organization use AI in a safe and secure way. Optimize your work by connecting to your daily tools.",
+        }}
+        meetingUrl={TRIAL_URL}
+        meetingLabel="Start free trial"
+        meetingTrackType="wonka-chat"
+      />
       <LogoStrip data={content.logoStrip} />
-      <SplitContent data={content.problem} className="py-18 md:py-24" />
-      <CenteredBanner id="how-it-works" header={content.overview} />
+      <SplitContent
+        data={{
+          ...content.problem,
+          header: {
+            ...content.problem.header,
+            heading: "Not everyone knows how to work with AI.",
+            body:
+              "Most AI tools create value for the people who already know how to use them. Everyone else keeps doing repetitive work manually.\n\nWonka Workspace changes that. It gives your whole team access to AI in a way that is simple, practical and built for daily work.",
+          },
+        }}
+        className="py-18 md:py-24"
+      />
+      <CenteredBanner
+        id="how-it-works"
+        header={{
+          ...content.overview,
+          eyebrow: "What is Wonka Workspace?",
+          body:
+            "Wonka Workspace lets you chat with AI in a safe manner, create AI Agents for daily work, make AI Apps to visualize key processes and statistics, and AI Automations to automate boring work. All in a secure environment.",
+        }}
+      />
       <StickyFeatures
-        data={content.features}
-        meetingUrl={meetingUrl}
-        meetingLabel={meetingLabel}
+        data={{
+          ...content.features,
+          header: {
+            ...content.features.header,
+            body:
+              "Wonka Workspace is built to make AI useful across the organisation: simple enough for every employee, powerful enough for difficult processes.",
+          },
+          features: content.features.features.map((feature) => {
+            if (feature._key === "chat") {
+              return {
+                ...feature,
+                title: "AI Chat for everyone.",
+                description:
+                  "Give your employees one simple place to ask questions, find information and get support from AI. Wonka Workspace works like a familiar chat experience, but with your company context built in.",
+              };
+            }
+            if (feature._key === "models") {
+              return {
+                ...feature,
+                title: "Choose your own AI model.",
+                description:
+                  "Wonka Workspace gives your company the flexibility to use an AI model that fits your needs, preferences and security requirements.",
+              };
+            }
+            return feature;
+          }),
+        }}
+        meetingUrl={TRIAL_URL}
+        meetingLabel="Start free trial"
         meetingTrackType="wonka-chat"
         className="py-18 md:py-24"
       />
