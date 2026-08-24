@@ -2,6 +2,7 @@ import { defineType, defineField } from "sanity";
 
 const SOURCE_OPTIONS = [
   { title: "Start AI hero", value: "start-ai-hero" },
+  { title: "Start AI Flanders hero", value: "start-ai-flanders-hero" },
   { title: "WonkaChat hero", value: "wonka-chat-hero" },
   { title: "WonkaChat Odoo hero", value: "wonka-chat-odoo-hero" },
 ];

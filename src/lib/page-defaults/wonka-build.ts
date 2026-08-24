@@ -184,6 +184,8 @@ export const WONKA_BUILD_DEFAULTS: WonkaBuildDefaults = {
     variant: "darkImage",
     backgroundImage: null,
     showCta: true,
+    ctaHref: null,
+    ctaLabel: null,
     fallbackBackground: {
       src: "/images/wonka-build/promo-bg.avif",
       alt: "",
