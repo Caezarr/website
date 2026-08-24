@@ -1,6 +1,6 @@
 import localFont from "next/font/local";
 
-const sans = localFont({
+export const interDisplay = localFont({
   src: [
     {
       path: "../../public/fonts/InterDisplay-Regular.woff2",
@@ -17,7 +17,7 @@ const sans = localFont({
   display: "swap",
 });
 
-const serif = localFont({
+export const gtSectra = localFont({
   src: [
     {
       path: "../../public/fonts/GT-Sectra-Regular.woff2",
@@ -29,4 +29,4 @@ const serif = localFont({
   display: "swap",
 });
 
-export const fontVariables = `${sans.variable} ${serif.variable}`;
+export const fontVariables = `${interDisplay.variable} ${gtSectra.variable}`;

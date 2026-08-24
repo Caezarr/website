@@ -5,11 +5,13 @@
 @source "../**/*.tsx";
 @source "../../packages/react/src/**/*.{ts,tsx}";
 
-@theme {
+@theme inline {
   --font-sans: var(--font-wonka-sans), var(--ds-font-family-sans);
   --font-serif: var(--font-wonka-serif), var(--ds-font-family-serif);
   --font-mono: var(--ds-font-family-mono);
+}
 
+@theme {
   --animate-marquee: marquee 50s linear infinite;
 }
 
@@ -268,9 +270,9 @@
   line-height:  1.75rem;
   color:        var(--color-black);
 
-  /* Headings → Wonka serif */
+  /* Headings → GT Sectra via next/font variable on html */
   h1, h2, h3, h4, h5, h6 {
-    font-family:    var(--font-serif);
+    font-family:    var(--font-wonka-serif, var(--font-serif, var(--ds-font-family-serif)));
     font-weight:    400;
     letter-spacing: -0.03em;
     color:          var(--color-black);
@@ -371,5 +373,11 @@
   /* Strong */
   strong {
     font-weight: 600;
+  }
+}
+
+@layer utilities {
+  :is(.type-h2, .type-h3, .type-h4, .type-h5, .type-h6, .font-serif) {
+    font-family: var(--font-wonka-serif, var(--font-serif, var(--ds-font-family-serif)));
   }
 }

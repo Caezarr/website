@@ -6,7 +6,8 @@ import { InlineScript } from "@/components/inline-script";
 import { JsonLd } from "@/components/json-ld/json-ld";
 import { META_PIXEL_ID, MetaPixel } from "@/components/meta-pixel";
 import { ATTRIBUTION_TRACKER_SCRIPT } from "@/lib/attribution-tracker-script";
-import { fontVariables } from "@/lib/fonts";
+import { gtSectra, interDisplay } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
 import { getSiteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
 
@@ -146,8 +147,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" dir="ltr">
-      <body className={fontVariables}>
+    <html lang="en" dir="ltr" className={cn(interDisplay.variable, gtSectra.variable)}>
+      <body className="font-sans antialiased">
         {GTM_ID && (
           <>
             <InlineScript
