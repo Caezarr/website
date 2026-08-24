@@ -10,7 +10,7 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
     _key: "ai-workspace",
     itemType: "dropdown",
     label: "AI Workspace",
-    href: "/workspace",
+    href: "/wonka-chat",
     children: [
       {
         _key: "overview",

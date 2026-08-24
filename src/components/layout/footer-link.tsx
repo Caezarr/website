@@ -17,6 +17,17 @@ export function FooterLink({
   const className =
     "type-paragraph-s block w-full transition-opacity hover:opacity-60";
 
+  if (link.disabled) {
+    return (
+      <span
+        aria-disabled="true"
+        className="type-paragraph-s block w-full cursor-not-allowed text-text/35"
+      >
+        {link.label}
+      </span>
+    );
+  }
+
   if (!link.href) {
     return (
       <span className="type-paragraph-s block w-full text-text/45">

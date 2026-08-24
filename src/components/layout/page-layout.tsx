@@ -29,7 +29,7 @@ export async function PageLayout({
         variant={headerVariant}
       />
       <main>{children}</main>
-      <Footer linkGroups={settings?.footerLinkGroups ?? null} />
+      <Footer navItems={resolveNavigation(settings?.navigation)} linkGroups={settings?.footerLinkGroups ?? null} />
       <SanityLive />
     </div>
   );
