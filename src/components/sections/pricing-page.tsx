@@ -131,18 +131,23 @@ function Toggle({
   label,
   checked,
   onChange,
+  inverted = false,
 }: {
   id: string;
   label: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
+  inverted?: boolean;
 }) {
   return (
     <div className="flex items-center gap-3">
       <label
         id={`${id}-label`}
         htmlFor={id}
-        className="type-paragraph-m text-text/70"
+        className={cn(
+          "type-paragraph-m",
+          inverted ? "text-white/70" : "text-text/70",
+        )}
       >
         {label}
       </label>
@@ -153,9 +158,16 @@ function Toggle({
         aria-checked={checked}
         aria-labelledby={`${id}-label`}
         onClick={() => onChange(!checked)}
-        className="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full bg-light-gray transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2"
+        className={cn(
+          "relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
+          inverted
+            ? checked
+              ? "bg-white focus-visible:ring-white focus-visible:ring-offset-blue-400"
+              : "bg-mid-gray focus-visible:ring-white/50 focus-visible:ring-offset-blue-400"
+            : "bg-light-gray focus-visible:ring-blue-400 focus-visible:ring-offset-2",
+        )}
       >
-        {checked ? (
+        {checked && !inverted ? (
           <>
             <span
               aria-hidden
@@ -171,8 +183,14 @@ function Toggle({
         <span
           aria-hidden
           className={cn(
-            "relative inline-block size-4 rounded-full bg-white shadow-subtle transition-transform",
-            checked ? "translate-x-6" : "translate-x-1",
+            "relative inline-block size-4 rounded-full shadow-subtle transition-transform",
+            inverted
+              ? checked
+                ? "translate-x-6 bg-dark-gray"
+                : "translate-x-1 bg-white"
+              : checked
+                ? "translate-x-6 bg-white"
+                : "translate-x-1 bg-white",
           )}
         />
       </button>
@@ -265,7 +283,7 @@ function BillingCycleToggle({
   );
 }
 
-function PricingFeatureList({
+function PricingBulletList({
   items,
   inverted = false,
 }: {
@@ -273,35 +291,14 @@ function PricingFeatureList({
   inverted?: boolean;
 }) {
   return (
-    <ul className="space-y-3">
+    <ul
+      className={cn(
+        "ml-4 list-disc space-y-1.5 type-paragraph-m",
+        inverted ? "text-white/75" : "text-text/70",
+      )}
+    >
       {items.map((item) => (
-        <li key={item} className="flex items-start gap-2.5">
-          <span
-            aria-hidden
-            className={cn(
-              "mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full",
-              inverted ? "bg-white/15 text-white" : "bg-blue-100 text-blue-700",
-            )}
-          >
-            <svg
-              className="size-3"
-              viewBox="0 0 12 12"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.75"
-            >
-              <path d="m2.25 6.25 2.25 2.25 5.25-5.25" />
-            </svg>
-          </span>
-          <span
-            className={cn(
-              "type-paragraph-m",
-              inverted ? "text-white/85" : "text-text/80",
-            )}
-          >
-            {item}
-          </span>
-        </li>
+        <li key={item}>{item}</li>
       ))}
     </ul>
   );
@@ -309,14 +306,12 @@ function PricingFeatureList({
 
 function PricingCard({
   title,
-  badge,
   children,
   className,
   emphasized = false,
   inverted = false,
 }: {
   title: string;
-  badge?: string;
   children: React.ReactNode;
   className?: string;
   emphasized?: boolean;
@@ -336,29 +331,14 @@ function PricingCard({
         className,
       )}
     >
-      <div className="flex min-h-6 items-center justify-between gap-3">
-        <h2
-          className={cn(
-            "type-paragraph-m-bold",
-            emphasized || inverted ? "text-white" : "text-text",
-          )}
-        >
-          {title}
-        </h2>
-        {badge ? (
-          <span
-            className={cn(
-              radius.full,
-              "type-eyebrow px-2.5 py-1",
-              emphasized || inverted
-                ? "bg-white/15 text-white"
-                : "bg-blue-100 text-blue-700",
-            )}
-          >
-            {badge}
-          </span>
-        ) : null}
-      </div>
+      <h2
+        className={cn(
+          "type-paragraph-m-bold",
+          emphasized || inverted ? "text-white" : "text-text",
+        )}
+      >
+        {title}
+      </h2>
       <div className="mt-5 flex flex-1 flex-col gap-4">{children}</div>
     </Surface>
   );
@@ -380,16 +360,26 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
 
   const includedItems = aiModelsIncluded
     ? [
-        "Secure AI chat grounded in company knowledge",
-        "Approved tools and data connections",
+        "AI Chat",
+        "AI Agents",
+        "AI Apps",
+        "AI Automations",
+        "All integrations",
         "Governance and audit logs",
-        "EU-hosted AI models with usage included",
+        "EU hosting",
+        "EU-hosted AI models",
+        "No add-ons, no usage bills",
       ]
     : [
-        "Secure AI chat grounded in company knowledge",
-        "Approved tools and data connections",
+        "AI Chat",
+        "AI Agents",
+        "AI Apps",
+        "AI Automations",
+        "All integrations",
         "Governance and audit logs",
-        "Your own model API key and provider billing",
+        "EU hosting",
+        "Connect your own API key",
+        "You are billed directly by your model provider",
       ];
 
   return (
@@ -397,28 +387,26 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
       <div className="mx-auto max-w-2xl">
         <SectionHeader
           align="center"
-          heading="One workspace. Pricing that scales with your team."
-          body="Choose your team size and usage level. Every paid seat includes the controls needed to use AI safely at work."
-          headingAs="h1"
-          headingRole="hero"
+          heading="AI Workspace pricing."
+          body="Calculate your pricing based on the size of your team to make use of the full AI Workspace."
         />
       </div>
 
       <Surface
         variant="card"
-        className="mx-auto mt-10 max-w-5xl border border-dashed border-border bg-white p-6"
+        className="mx-auto mt-10 max-w-3xl border border-dashed border-border bg-white p-6"
       >
-        <div className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1 md:justify-start">
-          <p className="type-paragraph-m-bold text-text">Build your plan</p>
+        <div className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1">
+          <p className="type-paragraph-m-bold text-text">Calculate your pricing</p>
           <button
             type="button"
             onClick={() => setBreakdownOpen(true)}
             className="type-paragraph-m text-text/60 underline underline-offset-4 transition-colors hover:text-text"
           >
-            View pricing breakdown
+            (Show pricing breakdown)
           </button>
         </div>
-        <div className="mt-5 flex flex-col items-center gap-6 lg:flex-row lg:flex-nowrap lg:items-center lg:justify-between lg:gap-6">
+        <div className="mt-5 flex flex-col items-center gap-6 lg:flex-row lg:flex-wrap lg:items-center lg:justify-center lg:gap-x-10 lg:gap-y-4">
           <div className="flex shrink-0 flex-wrap items-center justify-center gap-2 md:justify-start">
               <label
                 htmlFor={seatsInputId}
@@ -469,15 +457,6 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
           <div className="flex shrink-0 justify-center lg:justify-start">
               <BillingCycleToggle annual={annual} onChange={setAnnual} />
             </div>
-
-            <div className="flex shrink-0 justify-center lg:justify-start">
-              <Toggle
-              id={aiModelsToggleId}
-              label="AI models included"
-              checked={aiModelsIncluded}
-              onChange={setAiModelsIncluded}
-              />
-            </div>
         </div>
       </Surface>
 
@@ -489,28 +468,27 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
       <div className="mt-5 grid gap-5 lg:grid-cols-3">
         <PricingCard
           title="Free trial"
-          badge="7 days"
           className="order-1 bg-light-gray"
         >
           <p className={cn(priceAmountClass, "text-text")}>Free</p>
           <p className="type-paragraph-m text-text/70">
-            Test Wonka with a real company use case. No credit card required.
+            7-day trial. No credit card needed.
           </p>
-          <div className="mt-4 border-t border-dashed border-border pt-5">
-            <p className="type-eyebrow text-text/55">
-              Included in your trial
+          <div className="mt-6">
+            <p className="type-paragraph-m-bold text-text">
+              What&apos;s included:
             </p>
-            <div className="mt-4">
-              <PricingFeatureList
+            <div className="mt-3">
+              <PricingBulletList
                 items={[
-                  "Full AI Workspace access",
+                  "€5 in AI credits",
+                  "Full use of the AI Workspace",
                   "Secure AI chat with company knowledge",
-                  "€5 in included AI usage",
                 ]}
               />
             </div>
           </div>
-          <div className="mt-auto flex justify-start pt-6">
+          <div className="mt-auto flex justify-center pt-2">
             <ButtonLink
               href={bookingHref}
               variant="secondary"
@@ -523,7 +501,6 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
 
         <PricingCard
           title="AI Workspace"
-          badge="Recommended"
           emphasized
           className="order-2"
         >
@@ -550,22 +527,41 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
                 billingNote="Per user / month (excl. VAT)"
                 inverted
                 description={
-                  <>5× more included model usage than Standard.</>
+                  <>
+                    5x more usage than Standard seat.{" "}
+                    <button
+                      type="button"
+                      tabIndex={aiModelsIncluded ? 0 : -1}
+                      className="underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-400"
+                    >
+                      Learn more.
+                    </button>
+                  </>
                 }
               />
             </div>
           </div>
 
-          <div className="mt-4 border-t border-dashed border-white/25 pt-5">
-            <p className="type-eyebrow text-white/65">
-              Everything your team needs
+          <div className="mt-6">
+            <Toggle
+              id={aiModelsToggleId}
+              label="AI models included"
+              checked={aiModelsIncluded}
+              onChange={setAiModelsIncluded}
+              inverted
+            />
+          </div>
+
+          <div className="mt-6">
+            <p className="type-paragraph-m-bold text-white">
+              What&apos;s included:
             </p>
-            <div className="mt-4">
-              <PricingFeatureList items={includedItems} inverted />
+            <div className="mt-3">
+              <PricingBulletList items={includedItems} inverted />
             </div>
           </div>
 
-          <div className="mt-auto flex justify-start pt-6">
+          <div className="mt-auto flex justify-center pt-2">
             <ButtonLink
               href={bookingHref}
               variant="secondary"
@@ -576,33 +572,23 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
           </div>
         </PricingCard>
 
-        <PricingCard
-          title="Enterprise"
-          badge="1,000+ seats"
-          inverted
-          className="order-3"
-        >
+        <PricingCard title="Enterprise" inverted className="order-3">
           <p className={cn(priceAmountClass, "text-white")}>Custom</p>
           <p className="type-paragraph-m text-white/70">
-            Dedicated infrastructure and deployment for complex organisations.
+            For 1000+ seats or dedicated deployment.
           </p>
-          <div className="mt-4 border-t border-dashed border-white/25 pt-5">
-            <p className="type-eyebrow text-white/65">
-              Built for your environment
+          <div className="mt-6">
+            <p className="type-paragraph-m-bold text-white">
+              What&apos;s included:
             </p>
-            <div className="mt-4">
-              <PricingFeatureList
+            <div className="mt-3">
+              <PricingBulletList
                 inverted
-                items={[
-                  "Everything in AI Workspace",
-                  "Managed cloud, own cloud, or on-premise",
-                  "Deployment tailored to security requirements",
-                  "Volume pricing for large teams",
-                ]}
+                items={["1000+ seats", "Managed, own cloud or on-premise"]}
               />
             </div>
           </div>
-          <div className="mt-auto flex justify-start pt-6">
+          <div className="mt-auto flex justify-center pt-2">
             <ButtonLink
               href={bookingHref}
               variant="secondary"
