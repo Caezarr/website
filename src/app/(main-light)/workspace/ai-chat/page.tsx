@@ -12,6 +12,7 @@ import { DEFAULT_WONKA_CHAT_SECURITY } from "@/lib/cms-sections";
 import { AI_CHAT_CAPABILITY_CLUSTERS } from "@/lib/page-defaults/ai-chat-capability-grid";
 import { resolveWonkaChatContent } from "@/lib/page-defaults/resolve-pages";
 import { WONKA_CHAT_DEFAULTS } from "@/lib/page-defaults/wonka-chat";
+import { resolveSectionHeader } from "@/lib/resolve-cms";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import { buildMetadata } from "@/lib/seo";
 import type { SiteSettings, WonkaChatContent } from "@/lib/types";
@@ -81,11 +82,11 @@ export default async function WorkspaceAiChatPage() {
         id="contact"
         data={{
           ...content.contact,
-          header: {
-            ...content.contact.header,
+          header: resolveSectionHeader(content.contact.header, {
+            eyebrow: null,
             heading: "Book a demo meeting.",
             body: null,
-          },
+          }),
         }}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
