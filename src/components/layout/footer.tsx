@@ -5,21 +5,22 @@ import { CookieSettingsLink } from "@/components/cookie-consent/cookie-settings-
 import { cn } from "@/lib/utils";
 import {
   FOOTER_LEGAL_LINKS,
-  FOOTER_LINK_GROUPS,
-  type FooterDisplayGroup,
+  getFooterLinkGroups,
 } from "@/lib/footer-nav";
 import { FooterLink } from "./footer-link";
-import type { FooterLinkGroup } from "@/lib/types";
+import type { FooterLinkGroup, NavItem } from "@/lib/types";
 
 interface FooterProps {
+  navItems: NavItem[];
   linkGroups: FooterLinkGroup[] | null;
 }
 
-function FooterColumn({ group }: { group: FooterDisplayGroup }) {
+function FooterColumn({ group }: { group: ReturnType<typeof getFooterLinkGroups>[number] }) {
   const siblingHrefs =
     group.links
-      ?.map((link) => link.href)
-      .filter((href): href is string => Boolean(href)) ?? [];
+      ?.filter((link) => !link.disabled && link.href)
+      .map((link) => link.href!)
+      .filter(Boolean) ?? [];
 
   return (
     <div className="flex flex-col gap-6">
@@ -38,10 +39,10 @@ function FooterColumn({ group }: { group: FooterDisplayGroup }) {
   );
 }
 
-export function Footer({ linkGroups }: FooterProps) {
+export function Footer({ navItems, linkGroups }: FooterProps) {
   const year = new Date().getFullYear();
   void linkGroups;
-  const groups = FOOTER_LINK_GROUPS;
+  const groups = getFooterLinkGroups(navItems);
   const groupCount = groups.length;
 
   return (
@@ -76,21 +77,6 @@ export function Footer({ linkGroups }: FooterProps) {
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="type-eyebrow flex flex-wrap items-center gap-x-3 gap-y-2 text-text/60">
-        <span>ISO</span>
-        <span aria-hidden>·</span>
-        <span>GDPR</span>
-        <span aria-hidden>·</span>
-        <span>EU hosting</span>
-        <span aria-hidden>·</span>
-        <Link
-          href="/security"
-          className="text-text/60 transition-colors hover:text-text"
-        >
-          Security
-        </Link>
       </div>
 
       <div className="type-eyebrow flex flex-col gap-4 border-t border-dashed border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
