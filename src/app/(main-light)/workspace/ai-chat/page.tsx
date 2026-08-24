@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { sanityFetch } from "@sanity/lib/live";
-import { WONKA_CHAT_CONTENT_QUERY } from "@sanity/lib/queries";
+import { SITE_SETTINGS_QUERY, WONKA_CHAT_CONTENT_QUERY } from "@sanity/lib/queries";
 import { CapabilityGrid } from "@/components/sections/capability-grid";
+import { ContactBlock } from "@/components/sections/contact-block";
 import { FaqSection } from "@/components/sections/faq-section";
 import { LogoStrip } from "@/components/sections/logo-strip";
 import { ProductHero } from "@/components/sections/product-hero";
@@ -11,12 +12,15 @@ import { DEFAULT_WONKA_CHAT_SECURITY } from "@/lib/cms-sections";
 import { AI_CHAT_CAPABILITY_CLUSTERS } from "@/lib/page-defaults/ai-chat-capability-grid";
 import { resolveWonkaChatContent } from "@/lib/page-defaults/resolve-pages";
 import { WONKA_CHAT_DEFAULTS } from "@/lib/page-defaults/wonka-chat";
+import { resolveSectionHeader } from "@/lib/resolve-cms";
+import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import { buildMetadata } from "@/lib/seo";
-import type { WonkaChatContent } from "@/lib/types";
+import type { SiteSettings, WonkaChatContent } from "@/lib/types";
 
 export const dynamic = "force-static";
 
 const pagePath = "/workspace/ai-chat";
+const TRIAL_URL = "https://wonka.chat/register";
 
 async function getPageContent() {
   const { data } = await sanityFetch({ query: WONKA_CHAT_CONTENT_QUERY });
@@ -36,7 +40,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function WorkspaceAiChatPage() {
-  const { content, rawContent } = await getPageContent();
+  const [{ content, rawContent }, { data: settings }] = await Promise.all([
+    getPageContent(),
+    sanityFetch({ query: SITE_SETTINGS_QUERY }),
+  ]);
+  const sharedLinks = (settings as SiteSettings | null)?.sharedLinks ?? null;
+  const meetingUrl = resolveMeetingUrl(sharedLinks, "wonka-chat");
+  const meetingLabel = sharedLinks?.meetingLabel ?? null;
 
   return (
     <main className="bg-background text-text">
@@ -56,18 +66,33 @@ export default async function WorkspaceAiChatPage() {
             height: 2160,
           },
         }}
-        meetingUrl="https://wonka.chat/"
+        meetingUrl={TRIAL_URL}
         meetingLabel="Start free trial"
       />
       <LogoStrip data={content.logoStrip} />
       <CapabilityGrid id="capabilities" data={AI_CHAT_CAPABILITY_CLUSTERS} />
-      <FaqSection data={content.faq} variant="plain" bordered={false} />
+      <FaqSection data={content.faq} bordered={false} />
+      <WorkspaceTrialCta href={TRIAL_URL} />
       <Security
         id="security"
         data={rawContent?.security ?? null}
         defaults={DEFAULT_WONKA_CHAT_SECURITY}
       />
-      <WorkspaceTrialCta />
+      <ContactBlock
+        id="contact"
+        data={{
+          ...content.contact,
+          header: resolveSectionHeader(content.contact.header, {
+            eyebrow: null,
+            heading: "Book a demo meeting.",
+            body: null,
+          }),
+        }}
+        meetingUrl={meetingUrl}
+        meetingLabel={meetingLabel}
+        meetingTrackType="wonka-chat"
+        className="py-18 text-center md:py-24"
+      />
     </main>
   );
 }

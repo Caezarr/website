@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 const DEFAULT_TITLE = "Try Wonka Workspace for free.";
 const DEFAULT_BODY = "7-day trial. No credit card needed.";
 const DEFAULT_CTA_LABEL = "Start free trial";
-const DEFAULT_HREF = "https://wonka.chat/";
+const DEFAULT_HREF = "https://wonka.chat/register";
 
 interface WorkspaceTrialCtaProps {
   id?: string;
