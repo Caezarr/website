@@ -31,6 +31,8 @@ const priceAmountClass =
 const pricingCtaClassName =
   "h-[2.6875rem] min-w-[9.5rem] px-[1.125rem] type-paragraph-m-bold";
 
+const TRIAL_REGISTER_URL = "https://wonka.chat/register";
+
 interface PricingPageProps {
   bookingHref: string;
 }
@@ -550,7 +552,7 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
           </PricingFeatureSection>
           <div className="mt-auto flex justify-center pt-2">
             <ButtonLink
-              href={bookingHref}
+              href={TRIAL_REGISTER_URL}
               variant="secondary"
               className={pricingCtaClassName}
             >
