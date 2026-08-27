@@ -6,6 +6,7 @@ import { PricingBreakdownModal } from "@/components/sections/pricing-breakdown-m
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Surface } from "@/components/ui/surface";
+import { CheckmarkIcon } from "@/components/ui/icons/checkmark-icon";
 import { calculatePricing } from "@/lib/pricing-calculator";
 import { formatEuro } from "@/lib/pricing-format";
 import { radius } from "@/lib/design-tokens";
@@ -29,6 +30,8 @@ const priceAmountClass =
 
 const pricingCtaClassName =
   "h-[2.6875rem] min-w-[9.5rem] px-[1.125rem] type-paragraph-m-bold";
+
+const TRIAL_REGISTER_URL = "https://wonka.chat/register";
 
 interface PricingPageProps {
   bookingHref: string;
@@ -243,7 +246,11 @@ function BillingCycleToggle({
     <div
       role="group"
       aria-label="Billing cycle"
-      className={cn(radius.full, "inline-flex bg-light-gray p-1")}
+      className={cn(
+        radius.full,
+        "inline-flex border bg-light-gray p-1 transition-colors",
+        annual ? "border-blue-400" : "border-transparent",
+      )}
     >
       <button
         type="button"
@@ -252,9 +259,7 @@ function BillingCycleToggle({
         className={cn(
           radius.full,
           "px-4 py-1.5 type-paragraph-m transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2",
-          !annual
-            ? "bg-white text-text shadow-subtle"
-            : "text-text/60",
+          !annual ? "bg-white text-text shadow-subtle" : "text-text/60",
         )}
       >
         Monthly
@@ -273,7 +278,7 @@ function BillingCycleToggle({
         <span
           className={cn(
             radius.full,
-            "type-paragraph-s bg-blue-100 px-1.5 py-0.5 text-blue-700",
+            "type-paragraph-s bg-blue-100 px-1.5 py-0.5 text-blue-900",
           )}
         >
           Save 20%
@@ -283,35 +288,86 @@ function BillingCycleToggle({
   );
 }
 
-function PricingBulletList({
+function PricingCheckList({
   items,
-  inverted = false,
+  variant = "default",
 }: {
   items: string[];
-  inverted?: boolean;
+  variant?: "default" | "emphasized" | "inverted";
 }) {
   return (
-    <ul
-      className={cn(
-        "ml-4 list-disc space-y-1.5 type-paragraph-m",
-        inverted ? "text-white/75" : "text-text/70",
-      )}
-    >
+    <ul className="space-y-2.5">
       {items.map((item) => (
-        <li key={item}>{item}</li>
+        <li key={item} className="flex items-start gap-2.5">
+          <span
+            className={cn(
+              "mt-0.5 inline-flex size-4 shrink-0 items-center justify-center",
+              variant === "default" && "text-blue-400",
+              variant === "emphasized" &&
+                cn(radius.full, "bg-white/20 text-white"),
+              variant === "inverted" &&
+                cn(radius.full, "bg-white/10 text-white/80"),
+            )}
+          >
+            <CheckmarkIcon className="size-2.5" />
+          </span>
+          <span
+            className={cn(
+              "type-paragraph-m",
+              variant === "default" ? "text-text/70" : "text-white/75",
+            )}
+          >
+            {item}
+          </span>
+        </li>
       ))}
     </ul>
   );
 }
 
+function PricingFeatureSection({
+  title,
+  children,
+  variant = "default",
+}: {
+  title: string;
+  children: React.ReactNode;
+  variant?: "default" | "emphasized" | "inverted";
+}) {
+  return (
+    <div
+      className={cn(
+        "border-t border-dashed pt-4",
+        variant === "default" && "border-border",
+        (variant === "emphasized" || variant === "inverted") &&
+          "border-white/25",
+      )}
+    >
+      <p
+        className={cn(
+          "type-eyebrow",
+          variant === "default" && "text-text/45",
+          variant === "emphasized" && "text-white/55",
+          variant === "inverted" && "text-white/45",
+        )}
+      >
+        {title}
+      </p>
+      <div className="mt-3">{children}</div>
+    </div>
+  );
+}
+
 function PricingCard({
   title,
+  badge,
   children,
   className,
   emphasized = false,
   inverted = false,
 }: {
   title: string;
+  badge?: string;
   children: React.ReactNode;
   className?: string;
   emphasized?: boolean;
@@ -331,14 +387,31 @@ function PricingCard({
         className,
       )}
     >
-      <h2
-        className={cn(
-          "type-paragraph-m-bold",
-          emphasized || inverted ? "text-white" : "text-text",
-        )}
-      >
-        {title}
-      </h2>
+      <div className="flex items-start justify-between gap-3">
+        <h2
+          className={cn(
+            "type-paragraph-m-bold",
+            emphasized || inverted ? "text-white" : "text-text",
+          )}
+        >
+          {title}
+        </h2>
+        {badge ? (
+          <span
+            className={cn(
+              radius.full,
+              "type-eyebrow shrink-0 px-2.5 py-1",
+              emphasized && "bg-white/20 text-white",
+              inverted && "bg-white/10 text-white/70",
+              !emphasized &&
+                !inverted &&
+                "bg-blue-100 text-blue-900",
+            )}
+          >
+            {badge}
+          </span>
+        ) : null}
+      </div>
       <div className="mt-5 flex flex-1 flex-col gap-4">{children}</div>
     </Surface>
   );
@@ -358,28 +431,18 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
     ? EXPERT_SEAT_LIST_MONTHLY * 0.8
     : EXPERT_SEAT_LIST_MONTHLY;
 
-  const includedItems = aiModelsIncluded
+  const workspaceItems = aiModelsIncluded
     ? [
-        "AI Chat",
-        "AI Agents",
-        "AI Apps",
-        "AI Automations",
-        "All integrations",
+        "Secure AI chat grounded in company knowledge",
+        "Approved tools and data connections",
         "Governance and audit logs",
-        "EU hosting",
-        "EU-hosted AI models",
-        "No add-ons, no usage bills",
+        "EU-hosted AI models with no usage bills",
       ]
     : [
-        "AI Chat",
-        "AI Agents",
-        "AI Apps",
-        "AI Automations",
-        "All integrations",
+        "Secure AI chat grounded in company knowledge",
+        "Approved tools and data connections",
         "Governance and audit logs",
-        "EU hosting",
-        "Connect your own API key",
-        "You are billed directly by your model provider",
+        "Use your own model API key and provider billing",
       ];
 
   return (
@@ -387,8 +450,10 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
       <div className="mx-auto max-w-2xl">
         <SectionHeader
           align="center"
-          heading="AI Workspace pricing."
-          body="Calculate your pricing based on the size of your team to make use of the full AI Workspace."
+          heading="One workspace. Pricing that scales with your team."
+          body="Choose your team size and usage level. Every paid seat includes the controls needed to use AI safely at work."
+          headingAs="h1"
+          headingRole="hero"
         />
       </div>
 
@@ -397,13 +462,13 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
         className="mx-auto mt-10 max-w-3xl border border-dashed border-border bg-white p-6"
       >
         <div className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1">
-          <p className="type-paragraph-m-bold text-text">Calculate your pricing</p>
+          <p className="type-paragraph-m-bold text-text">Build your plan</p>
           <button
             type="button"
             onClick={() => setBreakdownOpen(true)}
             className="type-paragraph-m text-text/60 underline underline-offset-4 transition-colors hover:text-text"
           >
-            (Show pricing breakdown)
+            View pricing breakdown
           </button>
         </div>
         <div className="mt-5 flex flex-col items-center gap-6 lg:flex-row lg:flex-wrap lg:items-center lg:justify-center lg:gap-x-10 lg:gap-y-4">
@@ -468,29 +533,26 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
       <div className="mt-5 grid gap-5 lg:grid-cols-3">
         <PricingCard
           title="Free trial"
+          badge="7 DAYS"
           className="order-1 bg-light-gray"
         >
           <p className={cn(priceAmountClass, "text-text")}>Free</p>
           <p className="type-paragraph-m text-text/70">
-            7-day trial. No credit card needed.
+            Test Wonka with a real company use case. No credit card required.
           </p>
-          <div className="mt-6">
-            <p className="type-paragraph-m-bold text-text">
-              What&apos;s included:
-            </p>
-            <div className="mt-3">
-              <PricingBulletList
-                items={[
-                  "€5 in AI credits",
-                  "Full use of the AI Workspace",
-                  "Secure AI chat with company knowledge",
-                ]}
-              />
-            </div>
-          </div>
+          <PricingFeatureSection title="Included in your trial">
+            <PricingCheckList
+              variant="default"
+              items={[
+                "Full AI Workspace access",
+                "Secure AI chat with company knowledge",
+                "€5 in included AI usage",
+              ]}
+            />
+          </PricingFeatureSection>
           <div className="mt-auto flex justify-center pt-2">
             <ButtonLink
-              href={bookingHref}
+              href={TRIAL_REGISTER_URL}
               variant="secondary"
               className={pricingCtaClassName}
             >
@@ -501,6 +563,7 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
 
         <PricingCard
           title="AI Workspace"
+          badge="RECOMMENDED"
           emphasized
           className="order-2"
         >
@@ -528,7 +591,7 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
                 inverted
                 description={
                   <>
-                    5x more usage than Standard seat.{" "}
+                    5x more included model usage than Standard.{" "}
                     <button
                       type="button"
                       tabIndex={aiModelsIncluded ? 0 : -1}
@@ -552,14 +615,9 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
             />
           </div>
 
-          <div className="mt-6">
-            <p className="type-paragraph-m-bold text-white">
-              What&apos;s included:
-            </p>
-            <div className="mt-3">
-              <PricingBulletList items={includedItems} inverted />
-            </div>
-          </div>
+          <PricingFeatureSection title="Everything your team needs" variant="emphasized">
+            <PricingCheckList items={workspaceItems} variant="emphasized" />
+          </PricingFeatureSection>
 
           <div className="mt-auto flex justify-center pt-2">
             <ButtonLink
@@ -572,22 +630,22 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
           </div>
         </PricingCard>
 
-        <PricingCard title="Enterprise" inverted className="order-3">
+        <PricingCard title="Enterprise" badge="1,000+ SEATS" inverted className="order-3">
           <p className={cn(priceAmountClass, "text-white")}>Custom</p>
           <p className="type-paragraph-m text-white/70">
-            For 1000+ seats or dedicated deployment.
+            Dedicated infrastructure and deployment for complex organisations.
           </p>
-          <div className="mt-6">
-            <p className="type-paragraph-m-bold text-white">
-              What&apos;s included:
-            </p>
-            <div className="mt-3">
-              <PricingBulletList
-                inverted
-                items={["1000+ seats", "Managed, own cloud or on-premise"]}
-              />
-            </div>
-          </div>
+          <PricingFeatureSection title="Built for your environment" variant="inverted">
+            <PricingCheckList
+              variant="inverted"
+              items={[
+                "Everything in AI Workspace",
+                "Managed cloud, own cloud, or on-premise",
+                "Deployment tailored to security requirements",
+                "Volume pricing for large teams",
+              ]}
+            />
+          </PricingFeatureSection>
           <div className="mt-auto flex justify-center pt-2">
             <ButtonLink
               href={bookingHref}
