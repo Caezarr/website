@@ -2,8 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useCookieConsent } from "@/components/cookie-consent/cookie-consent-provider";
-
-const META_PIXEL_ID = "2083978768839489";
+import { META_PIXEL_ID } from "@/lib/meta-pixel-id";
 
 function loadMetaPixel() {
   if (typeof window === "undefined" || window.fbq) return;
@@ -43,5 +42,3 @@ export function MetaPixel() {
 
   return null;
 }
-
-export { META_PIXEL_ID };
