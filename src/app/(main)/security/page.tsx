@@ -31,7 +31,7 @@ const certificationItems = [
   {
     icon: BadgeIso,
     label: "ISO 27001 certified",
-    detail: "Information security management system certified to ISO/IEC 27001:2013.",
+    detail: "Information security management system certified to ISO/IEC 27001.",
   },
   {
     icon: BadgeGdpr,

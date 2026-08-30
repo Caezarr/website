@@ -94,8 +94,8 @@ export default async function FrancePage() {
             RGPD intégrées.
           </p>
 
-          <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row">
-            {franceMeetingUrl ? (
+          {franceMeetingUrl && (
+            <div className="mt-10">
               <ButtonLink
                 href={`${franceMeetingUrl}${franceMeetingUrl.includes("?") ? "&" : "?"}utm_campaign=france&utm_source=website&utm_medium=landing`}
                 variant="primary"
@@ -103,11 +103,8 @@ export default async function FrancePage() {
               >
                 Échange de 45 minutes
               </ButtonLink>
-            ) : (
-              <span className="type-paragraph-m-bold text-white/50">
-                [URL de réservation France à configurer]
-              </span>
-            )}
+            </div>
+          )}
           </div>
 
           <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -233,8 +230,8 @@ export default async function FrancePage() {
         <p className="type-body mt-6 max-w-lg text-white/70">
           45 minutes pour cartographier un workflow d'agents IA dans votre contexte métier.
         </p>
-        <div className="mt-8">
-          {franceMeetingUrl ? (
+        {franceMeetingUrl && (
+          <div className="mt-8">
             <ButtonLink
               href={`${franceMeetingUrl}${franceMeetingUrl.includes("?") ? "&" : "?"}utm_campaign=france&utm_source=website&utm_medium=cta`}
               variant="primary"
@@ -242,12 +239,8 @@ export default async function FrancePage() {
             >
               Réserver un échange
             </ButtonLink>
-          ) : (
-            <p className="type-paragraph-m text-white/50">
-              [URL de réservation France à configurer dans Sanity]
-            </p>
-          )}
-        </div>
+          </div>
+        )}
       </Section>
     </main>
   );
