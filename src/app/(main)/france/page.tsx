@@ -51,14 +51,45 @@ const references = [
   },
   {
     company: "N-allo / Engie",
-    result: "−50% temps de traitement des mails support, 70 personnes",
+    result: "-50% de temps de traitement des mails support, 70 personnes",
   },
 ];
 
 const certifications = [
-  { icon: BadgeGdpr, label: "GDPR" },
-  { icon: BadgeIso, label: "ISO 27001" },
-  { icon: BadgeNis2, label: "NIS 2" },
+  {
+    icon: BadgeIso,
+    label: "ISO 27001 certifié",
+    detail: "Système de management de la sécurité de l'information certifié ISO/IEC 27001.",
+  },
+  {
+    icon: BadgeGdpr,
+    label: "RGPD conforme",
+    detail: "Conformité totale au Règlement Général sur la Protection des Données.",
+  },
+  {
+    icon: BadgeNis2,
+    label: "NIS 2 conforme",
+    detail: "Conforme à la directive européenne NIS 2 sur la sécurité des réseaux et de l'information.",
+  },
+];
+
+const faqItems = [
+  {
+    question: "ChatGPT personnel vs IA gouvernée : quelle différence ?",
+    answer: "ChatGPT est un assistant personnel, sans connexion aux systèmes d'entreprise. Wonka AI déploie des agents branchés sur les outils métier (ERP, CRM, SharePoint), avec contrôle d'accès, logs d'audit et conformité RGPD.",
+  },
+  {
+    question: "Où vont les données ?",
+    answer: "Hébergement Azure West Europe (Microsoft Irlande) par défaut. Les données clients ne sont pas utilisées pour entraîner des modèles publics. Data Processing Agreement disponible.",
+  },
+  {
+    question: "Le RSSI doit-il valider ?",
+    answer: "Oui. ISO 27001 certifié, RGPD conforme, NIS 2 conforme. Architecture faite pour un RSSI : contrôle d'accès, chiffrement, logs, DPA.",
+  },
+  {
+    question: "Combien de temps pour déployer ?",
+    answer: "En semaines, pas en mois. Ça dépend du nombre de connecteurs (SharePoint, Odoo, CRM) et de la complexité des workflows agents.",
+  },
 ];
 
 export default async function FrancePage() {
@@ -87,9 +118,8 @@ export default async function FrancePage() {
           <h1 className={cn(headingClass.hero, "mt-5 text-white")}>
             L'IA d'entreprise qui se déploie vraiment
           </h1>
-          <p className="type-body mt-6 leading-7 text-white/80">
-            Des agents IA privés connectés aux outils que votre entreprise utilise déjà — ERP, CRM, SharePoint, Teams —
-            avec gouvernance centralisée et conformité RGPD. Gabriel Rance, country manager France.
+          <p className="type-body mt-6 max-w-[38rem] leading-7 text-white/80">
+            Des agents IA privés, branchés sur les outils que votre entreprise utilise déjà (ERP, CRM, SharePoint, Teams), avec gouvernance centralisée et conformité RGPD. Gabriel Rance, country manager France.
           </p>
 
           <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row">
@@ -107,18 +137,29 @@ export default async function FrancePage() {
             </a>
           </div>
         </div>
-
-        <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
-          {proofPoints.map((point) => (
-            <div key={point.label}>
-              <p className="type-eyebrow text-white/40">{point.label}</p>
-              <p className="type-paragraph-m-bold mt-2 text-white">{point.value}</p>
-            </div>
-          ))}
-        </div>
       </Section>
 
-      <Section className="border-t border-border py-16 md:py-24">
+      <Section wide className="bg-background py-16 md:py-20">
+        <Surface variant="panel" className="p-5 text-white">
+          <Image
+            src="/images/banner-bg.avif"
+            alt=""
+            fill
+            sizes="(min-width: 89rem) 89rem, 100vw"
+            className="object-cover"
+          />
+          <ul className="relative grid grid-cols-1 gap-px overflow-hidden rounded-sm border border-dashed border-white/40 bg-white/10 md:grid-cols-4">
+            {proofPoints.map((point) => (
+              <li key={point.label} className="flex min-h-[14.4375rem] flex-col items-start justify-between gap-6 bg-black/70 p-7.5">
+                <p className="type-eyebrow text-white/40">{point.label}</p>
+                <p className="type-paragraph-m-bold text-white">{point.value}</p>
+              </li>
+            ))}
+          </ul>
+        </Surface>
+      </Section>
+
+      <Section className="py-16 md:py-24">
         <div className="grid gap-12 md:grid-cols-[1fr_1.2fr] md:items-start">
           <div className="md:sticky md:top-24">
             <Eyebrow>Le problème</Eyebrow>
@@ -128,23 +169,20 @@ export default async function FrancePage() {
           </div>
           <div className="flex flex-col gap-6 type-body text-text/70">
             <p>
-              Les entreprises européennes cherchent une IA qui fonctionne avec leurs systèmes existants
-              (ERP, CRM, SharePoint, Teams), qui respecte la RGPD et qui peut être gouvernée de manière centralisée.
+              Les entreprises européennes cherchent une IA qui fonctionne avec leurs systèmes existants (ERP, CRM, SharePoint, Teams), qui respecte le RGPD, et qui peut être gouvernée de manière centralisée.
             </p>
             <p>
-              Wonka AI construit des agents IA privés connectés aux outils que l'entreprise utilise déjà, avec
-              contrôle d'accès, logs d'audit et conformité RGPD par défaut.
+              Wonka AI construit des agents IA privés connectés aux outils que l'entreprise utilise déjà, avec contrôle d'accès, logs d'audit et conformité RGPD par défaut.
             </p>
             <p>
-              Hébergement Azure West Europe (Microsoft Irlande). Les données clients ne sont pas utilisées pour
-              entraîner des modèles publics. DPA disponible.
+              Hébergement Azure West Europe (Microsoft Irlande). Les données clients ne sont pas utilisées pour entraîner des modèles publics. DPA disponible.
             </p>
           </div>
         </div>
       </Section>
 
       <Section id="proofs" wide className="border-t border-dashed border-border bg-mid-gray py-16 md:py-24">
-        <h2 className={cn(headingClass.section, "mb-10 text-center")}>Preuves publiques</h2>
+        <h2 className={cn(headingClass.section, "mb-10")}>Preuves publiques</h2>
 
         <div className="grid gap-6 md:grid-cols-2">
           {references.map((ref) => (
@@ -155,11 +193,11 @@ export default async function FrancePage() {
           ))}
         </div>
 
-        <div className="mt-10 flex flex-col items-center gap-5">
-          <p className="type-paragraph-m text-center text-text/60">
-            #1 AI Start-Up of the Year - Belgium Startup Awards 2026
+        <div className="mt-10 text-center">
+          <p className="type-paragraph-m text-text/60">
+            #1 AI Start-Up of the Year, Belgium Startup Awards 2026
           </p>
-          <div className="flex flex-wrap items-center justify-center gap-4 type-paragraph-m text-text/50">
+          <div className="mt-3 flex flex-wrap items-center justify-center gap-2 type-paragraph-m text-text/50">
             <span>Nvidia Inception</span>
             <span className="text-text/30">•</span>
             <span>Microsoft for Startups</span>
@@ -167,105 +205,60 @@ export default async function FrancePage() {
         </div>
       </Section>
 
-      <Section wide className="bg-background py-16 md:py-24">
-        <Surface variant="panel" className="bg-blue-900 p-7.5 text-white md:p-12">
-          <Image
-            src="/images/security/banner-bg.avif"
-            alt=""
-            fill
-            sizes="(min-width: 89rem) 89rem, 100vw"
-            className="object-cover mix-blend-luminosity"
-          />
-          <div className="relative grid grid-cols-1 gap-10 md:grid-cols-2 md:items-center md:gap-5">
-            <div className="flex max-w-[35.125rem] flex-col gap-5">
-              <h2 className={headingClass.section}>Conformité et sécurité</h2>
-              <ul className="flex flex-col gap-3">
-                <li className="flex items-start gap-3">
-                  <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-white" />
-                  <span className="type-paragraph-m text-white/80">ISO 27001 certifié</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-white" />
-                  <span className="type-paragraph-m text-white/80">RGPD conforme</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-white" />
-                  <span className="type-paragraph-m text-white/80">NIS 2 conforme</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-white" />
-                  <span className="type-paragraph-m text-white/80">SOC 2 Type II en cours</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-white" />
-                  <span className="type-paragraph-m text-white/80">Hébergement : Azure West Europe (Microsoft Irlande)</span>
-                </li>
-              </ul>
-            </div>
-            <ul className="grid grid-cols-3">
-              {certifications.map((cert) => {
-                const Icon = cert.icon;
-                return (
-                  <li
-                    key={cert.label}
-                    className="flex min-h-40 items-center justify-center border border-dashed border-white/40 first:border-l-0 md:min-h-[14.4375rem]"
-                  >
-                    <Icon className="size-16 md:size-31" />
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        </Surface>
+      <Section className="py-16 md:py-24">
+        <h2 className={cn(headingClass.section, "mb-12")}>Conformité et sécurité</h2>
+        <div className="grid gap-8 md:grid-cols-3 md:gap-6">
+          {certifications.map((cert) => {
+            const Icon = cert.icon;
+            return (
+              <Surface key={cert.label} variant="card" className="p-6 md:p-7">
+                <Icon className="size-12 text-accent" />
+                <h3 className={cn(headingClass.card, "mt-5")}>{cert.label}</h3>
+                <p className="type-paragraph-m mt-3 text-text/62">{cert.detail}</p>
+              </Surface>
+            );
+          })}
+        </div>
+
+        <div className="mt-10 text-center">
+          <p className="type-paragraph-m text-text/60">
+            SOC 2 Type II en cours • Hébergement Azure West Europe (Microsoft Irlande)
+          </p>
+        </div>
       </Section>
 
-      <Section className="border-t border-border py-16 md:py-24" containerClassName="max-w-[48rem]">
+      <Section className="border-t border-dashed border-border bg-mid-gray py-16 md:py-24" containerClassName="max-w-[48rem]">
         <h2 className={cn(headingClass.section, "mb-8")}>Questions fréquentes</h2>
         <div className="flex flex-col gap-6">
-          <div>
-            <h3 className="type-body font-medium">ChatGPT personnel vs IA gouvernée : quelle différence ?</h3>
-            <p className="type-paragraph-m mt-3 text-text/62">
-              ChatGPT est un assistant personnel sans connexion aux systèmes d'entreprise. Wonka AI déploie des agents
-              connectés aux outils métier (ERP, CRM, SharePoint) avec contrôle d'accès centralisé, logs d'audit et
-              conformité RGPD.
-            </p>
-          </div>
-          <div>
-            <h3 className="type-body font-medium">Où vont les données ?</h3>
-            <p className="type-paragraph-m mt-3 text-text/62">
-              Hébergement Azure West Europe (Microsoft Irlande) par défaut. Les données clients ne sont pas utilisées
-              pour entraîner des modèles publics. Data Processing Agreement disponible.
-            </p>
-          </div>
-          <div>
-            <h3 className="type-body font-medium">Le RSSI doit-il valider ?</h3>
-            <p className="type-paragraph-m mt-3 text-text/62">
-              Oui. Wonka AI est ISO 27001 certifié, RGPD conforme et NIS 2 conforme. Architecture conçue pour
-              satisfaire les exigences RSSI : contrôle d'accès, chiffrement, logs, DPA.
-            </p>
-          </div>
-          <div>
-            <h3 className="type-body font-medium">Combien de temps pour déployer ?</h3>
-            <p className="type-paragraph-m mt-3 text-text/62">
-              Déployé en semaines, pas en mois. Le délai dépend du nombre de connecteurs (SharePoint, Odoo, CRM)
-              et de la complexité des workflows agents.
-            </p>
-          </div>
+          {faqItems.map((item) => (
+            <div key={item.question}>
+              <h3 className="type-body font-medium">{item.question}</h3>
+              <p className="type-paragraph-m mt-3 text-text/62">{item.answer}</p>
+            </div>
+          ))}
         </div>
       </Section>
 
       <Section
         data-theme="dark"
-        className="bg-black text-white py-16 md:py-24"
-        containerClassName="flex flex-col items-center text-center"
+        fluid
+        className="bg-black px-0 md:px-0 lg:px-0"
+        containerClassName="relative overflow-hidden flex flex-col items-center px-6 md:px-12 py-15 md:py-22"
       >
-        <h2 className={cn(headingClass.section, "max-w-2xl")}>
-          Prêt à découvrir où l'IA peut transformer vos opérations ?
-        </h2>
-        <p className="type-body mt-6 max-w-lg text-white/70">
-          Répondez à 5 questions pour identifier les cas d'usage prioritaires dans votre contexte.
-        </p>
-        <div className="mt-8">
+        <Image
+          src="/images/CTA/cta-bg.avif"
+          alt=""
+          fill
+          sizes="100vw"
+          className="pointer-events-none object-cover opacity-80"
+        />
+        <div className="relative flex flex-col items-center gap-6 text-center">
+          <h2 className={cn(headingClass.section, "text-text")}>
+            Prêt à voir où l'IA peut transformer vos opérations ?
+          </h2>
+          <p className="type-body max-w-[35.125rem] text-text opacity-80">
+            Cinq questions pour identifier les cas d'usage prioritaires dans votre contexte.
+          </p>
           <ButtonLink
             href="/france/diagnostic"
             variant="primary"
