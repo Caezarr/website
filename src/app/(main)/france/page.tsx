@@ -106,15 +106,15 @@ export default async function FrancePage() {
               Voir un cas
             </a>
           </div>
+        </div>
 
-          <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
-            {proofPoints.map((point) => (
-              <div key={point.label}>
-                <p className="type-eyebrow text-white/40">{point.label}</p>
-                <p className="type-paragraph-m-bold mt-2 text-white">{point.value}</p>
-              </div>
-            ))}
-          </div>
+        <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
+          {proofPoints.map((point) => (
+            <div key={point.label}>
+              <p className="type-eyebrow text-white/40">{point.label}</p>
+              <p className="type-paragraph-m-bold mt-2 text-white">{point.value}</p>
+            </div>
+          ))}
         </div>
       </Section>
 
