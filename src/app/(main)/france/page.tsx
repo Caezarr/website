@@ -99,8 +99,15 @@ export default async function FrancePage() {
       <Problem id="problem" items={problemItems} />
       <Solution id="solution" data={solutionData} />
       <Stats id="stats" />
-      <Security id="security" />
       <TrustedBy id="trusted-by" />
+      <Security
+        id="security"
+        data={{
+          eyebrow: null,
+          heading: "Vos données restent les vôtres.",
+          body: null,
+        }}
+      />
       <Cta
         id="get-started"
         data={{

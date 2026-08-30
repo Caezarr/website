@@ -6,24 +6,97 @@ import { Section } from "@/components/ui/section";
 import { cn } from "@/lib/utils";
 import { headingClass } from "@/lib/design-tokens";
 
-const LOGO_ASSETS = [
-  { src: "/images/hero/proof-1.svg", alt: "Engie, Buildwise, Xerius" },
-  { src: "/images/hero/proof-2.svg", alt: "Luminus, Cambio, Zorgi, ODTH" },
-  { src: "/images/hero/proof-3.svg", alt: "Client logos" },
+function NvidiaLogo() {
+  return (
+    <svg
+      width="19"
+      height="12"
+      viewBox="0 0 19 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-auto w-full"
+    >
+      <path
+        d="M1.85283 5.16593C1.85283 5.16593 3.49248 2.74676 6.76631 2.49648V1.61881C3.14013 1.91003 0 4.98123 0 4.98123C0 4.98123 1.77852 10.1226 6.76631 10.5934V9.66046C3.10603 9.19998 1.85283 5.16593 1.85283 5.16593ZM6.76631 7.80515V8.65951C3.99995 8.16632 3.23208 5.29067 3.23208 5.29067C3.23208 5.29067 4.56032 3.81926 6.76631 3.58064V4.51813C6.76463 4.51813 6.76347 4.51762 6.76208 4.51762C5.60426 4.37868 4.69977 5.46029 4.69977 5.46029C4.69977 5.46029 5.20673 7.28114 6.76631 7.80515ZM6.76631 0V1.61881C6.87276 1.61065 6.9792 1.60373 7.08624 1.60008C11.2088 1.46114 13.8949 4.98123 13.8949 4.98123C13.8949 4.98123 10.8098 8.73266 7.59568 8.73266C7.3011 8.73266 7.02532 8.70534 6.76631 8.65943V9.66046C6.9878 9.68858 7.21746 9.70512 7.45709 9.70512C10.4481 9.70512 12.6111 8.17761 14.7055 6.36973C15.0528 6.64784 16.4744 7.32442 16.7667 7.62059C14.7752 9.28785 10.1341 10.6318 7.50292 10.6318C7.2493 10.6318 7.00573 10.6165 6.76631 10.5934V12H18.1348V0H6.76631ZM6.76631 3.58064V2.49648C6.87166 2.48912 6.97782 2.48351 7.08624 2.48009C10.0508 2.38697 11.9957 5.02764 11.9957 5.02764C11.9957 5.02764 9.895 7.94519 7.6426 7.94519C7.31844 7.94519 7.02787 7.89309 6.76631 7.80515V4.51813C7.92041 4.65759 8.15262 5.16739 8.84647 6.32405L10.3896 5.02284C10.3896 5.02284 9.26315 3.54545 7.3642 3.54545C7.15779 3.54538 6.96026 3.55988 6.76631 3.58064Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function MicrosoftLogo() {
+  return (
+    <svg
+      width="12"
+      height="12"
+      viewBox="0 0 12 12"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-auto w-full"
+    >
+      <path d="M0.521729 0.521729H5.73912V5.73912H0.521729V0.521729Z" fill="currentColor" />
+      <path d="M6.26099 0.521729H11.4784V5.73912H6.26099V0.521729Z" fill="currentColor" />
+      <path d="M0.521729 6.26086H5.73912V11.4783H0.521729V6.26086Z" fill="currentColor" />
+      <path d="M6.26099 6.26086H11.4784V11.4783H6.26099V6.26086Z" fill="currentColor" />
+    </svg>
+  );
+}
+
+const CLIENT_LOGOS = [
+  { id: "nvidia", component: NvidiaLogo },
+  { id: "microsoft", component: MicrosoftLogo },
+  { id: "engie", src: "/images/hero/proof-1.svg", alt: "Engie" },
+  { id: "pwc", src: "/images/hero/proof-1.svg", alt: "PwC" },
+  { id: "buildwise", src: "/images/hero/proof-1.svg", alt: "Buildwise" },
+  { id: "xerius", src: "/images/hero/proof-1.svg", alt: "Xerius" },
+  { id: "luminus", src: "/images/hero/proof-2.svg", alt: "Luminus" },
+  { id: "cambio", src: "/images/hero/proof-2.svg", alt: "Cambio" },
+  { id: "zorgi", src: "/images/hero/proof-2.svg", alt: "Zorgi" },
+  { id: "odth", src: "/images/hero/proof-2.svg", alt: "ODTH" },
+  { id: "itzu", src: "/images/hero/proof-3.svg", alt: "Itzu" },
+  { id: "n-allo", src: "/images/hero/proof-3.svg", alt: "N-allo" },
 ];
 
-const CYCLE_DURATION = 3000;
+const GRID_SIZE = 10;
+const SWAP_INTERVAL = 1500;
+const FADE_DURATION = 800;
 
 export function TrustedBy({ id }: { id?: string }) {
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [visibleIndices, setVisibleIndices] = useState<number[]>(() =>
+    Array.from({ length: GRID_SIZE }, (_, i) => i % CLIENT_LOGOS.length),
+  );
+  const [swapping, setSwapping] = useState<number | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % LOGO_ASSETS.length);
-    }, CYCLE_DURATION);
+      if (swapping !== null) return;
+
+      const slotIndex = Math.floor(Math.random() * GRID_SIZE);
+      const hiddenIndices = CLIENT_LOGOS.map((_, i) => i).filter(
+        (i) => !visibleIndices.includes(i),
+      );
+
+      if (hiddenIndices.length === 0) return;
+
+      const newLogoIndex = hiddenIndices[Math.floor(Math.random() * hiddenIndices.length)];
+
+      setSwapping(slotIndex);
+
+      setTimeout(() => {
+        setVisibleIndices((prev) => {
+          const next = [...prev];
+          next[slotIndex] = newLogoIndex;
+          return next;
+        });
+
+        setTimeout(() => {
+          setSwapping(null);
+        }, FADE_DURATION);
+      }, FADE_DURATION);
+    }, SWAP_INTERVAL);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [visibleIndices, swapping]);
 
   return (
     <Section id={id} className="py-16 md:py-20">
@@ -32,24 +105,33 @@ export function TrustedBy({ id }: { id?: string }) {
           Ils nous font confiance
         </h2>
 
-        <div className="relative h-[8rem] w-full max-w-[56rem] overflow-hidden">
-          {LOGO_ASSETS.map((logo, i) => (
-            <div
-              key={logo.src}
-              className={cn(
-                "absolute inset-0 flex items-center justify-center transition-opacity duration-1000",
-                i === activeIndex ? "opacity-100" : "opacity-0",
-              )}
-            >
-              <Image
-                src={logo.src}
-                alt={logo.alt}
-                width={896}
-                height={128}
-                className="h-auto w-full object-contain"
-              />
-            </div>
-          ))}
+        <div className="grid w-full max-w-[56rem] grid-cols-5 grid-rows-2 border-l border-border">
+          {visibleIndices.map((logoIndex, slotIndex) => {
+            const logo = CLIENT_LOGOS[logoIndex];
+            const isSwapping = swapping === slotIndex;
+
+            return (
+              <div
+                key={slotIndex}
+                className="relative flex min-h-[6rem] items-center justify-center border-r border-b border-border p-4 transition-opacity duration-[800ms]"
+                style={{ opacity: isSwapping ? 0 : 1 }}
+              >
+                {logo.component ? (
+                  <div className="flex h-8 w-20 items-center justify-center text-text">
+                    <logo.component />
+                  </div>
+                ) : (
+                  <Image
+                    src={logo.src!}
+                    alt={logo.alt!}
+                    width={160}
+                    height={32}
+                    className="h-auto w-20 object-contain brightness-0"
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
 
         <p className="type-paragraph-m text-center text-text/60">
