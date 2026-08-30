@@ -56,17 +56,19 @@ const CLIENT_LOGOS: ClientLogo[] = [
   { id: "odth", type: "image", src: "/images/france/logos/odth.png", alt: "ODTH" },
 ];
 
-const GRID_SIZE = 10;
+const GRID_SIZE = CLIENT_LOGOS.length;
 const SWAP_INTERVAL = 1500;
 const FADE_DURATION = 800;
 
 export function TrustedBy({ id }: { id?: string }) {
   const [visibleIndices, setVisibleIndices] = useState<number[]>(() =>
-    Array.from({ length: GRID_SIZE }, (_, i) => i % CLIENT_LOGOS.length),
+    Array.from({ length: GRID_SIZE }, (_, i) => i),
   );
   const [swapping, setSwapping] = useState<number | null>(null);
 
   useEffect(() => {
+    if (GRID_SIZE >= CLIENT_LOGOS.length) return;
+
     const interval = setInterval(() => {
       if (swapping !== null) return;
 
@@ -104,7 +106,7 @@ export function TrustedBy({ id }: { id?: string }) {
           Ils nous font confiance
         </h2>
 
-        <div className="grid w-full max-w-[56rem] grid-cols-5 grid-rows-2 border-l border-border">
+        <div className="grid w-full max-w-[56rem] grid-cols-3 grid-rows-2 border-l border-border">
           {visibleIndices.map((logoIndex, slotIndex) => {
             const logo = CLIENT_LOGOS[logoIndex];
             const isSwapping = swapping === slotIndex;
