@@ -11,7 +11,6 @@ import { BadgeIso } from "@/components/ui/icons/badge-iso";
 import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
 import { buildMetadata } from "@/lib/seo";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
-import { meetingTrackProps } from "@/lib/meeting-track";
 import { headingClass } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 import type { SiteSettings } from "@/lib/types";
@@ -89,22 +88,23 @@ export default async function FrancePage() {
             L'IA d'entreprise qui se déploie vraiment
           </h1>
           <p className="type-body mt-6 leading-7 text-white/80">
-            Gabriel Rance, country manager France. Wonka AI aide les entreprises européennes à déployer
-            des agents IA privés connectés à leurs outils et données existants, avec gouvernance et conformité
-            RGPD intégrées.
+            Des agents IA privés connectés aux outils que votre entreprise utilise déjà — ERP, CRM, SharePoint, Teams —
+            avec gouvernance centralisée et conformité RGPD. Gabriel Rance, country manager France.
           </p>
 
-          {franceMeetingUrl && (
-            <div className="mt-10">
-              <ButtonLink
-                href={`${franceMeetingUrl}${franceMeetingUrl.includes("?") ? "&" : "?"}utm_campaign=france&utm_source=website&utm_medium=landing`}
-                variant="primary"
-                {...meetingTrackProps("general")}
-              >
-                Échange de 45 minutes
-              </ButtonLink>
-            </div>
-          )}
+          <div className="mt-10 flex flex-col items-start gap-4 sm:flex-row">
+            <ButtonLink
+              href="/france/diagnostic"
+              variant="primary"
+            >
+              Faire le diagnostic
+            </ButtonLink>
+            <a
+              href="#proofs"
+              className="type-paragraph-m-bold text-white underline underline-offset-4 hover:text-white/80"
+            >
+              Voir un cas
+            </a>
           </div>
 
           <div className="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
@@ -128,7 +128,7 @@ export default async function FrancePage() {
           </div>
           <div className="flex flex-col gap-6 type-body text-text/70">
             <p>
-              Les grandes entreprises européennes cherchent une IA qui fonctionne avec leurs systèmes existants
+              Les entreprises européennes cherchent une IA qui fonctionne avec leurs systèmes existants
               (ERP, CRM, SharePoint, Teams), qui respecte la RGPD et qui peut être gouvernée de manière centralisée.
             </p>
             <p>
@@ -143,7 +143,7 @@ export default async function FrancePage() {
         </div>
       </Section>
 
-      <Section wide className="border-t border-dashed border-border bg-mid-gray py-16 md:py-24">
+      <Section id="proofs" wide className="border-t border-dashed border-border bg-mid-gray py-16 md:py-24">
         <h2 className={cn(headingClass.section, "mb-10 text-center")}>Preuves publiques</h2>
 
         <div className="grid gap-6 md:grid-cols-2">
@@ -219,28 +219,60 @@ export default async function FrancePage() {
         </Surface>
       </Section>
 
+      <Section className="border-t border-border py-16 md:py-24" containerClassName="max-w-[48rem]">
+        <h2 className={cn(headingClass.section, "mb-8")}>Questions fréquentes</h2>
+        <div className="flex flex-col gap-6">
+          <div>
+            <h3 className="type-body font-medium">ChatGPT personnel vs IA gouvernée : quelle différence ?</h3>
+            <p className="type-paragraph-m mt-3 text-text/62">
+              ChatGPT est un assistant personnel sans connexion aux systèmes d'entreprise. Wonka AI déploie des agents
+              connectés aux outils métier (ERP, CRM, SharePoint) avec contrôle d'accès centralisé, logs d'audit et
+              conformité RGPD.
+            </p>
+          </div>
+          <div>
+            <h3 className="type-body font-medium">Où vont les données ?</h3>
+            <p className="type-paragraph-m mt-3 text-text/62">
+              Hébergement Azure West Europe (Microsoft Irlande) par défaut. Les données clients ne sont pas utilisées
+              pour entraîner des modèles publics. Data Processing Agreement disponible.
+            </p>
+          </div>
+          <div>
+            <h3 className="type-body font-medium">Le RSSI doit-il valider ?</h3>
+            <p className="type-paragraph-m mt-3 text-text/62">
+              Oui. Wonka AI est ISO 27001 certifié, RGPD conforme et NIS 2 conforme. Architecture conçue pour
+              satisfaire les exigences RSSI : contrôle d'accès, chiffrement, logs, DPA.
+            </p>
+          </div>
+          <div>
+            <h3 className="type-body font-medium">Combien de temps pour déployer ?</h3>
+            <p className="type-paragraph-m mt-3 text-text/62">
+              Déployé en semaines, pas en mois. Le délai dépend du nombre de connecteurs (SharePoint, Odoo, CRM)
+              et de la complexité des workflows agents.
+            </p>
+          </div>
+        </div>
+      </Section>
+
       <Section
         data-theme="dark"
         className="bg-black text-white py-16 md:py-24"
         containerClassName="flex flex-col items-center text-center"
       >
         <h2 className={cn(headingClass.section, "max-w-2xl")}>
-          Découvrons où Wonka AI peut faire la différence
+          Prêt à découvrir où l'IA peut transformer vos opérations ?
         </h2>
         <p className="type-body mt-6 max-w-lg text-white/70">
-          45 minutes pour cartographier un workflow d'agents IA dans votre contexte métier.
+          Répondez à 5 questions pour identifier les cas d'usage prioritaires dans votre contexte.
         </p>
-        {franceMeetingUrl && (
-          <div className="mt-8">
-            <ButtonLink
-              href={`${franceMeetingUrl}${franceMeetingUrl.includes("?") ? "&" : "?"}utm_campaign=france&utm_source=website&utm_medium=cta`}
-              variant="primary"
-              {...meetingTrackProps("general")}
-            >
-              Réserver un échange
-            </ButtonLink>
-          </div>
-        )}
+        <div className="mt-8">
+          <ButtonLink
+            href="/france/diagnostic"
+            variant="primary"
+          >
+            Faire le diagnostic
+          </ButtonLink>
+        </div>
       </Section>
     </main>
   );
