@@ -56,13 +56,12 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
       clientName: "Itzu",
       clientLogo: null,
       headline: "How Itzu empowers every employee with personal AI assistants",
-      excerpt: "Belgian recruitment agency Itzu deployed personal WonkaChat assistants to 100% of their workforce, saving multiple hours per employee each week.",
+      excerpt: "Itzu deployed personal WonkaChat assistants to 100% of their workforce, with employees saving multiple hours per week.",
       sector: "Recruitment & HR",
       publishedAt: "2026-08-01T00:00:00Z",
       results: [
         "100% employee adoption",
         "Multiple hours saved per employee weekly",
-        "Connected to internal knowledge systems",
         "Personal AI assistant for each team member"
       ],
       body: [
@@ -73,35 +72,7 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
             {
               _type: "span",
               _key: "intro-text",
-              text: "Itzu, a leading Belgian recruitment agency, recognized that their teams were spending significant time on repetitive tasks: searching internal knowledge bases, drafting routine communications, and extracting insights from candidate data.",
-              marks: []
-            }
-          ],
-          markDefs: [],
-          style: "normal"
-        },
-        {
-          _type: "block",
-          _key: "challenge",
-          children: [
-            {
-              _type: "span",
-              _key: "challenge-text",
-              text: "The challenge was to give every employee access to AI tools that could help with their daily work, while maintaining data security and ensuring adoption across the organization.",
-              marks: []
-            }
-          ],
-          markDefs: [],
-          style: "normal"
-        },
-        {
-          _type: "block",
-          _key: "solution",
-          children: [
-            {
-              _type: "span",
-              _key: "solution-text",
-              text: "Wonka AI deployed personal WonkaChat instances for each employee, connected to Itzu's internal systems and knowledge bases. Each assistant was configured with role-specific context and access permissions, ensuring employees could query company data securely.",
+              text: "Itzu deployed WonkaChat to 100% of employees. Each team member received a personal AI assistant connected to internal systems, helping with daily work.",
               marks: []
             }
           ],
@@ -115,7 +86,7 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
             {
               _type: "span",
               _key: "result-text",
-              text: "The deployment achieved 100% adoption across the workforce. Employees use their personal AI assistants for everything from candidate research to drafting job descriptions, with each team member saving multiple hours per week on routine tasks.",
+              text: "The deployment achieved 100% adoption. Employees save multiple hours per week using their personal AI assistants.",
               marks: []
             }
           ],
@@ -123,7 +94,7 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
           style: "normal"
         }
       ] as never,
-      tags: ["recruitment", "knowledge-management", "employee-productivity"],
+      tags: ["recruitment", "employee-productivity"],
       seo: null,
       faq: []
     };
@@ -137,14 +108,12 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
       clientName: "N-allo (Engie)",
       clientLogo: null,
       headline: "N-allo cuts support email time by 50% with AI agents",
-      excerpt: "Engie subsidiary N-allo deployed AI agents to handle support emails, reducing response time by 50% and increasing team capacity by 70%.",
+      excerpt: "Engie subsidiary N-allo deployed AI agents to handle support emails, cutting handling time by 50% across a team of +70 employees.",
       sector: "Energy & Utilities",
       publishedAt: "2026-07-15T00:00:00Z",
       results: [
-        "50% reduction in support email handling time",
-        "70% capacity increase across +70 employees",
-        "Connected to internal CRM and knowledge systems",
-        "Automated email triage and response drafting"
+        "50% time reduction on support emails",
+        "Team of +70 employees"
       ],
       body: [
         {
@@ -154,35 +123,7 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
             {
               _type: "span",
               _key: "intro-text",
-              text: "N-allo, an Engie group subsidiary, faced a growing volume of customer support emails that was stretching their team's capacity. Support agents were spending significant time on repetitive queries and manual email triage.",
-              marks: []
-            }
-          ],
-          markDefs: [],
-          style: "normal"
-        },
-        {
-          _type: "block",
-          _key: "challenge",
-          children: [
-            {
-              _type: "span",
-              _key: "challenge-text",
-              text: "The team needed a solution that could handle routine support queries while maintaining the quality and accuracy of responses, all while keeping customer data secure within their systems.",
-              marks: []
-            }
-          ],
-          markDefs: [],
-          style: "normal"
-        },
-        {
-          _type: "block",
-          _key: "solution",
-          children: [
-            {
-              _type: "span",
-              _key: "solution-text",
-              text: "Wonka AI built custom AI agents connected to N-allo's CRM and internal knowledge base. The agents automatically triage incoming support emails, draft responses for common queries, and surface relevant information from past interactions and documentation.",
+              text: "N-allo, an Engie group subsidiary, deployed AI agents to handle support emails across their team of over 70 employees.",
               marks: []
             }
           ],
@@ -196,7 +137,7 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
             {
               _type: "span",
               _key: "result-text",
-              text: "The deployment reduced time spent handling support emails by 50% across the team. This capacity increase allowed the same team to handle 70% more volume, improving customer response times and freeing agents to focus on complex cases requiring human judgment.",
+              text: "The deployment reduced time spent handling support emails by 50% across the team.",
               marks: []
             }
           ],
@@ -204,7 +145,7 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
           style: "normal"
         }
       ] as never,
-      tags: ["customer-support", "email-automation", "crm"],
+      tags: ["customer-support", "email-automation"],
       seo: null,
       faq: []
     };

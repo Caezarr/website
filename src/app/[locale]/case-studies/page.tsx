@@ -142,7 +142,6 @@ export default async function CasClientsPage({ params }: PageProps) {
                 <ul className="mt-auto flex flex-col gap-2 pt-6">
                   <li className="type-paragraph-s text-accent">100% employee adoption</li>
                   <li className="type-paragraph-s text-accent">Multiple hours saved per employee weekly</li>
-                  <li className="type-paragraph-s text-accent">Personal AI assistant for each team member</li>
                 </ul>
               </a>
               <a
@@ -153,9 +152,8 @@ export default async function CasClientsPage({ params }: PageProps) {
                 <h3 className="mt-4 type-h5 group-hover:text-accent">N-allo (Engie)</h3>
                 <p className="mt-3 type-body text-text/65">N-allo cuts support email time by 50% with AI agents</p>
                 <ul className="mt-auto flex flex-col gap-2 pt-6">
-                  <li className="type-paragraph-s text-accent">50% reduction in support email handling time</li>
-                  <li className="type-paragraph-s text-accent">70% capacity increase across +70 employees</li>
-                  <li className="type-paragraph-s text-accent">Automated email triage and response drafting</li>
+                  <li className="type-paragraph-s text-accent">50% time reduction on support emails</li>
+                  <li className="type-paragraph-s text-accent">Team of +70 employees</li>
                 </ul>
               </a>
             </div>
