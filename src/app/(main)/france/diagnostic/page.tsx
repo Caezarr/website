@@ -6,8 +6,6 @@ import { ButtonLink, Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { headingClass } from "@/lib/design-tokens";
 
-export const dynamic = "force-dynamic";
-
 type QuestionId = "secteur" | "outil" | "donnees" | "frein" | "role";
 
 interface Question {
@@ -19,7 +17,7 @@ interface Question {
 const QUESTIONS: Question[] = [
   {
     id: "secteur",
-    question: "Quel est votre secteur ?",
+    question: "Vous travaillez dans quel secteur ?",
     options: [
       { value: "industrie", label: "Industrie" },
       { value: "finance", label: "Finance" },
@@ -31,17 +29,17 @@ const QUESTIONS: Question[] = [
   },
   {
     id: "outil",
-    question: "Quel outil IA utilisez-vous aujourd'hui ?",
+    question: "Aujourd'hui, l'IA chez vous c'est quoi ?",
     options: [
       { value: "chatgpt-perso", label: "ChatGPT personnel" },
       { value: "copilot", label: "Copilot" },
-      { value: "rien", label: "Rien" },
-      { value: "outil-entreprise", label: "Déjà un outil entreprise" },
+      { value: "rien", label: "Rien de structuré" },
+      { value: "outil-entreprise", label: "Un outil entreprise déjà en place" },
     ],
   },
   {
     id: "donnees",
-    question: "Où sont vos données ?",
+    question: "Où vivent surtout vos données de travail ?",
     options: [
       { value: "sharepoint", label: "SharePoint" },
       { value: "odoo", label: "Odoo" },
@@ -52,40 +50,86 @@ const QUESTIONS: Question[] = [
   },
   {
     id: "frein",
-    question: "Quel est votre frein n°1 ?",
+    question: "Le vrai frein, c'est quoi ?",
     options: [
       { value: "rssi", label: "Le RSSI" },
-      { value: "shadow-it", label: "Shadow IT" },
-      { value: "pas-de-temps", label: "Pas de temps" },
+      { value: "shadow-it", label: "Le shadow IT" },
+      { value: "pas-de-temps", label: "Pas le temps" },
       { value: "pas-de-cas", label: "Pas de cas d'usage clair" },
     ],
   },
   {
     id: "role",
-    question: "Quel est votre rôle ?",
+    question: "Vous, vous êtes ?",
     options: [
       { value: "dsi", label: "DSI" },
       { value: "rssi", label: "RSSI" },
-      { value: "metier", label: "Métier" },
-      { value: "direction", label: "Direction" },
+      { value: "metier", label: "Direction métier" },
+      { value: "direction", label: "Direction générale" },
     ],
   },
 ];
 
-const AGENT_TYPES = [
-  {
+interface AgentType {
+  title: string;
+  description: string;
+}
+
+const AGENT_POOL: Record<string, AgentType> = {
+  "support-mail": {
     title: "Agent support mail",
     description: "Gère automatiquement les emails support récurrents, avec escalade vers un humain si nécessaire. Connecté à votre CRM et base de connaissances.",
   },
-  {
+  "knowledge-sharepoint": {
     title: "Agent knowledge SharePoint",
     description: "Répond aux questions de l'équipe à partir de votre documentation interne (SharePoint, Confluence, wikis). Contexte d'entreprise inclus.",
   },
-  {
-    title: "Copilote métier",
+  "copilote-erp-crm": {
+    title: "Copilote branché ERP/CRM",
     description: "Assistant personnalisé pour les workflows métier (finance, RH, ops). Connecté à vos outils existants (ERP, CRM, mail).",
   },
-];
+  "agents-gouvernes": {
+    title: "Agents privés gouvernés",
+    description: "Un seul endroit pour tous vos agents IA. Le RSSI voit ce qui sort de l'entreprise, contrôle d'accès centralisé, logs d'audit. Hébergement Azure West Europe.",
+  },
+};
+
+function pickAgents(answers: Record<QuestionId, string>): AgentType[] {
+  const picked: AgentType[] = [];
+  const used = new Set<string>();
+
+  if ((answers.donnees === "mail" || answers.frein === "rssi" || answers.frein === "shadow-it") && !used.has("support-mail")) {
+    picked.push(AGENT_POOL["support-mail"]);
+    used.add("support-mail");
+  }
+
+  if (answers.donnees === "sharepoint" && !used.has("knowledge-sharepoint")) {
+    picked.push(AGENT_POOL["knowledge-sharepoint"]);
+    used.add("knowledge-sharepoint");
+  }
+
+  if ((answers.donnees === "odoo" || answers.donnees === "crm") && !used.has("copilote-erp-crm")) {
+    picked.push(AGENT_POOL["copilote-erp-crm"]);
+    used.add("copilote-erp-crm");
+  }
+
+  if ((answers.outil === "chatgpt-perso" || answers.frein === "rssi" || answers.frein === "shadow-it") && !used.has("agents-gouvernes")) {
+    picked.push(AGENT_POOL["agents-gouvernes"]);
+    used.add("agents-gouvernes");
+  }
+
+  const remaining = Object.entries(AGENT_POOL)
+    .filter(([key]) => !used.has(key))
+    .map(([, agent]) => agent);
+
+  while (picked.length < 3 && remaining.length > 0) {
+    const randomIndex = Math.floor(Math.random() * remaining.length);
+    picked.push(remaining[randomIndex]);
+    remaining.splice(randomIndex, 1);
+  }
+
+  return picked.slice(0, 3);
+}
 
 type Step = "questions" | "email" | "result";
 
@@ -99,6 +143,7 @@ export default function FranceDiagnosticPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [franceMeetingUrl, setFranceMeetingUrl] = useState<string | null>(null);
+  const [selectedAgents, setSelectedAgents] = useState<AgentType[]>([]);
 
   useEffect(() => {
     const stored = sessionStorage.getItem("diagnostic-answers");
@@ -173,6 +218,8 @@ export default function FranceDiagnosticPage() {
         throw new Error(data.error || "Erreur lors de l'envoi.");
       }
 
+      const agents = pickAgents(answers);
+      setSelectedAgents(agents);
       sessionStorage.removeItem("diagnostic-answers");
       setStep("result");
     } catch (err) {
@@ -237,10 +284,10 @@ export default function FranceDiagnosticPage() {
           {step === "email" && (
             <>
               <h1 className={cn(headingClass.section, "mb-6")}>
-                Dernière étape avant votre résultat
+                On prépare vos 3 agents.
               </h1>
               <p className="type-body mb-10 text-text/70">
-                Laissez-nous vos coordonnées pour recevoir votre diagnostic personnalisé.
+                Prénom, email pro, entreprise. Pas de newsletter. Le résultat s'affiche ensuite.
               </p>
 
               <form onSubmit={handleEmailSubmit} className="flex flex-col gap-4">
@@ -312,14 +359,18 @@ export default function FranceDiagnosticPage() {
           {step === "result" && (
             <>
               <h1 className={cn(headingClass.section, "mb-6")}>
-                Voici 3 types d'agents qui matchent votre contexte
+                {firstName && company
+                  ? `${firstName}, voici 3 agents pour ${company}.`
+                  : firstName
+                    ? `${firstName}, voici 3 agents pour votre SI.`
+                    : "Voici 3 agents pour votre SI."}
               </h1>
               <p className="type-body mb-10 text-text/70">
                 Ces agents sont des exemples concrets de ce que Wonka AI peut déployer pour votre entreprise. Chaque agent est connecté à vos systèmes existants et gouverné de manière centralisée.
               </p>
 
               <div className="flex flex-col gap-6">
-                {AGENT_TYPES.map((agent) => (
+                {selectedAgents.map((agent) => (
                   <div
                     key={agent.title}
                     className="rounded-sm border border-border bg-background p-6 md:p-8"
@@ -336,7 +387,7 @@ export default function FranceDiagnosticPage() {
                     Prêt à discuter de votre cas spécifique ?
                   </p>
                   <ButtonLink href={meetingUrlWithUtm} variant="primary">
-                    Réserver 45 minutes avec Gabriel
+                    Voir ça en 45 min avec Gabriel
                   </ButtonLink>
                 </div>
               ) : (

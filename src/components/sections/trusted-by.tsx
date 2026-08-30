@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Section } from "@/components/ui/section";
 import { cn } from "@/lib/utils";
@@ -42,19 +41,23 @@ function MicrosoftLogo() {
   );
 }
 
-const CLIENT_LOGOS = [
-  { id: "nvidia", component: NvidiaLogo },
-  { id: "microsoft", component: MicrosoftLogo },
-  { id: "engie", src: "/images/hero/proof-1.svg", alt: "Engie" },
-  { id: "pwc", src: "/images/hero/proof-1.svg", alt: "PwC" },
-  { id: "buildwise", src: "/images/hero/proof-1.svg", alt: "Buildwise" },
-  { id: "xerius", src: "/images/hero/proof-1.svg", alt: "Xerius" },
-  { id: "luminus", src: "/images/hero/proof-2.svg", alt: "Luminus" },
-  { id: "cambio", src: "/images/hero/proof-2.svg", alt: "Cambio" },
-  { id: "zorgi", src: "/images/hero/proof-2.svg", alt: "Zorgi" },
-  { id: "odth", src: "/images/hero/proof-2.svg", alt: "ODTH" },
-  { id: "itzu", src: "/images/hero/proof-3.svg", alt: "Itzu" },
-  { id: "n-allo", src: "/images/hero/proof-3.svg", alt: "N-allo" },
+type ClientLogo =
+  | { id: string; type: "component"; component: React.ComponentType }
+  | { id: string; type: "text"; name: string };
+
+const CLIENT_LOGOS: ClientLogo[] = [
+  { id: "nvidia", type: "component", component: NvidiaLogo },
+  { id: "microsoft", type: "component", component: MicrosoftLogo },
+  { id: "engie", type: "text", name: "Engie" },
+  { id: "pwc", type: "text", name: "PwC" },
+  { id: "buildwise", type: "text", name: "Buildwise" },
+  { id: "xerius", type: "text", name: "Xerius" },
+  { id: "luminus", type: "text", name: "Luminus" },
+  { id: "cambio", type: "text", name: "Cambio" },
+  { id: "zorgi", type: "text", name: "Zorgi" },
+  { id: "odth", type: "text", name: "ODTH" },
+  { id: "itzu", type: "text", name: "Itzu" },
+  { id: "n-allo", type: "text", name: "N-allo" },
 ];
 
 const GRID_SIZE = 10;
@@ -116,18 +119,14 @@ export function TrustedBy({ id }: { id?: string }) {
                 className="relative flex min-h-[6rem] items-center justify-center border-r border-b border-border p-4 transition-opacity duration-[800ms]"
                 style={{ opacity: isSwapping ? 0 : 1 }}
               >
-                {logo.component ? (
+                {logo.type === "component" ? (
                   <div className="flex h-8 w-20 items-center justify-center text-text">
                     <logo.component />
                   </div>
                 ) : (
-                  <Image
-                    src={logo.src!}
-                    alt={logo.alt!}
-                    width={160}
-                    height={32}
-                    className="h-auto w-20 object-contain brightness-0"
-                  />
+                  <p className="type-paragraph-m-bold text-center tracking-tight text-text">
+                    {logo.name}
+                  </p>
                 )}
               </div>
             );

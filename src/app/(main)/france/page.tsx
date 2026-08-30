@@ -100,22 +100,24 @@ export default async function FrancePage() {
       <Solution id="solution" data={solutionData} />
       <Stats id="stats" />
       <TrustedBy id="trusted-by" />
-      <Security
-        id="security"
-        data={{
-          eyebrow: null,
-          heading: "Vos données restent les vôtres.",
-          body: null,
-        }}
-      />
+      <div className="pb-20 md:pb-24">
+        <Security
+          id="security"
+          data={{
+            eyebrow: null,
+            heading: "Vos données restent les vôtres.",
+            body: null,
+          }}
+        />
+      </div>
       <Cta
         id="get-started"
         data={{
-          heading: "Prêt à voir où l'IA peut transformer vos opérations ?",
-          body: "Cinq questions pour identifier les cas d'usage prioritaires dans votre contexte.",
+          heading: "En 5 questions, 3 agents qui collent à votre SI.",
+          body: "Secteur, outils, données, frein, rôle. Deux minutes. Vous voyez le résultat avant de parler à quelqu'un.",
         }}
         meetingUrl="/france/diagnostic"
-        meetingLabel="Faire le diagnostic"
+        meetingLabel="Voir les 3 agents"
         meetingTrackType="france"
         showImage={false}
       />
