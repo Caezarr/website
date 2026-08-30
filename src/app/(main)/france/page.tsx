@@ -6,6 +6,7 @@ import { Problem, type ProblemItem } from "@/components/sections/problem";
 import { Solution } from "@/components/sections/solution";
 import { Stats } from "@/components/sections/stats";
 import { Security } from "@/components/sections/security";
+import { TrustedBy } from "@/components/sections/trusted-by";
 import { Cta } from "@/components/sections/cta";
 import { buildMetadata } from "@/lib/seo";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
@@ -99,6 +100,7 @@ export default async function FrancePage() {
       <Solution id="solution" data={solutionData} />
       <Stats id="stats" />
       <Security id="security" />
+      <TrustedBy id="trusted-by" />
       <Cta
         id="get-started"
         data={{
@@ -108,6 +110,7 @@ export default async function FrancePage() {
         meetingUrl="/france/diagnostic"
         meetingLabel="Faire le diagnostic"
         meetingTrackType="france"
+        showImage={false}
       />
     </>
   );
