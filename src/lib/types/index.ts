@@ -70,6 +70,7 @@ export interface SharedLinks {
   startAiMeetingUrl: string | null;
   wonkaBuildMeetingUrl: string | null;
   wonkaChatMeetingUrl: string | null;
+  franceMeetingUrl: string | null;
   meetingLabel: string | null;
   startAiUrl: string | null;
   wonkaBuildUrl: string | null;

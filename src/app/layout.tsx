@@ -90,7 +90,7 @@ const organizationSchema = {
     "https://www.linkedin.com/company/wonka-ai",
   ],
   description:
-    "Wonka AI deploys private LLMs inside European enterprises — connected to your existing tools, processing everything on your own servers. Full data sovereignty, GDPR compliance, deployed in weeks.",
+    "Wonka AI deploys private enterprise AI agents connected to your existing tools. Hosted in Azure West Europe (Microsoft Ireland), with GDPR compliance and ISO 27001 certification.",
 };
 
 const softwareApplicationSchema = {
@@ -101,7 +101,7 @@ const softwareApplicationSchema = {
   operatingSystem: "Web",
   url: SITE_URL,
   description:
-    "Private enterprise AI platform. Deploy a secure LLM inside your infrastructure, connected to SharePoint, Salesforce, Slack, Jira and more — with full data sovereignty and GDPR compliance.",
+    "Private enterprise AI platform. Deploy secure AI agents connected to SharePoint, Salesforce, Slack, Jira and more — with GDPR compliance. Hosted in Azure West Europe (Microsoft Ireland).",
   publisher: {
     "@type": "Organization",
     name: "Wonka AI",
@@ -115,10 +115,10 @@ const softwareApplicationSchema = {
     availability: "https://schema.org/OnlineOnly",
   },
   featureList: [
-    "Private LLM deployment on your infrastructure",
+    "Private AI agent deployment",
     "GDPR-compliant enterprise AI",
     "Connectors for SharePoint, Salesforce, Slack, Jira, HubSpot, Notion",
-    "Data sovereignty — no data leaves your environment",
+    "Azure West Europe hosting (Microsoft Ireland)",
     "RAG on your internal documents and knowledge base",
     "Deployed in weeks, not months",
   ],
@@ -132,7 +132,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s – Wonka AI",
     },
     description:
-      "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance and no data leaving your environment.",
+      "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance. Hosted in Azure West Europe (Microsoft Ireland).",
     robots: {
       index: true,
       follow: true,
