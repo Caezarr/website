@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
 import { Section } from "@/components/ui/section";
 import { ButtonLink, Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { headingClass } from "@/lib/design-tokens";
+
+export const dynamic = "force-dynamic";
 
 type QuestionId = "secteur" | "outil" | "donnees" | "frein" | "role";
 
@@ -89,8 +90,6 @@ const AGENT_TYPES = [
 type Step = "questions" | "email" | "result";
 
 export default function FranceDiagnosticPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
   const [step, setStep] = useState<Step>("questions");
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<QuestionId, string>>({} as Record<QuestionId, string>);

@@ -4,6 +4,8 @@ import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import type { SiteSettings } from "@/lib/types";
 import type { MeetingContext } from "@/lib/shared-links-defaults";
 
+export const dynamic = "force-dynamic";
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const context = (searchParams.get("context") || "default") as MeetingContext;
