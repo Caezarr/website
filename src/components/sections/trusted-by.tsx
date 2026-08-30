@@ -54,9 +54,15 @@ const CLIENT_LOGOS: ClientLogo[] = [
   { id: "luminus", type: "svg", src: "/images/france/logos/luminus.svg", alt: "Luminus" },
   { id: "cambio", type: "image", src: "/images/france/logos/cambio.png", alt: "Cambio" },
   { id: "odth", type: "image", src: "/images/france/logos/odth.png", alt: "ODTH" },
+  { id: "itzu", type: "svg", src: "/images/france/logos/itzu.svg", alt: "Itzu" },
+  { id: "engie", type: "svg", src: "/images/france/logos/engie.svg", alt: "Engie" },
+  { id: "n-allo", type: "image", src: "/images/france/logos/n-allo.png", alt: "N-allo" },
+  { id: "zorgi", type: "svg", src: "/images/france/logos/zorgi.svg", alt: "Zorgi" },
+  { id: "xerius", type: "image", src: "/images/france/logos/xerius.png", alt: "Xerius" },
+  { id: "buildwise", type: "svg", src: "/images/france/logos/buildwise.svg", alt: "Buildwise" },
 ];
 
-const GRID_SIZE = CLIENT_LOGOS.length;
+const GRID_SIZE = 10;
 const SWAP_INTERVAL = 1500;
 const FADE_DURATION = 800;
 
@@ -67,7 +73,7 @@ export function TrustedBy({ id }: { id?: string }) {
   const [swapping, setSwapping] = useState<number | null>(null);
 
   useEffect(() => {
-    if (GRID_SIZE >= CLIENT_LOGOS.length) return;
+    if (CLIENT_LOGOS.length <= GRID_SIZE) return;
 
     const interval = setInterval(() => {
       if (swapping !== null) return;
@@ -106,7 +112,7 @@ export function TrustedBy({ id }: { id?: string }) {
           Ils nous font confiance
         </h2>
 
-        <div className="grid w-full max-w-[56rem] grid-cols-3 grid-rows-2 border-l border-border">
+        <div className="grid w-full max-w-[56rem] grid-cols-5 grid-rows-2 border-l border-border">
           {visibleIndices.map((logoIndex, slotIndex) => {
             const logo = CLIENT_LOGOS[logoIndex];
             const isSwapping = swapping === slotIndex;
