@@ -16,7 +16,7 @@ export const dynamic = "force-static";
 
 const pagePath = "/france";
 const title = "Wonka AI France - IA d'entreprise déployable";
-const description = "Gabriel Rance, country manager France. IA d'entreprise avec agents et gouvernance. ISO 27001, GDPR, NIS 2. Hébergement Azure West Europe (Microsoft Irlande).";
+const description = "IA d'entreprise avec agents et gouvernance. ISO 27001, GDPR, NIS 2. Hébergement Azure West Europe (Microsoft Irlande).";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata(
@@ -37,7 +37,7 @@ async function getSiteSettings() {
 const heroData: HeroData = {
   awardBadge: "#1 AI START-UP OF THE YEAR - BELGIUM STARTUP AWARDS 2026",
   title: "L'IA d'entreprise qui se déploie vraiment",
-  subtitle: "Des agents IA privés, branchés sur les outils que votre entreprise utilise déjà (ERP, CRM, SharePoint, Teams), avec gouvernance centralisée et conformité RGPD. Gabriel Rance, country manager France.",
+  subtitle: "Une bibliothèque d'agents prêts à brancher sur vos outils (ERP, CRM, SharePoint, Teams). Gouvernance centralisée, conformité RGPD.",
 };
 
 const problemItems: ProblemItem[] = [
@@ -53,7 +53,7 @@ const problemItems: ProblemItem[] = [
   { tag: "p", content: "Le RSSI n'a aucune visibilité sur ce qui sort de l'entreprise." },
   {
     tag: "p",
-    content: "Un agent dans le SI, ça se gouverne.",
+    content: "Un agent dans vos outils, ça se gouverne.",
   },
 ];
 
@@ -113,7 +113,7 @@ export default async function FrancePage() {
       <Cta
         id="get-started"
         data={{
-          heading: "En 5 questions, 3 agents qui collent à votre SI.",
+          heading: "En 5 questions, 3 agents prêts pour vos outils.",
           body: "Secteur, outils, données, frein, rôle. Deux minutes. Vous voyez le résultat avant de parler à quelqu'un.",
         }}
         meetingUrl="/france/diagnostic"

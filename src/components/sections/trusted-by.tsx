@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { Section } from "@/components/ui/section";
 import { cn } from "@/lib/utils";
 import { headingClass } from "@/lib/design-tokens";
@@ -43,21 +44,16 @@ function MicrosoftLogo() {
 
 type ClientLogo =
   | { id: string; type: "component"; component: React.ComponentType }
-  | { id: string; type: "text"; name: string };
+  | { id: string; type: "svg"; src: string; alt: string }
+  | { id: string; type: "image"; src: string; alt: string };
 
 const CLIENT_LOGOS: ClientLogo[] = [
   { id: "nvidia", type: "component", component: NvidiaLogo },
   { id: "microsoft", type: "component", component: MicrosoftLogo },
-  { id: "engie", type: "text", name: "Engie" },
-  { id: "pwc", type: "text", name: "PwC" },
-  { id: "buildwise", type: "text", name: "Buildwise" },
-  { id: "xerius", type: "text", name: "Xerius" },
-  { id: "luminus", type: "text", name: "Luminus" },
-  { id: "cambio", type: "text", name: "Cambio" },
-  { id: "zorgi", type: "text", name: "Zorgi" },
-  { id: "odth", type: "text", name: "ODTH" },
-  { id: "itzu", type: "text", name: "Itzu" },
-  { id: "n-allo", type: "text", name: "N-allo" },
+  { id: "pwc", type: "svg", src: "/images/france/logos/pwc.svg", alt: "PwC" },
+  { id: "luminus", type: "svg", src: "/images/france/logos/luminus.svg", alt: "Luminus" },
+  { id: "cambio", type: "image", src: "/images/france/logos/cambio.png", alt: "Cambio" },
+  { id: "odth", type: "image", src: "/images/france/logos/odth.png", alt: "ODTH" },
 ];
 
 const GRID_SIZE = 10;
@@ -123,10 +119,22 @@ export function TrustedBy({ id }: { id?: string }) {
                   <div className="flex h-8 w-20 items-center justify-center text-text">
                     <logo.component />
                   </div>
+                ) : logo.type === "svg" ? (
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={80}
+                    height={32}
+                    className="h-auto max-h-8 w-auto max-w-full object-contain"
+                  />
                 ) : (
-                  <p className="type-paragraph-m-bold text-center tracking-tight text-text">
-                    {logo.name}
-                  </p>
+                  <Image
+                    src={logo.src}
+                    alt={logo.alt}
+                    width={80}
+                    height={32}
+                    className="h-auto max-h-8 w-auto max-w-full object-contain"
+                  />
                 )}
               </div>
             );

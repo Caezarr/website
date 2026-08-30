@@ -362,8 +362,8 @@ export default function FranceDiagnosticPage() {
                 {firstName && company
                   ? `${firstName}, voici 3 agents pour ${company}.`
                   : firstName
-                    ? `${firstName}, voici 3 agents pour votre SI.`
-                    : "Voici 3 agents pour votre SI."}
+                    ? `${firstName}, voici 3 agents pour vos outils.`
+                    : "Voici 3 agents pour vos outils."}
               </h1>
               <p className="type-body mb-10 text-text/70">
                 Ces agents sont des exemples concrets de ce que Wonka AI peut déployer pour votre entreprise. Chaque agent est connecté à vos systèmes existants et gouverné de manière centralisée.
