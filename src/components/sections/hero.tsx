@@ -140,19 +140,19 @@ export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "gener
       data-theme="dark"
       className="relative isolate flex min-h-svh w-full flex-col overflow-hidden bg-background text-text"
     >
-      {!showProductUI ? (
-        <FadeIn duration={0.6} aria-hidden className="absolute inset-0 -z-10">
-          <Image
-            src={HERO_BG_IMAGE}
-            alt=""
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/10 to-background/40" />
-        </FadeIn>
-      ) : null}
+          {!showProductUI ? (
+            <FadeIn duration={0.6} aria-hidden className="absolute inset-0 -z-10">
+              <Image
+                src={HERO_BG_IMAGE}
+                alt=""
+                fill
+                priority
+                sizes="(max-width: 1920px) 100vw, 1920px"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/10 to-background/40" />
+            </FadeIn>
+          ) : null}
 
       <div className={cn(
         "flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32",

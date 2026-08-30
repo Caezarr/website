@@ -96,7 +96,7 @@ const organizationSchema = {
 const softwareApplicationSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "Wonka AI",
+  name: "WonkaChat",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   url: SITE_URL,
@@ -109,9 +109,15 @@ const softwareApplicationSchema = {
   },
   offers: {
     "@type": "Offer",
-    url: SITE_URL,
-    price: "0",
+    url: `${SITE_URL}/pricing`,
     priceCurrency: "EUR",
+    price: "21.60",
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: "21.60",
+      priceCurrency: "EUR",
+      unitText: "per user per month",
+    },
     availability: "https://schema.org/OnlineOnly",
   },
   featureList: [

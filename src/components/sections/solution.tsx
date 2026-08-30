@@ -232,8 +232,6 @@ export function Solution({ id, data }: SolutionProps) {
                               className={cn(
                                 visual.fit === "contain" ? "object-contain" : "object-cover",
                               )}
-                              priority={i === 0}
-                              unoptimized
                             />
                           )
                         ) : null}
