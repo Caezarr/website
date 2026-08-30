@@ -154,7 +154,7 @@ const connectors = [
         _type: "faqItem",
         question: "What's the difference between Wonka and Microsoft Copilot for Outlook?",
         answer:
-          "Microsoft Copilot sends your data to Microsoft/OpenAI servers. Wonka AI deploys the LLM in your own servers or private cloud — your data stays in your walls. This is essential for regulated sectors (legal, finance, healthcare) or organizations with strict GDPR requirements.",
+          "Microsoft Copilot sends your data to Microsoft/OpenAI servers. Wonka AI deploys in Azure West Europe (Microsoft Ireland) by default, with ISO 27001 certification, GDPR compliance, and NIS 2 compliance. SOC 2 Type II audit in progress. On-premise deployment available as an Enterprise option. This architecture is essential for regulated sectors (legal, finance, healthcare) with strict data residency requirements.",
       },
       {
         _type: "faqItem",
