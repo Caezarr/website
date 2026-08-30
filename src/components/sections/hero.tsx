@@ -21,6 +21,8 @@ interface HeroProps {
   meetingUrl?: string | null;
   meetingLabel?: string | null;
   meetingTrackType?: MeetingTrackType;
+  ctaHref?: string;
+  ctaLabel?: string;
 }
 
 function NvidiaInceptionLogo() {
@@ -123,11 +125,12 @@ function AwardLaurelIcon() {
   );
 }
 
-export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "general" }: HeroProps) {
+export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "general", ctaHref, ctaLabel: ctaLabelProp }: HeroProps) {
   const awardBadge = data?.awardBadge ?? DEFAULT_AWARD_BADGE;
   const title = data?.title ?? DEFAULT_TITLE;
   const subtitle = data?.subtitle ?? DEFAULT_SUBTITLE;
-  const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
+  const ctaLabel = ctaLabelProp ?? meetingLabel ?? DEFAULT_MEETING_LABEL;
+  const href = ctaHref ?? meetingUrl ?? "#";
 
   return (
     <section
@@ -174,10 +177,10 @@ export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "gener
           </FadeIn>
           <FadeIn delay={0.4}>
             <ButtonLink
-              href={meetingUrl ?? "#"}
+              href={href}
               variant="primary"
               className="mt-2"
-              {...meetingTrackProps(meetingTrackType)}
+              {...(ctaHref ? {} : meetingTrackProps(meetingTrackType))}
             >
               {ctaLabel}
             </ButtonLink>
