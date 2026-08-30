@@ -49,6 +49,8 @@ export default async function Home() {
         data={content?.hero ?? null}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
+        showProductUI={true}
+        primaryCta={{ href: "/wonka-chat", label: "See WonkaChat" }}
       />
       <Problem id="problem" />
       <Solution id="solution" data={content?.solution ?? null} />

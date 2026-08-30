@@ -23,6 +23,8 @@ interface HeroProps {
   meetingTrackType?: MeetingTrackType;
   ctaHref?: string;
   ctaLabel?: string;
+  showProductUI?: boolean;
+  primaryCta?: { href: string; label: string };
 }
 
 function NvidiaInceptionLogo() {
@@ -125,69 +127,113 @@ function AwardLaurelIcon() {
   );
 }
 
-export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "general", ctaHref, ctaLabel: ctaLabelProp }: HeroProps) {
+export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "general", ctaHref, ctaLabel: ctaLabelProp, showProductUI = false, primaryCta }: HeroProps) {
   const awardBadge = data?.awardBadge ?? DEFAULT_AWARD_BADGE;
   const title = data?.title ?? DEFAULT_TITLE;
   const subtitle = data?.subtitle ?? DEFAULT_SUBTITLE;
   const ctaLabel = ctaLabelProp ?? meetingLabel ?? DEFAULT_MEETING_LABEL;
   const href = ctaHref ?? meetingUrl ?? "#";
+  const showDualCtas = !!primaryCta;
 
   return (
     <section
       data-theme="dark"
       className="relative isolate flex min-h-svh w-full flex-col overflow-hidden bg-background text-text"
     >
-      <FadeIn duration={0.6} aria-hidden className="absolute inset-0 -z-10">
-        <Image
-          src={HERO_BG_IMAGE}
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/10 to-background/40" />
-      </FadeIn>
+      {!showProductUI ? (
+        <FadeIn duration={0.6} aria-hidden className="absolute inset-0 -z-10">
+          <Image
+            src={HERO_BG_IMAGE}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/10 to-background/40" />
+        </FadeIn>
+      ) : null}
 
-      <div className="flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32">
-        <div className="flex max-w-3xl flex-col items-center gap-6 text-center">
-          <FadeIn delay={0.05}>
-            <div
-              className="award-marble-badge relative flex max-w-[min(90vw,36rem)] items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-3 py-1.5 text-white backdrop-blur-md md:gap-3 md:px-4"
-              style={{ animation: "award-glow 3s ease-in-out infinite" }}
-            >
-              <span className="relative z-10 flex items-center">
-                <AwardLaurelIcon />
-              </span>
-              <span className="relative z-10 h-5 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" aria-hidden />
-              <span className="type-eyebrow relative z-10 text-left text-[0.56rem] leading-3 tracking-[0.14em] text-white/88 md:text-[0.66rem] md:leading-4">
-                {awardBadge}
-              </span>
-            </div>
-          </FadeIn>
-          <FadeIn delay={0.15}>
-            <h1 className={cn(headingClass.hero, "max-w-[14ch] text-balance")}>
-              {title}
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.3}>
-            <p className="type-body max-w-[32rem] leading-6 text-text/90">
-              {subtitle}
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.4}>
-            <ButtonLink
-              href={href}
-              variant="primary"
-              className="mt-2"
-              {...(ctaHref ? {} : meetingTrackProps(meetingTrackType))}
-            >
-              {ctaLabel}
-            </ButtonLink>
-          </FadeIn>
-          <FadeIn delay={0.5}>
-            <BackedBy />
-          </FadeIn>
+      <div className={cn(
+        "flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32",
+        showProductUI && "max-w-[84rem] mx-auto w-full"
+      )}>
+        <div className={cn(
+          "flex flex-col items-center gap-6 text-center",
+          showProductUI ? "w-full max-w-none lg:grid lg:grid-cols-2 lg:gap-12 lg:text-left" : "max-w-3xl"
+        )}>
+          <div className={cn("flex flex-col gap-6", showProductUI && "lg:items-start")}>
+            <FadeIn delay={0.05}>
+              <div
+                className="award-marble-badge relative flex max-w-[min(90vw,36rem)] items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-3 py-1.5 text-white backdrop-blur-md md:gap-3 md:px-4"
+                style={{ animation: "award-glow 3s ease-in-out infinite" }}
+              >
+                <span className="relative z-10 flex items-center">
+                  <AwardLaurelIcon />
+                </span>
+                <span className="relative z-10 h-5 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" aria-hidden />
+                <span className="type-eyebrow relative z-10 text-left text-[0.56rem] leading-3 tracking-[0.14em] text-white/88 md:text-[0.66rem] md:leading-4">
+                  {awardBadge}
+                </span>
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.15}>
+              <h1 className={cn(headingClass.hero, "max-w-[14ch] text-balance")}>
+                {title}
+              </h1>
+            </FadeIn>
+            <FadeIn delay={0.3}>
+              <p className="type-body max-w-[32rem] leading-6 text-text/90">
+                {subtitle}
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.4}>
+              {showDualCtas ? (
+                <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+                  <ButtonLink
+                    href={primaryCta.href}
+                    variant="primary"
+                  >
+                    {primaryCta.label}
+                  </ButtonLink>
+                  <ButtonLink
+                    href={href}
+                    variant="secondary"
+                    {...(ctaHref ? {} : meetingTrackProps(meetingTrackType))}
+                  >
+                    {ctaLabel}
+                  </ButtonLink>
+                </div>
+              ) : (
+                <ButtonLink
+                  href={href}
+                  variant="primary"
+                  className="mt-2"
+                  {...(ctaHref ? {} : meetingTrackProps(meetingTrackType))}
+                >
+                  {ctaLabel}
+                </ButtonLink>
+              )}
+            </FadeIn>
+            <FadeIn delay={0.5}>
+              <BackedBy />
+            </FadeIn>
+          </div>
+
+          {showProductUI && (
+            <FadeIn delay={0.4} className="w-full">
+              <div className="relative aspect-[23/9] w-full overflow-hidden rounded-sm shadow-2xl">
+                <Image
+                  src="/images/wonka-chat/feature-chat.png"
+                  alt="WonkaChat interface showing AI assistant connected to business tools"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+            </FadeIn>
+          )}
         </div>
       </div>
 

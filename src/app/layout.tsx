@@ -90,7 +90,7 @@ const organizationSchema = {
     "https://www.linkedin.com/company/wonka-ai",
   ],
   description:
-    "Wonka AI deploys private enterprise AI agents connected to your existing tools. Hosted in Azure West Europe (Microsoft Ireland), with GDPR compliance and ISO 27001 certification.",
+    "Wonka AI deploys private enterprise AI agents connected to your existing tools. ISO 27001 certified. GDPR compliant. NIS 2 compliant. SOC 2 Type II in progress. Hosted in Azure West Europe (Microsoft Ireland).",
 };
 
 const softwareApplicationSchema = {
@@ -178,7 +178,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         )}
         <InlineScript
           id="apollo-tracker"
-          html={`function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,o.onload=function(){window.trackingFunctions.onLoad({appId:"691d86987b3dc0000db97e49"})},document.head.appendChild(o)}initApollo();`}
+          html={`function initApollo(){if('requestIdleCallback'in window){requestIdleCallback(loadApollo,{timeout:3000})}else{window.addEventListener('load',loadApollo)}}function loadApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,o.onload=function(){window.trackingFunctions.onLoad({appId:"691d86987b3dc0000db97e49"})},document.head.appendChild(o)}initApollo();`}
         />
         <InlineScript
           id="wonka-attribution-tracker"
