@@ -23,6 +23,7 @@ interface HeroProps {
   meetingTrackType?: MeetingTrackType;
   ctaHref?: string;
   ctaLabel?: string;
+  showProductUI?: boolean;
 }
 
 function NvidiaInceptionLogo() {
@@ -55,17 +56,29 @@ function MicrosoftLogo() {
       aria-hidden
       className="shrink-0"
     >
-      <path d="M0.521729 0.521729H5.73912V5.73912H0.521729V0.521729Z" fill="currentColor" />
-      <path d="M6.26099 0.521729H11.4784V5.73912H6.26099V0.521729Z" fill="currentColor" />
-      <path d="M0.521729 6.26086H5.73912V11.4783H0.521729V6.26086Z" fill="currentColor" />
-      <path d="M6.26099 6.26086H11.4784V11.4783H6.26099V6.26086Z" fill="currentColor" />
+      <path
+        d="M0.521729 0.521729H5.73912V5.73912H0.521729V0.521729Z"
+        fill="currentColor"
+      />
+      <path
+        d="M6.26099 0.521729H11.4784V5.73912H6.26099V0.521729Z"
+        fill="currentColor"
+      />
+      <path
+        d="M0.521729 6.26086H5.73912V11.4783H0.521729V6.26086Z"
+        fill="currentColor"
+      />
+      <path
+        d="M6.26099 6.26086H11.4784V11.4783H6.26099V6.26086Z"
+        fill="currentColor"
+      />
     </svg>
   );
 }
 
 function BackedBy() {
   return (
-    <p className="type-eyebrow flex flex-wrap items-center justify-center gap-x-1 gap-y-1.5 text-text/60">
+    <p className="type-eyebrow text-text/60 flex flex-wrap items-center justify-center gap-x-1 gap-y-1.5">
       <span>Backed by</span>
       <NvidiaInceptionLogo />
       <span>Nvidia Inception and</span>
@@ -87,18 +100,33 @@ function AwardLaurelIcon() {
       className="h-6 w-11 shrink-0"
     >
       <defs>
-        <linearGradient id="award-gold" x1="10" y1="3" x2="54" y2="33" gradientUnits="userSpaceOnUse">
+        <linearGradient
+          id="award-gold"
+          x1="10"
+          y1="3"
+          x2="54"
+          y2="33"
+          gradientUnits="userSpaceOnUse"
+        >
           <stop stopColor="#fff0b0" />
           <stop offset="0.36" stopColor="#d29a27" />
           <stop offset="0.72" stopColor="#f7cd62" />
           <stop offset="1" stopColor="#a66e12" />
         </linearGradient>
       </defs>
-      <g stroke="url(#award-gold)" strokeWidth="1.15" strokeLinecap="round" opacity="0.86">
+      <g
+        stroke="url(#award-gold)"
+        strokeWidth="1.15"
+        strokeLinecap="round"
+        opacity="0.86"
+      >
         <path d="M22.4 28.2C17 24.9 14.3 20.1 14.4 15.3C14.5 10.8 17 7 20.7 4.1" />
         <path d="M41.6 28.2C47 24.9 49.7 20.1 49.6 15.3C49.5 10.8 47 7 43.3 4.1" />
       </g>
-      <g fill="url(#award-gold)" filter="drop-shadow(0 0 5px rgba(246, 190, 65, 0.35))">
+      <g
+        fill="url(#award-gold)"
+        filter="drop-shadow(0 0 5px rgba(246, 190, 65, 0.35))"
+      >
         <path d="M19.3 25.7C16.1 25.5 14.2 23.8 13.6 21.1C16.7 21.3 18.8 23 19.3 25.7Z" />
         <path d="M16.5 21.2C13.6 20.4 12.2 18.2 12.6 15.6C15.4 16.4 16.9 18.5 16.5 21.2Z" />
         <path d="M15.8 16.4C13.4 14.8 12.7 12.4 13.8 9.9C16.2 11.5 16.9 13.9 15.8 16.4Z" />
@@ -125,7 +153,15 @@ function AwardLaurelIcon() {
   );
 }
 
-export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "general", ctaHref, ctaLabel: ctaLabelProp }: HeroProps) {
+export function Hero({
+  data,
+  meetingUrl,
+  meetingLabel,
+  meetingTrackType = "general",
+  ctaHref,
+  ctaLabel: ctaLabelProp,
+  showProductUI = false,
+}: HeroProps) {
   const awardBadge = data?.awardBadge ?? DEFAULT_AWARD_BADGE;
   const title = data?.title ?? DEFAULT_TITLE;
   const subtitle = data?.subtitle ?? DEFAULT_SUBTITLE;
@@ -134,8 +170,9 @@ export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "gener
 
   return (
     <section
+      id="hero"
       data-theme="dark"
-      className="relative isolate flex min-h-svh w-full flex-col overflow-hidden bg-background text-text"
+      className="bg-background text-text relative isolate flex min-h-svh w-full flex-col overflow-hidden"
     >
       <FadeIn duration={0.6} aria-hidden className="absolute inset-0 -z-10">
         <Image
@@ -146,48 +183,87 @@ export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "gener
           sizes="(max-width: 1920px) 100vw, 1920px"
           className="object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/10 to-background/40" />
+        <div className="from-background/40 via-background/10 to-background/40 absolute inset-0 bg-gradient-to-b" />
       </FadeIn>
 
-      <div className="flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32">
-        <div className="flex max-w-3xl flex-col items-center gap-6 text-center">
-          <FadeIn delay={0.05}>
-            <div
-              className="award-marble-badge relative flex max-w-[min(90vw,36rem)] items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-3 py-1.5 text-white backdrop-blur-md md:gap-3 md:px-4"
-              style={{ animation: "award-glow 3s ease-in-out infinite" }}
-            >
-              <span className="relative z-10 flex items-center">
-                <AwardLaurelIcon />
-              </span>
-              <span className="relative z-10 h-5 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" aria-hidden />
-              <span className="type-eyebrow relative z-10 text-left text-[0.56rem] leading-3 tracking-[0.14em] text-white/88 md:text-[0.66rem] md:leading-4">
-                {awardBadge}
-              </span>
-            </div>
-          </FadeIn>
-          <FadeIn delay={0.15}>
-            <h1 className={cn(headingClass.hero, "max-w-[14ch] text-balance")}>
-              {title}
-            </h1>
-          </FadeIn>
-          <FadeIn delay={0.3}>
-            <p className="type-body max-w-[32rem] leading-6 text-text/90">
-              {subtitle}
-            </p>
-          </FadeIn>
-          <FadeIn delay={0.4}>
-            <ButtonLink
-              href={href}
-              variant="primary"
-              className="mt-2"
-              {...(ctaHref ? {} : meetingTrackProps(meetingTrackType))}
-            >
-              {ctaLabel}
-            </ButtonLink>
-          </FadeIn>
-          <FadeIn delay={0.5}>
-            <BackedBy />
-          </FadeIn>
+      <div
+        className={cn(
+          "flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32",
+          showProductUI && "mx-auto w-full max-w-[84rem]",
+        )}
+      >
+        <div
+          className={cn(
+            "flex flex-col items-center gap-6 text-center",
+            showProductUI
+              ? "w-full max-w-none lg:grid lg:grid-cols-2 lg:gap-12 lg:text-left"
+              : "max-w-3xl",
+          )}
+        >
+          <div
+            className={cn(
+              "flex flex-col gap-6",
+              showProductUI && "lg:items-start",
+            )}
+          >
+            <FadeIn delay={0.05}>
+              <div
+                className="award-marble-badge relative flex max-w-[min(90vw,36rem)] items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-3 py-1.5 text-white backdrop-blur-md md:gap-3 md:px-4"
+                style={{ animation: "award-glow 3s ease-in-out infinite" }}
+              >
+                <span className="relative z-10 flex items-center">
+                  <AwardLaurelIcon />
+                </span>
+                <span
+                  className="relative z-10 h-5 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent"
+                  aria-hidden
+                />
+                <span className="type-eyebrow relative z-10 text-left text-[0.56rem] leading-3 tracking-[0.14em] text-white/88 md:text-[0.66rem] md:leading-4">
+                  {awardBadge}
+                </span>
+              </div>
+            </FadeIn>
+            <FadeIn delay={0.15}>
+              <h1
+                className={cn(headingClass.hero, "max-w-[14ch] text-balance")}
+              >
+                {title}
+              </h1>
+            </FadeIn>
+            <FadeIn delay={0.3}>
+              <p className="type-body text-text/90 max-w-[32rem] leading-6">
+                {subtitle}
+              </p>
+            </FadeIn>
+            <FadeIn delay={0.4}>
+              <ButtonLink
+                href={href}
+                variant="primary"
+                className="mt-2"
+                {...(ctaHref ? {} : meetingTrackProps(meetingTrackType))}
+              >
+                {ctaLabel}
+              </ButtonLink>
+            </FadeIn>
+            <FadeIn delay={0.5}>
+              <BackedBy />
+            </FadeIn>
+          </div>
+
+          {showProductUI ? (
+            <FadeIn delay={0.4} className="w-full">
+              <div className="relative aspect-[23/9] w-full overflow-hidden rounded-sm shadow-2xl">
+                <Image
+                  src="/images/wonka-chat/feature-chat.png"
+                  alt="WonkaChat interface showing an AI assistant connected to business tools"
+                  fill
+                  priority
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
+            </FadeIn>
+          ) : null}
         </div>
       </div>
 
