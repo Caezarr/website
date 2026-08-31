@@ -15,6 +15,7 @@ export const interDisplay = localFont({
   ],
   variable: "--font-wonka-sans",
   display: "swap",
+  preload: false,
 });
 
 export const gtSectra = localFont({

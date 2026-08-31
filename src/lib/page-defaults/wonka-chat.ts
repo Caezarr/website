@@ -51,18 +51,6 @@ export const WONKA_CHAT_DEFAULTS: WonkaChatDefaults = {
     ],
     fallbackLogos: [
       {
-        src: "/images/wonka-chat/logos/dieteren.svg",
-        alt: "D'Ieteren",
-        width: 120,
-        height: 32,
-      },
-      {
-        src: "/images/wonka-chat/logos/nmbs.svg",
-        alt: "NMBS",
-        width: 120,
-        height: 32,
-      },
-      {
         src: "/images/wonka-chat/logos/luminus.svg",
         alt: "Luminus",
         width: 120,
@@ -75,8 +63,26 @@ export const WONKA_CHAT_DEFAULTS: WonkaChatDefaults = {
         height: 32,
       },
       {
-        src: "/images/wonka-chat/logos/stellantis.svg",
-        alt: "Stellantis",
+        src: "/images/france/logos/itzu.svg",
+        alt: "Itzu",
+        width: 120,
+        height: 32,
+      },
+      {
+        src: "/images/france/logos/engie.svg",
+        alt: "Engie",
+        width: 120,
+        height: 32,
+      },
+      {
+        src: "/images/france/logos/buildwise.svg",
+        alt: "Buildwise",
+        width: 120,
+        height: 32,
+      },
+      {
+        src: "/images/france/logos/xerius.png",
+        alt: "Xerius",
         width: 120,
         height: 32,
       },

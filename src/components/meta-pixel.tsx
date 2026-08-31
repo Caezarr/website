@@ -29,6 +29,16 @@ function loadMetaPixel() {
   /* eslint-enable @typescript-eslint/no-explicit-any */
 }
 
+function deferLoadMetaPixel() {
+  const win = window as Window & { requestIdleCallback?: typeof requestIdleCallback };
+  
+  if (win.requestIdleCallback) {
+    win.requestIdleCallback(() => loadMetaPixel(), { timeout: 3000 });
+  } else {
+    win.addEventListener("load", loadMetaPixel);
+  }
+}
+
 export function MetaPixel() {
   const { consent } = useCookieConsent();
   const loaded = useRef(false);
@@ -37,7 +47,7 @@ export function MetaPixel() {
     if (!consent?.categories.marketing) return;
     if (loaded.current) return;
     loaded.current = true;
-    loadMetaPixel();
+    deferLoadMetaPixel();
   }, [consent]);
 
   return null;

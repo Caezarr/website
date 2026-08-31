@@ -4,7 +4,8 @@ export type MeetingTrackType =
   | "general"
   | "start-ai"
   | "wonka-build"
-  | "wonka-chat";
+  | "wonka-chat"
+  | "france";
 
 export function meetingContextToTrackType(
   context: MeetingContext,

@@ -24,6 +24,9 @@ export function resolveMeetingUrl(
         sharedLinks?.meetingUrl ??
         DEFAULT_MEETING_URLS.wonkaChat
       );
+    case "france":
+      // France must have its own URL set in Sanity; never fall back to HQ
+      return sharedLinks?.franceMeetingUrl ?? "";
     default:
       return sharedLinks?.meetingUrl ?? DEFAULT_MEETING_URLS.team;
   }

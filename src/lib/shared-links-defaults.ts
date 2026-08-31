@@ -8,4 +8,4 @@ export const DEFAULT_MEETING_URLS = {
     "https://outlook.office.com/book/WonkaAIWonkaChat@meetwonka.com/?ismsaljsauthenabled",
 } as const;
 
-export type MeetingContext = "default" | "start-ai" | "wonka-build" | "wonka-chat";
+export type MeetingContext = "default" | "start-ai" | "wonka-build" | "wonka-chat" | "france";
