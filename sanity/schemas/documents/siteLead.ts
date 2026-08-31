@@ -77,6 +77,7 @@ export const siteLead = defineType({
         "referrer",
         "posthog_distinct_id",
         "posthog_session_id",
+        "journey_id",
       ].map((name) => ({ name, title: name, type: "string", readOnly: true })),
     }),
     defineField({

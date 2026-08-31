@@ -15,6 +15,7 @@ export type WebsiteEvent = (typeof WEBSITE_EVENTS)[keyof typeof WEBSITE_EVENTS];
 
 const ALLOWED_EVENTS = new Set<string>(["$pageview", "$identify", "$set", ...Object.values(WEBSITE_EVENTS)]);
 const ATTRIBUTION_STORAGE_KEY = "wonka:attribution";
+const JOURNEY_STORAGE_KEY = "wonka:journey-id";
 const ATTRIBUTION_KEYS = [
   "utm_source",
   "utm_medium",
@@ -40,6 +41,31 @@ function readAttribution(): Attribution {
     return JSON.parse(localStorage.getItem(ATTRIBUTION_STORAGE_KEY) || "{}") as Attribution;
   } catch {
     return {};
+  }
+}
+
+function readJourneyId(): string | undefined {
+  try {
+    const value = localStorage.getItem(JOURNEY_STORAGE_KEY) || "";
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(
+      value,
+    )
+      ? value
+      : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+function getOrCreateJourneyId(): string | undefined {
+  const existing = readJourneyId();
+  if (existing) return existing;
+  try {
+    const value = crypto.randomUUID();
+    localStorage.setItem(JOURNEY_STORAGE_KEY, value);
+    return value;
+  } catch {
+    return undefined;
   }
 }
 
@@ -87,6 +113,7 @@ export function initializeWebsiteAnalytics(consent: ConsentCategories): void {
           source_app: "website",
           environment: process.env.NEXT_PUBLIC_VERCEL_ENV || process.env.NODE_ENV || "unknown",
           event_version: 1,
+          journey_id: getOrCreateJourneyId(),
           ...captureAttribution(),
         });
       },
@@ -94,7 +121,12 @@ export function initializeWebsiteAnalytics(consent: ConsentCategories): void {
     initialized = true;
   } else {
     posthog.opt_in_capturing();
-    posthog.register({ ...captureAttribution(), source_app: "website", event_version: 1 });
+    posthog.register({
+      ...captureAttribution(),
+      source_app: "website",
+      event_version: 1,
+      journey_id: getOrCreateJourneyId(),
+    });
   }
 }
 
@@ -120,9 +152,11 @@ export function trackWebsiteEvent(
 }
 
 export function getLeadAnalyticsContext(): Record<string, unknown> {
-  const attribution = typeof window === "undefined" ? {} : captureAttribution();
+  if (typeof window === "undefined") return {};
+  const attribution = captureAttribution();
   return {
     ...attribution,
+    journey_id: getOrCreateJourneyId(),
     posthog_distinct_id: initialized ? posthog.get_distinct_id() : undefined,
     posthog_session_id: initialized ? posthog.get_session_id() : undefined,
     landing_path: window.location.pathname,
@@ -157,6 +191,8 @@ export function decorateWonkaChatUrl(href: string): string {
     hash.set("ph_distinct_id", posthog.get_distinct_id());
     hash.set("ph_session_id", posthog.get_session_id());
   }
+  const journeyId = readJourneyId();
+  if (journeyId) hash.set("journey_id", journeyId);
   url.hash = hash.toString();
   return url.toString();
 }

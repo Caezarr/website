@@ -13,9 +13,15 @@ events stay disabled. Events and properties are allowlisted in each app.
   opportunity). It is never inferred from product clicks.
 - `customer`: must come from the CRM/billing source.
 
-Every website lead is stored with email, lifecycle stage, score/signals, UTM/click IDs and the
-pseudonymous PostHog IDs. PostHog receives the lead ID and score, but not the email. Signup merges
-the anonymous journey with the WonkaChat user ID through PostHog `identify`.
+Every website lead is stored with email, lifecycle stage, score/signals, UTM/click IDs, a random
+`journey_id` and the pseudonymous PostHog IDs. PostHog receives the lead ID and score, but not the
+email. Signup merges the anonymous journey with the WonkaChat user ID through PostHog `identify`.
+The `journey_id` is also attached server-side to the newly created WonkaChat user, providing the
+durable join key `Sanity lead ↔ WonkaChat user ↔ CRM contact`. Session IDs are never used as durable
+identity.
+
+PostHog dashboards cover consented analytics traffic. Sanity, then the CRM after export, remain the
+exhaustive source for commercial lead counts; dashboard guide tiles state this explicitly.
 
 ## CRM handoff
 

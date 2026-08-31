@@ -31,6 +31,7 @@ const ANALYTICS_KEYS = [
   "referrer",
   "posthog_distinct_id",
   "posthog_session_id",
+  "journey_id",
 ] as const;
 
 function sanitizeAnalytics(value: unknown): Record<string, string> {
