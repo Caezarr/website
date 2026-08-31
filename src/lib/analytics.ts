@@ -14,7 +14,13 @@ export const WEBSITE_EVENTS = {
 
 export type WebsiteEvent = (typeof WEBSITE_EVENTS)[keyof typeof WEBSITE_EVENTS];
 
-const ALLOWED_EVENTS = new Set<string>(["$pageview", "$identify", "$set", ...Object.values(WEBSITE_EVENTS)]);
+const ALLOWED_EVENTS = new Set<string>([
+  "$pageview",
+  "$identify",
+  "$set",
+  "$feature_flag_called",
+  ...Object.values(WEBSITE_EVENTS),
+]);
 const ATTRIBUTION_STORAGE_KEY = "wonka:attribution";
 const JOURNEY_STORAGE_KEY = "wonka:journey-id";
 const ATTRIBUTION_KEYS = [
@@ -27,7 +33,9 @@ const ATTRIBUTION_KEYS = [
   "gclid",
 ] as const;
 
-type Attribution = Partial<Record<(typeof ATTRIBUTION_KEYS)[number], string>> & {
+type Attribution = Partial<
+  Record<(typeof ATTRIBUTION_KEYS)[number], string>
+> & {
   landing_page?: string;
   referrer?: string;
 };
@@ -36,10 +44,24 @@ type ConsentCategories = { analytics: boolean; marketing: boolean };
 
 let initialized = false;
 let currentConsent: ConsentCategories = { analytics: false, marketing: false };
+const featureFlagListeners = new Set<() => void>();
+let stopFeatureFlagListener: (() => void) | null = null;
+
+function notifyFeatureFlagListeners(): void {
+  featureFlagListeners.forEach((listener) => listener());
+}
+
+function listenForFeatureFlags(): void {
+  stopFeatureFlagListener ??= posthog.onFeatureFlags(
+    notifyFeatureFlagListeners,
+  );
+}
 
 function readAttribution(): Attribution {
   try {
-    return JSON.parse(localStorage.getItem(ATTRIBUTION_STORAGE_KEY) || "{}") as Attribution;
+    return JSON.parse(
+      localStorage.getItem(ATTRIBUTION_STORAGE_KEY) || "{}",
+    ) as Attribution;
   } catch {
     return {};
   }
@@ -95,12 +117,15 @@ export function initializeWebsiteAnalytics(consent: ConsentCategories): void {
   const key = process.env.NEXT_PUBLIC_POSTHOG_KEY?.trim();
   if (!key || !consent.analytics) {
     if (initialized) posthog.opt_out_capturing();
+    notifyFeatureFlagListeners();
     return;
   }
 
   if (!initialized) {
     posthog.init(key, {
-      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST?.trim() || "https://eu.i.posthog.com",
+      api_host:
+        process.env.NEXT_PUBLIC_POSTHOG_HOST?.trim() ||
+        "https://eu.i.posthog.com",
       ui_host: "https://eu.posthog.com",
       defaults: "2026-01-30",
       autocapture: false,
@@ -108,15 +133,20 @@ export function initializeWebsiteAnalytics(consent: ConsentCategories): void {
       capture_pageleave: false,
       disable_session_recording: true,
       person_profiles: "identified_only",
-      before_send: (event) => (event && ALLOWED_EVENTS.has(event.event) ? event : null),
+      before_send: (event) =>
+        event && ALLOWED_EVENTS.has(event.event) ? event : null,
       loaded: (client) => {
         client.register({
           source_app: "website",
-          environment: process.env.NEXT_PUBLIC_VERCEL_ENV || process.env.NODE_ENV || "unknown",
+          environment:
+            process.env.NEXT_PUBLIC_VERCEL_ENV ||
+            process.env.NODE_ENV ||
+            "unknown",
           event_version: 1,
           journey_id: getOrCreateJourneyId(),
           ...captureAttribution(),
         });
+        listenForFeatureFlags();
       },
     });
     initialized = true;
@@ -128,14 +158,41 @@ export function initializeWebsiteAnalytics(consent: ConsentCategories): void {
       event_version: 1,
       journey_id: getOrCreateJourneyId(),
     });
+    listenForFeatureFlags();
+    posthog.reloadFeatureFlags();
   }
+}
+
+export function getWebsiteFeatureFlag(
+  key: string,
+): string | boolean | undefined {
+  if (
+    !initialized ||
+    !currentConsent.analytics ||
+    posthog.has_opted_out_capturing()
+  ) {
+    return undefined;
+  }
+  return posthog.getFeatureFlag(key);
+}
+
+export function subscribeToWebsiteFeatureFlags(
+  listener: () => void,
+): () => void {
+  featureFlagListeners.add(listener);
+  listener();
+  return () => featureFlagListeners.delete(listener);
 }
 
 export function trackWebsiteEvent(
   event: WebsiteEvent,
   properties: Record<string, unknown> = {},
 ): void {
-  if (initialized && currentConsent.analytics && !posthog.has_opted_out_capturing()) {
+  if (
+    initialized &&
+    currentConsent.analytics &&
+    !posthog.has_opted_out_capturing()
+  ) {
     posthog.capture(event, properties);
     window.dataLayer?.push({ event, ...properties });
   }
@@ -149,7 +206,10 @@ export function trackWebsiteEvent(
         : null;
   if (!conversion) return;
   window.fbq?.("track", conversion, properties);
-  window.dataLayer?.push({ event: `ads_${conversion.toLowerCase()}`, ...properties });
+  window.dataLayer?.push({
+    event: `ads_${conversion.toLowerCase()}`,
+    ...properties,
+  });
 }
 
 export function getLeadAnalyticsContext(): Record<string, unknown> {
@@ -179,7 +239,8 @@ export function markLeadQualified(properties: {
 
 export function decorateWonkaChatUrl(href: string): string {
   const url = new URL(href, window.location.href);
-  if (url.hostname !== "wonka.chat" && !url.hostname.endsWith(".wonka.chat")) return href;
+  if (url.hostname !== "wonka.chat" && !url.hostname.endsWith(".wonka.chat"))
+    return href;
 
   const attribution = captureAttribution();
   for (const key of ATTRIBUTION_KEYS) {
