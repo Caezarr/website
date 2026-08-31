@@ -56,19 +56,22 @@ export async function hasRecentDuplicateLead(
   client: SanityClient,
   email: string,
   source: LeadSource,
-): Promise<boolean> {
+): Promise<{
+  _id: string;
+  lifecycleStage?: "lead" | "mql" | "sql";
+  qualificationScore?: number;
+} | null> {
   const since = new Date(Date.now() - LEAD_DEDUP_WINDOW_MS).toISOString();
-  const existingId = await client.fetch<string | null>(
+  return client.fetch(
     `*[
       _type in ["siteLead", "startAiLead"]
       && email == $email
       && source == $source
       && submittedAt > $since
-    ][0]._id`,
+    ][0]{_id, lifecycleStage, qualificationScore}`,
     { email, source, since },
   );
 
-  return Boolean(existingId);
 }
 
 export async function isRateLimited(client: SanityClient, clientIp: string): Promise<boolean> {
