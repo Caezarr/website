@@ -6,6 +6,10 @@ import {
   subscribeToWebsiteFeatureFlags,
 } from "@/lib/analytics";
 import type { HeroData } from "@/lib/types";
+import {
+  isHomepageHeroVariant,
+  type HomepageHeroVariant,
+} from "@/lib/homepage-hero-variants";
 import { Hero } from "./hero";
 
 export const HOMEPAGE_HERO_EXPERIMENT_FLAG = "homepage-hero-product-preview-v1";
@@ -17,17 +21,32 @@ interface HomepageHeroExperimentProps {
 }
 
 export function HomepageHeroExperiment(props: HomepageHeroExperimentProps) {
-  const [showProductUI, setShowProductUI] = useState(false);
+  const [variant, setVariant] = useState<HomepageHeroVariant>("control");
 
-  useEffect(
-    () =>
-      subscribeToWebsiteFeatureFlags(() => {
-        setShowProductUI(
-          getWebsiteFeatureFlag(HOMEPAGE_HERO_EXPERIMENT_FLAG) === "test",
-        );
-      }),
-    [],
-  );
+  useEffect(() => {
+    const previewVariant = new URLSearchParams(window.location.search).get(
+      "hero-variant",
+    );
+    const previewEnabled =
+      process.env.NODE_ENV === "development" ||
+      process.env.NEXT_PUBLIC_VERCEL_ENV === "preview";
 
-  return <Hero {...props} showProductUI={showProductUI} />;
+    if (previewEnabled && isHomepageHeroVariant(previewVariant)) {
+      const frame = window.requestAnimationFrame(() =>
+        setVariant(previewVariant),
+      );
+      return () => window.cancelAnimationFrame(frame);
+    }
+
+    return subscribeToWebsiteFeatureFlags(() => {
+      const assignedVariant = getWebsiteFeatureFlag(
+        HOMEPAGE_HERO_EXPERIMENT_FLAG,
+      );
+      setVariant(
+        isHomepageHeroVariant(assignedVariant) ? assignedVariant : "control",
+      );
+    });
+  }, []);
+
+  return <Hero {...props} variant={variant} />;
 }
