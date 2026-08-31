@@ -56,7 +56,7 @@ function BillingCycleToggle({
             "type-paragraph-s bg-blue-100 px-1.5 py-0.5 text-blue-700",
           )}
         >
-          Save 20%
+          1 month free
         </span>
       </button>
     </div>

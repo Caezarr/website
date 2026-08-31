@@ -14,7 +14,6 @@ import { cn } from "@/lib/utils";
 
 const MIN_SEATS = 1;
 const MAX_SEATS = 1000;
-const EXPERT_SEAT_LIST_MONTHLY = 97;
 const SEAT_PRESETS = [25, 100, 250] as const;
 
 function clampSeats(value: number) {
@@ -102,29 +101,6 @@ function PricingTierBlock({
       >
         {billingNote}
       </p>
-    </div>
-  );
-}
-
-function PricingOrDivider({ inverted = false }: { inverted?: boolean }) {
-  return (
-    <div className="relative mb-3 py-3">
-      <div
-        className={cn(
-          "border-t border-dashed",
-          inverted ? "border-white/25" : "border-border",
-        )}
-      />
-      <span
-        className={cn(
-          "absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 px-3 type-paragraph-s",
-          inverted
-            ? "bg-blue-400 text-white/70"
-            : "bg-background text-text/60",
-        )}
-      >
-        or
-      </span>
     </div>
   );
 }
@@ -281,7 +257,7 @@ function BillingCycleToggle({
             "type-paragraph-s bg-blue-100 px-1.5 py-0.5 text-blue-900",
           )}
         >
-          Save 20%
+          1 month free
         </span>
       </button>
     </div>
@@ -427,9 +403,6 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
   const [aiModelsIncluded, setAiModelsIncluded] = useState(true);
 
   const pricing = calculatePricing(seats, annual, aiModelsIncluded);
-  const expertPerSeatMonth = annual
-    ? EXPERT_SEAT_LIST_MONTHLY * 0.8
-    : EXPERT_SEAT_LIST_MONTHLY;
 
   const workspaceItems = aiModelsIncluded
     ? [
@@ -567,43 +540,12 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
           emphasized
           className="order-2"
         >
-          <div className="flex flex-col gap-3">
-            <PricingTierBlock
-              amount={pricing.perSeatMonth}
-              seatLabel="Standard seat"
-              billingNote="Per user / month (excl. VAT)"
-              inverted
-            />
-
-            <div
-              className={cn(
-                "transition-opacity",
-                !aiModelsIncluded && "pointer-events-none opacity-40",
-              )}
-              aria-hidden={!aiModelsIncluded}
-            >
-              <PricingOrDivider inverted />
-
-              <PricingTierBlock
-                amount={expertPerSeatMonth}
-                seatLabel="Expert seat"
-                billingNote="Per user / month (excl. VAT)"
-                inverted
-                description={
-                  <>
-                    5x more included model usage than Standard.{" "}
-                    <button
-                      type="button"
-                      tabIndex={aiModelsIncluded ? 0 : -1}
-                      className="underline underline-offset-4 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-blue-400"
-                    >
-                      Learn more.
-                    </button>
-                  </>
-                }
-              />
-            </div>
-          </div>
+          <PricingTierBlock
+            amount={pricing.perSeatMonth}
+            seatLabel="Standard seat"
+            billingNote="Per user / month (excl. VAT)"
+            inverted
+          />
 
           <div className="mt-6">
             <Toggle
