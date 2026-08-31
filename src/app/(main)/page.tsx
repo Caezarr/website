@@ -49,8 +49,6 @@ export default async function Home() {
         data={content?.hero ?? null}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
-        showProductUI={true}
-        primaryCta={{ href: "https://wonka.chat/register", label: "Start free trial" }}
       />
       <Problem id="problem" />
       <Solution id="solution" data={content?.solution ?? null} />
