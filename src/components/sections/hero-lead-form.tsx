@@ -1,11 +1,17 @@
 "use client";
 
-import { useCallback, useId, useState } from "react";
+import { useCallback, useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { isTurnstileEnabled, TurnstileWidget } from "@/components/turnstile-widget";
 import { radius } from "@/lib/design-tokens";
 import { LEAD_FORM_COPY, type LeadSource } from "@/lib/lead-capture";
 import { cn } from "@/lib/utils";
+import {
+  getLeadAnalyticsContext,
+  markLeadQualified,
+  trackWebsiteEvent,
+  WEBSITE_EVENTS,
+} from "@/lib/analytics";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
@@ -22,6 +28,7 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
   const [state, setState] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const started = useRef(false);
   const isDark = theme === "dark";
 
   const handleTurnstileExpire = useCallback(() => {
@@ -57,6 +64,7 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
           email,
           source,
           website,
+          analytics: getLeadAnalyticsContext(),
           ...(turnstileToken ? { turnstileToken } : {}),
         }),
       });
@@ -68,6 +76,17 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
         return;
       }
 
+      const result = (await response.json()) as {
+        leadId: string;
+        lifecycleStage: "lead" | "mql";
+        leadScore: number;
+      };
+      markLeadQualified({
+        lead_id: result.leadId,
+        lifecycle_stage: result.lifecycleStage,
+        lead_score: result.leadScore,
+        lead_source: source,
+      });
       form.reset();
       setTurnstileToken(null);
       setState("success");
@@ -93,6 +112,11 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
   return (
     <form
       onSubmit={handleSubmit}
+      onFocus={() => {
+        if (started.current) return;
+        started.current = true;
+        trackWebsiteEvent(WEBSITE_EVENTS.LEAD_STARTED, { lead_source: source });
+      }}
       className="mx-auto flex w-full max-w-xl flex-col items-stretch gap-3"
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
