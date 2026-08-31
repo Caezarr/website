@@ -1,10 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Section } from "@/components/ui/section";
 import { ButtonLink, Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { headingClass } from "@/lib/design-tokens";
+import {
+  getLeadAnalyticsContext,
+  markLeadQualified,
+  trackWebsiteEvent,
+  WEBSITE_EVENTS,
+} from "@/lib/analytics";
 
 type QuestionId = "secteur" | "outil" | "donnees" | "frein" | "role";
 
@@ -144,6 +150,7 @@ export default function FranceDiagnosticPage() {
   const [error, setError] = useState<string | null>(null);
   const [franceMeetingUrl, setFranceMeetingUrl] = useState<string | null>(null);
   const [selectedAgents, setSelectedAgents] = useState<AgentType[]>([]);
+  const diagnosticStarted = useRef(false);
 
   useEffect(() => {
     const stored = sessionStorage.getItem("diagnostic-answers");
@@ -178,6 +185,18 @@ export default function FranceDiagnosticPage() {
   const progress = ((currentQuestionIndex + 1) / QUESTIONS.length) * 100;
 
   const handleAnswer = (value: string) => {
+    if (!diagnosticStarted.current) {
+      diagnosticStarted.current = true;
+      trackWebsiteEvent(WEBSITE_EVENTS.DIAGNOSTIC_STARTED, {
+        diagnostic_name: "france",
+      });
+    }
+    trackWebsiteEvent(WEBSITE_EVENTS.DIAGNOSTIC_STEP_COMPLETED, {
+      diagnostic_name: "france",
+      step_name: currentQuestion.id,
+      step_index: currentQuestionIndex + 1,
+      answer: value,
+    });
     const newAnswers = { ...answers, [currentQuestion.id]: value };
     setAnswers(newAnswers);
     sessionStorage.setItem("diagnostic-answers", JSON.stringify(newAnswers));
@@ -210,6 +229,8 @@ export default function FranceDiagnosticPage() {
           company,
           source: "france-diagnostic",
           website: "",
+          diagnostic: answers,
+          analytics: getLeadAnalyticsContext(),
         }),
       });
 
@@ -217,6 +238,25 @@ export default function FranceDiagnosticPage() {
         const data = await res.json();
         throw new Error(data.error || "Erreur lors de l'envoi.");
       }
+
+      const result = (await res.json()) as {
+        leadId: string;
+        lifecycleStage: "lead" | "mql";
+        leadScore: number;
+      };
+      markLeadQualified({
+        lead_id: result.leadId,
+        lifecycle_stage: result.lifecycleStage,
+        lead_score: result.leadScore,
+        lead_source: "france-diagnostic",
+      });
+      trackWebsiteEvent(WEBSITE_EVENTS.DIAGNOSTIC_COMPLETED, {
+        diagnostic_name: "france",
+        lead_id: result.leadId,
+        lifecycle_stage: result.lifecycleStage,
+        lead_score: result.leadScore,
+        ...answers,
+      });
 
       const agents = pickAgents(answers);
       setSelectedAgents(agents);

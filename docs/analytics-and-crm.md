@@ -4,6 +4,9 @@ PostHog EU is the product-analysis source of truth. `source_app` separates `webs
 `wonkachat`; `environment` separates production from previews. Autocapture, replay and page-leave
 events stay disabled. Events and properties are allowlisted in each app.
 
+The France diagnostic emits one start, one event per completed question and one completion. The
+five answers use fixed enums; contact details stay in Sanity and are never sent to PostHog.
+
 ## Lifecycle
 
 - `lead`: a valid website form was submitted.

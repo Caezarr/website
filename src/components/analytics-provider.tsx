@@ -35,8 +35,9 @@ export function AnalyticsProvider() {
       }
 
       const tracked = anchor.closest<HTMLElement>("[data-track]");
+      if (!tracked && !isWonkaSignup) return;
       trackWebsiteEvent(WEBSITE_EVENTS.CTA_CLICKED, {
-        cta_type: tracked?.dataset.track || "link",
+        cta_type: isWonkaSignup ? "trial" : tracked?.dataset.track || "cta",
         cta_context: tracked?.dataset.meetingType || "general",
         cta_id: anchor.id || undefined,
         destination_host: destination.hostname,

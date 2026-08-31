@@ -7,6 +7,7 @@ export const WEBSITE_EVENTS = {
   LEAD_STARTED: "website_lead_started",
   LEAD_SUBMITTED: "website_lead_submitted",
   DIAGNOSTIC_STARTED: "website_diagnostic_started",
+  DIAGNOSTIC_STEP_COMPLETED: "website_diagnostic_step_completed",
   DIAGNOSTIC_COMPLETED: "website_diagnostic_completed",
   TRIAL_CLICKED: "website_trial_clicked",
 } as const;

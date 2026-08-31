@@ -39,6 +39,7 @@ export function qualifyLead(
     "start-ai-flanders-hero": 25,
     "wonka-chat-hero": 25,
     "wonka-chat-odoo-hero": 30,
+    "france-diagnostic": 35,
   };
   score += sourceScores[source];
   signals.push(`intent:${source}`);

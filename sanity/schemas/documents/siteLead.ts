@@ -5,6 +5,7 @@ const SOURCE_OPTIONS = [
   { title: "Start AI Flanders hero", value: "start-ai-flanders-hero" },
   { title: "WonkaChat hero", value: "wonka-chat-hero" },
   { title: "WonkaChat Odoo hero", value: "wonka-chat-odoo-hero" },
+  { title: "France diagnostic", value: "france-diagnostic" },
 ];
 
 export const siteLead = defineType({
@@ -17,6 +18,20 @@ export const siteLead = defineType({
       title: "Email",
       type: "string",
       validation: (Rule) => Rule.required().email(),
+    }),
+    defineField({
+      name: "firstName",
+      title: "First name",
+      type: "string",
+      readOnly: true,
+      hidden: ({ document }) => !document?.firstName,
+    }),
+    defineField({
+      name: "company",
+      title: "Company",
+      type: "string",
+      readOnly: true,
+      hidden: ({ document }) => !document?.company,
     }),
     defineField({
       name: "submittedAt",
@@ -59,6 +74,18 @@ export const siteLead = defineType({
       type: "array",
       of: [{ type: "string" }],
       readOnly: true,
+    }),
+    defineField({
+      name: "diagnosticAnswers",
+      title: "Diagnostic answers",
+      type: "object",
+      fields: ["secteur", "outil", "donnees", "frein", "role"].map((name) => ({
+        name,
+        title: name,
+        type: "string",
+        readOnly: true,
+      })),
+      hidden: ({ document }) => !document?.diagnosticAnswers,
     }),
     defineField({
       name: "attribution",
