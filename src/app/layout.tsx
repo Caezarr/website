@@ -90,18 +90,18 @@ const organizationSchema = {
     "https://www.linkedin.com/company/wonka-ai",
   ],
   description:
-    "Wonka AI deploys private LLMs inside European enterprises — connected to your existing tools, processing everything on your own servers. Full data sovereignty, GDPR compliance, deployed in weeks.",
+    "Wonka AI deploys private enterprise AI agents connected to your existing tools. ISO 27001 certified. GDPR compliant. NIS 2 compliant. SOC 2 Type II in progress. Hosted in Azure West Europe (Microsoft Ireland).",
 };
 
 const softwareApplicationSchema = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  name: "Wonka AI",
+  name: "WonkaChat",
   applicationCategory: "BusinessApplication",
   operatingSystem: "Web",
   url: SITE_URL,
   description:
-    "Private enterprise AI platform. Deploy a secure LLM inside your infrastructure, connected to SharePoint, Salesforce, Slack, Jira and more — with full data sovereignty and GDPR compliance.",
+    "Private enterprise AI platform. Deploy secure AI agents connected to SharePoint, Salesforce, Slack, Jira and more — with GDPR compliance. Hosted in Azure West Europe (Microsoft Ireland).",
   publisher: {
     "@type": "Organization",
     name: "Wonka AI",
@@ -109,16 +109,22 @@ const softwareApplicationSchema = {
   },
   offers: {
     "@type": "Offer",
-    url: SITE_URL,
-    price: "0",
+    url: `${SITE_URL}/pricing`,
     priceCurrency: "EUR",
+    price: "21.60",
+    priceSpecification: {
+      "@type": "UnitPriceSpecification",
+      price: "21.60",
+      priceCurrency: "EUR",
+      unitText: "per user per month",
+    },
     availability: "https://schema.org/OnlineOnly",
   },
   featureList: [
-    "Private LLM deployment on your infrastructure",
+    "Private AI agent deployment",
     "GDPR-compliant enterprise AI",
     "Connectors for SharePoint, Salesforce, Slack, Jira, HubSpot, Notion",
-    "Data sovereignty — no data leaves your environment",
+    "Azure West Europe hosting (Microsoft Ireland)",
     "RAG on your internal documents and knowledge base",
     "Deployed in weeks, not months",
   ],
@@ -132,7 +138,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s – Wonka AI",
     },
     description:
-      "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance and no data leaving your environment.",
+      "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance. Hosted in Azure West Europe (Microsoft Ireland).",
     robots: {
       index: true,
       follow: true,
@@ -178,7 +184,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         )}
         <InlineScript
           id="apollo-tracker"
-          html={`function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,o.onload=function(){window.trackingFunctions.onLoad({appId:"691d86987b3dc0000db97e49"})},document.head.appendChild(o)}initApollo();`}
+          html={`function initApollo(){if('requestIdleCallback'in window){requestIdleCallback(loadApollo,{timeout:3000})}else{window.addEventListener('load',loadApollo)}}function loadApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,o.onload=function(){window.trackingFunctions.onLoad({appId:"691d86987b3dc0000db97e49"})},document.head.appendChild(o)}initApollo();`}
         />
         <InlineScript
           id="wonka-attribution-tracker"

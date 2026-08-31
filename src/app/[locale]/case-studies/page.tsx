@@ -129,9 +129,36 @@ export default async function CasClientsPage({ params }: PageProps) {
         </div>
 
         {!cases.length ? (
-          <div className="rounded-lg border border-dashed border-border p-8">
-            <p className="type-body text-text/60">{l.empty}</p>
-          </div>
+          <>
+            <h2 className="type-h5 mb-6">{l.all}</h2>
+            <div className="grid gap-5 md:grid-cols-2">
+              <a
+                href={itemPath("case-studies", locale, "itzu")}
+                className="group flex min-h-72 flex-col rounded-lg border border-border p-6 transition-colors hover:border-accent"
+              >
+                <span className="type-eyebrow text-text/40">Recruitment & HR</span>
+                <h3 className="mt-4 type-h5 group-hover:text-accent">Itzu</h3>
+                <p className="mt-3 type-body text-text/65">How Itzu empowers every employee with personal AI assistants</p>
+                <ul className="mt-auto flex flex-col gap-2 pt-6">
+                  <li className="type-paragraph-s text-accent">100% employee adoption</li>
+                  <li className="type-paragraph-s text-accent">Multiple hours saved per employee weekly</li>
+                </ul>
+              </a>
+              <a
+                href={itemPath("case-studies", locale, "n-allo")}
+                className="group flex min-h-72 flex-col rounded-lg border border-border p-6 transition-colors hover:border-accent"
+              >
+                <span className="type-eyebrow text-text/40">Energy & Utilities</span>
+                <h3 className="mt-4 type-h5 group-hover:text-accent">N-allo (Engie)</h3>
+                <p className="mt-3 type-body text-text/65">N-allo cuts support email time by 50% with AI agents</p>
+                <ul className="mt-auto flex flex-col gap-2 pt-6">
+                  <li className="type-paragraph-s text-accent">50% time reduction on support emails</li>
+                  <li className="type-paragraph-s text-accent">Team of +70 employees</li>
+                </ul>
+              </a>
+            </div>
+            <HubPopularLinks title={l.popular} links={getHubPopularLinks(locale)} />
+          </>
         ) : (
           <>
             <h2 className="type-h5 mb-6">{l.all}</h2>

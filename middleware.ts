@@ -6,7 +6,10 @@ export default createMiddleware(routing);
 export const config = {
   matcher: [
     // Locale-prefixed paths (fr/nl)
-    '/(fr|nl)(.*)',
+    '/fr',
+    '/fr/:path*',
+    '/nl',
+    '/nl/:path*',
     // English content hub paths
     '/(blog|integrations|learn|vs|case-studies)(.*)',
     // Localized path variants

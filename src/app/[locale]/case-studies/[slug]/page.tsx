@@ -20,7 +20,15 @@ interface PageProps { params: Promise<{ locale: Locale; slug: string }> }
 
 export async function generateStaticParams() {
   const data = await client.fetch(CASE_STUDY_SLUGS_QUERY);
-  return (data ?? []).map((item: { slug: { current: string }; language: string }) => ({ locale: item.language, slug: item.slug.current }));
+  const slugs = (data ?? []).map((item: { slug: { current: string }; language: string }) => ({ locale: item.language, slug: item.slug.current }));
+  
+  // Add static fallback case studies
+  const staticCaseStudies = [
+    { locale: "en", slug: "itzu" },
+    { locale: "en", slug: "n-allo" }
+  ];
+  
+  return [...slugs, ...staticCaseStudies];
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -36,9 +44,114 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function CaseStudyDetailPage({ params }: PageProps) {
   const { locale, slug } = await params;
   const { data } = await sanityFetch({ query: CASE_STUDY_QUERY, params: { slug, language: locale } });
-  if (!data) notFound();
-
-  const c = data as CaseStudy;
+  
+  // Static fallback for production case studies if CMS data is not available
+  let c: CaseStudy | null = data as CaseStudy | null;
+  
+  if (!c && slug === "itzu" && locale === "en") {
+    c = {
+      _id: "itzu-fallback",
+      slug: { current: "itzu" },
+      language: "en",
+      clientName: "Itzu",
+      clientLogo: null,
+      headline: "How Itzu empowers every employee with personal AI assistants",
+      excerpt: "Itzu deployed personal WonkaChat assistants to 100% of their workforce, with employees saving multiple hours per week.",
+      sector: "Recruitment & HR",
+      publishedAt: "2026-08-01T00:00:00Z",
+      results: [
+        "100% employee adoption",
+        "Multiple hours saved per employee weekly",
+        "Personal AI assistant for each team member"
+      ],
+      body: [
+        {
+          _type: "block",
+          _key: "intro",
+          children: [
+            {
+              _type: "span",
+              _key: "intro-text",
+              text: "Itzu deployed WonkaChat to 100% of employees. Each team member received a personal AI assistant connected to internal systems, helping with daily work.",
+              marks: []
+            }
+          ],
+          markDefs: [],
+          style: "normal"
+        },
+        {
+          _type: "block",
+          _key: "result",
+          children: [
+            {
+              _type: "span",
+              _key: "result-text",
+              text: "The deployment achieved 100% adoption. Employees save multiple hours per week using their personal AI assistants.",
+              marks: []
+            }
+          ],
+          markDefs: [],
+          style: "normal"
+        }
+      ] as never,
+      tags: ["recruitment", "employee-productivity"],
+      seo: null,
+      faq: []
+    };
+  }
+  
+  if (!c && slug === "n-allo" && locale === "en") {
+    c = {
+      _id: "n-allo-fallback",
+      slug: { current: "n-allo" },
+      language: "en",
+      clientName: "N-allo (Engie)",
+      clientLogo: null,
+      headline: "N-allo cuts support email time by 50% with AI agents",
+      excerpt: "Engie subsidiary N-allo deployed AI agents to handle support emails, cutting handling time by 50% across a team of +70 employees.",
+      sector: "Energy & Utilities",
+      publishedAt: "2026-07-15T00:00:00Z",
+      results: [
+        "50% time reduction on support emails",
+        "Team of +70 employees"
+      ],
+      body: [
+        {
+          _type: "block",
+          _key: "intro",
+          children: [
+            {
+              _type: "span",
+              _key: "intro-text",
+              text: "N-allo, an Engie group subsidiary, deployed AI agents to handle support emails across their team of over 70 employees.",
+              marks: []
+            }
+          ],
+          markDefs: [],
+          style: "normal"
+        },
+        {
+          _type: "block",
+          _key: "result",
+          children: [
+            {
+              _type: "span",
+              _key: "result-text",
+              text: "The deployment reduced time spent handling support emails by 50% across the team.",
+              marks: []
+            }
+          ],
+          markDefs: [],
+          style: "normal"
+        }
+      ] as never,
+      tags: ["customer-support", "email-automation"],
+      seo: null,
+      faq: []
+    };
+  }
+  
+  if (!c) notFound();
   const [{ data: relatedPosts }, { data: relatedConnectors }] = await Promise.all([
     sanityFetch({ query: RELATED_BLOG_POSTS_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),
     sanityFetch({ query: RELATED_CONNECTOR_PAGES_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),

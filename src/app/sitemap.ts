@@ -47,6 +47,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${siteUrl}/wonka-chat`, lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${siteUrl}/wonka-chat/odoo`, lastModified, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/contact`, lastModified, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${siteUrl}/security`, lastModified, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${siteUrl}/france`, lastModified, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${siteUrl}/pricing`, lastModified, changeFrequency: "monthly", priority: 0.85 },
     // Hub pages with hreflang
     ...sections.flatMap((section) =>
       locales.map((locale) => ({
