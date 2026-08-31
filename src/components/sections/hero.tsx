@@ -1,11 +1,13 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/button";
+import { LogoMark } from "@/components/ui/logo-mark";
 import { FadeIn } from "@/components/animations/fade-in";
 import { HeroMarquee } from "./hero-marquee";
 import { cn } from "@/lib/utils";
 import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
 import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass } from "@/lib/design-tokens";
+import type { HomepageHeroVariant } from "@/lib/homepage-hero-variants";
 import type { HeroData } from "@/lib/types";
 
 export const HERO_BG_IMAGE = "/images/hero-bg.avif";
@@ -23,7 +25,7 @@ interface HeroProps {
   meetingTrackType?: MeetingTrackType;
   ctaHref?: string;
   ctaLabel?: string;
-  showProductUI?: boolean;
+  variant?: HomepageHeroVariant;
 }
 
 function NvidiaInceptionLogo() {
@@ -76,15 +78,196 @@ function MicrosoftLogo() {
   );
 }
 
-function BackedBy() {
+function BackedBy({ alignLeft = false }: { alignLeft?: boolean }) {
   return (
-    <p className="type-eyebrow text-text/60 flex flex-wrap items-center justify-center gap-x-1 gap-y-1.5">
+    <p
+      className={cn(
+        "type-eyebrow text-text/60 flex flex-wrap items-center justify-center gap-x-1 gap-y-1.5",
+        alignLeft && "lg:justify-start",
+      )}
+    >
       <span>Backed by</span>
       <NvidiaInceptionLogo />
       <span>Nvidia Inception and</span>
       <MicrosoftLogo />
       <span>Microsoft for Startups.</span>
     </p>
+  );
+}
+
+const CUSTOMER_PROOF = [
+  {
+    label: "Scaled AI agents across their network.",
+    src: "/images/hero/proof-1.svg",
+    alt: "PWC, Engie, Buildwise and Xerius",
+    width: 287,
+    height: 21,
+  },
+  {
+    label: "Got fast-tracked to AI-native.",
+    src: "/images/hero/proof-2.svg",
+    alt: "Luminus, Cambio, Zorgi and ODTH",
+    width: 289,
+    height: 24,
+  },
+  {
+    label: "Deployed AI for employees in weeks.",
+    src: "/images/hero/proof-3.svg",
+    alt: "Luminus, Cambio, Zorgi and ODTH",
+    width: 320,
+    height: 26,
+  },
+] as const;
+
+function ProductPreview() {
+  return (
+    <div className="relative aspect-video w-full overflow-hidden rounded-sm border border-white/10 bg-white shadow-2xl">
+      <Image
+        src="/images/wonka-chat/feature-chat.png"
+        alt="WonkaChat interface showing an AI assistant connected to business tools"
+        fill
+        priority
+        sizes="(max-width: 1024px) 100vw, 50vw"
+        className="object-cover"
+      />
+    </div>
+  );
+}
+
+function VoiceActionPreview() {
+  return (
+    <div className="[container-type:inline-size] relative aspect-[4/3] w-full overflow-hidden rounded-sm border border-white/10 bg-[#f5f6f7] shadow-2xl">
+      <div className="pointer-events-none absolute top-[15%] right-0 w-[52%] opacity-45 blur-[0.5px]">
+        <Image
+          src="/images/how-it-works/step-1/voice.png"
+          alt=""
+          width={622}
+          height={166}
+          className="h-auto w-full"
+        />
+      </div>
+      <div className="absolute top-1/2 left-[9%] flex -translate-y-1/2 items-center gap-[2cqw]">
+        <div className="grid size-[12cqw] shrink-0 place-items-center rounded-sm bg-green-300">
+          <LogoMark className="h-[7cqw] w-auto" />
+        </div>
+        <div className="border-mid-gray flex h-[10cqw] items-center rounded-sm border border-dashed bg-white px-[3cqw] shadow-sm">
+          <span className="text-[2.8cqw] font-medium whitespace-nowrap text-black">
+            Create an opportunity in Odoo.
+          </span>
+          <span
+            aria-hidden
+            className="ml-[0.8cqw] inline-block h-[4cqw] w-px bg-black"
+          />
+        </div>
+      </div>
+      <div className="pointer-events-none absolute bottom-[9%] left-[8%] w-[68%] opacity-35 blur-[1px]">
+        <Image
+          src="/images/how-it-works/step-1/mail.png"
+          alt=""
+          width={745}
+          height={295}
+          className="h-auto w-full"
+        />
+      </div>
+    </div>
+  );
+}
+
+function CustomerProofPreview() {
+  return (
+    <div className="w-full overflow-hidden rounded-sm border border-dashed border-white/20 bg-black/25 shadow-2xl backdrop-blur-md">
+      <div className="border-b border-dashed border-white/20 px-6 py-5">
+        <p className="type-eyebrow text-green-300">AI in production</p>
+        <p className="type-h6 mt-2 max-w-[22ch] text-white">
+          From a first workflow to company-wide adoption.
+        </p>
+      </div>
+      <div className="divide-y divide-dashed divide-white/15">
+        {CUSTOMER_PROOF.map((proof) => (
+          <div className="space-y-3 px-6 py-5" key={proof.src}>
+            <p className="type-eyebrow text-white/65">{proof.label}</p>
+            <Image
+              src={proof.src}
+              alt={proof.alt}
+              width={proof.width}
+              height={proof.height}
+              className="h-5 w-auto max-w-full"
+              unoptimized
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function HeroCopy({
+  awardBadge,
+  title,
+  subtitle,
+  href,
+  ctaLabel,
+  ctaHref,
+  meetingTrackType,
+  alignLeft,
+}: {
+  awardBadge: string;
+  title: string;
+  subtitle: string;
+  href: string;
+  ctaLabel: string;
+  ctaHref?: string;
+  meetingTrackType: MeetingTrackType;
+  alignLeft: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex flex-col items-center gap-6 text-center",
+        alignLeft && "lg:items-start lg:text-left",
+      )}
+    >
+      <FadeIn delay={0.05}>
+        <div
+          className="award-marble-badge relative flex max-w-[min(90vw,36rem)] items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-3 py-1.5 text-white backdrop-blur-md md:gap-3 md:px-4"
+          style={{ animation: "award-glow 3s ease-in-out infinite" }}
+        >
+          <span className="relative z-10 flex items-center">
+            <AwardLaurelIcon />
+          </span>
+          <span
+            className="relative z-10 h-5 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent"
+            aria-hidden
+          />
+          <span className="type-eyebrow relative z-10 text-left text-[0.56rem] leading-3 tracking-[0.14em] text-white/88 md:text-[0.66rem] md:leading-4">
+            {awardBadge}
+          </span>
+        </div>
+      </FadeIn>
+      <FadeIn delay={0.15}>
+        <h1 className={cn(headingClass.hero, "max-w-[14ch] text-balance")}>
+          {title}
+        </h1>
+      </FadeIn>
+      <FadeIn delay={0.3}>
+        <p className="type-body text-text/90 max-w-[32rem] leading-6">
+          {subtitle}
+        </p>
+      </FadeIn>
+      <FadeIn delay={0.4}>
+        <ButtonLink
+          href={href}
+          variant="primary"
+          className="mt-2"
+          {...(ctaHref ? {} : meetingTrackProps(meetingTrackType))}
+        >
+          {ctaLabel}
+        </ButtonLink>
+      </FadeIn>
+      <FadeIn delay={0.5}>
+        <BackedBy alignLeft={alignLeft} />
+      </FadeIn>
+    </div>
   );
 }
 
@@ -160,13 +343,19 @@ export function Hero({
   meetingTrackType = "general",
   ctaHref,
   ctaLabel: ctaLabelProp,
-  showProductUI = false,
+  variant = "control",
 }: HeroProps) {
   const awardBadge = data?.awardBadge ?? DEFAULT_AWARD_BADGE;
   const title = data?.title ?? DEFAULT_TITLE;
   const subtitle = data?.subtitle ?? DEFAULT_SUBTITLE;
   const ctaLabel = ctaLabelProp ?? meetingLabel ?? DEFAULT_MEETING_LABEL;
   const href = ctaHref ?? meetingUrl ?? "#";
+  const splitLayout = [
+    "product-side",
+    "voice-action",
+    "customer-proof",
+  ].includes(variant);
+  const hasVisual = variant !== "control";
 
   return (
     <section
@@ -189,79 +378,49 @@ export function Hero({
       <div
         className={cn(
           "flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32",
-          showProductUI && "mx-auto w-full max-w-[84rem]",
+          hasVisual && "mx-auto w-full max-w-[84rem]",
         )}
       >
         <div
           className={cn(
-            "flex flex-col items-center gap-6 text-center",
-            showProductUI
-              ? "w-full max-w-none lg:grid lg:grid-cols-2 lg:gap-12 lg:text-left"
-              : "max-w-3xl",
+            "w-full",
+            splitLayout
+              ? "grid max-w-none items-center gap-10 lg:grid-cols-2 lg:gap-12"
+              : variant === "product-below"
+                ? "flex max-w-5xl flex-col items-center gap-10"
+                : "max-w-3xl",
           )}
         >
-          <div
-            className={cn(
-              "flex flex-col gap-6",
-              showProductUI && "lg:items-start",
-            )}
-          >
-            <FadeIn delay={0.05}>
-              <div
-                className="award-marble-badge relative flex max-w-[min(90vw,36rem)] items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-3 py-1.5 text-white backdrop-blur-md md:gap-3 md:px-4"
-                style={{ animation: "award-glow 3s ease-in-out infinite" }}
-              >
-                <span className="relative z-10 flex items-center">
-                  <AwardLaurelIcon />
-                </span>
-                <span
-                  className="relative z-10 h-5 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent"
-                  aria-hidden
-                />
-                <span className="type-eyebrow relative z-10 text-left text-[0.56rem] leading-3 tracking-[0.14em] text-white/88 md:text-[0.66rem] md:leading-4">
-                  {awardBadge}
-                </span>
-              </div>
-            </FadeIn>
-            <FadeIn delay={0.15}>
-              <h1
-                className={cn(headingClass.hero, "max-w-[14ch] text-balance")}
-              >
-                {title}
-              </h1>
-            </FadeIn>
-            <FadeIn delay={0.3}>
-              <p className="type-body text-text/90 max-w-[32rem] leading-6">
-                {subtitle}
-              </p>
-            </FadeIn>
-            <FadeIn delay={0.4}>
-              <ButtonLink
-                href={href}
-                variant="primary"
-                className="mt-2"
-                {...(ctaHref ? {} : meetingTrackProps(meetingTrackType))}
-              >
-                {ctaLabel}
-              </ButtonLink>
-            </FadeIn>
-            <FadeIn delay={0.5}>
-              <BackedBy />
-            </FadeIn>
-          </div>
+          <HeroCopy
+            awardBadge={awardBadge}
+            title={title}
+            subtitle={subtitle}
+            href={href}
+            ctaLabel={ctaLabel}
+            ctaHref={ctaHref}
+            meetingTrackType={meetingTrackType}
+            alignLeft={splitLayout}
+          />
 
-          {showProductUI ? (
+          {variant === "product-side" || variant === "product-below" ? (
+            <FadeIn
+              delay={0.4}
+              className={cn(
+                "w-full",
+                variant === "product-side" && "max-lg:order-first",
+              )}
+            >
+              <ProductPreview />
+            </FadeIn>
+          ) : null}
+          {variant === "voice-action" ? (
             <FadeIn delay={0.4} className="w-full">
-              <div className="relative aspect-[23/9] w-full overflow-hidden rounded-sm shadow-2xl">
-                <Image
-                  src="/images/wonka-chat/feature-chat.png"
-                  alt="WonkaChat interface showing an AI assistant connected to business tools"
-                  fill
-                  priority
-                  sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
-                />
-              </div>
+              <VoiceActionPreview />
+            </FadeIn>
+          ) : null}
+          {variant === "customer-proof" ? (
+            <FadeIn delay={0.4} className="w-full">
+              <CustomerProofPreview />
             </FadeIn>
           ) : null}
         </div>

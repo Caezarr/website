@@ -17,29 +17,68 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+async function expectSingleCta(canvasElement: HTMLElement) {
+  const canvas = within(canvasElement);
+  await expect(
+    canvas.getAllByRole("link", { name: "Book a 30 min call" }),
+  ).toHaveLength(1);
+  return canvas;
+}
+
 export const Control: Story = {
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await expect(
-      canvas.getByRole("link", { name: "Book a 30 min call" }),
-    ).toHaveAttribute("href", "/contact");
+    const canvas = await expectSingleCta(canvasElement);
     await expect(
       canvas.queryByAltText(/WonkaChat interface/i),
     ).not.toBeInTheDocument();
   },
 };
 
-export const ProductPreview: Story = {
+export const ProductSide: Story = {
   args: {
-    showProductUI: true,
+    variant: "product-side",
   },
   play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    await expect(
-      canvas.getByRole("link", { name: "Book a 30 min call" }),
-    ).toHaveAttribute("href", "/contact");
+    const canvas = await expectSingleCta(canvasElement);
     await expect(
       canvas.getByAltText(/WonkaChat interface/i),
+    ).toBeInTheDocument();
+  },
+};
+
+export const ProductBelow: Story = {
+  args: {
+    variant: "product-below",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = await expectSingleCta(canvasElement);
+    await expect(
+      canvas.getByAltText(/WonkaChat interface/i),
+    ).toBeInTheDocument();
+  },
+};
+
+export const VoiceAction: Story = {
+  args: {
+    variant: "voice-action",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = await expectSingleCta(canvasElement);
+    await expect(
+      canvas.getByText("Create an opportunity in Odoo."),
+    ).toBeInTheDocument();
+  },
+};
+
+export const CustomerProof: Story = {
+  args: {
+    variant: "customer-proof",
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = await expectSingleCta(canvasElement);
+    await expect(canvas.getByText("AI in production")).toBeInTheDocument();
+    await expect(
+      canvas.getByText("From a first workflow to company-wide adoption."),
     ).toBeInTheDocument();
   },
 };
