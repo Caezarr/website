@@ -10,6 +10,8 @@ import { TrustedBy } from "@/components/sections/trusted-by";
 import { Cta } from "@/components/sections/cta";
 import { buildMetadata } from "@/lib/seo";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
+import { cn } from "@/lib/utils";
+import { headingClass } from "@/lib/design-tokens";
 import type { SiteSettings, HeroData, SolutionData } from "@/lib/types";
 
 export const dynamic = "force-static";
@@ -93,13 +95,43 @@ export default async function FrancePage() {
     <>
       <Hero
         data={heroData}
-        ctaHref="/france/diagnostic?utm_campaign=france&utm_source=hero"
+        ctaHref="/france/diagnostic?utm_campaign=france"
         ctaLabel="Faire le diagnostic"
       />
       <Problem id="problem" items={problemItems} />
       <Solution id="solution" data={solutionData} />
       <Stats id="stats" />
       <TrustedBy id="trusted-by" />
+      
+      <section className="mx-auto max-w-[1200px] px-6 py-16 md:py-20">
+        <h2 className={cn(headingClass.section, "mb-12 text-center")}>Preuves</h2>
+        <div className="grid gap-8 md:grid-cols-2">
+          <div className="rounded-sm border border-border bg-background p-8">
+            <h3 className={cn(headingClass.card, "mb-4")}>N-allo (Engie)</h3>
+            <p className="type-body text-text/70">
+              -50 % de temps sur les mails de support, équipe de +70 personnes.
+            </p>
+            <a
+              href="/case-studies/n-allo"
+              className="mt-4 inline-block type-paragraph-m-bold text-accent hover:underline"
+            >
+              Lire le cas client →
+            </a>
+          </div>
+          <div className="rounded-sm border border-border bg-background p-8">
+            <h3 className={cn(headingClass.card, "mb-4")}>Itzu</h3>
+            <p className="type-body text-text/70">
+              100 % des salariés ont leur WonkaChat personnel. Plusieurs heures gagnées chaque semaine.
+            </p>
+            <a
+              href="/case-studies/itzu"
+              className="mt-4 inline-block type-paragraph-m-bold text-accent hover:underline"
+            >
+              Lire le cas client →
+            </a>
+          </div>
+        </div>
+      </section>
       <div className="pb-20 md:pb-24">
         <Security
           id="security"
@@ -116,7 +148,7 @@ export default async function FrancePage() {
           heading: "En 5 questions, 3 agents prêts pour vos outils.",
           body: "Secteur, outils, données, frein, rôle. Deux minutes. Vous voyez le résultat avant de parler à quelqu'un.",
         }}
-        meetingUrl="/france/diagnostic?utm_campaign=france&utm_source=cta"
+        meetingUrl="/france/diagnostic?utm_campaign=france"
         meetingLabel="Faire le diagnostic"
         meetingTrackType="france"
         showImage={false}

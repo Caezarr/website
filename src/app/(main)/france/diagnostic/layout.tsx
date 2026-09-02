@@ -3,14 +3,14 @@ import { buildMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildMetadata(
   {
-    metaTitle: "Diagnostic IA entreprise | Wonka France",
+    metaTitle: "Diagnostic IA entreprise | 5 questions, 3 agents | Wonka",
     metaDescription:
-      "5 questions, 3 agents IA prêts pour vos outils. Diagnostic gratuit pour ETI françaises. Odoo, SharePoint, Azure West Europe.",
+      "5 questions, 2 minutes. Vous voyez 3 agents pour vos outils. Puis 45 min avec Gabriel.",
     ogImage: null,
   },
   {
     path: "/france/diagnostic",
-    fallbackTitle: "Diagnostic IA entreprise | Wonka France",
+    fallbackTitle: "Diagnostic IA entreprise | 5 questions, 3 agents | Wonka",
   },
 );
 
