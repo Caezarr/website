@@ -224,9 +224,15 @@ const capabilitiesFr: IconFeatureGridData = {
 };
 
 const contactFr: ContactSectionResolved = {
-  eyebrow: "Prêt à démarrer?",
-  heading: "Voyons si Wonka est fait pour vous.",
-  body: "30 min, pas de slides. On parle de votre configuration Odoo actuelle et on voit si nos agents peuvent apporter de la valeur.",
+  header: {
+    eyebrow: "Prêt à démarrer?",
+    heading: "Voyons si Wonka est fait pour vous.",
+    body: "30 min, pas de slides. On parle de votre configuration Odoo actuelle et on voit si nos agents peuvent apporter de la valeur.",
+  },
+  portrait: null,
+  fallbackPortrait: null,
+  personName: null,
+  personRole: null,
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -263,7 +269,7 @@ export default async function WonkaChatOdooPageFr() {
       />
 
       <main className="bg-background text-text">
-        <ProductHero data={heroFr} leadForm="wonka-chat-odoo-hero-fr" />
+        <ProductHero data={heroFr} leadForm="wonka-chat-odoo-hero" />
         <LogoStrip data={WONKA_CHAT_DEFAULTS.logoStrip} />
         <ProblemBento id="the-problem" data={problemFr} />
         <div id="how-it-works">

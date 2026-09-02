@@ -79,7 +79,7 @@ const solutionData: SolutionData = {
       title: "Diagnostic 45 min avec Gabriel",
       body: "45 minutes pour identifier 3 agents prêts pour votre configuration Odoo et SharePoint. Agents de test livrés dans la semaine suivant le diagnostic.",
     },
-  },
+  ],
 };
 
 export default async function AgentIaEntreprisePage() {

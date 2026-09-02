@@ -4,7 +4,8 @@ import {
   HOMEPAGE_CONTENT_QUERY,
   SITE_SETTINGS_QUERY,
 } from "@sanity/lib/queries";
-import type { HomepageContent, SiteSettings, Locale } from "@/lib/types";
+import type { HomepageContent, SiteSettings } from "@/lib/types";
+import type { Locale } from "@/i18n/config";
 import { buildMetadata } from "@/lib/seo";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import { HomepageHeroExperiment } from "@/components/sections/homepage-hero-experiment";
@@ -52,7 +53,9 @@ export default async function LocaleHomePage({ params }: PageProps) {
     getSiteSettings(),
   ]);
 
-  const meetingUrl = resolveMeetingUrl(settings?.sharedLinks, "general");
+  const sharedLinks = settings?.sharedLinks ?? null;
+  const meetingUrl = resolveMeetingUrl(sharedLinks, "default");
+  const meetingLabel = sharedLinks?.meetingLabel ?? null;
 
   if (!content) {
     return (
@@ -64,18 +67,33 @@ export default async function LocaleHomePage({ params }: PageProps) {
 
   return (
     <>
-      <HomepageHeroExperiment data={content.hero} />
-      <Problem id="problem" items={content.problem} />
-      <Solution id="solution" data={content.solution} />
-      <HowItWorks id="how-it-works" data={content.howItWorks} />
-      <Stats id="stats" />
-      <UseCases id="use-cases" data={content.useCases} />
-      <Security id="security" data={content.security} />
-      <HowToStart id="how-to-start" data={content.howToStart} />
-      <Testimonials id="testimonials" data={content.testimonials} />
-      <Cta
+      <HomepageHeroExperiment
+        data={content.hero ?? null}
         meetingUrl={meetingUrl}
-        data={content.cta}
+        meetingLabel={meetingLabel}
+      />
+      <Problem id="problem" />
+      <Solution id="solution" data={content.solution ?? null} />
+      <Stats id="stats" />
+      <HowItWorks
+        id="how-it-works"
+        data={content.whatWeDo ?? null}
+        sharedLinks={sharedLinks}
+      />
+      <UseCases id="use-cases" data={content.useCases ?? null} />
+      <HowToStart
+        id="how-to-start"
+        data={content.howToStart ?? null}
+        meetingUrl={meetingUrl}
+        meetingLabel={meetingLabel}
+      />
+      <Security id="security" data={content.security ?? null} />
+      <Testimonials id="testimonials" />
+      <Cta
+        id="get-started"
+        data={content.cta ?? null}
+        meetingUrl={meetingUrl}
+        meetingLabel={meetingLabel}
         meetingTrackType="general"
       />
     </>
