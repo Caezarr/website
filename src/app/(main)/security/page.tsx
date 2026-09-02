@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { Section } from "@/components/ui/section";
 import { Surface } from "@/components/ui/surface";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -55,6 +56,12 @@ const securityFeatures = [
     ],
   },
   {
+    title: "Data security",
+    items: [
+      "Encryption in transit (TLS)",
+    ],
+  },
+  {
     title: "Data governance",
     items: [
       "Customer data is not used to train public AI models",
@@ -73,8 +80,9 @@ const securityFeatures = [
   {
     title: "Compliance in progress",
     items: [
-      "SOC 2 Type II audit in progress (not yet certified)",
-      "Regular third-party security assessments",
+      "SOC 2 Type II audit in progress",
+      "Independent penetration testing",
+      "Sub-processor security reviews",
       "Continuous monitoring and incident response procedures",
     ],
   },
@@ -166,10 +174,34 @@ export default function SecurityPage() {
             (Microsoft Ireland) by default. This is not an on-premises deployment unless explicitly contracted.
           </p>
           <p>
-            <strong className="text-text">SOC 2:</strong> SOC 2 Type II audit is in progress. Wonka AI is not yet SOC 2 certified.
+            <strong className="text-text">SOC 2:</strong> SOC 2 Type II audit is in progress.
           </p>
           <p>
             <strong className="text-text">Data usage:</strong> Customer data is not used to train public AI models.
+            A Data Processing Agreement is available on request.
+          </p>
+        </div>
+      </Section>
+
+      <Section className="border-t border-dashed border-border py-16 md:py-24" containerClassName="max-w-[48rem]">
+        <h2 className={cn(headingClass.section)}>Legal documents</h2>
+        <div className="mt-8 flex flex-col gap-4 type-body">
+          <p>
+            <Link href="/privacy" className="text-accent underline hover:no-underline">
+              Privacy Policy
+            </Link>
+          </p>
+          <p>
+            <Link href="/terms" className="text-accent underline hover:no-underline">
+              Terms of Use
+            </Link>
+          </p>
+          <p>
+            <Link href="/cookies" className="text-accent underline hover:no-underline">
+              Cookie Policy
+            </Link>
+          </p>
+          <p className="mt-4 text-text/70">
             A Data Processing Agreement is available on request.
           </p>
         </div>
