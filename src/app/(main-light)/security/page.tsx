@@ -51,6 +51,7 @@ const securityFeatures = [
     title: "Hosting",
     items: [
       "Azure West Europe (Microsoft Ireland) by default",
+      "Cloudflare for CDN and edge delivery",
       "EU-based infrastructure with data residency controls",
       "Enterprise-grade Azure security and compliance",
     ],
@@ -78,6 +79,7 @@ const securityFeatures = [
     items: [
       "SOC 2 Type II audit in progress",
       "Annual independent (external black-box) penetration testing",
+      "Independent information security audits (Sencom)",
       "Annual sub-processor security reviews",
       "Continuous monitoring and incident response procedures",
     ],
