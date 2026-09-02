@@ -93,7 +93,7 @@ export default async function FrancePage() {
     <>
       <Hero
         data={heroData}
-        ctaHref="/france/diagnostic"
+        ctaHref="/france/diagnostic?utm_campaign=france&utm_source=hero"
         ctaLabel="Faire le diagnostic"
       />
       <Problem id="problem" items={problemItems} />
@@ -116,8 +116,8 @@ export default async function FrancePage() {
           heading: "En 5 questions, 3 agents prêts pour vos outils.",
           body: "Secteur, outils, données, frein, rôle. Deux minutes. Vous voyez le résultat avant de parler à quelqu'un.",
         }}
-        meetingUrl="/france/diagnostic"
-        meetingLabel="Voir les 3 agents"
+        meetingUrl="/france/diagnostic?utm_campaign=france&utm_source=cta"
+        meetingLabel="Faire le diagnostic"
         meetingTrackType="france"
         showImage={false}
       />
