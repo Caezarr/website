@@ -58,7 +58,8 @@ const securityFeatures = [
   {
     title: "Data governance",
     items: [
-      "Encryption in transit (TLS)",
+      "Encryption at rest (AES-256)",
+      "Encryption in transit (TLS 1.2 or higher)",
       "Customer data is not used to train public AI models",
       "Data Processing Agreement (DPA) included",
       "Role-based access control and audit logs",
@@ -76,8 +77,8 @@ const securityFeatures = [
     title: "Compliance in progress",
     items: [
       "SOC 2 Type II audit in progress",
-      "Independent penetration testing",
-      "Sub-processor security reviews",
+      "Annual independent (external black-box) penetration testing",
+      "Annual sub-processor security reviews",
       "Continuous monitoring and incident response procedures",
     ],
   },
