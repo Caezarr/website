@@ -257,7 +257,7 @@ export const WONKA_CHAT_DEFAULTS: WonkaChatDefaults = {
     ],
   },
   seo: {
-    metaTitle: "WonkaChat · One secure AI workspace for your team | Wonka AI",
+    metaTitle: "WonkaChat | AI workspace for your entire organization",
     metaDescription:
       "WonkaChat connects all your tools, understands what you need and executes tasks automatically. Secure, governed and useful — not just another chatbot.",
     ogImage: null,

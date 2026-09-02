@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const { content } = await getPageContent();
   return buildMetadata(content.seo, {
     path: pagePath,
-    fallbackTitle: WONKA_CHAT_DEFAULTS.seo.metaTitle ?? "AI Chat | Wonka",
+    fallbackTitle: "WonkaChat | Safe AI chat on your company knowledge",
   });
 }
 

@@ -10,6 +10,9 @@ export const WEBSITE_EVENTS = {
   DIAGNOSTIC_STEP_COMPLETED: "website_diagnostic_step_completed",
   DIAGNOSTIC_COMPLETED: "website_diagnostic_completed",
   TRIAL_CLICKED: "website_trial_clicked",
+  FRANCE_DIAGNOSTIC_START: "france_diagnostic_start",
+  FRANCE_DIAGNOSTIC_COMPLETE: "france_diagnostic_complete",
+  FRANCE_BOOKING_CLICK: "france_booking_click",
 } as const;
 
 export type WebsiteEvent = (typeof WEBSITE_EVENTS)[keyof typeof WEBSITE_EVENTS];
@@ -199,7 +202,8 @@ export function trackWebsiteEvent(
 
   if (!currentConsent.marketing) return;
   const conversion =
-    event === WEBSITE_EVENTS.DIAGNOSTIC_COMPLETED
+    event === WEBSITE_EVENTS.DIAGNOSTIC_COMPLETED ||
+    event === WEBSITE_EVENTS.FRANCE_DIAGNOSTIC_COMPLETE
       ? "Lead"
       : event === WEBSITE_EVENTS.TRIAL_CLICKED
         ? "StartTrial"
