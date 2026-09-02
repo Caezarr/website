@@ -47,11 +47,11 @@ const redirects = async () => [
   { source: '/team', destination: '/', permanent: true },
   { source: '/fr/contact', destination: '/contact', permanent: true },
   { source: '/book-a-meeting', destination: '/', permanent: true },
-  // Blog posts → short comparison pages
-  { source: '/blog/wonka-vs-dust', destination: '/vs/dust', permanent: true },
-  { source: '/fr/blog/fr-wonka-vs-dust', destination: '/fr/vs/dust', permanent: true },
-  { source: '/blog/wonka-vs-langdock', destination: '/vs/langdock', permanent: true },
-  { source: '/fr/blog/fr-wonka-vs-langdock', destination: '/fr/vs/langdock', permanent: true },
+  // Blog posts → short comparison pages (DISABLED until /vs/dust and /vs/langdock confirmed 200)
+  // { source: '/blog/wonka-vs-dust', destination: '/vs/dust', permanent: true },
+  // { source: '/fr/blog/fr-wonka-vs-dust', destination: '/fr/vs/dust', permanent: true },
+  // { source: '/blog/wonka-vs-langdock', destination: '/vs/langdock', permanent: true },
+  // { source: '/fr/blog/fr-wonka-vs-langdock', destination: '/fr/vs/langdock', permanent: true },
 ];
 
 const headers = async () => [
