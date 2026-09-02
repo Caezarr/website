@@ -14,7 +14,7 @@ export function AnalyticsProvider() {
 
   useEffect(() => {
     if (!consent) return;
-    initializeWebsiteAnalytics(consent.categories);
+    initializeWebsiteAnalytics(consent.categories, consent.choice);
 
     const handleClick = (event: MouseEvent) => {
       const target = event.target instanceof Element ? event.target : null;
