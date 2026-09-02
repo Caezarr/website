@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Section } from "@/components/ui/section";
 import { ButtonLink, Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -150,7 +150,6 @@ export default function FranceDiagnosticPage() {
   const [error, setError] = useState<string | null>(null);
   const [franceMeetingUrl, setFranceMeetingUrl] = useState<string | null>(null);
   const [selectedAgents, setSelectedAgents] = useState<AgentType[]>([]);
-  const diagnosticStarted = useRef(false);
 
   useEffect(() => {
     const stored = sessionStorage.getItem("diagnostic-answers");
@@ -185,12 +184,6 @@ export default function FranceDiagnosticPage() {
   const progress = ((currentQuestionIndex + 1) / QUESTIONS.length) * 100;
 
   const handleAnswer = (value: string) => {
-    if (!diagnosticStarted.current) {
-      diagnosticStarted.current = true;
-      trackWebsiteEvent(WEBSITE_EVENTS.DIAGNOSTIC_STARTED, {
-        diagnostic_name: "france",
-      });
-    }
     trackWebsiteEvent(WEBSITE_EVENTS.DIAGNOSTIC_STEP_COMPLETED, {
       diagnostic_name: "france",
       step_name: currentQuestion.id,
@@ -250,7 +243,7 @@ export default function FranceDiagnosticPage() {
         lead_score: result.leadScore,
         lead_source: "france-diagnostic",
       });
-      trackWebsiteEvent(WEBSITE_EVENTS.DIAGNOSTIC_COMPLETED, {
+      trackWebsiteEvent(WEBSITE_EVENTS.FRANCE_DIAGNOSTIC_COMPLETE, {
         diagnostic_name: "france",
         lead_id: result.leadId,
         lifecycle_stage: result.lifecycleStage,
@@ -426,7 +419,13 @@ export default function FranceDiagnosticPage() {
                   <p className="type-body mb-6 text-text/70">
                     Prêt à discuter de votre cas spécifique ?
                   </p>
-                  <ButtonLink href={meetingUrlWithUtm} variant="primary">
+                  <ButtonLink 
+                    href={meetingUrlWithUtm} 
+                    variant="primary"
+                    onClick={() => trackWebsiteEvent(WEBSITE_EVENTS.FRANCE_BOOKING_CLICK, {
+                      diagnostic_name: "france",
+                    })}
+                  >
                     Voir ça en 45 min avec Gabriel
                   </ButtonLink>
                 </div>

@@ -1,18 +1,17 @@
 import type { Metadata } from "next";
 import { sanityFetch } from "@sanity/lib/live";
 import { SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
-import { Hero } from "@/components/sections/hero";
 import { Problem, type ProblemItem } from "@/components/sections/problem";
 import { Solution } from "@/components/sections/solution";
 import { Stats } from "@/components/sections/stats";
 import { Security } from "@/components/sections/security";
 import { TrustedBy } from "@/components/sections/trusted-by";
-import { Cta } from "@/components/sections/cta";
 import { buildMetadata } from "@/lib/seo";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import { cn } from "@/lib/utils";
 import { headingClass } from "@/lib/design-tokens";
 import type { SiteSettings, HeroData, SolutionData } from "@/lib/types";
+import { FranceHero, FranceCta } from "./france-page-client";
 
 export const dynamic = "force-static";
 
@@ -93,11 +92,7 @@ export default async function FrancePage() {
 
   return (
     <>
-      <Hero
-        data={heroData}
-        ctaHref="/france/diagnostic?utm_campaign=france"
-        ctaLabel="Faire le diagnostic"
-      />
+      <FranceHero data={heroData} />
       <Problem id="problem" items={problemItems} />
       <Solution id="solution" data={solutionData} />
       <Stats id="stats" />
@@ -142,16 +137,11 @@ export default async function FrancePage() {
           }}
         />
       </div>
-      <Cta
-        id="get-started"
+      <FranceCta
         data={{
           heading: "En 5 questions, 3 agents prêts pour vos outils.",
           body: "Secteur, outils, données, frein, rôle. Deux minutes. Vous voyez le résultat avant de parler à quelqu'un.",
         }}
-        meetingUrl="/france/diagnostic?utm_campaign=france"
-        meetingLabel="Faire le diagnostic"
-        meetingTrackType="france"
-        showImage={false}
       />
     </>
   );
