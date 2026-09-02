@@ -326,7 +326,7 @@ export const START_AI_DEFAULTS: StartAiDefaults = {
     ],
   },
   seo: {
-    metaTitle: "Start AI · Make your company AI-powered, fast | Wonka",
+    metaTitle: "Start AI | AI strategy and roadmap for your company",
     metaDescription:
       "A 6-week program to make your SME AI-native. Identify the right opportunities, build your strategy, ship results, fast.",
     ogImage: null,
