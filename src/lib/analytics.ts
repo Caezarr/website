@@ -44,11 +44,17 @@ type Attribution = Partial<
 };
 
 type ConsentCategories = { analytics: boolean; marketing: boolean };
+type ConsentChoice = "essential" | "all" | "rejected";
 
 let initialized = false;
 let currentConsent: ConsentCategories = { analytics: false, marketing: false };
+let currentChoice: ConsentChoice = "rejected";
 const featureFlagListeners = new Set<() => void>();
 let stopFeatureFlagListener: (() => void) | null = null;
+
+function trackingAllowed(): boolean {
+  return currentChoice !== "rejected";
+}
 
 function notifyFeatureFlagListeners(): void {
   featureFlagListeners.forEach((listener) => listener());
@@ -115,10 +121,14 @@ function captureAttribution(): Attribution {
   return next;
 }
 
-export function initializeWebsiteAnalytics(consent: ConsentCategories): void {
+export function initializeWebsiteAnalytics(
+  consent: ConsentCategories,
+  choice: ConsentChoice = "rejected",
+): void {
   currentConsent = consent;
+  currentChoice = choice;
   const key = process.env.NEXT_PUBLIC_POSTHOG_KEY?.trim();
-  if (!key || !consent.analytics) {
+  if (!key || !trackingAllowed()) {
     if (initialized) posthog.opt_out_capturing();
     notifyFeatureFlagListeners();
     return;
@@ -171,7 +181,7 @@ export function getWebsiteFeatureFlag(
 ): string | boolean | undefined {
   if (
     !initialized ||
-    !currentConsent.analytics ||
+    !trackingAllowed() ||
     posthog.has_opted_out_capturing()
   ) {
     return undefined;
@@ -193,14 +203,14 @@ export function trackWebsiteEvent(
 ): void {
   if (
     initialized &&
-    currentConsent.analytics &&
+    trackingAllowed() &&
     !posthog.has_opted_out_capturing()
   ) {
     posthog.capture(event, properties);
     window.dataLayer?.push({ event, ...properties });
   }
 
-  if (!currentConsent.marketing) return;
+  if (!trackingAllowed()) return;
   const conversion =
     event === WEBSITE_EVENTS.DIAGNOSTIC_COMPLETED ||
     event === WEBSITE_EVENTS.FRANCE_DIAGNOSTIC_COMPLETE
