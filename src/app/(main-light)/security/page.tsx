@@ -56,14 +56,9 @@ const securityFeatures = [
     ],
   },
   {
-    title: "Data security",
-    items: [
-      "Encryption in transit (TLS)",
-    ],
-  },
-  {
     title: "Data governance",
     items: [
+      "Encryption in transit (TLS)",
       "Customer data is not used to train public AI models",
       "Data Processing Agreement (DPA) included",
       "Role-based access control and audit logs",
@@ -91,7 +86,7 @@ const securityFeatures = [
 export default function SecurityPage() {
   return (
     <main className="bg-background text-text">
-      <Section className="py-16 pt-32 md:py-24 md:pt-40" containerClassName="max-w-[48rem]">
+      <Section className="py-12 pt-24 md:py-16 md:pt-28" containerClassName="max-w-[48rem]">
         <Eyebrow>Trust & compliance</Eyebrow>
         <h1 className={cn(headingClass.hero, "mt-5")}>Security at Wonka AI</h1>
         <p className="type-body mt-6 text-text/70">
@@ -100,7 +95,7 @@ export default function SecurityPage() {
         </p>
       </Section>
 
-      <Section wide className="bg-background pb-16 md:pb-24">
+      <Section wide className="bg-background pb-12 md:pb-16">
         <Surface variant="panel" className="bg-blue-900 p-7.5 text-white md:p-12">
           <Image
             src="/images/security/banner-bg.avif"
@@ -132,7 +127,7 @@ export default function SecurityPage() {
         </Surface>
       </Section>
 
-      <Section className="py-16 md:py-24" containerClassName="max-w-[64rem]">
+      <Section className="py-12 md:py-16" containerClassName="max-w-[64rem]">
         <div className="grid gap-8 md:grid-cols-3 md:gap-6">
           {certificationItems.map((cert) => {
             const Icon = cert.icon;
@@ -147,8 +142,8 @@ export default function SecurityPage() {
         </div>
       </Section>
 
-      <Section className="border-t border-dashed border-border bg-mid-gray py-16 md:py-24">
-        <h2 className={cn(headingClass.section, "mb-12")}>Security practices</h2>
+      <Section className="border-t border-dashed border-border bg-mid-gray py-12 md:py-16">
+        <h2 className={cn(headingClass.section, "mb-10")}>Security practices</h2>
         <div className="grid gap-8 md:grid-cols-2 md:gap-10">
           {securityFeatures.map((feature) => (
             <div key={feature.title}>
@@ -166,45 +161,32 @@ export default function SecurityPage() {
         </div>
       </Section>
 
-      <Section className="border-t border-border py-16 md:py-24" containerClassName="max-w-[48rem]">
+      <Section className="border-t border-border py-12 md:py-16" containerClassName="max-w-[48rem]">
         <h2 className={cn(headingClass.section)}>Important clarifications</h2>
-        <div className="mt-8 flex flex-col gap-6 type-body text-text/70">
+        <div className="mt-8 type-body text-text/70">
           <p>
             <strong className="text-text">Hosting default:</strong> Wonka AI is hosted in Azure West Europe
             (Microsoft Ireland) by default. This is not an on-premises deployment unless explicitly contracted.
           </p>
-          <p>
-            <strong className="text-text">SOC 2:</strong> SOC 2 Type II audit is in progress.
-          </p>
-          <p>
-            <strong className="text-text">Data usage:</strong> Customer data is not used to train public AI models.
-            A Data Processing Agreement is available on request.
-          </p>
         </div>
       </Section>
 
-      <Section className="border-t border-dashed border-border py-16 md:py-24" containerClassName="max-w-[48rem]">
+      <Section className="border-t border-dashed border-border py-12 md:py-16" containerClassName="max-w-[48rem]">
         <h2 className={cn(headingClass.section)}>Legal documents</h2>
-        <div className="mt-8 flex flex-col gap-4 type-body">
-          <p>
-            <Link href="/privacy" className="text-accent underline hover:no-underline">
-              Privacy Policy
-            </Link>
-          </p>
-          <p>
-            <Link href="/terms" className="text-accent underline hover:no-underline">
-              Terms of Use
-            </Link>
-          </p>
-          <p>
-            <Link href="/cookies" className="text-accent underline hover:no-underline">
-              Cookie Policy
-            </Link>
-          </p>
-          <p className="mt-4 text-text/70">
-            A Data Processing Agreement is available on request.
-          </p>
+        <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 type-body">
+          <Link href="/privacy" className="text-accent underline hover:no-underline">
+            Privacy Policy
+          </Link>
+          <Link href="/terms" className="text-accent underline hover:no-underline">
+            Terms of Use
+          </Link>
+          <Link href="/cookies" className="text-accent underline hover:no-underline">
+            Cookie Policy
+          </Link>
         </div>
+        <p className="mt-5 type-body text-text/70">
+          A Data Processing Agreement is available on request.
+        </p>
       </Section>
     </main>
   );
