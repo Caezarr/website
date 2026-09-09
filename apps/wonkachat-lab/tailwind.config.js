@@ -17,7 +17,16 @@ const { fontFamily } = require('tailwindcss/defaultTheme');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx,mdx}', './.storybook/**/*.{js,ts,jsx,tsx}'],
+  content: [
+    './index.html',
+    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './.storybook/**/*.{js,ts,jsx,tsx}',
+    // @wonka/react is consumed as source (workspace package), not a
+    // pre-built dist — Tailwind's JIT scanner needs its files listed
+    // explicitly or classes only used there (e.g. Button's `h-[2.6875rem]`)
+    // never get generated in this app's Tailwind v3 output.
+    '../../packages/react/src/**/*.{js,ts,jsx,tsx}',
+  ],
   darkMode: ['class'],
   theme: {
     fontFamily: {
@@ -176,6 +185,10 @@ module.exports = {
         lg: 'var(--radius)',
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
+        // `@wonka/react`'s Button falls back to this radius for utility
+        // variants; the brand's signal-shape primary/secondary variants use
+        // their own SVG silhouette instead.
+        button: '1rem',
       },
       boxShadow: {
         /** `client/tailwind.config.cjs`'s `shadow-brand`/`shadow-brand-subtle`,

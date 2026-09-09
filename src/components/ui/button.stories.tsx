@@ -12,7 +12,19 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["primary", "secondary", "underline"],
+      options: [
+        "primary",
+        "secondary",
+        "underline",
+        "destructive",
+        "outline",
+        "ghost",
+        "link",
+      ],
+    },
+    size: {
+      control: "select",
+      options: ["default", "sm", "lg", "icon"],
     },
   },
   parameters: {
@@ -73,6 +85,38 @@ export const Link: Story = {
     await expect(
       canvas.getByRole("link", { name: "Talk to Wonka" }),
     ).toHaveAttribute("href", "/contact");
+  },
+};
+
+export const Destructive: Story = {
+  args: {
+    variant: "destructive",
+    size: "default",
+    children: "Delete workspace",
+  },
+};
+
+export const Outline: Story = {
+  args: {
+    variant: "outline",
+    size: "default",
+    children: "Cancel",
+  },
+};
+
+export const Ghost: Story = {
+  args: {
+    variant: "ghost",
+    size: "default",
+    children: "Dismiss",
+  },
+};
+
+export const LinkVariant: Story = {
+  args: {
+    variant: "link",
+    size: "default",
+    children: "Learn more",
   },
 };
 

@@ -22,10 +22,22 @@
       "variants": [
         "primary",
         "secondary",
-        "underline"
+        "underline",
+        "destructive",
+        "outline",
+        "ghost",
+        "link"
       ],
       "tokens": [
         "radius.button",
+        "radius.sm",
+        "component.button.destructive.background",
+        "component.button.destructive.foreground",
+        "component.button.outline.background",
+        "component.button.outline.foreground",
+        "component.button.outline.border",
+        "component.button.ghost.foreground",
+        "component.button.ghost.background-hover",
         "typography.paragraph-m-bold",
         "typography.paragraph-s",
         "motion.duration.normal",

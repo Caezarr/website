@@ -3,6 +3,59 @@
 @tailwind utilities;
 
 /*
+ * Tailwind-v3 shims for @wonka/react's typography utility classes (defined
+ * as Tailwind-v4 `@utility` rules in packages/tokens/src/generated/tokens.css
+ * — v4-only syntax this app's v3 pipeline can't parse). Values copied
+ * verbatim from that file so imported @wonka/react components (Button, etc.)
+ * render pixel-correct here without a Tailwind major-version migration.
+ */
+.type-paragraph-m-bold {
+  font-family: 'Inter Display', Inter, ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.5rem;
+  letter-spacing: 0;
+}
+.type-paragraph-s {
+  font-family: 'Inter Display', Inter, ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  letter-spacing: 0;
+}
+
+/*
+ * @wonka/react Button reads these --ds-component-button-* / --ds-motion-* /
+ * --ds-component-focus-ring-* custom properties (see
+ * packages/tokens/src/generated/tokens.css). Values copied verbatim
+ * (light mode only — this lab doesn't wire dark-mode theming) rather than
+ * re-aliasing through --color-* to avoid colliding with this file's own
+ * (differently-scaled) product --color-* variables above.
+ */
+:root {
+  --ds-motion-duration-normal: 200ms;
+  --ds-component-button-primary-background: #2f6de0;
+  --ds-component-button-primary-foreground: #ffffff;
+  --ds-component-button-secondary-background: #ffffff;
+  --ds-component-button-secondary-foreground: #0e1a16;
+  --ds-component-button-destructive-background: #df5c30;
+  --ds-component-button-destructive-foreground: #ffffff;
+  --ds-component-button-outline-background: #ffffff;
+  --ds-component-button-outline-foreground: #0e1a16;
+  --ds-component-button-outline-border: #d9d9d5;
+  --ds-component-button-ghost-foreground: #0e1a16;
+  --ds-component-button-ghost-background-hover: #f6f6f4;
+  --ds-component-button-effect-drop-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.12);
+  --ds-component-button-effect-highlight: radial-gradient(
+    ellipse 70% 110% at 65% 115%,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(255, 255, 255, 0) 65%
+  );
+  --ds-component-focus-ring-color: #75a3fd;
+  --radius-sm: 0.5rem;
+}
+
+/*
  * Design tokens ported verbatim (values + var names) from WonkaChat's
  * client/src/style.css, so ported components look pixel-correct without
  * pulling in the whole product app. See README.md for provenance notes.
