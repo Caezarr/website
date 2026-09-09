@@ -105,6 +105,7 @@ export default function AgentCard({ agent, canEdit = true, showWorkflows = false
 
       <div className="wonka-agent-card__actions">
         <Button
+          variant="ghost"
           onClick={handleStartChat}
           disabled={pendingLaunch}
           aria-busy={pendingLaunch}

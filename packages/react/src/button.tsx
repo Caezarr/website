@@ -4,6 +4,7 @@ import type {
   ButtonHTMLAttributes,
   ElementType,
   ReactNode,
+  Ref,
 } from "react";
 import { cn } from "./lib/cn";
 
@@ -17,6 +18,21 @@ export const buttonVariants = cva(
         secondary:
           "type-paragraph-s isolate h-[2rem] px-[0.75rem] text-[var(--ds-component-button-secondary-foreground)]",
         underline: "type-paragraph-m-bold rounded-none text-text",
+        // Utility variants: dense-UI actions (product surfaces like WonkaChat).
+        // Flat rounded-rect, no signal-shape silhouette, no arrow icon.
+        destructive:
+          "type-paragraph-s rounded-[var(--radius-sm)] bg-[var(--ds-component-button-destructive-background)] text-[var(--ds-component-button-destructive-foreground)] hover:opacity-90",
+        outline:
+          "type-paragraph-s rounded-[var(--radius-sm)] border border-[var(--ds-component-button-outline-border)] bg-[var(--ds-component-button-outline-background)] text-[var(--ds-component-button-outline-foreground)] hover:bg-[var(--ds-semantic-color-surface-muted)]",
+        ghost:
+          "type-paragraph-s rounded-[var(--radius-sm)] text-[var(--ds-component-button-ghost-foreground)] hover:bg-[var(--ds-component-button-ghost-background-hover)]",
+        link: "type-paragraph-s text-[var(--ds-component-button-outline-foreground)] underline-offset-4 hover:underline",
+      },
+      size: {
+        default: "h-9 px-3",
+        sm: "h-8 px-2.5",
+        lg: "h-11 px-8",
+        icon: "size-9 px-0",
       },
     },
     defaultVariants: {
@@ -141,16 +157,22 @@ export function ArrowIcon({ className }: { className?: string }) {
 
 export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {}
+    VariantProps<typeof buttonVariants> {
+  ref?: Ref<HTMLButtonElement>;
+}
 
 export function Button({
   className,
   variant = "primary",
+  size,
   children,
   ...props
 }: ButtonProps) {
   return (
-    <button className={cn(buttonVariants({ variant }), className)} {...props}>
+    <button
+      className={cn(buttonVariants({ variant, size }), className)}
+      {...props}
+    >
       <ButtonBackgroundShape variant={variant} />
       {variant === "underline" ? (
         <span className="underline underline-offset-2">{children}</span>
@@ -176,6 +198,7 @@ export interface ButtonLinkProps
 export function ButtonLink({
   href,
   variant = "primary",
+  size,
   className,
   children,
   target,
@@ -190,7 +213,7 @@ export function ButtonLink({
   return (
     <LinkComponent
       href={href}
-      className={cn(buttonVariants({ variant }), className)}
+      className={cn(buttonVariants({ variant, size }), className)}
       {...props}
       {...(opensInNewTab
         ? { target: "_blank", rel: rel ?? "noopener noreferrer" }

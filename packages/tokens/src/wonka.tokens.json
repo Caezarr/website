@@ -61,6 +61,36 @@
         "$value": "#0e1a16",
         "$description": "Wonka near-black with a green undertone."
       }
+    },
+    "status": {
+      "success": {
+        "$value": "#5eb064",
+        "$description": "Solid success/confirmation state."
+      },
+      "success-surface": {
+        "$value": "#edf7ef",
+        "$description": "Light success wash for banners and toasts."
+      },
+      "warning": {
+        "$value": "#e39938",
+        "$description": "Solid warning/caution state."
+      },
+      "warning-surface": {
+        "$value": "#fef8ec",
+        "$description": "Light warning wash for banners and toasts."
+      },
+      "danger": {
+        "$value": "#df5c30",
+        "$description": "Solid destructive/error state."
+      },
+      "danger-surface": {
+        "$value": "#fbedea",
+        "$description": "Light error wash for banners and toasts."
+      },
+      "info-surface": {
+        "$value": "#e7efff",
+        "$description": "Light info wash for banners and toasts."
+      }
     }
   },
   "radius": {
@@ -367,29 +397,75 @@
         }
       },
       "success": {
-        "$value": "{color.green.700}",
+        "$value": "{color.status.success}",
         "$extensions": {
           "com.wonka.modes": {
-            "light": "{color.green.700}",
-            "dark": "{color.green.400}"
+            "light": "{color.status.success}",
+            "dark": "{color.status.success}"
+          }
+        }
+      },
+      "success-surface": {
+        "$value": "{color.status.success-surface}",
+        "$extensions": {
+          "com.wonka.modes": {
+            "light": "{color.status.success-surface}",
+            "dark": "{color.neutral.dark-brown}"
           }
         }
       },
       "warning": {
-        "$value": "{color.orange.900}",
+        "$value": "{color.status.warning}",
         "$extensions": {
           "com.wonka.modes": {
-            "light": "{color.orange.900}",
-            "dark": "{color.orange.300}"
+            "light": "{color.status.warning}",
+            "dark": "{color.status.warning}"
+          }
+        }
+      },
+      "warning-surface": {
+        "$value": "{color.status.warning-surface}",
+        "$extensions": {
+          "com.wonka.modes": {
+            "light": "{color.status.warning-surface}",
+            "dark": "{color.neutral.dark-brown}"
+          }
+        }
+      },
+      "danger": {
+        "$value": "{color.status.danger}",
+        "$description": "Destructive actions and error states.",
+        "$extensions": {
+          "com.wonka.modes": {
+            "light": "{color.status.danger}",
+            "dark": "{color.status.danger}"
+          }
+        }
+      },
+      "danger-surface": {
+        "$value": "{color.status.danger-surface}",
+        "$extensions": {
+          "com.wonka.modes": {
+            "light": "{color.status.danger-surface}",
+            "dark": "{color.neutral.dark-brown}"
           }
         }
       },
       "info": {
-        "$value": "{color.blue.600}",
+        "$value": "{color.blue.400}",
         "$extensions": {
           "com.wonka.modes": {
-            "light": "{color.blue.600}",
+            "light": "{color.blue.400}",
             "dark": "{color.blue.300}"
+          }
+        }
+      },
+      "info-surface": {
+        "$value": "{color.status.info-surface}",
+        "$extensions": {
+          "com.wonka.modes": {
+            "light": "{color.status.info-surface}",
+            "dark": "{color.neutral.dark-brown}"
           }
         }
       }
@@ -416,6 +492,41 @@
         "foreground": {
           "$type": "color",
           "$value": "{color.neutral.black}"
+        }
+      },
+      "destructive": {
+        "background": {
+          "$type": "color",
+          "$value": "{semantic.color.danger}",
+          "$description": "Destructive/delete actions."
+        },
+        "foreground": {
+          "$type": "color",
+          "$value": "{color.neutral.white}"
+        }
+      },
+      "outline": {
+        "background": {
+          "$type": "color",
+          "$value": "{semantic.color.surface}"
+        },
+        "foreground": {
+          "$type": "color",
+          "$value": "{semantic.color.text}"
+        },
+        "border": {
+          "$type": "color",
+          "$value": "{semantic.color.border}"
+        }
+      },
+      "ghost": {
+        "foreground": {
+          "$type": "color",
+          "$value": "{semantic.color.text}"
+        },
+        "background-hover": {
+          "$type": "color",
+          "$value": "{semantic.color.surface-muted}"
         }
       },
       "effect": {

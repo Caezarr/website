@@ -1,50 +1,67 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Button } from './Button';
 
+/**
+ * This is now the canonical @wonka/react Button (see Button.tsx) — variant
+ * names match the brand design system's, not the old local implementation's.
+ */
 const meta: Meta<typeof Button> = {
   title: 'Primitives/Button',
   component: Button,
   argTypes: {
     variant: {
       control: 'select',
-      options: ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link', 'submit'],
+      options: [
+        'primary',
+        'secondary',
+        'underline',
+        'destructive',
+        'outline',
+        'ghost',
+        'link',
+      ],
     },
     size: { control: 'select', options: ['default', 'sm', 'lg', 'icon'] },
   },
-  args: { children: 'Continue', variant: 'default', size: 'default' },
+  args: { children: 'Continue', variant: 'primary' },
 };
 export default meta;
 type Story = StoryObj<typeof Button>;
 
-export const Default: Story = {};
-export const Outline: Story = { args: { variant: 'outline' } };
-export const Secondary: Story = { args: { variant: 'secondary' } };
-export const Ghost: Story = { args: { variant: 'ghost' } };
-export const Destructive: Story = { args: { variant: 'destructive', children: 'Delete agent' } };
-export const Link: Story = { args: { variant: 'link', children: 'Learn more' } };
+export const Primary: Story = {};
+export const Secondary: Story = {
+  args: { variant: 'secondary' },
+  decorators: [(Story) => <div style={{ background: '#0e1a16', padding: 24 }}><Story /></div>],
+};
+export const Outline: Story = { args: { variant: 'outline', size: 'default' } };
+export const Ghost: Story = { args: { variant: 'ghost', size: 'default' } };
+export const Destructive: Story = {
+  args: { variant: 'destructive', size: 'default', children: 'Delete agent' },
+};
+export const Link: Story = { args: { variant: 'link', size: 'default', children: 'Learn more' } };
 export const Disabled: Story = { args: { disabled: true } };
-export const Small: Story = { args: { size: 'sm' } };
-export const Large: Story = { args: { size: 'lg' } };
+export const Small: Story = { args: { variant: 'outline', size: 'sm' } };
+export const Large: Story = { args: { variant: 'outline', size: 'lg' } };
 
 /**
  * ## Motion brief
  * - **Trigger:** hover, active (mousedown), disabled.
- * - **Tokens:** none from `motion-tokens.ts` yet — the source `Button` uses a
- *   plain CSS `transition` on `background-color,color,transform,filter`
- *   (~150ms, browser-default easing). Flagged as a TODO: migrate this to an
- *   explicit `durations.fast` CSS transition-duration for consistency.
- * - **Before → after:** resting surface color → hover surface color (bg
- *   brightens via `filter: brightness(1.08)` on the signal-button gradient);
- *   on press, no scale change today (a gap versus Badge's tactile `whileTap`).
- * - **Rationale:** buttons are the highest-frequency interactive element in
- *   the product; keeping their feedback purely color-based (no scale/shadow
- *   jump) keeps dense toolbars calm. A designer note lives here rather than a
- *   top-level doc precisely so this trade-off travels with the component.
+ * - **Tokens:** `--ds-motion-duration-normal` (200ms) drives the shape/arrow
+ *   hover transition on `primary`/`secondary`/`underline`; utility variants
+ *   (`destructive`/`outline`/`ghost`/`link`) use a plain opacity/background
+ *   hover with no explicit duration token yet — flagged as a follow-up to
+ *   route through the same token.
+ * - **Before → after:** primary/secondary lift their highlight overlay
+ *   opacity 0→80% and nudge the arrow glyph +2px on hover; utility variants
+ *   swap background/opacity only, no motion.
+ * - **Rationale:** the signal-shape CTA gets a physical highlight because
+ *   it's the highest-stakes action on a screen; dense utility actions
+ *   (cancel, dismiss, delete) stay static so toolbars don't feel busy.
  */
 export const MotionBrief: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-      <Button>Default</Button>
+    <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+      <Button variant="primary">Primary</Button>
       <Button variant="outline">Outline</Button>
       <Button variant="ghost">Ghost</Button>
       <Button variant="destructive">Destructive</Button>
