@@ -1242,11 +1242,11 @@
     {
       "id": "component.button.destructive.background",
       "type": "color",
-      "description": "Destructive/delete actions.",
+      "description": "Destructive/delete actions. Tuned for 4.5:1 contrast with white label text.",
       "cssVariable": "--ds-component-button-destructive-background",
       "values": {
-        "light": "#df5c30",
-        "dark": "#df5c30"
+        "light": "#c04622",
+        "dark": "#c04622"
       }
     },
     {

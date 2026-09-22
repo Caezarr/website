@@ -152,7 +152,7 @@ function Introduction() {
                 className="border-border grid gap-5 border-b py-6 sm:grid-cols-[3rem_0.8fr_1fr]"
                 key={step.label}
               >
-                <span className="text-info font-mono text-xs">
+                <span className="text-accent font-mono text-xs">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
