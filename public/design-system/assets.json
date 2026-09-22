@@ -14,16 +14,16 @@
           "path": "public/images/brand/wonka-logo-black.svg",
           "mimeType": "image/svg+xml",
           "theme": "light",
-          "bytes": 11343,
-          "sha256": "ce0fccb88e98ac11f03ca2475cc42b109d291d1850da8f4dca7a24260c6fd5fa",
+          "bytes": 11341,
+          "sha256": "811546cbed088bfde9d3d8230b4c02fdfcccfee503766278c3411e77a1713617",
           "publicUrl": "/images/brand/wonka-logo-black.svg"
         },
         {
           "path": "public/images/brand/wonka-logo-white.svg",
           "mimeType": "image/svg+xml",
           "theme": "dark",
-          "bytes": 10351,
-          "sha256": "075b7a179809b0f5c9344a9afb7aa0912b44853d94cf64463e88d13d95eceac7",
+          "bytes": 10349,
+          "sha256": "281a3917a791fe580f5b8c5d0636279f2673e4e70daee14336a1299e36fe0ee5",
           "publicUrl": "/images/brand/wonka-logo-white.svg"
         },
         {
