@@ -203,7 +203,7 @@ export function BlueprintSteps() {
             <li
               key={step.title}
               className={cn(
-                "flex min-h-[14rem] flex-col justify-between gap-8 p-7.5",
+                "flex min-h-[14rem] flex-col gap-10 p-7.5",
                 index > 0 &&
                   "border-border border-t border-dashed md:border-t-0 md:border-l",
               )}
