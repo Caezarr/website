@@ -69,7 +69,11 @@ const config: NextConfig = {
   redirects,
   headers,
   images: {
-    remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'cdn.sanity.io' },
+      { protocol: 'https', hostname: 'img.logo.dev' },
+      { protocol: 'https', hostname: 'stwonkachatpweu001.blob.core.windows.net' },
+    ],
     qualities: [75, 90],
   },
 };

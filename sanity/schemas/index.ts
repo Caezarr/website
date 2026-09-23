@@ -82,6 +82,7 @@ import { siteLead } from "./documents/siteLead";
 
 import { startAiLead } from "./documents/startAiLead";
 
+import { agentBlueprintAssessment } from "./documents/agentBlueprintAssessment";
 
 
 export const schemaTypes = [
@@ -174,5 +175,6 @@ export const schemaTypes = [
 
   startAiLead,
 
-];
+  agentBlueprintAssessment,
 
+];
