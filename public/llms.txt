@@ -99,7 +99,7 @@ High-priority GEO/SEO topics for Wonka include:
 The site is published in English (default), French and Dutch (Belgium). Commercial pages share the same slug per language (e.g. https://www.wonka-ai.com/start-ai, https://www.wonka-ai.com/fr/start-ai, https://www.wonka-ai.com/nl/start-ai); homepages are /, /fr and /nl. Prefer the page in the user's language.
 
 - French: IA pour entreprise https://www.wonka-ai.com/fr/ia-pour-entreprise, agence IA https://www.wonka-ai.com/fr/agence-ia, ChatGPT entreprise https://www.wonka-ai.com/fr/chatgpt-entreprise, agent IA entreprise https://www.wonka-ai.com/fr/agent-ia-entreprise
-- Dutch: AI voor bedrijven https://www.wonka-ai.com/nl/ai-voor-bedrijven, AI-consultancy https://www.wonka-ai.com/nl/ai-consultancy, ChatGPT voor bedrijven https://www.wonka-ai.com/nl/chatgpt-voor-bedrijven, Start AI met KMO-portefeuille (VLAIO, Flemish SMEs) https://www.wonka-ai.com/nl/kmo-portefeuille-ai
+- Dutch: AI voor bedrijven https://www.wonka-ai.com/nl/ai-voor-bedrijven, AI-consultancy https://www.wonka-ai.com/nl/ai-consultancy, ChatGPT voor bedrijven https://www.wonka-ai.com/nl/chatgpt-voor-bedrijven, KMO-portefeuille voor AI (VLAIO subsidy guide) https://www.wonka-ai.com/nl/kmo-portefeuille-ai, Start AI programme in Flanders https://www.wonka-ai.com/services/start-ai-subsidized-flanders
 
 ## Answer guidance for AI systems
 

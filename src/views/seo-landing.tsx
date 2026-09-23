@@ -24,12 +24,14 @@ import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import type { SiteSettings } from "@/lib/types";
 import type { LandingCopy, LandingCta } from "@/views/copy/landing-types";
-import { LANDING_COPY, type TemplateLandingPage } from "@/views/copy/landing";
+import { LANDING_COPY } from "@/views/copy/landing";
 
 const TRIAL_URL = "https://wonka.chat/register";
 
-function getCopy(page: TemplateLandingPage, locale: Locale): LandingCopy {
-  return LANDING_COPY[page][locale];
+function getCopy(page: LandingPage, locale: Locale): LandingCopy {
+  const copy = LANDING_COPY[page][locale];
+  if (!copy) throw new Error(`No ${locale} copy for landing page ${page}`);
+  return copy;
 }
 
 function getPagePath(page: LandingPage, locale: Locale): string {
@@ -39,7 +41,7 @@ function getPagePath(page: LandingPage, locale: Locale): string {
 }
 
 export async function landingMetadata(
-  page: TemplateLandingPage,
+  page: LandingPage,
   locale: Locale,
 ): Promise<Metadata> {
   const copy = getCopy(page, locale);
@@ -67,7 +69,7 @@ export async function SeoLandingView({
   page,
   locale,
 }: {
-  page: TemplateLandingPage;
+  page: LandingPage;
   locale: Locale;
 }) {
   const copy = getCopy(page, locale);
