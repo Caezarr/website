@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { isNavLinkActive, isNavItemActive } from "@/lib/nav-active";
 import { SHOW_LANGUAGE_SWITCHER } from "@/lib/nav-defaults";
+import { useT } from "@/i18n/use-t";
 import { LanguageSwitcher } from "./language-switcher";
 import { NavStatusTooltip } from "./nav-status-tooltip";
 import type { NavDropdownChild, NavItem } from "@/lib/types";
@@ -79,6 +80,7 @@ function MobileNavAccordion({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const t = useT();
   const siblingHrefs = item.children?.map((child) => child.href) ?? [];
   const isSectionActive = isNavItemActive(pathname, item);
 
@@ -121,7 +123,9 @@ function MobileNavAccordion({
           onClick={() => setIsOpen(!isOpen)}
           className="-mr-2 p-2"
           aria-expanded={isOpen}
-          aria-label={`${isOpen ? "Collapse" : "Expand"} ${item.label}`}
+          aria-label={t(isOpen ? "shell.collapseSection" : "shell.expandSection", {
+            label: item.label,
+          })}
         >
           <svg
             className={cn(
@@ -172,12 +176,13 @@ export function MobileNavToggle({
   isOpen: boolean;
   onToggle: () => void;
 }) {
+  const t = useT();
   return (
     <button
       type="button"
       onClick={onToggle}
       className="inline-flex h-10 w-10 items-center justify-center rounded-[1rem] bg-white text-black shadow-subtle transition-all active:scale-[0.97]"
-      aria-label="Toggle menu"
+      aria-label={t("shell.toggleMenu")}
       aria-expanded={isOpen}
     >
       <svg
@@ -271,7 +276,7 @@ export function MobileNavOverlay({
           <>
             <div className="h-px w-full bg-black/10" />
             <div className="py-2">
-              <LanguageSwitcher />
+              <LanguageSwitcher align="left" />
             </div>
           </>
         ) : null}

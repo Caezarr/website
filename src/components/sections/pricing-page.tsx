@@ -9,6 +9,7 @@ import { Surface } from "@/components/ui/surface";
 import { CheckmarkIcon } from "@/components/ui/icons/checkmark-icon";
 import { calculatePricing } from "@/lib/pricing-calculator";
 import { formatEuro } from "@/lib/pricing-format";
+import { useT, useUiLocale } from "@/i18n/use-t";
 import { radius } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 
@@ -45,6 +46,7 @@ function PriceDisplay({
   className?: string;
   inverted?: boolean;
 }) {
+  const locale = useUiLocale();
   return (
     <p
       className={cn(
@@ -54,7 +56,7 @@ function PriceDisplay({
         className,
       )}
     >
-      {formatEuro(amount)}
+      {formatEuro(amount, locale)}
     </p>
   );
 }
@@ -218,10 +220,11 @@ function BillingCycleToggle({
   annual: boolean;
   onChange: (annual: boolean) => void;
 }) {
+  const t = useT();
   return (
     <div
       role="group"
-      aria-label="Billing cycle"
+      aria-label={t("pricing.billing.ariaLabel")}
       className={cn(
         radius.full,
         "inline-flex border bg-light-gray p-1 transition-colors",
@@ -238,7 +241,7 @@ function BillingCycleToggle({
           !annual ? "bg-white text-text shadow-subtle" : "text-text/60",
         )}
       >
-        Monthly
+        {t("pricing.billing.monthly")}
       </button>
       <button
         type="button"
@@ -250,14 +253,14 @@ function BillingCycleToggle({
           annual ? "bg-white text-text shadow-subtle" : "text-text/60",
         )}
       >
-        Annual
+        {t("pricing.billing.annual")}
         <span
           className={cn(
             radius.full,
             "type-paragraph-s bg-blue-100 px-1.5 py-0.5 text-blue-900",
           )}
         >
-          Save 20%
+          {t("pricing.billing.save")}
         </span>
       </button>
     </div>
@@ -394,6 +397,7 @@ function PricingCard({
 }
 
 export function PricingPage({ bookingHref }: PricingPageProps) {
+  const t = useT();
   const seatsInputId = useId();
   const aiModelsToggleId = useId();
   const [breakdownOpen, setBreakdownOpen] = useState(false);
@@ -404,27 +408,20 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
 
   const pricing = calculatePricing(seats, annual, aiModelsIncluded);
 
-  const workspaceItems = aiModelsIncluded
-    ? [
-        "Secure AI chat grounded in company knowledge",
-        "Approved tools and data connections",
-        "Governance and audit logs",
-        "EU-hosted AI models with no usage bills",
-      ]
-    : [
-        "Secure AI chat grounded in company knowledge",
-        "Approved tools and data connections",
-        "Governance and audit logs",
-        "Use your own model API key and provider billing",
-      ];
+  const workspaceItems = [
+    ...(t.raw("pricing.workspace.features") as string[]),
+    aiModelsIncluded
+      ? t("pricing.workspace.featureModelsIncluded")
+      : t("pricing.workspace.featureOwnModels"),
+  ];
 
   return (
     <Section className="bg-background py-16 md:py-24">
       <div className="mx-auto max-w-2xl">
         <SectionHeader
           align="center"
-          heading="One workspace. Pricing that scales with your team."
-          body="Choose your team size and usage level. Every paid seat includes the controls needed to use AI safely at work."
+          heading={t("pricing.header.heading")}
+          body={t("pricing.header.body")}
           headingAs="h1"
           headingRole="hero"
         />
@@ -435,13 +432,15 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
         className="mx-auto mt-10 max-w-3xl border border-dashed border-border bg-white p-6"
       >
         <div className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1">
-          <p className="type-paragraph-m-bold text-text">Build your plan</p>
+          <p className="type-paragraph-m-bold text-text">
+            {t("pricing.builder.title")}
+          </p>
           <button
             type="button"
             onClick={() => setBreakdownOpen(true)}
             className="type-paragraph-m text-text/60 underline underline-offset-4 transition-colors hover:text-text"
           >
-            View pricing breakdown
+            {t("pricing.builder.viewBreakdown")}
           </button>
         </div>
         <div className="mt-5 flex flex-col items-center gap-6 lg:flex-row lg:flex-wrap lg:items-center lg:justify-center lg:gap-x-10 lg:gap-y-4">
@@ -450,7 +449,7 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
                 htmlFor={seatsInputId}
                 className="type-paragraph-m text-text/70"
               >
-                Seats
+                {t("pricing.builder.seats")}
               </label>
               <input
                 id={seatsInputId}
@@ -505,22 +504,20 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
 
       <div className="mt-5 grid gap-5 lg:grid-cols-3">
         <PricingCard
-          title="Free trial"
-          badge="7 DAYS"
+          title={t("pricing.trial.title")}
+          badge={t("pricing.trial.badge")}
           className="order-1 bg-light-gray"
         >
-          <p className={cn(priceAmountClass, "text-text")}>Free</p>
-          <p className="type-paragraph-m text-text/70">
-            Test Wonka with a real company use case. No credit card required.
+          <p className={cn(priceAmountClass, "text-text")}>
+            {t("pricing.trial.price")}
           </p>
-          <PricingFeatureSection title="Included in your trial">
+          <p className="type-paragraph-m text-text/70">
+            {t("pricing.trial.body")}
+          </p>
+          <PricingFeatureSection title={t("pricing.trial.featuresTitle")}>
             <PricingCheckList
               variant="default"
-              items={[
-                "Full AI Workspace access",
-                "Secure AI chat with company knowledge",
-                "€5 in included AI usage",
-              ]}
+              items={t.raw("pricing.trial.features") as string[]}
             />
           </PricingFeatureSection>
           <div className="mt-auto flex justify-center pt-2">
@@ -529,35 +526,38 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
               variant="secondary"
               className={pricingCtaClassName}
             >
-              Get started
+              {t("pricing.trial.cta")}
             </ButtonLink>
           </div>
         </PricingCard>
 
         <PricingCard
-          title="AI Workspace"
-          badge="RECOMMENDED"
+          title={t("pricing.workspace.title")}
+          badge={t("pricing.workspace.badge")}
           emphasized
           className="order-2"
         >
           <PricingTierBlock
             amount={pricing.perSeatMonth}
-            seatLabel="Standard seat"
-            billingNote="Per user / month (excl. VAT)"
+            seatLabel={t("pricing.workspace.seatLabel")}
+            billingNote={t("pricing.workspace.billingNote")}
             inverted
           />
 
           <div className="mt-6">
             <Toggle
               id={aiModelsToggleId}
-              label="AI models included"
+              label={t("pricing.workspace.aiModelsToggle")}
               checked={aiModelsIncluded}
               onChange={setAiModelsIncluded}
               inverted
             />
           </div>
 
-          <PricingFeatureSection title="Everything your team needs" variant="emphasized">
+          <PricingFeatureSection
+            title={t("pricing.workspace.featuresTitle")}
+            variant="emphasized"
+          >
             <PricingCheckList items={workspaceItems} variant="emphasized" />
           </PricingFeatureSection>
 
@@ -567,25 +567,30 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
               variant="secondary"
               className={pricingCtaClassName}
             >
-              Get started
+              {t("pricing.workspace.cta")}
             </ButtonLink>
           </div>
         </PricingCard>
 
-        <PricingCard title="Enterprise" badge="1,000+ SEATS" inverted className="order-3">
-          <p className={cn(priceAmountClass, "text-white")}>Custom</p>
-          <p className="type-paragraph-m text-white/70">
-            Dedicated infrastructure and deployment for complex organisations.
+        <PricingCard
+          title={t("pricing.enterprise.title")}
+          badge={t("pricing.enterprise.badge")}
+          inverted
+          className="order-3"
+        >
+          <p className={cn(priceAmountClass, "text-white")}>
+            {t("pricing.enterprise.price")}
           </p>
-          <PricingFeatureSection title="Built for your environment" variant="inverted">
+          <p className="type-paragraph-m text-white/70">
+            {t("pricing.enterprise.body")}
+          </p>
+          <PricingFeatureSection
+            title={t("pricing.enterprise.featuresTitle")}
+            variant="inverted"
+          >
             <PricingCheckList
               variant="inverted"
-              items={[
-                "Everything in AI Workspace",
-                "Managed cloud, own cloud, or on-premise",
-                "Deployment tailored to security requirements",
-                "Volume pricing for large teams",
-              ]}
+              items={t.raw("pricing.enterprise.features") as string[]}
             />
           </PricingFeatureSection>
           <div className="mt-auto flex justify-center pt-2">
@@ -594,7 +599,7 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
               variant="secondary"
               className={pricingCtaClassName}
             >
-              Talk to sales
+              {t("pricing.enterprise.cta")}
             </ButtonLink>
           </div>
         </PricingCard>

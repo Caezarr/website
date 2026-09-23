@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { getSiteUrl } from '@/lib/site-url';
+import { HtmlLang } from '@/components/html-lang';
 
 interface LocaleLayoutProps {
   children: React.ReactNode;
@@ -50,6 +51,7 @@ export default async function LocaleLayout({ children, params }: LocaleLayoutPro
 
   return (
     <NextIntlClientProvider messages={messages}>
+      {locale !== 'en' && <HtmlLang lang={locale} />}
       {children}
     </NextIntlClientProvider>
   );

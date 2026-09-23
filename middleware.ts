@@ -5,7 +5,9 @@ export default createMiddleware(routing);
 
 export const config = {
   matcher: [
-    // Locale-prefixed paths (fr/nl)
+    // Locale-prefixed paths (fr/nl); /en/* redirects to the unprefixed EN URL
+    '/en',
+    '/en/:path*',
     '/fr',
     '/fr/:path*',
     '/nl',

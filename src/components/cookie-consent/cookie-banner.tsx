@@ -4,11 +4,13 @@ import Link from "next/link";
 import { motion } from "motion/react";
 import { radius } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
+import { useT } from "@/i18n/use-t";
 import { useCookieConsent } from "./cookie-consent-provider";
 
 export function CookieBanner() {
   const { acceptEssentialOnly, acceptAll, rejectAll, openPreferences } =
     useCookieConsent();
+  const t = useT();
 
   return (
     <>
@@ -28,7 +30,7 @@ export function CookieBanner() {
         className="fixed inset-x-4 bottom-4 z-[90] mx-auto max-w-lg md:inset-x-auto md:bottom-8 md:left-1/2 md:w-full md:-translate-x-1/2"
         role="dialog"
         aria-modal="true"
-        aria-label="Cookie consent"
+        aria-label={t("cookies.banner.label")}
       >
         <div
           className={cn(
@@ -37,13 +39,12 @@ export function CookieBanner() {
           )}
         >
           <p className="type-paragraph-m text-text">
-            We use cookies to keep the site working and to measure how our
-            marketing performs.{" "}
+            {t("cookies.banner.text")}{" "}
             <Link
               href="/cookies"
               className="font-medium text-text underline underline-offset-4 hover:opacity-70"
             >
-              Read our cookie policy
+              {t("cookies.banner.policyLink")}
             </Link>
             .
           </p>
@@ -57,7 +58,7 @@ export function CookieBanner() {
                 "type-paragraph-m-bold w-full bg-text px-4 py-3 text-background transition-opacity hover:opacity-90",
               )}
             >
-              Essential cookies only
+              {t("cookies.banner.essentialOnly")}
             </button>
             <button
               type="button"
@@ -67,7 +68,7 @@ export function CookieBanner() {
                 "type-paragraph-m-bold w-full border border-border bg-light-gray px-4 py-3 text-text transition-opacity hover:opacity-90",
               )}
             >
-              Accept all
+              {t("cookies.banner.acceptAll")}
             </button>
             <button
               type="button"
@@ -77,7 +78,7 @@ export function CookieBanner() {
                 "type-paragraph-m w-full border border-dashed border-border bg-background px-4 py-2.5 text-text/60 transition-colors hover:border-text/20 hover:text-text/80",
               )}
             >
-              Reject all
+              {t("cookies.banner.rejectAll")}
             </button>
           </div>
 
@@ -87,7 +88,7 @@ export function CookieBanner() {
               onClick={openPreferences}
               className="type-paragraph-s text-text/50 underline underline-offset-4 transition-colors hover:text-text/70"
             >
-              Manage preferences
+              {t("cookies.banner.managePreferences")}
             </button>
           </div>
         </div>

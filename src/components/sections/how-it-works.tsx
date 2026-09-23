@@ -6,6 +6,10 @@ import { Section } from "@/components/ui/section";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { ButtonLink } from "@/components/ui/button";
 import { FadeIn } from "@/components/animations/fade-in";
+import { useT, useUiLocale } from "@/i18n/use-t";
+import type { UiTranslator } from "@/i18n/ui";
+import type { Locale } from "@/i18n/config";
+import { localizeHref } from "@/i18n/routes";
 import { MultilineText } from "@/lib/cms-text";
 import { headingClass } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
@@ -19,34 +23,25 @@ interface ResolvedCard {
   ctaHref: string;
 }
 
-const DEFAULT_EYEBROW = "What we do";
-const DEFAULT_HEADING = "Everything you need\nto make AI work.";
+const DEFAULT_CARD_HREFS = ["/start-ai", "/wonka-build", "/wonka-chat"];
 
-const DEFAULT_CARDS: Omit<ResolvedCard, "_key">[] = [
-  {
-    tagline: "Know AI matters, but not where to start?",
-    body: "We analyze your processes, map where AI creates real value, and build your roadmap with concrete actions.",
-    ctaLabel: "Discover Start AI",
-    ctaHref: "/start-ai",
-  },
-  {
-    tagline: "Repetitive work no tool seems to solve?",
-    body: "We build custom AI applications that fit your systems and run in your day-to-day work.",
-    ctaLabel: "Discover Wonka Build",
-    ctaHref: "/wonka-build",
-  },
-  {
-    tagline: "Ready to give your whole team AI?",
-    body: "One place for everyone to work with AI, connected to your company's tools and data.",
-    ctaLabel: "Discover WonkaChat",
-    ctaHref: "/wonka-chat",
-  },
-];
+function defaultCards(t: UiTranslator): Omit<ResolvedCard, "_key">[] {
+  const copy = t.raw("home.howItWorks.cards") as Array<
+    Pick<ResolvedCard, "tagline" | "body" | "ctaLabel">
+  >;
+  return copy.map((card, i) => ({
+    ...card,
+    ctaHref: DEFAULT_CARD_HREFS[i] ?? DEFAULT_CARD_HREFS[0],
+  }));
+}
 
 function resolveCards(
   data: WhatWeDoData | null | undefined,
   sharedLinks: SharedLinks | null | undefined,
+  t: UiTranslator,
+  locale: Locale,
 ): ResolvedCard[] {
+  const DEFAULT_CARDS = defaultCards(t);
   const productUrls = [
     sharedLinks?.startAiUrl ?? "/start-ai",
     sharedLinks?.wonkaBuildUrl ?? "/wonka-build",
@@ -64,7 +59,10 @@ function resolveCards(
       tagline: card.tagline,
       body: card.body,
       ctaLabel: cmsCard?.cta?.label ?? fallback.ctaLabel,
-      ctaHref: cmsCard?.cta?.href || productUrls[i] || fallback.ctaHref,
+      ctaHref: localizeHref(
+        cmsCard?.cta?.href || productUrls[i] || fallback.ctaHref,
+        locale,
+      ),
     };
   });
 }
@@ -81,9 +79,11 @@ export function HowItWorks({
   sharedLinks,
 }: HowItWorksProps) {
   const headingId = `${id}-heading`;
-  const eyebrow = data?.eyebrow ?? DEFAULT_EYEBROW;
-  const heading = data?.heading ?? DEFAULT_HEADING;
-  const cards = resolveCards(data, sharedLinks);
+  const t = useT();
+  const locale = useUiLocale();
+  const eyebrow = data?.eyebrow ?? t("home.howItWorks.eyebrow");
+  const heading = data?.heading ?? t("home.howItWorks.heading");
+  const cards = resolveCards(data, sharedLinks, t, locale);
   const headerRef = useRef<HTMLDivElement>(null);
   const headerInView = useInView(headerRef, { once: true, amount: 0.5 });
   const cardsRef = useRef<HTMLUListElement>(null);

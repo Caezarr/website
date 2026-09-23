@@ -15,6 +15,7 @@ declare global {
           callback: (token: string) => void;
           "expired-callback"?: () => void;
           "error-callback"?: () => void;
+          language?: string;
         },
       ) => string;
       remove: (widgetId: string) => void;
@@ -27,13 +28,22 @@ interface TurnstileWidgetProps {
   onToken: (token: string) => void;
   onExpire: () => void;
   onError?: () => void;
+  /** Widget UI language (ISO 639-1, e.g. "fr"). Defaults to Turnstile's "auto". */
+  language?: string;
 }
 
-export function TurnstileWidget({ onToken, onExpire, onError }: TurnstileWidgetProps) {
+export function TurnstileWidget({
+  onToken,
+  onExpire,
+  onError,
+  language,
+}: TurnstileWidgetProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<string | null>(null);
   const callbacksRef = useRef({ onToken, onExpire, onError });
-  callbacksRef.current = { onToken, onExpire, onError };
+  useEffect(() => {
+    callbacksRef.current = { onToken, onExpire, onError };
+  }, [onToken, onExpire, onError]);
 
   useEffect(() => {
     if (!SITE_KEY || !containerRef.current) return;
@@ -50,6 +60,7 @@ export function TurnstileWidget({ onToken, onExpire, onError }: TurnstileWidgetP
         callback: (token) => callbacksRef.current.onToken(token),
         "expired-callback": () => callbacksRef.current.onExpire(),
         "error-callback": () => callbacksRef.current.onError?.(),
+        ...(language ? { language } : {}),
       });
     }
 
@@ -65,7 +76,7 @@ export function TurnstileWidget({ onToken, onExpire, onError }: TurnstileWidgetP
         delete window.onTurnstileLoad;
       }
     };
-  }, []);
+  }, [language]);
 
   if (!SITE_KEY) return null;
 

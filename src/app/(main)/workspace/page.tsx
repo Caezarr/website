@@ -18,7 +18,7 @@ const seo: SeoData = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  return buildMetadata(seo, { path: pagePath, fallbackTitle: title });
+  return buildMetadata(seo, { path: pagePath, fallbackTitle: title, noindex: true });
 }
 
 export default function WorkspacePage() {

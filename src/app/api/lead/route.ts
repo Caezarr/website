@@ -6,7 +6,7 @@ import {
   normalizeLeadEmail,
   verifyTurnstileToken,
 } from "@/lib/lead-api";
-import { isLeadSource } from "@/lib/lead-capture";
+import { isLeadSource, type LeadErrorCode } from "@/lib/lead-capture";
 import { getSanityWriteClient } from "@sanity/lib/write-client";
 import { qualifyLead } from "@/lib/lead-qualification";
 
@@ -76,13 +76,18 @@ function sanitizeDiagnostic(value: unknown): Record<string, string> | undefined 
   return Object.keys(answers).length ? answers : undefined;
 }
 
+/** Error response: English `error` for humans, stable `code` for clients. */
+function errorResponse(code: LeadErrorCode, error: string, status: number) {
+  return Response.json({ error, code }, { status });
+}
+
 export async function POST(request: Request) {
   let payload: LeadPayload;
 
   try {
     payload = (await request.json()) as LeadPayload;
   } catch {
-    return Response.json({ error: "Invalid request body." }, { status: 400 });
+    return errorResponse("invalid_body", "Invalid request body.", 400);
   }
 
   if (typeof payload.website === "string" && payload.website.trim()) {
@@ -91,25 +96,26 @@ export async function POST(request: Request) {
 
   const email = normalizeLeadEmail(payload.email);
   if (!email) {
-    return Response.json({ error: "Please enter a valid email address." }, { status: 400 });
+    return errorResponse("invalid_email", "Please enter a valid email address.", 400);
   }
 
   if (!isLeadSource(payload.source)) {
-    return Response.json({ error: "Invalid lead source." }, { status: 400 });
+    return errorResponse("invalid_source", "Invalid lead source.", 400);
   }
 
   if (isTurnstileRequired()) {
     const valid = await verifyTurnstileToken(payload.turnstileToken);
     if (!valid) {
-      return Response.json({ error: "Verification failed. Please try again." }, { status: 403 });
+      return errorResponse("verification_failed", "Verification failed. Please try again.", 403);
     }
   }
 
   const client = getSanityWriteClient();
   if (!client) {
-    return Response.json(
-      { error: "Lead capture is not configured. Missing SANITY_API_WRITE_TOKEN." },
-      { status: 503 },
+    return errorResponse(
+      "not_configured",
+      "Lead capture is not configured. Missing SANITY_API_WRITE_TOKEN.",
+      503,
     );
   }
 
@@ -117,16 +123,14 @@ export async function POST(request: Request) {
   if (clientIp) {
     try {
       if (await isRateLimited(client, clientIp)) {
-        return Response.json(
-          { error: "Too many submissions. Please try again later." },
-          { status: 429 },
+        return errorResponse(
+          "rate_limited",
+          "Too many submissions. Please try again later.",
+          429,
         );
       }
     } catch {
-      return Response.json(
-        { error: "Something went wrong. Please try again." },
-        { status: 500 },
-      );
+      return errorResponse("server_error", "Something went wrong. Please try again.", 500);
     }
   }
 
@@ -144,10 +148,7 @@ export async function POST(request: Request) {
       );
     }
   } catch {
-    return Response.json(
-      { error: "Something went wrong. Please try again." },
-      { status: 500 },
-    );
+    return errorResponse("server_error", "Something went wrong. Please try again.", 500);
   }
 
   try {
@@ -184,10 +185,7 @@ export async function POST(request: Request) {
       { status: 201 },
     );
   } catch {
-    return Response.json(
-      { error: "Something went wrong. Please try again." },
-      { status: 500 },
-    );
+    return errorResponse("server_error", "Something went wrong. Please try again.", 500);
   }
 
 }

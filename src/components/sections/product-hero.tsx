@@ -4,7 +4,9 @@ import { ButtonLink } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { HeroLeadForm } from "@/components/sections/hero-lead-form";
 import { resolveImageAlt, resolveImageSrc } from "@/lib/cms-image";
-import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import type { Locale } from "@/i18n/config";
+import { localizeHref } from "@/i18n/routes";
+import { getT } from "@/i18n/ui";
 import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass, radius } from "@/lib/design-tokens";
 import type { LeadSource } from "@/lib/lead-capture";
@@ -17,6 +19,7 @@ interface ProductHeroProps {
   meetingUrl?: string | null;
   meetingLabel?: string | null;
   meetingTrackType?: MeetingTrackType;
+  locale?: Locale;
 }
 
 function HeroCta({
@@ -26,6 +29,7 @@ function HeroCta({
   meetingTrackType,
   secondaryLink,
   theme,
+  locale,
 }: {
   leadForm?: LeadSource;
   meetingUrl?: string | null;
@@ -33,6 +37,7 @@ function HeroCta({
   meetingTrackType?: MeetingTrackType;
   secondaryLink: ProductHeroResolved["secondaryLink"];
   theme: "dark" | "light";
+  locale: Locale;
 }) {
   if (leadForm) {
     return (
@@ -42,7 +47,7 @@ function HeroCta({
     );
   }
 
-  const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
+  const ctaLabel = meetingLabel ?? getT(locale)("common.bookMeeting");
   const isDark = theme === "dark";
 
   return (
@@ -56,7 +61,7 @@ function HeroCta({
       </ButtonLink>
       {secondaryLink?.href && secondaryLink.label ? (
         <Link
-          href={secondaryLink.href}
+          href={localizeHref(secondaryLink.href, locale)}
           className={
             isDark
               ? "type-paragraph-m-bold text-white underline underline-offset-4"
@@ -76,6 +81,7 @@ export function ProductHero({
   meetingUrl,
   meetingLabel,
   meetingTrackType,
+  locale = "en",
 }: ProductHeroProps) {
   const theme = data.theme ?? "dark";
   const eyebrow = data.eyebrow ?? "";
@@ -123,6 +129,7 @@ export function ProductHero({
             meetingTrackType={meetingTrackType}
             secondaryLink={data.secondaryLink}
             theme="light"
+            locale={locale}
           />
         </div>
         {heroSrc ? (
@@ -183,6 +190,7 @@ export function ProductHero({
             meetingTrackType={meetingTrackType}
             secondaryLink={data.secondaryLink}
             theme="dark"
+            locale={locale}
           />
         </div>
       </div>

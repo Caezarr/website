@@ -1,0 +1,114 @@
+{
+  "logoLabel": "Wonka",
+  "mainNavLabel": "Navigation principale",
+  "headerCta": "Commencer",
+  "toggleMenu": "Ouvrir ou fermer le menu",
+  "expandSection": "Déplier {label}",
+  "collapseSection": "Replier {label}",
+  "language": {
+    "label": "Langue",
+    "en": "English",
+    "fr": "Français",
+    "nl": "Nederlands"
+  },
+  "footer": {
+    "taglineLine1": "La plupart des entreprises ont l'IA.",
+    "taglineLine2": "Peu la mettent au service de tous.",
+    "copyright": "{year} Wonka, tous droits réservés.",
+    "legal": {
+      "terms": "Conditions",
+      "privacy": "Confidentialité",
+      "cookies": "Cookies"
+    }
+  },
+  "nav": {
+    "ai-workspace": {
+      "label": "Workspace IA",
+      "children": {
+        "overview": {
+          "label": "Présentation",
+          "description": "Découvrez Wonka Workspace"
+        },
+        "ai-chat": {
+          "label": "Chat IA",
+          "description": "Échangez avec vos données, en sécurité"
+        },
+        "ai-agents": {
+          "label": "Agents IA",
+          "description": "Confiez vos tâches récurrentes à l'IA"
+        },
+        "ai-apps": {
+          "label": "Applications IA",
+          "description": "Des workflows complexes en applications simples"
+        },
+        "ai-automations": {
+          "label": "Automatisations IA",
+          "description": "Laissez l'IA mener le travail de bout en bout"
+        },
+        "governance": {
+          "label": "Gouvernance"
+        },
+        "integrations": {
+          "label": "Intégrations"
+        }
+      }
+    },
+    "ai-services": {
+      "label": "Services IA",
+      "children": {
+        "ai-strategy": {
+          "label": "Stratégie IA",
+          "description": "Devenez AI native en quatre semaines"
+        },
+        "ai-agent-development": {
+          "label": "Développement d'agents IA",
+          "description": "Nous créons et déployons vos agents"
+        },
+        "ai-app-development": {
+          "label": "Développement d'apps IA",
+          "description": "Des applications IA sur mesure, sur vos systèmes"
+        },
+        "ai-training": {
+          "label": "Formation IA",
+          "description": "Pour vos développeurs et vos équipes"
+        }
+      }
+    },
+    "resources": {
+      "label": "Ressources",
+      "children": {
+        "use-cases": {
+          "label": "Cas d'usage",
+          "description": "Le travail que l'IA prend déjà en charge"
+        },
+        "clients": {
+          "label": "Clients",
+          "description": "Ce que nous avons construit pour 200 organisations"
+        },
+        "blog": {
+          "label": "Blog"
+        }
+      }
+    },
+    "company": {
+      "label": "Entreprise",
+      "children": {
+        "about": {
+          "label": "À propos de Wonka"
+        },
+        "team": {
+          "label": "Équipe"
+        },
+        "jobs": {
+          "label": "Carrières"
+        },
+        "contact": {
+          "label": "Contact"
+        }
+      }
+    },
+    "pricing": {
+      "label": "Tarifs"
+    }
+  }
+}

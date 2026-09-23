@@ -322,7 +322,7 @@ export const LEGAL_PAGE_QUERY = defineQuery(`
 `);
 
 export const HOMEPAGE_CONTENT_QUERY = defineQuery(`
-  *[_type == "homepageContent"][0] {
+  *[_id == $id][0] {
     hero {
       awardBadge,
       title,
@@ -378,7 +378,7 @@ export const HOMEPAGE_CONTENT_QUERY = defineQuery(`
 `);
 
 export const WONKA_CHAT_CONTENT_QUERY = defineQuery(`
-  *[_type == "wonkaChatContent"][0] {
+  *[_id == $id][0] {
     ${PAGE_CONTENT_FIELDS},
     problem {
       ${SPLIT_CONTENT_FIELDS}
@@ -399,7 +399,7 @@ export const WONKA_CHAT_CONTENT_QUERY = defineQuery(`
 `);
 
 export const START_AI_CONTENT_QUERY = defineQuery(`
-  *[_type == "startAiContent"][0] {
+  *[_id == $id][0] {
     ${PAGE_CONTENT_FIELDS},
     phases {
       ${NUMBERED_CARDS_FIELDS}
@@ -420,7 +420,7 @@ export const START_AI_CONTENT_QUERY = defineQuery(`
 `);
 
 export const WONKA_BUILD_CONTENT_QUERY = defineQuery(`
-  *[_type == "wonkaBuildContent"][0] {
+  *[_id == $id][0] {
     ${PAGE_CONTENT_FIELDS},
     phases {
       ${NUMBERED_CARDS_FIELDS}
@@ -441,7 +441,7 @@ export const WONKA_BUILD_CONTENT_QUERY = defineQuery(`
 `);
 
 export const WONKA_CHAT_ODOO_CONTENT_QUERY = defineQuery(`
-  *[_type == "wonkaChatOdooContent"][0] {
+  *[_id == $id][0] {
     hero {
       ${PRODUCT_HERO_FIELDS}
     },
@@ -697,7 +697,7 @@ const CONTACT_PERSON_FIELDS = `
 `;
 
 export const CONTACT_PAGE_CONTENT_QUERY = defineQuery(`
-  *[_type == "contactPageContent"][0] {
+  *[_id == $id][0] {
     general {
       header {
         ${SECTION_HEADER_FIELDS}
