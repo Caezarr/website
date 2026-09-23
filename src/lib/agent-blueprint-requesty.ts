@@ -153,6 +153,7 @@ const AGENT_BLUEPRINT_SCHEMA = {
           "benchmarkPattern",
           "process",
           "companySignal",
+          "conversationStarters",
         ],
         properties: {
           id: { type: "string", enum: ["agent-1", "agent-2", "agent-3"] },
@@ -197,6 +198,7 @@ const AGENT_BLUEPRINT_SCHEMA = {
           benchmarkPattern: { type: "string" },
           process: { type: "string" },
           companySignal: { type: "string" },
+          conversationStarters: stringArray(3, 3),
         },
       },
     },
@@ -498,7 +500,7 @@ Specificity rules:
 - whyNow: why this is worth doing now for this company, tied to evidence.
 - weeklyHoursSaved: conservative team hours for a company of the stated scale, based on the manual steps removed. Never present it as guaranteed.
 
-For each agent's tools, return 3 to 5 concrete integrations. Prefer tools listed in techStackEvidence, then this catalogue: SharePoint, Microsoft Teams, Outlook, OneDrive, Odoo ERP, SAP, Microsoft Dynamics 365, Salesforce, HubSpot, Slack, Jira, Confluence, Google Drive, GitHub, Airtable, Asana, Notion and Box. Never return generic categories such as "document repository", "CRM" or "ERP system".
+For each agent's tools, return 3 to 5 concrete integrations. The agents will be built in WonkaChat, whose native connectors are: SharePoint, Microsoft Teams, Outlook, OneDrive, Odoo ERP, Microsoft Dynamics 365, Salesforce, HubSpot, Slack, Jira, Confluence, Google Drive, GitHub, Airtable, Asana, Notion and Box. Prefer those, starting with the ones in techStackEvidence. Mention SAP only when it is clearly central, since it has no native connector. Never return generic categories such as "document repository", "CRM" or "ERP system".
 
 Write for a skimming executive: short, concrete, no filler words. Hard limits:
 - name: 2 to 5 words.
@@ -510,6 +512,7 @@ Write for a skimming executive: short, concrete, no filler words. Hard limits:
 - companySignal: at most 20 words. whyNow: at most 16 words.
 - headline: at most 14 words. summary: at most 25 words. Each signal: at most 8 words.
 - inputs: 1 to 4 items, 1 to 3 words each.
+- conversationStarters: exactly 3 messages a team member would send this agent in chat, at most 10 words each, in the company's terms.
 
 Use these tiers exactly:
 - Copilot: a person works directly with the agent.

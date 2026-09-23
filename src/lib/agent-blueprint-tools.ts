@@ -112,15 +112,30 @@ const toolRules: Array<[RegExp, ConnectedTool]> = [
   [/\basana\b/i, tools.asana],
   [/\bnotion\b/i, tools.notion],
   [/\bbox\b/i, tools.box],
-  [/\b(erp|enterprise resource|inventory|accounting|finance system)\b/i, tools.odoo],
-  [/\b(crm|sales pipeline|customer relationship|account workspace)\b/i, tools.salesforce],
-  [/\b(document|repository|knowledge|procedure|policy|template library)\b/i, tools.sharePoint],
+  [
+    /\b(erp|enterprise resource|inventory|accounting|finance system)\b/i,
+    tools.odoo,
+  ],
+  [
+    /\b(crm|sales pipeline|customer relationship|account workspace)\b/i,
+    tools.salesforce,
+  ],
+  [
+    /\b(document|repository|knowledge|procedure|policy|template library)\b/i,
+    tools.sharePoint,
+  ],
   [/\b(project|task|work management)\b/i, tools.asana],
-  [/\b(code|source control|configuration|api|integration catalogue|integration catalog)\b/i, tools.github],
+  [
+    /\b(code|source control|configuration|api|integration catalogue|integration catalog)\b/i,
+    tools.github,
+  ],
   [/\b(workflow|approval|collaboration|meeting)\b/i, tools.teams],
   [/\b(notification|alert|chat interface|feedback)\b/i, tools.slack],
   [/\b(form|database|structured record)\b/i, tools.airtable],
-  [/\b(ai platform|language model|generation layer|secure enterprise platform)\b/i, tools.azure],
+  [
+    /\b(ai platform|language model|generation layer|secure enterprise platform)\b/i,
+    tools.azure,
+  ],
   [/\b(file|drive|storage)\b/i, tools.oneDrive],
 ];
 
@@ -144,7 +159,9 @@ function stableIndex(value: string, length: number) {
 export function resolveConnectedTools(values: string[]): ConnectedTool[] {
   const resolved = values.map((value) => {
     const match = toolRules.find(([pattern]) => pattern.test(value));
-    return match?.[1] ?? fallbackTools[stableIndex(value, fallbackTools.length)];
+    return (
+      match?.[1] ?? fallbackTools[stableIndex(value, fallbackTools.length)]
+    );
   });
 
   return resolved.filter(

@@ -27,10 +27,7 @@ test("failed generations do not consume the blueprint quota", async () => {
     "failed",
   ]);
 
-  assert.equal(
-    await isAgentBlueprintRateLimited(client, "203.0.113.1"),
-    false,
-  );
+  assert.equal(await isAgentBlueprintRateLimited(client, "203.0.113.1"), false);
 });
 
 test("nine active or completed generations remain below the blueprint quota", async () => {
@@ -46,10 +43,7 @@ test("nine active or completed generations remain below the blueprint quota", as
     "completed",
   ]);
 
-  assert.equal(
-    await isAgentBlueprintRateLimited(client, "203.0.113.1"),
-    false,
-  );
+  assert.equal(await isAgentBlueprintRateLimited(client, "203.0.113.1"), false);
 });
 
 test("ten active or completed generations exhaust the blueprint quota", async () => {
@@ -66,8 +60,5 @@ test("ten active or completed generations exhaust the blueprint quota", async ()
     "processing",
   ]);
 
-  assert.equal(
-    await isAgentBlueprintRateLimited(client, "203.0.113.1"),
-    true,
-  );
+  assert.equal(await isAgentBlueprintRateLimited(client, "203.0.113.1"), true);
 });

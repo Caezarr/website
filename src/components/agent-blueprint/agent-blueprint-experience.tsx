@@ -36,6 +36,11 @@ import {
 } from "@/lib/agent-blueprint-tools";
 import { cn } from "@/lib/utils";
 import {
+  buildWonkaChatSetup,
+  formatWonkaChatSetup,
+  WONKACHAT_MODEL,
+} from "@/lib/agent-blueprint-wonkachat";
+import {
   BLUEPRINT_INPUT_ID,
   focusBlueprintInput,
 } from "./blueprint-scroll-button";
@@ -485,6 +490,70 @@ function ToolLogo({ tool }: { tool: ConnectedTool }) {
   );
 }
 
+/** Clipboard API first; hidden-textarea fallback for older or locked-down browsers. */
+async function copyText(text: string): Promise<boolean> {
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch {
+    const textarea = document.createElement("textarea");
+    textarea.value = text;
+    textarea.setAttribute("readonly", "");
+    textarea.style.position = "fixed";
+    textarea.style.opacity = "0";
+    document.body.appendChild(textarea);
+    textarea.select();
+    const copied = document.execCommand("copy");
+    textarea.remove();
+    return copied;
+  }
+}
+
+function CopyInstructionsButton({ agent }: { agent: AgentBlueprintAgent }) {
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (!copied) return;
+    const timeout = window.setTimeout(() => setCopied(false), 2_000);
+    return () => window.clearTimeout(timeout);
+  }, [copied]);
+
+  return (
+    <button
+      type="button"
+      data-track="blueprint_copy_instructions"
+      onClick={async () => {
+        setCopied(
+          await copyText(formatWonkaChatSetup(buildWonkaChatSetup(agent))),
+        );
+      }}
+      title={`Copy the setup (model ${WONKACHAT_MODEL}, connectors, scheduling, instructions) and paste it into WonkaChat's "Create new agent"`}
+      className="border-border text-text/60 hover:text-text hover:border-text/30 type-paragraph-s inline-flex items-center gap-1.5 rounded-full border bg-white px-2.5 py-1 transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
+    >
+      {copied ? (
+        <span aria-hidden className="text-green-600">
+          ✓
+        </span>
+      ) : (
+        <svg
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden
+          className="size-3.5"
+          stroke="currentColor"
+          strokeWidth="1.4"
+        >
+          <rect x="5" y="5" width="9" height="9" rx="1.5" />
+          <path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" />
+        </svg>
+      )}
+      <span aria-live="polite">
+        {copied ? "Copied, paste it in WonkaChat" : "Copy WonkaChat setup"}
+      </span>
+    </button>
+  );
+}
+
 const effortLevels: Record<AgentBlueprintAgent["effort"], number> = {
   Low: 1,
   Medium: 2,
@@ -592,7 +661,10 @@ function AgentDetailPanel({
                 Agent 0{index + 1} · {agent.process}
               </span>
             </div>
-            <h3 className="type-h5 mt-2">{agent.name}</h3>
+            <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
+              <h3 className="type-h5">{agent.name}</h3>
+              <CopyInstructionsButton agent={agent} />
+            </div>
             <p className="type-paragraph-m text-text/60 mt-1.5 max-w-2xl">
               {agent.mission}
             </p>

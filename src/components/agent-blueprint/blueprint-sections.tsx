@@ -50,9 +50,8 @@ export function BlueprintValueStack() {
           A consultant-grade AI plan. Free, in a minute.
         </h2>
         <p className="type-body text-text/65 max-w-md">
-          It is a first version of the use-case prioritisation we run with
-          clients in our Start AI programs. Enter a website and it is yours,
-          with no call and no sign-up.
+          The same use-case prioritisation we run with clients in our Start AI
+          programs, as a first version. Enter a website and it is yours.
         </p>
         <BlueprintScrollButton className="mt-2">
           Build my blueprint
@@ -90,10 +89,10 @@ export function BlueprintValueStack() {
         <div className="bg-light-gray border-border grid gap-4 border-t px-5 py-5 sm:grid-cols-2 sm:items-end md:px-6">
           <div>
             <p className="type-paragraph-s text-text/50">
-              Full Start AI programs start at €15,000
+              No call. No sign-up. No credit card.
             </p>
             <p className="type-paragraph-s text-text/40 mt-1">
-              The blueprint is where they begin.
+              Copy any agent straight into WonkaChat.
             </p>
           </div>
           <div className="sm:text-right">

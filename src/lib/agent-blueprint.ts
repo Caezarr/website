@@ -28,6 +28,8 @@ export interface AgentBlueprintAgent {
   process: string;
   /** What we observed on the website or public sources that motivates it. */
   companySignal: string;
+  /** Three prompts a user would type to this agent in WonkaChat. */
+  conversationStarters?: string[];
 }
 
 export interface AgentBlueprintResult {
@@ -233,6 +235,7 @@ export function anonymizeBlueprint(
       benchmarkPattern: redact(agent.benchmarkPattern),
       process: redact(agent.process),
       companySignal: redact(agent.companySignal),
+      conversationStarters: agent.conversationStarters?.map(redact),
     })),
   };
 }
@@ -263,6 +266,9 @@ function isAgentBlueprintAgent(value: unknown): value is AgentBlueprintAgent {
     ["Low", "Medium", "High"].includes(agent.effort ?? "") &&
     typeof agent.benchmarkPattern === "string" &&
     typeof agent.process === "string" &&
-    typeof agent.companySignal === "string"
+    typeof agent.companySignal === "string" &&
+    (agent.conversationStarters === undefined ||
+      (Array.isArray(agent.conversationStarters) &&
+        agent.conversationStarters.every((item) => typeof item === "string")))
   );
 }
