@@ -94,7 +94,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     sanityFetch({ query: MEETING_URL_QUERY }),
   ]);
 
-  const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null);
+  const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null, locale as Locale);
   const siteUrl  = getSiteUrl();
   const postUrl  = `${siteUrl}${itemPath("blog", locale, slug)}`;
   const hubUrl   = `${siteUrl}${hubPath("blog", locale)}`;

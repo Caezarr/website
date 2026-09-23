@@ -4,7 +4,7 @@ import { Section } from "@/components/ui/section";
 import { CookieSettingsLink } from "@/components/cookie-consent/cookie-settings-link";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/i18n/config";
-import { commercialPath, LANDING_PATHS, landingPath, type LandingPage } from "@/i18n/routes";
+import { commercialPath } from "@/i18n/routes";
 import { getT } from "@/i18n/ui";
 import {
   getFooterLegalLinks,
@@ -43,23 +43,11 @@ function FooterColumn({ group }: { group: ReturnType<typeof getFooterLinkGroups>
   );
 }
 
-/** SEO landing pages that exist in this locale (crawlable from every page). */
-function getSolutionsGroup(locale: Locale) {
-  const t = getT(locale);
-  const links = (Object.keys(LANDING_PATHS) as LandingPage[]).flatMap((page) => {
-    const href = landingPath(page, locale);
-    return href
-      ? [{ _key: page, label: t(`shell.footer.solutions.${page}`), href }]
-      : [];
-  });
-  return { _key: "solutions", title: t("shell.footer.solutions.title"), links };
-}
-
 export function Footer({ navItems, linkGroups, locale = "en" }: FooterProps) {
   const t = getT(locale);
   const year = new Date().getFullYear();
   void linkGroups;
-  const groups = [...getFooterLinkGroups(navItems), getSolutionsGroup(locale)];
+  const groups = getFooterLinkGroups(navItems);
   const groupCount = groups.length;
 
   return (

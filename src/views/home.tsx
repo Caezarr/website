@@ -49,7 +49,7 @@ export async function HomeView({ locale }: { locale: Locale }) {
     sanityFetch({ query: SITE_SETTINGS_QUERY }),
   ]);
   const sharedLinks = (settings as SiteSettings | null)?.sharedLinks ?? null;
-  const meetingUrl = resolveMeetingUrl(sharedLinks, "default");
+  const meetingUrl = resolveMeetingUrl(sharedLinks, "default", locale);
   const meetingLabel = resolveMeetingLabel(sharedLinks, locale);
   const defaults = getPageDefaults(locale);
 

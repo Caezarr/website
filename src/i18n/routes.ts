@@ -111,16 +111,21 @@ export function commercialPath(page: CommercialPage, locale: Locale): string {
   return path === "/" ? `/${locale}` : `/${locale}${path}`;
 }
 
+/** French-market pages served outside the /fr prefix (/france, /france/diagnostic). */
+const FRENCH_UNPREFIXED_SEGMENTS = new Set(["france"]);
+
 export function getLocaleFromPathname(pathname: string | null | undefined): Locale {
   const first = pathname?.split("/")[1];
-  return first === "fr" || first === "nl" ? first : "en";
+  if (first === "fr" || first === "nl") return first;
+  if (first && FRENCH_UNPREFIXED_SEGMENTS.has(first)) return "fr";
+  return "en";
 }
 
 /** Strip the locale prefix: `/fr/start-ai` → `/start-ai`, `/nl` → `/`. */
 export function stripLocale(pathname: string): string {
-  const locale = getLocaleFromPathname(pathname);
-  if (locale === "en") return pathname;
-  const rest = pathname.slice(locale.length + 1);
+  const first = pathname.split("/")[1];
+  if (first !== "fr" && first !== "nl") return pathname;
+  const rest = pathname.slice(first.length + 1);
   return rest === "" ? "/" : rest;
 }
 

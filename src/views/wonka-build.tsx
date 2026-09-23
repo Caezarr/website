@@ -41,7 +41,7 @@ export async function WonkaBuildView({ locale }: { locale: Locale }) {
     sanityFetch({ query: SITE_SETTINGS_QUERY }),
   ]);
   const sharedLinks = (settings as SiteSettings | null)?.sharedLinks ?? null;
-  const meetingUrl = resolveMeetingUrl(sharedLinks, "wonka-build");
+  const meetingUrl = resolveMeetingUrl(sharedLinks, "wonka-build", locale);
   const meetingLabel = resolveMeetingLabel(sharedLinks, locale);
 
   return (

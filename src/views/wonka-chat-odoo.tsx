@@ -53,7 +53,7 @@ export async function WonkaChatOdooView({ locale }: { locale: Locale }) {
   ]);
   const content = resolveWonkaChatOdooContent(rawContent, locale);
   const sharedLinks = (settings as SiteSettings | null)?.sharedLinks ?? null;
-  const meetingUrl = resolveMeetingUrl(sharedLinks, "wonka-chat");
+  const meetingUrl = resolveMeetingUrl(sharedLinks, "wonka-chat", locale);
   const meetingLabel = resolveMeetingLabel(sharedLinks, locale);
   const homeUrl = `${siteUrl}${locale === "en" ? "" : commercialPath("home", locale)}`;
 
