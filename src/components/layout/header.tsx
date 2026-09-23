@@ -6,7 +6,10 @@ import { ButtonLink } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
 import { Section } from "@/components/ui/section";
 import { cn } from "@/lib/utils";
-import { HEADER_CTA_LABEL, SHOW_LANGUAGE_SWITCHER } from "@/lib/nav-defaults";
+import { SHOW_LANGUAGE_SWITCHER } from "@/lib/nav-defaults";
+import type { Locale } from "@/i18n/config";
+import { commercialPath, localizeHref } from "@/i18n/routes";
+import { getT } from "@/i18n/ui";
 import { DesktopNav } from "./desktop-nav";
 import { LanguageSwitcher } from "./language-switcher";
 import { MegaMenuPanel } from "./mega-menu-panel";
@@ -19,6 +22,7 @@ interface HeaderProps {
   navItems: NavItem[];
   headerCta?: CtaButtonData | null;
   variant?: HeaderVariant;
+  locale?: Locale;
 }
 
 const MEGA_CLOSE_DELAY_MS = 120;
@@ -27,6 +31,7 @@ export function Header({
   navItems,
   headerCta,
   variant = "overlay-dark",
+  locale = "en",
 }: HeaderProps) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [activeNavKey, setActiveNavKey] = useState<string | null>(null);
@@ -35,6 +40,10 @@ export function Header({
   const headerBarRef = useRef<HTMLDivElement>(null);
   const closeMobileNav = useCallback(() => setMobileNavOpen(false), []);
 
+  const t = getT(locale);
+  const homeHref = commercialPath("home", locale);
+  const ctaLabel = t("shell.headerCta");
+  const ctaHref = headerCta ? localizeHref(headerCta.href, locale) : null;
   const isOverlayDark = variant === "overlay-dark";
   const isMegaOpen = activeNavKey !== null;
   const activeNavItem =
@@ -135,15 +144,15 @@ export function Header({
           >
             <div className="flex min-w-0 flex-1 items-center">
               <Link
-                href="/"
-                aria-label="Wonka"
+                href={homeHref}
+                aria-label={t("shell.logoLabel")}
                 className="inline-flex items-center text-text"
               >
                 <Logo />
               </Link>
             </div>
 
-            <nav aria-label="Main">
+            <nav aria-label={t("shell.mainNavLabel")}>
               <DesktopNav
                 navItems={navItems}
                 activeKey={activeNavKey}
@@ -153,9 +162,9 @@ export function Header({
 
             <div className="flex flex-1 items-center justify-end gap-4">
               {SHOW_LANGUAGE_SWITCHER ? <LanguageSwitcher /> : null}
-              {headerCta && (
-                <ButtonLink href={headerCta.href} variant="primary">
-                  {HEADER_CTA_LABEL}
+              {ctaHref && (
+                <ButtonLink href={ctaHref} variant="primary">
+                  {ctaLabel}
                 </ButtonLink>
               )}
             </div>
@@ -179,8 +188,8 @@ export function Header({
       >
         <div className="flex min-w-0 flex-1 items-center">
           <Link
-            href="/"
-            aria-label="Wonka"
+            href={homeHref}
+            aria-label={t("shell.logoLabel")}
             className="inline-flex items-center text-text"
           >
             <Logo />
@@ -188,9 +197,9 @@ export function Header({
         </div>
 
         <div className="flex items-center gap-2">
-          {headerCta && (
-            <ButtonLink href={headerCta.href} variant="primary">
-              {HEADER_CTA_LABEL}
+          {ctaHref && (
+            <ButtonLink href={ctaHref} variant="primary">
+              {ctaLabel}
             </ButtonLink>
           )}
           <MobileNavToggle

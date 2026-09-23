@@ -1,10 +1,53 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import type { Locale } from "@/i18n/config";
+import {
+  commercialPageFromPathname,
+  commercialPath,
+  stripLocale,
+} from "@/i18n/routes";
+import { useT, useUiLocale } from "@/i18n/use-t";
+import { HREFLANG } from "@/lib/hreflang";
+import { hubPath } from "@/lib/locale-path";
 import { cn } from "@/lib/utils";
 
-const LANGUAGES = ["EN", "NL", "FR"] as const;
-type Language = (typeof LANGUAGES)[number];
+const LANGUAGES = ["en", "fr", "nl"] as const satisfies readonly Locale[];
+
+type HubSection = Parameters<typeof hubPath>[0];
+
+/** First path segment (any locale) → content hub section. */
+const HUB_ROOT_SEGMENTS: Record<string, HubSection> = {
+  blog: "blog",
+  integrations: "connectors",
+  learn: "glossary",
+  apprendre: "glossary",
+  leren: "glossary",
+  vs: "comparisons",
+  "case-studies": "case-studies",
+  "cas-clients": "case-studies",
+  klantcases: "case-studies",
+};
+
+/**
+ * Where the switcher sends a visitor for `target`: the same commercial page,
+ * the same content hub root, or otherwise the target locale's home (content
+ * items have per-locale slugs; legal and other pages are EN-only).
+ */
+export function getLanguageSwitchHref(pathname: string, target: Locale): string {
+  const page = commercialPageFromPathname(pathname);
+  if (page) return commercialPath(page, target);
+
+  const stripped = stripLocale(pathname).replace(/\/+$/, "");
+  const segments = stripped.split("/").filter(Boolean);
+  if (segments.length === 1) {
+    const section = HUB_ROOT_SEGMENTS[segments[0]];
+    if (section) return hubPath(section, target);
+  }
+
+  return commercialPath("home", target);
+}
 
 function ChevronDown({ className }: { className?: string }) {
   return (
@@ -23,10 +66,18 @@ function ChevronDown({ className }: { className?: string }) {
   );
 }
 
-export function LanguageSwitcher() {
+export function LanguageSwitcher({
+  align = "right",
+}: {
+  /** Which edge the dropdown aligns to. */
+  align?: "left" | "right";
+}) {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState<Language>("EN");
   const rootRef = useRef<HTMLDivElement>(null);
+  const listId = useId();
+  const pathname = usePathname() ?? "/";
+  const current = useUiLocale();
+  const t = useT();
 
   useEffect(() => {
     if (!open) return;
@@ -53,43 +104,50 @@ export function LanguageSwitcher() {
     <div ref={rootRef} className="relative">
       <button
         type="button"
-        aria-haspopup="listbox"
         aria-expanded={open}
-        aria-label="Language"
+        aria-controls={listId}
+        aria-label={`${t("shell.language.label")}: ${t(`shell.language.${current}`)}`}
         onClick={() => setOpen((value) => !value)}
         className="type-paragraph-m-bold inline-flex h-[1.875rem] items-center gap-1 px-2 text-text transition-colors hover:text-text/70"
       >
-        {selected}
+        {current.toUpperCase()}
         <ChevronDown
           className={cn("transition-transform duration-200", open && "rotate-180")}
         />
       </button>
 
-      {open && (
-        <ul
-          role="listbox"
-          aria-label="Language"
-          className="absolute right-0 top-full z-50 mt-2 min-w-[5rem] overflow-hidden rounded-sm border border-dashed border-border bg-background p-1 shadow-subtle"
-        >
-          {LANGUAGES.map((code) => (
-            <li key={code} role="option" aria-selected={code === selected}>
-              <button
-                type="button"
-                onClick={() => {
-                  setSelected(code);
-                  setOpen(false);
-                }}
+      {/* Always in the DOM (hidden when closed) so the links stay crawlable. */}
+      <ul
+        id={listId}
+        aria-label={t("shell.language.label")}
+        hidden={!open}
+        className={cn(
+          "absolute top-full z-50 mt-2 min-w-[5rem] overflow-hidden rounded-sm border border-dashed border-border bg-background p-1 shadow-subtle",
+          align === "right" ? "right-0" : "left-0",
+        )}
+      >
+        {LANGUAGES.map((code) => {
+          const isCurrent = code === current;
+          return (
+            <li key={code}>
+              <a
+                href={getLanguageSwitchHref(pathname, code)}
+                hrefLang={HREFLANG[code]}
+                lang={code}
+                aria-label={t(`shell.language.${code}`)}
+                aria-current={isCurrent ? "true" : undefined}
+                onClick={() => setOpen(false)}
                 className={cn(
                   "type-paragraph-s flex w-full items-center rounded-xs px-3 py-2 text-left transition-colors hover:bg-text/10 focus-visible:bg-text/10 focus-visible:outline-none",
-                  code === selected ? "text-text" : "text-text/60",
+                  isCurrent ? "text-text" : "text-text/60",
                 )}
               >
-                {code}
-              </button>
+                {code.toUpperCase()}
+              </a>
             </li>
-          ))}
-        </ul>
-      )}
+          );
+        })}
+      </ul>
     </div>
   );
 }

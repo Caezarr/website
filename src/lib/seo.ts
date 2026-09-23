@@ -5,6 +5,11 @@ import { locales } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 import { itemPath, hubPath } from "@/lib/locale-path";
 import { HREFLANG } from "@/lib/hreflang";
+import {
+  commercialLanguages,
+  commercialPath,
+  type CommercialPage,
+} from "@/i18n/routes";
 
 const HOME_TITLE = "Wonka AI - Private Enterprise AI Agents";
 const DEFAULT_DESCRIPTION =
@@ -28,6 +33,8 @@ export interface BuildMetadataOptions {
     section: "blog" | "connectors" | "glossary" | "comparisons" | "case-studies";
     slug: string;
   } | "hub" | "home";
+  /** Keep the page out of the index (placeholder / thin pages). */
+  noindex?: boolean;
 }
 
 /**
@@ -105,7 +112,9 @@ export function buildMetadata(
   return {
     title,
     description,
-    robots: { index: true, follow: true },
+    robots: options.noindex
+      ? { index: false, follow: true }
+      : { index: true, follow: true },
     alternates: {
       canonical: `${siteUrl}${path}`,
       ...(languages ? { languages } : {}),
@@ -126,4 +135,19 @@ export function buildMetadata(
       images: [customOgImage ?? DEFAULT_OG_IMAGE],
     },
   };
+}
+
+/** Metadata for a commercial page: localized canonical + hreflang to its EN/FR/NL siblings. */
+export function buildCommercialMetadata(
+  seo: SeoData | null,
+  page: CommercialPage,
+  locale: Locale,
+  fallbackTitle?: string,
+): Metadata {
+  return buildMetadata(seo, {
+    path: commercialPath(page, locale),
+    fallbackTitle,
+    locale,
+    languages: commercialLanguages(getSiteUrl(), page),
+  });
 }

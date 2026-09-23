@@ -10,6 +10,7 @@ import { FadeIn } from "@/components/animations/fade-in";
 import { cn } from "@/lib/utils";
 import { DEFAULT_USE_CASES, resolveUseCasesSection } from "@/lib/cms-sections";
 import { MultilineText } from "@/lib/cms-text";
+import { useT } from "@/i18n/use-t";
 import type { UseCasesData } from "@/lib/types";
 
 interface UseCasesProps {
@@ -46,12 +47,11 @@ const swapItem = {
 };
 
 export function UseCases({ data, id, defaults = DEFAULT_USE_CASES }: UseCasesProps) {
+  const t = useT();
   const resolved = resolveUseCasesSection(data, null, defaults);
   const industries = resolved.industries ?? [];
-  const eyebrow = resolved.eyebrow ?? "Use cases";
-  const heading =
-    resolved.heading ??
-    "The work that used to wait now doesn't. Across teams.";
+  const eyebrow = resolved.eyebrow ?? t("home.useCases.eyebrow");
+  const heading = resolved.heading ?? t("home.useCases.heading");
   const [activeIndex, setActiveIndex] = useState(0);
   const headerRef = useRef<HTMLDivElement>(null);
   const headerInView = useInView(headerRef, { once: true, amount: 0.4 });
@@ -90,7 +90,7 @@ export function UseCases({ data, id, defaults = DEFAULT_USE_CASES }: UseCasesPro
 
           <ul
             role="tablist"
-            aria-label="Industries"
+            aria-label={t("sections.useCases.industriesLabel")}
             className="flex flex-wrap items-center gap-2 lg:flex-nowrap lg:gap-0"
           >
             {industries.map((industry, i) => {
@@ -149,7 +149,9 @@ export function UseCases({ data, id, defaults = DEFAULT_USE_CASES }: UseCasesPro
         >
           {[0, 1, 2].map((slot) => {
             const workflow = workflows[slot];
-            const tag = `Workflow ${String(slot + 1).padStart(2, "0")}`;
+            const tag = t("sections.useCases.workflowTag", {
+              number: String(slot + 1).padStart(2, "0"),
+            });
             const cardDelay = slot * 0.045;
             const bullets = workflow?.bullets ?? [];
 

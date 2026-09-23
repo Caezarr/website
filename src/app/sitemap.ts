@@ -6,6 +6,20 @@ import { hubPath, itemPath } from "@/lib/locale-path";
 import { locales } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 import { buildExistingItemLanguages, buildHubLanguages } from "@/lib/hreflang";
+import { commercialLanguages, commercialPath, type CommercialPage } from "@/i18n/routes";
+
+const COMMERCIAL_PRIORITY: Record<CommercialPage, number> = {
+  home: 1.0,
+  startAi: 0.9,
+  wonkaBuild: 0.9,
+  wonkaChat: 0.9,
+  aiAgents: 0.85,
+  wonkaChatOdoo: 0.85,
+  aiChat: 0.85,
+  security: 0.85,
+  pricing: 0.85,
+  contact: 0.85,
+};
 
 type SlugItem = { slug: { current: string }; language: string; _updatedAt?: string };
 
@@ -28,39 +42,33 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = getSiteUrl();
   const lastModified = new Date();
 
+  // Commercial pages: one entry per locale, each listing its EN/FR/NL siblings
+  const commercialPages: MetadataRoute.Sitemap = (
+    Object.keys(COMMERCIAL_PRIORITY) as CommercialPage[]
+  ).flatMap((page) =>
+    locales.map((locale) => {
+      const path = commercialPath(page, locale as Locale);
+      return {
+        url: path === "/" ? siteUrl : `${siteUrl}${path}`,
+        lastModified,
+        changeFrequency: page === "home" ? ("weekly" as const) : ("monthly" as const),
+        priority: COMMERCIAL_PRIORITY[page],
+        alternates: { languages: commercialLanguages(siteUrl, page) },
+      };
+    })
+  );
+
   const staticPages: MetadataRoute.Sitemap = [
-    {
-      url: siteUrl,
-      lastModified,
-      changeFrequency: "weekly",
-      priority: 1.0,
-      alternates: {
-        languages: {
-          "en-US": siteUrl,
-          "x-default": siteUrl,
-        },
-      },
-    },
-    { url: `${siteUrl}/ai-agents`, lastModified, changeFrequency: "monthly", priority: 0.85 },
+    ...commercialPages,
     { url: `${siteUrl}/ai-agent-blueprint`, lastModified, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${siteUrl}/start-ai`, lastModified, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${siteUrl}/wonka-build`, lastModified, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${siteUrl}/wonka-chat`, lastModified, changeFrequency: "monthly", priority: 0.9 },
-    { url: `${siteUrl}/workspace/ai-chat`, lastModified, changeFrequency: "monthly", priority: 0.85 },
-    { url: `${siteUrl}/services`, lastModified, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/services/start-ai-subsidized-flanders`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteUrl}/case-studies/itzu`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/case-studies/n-allo`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/terms`, lastModified, changeFrequency: "yearly", priority: 0.3 },
     { url: `${siteUrl}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.3 },
     { url: `${siteUrl}/cookies`, lastModified, changeFrequency: "yearly", priority: 0.3 },
-    { url: `${siteUrl}/wonka-chat/odoo`, lastModified, changeFrequency: "monthly", priority: 0.85 },
-    { url: `${siteUrl}/fr/wonka-chat/odoo`, lastModified, changeFrequency: "monthly", priority: 0.85 },
-    { url: `${siteUrl}/contact`, lastModified, changeFrequency: "monthly", priority: 0.85 },
-    { url: `${siteUrl}/security`, lastModified, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/france`, lastModified, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/france/diagnostic`, lastModified, changeFrequency: "monthly", priority: 0.80 },
-    { url: `${siteUrl}/pricing`, lastModified, changeFrequency: "monthly", priority: 0.85 },
     { url: `${siteUrl}/vs/dust`, lastModified, changeFrequency: "monthly", priority: 0.80 },
     { url: `${siteUrl}/fr/vs/dust`, lastModified, changeFrequency: "monthly", priority: 0.80 },
     { url: `${siteUrl}/vs/langdock`, lastModified, changeFrequency: "monthly", priority: 0.80 },

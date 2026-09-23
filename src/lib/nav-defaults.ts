@@ -1,9 +1,15 @@
+import type { Locale } from "@/i18n/config";
+import { localizeHref } from "@/i18n/routes";
+import { en } from "@/i18n/messages/en";
+import { fr } from "@/i18n/messages/fr";
+import { nl } from "@/i18n/messages/nl";
 import type { NavItem } from "@/lib/types";
 
+/** English header CTA label. Localized: `getT(locale)("shell.headerCta")`. */
 export const HEADER_CTA_LABEL = "Get started";
 
 /** Toggle when locale switching is ready to ship. */
-export const SHOW_LANGUAGE_SWITCHER = false;
+export const SHOW_LANGUAGE_SWITCHER = true;
 
 export const DEFAULT_NAVIGATION: NavItem[] = [
   {
@@ -150,9 +156,57 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
   },
 ];
 
+type NavMessages = Record<
+  string,
+  {
+    label?: string;
+    children?: Record<string, { label?: string; description?: string }>;
+  }
+>;
+
+const NAV_MESSAGES: Record<Locale, NavMessages> = {
+  en: en.shell.nav,
+  fr: fr.shell.nav,
+  nl: nl.shell.nav,
+};
+
+/**
+ * `DEFAULT_NAVIGATION` with labels/descriptions from `shell.nav` and internal
+ * hrefs mapped to `locale` (pages without a localized version keep their EN
+ * href). Structure, keys and disabled flags are identical in every locale.
+ */
+export function getNavigation(locale: Locale): NavItem[] {
+  const messages: NavMessages = NAV_MESSAGES[locale];
+
+  return DEFAULT_NAVIGATION.map((item) => {
+    const itemMessages = messages[item._key];
+    return {
+      ...item,
+      label: itemMessages?.label ?? item.label,
+      ...(item.href ? { href: localizeHref(item.href, locale) } : {}),
+      ...(item.children
+        ? {
+            children: item.children.map((child) => {
+              const childMessages = itemMessages?.children?.[child._key];
+              return {
+                ...child,
+                label: childMessages?.label ?? child.label,
+                ...(child.description
+                  ? { description: childMessages?.description ?? child.description }
+                  : {}),
+                href: child.external ? child.href : localizeHref(child.href, locale),
+              };
+            }),
+          }
+        : {}),
+    };
+  });
+}
+
 export function resolveNavigation(
   cms: NavItem[] | null | undefined,
+  locale: Locale = "en",
 ): NavItem[] {
   void cms;
-  return DEFAULT_NAVIGATION;
+  return getNavigation(locale);
 }

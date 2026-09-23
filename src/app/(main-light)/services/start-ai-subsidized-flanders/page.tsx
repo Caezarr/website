@@ -23,7 +23,10 @@ const FLANDERS_MEETING_URL =
   "https://outlook.office.com/bookwithme/user/58f423924e0a4408be133c904198e953@meetwonka.com/meetingtype/6Mql1x37YECWsmIDQ6fK6Q2?anonymous&ismsaljsauthenabled&ep=mLinkFromTile";
 
 async function getStartAiContent() {
-  const { data } = await sanityFetch({ query: START_AI_CONTENT_QUERY });
+  const { data } = await sanityFetch({
+    query: START_AI_CONTENT_QUERY,
+    params: { id: "startAiContent" },
+  });
   return resolveStartAiContent((data as StartAiContent | null) ?? null);
 }
 

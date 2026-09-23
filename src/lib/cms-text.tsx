@@ -26,4 +26,8 @@ export function MultilineText({
   );
 }
 
+/**
+ * EN-only meeting label. Locale-aware components use
+ * `t("common.bookMeeting")` instead; kept for EN-only call sites.
+ */
 export const DEFAULT_MEETING_LABEL = "Book a 30 min call";

@@ -6,7 +6,7 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Surface } from "@/components/ui/surface";
-import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { useT } from "@/i18n/use-t";
 import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass, radius } from "@/lib/design-tokens";
 import type { IndustriesSectionData } from "@/lib/types/page-sections";
@@ -26,7 +26,8 @@ export function IndustryTabs({
   meetingTrackType,
   className,
 }: IndustryTabsProps) {
-  const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
+  const t = useT();
+  const ctaLabel = meetingLabel ?? t("common.bookMeeting");
   const industries = data.industries ?? [];
   const [active, setActive] = useState(0);
 
@@ -97,7 +98,7 @@ export function IndustryTabs({
                 {clients.length > 0 ? (
                   <div className="mt-auto pt-10">
                     <p className="type-eyebrow text-text/40">
-                      Clients in this industry
+                      {t("sections.industryTabs.clientsLabel")}
                     </p>
                     <div className="mt-4 flex flex-wrap items-center gap-x-8 gap-y-2">
                       {clients.map((client) => (

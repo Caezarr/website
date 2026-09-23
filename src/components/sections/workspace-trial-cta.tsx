@@ -3,10 +3,9 @@ import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { meetingTrackProps } from "@/lib/meeting-track";
 import { cn } from "@/lib/utils";
+import type { Locale } from "@/i18n/config";
+import { getT } from "@/i18n/ui";
 
-const DEFAULT_TITLE = "Try Wonka Workspace for free.";
-const DEFAULT_BODY = "7-day trial. No credit card needed.";
-const DEFAULT_CTA_LABEL = "Start free trial";
 const DEFAULT_HREF = "https://wonka.chat/register";
 
 interface WorkspaceTrialCtaProps {
@@ -16,16 +15,22 @@ interface WorkspaceTrialCtaProps {
   ctaLabel?: string;
   href?: string;
   className?: string;
+  locale?: Locale;
 }
 
 export function WorkspaceTrialCta({
   id = "try-workspace",
-  title = DEFAULT_TITLE,
-  body = DEFAULT_BODY,
-  ctaLabel = DEFAULT_CTA_LABEL,
+  title: titleProp,
+  body: bodyProp,
+  ctaLabel: ctaLabelProp,
   href = DEFAULT_HREF,
   className,
+  locale = "en",
 }: WorkspaceTrialCtaProps) {
+  const t = getT(locale);
+  const title = titleProp ?? t("sections.workspaceTrialCta.title");
+  const body = bodyProp ?? t("sections.workspaceTrialCta.body");
+  const ctaLabel = ctaLabelProp ?? t("common.startFreeTrial");
   return (
     <Section
       id={id}

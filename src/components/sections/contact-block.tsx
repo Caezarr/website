@@ -4,7 +4,8 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { resolveImageAlt, resolveImageSrc } from "@/lib/cms-image";
-import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import type { Locale } from "@/i18n/config";
+import { getT } from "@/i18n/ui";
 import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { radius } from "@/lib/design-tokens";
 import { hasSanityImage } from "@/lib/resolve-cms";
@@ -20,6 +21,7 @@ interface ContactBlockProps {
   phone?: string | null;
   id?: string;
   className?: string;
+  locale?: Locale;
 }
 
 export function ContactBlock({
@@ -31,8 +33,9 @@ export function ContactBlock({
   phone,
   id = "contact",
   className,
+  locale = "en",
 }: ContactBlockProps) {
-  const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
+  const ctaLabel = meetingLabel ?? getT(locale)("common.bookMeeting");
   const header = data.header;
   const fallback = data.fallbackPortrait ?? { src: "", alt: "" };
   const portraitSrc = resolveImageSrc(data.portrait, fallback);

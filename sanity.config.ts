@@ -1,7 +1,8 @@
 "use client";
 
+import type { ComponentType } from "react";
 import { defineConfig } from "sanity";
-import { structureTool } from "sanity/structure";
+import { structureTool, type StructureBuilder } from "sanity/structure";
 import {
   BookIcon,
   CogIcon,
@@ -17,6 +18,47 @@ import {
 } from "@sanity/icons";
 import { documentInternationalization } from "@sanity/document-internationalization";
 import { schemaTypes } from "./sanity/schemas";
+
+/**
+ * Page singletons exist once per locale: EN at `<id>`, FR/NL at `<id>-fr` /
+ * `<id>-nl` (see src/lib/localized-content.ts).
+ */
+const PAGE_LOCALES = [
+  { title: "English", suffix: "" },
+  { title: "Français", suffix: "-fr" },
+  { title: "Nederlands", suffix: "-nl" },
+] as const;
+
+function localizedSingleton(
+  S: StructureBuilder,
+  title: string,
+  icon: ComponentType,
+  schemaType: string,
+) {
+  return S.listItem()
+    .id(schemaType)
+    .title(title)
+    .icon(icon)
+    .child(
+      S.list()
+        .id(`${schemaType}-locales`)
+        .title(title)
+        .items(
+          PAGE_LOCALES.map(({ title: localeTitle, suffix }) =>
+            S.listItem()
+              .id(`${schemaType}${suffix}`)
+              .title(localeTitle)
+              .icon(icon)
+              .child(
+                S.document()
+                  .schemaType(schemaType)
+                  .documentId(`${schemaType}${suffix}`)
+                  .title(`${title} (${localeTitle})`),
+              ),
+          ),
+        ),
+    );
+}
 
 export default defineConfig({
   name: "wonka",
@@ -37,54 +79,22 @@ export default defineConfig({
                 S.list()
                   .title("Pages")
                   .items([
-                    S.listItem()
-                      .title("Homepage")
-                      .icon(HomeIcon)
-                      .child(
-                        S.document()
-                          .schemaType("homepageContent")
-                          .documentId("homepageContent"),
-                      ),
-                    S.listItem()
-                      .title("WonkaChat")
-                      .icon(HomeIcon)
-                      .child(
-                        S.document()
-                          .schemaType("wonkaChatContent")
-                          .documentId("wonkaChatContent"),
-                      ),
-                    S.listItem()
-                      .title("WonkaChat · Odoo")
-                      .icon(HomeIcon)
-                      .child(
-                        S.document()
-                          .schemaType("wonkaChatOdooContent")
-                          .documentId("wonkaChatOdooContent"),
-                      ),
-                    S.listItem()
-                      .title("Start AI")
-                      .icon(HomeIcon)
-                      .child(
-                        S.document()
-                          .schemaType("startAiContent")
-                          .documentId("startAiContent"),
-                      ),
-                    S.listItem()
-                      .title("Wonka Build")
-                      .icon(HomeIcon)
-                      .child(
-                        S.document()
-                          .schemaType("wonkaBuildContent")
-                          .documentId("wonkaBuildContent"),
-                      ),
-                    S.listItem()
-                      .title("Contact")
-                      .icon(DocumentTextIcon)
-                      .child(
-                        S.document()
-                          .schemaType("contactPageContent")
-                          .documentId("contactPageContent"),
-                      ),
+                    localizedSingleton(S, "Homepage", HomeIcon, "homepageContent"),
+                    localizedSingleton(S, "WonkaChat", HomeIcon, "wonkaChatContent"),
+                    localizedSingleton(
+                      S,
+                      "WonkaChat · Odoo",
+                      HomeIcon,
+                      "wonkaChatOdooContent",
+                    ),
+                    localizedSingleton(S, "Start AI", HomeIcon, "startAiContent"),
+                    localizedSingleton(S, "Wonka Build", HomeIcon, "wonkaBuildContent"),
+                    localizedSingleton(
+                      S,
+                      "Contact",
+                      DocumentTextIcon,
+                      "contactPageContent",
+                    ),
                     S.divider(),
                     S.listItem()
                       .title("Terms of Use")

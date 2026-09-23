@@ -9,25 +9,12 @@ import { Eyebrow } from "@/components/ui/eyebrow";
 import { ButtonLink } from "@/components/ui/button";
 import { CheckmarkIcon } from "@/components/ui/icons/checkmark-icon";
 import { FadeIn } from "@/components/animations/fade-in";
-import { MultilineText, DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import { MultilineText } from "@/lib/cms-text";
+import { useT } from "@/i18n/use-t";
 import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 import type { HowToStartData } from "@/lib/types";
-
-const DEFAULT_EYEBROW = "How to start";
-const DEFAULT_HEADING = "Not sure how to get started?";
-const DEFAULT_BODY =
-  "That's exactly why we talk.\nBook a 30-minute call. Tell us how you work, and we'll tell you where AI would actually make a difference, and where it wouldn't.";
-const DEFAULT_CALLOUT_HEADING = "30 minutes.\nYou'll know if it makes sense.";
-const DEFAULT_OUTCOMES_HEADING = "You walk away with";
-
-const DEFAULT_OUTCOMES: string[] = [
-  "A sense of what's realistic to achieve, and how fast.",
-  "A clear next step, whether that's Start AI, Wonka Build, or WonkaChat.",
-  "Answers to your specific AI questions.",
-  "No obligation, no pressure. Just a clearer picture about AI.",
-];
 
 interface HowToStartProps {
   id?: string;
@@ -44,14 +31,18 @@ export function HowToStart({
   meetingLabel,
   meetingTrackType = "general",
 }: HowToStartProps) {
-  const eyebrow = data?.eyebrow ?? DEFAULT_EYEBROW;
-  const heading = data?.heading ?? DEFAULT_HEADING;
-  const body = data?.body ?? DEFAULT_BODY;
-  const calloutHeading = data?.calloutHeading ?? DEFAULT_CALLOUT_HEADING;
-  const outcomesHeading = data?.outcomesHeading ?? DEFAULT_OUTCOMES_HEADING;
-  const outcomes =
-    data?.outcomes?.length ? data.outcomes : DEFAULT_OUTCOMES;
-  const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
+  const t = useT();
+  const eyebrow = data?.eyebrow ?? t("home.howToStart.eyebrow");
+  const heading = data?.heading ?? t("home.howToStart.heading");
+  const body = data?.body ?? t("home.howToStart.body");
+  const calloutHeading =
+    data?.calloutHeading ?? t("home.howToStart.calloutHeading");
+  const outcomesHeading =
+    data?.outcomesHeading ?? t("home.howToStart.outcomesHeading");
+  const outcomes: string[] = data?.outcomes?.length
+    ? data.outcomes
+    : (t.raw("home.howToStart.outcomes") as string[]);
+  const ctaLabel = meetingLabel ?? t("common.bookMeeting");
 
   const headerRef = useRef<HTMLDivElement>(null);
   const headerInView = useInView(headerRef, { once: true, amount: 0.5 });

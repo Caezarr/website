@@ -3,7 +3,8 @@ import {
   resolveOptionalString,
   resolveSectionHeader,
 } from "@/lib/resolve-cms";
-import { CONTACT_DEFAULTS } from "@/lib/page-defaults/contact";
+import type { Locale } from "@/i18n/config";
+import { getPageDefaults } from "@/lib/page-defaults/localized";
 import type { SeoData } from "@/lib/types";
 import type {
   ContactPageContent,
@@ -49,8 +50,9 @@ function resolveContactPeople(
 
 export function resolveContactPageContent(
   cms: ContactPageContent | null,
+  locale: Locale = "en",
 ): ContactPageResolved {
-  const d = CONTACT_DEFAULTS;
+  const d = getPageDefaults(locale).contact;
 
   return {
     general: {

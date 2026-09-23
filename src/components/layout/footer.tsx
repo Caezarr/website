@@ -3,8 +3,11 @@ import { Logo } from "@/components/ui/logo";
 import { Section } from "@/components/ui/section";
 import { CookieSettingsLink } from "@/components/cookie-consent/cookie-settings-link";
 import { cn } from "@/lib/utils";
+import type { Locale } from "@/i18n/config";
+import { commercialPath } from "@/i18n/routes";
+import { getT } from "@/i18n/ui";
 import {
-  FOOTER_LEGAL_LINKS,
+  getFooterLegalLinks,
   getFooterLinkGroups,
 } from "@/lib/footer-nav";
 import { FooterLink } from "./footer-link";
@@ -13,6 +16,7 @@ import type { FooterLinkGroup, NavItem } from "@/lib/types";
 interface FooterProps {
   navItems: NavItem[];
   linkGroups: FooterLinkGroup[] | null;
+  locale?: Locale;
 }
 
 function FooterColumn({ group }: { group: ReturnType<typeof getFooterLinkGroups>[number] }) {
@@ -39,7 +43,8 @@ function FooterColumn({ group }: { group: ReturnType<typeof getFooterLinkGroups>
   );
 }
 
-export function Footer({ navItems, linkGroups }: FooterProps) {
+export function Footer({ navItems, linkGroups, locale = "en" }: FooterProps) {
+  const t = getT(locale);
   const year = new Date().getFullYear();
   void linkGroups;
   const groups = getFooterLinkGroups(navItems);
@@ -53,13 +58,17 @@ export function Footer({ navItems, linkGroups }: FooterProps) {
     >
       <div className="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-5">
         <div className="flex flex-1 flex-col gap-4">
-          <Link href="/" aria-label="Wonka" className="inline-block w-fit">
+          <Link
+            href={commercialPath("home", locale)}
+            aria-label={t("shell.logoLabel")}
+            className="inline-block w-fit"
+          >
             <Logo />
           </Link>
           <p className="type-paragraph-m text-text/80">
-            Most companies have AI.
+            {t("shell.footer.taglineLine1")}
             <br />
-            Few have it working for everyone.
+            {t("shell.footer.taglineLine2")}
           </p>
         </div>
 
@@ -80,9 +89,11 @@ export function Footer({ navItems, linkGroups }: FooterProps) {
       </div>
 
       <div className="type-eyebrow flex flex-col gap-4 border-t border-dashed border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-text/60">{year} Wonka, all rights reserved.</p>
+        <p className="text-text/60">
+          {t("shell.footer.copyright", { year: String(year) })}
+        </p>
         <ul className="flex flex-wrap gap-x-10 gap-y-2">
-          {FOOTER_LEGAL_LINKS.map((link) => (
+          {getFooterLegalLinks(locale).map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}

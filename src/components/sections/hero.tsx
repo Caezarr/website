@@ -4,19 +4,14 @@ import { LogoMark } from "@/components/ui/logo-mark";
 import { FadeIn } from "@/components/animations/fade-in";
 import { HeroMarquee } from "./hero-marquee";
 import { cn } from "@/lib/utils";
-import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import type { Locale } from "@/i18n/config";
+import { getT, type UiTranslator } from "@/i18n/ui";
 import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass } from "@/lib/design-tokens";
 import type { HomepageHeroVariant } from "@/lib/homepage-hero-variants";
 import type { HeroData } from "@/lib/types";
 
 export const HERO_BG_IMAGE = "/images/hero-bg.avif";
-
-const DEFAULT_AWARD_BADGE =
-  "#1 AI START-UP OF THE YEAR - BELGIUM STARTUP AWARDS 2026";
-const DEFAULT_TITLE = "Your AI partner for repetitive work.";
-const DEFAULT_SUBTITLE =
-  "Your team is too good for repetitive work. We design your AI strategy, then build the applications and agents that handle it.";
 
 interface HeroProps {
   data?: HeroData | null;
@@ -26,6 +21,7 @@ interface HeroProps {
   ctaHref?: string;
   ctaLabel?: string;
   variant?: HomepageHeroVariant;
+  locale?: Locale;
 }
 
 function NvidiaInceptionLogo() {
@@ -78,7 +74,13 @@ function MicrosoftLogo() {
   );
 }
 
-export function BackedBy({ alignLeft = false }: { alignLeft?: boolean }) {
+export function BackedBy({
+  alignLeft = false,
+  t = getT("en"),
+}: {
+  alignLeft?: boolean;
+  t?: UiTranslator;
+}) {
   return (
     <p
       className={cn(
@@ -86,45 +88,32 @@ export function BackedBy({ alignLeft = false }: { alignLeft?: boolean }) {
         alignLeft && "lg:justify-start",
       )}
     >
-      <span>Backed by</span>
+      <span>{t("home.hero.backedBy")}</span>
       <NvidiaInceptionLogo />
-      <span>Nvidia Inception and</span>
+      <span>{t("home.hero.backedByNvidia")}</span>
       <MicrosoftLogo />
-      <span>Microsoft for Startups.</span>
+      <span>{t("home.hero.backedByMicrosoft")}</span>
     </p>
   );
 }
 
-const CUSTOMER_PROOF = [
-  {
-    label: "Scaled AI agents across their network.",
-    src: "/images/hero/proof-1.svg",
-    alt: "PWC, Engie, Buildwise and Xerius",
-    width: 287,
-    height: 21,
-  },
-  {
-    label: "Got fast-tracked to AI-native.",
-    src: "/images/hero/proof-2.svg",
-    alt: "Luminus, Cambio, Zorgi and ODTH",
-    width: 289,
-    height: 24,
-  },
-  {
-    label: "Deployed AI for employees in weeks.",
-    src: "/images/hero/proof-3.svg",
-    alt: "Luminus, Cambio, Zorgi and ODTH",
-    width: 320,
-    height: 26,
-  },
+const CUSTOMER_PROOF_IMAGES = [
+  { src: "/images/hero/proof-1.svg", width: 287, height: 21 },
+  { src: "/images/hero/proof-2.svg", width: 289, height: 24 },
+  { src: "/images/hero/proof-3.svg", width: 320, height: 26 },
 ] as const;
 
-function ProductPreview() {
+interface ProofCopy {
+  label: string;
+  alt: string;
+}
+
+function ProductPreview({ t }: { t: UiTranslator }) {
   return (
     <div className="relative aspect-video w-full overflow-hidden rounded-sm border border-white/10 bg-white shadow-2xl">
       <Image
         src="/images/wonka-chat/feature-chat.png"
-        alt="WonkaChat interface showing an AI assistant connected to business tools"
+        alt={t("home.hero.productPreviewAlt")}
         fill
         priority
         sizes="(max-width: 1024px) 100vw, 50vw"
@@ -134,7 +123,7 @@ function ProductPreview() {
   );
 }
 
-function VoiceActionPreview() {
+function VoiceActionPreview({ t }: { t: UiTranslator }) {
   return (
     <div className="[container-type:inline-size] relative aspect-[4/3] w-full overflow-hidden rounded-sm border border-white/10 bg-[#f5f6f7] shadow-2xl">
       <div className="pointer-events-none absolute top-[15%] right-0 w-[52%] opacity-45 blur-[0.5px]">
@@ -152,7 +141,7 @@ function VoiceActionPreview() {
         </div>
         <div className="border-mid-gray flex h-[10cqw] items-center rounded-sm border border-dashed bg-white px-[3cqw] shadow-sm">
           <span className="text-[2.8cqw] font-medium whitespace-nowrap text-black">
-            Create an opportunity in Odoo.
+            {t("home.hero.voicePrompt")}
           </span>
           <span
             aria-hidden
@@ -173,22 +162,27 @@ function VoiceActionPreview() {
   );
 }
 
-function CustomerProofPreview() {
+function CustomerProofPreview({ t }: { t: UiTranslator }) {
+  const proofCopy = t.raw("home.hero.proof") as ProofCopy[];
   return (
     <div className="w-full overflow-hidden rounded-sm border border-dashed border-white/20 bg-black/25 shadow-2xl backdrop-blur-md">
       <div className="border-b border-dashed border-white/20 px-6 py-5">
-        <p className="type-eyebrow text-green-300">AI in production</p>
+        <p className="type-eyebrow text-green-300">
+          {t("home.hero.proofEyebrow")}
+        </p>
         <p className="type-h6 mt-2 max-w-[22ch] text-white">
-          From a first workflow to company-wide adoption.
+          {t("home.hero.proofHeading")}
         </p>
       </div>
       <div className="divide-y divide-dashed divide-white/15">
-        {CUSTOMER_PROOF.map((proof) => (
+        {CUSTOMER_PROOF_IMAGES.map((proof, i) => (
           <div className="space-y-3 px-6 py-5" key={proof.src}>
-            <p className="type-eyebrow text-white/65">{proof.label}</p>
+            <p className="type-eyebrow text-white/65">
+              {proofCopy[i]?.label}
+            </p>
             <Image
               src={proof.src}
-              alt={proof.alt}
+              alt={proofCopy[i]?.alt ?? ""}
               width={proof.width}
               height={proof.height}
               className="h-5 w-auto max-w-full"
@@ -202,7 +196,7 @@ function CustomerProofPreview() {
 }
 
 export function AwardBadge({
-  label = DEFAULT_AWARD_BADGE,
+  label = getT("en")("home.hero.awardBadge"),
 }: {
   label?: string;
 }) {
@@ -234,6 +228,7 @@ function HeroCopy({
   ctaHref,
   meetingTrackType,
   alignLeft,
+  t,
 }: {
   awardBadge: string;
   title: string;
@@ -243,6 +238,7 @@ function HeroCopy({
   ctaHref?: string;
   meetingTrackType: MeetingTrackType;
   alignLeft: boolean;
+  t: UiTranslator;
 }) {
   return (
     <div
@@ -275,7 +271,7 @@ function HeroCopy({
         </ButtonLink>
       </FadeIn>
       <FadeIn delay={0.5}>
-        <BackedBy alignLeft={alignLeft} />
+        <BackedBy alignLeft={alignLeft} t={t} />
       </FadeIn>
     </div>
   );
@@ -354,11 +350,13 @@ export function Hero({
   ctaHref,
   ctaLabel: ctaLabelProp,
   variant = "control",
+  locale = "en",
 }: HeroProps) {
-  const awardBadge = data?.awardBadge ?? DEFAULT_AWARD_BADGE;
-  const title = data?.title ?? DEFAULT_TITLE;
-  const subtitle = data?.subtitle ?? DEFAULT_SUBTITLE;
-  const ctaLabel = ctaLabelProp ?? meetingLabel ?? DEFAULT_MEETING_LABEL;
+  const t = getT(locale);
+  const awardBadge = data?.awardBadge ?? t("home.hero.awardBadge");
+  const title = data?.title ?? t("home.hero.title");
+  const subtitle = data?.subtitle ?? t("home.hero.subtitle");
+  const ctaLabel = ctaLabelProp ?? meetingLabel ?? t("common.bookMeeting");
   const href = ctaHref ?? meetingUrl ?? "#";
   const splitLayout = [
     "product-side",
@@ -410,6 +408,7 @@ export function Hero({
             ctaHref={ctaHref}
             meetingTrackType={meetingTrackType}
             alignLeft={splitLayout}
+            t={t}
           />
 
           {variant === "product-side" || variant === "product-below" ? (
@@ -420,17 +419,17 @@ export function Hero({
                 variant === "product-side" && "max-lg:order-first",
               )}
             >
-              <ProductPreview />
+              <ProductPreview t={t} />
             </FadeIn>
           ) : null}
           {variant === "voice-action" ? (
             <FadeIn delay={0.4} className="w-full">
-              <VoiceActionPreview />
+              <VoiceActionPreview t={t} />
             </FadeIn>
           ) : null}
           {variant === "customer-proof" ? (
             <FadeIn delay={0.4} className="w-full">
-              <CustomerProofPreview />
+              <CustomerProofPreview t={t} />
             </FadeIn>
           ) : null}
         </div>

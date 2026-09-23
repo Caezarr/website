@@ -4,7 +4,12 @@ import { useCallback, useId, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { isTurnstileEnabled, TurnstileWidget } from "@/components/turnstile-widget";
 import { radius } from "@/lib/design-tokens";
-import { LEAD_FORM_COPY, type LeadSource } from "@/lib/lead-capture";
+import { useT, useUiLocale } from "@/i18n/use-t";
+import {
+  getLeadFormCopy,
+  isLeadErrorCode,
+  type LeadSource,
+} from "@/lib/lead-capture";
 import { cn } from "@/lib/utils";
 import {
   getLeadAnalyticsContext,
@@ -23,7 +28,9 @@ interface HeroLeadFormProps {
 export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
   const formId = useId();
   const emailId = `${formId}-email`;
-  const copy = LEAD_FORM_COPY[source];
+  const locale = useUiLocale();
+  const t = useT();
+  const copy = getLeadFormCopy(source, locale);
   const turnstileEnabled = isTurnstileEnabled();
   const [state, setState] = useState<FormState>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -37,9 +44,9 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
 
   const handleTurnstileError = useCallback(() => {
     setTurnstileToken(null);
-    setErrorMessage("Verification failed. Please try again.");
+    setErrorMessage(t("leadForm.errors.verification_failed"));
     setState("error");
-  }, []);
+  }, [t]);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -47,7 +54,7 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
     setErrorMessage(null);
 
     if (turnstileEnabled && !turnstileToken) {
-      setErrorMessage("Please complete the verification check.");
+      setErrorMessage(t("leadForm.errors.verificationRequired"));
       setState("error");
       return;
     }
@@ -70,8 +77,15 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
       });
 
       if (!response.ok) {
-        const data = (await response.json().catch(() => null)) as { error?: string } | null;
-        setErrorMessage(data?.error ?? "Something went wrong. Please try again.");
+        const data = (await response.json().catch(() => null)) as {
+          error?: string;
+          code?: string;
+        } | null;
+        setErrorMessage(
+          isLeadErrorCode(data?.code)
+            ? t(`leadForm.errors.${data.code}`)
+            : t("leadForm.errors.generic"),
+        );
         setState("error");
         return;
       }
@@ -91,7 +105,7 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
       setTurnstileToken(null);
       setState("success");
     } catch {
-      setErrorMessage("Something went wrong. Please try again.");
+      setErrorMessage(t("leadForm.errors.generic"));
       setState("error");
     }
   }
@@ -121,7 +135,7 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-stretch">
         <label htmlFor={emailId} className="sr-only">
-          Email address
+          {t("leadForm.emailLabel")}
         </label>
         <input
           id={emailId}
@@ -129,7 +143,7 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
           type="email"
           required
           autoComplete="email"
-          placeholder="you@company.com"
+          placeholder={t("leadForm.emailPlaceholder")}
           disabled={state === "loading"}
           className={cn(
             "min-w-0 flex-1 border px-4 py-3 type-paragraph-m focus:outline-none focus:ring-2 focus:ring-blue-400 disabled:opacity-60",
@@ -140,7 +154,7 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
           )}
         />
         <Button type="submit" variant="primary" disabled={state === "loading"}>
-          {state === "loading" ? "Sending…" : copy.submitLabel}
+          {state === "loading" ? t("leadForm.sending") : copy.submitLabel}
         </Button>
       </div>
 
@@ -148,6 +162,7 @@ export function HeroLeadForm({ source, theme = "dark" }: HeroLeadFormProps) {
         onToken={setTurnstileToken}
         onExpire={handleTurnstileExpire}
         onError={handleTurnstileError}
+        language={locale}
       />
 
       <input

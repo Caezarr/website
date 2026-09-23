@@ -4,7 +4,9 @@ import { LogoMark } from "@/components/ui/logo-mark";
 const LOGO_BG_PATH =
   "M0 4.90479C0 2.39015 2.19961 0.441957 4.69584 0.74569L54.2181 6.77138C56.3208 7.02724 57.9018 8.81226 57.9018 10.9305V60.1962C57.9018 62.3145 56.3208 64.0995 54.2181 64.3553L4.69584 70.381C2.19961 70.6848 0 68.7366 0 66.2219V4.90479Z";
 
-export function Step1Visual() {
+const DEFAULT_PROMPT = "Create an opportunity in Odoo.";
+
+export function Step1Visual({ prompt = DEFAULT_PROMPT }: { prompt?: string }) {
   return (
     <div className="absolute inset-0">
       <div className="pointer-events-none absolute top-[18%] right-0 w-[50%] opacity-50 blur-[0.5px]">
@@ -34,7 +36,7 @@ export function Step1Visual() {
         </div>
         <div className="border-mid-gray flex h-[3.5em] items-center rounded-[0.375em] border border-dashed bg-white px-[1.0625em]">
           <span className="text-text font-medium whitespace-nowrap">
-            Create an opportunity in Odoo.
+            {prompt}
           </span>
           <span
             aria-hidden
