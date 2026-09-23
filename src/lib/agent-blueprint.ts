@@ -153,7 +153,7 @@ export function isAgentBlueprintResult(
   );
 }
 
-function redactText(value: string, identifiers: string[]): string {
+export function redactText(value: string, identifiers: string[]): string {
   return identifiers
     .filter((identifier) => identifier.trim().length >= 3)
     .sort((a, b) => b.length - a.length)

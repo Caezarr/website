@@ -56,34 +56,29 @@ const progressStages: Array<{
     stage: "crawl",
     label: "Reading your website",
     detail: "Services, products, sectors, careers and customer pages",
-    progress: [4, 16],
+    progress: [4, 14],
   },
   {
     stage: "research",
     label: "Mapping how your company works",
     detail: "Offerings, value chain, hiring signals and regulation",
-    progress: [16, 52],
+    progress: [14, 42],
   },
   {
     stage: "benchmark",
     label: "Matching 570 real use cases",
     detail: "One search per high-potential process",
-    progress: [52, 60],
+    progress: [42, 52],
   },
   {
     stage: "design",
     label: "Designing your three agents",
     detail: "Workflows, integrations, controls and time saved",
-    progress: [60, 96],
+    progress: [52, 96],
   },
 ];
 
-const heroReassurance = [
-  "Free",
-  "No sign-up",
-  "Anonymous by default",
-  "About a minute",
-];
+const heroReassurance = ["Free", "No sign-up", "Anonymous", "About a minute"];
 
 function isNdjson(response: Response) {
   return (response.headers.get("content-type") ?? "").includes(
@@ -263,27 +258,29 @@ function FoundryPanel({
           />
         </div>
 
-        {isLoading ? (
-          <div className="mt-5">
-            <ol className="grid grid-cols-4 gap-2">
-              {progressStages.map((item, index) => (
-                <li
-                  key={item.stage}
-                  className={cn(
-                    "type-paragraph-s border-t pt-2 transition-colors",
-                    index < stageIndex
-                      ? "border-green-300/60 text-green-300"
-                      : index === stageIndex
-                        ? "border-blue-300 text-white"
-                        : "border-white/12 text-white/30",
-                  )}
-                >
-                  {index < stageIndex ? "✓ " : ""}
-                  {["Website", "Operations", "Benchmark", "Agents"][index]}
-                </li>
-              ))}
-            </ol>
+        {mode !== "result" ? (
+          <ol className="mt-5 grid grid-cols-4 gap-2">
+            {progressStages.map((item, index) => (
+              <li
+                key={item.stage}
+                className={cn(
+                  "type-paragraph-s border-t pt-2 transition-colors",
+                  isLoading && index < stageIndex
+                    ? "border-green-300/60 text-green-300"
+                    : isLoading && index === stageIndex
+                      ? "border-blue-300 text-white"
+                      : "border-white/15 text-white/45",
+                )}
+              >
+                {isLoading && index < stageIndex ? "✓ " : ""}
+                {["Website", "Operations", "Benchmark", "Agents"][index]}
+              </li>
+            ))}
+          </ol>
+        ) : null}
 
+        {isLoading ? (
+          <div>
             <div className="mt-5 min-h-[15.5rem] rounded-sm border border-white/12 bg-white/[0.03] p-4">
               <p className="type-eyebrow text-white/40">What we are finding</p>
               <ul className="mt-3 grid gap-2.5">
@@ -421,7 +418,7 @@ function FoundryPanel({
               <p className="type-paragraph-s text-white/50">
                 {isLoading
                   ? "Built from your own website, not a template"
-                  : "Website → operations → benchmark → agents"}
+                  : "Built from your own pages, not a template"}
               </p>
               <p className="type-paragraph-s shrink-0 text-white/65">
                 {isLoading ? `${progress}%` : "≈ 1 min"}
@@ -1229,28 +1226,34 @@ export function AgentBlueprintExperience({
           <div className="from-background/80 via-background/45 to-background/70 absolute inset-0 bg-gradient-to-r" />
         </div>
 
-        <div className="mx-auto grid w-full max-w-[84rem] flex-1 gap-10 px-6 pt-28 pb-14 md:px-8 md:pt-36 md:pb-20 lg:grid-cols-[1fr_0.95fr] lg:items-center lg:gap-14 lg:px-12">
+        <div className="mx-auto grid w-full max-w-[84rem] flex-1 gap-10 px-6 pt-24 pb-12 md:px-8 md:pt-36 md:pb-20 lg:grid-cols-[1fr_0.95fr] lg:items-center lg:gap-14 lg:px-12">
           <div className="flex flex-col items-start">
             <AwardBadge />
             <h1
               className={cn(
                 headingClass.hero,
-                "mt-7 max-w-[16ch] text-balance",
+                "mt-5 max-w-[16ch] text-balance md:mt-7",
               )}
             >
               See the 3 AI agents your company should build first.
             </h1>
-            <p className="type-body text-text/80 mt-6 max-w-xl">
-              Enter your website. We read your pages, map how your company
-              actually works, match it against 570 real enterprise AI projects
-              and design three agents built around your own processes, with the
-              hours each one gives back every week.
+            <p className="type-body text-text/80 mt-4 max-w-xl md:mt-6">
+              <span className="sm:hidden">
+                Enter your website. We map how your company works and design
+                three agents around your own processes.
+              </span>
+              <span className="hidden sm:inline">
+                Enter your website. We read your pages, map how your company
+                actually works, match it against 570 real enterprise AI projects
+                and design three agents built around your own processes, with
+                the hours each one gives back every week.
+              </span>
             </p>
 
             <form
               ref={heroFormRef}
               onSubmit={submit}
-              className="mt-9 w-full max-w-xl"
+              className="mt-7 w-full max-w-xl md:mt-9"
             >
               <label htmlFor={BLUEPRINT_INPUT_ID} className="sr-only">
                 Company website
@@ -1300,19 +1303,14 @@ export function AgentBlueprintExperience({
                 ))}
               </ul>
 
-              <label className="type-paragraph-s text-text/55 mt-4 flex cursor-pointer items-start gap-3">
-                <input
-                  name="anonymous"
-                  type="checkbox"
-                  defaultChecked
-                  required
-                  className="mt-0.5 size-4 accent-blue-400"
-                />
-                <span>
-                  Keep the blueprint anonymous. No company or benchmark client
-                  name will appear.
-                </span>
-              </label>
+              {/* The API only accepts anonymous blueprints; always sent as true. */}
+              <input
+                name="anonymous"
+                type="checkbox"
+                defaultChecked
+                hidden
+                readOnly
+              />
 
               <TurnstileWidget
                 resetKey={turnstileResetKey}
@@ -1342,8 +1340,9 @@ export function AgentBlueprintExperience({
                   {error}
                 </p>
               ) : null}
-              <p className="type-paragraph-s text-text/45 mt-4">
-                Public web research only. By continuing, you agree to our{" "}
+              <p className="type-paragraph-s text-text/45 mt-3">
+                No company or client name appears in the blueprint. Public web
+                research only. By continuing, you agree to our{" "}
                 <Link href="/privacy" className="underline underline-offset-4">
                   privacy policy
                 </Link>

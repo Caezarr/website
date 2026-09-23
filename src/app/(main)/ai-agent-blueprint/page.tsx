@@ -9,6 +9,8 @@ import { Stats } from "@/components/sections/stats";
 import { Testimonials } from "@/components/sections/testimonials";
 import { BreadcrumbSchema } from "@/components/json-ld";
 import { getSiteUrl } from "@/lib/site-url";
+import { sanityFetch } from "@sanity/lib/live";
+import { TESTIMONIALS_QUERY } from "@sanity/lib/queries";
 
 export const dynamic = "force-static";
 
@@ -41,8 +43,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AgentBlueprintPage() {
+export default async function AgentBlueprintPage() {
   const siteUrl = getSiteUrl();
+  // <Testimonials> renders an empty spacer when there are none; skip it here.
+  const { data: testimonials } = await sanityFetch({
+    query: TESTIMONIALS_QUERY,
+  });
+  const hasTestimonials =
+    Array.isArray(testimonials) && testimonials.length > 0;
 
   return (
     <main>
@@ -64,7 +72,7 @@ export default function AgentBlueprintPage() {
           <Stats />
           <Security />
         </div>
-        <Testimonials id="testimonials" />
+        {hasTestimonials ? <Testimonials id="testimonials" /> : null}
         <BlueprintFaq />
       </AgentBlueprintExperience>
     </main>

@@ -8,12 +8,19 @@ import {
   anonymizeCompanyResearch,
   missingBlueprintEnv,
   normalizeTarget,
+  redactText,
   type BlueprintStreamEvent,
   type CompanyContext,
+  type CompanyResearch,
 } from "@/lib/agent-blueprint";
 import { crawlCompanySite } from "@/lib/agent-blueprint-crawl";
 import { isAgentBlueprintRateLimited } from "@/lib/agent-blueprint-rate-limit";
-import { researchCompany, designAgents } from "@/lib/agent-blueprint-requesty";
+import {
+  designAgents,
+  externalSignals,
+  researchCompany,
+  type ExternalSignals,
+} from "@/lib/agent-blueprint-requesty";
 import { searchBenchmark } from "@/lib/agent-blueprint-search";
 import { getSanityWriteClient } from "@sanity/lib/write-client";
 
@@ -138,8 +145,29 @@ export async function POST(request: Request) {
       const heartbeat = setInterval(() => send({ type: "ping" }), 10_000);
 
       try {
+        const startedAt = Date.now();
+        const timings: Record<string, number> = {};
+        const mark = (label: string) => {
+          timings[label] = Date.now() - startedAt;
+        };
+
         send({ type: "stage", stage: "crawl" });
+        // Public signals (web search) don't depend on the crawl: start now.
+        const signalsPromise = externalSignals(target.domain, assessmentId)
+          .then((outcome) => {
+            mark("signals");
+            return outcome;
+          })
+          .catch((error: unknown) => {
+            console.warn("Agent blueprint external signals skipped", {
+              assessmentId,
+              error: error instanceof Error ? error.message : "unknown",
+            });
+            return null;
+          });
+
         const crawl = await crawlCompanySite(target.website, target.domain);
+        mark("crawl");
         send({
           type: "insight",
           text: crawl.pages.length
@@ -156,18 +184,37 @@ export async function POST(request: Request) {
           crawl.pages,
           assessmentId,
         );
-        const { context, identifiers } = anonymizeCompanyResearch(
+        mark("research");
+        const siteOnly = anonymizeCompanyResearch(
           research.value,
           target.domain,
         );
-        for (const text of researchInsights(context)) {
+        for (const text of researchInsights(siteOnly.context)) {
           send({ type: "insight", text });
         }
 
         send({ type: "stage", stage: "benchmark" });
-        const benchmark = await searchBenchmark(context);
+        // The benchmark only needs the site analysis; overlap it with signals.
+        const [benchmark, signals] = await Promise.all([
+          searchBenchmark(siteOnly.context).then((patterns) => {
+            mark("benchmark");
+            return patterns;
+          }),
+          signalsPromise,
+        ]);
         if (benchmark.length < 3) {
           throw new Error("Not enough benchmark matches");
+        }
+
+        const { context, identifiers } = anonymizeCompanyResearch(
+          mergeSignals(research.value, signals?.value ?? null),
+          target.domain,
+        );
+        for (const text of signalInsights(
+          signals?.value ?? null,
+          identifiers,
+        )) {
+          send({ type: "insight", text });
         }
         send({
           type: "insight",
@@ -176,6 +223,12 @@ export async function POST(request: Request) {
 
         send({ type: "stage", stage: "design" });
         const blueprint = await designAgents(context, benchmark, assessmentId);
+        mark("design");
+        console.info("Agent blueprint timings (ms since start)", {
+          assessmentId,
+          pages: crawl.pages.length,
+          ...timings,
+        });
         const result = {
           ...anonymizeBlueprint(blueprint.value, identifiers),
           sources: research.sources.map((source, index) => ({
@@ -184,10 +237,12 @@ export async function POST(request: Request) {
           })),
         };
         const completedAt = new Date().toISOString();
-        const responseIds = [research.responseId, blueprint.responseId].filter(
-          (value): value is string => Boolean(value),
-        );
-        const requestCost = [research.cost, blueprint.cost]
+        const responseIds = [
+          research.responseId,
+          signals?.responseId,
+          blueprint.responseId,
+        ].filter((value): value is string => Boolean(value));
+        const requestCost = [research.cost, signals?.cost, blueprint.cost]
           .filter((value): value is number => typeof value === "number")
           .reduce((sum, cost) => sum + cost, 0);
 
@@ -252,6 +307,65 @@ export async function POST(request: Request) {
   });
 }
 
+function uniqueStrings(values: string[], max: number): string[] {
+  return Array.from(
+    new Set(values.map((value) => value.trim()).filter(Boolean)),
+  ).slice(0, max);
+}
+
+/** Folds the web-search signals into the site analysis before design. */
+function mergeSignals(
+  research: CompanyResearch,
+  signals: ExternalSignals | null,
+): CompanyResearch {
+  if (!signals) return research;
+  return {
+    ...research,
+    scale: signals.scale.trim() || research.scale,
+    hiringSignals: uniqueStrings(
+      [...research.hiringSignals, ...signals.hiringSignals],
+      6,
+    ),
+    techStackEvidence: uniqueStrings(
+      [...research.techStackEvidence, ...signals.techStackEvidence],
+      8,
+    ),
+    regulatoryContext: uniqueStrings(
+      [...research.regulatoryContext, ...signals.regulatoryContext],
+      6,
+    ),
+    painHypotheses: uniqueStrings(
+      [
+        ...research.painHypotheses,
+        ...signals.recentNews.map((news) => `Recent change: ${news}`),
+      ],
+      8,
+    ),
+    privateIdentifiers: uniqueStrings(
+      [...research.privateIdentifiers, ...signals.privateIdentifiers],
+      20,
+    ),
+  };
+}
+
+function signalInsights(
+  signals: ExternalSignals | null,
+  identifiers: string[],
+): string[] {
+  if (!signals) return [];
+  return [
+    signals.hiringSignals[0]
+      ? `Hiring signal: ${signals.hiringSignals[0]}`
+      : null,
+    signals.regulatoryContext[0]
+      ? `Regulatory context: ${signals.regulatoryContext[0]}`
+      : null,
+  ]
+    .filter((text): text is string => Boolean(text))
+    .map((text) => redactText(text, identifiers))
+    .map((text) => (text.length > 150 ? `${text.slice(0, 147)}…` : text));
+}
+
 /** Short, anonymised observations streamed while the agents are designed. */
 function researchInsights(context: CompanyContext): string[] {
   const insights = [
@@ -264,12 +378,6 @@ function researchInsights(context: CompanyContext): string[] {
       .map(
         (process) => `Repetitive work spotted in ${process.name.toLowerCase()}`,
       ),
-    context.hiringSignals[0]
-      ? `Hiring signal: ${context.hiringSignals[0]}`
-      : null,
-    context.regulatoryContext[0]
-      ? `Regulatory context: ${context.regulatoryContext[0]}`
-      : null,
   ];
   return insights
     .filter((text): text is string => Boolean(text))
