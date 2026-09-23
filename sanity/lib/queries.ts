@@ -255,6 +255,7 @@ export const SITE_SETTINGS_QUERY = defineQuery(`
       startAiMeetingUrl,
       wonkaBuildMeetingUrl,
       wonkaChatMeetingUrl,
+      franceMeetingUrl,
       meetingLabel,
       startAiUrl,
       wonkaBuildUrl,
