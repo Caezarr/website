@@ -3,8 +3,11 @@ import { AgentBlueprintExperience } from "@/components/agent-blueprint/agent-blu
 import {
   BlueprintFaq,
   BlueprintSteps,
+  BlueprintToWonkaChat,
   BlueprintTrust,
+  BlueprintValueStack,
 } from "@/components/agent-blueprint/blueprint-sections";
+import { Problem } from "@/components/sections/problem";
 import { Stats } from "@/components/sections/stats";
 import { Testimonials } from "@/components/sections/testimonials";
 import { BreadcrumbSchema } from "@/components/json-ld";
@@ -67,7 +70,13 @@ export default async function AgentBlueprintPage() {
         meetingUrl={BLUEPRINT_MEETING_URL}
         wonkaChatUrl={WONKA_CHAT_URL}
       >
+        <Problem id="problem" />
+        <BlueprintValueStack />
         <BlueprintSteps />
+        <BlueprintToWonkaChat
+          wonkaChatUrl={WONKA_CHAT_URL}
+          meetingUrl={BLUEPRINT_MEETING_URL}
+        />
         <div className="flex flex-col gap-10 py-10 md:gap-16 md:py-16">
           <Stats />
           <BlueprintTrust />
