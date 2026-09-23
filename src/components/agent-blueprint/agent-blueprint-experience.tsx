@@ -22,6 +22,7 @@ import {
 } from "@/components/sections/hero";
 import { HeroMarquee } from "@/components/sections/hero-marquee";
 import { Button, ButtonLink } from "@/components/ui/button";
+import { LogoMark } from "@/components/ui/logo-mark";
 import { headingClass } from "@/lib/design-tokens";
 import type {
   AgentBlueprintAgent,
@@ -150,17 +151,6 @@ const tierStyles: Record<AgentBlueprintAgent["tier"], string> = {
   "Human in the loop": "bg-orange-300 text-black",
   "Fully autonomous": "bg-green-200 text-green-900",
 };
-
-function SparkIcon({ className }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden>
-      <path
-        d="M12 2.5c.55 5.45 4.05 8.95 9.5 9.5-5.45.55-8.95 4.05-9.5 9.5C11.45 16.05 7.95 12.55 2.5 12 7.95 11.45 11.45 7.95 12 2.5Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
 
 type FoundryMode = "idle" | "loading" | "result";
 
@@ -364,7 +354,7 @@ function FoundryPanel({
                     {agent ? (
                       <span aria-hidden>✓</span>
                     ) : (
-                      <SparkIcon className="size-4" />
+                      <LogoMark variant="light" className="h-3.5" />
                     )}
                   </div>
                   <div className="relative min-w-0">
@@ -645,7 +635,7 @@ function AgentDetailPanel({
       <div className="border-border flex flex-col gap-5 border-b border-dashed p-5 sm:flex-row sm:items-start sm:justify-between md:p-6">
         <div className="flex items-start gap-4">
           <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-black text-white">
-            <SparkIcon className="size-4" />
+            <LogoMark variant="light" className="h-3.5" />
           </div>
           <div className="min-w-0">
             <div className="flex flex-wrap items-center gap-2">
