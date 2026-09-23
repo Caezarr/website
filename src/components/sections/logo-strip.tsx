@@ -7,9 +7,45 @@ import type { LogoStripResolved } from "@/lib/types/page-sections";
 interface LogoStripProps {
   data: LogoStripResolved;
   logoGap?: "default" | "wide";
+  logoSize?: "default" | "lg";
+  marquee?: boolean;
 }
 
-export function LogoStrip({ data, logoGap = "default" }: LogoStripProps) {
+function LogoStripItem({
+  src,
+  alt,
+  width,
+  height,
+  logoClass,
+  unoptimized,
+}: {
+  src: string;
+  alt: string;
+  width: number;
+  height: number;
+  logoClass: string;
+  unoptimized: boolean;
+}) {
+  return (
+    <div className="flex shrink-0 items-center px-5 md:px-7">
+      <Image
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        className={logoClass}
+        unoptimized={unoptimized}
+      />
+    </div>
+  );
+}
+
+export function LogoStrip({
+  data,
+  logoGap = "default",
+  logoSize = "default",
+  marquee = false,
+}: LogoStripProps) {
   const cmsLogos = data.logos?.filter((logo) => hasSanityImage(logo)) ?? [];
   const logos =
     cmsLogos.length > 0
@@ -35,6 +71,12 @@ export function LogoStrip({ data, logoGap = "default" }: LogoStripProps) {
     logoGap === "wide"
       ? "gap-x-14 gap-y-8"
       : "gap-x-10 gap-y-4";
+  const logoClass =
+    logoSize === "lg"
+      ? "h-10 w-auto opacity-60 brightness-0 md:h-12"
+      : logoGap === "wide"
+        ? "h-7 w-auto opacity-60 brightness-0 md:h-8"
+        : "h-6 w-auto opacity-60 brightness-0";
 
   return (
     <>
@@ -42,25 +84,54 @@ export function LogoStrip({ data, logoGap = "default" }: LogoStripProps) {
         <div className="border-t border-dashed border-border" />
       </Section>
       <Section containerClassName="py-10">
-        <div
-          className={`flex flex-wrap items-center justify-center ${gapClass}`}
-        >
-          {logos.map((logo) => (
-            <Image
-              key={logo.key}
-              src={logo.src}
-              alt={logo.alt}
-              width={logo.width}
-              height={logo.height}
-              className={
-                logoGap === "wide"
-                  ? "h-7 w-auto opacity-60 brightness-0 md:h-8"
-                  : "h-6 w-auto opacity-60 brightness-0"
-              }
-              unoptimized={logo.unoptimized}
-            />
-          ))}
-        </div>
+        {marquee ? (
+          <div
+            className="group/marquee -mx-6 overflow-clip md:-mx-8 lg:-mx-12"
+            role="region"
+            aria-label="Client logos"
+          >
+            <div className="flex w-max animate-marquee items-center motion-reduce:animate-none group-hover/marquee:[animation-play-state:paused]">
+              {logos.map((logo) => (
+                <LogoStripItem
+                  key={`a-${logo.key}`}
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={logo.width}
+                  height={logo.height}
+                  logoClass={logoClass}
+                  unoptimized={logo.unoptimized}
+                />
+              ))}
+              {logos.map((logo) => (
+                <LogoStripItem
+                  key={`b-${logo.key}`}
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={logo.width}
+                  height={logo.height}
+                  logoClass={logoClass}
+                  unoptimized={logo.unoptimized}
+                />
+              ))}
+            </div>
+          </div>
+        ) : (
+          <div
+            className={`flex flex-wrap items-center justify-center ${gapClass}`}
+          >
+            {logos.map((logo) => (
+              <Image
+                key={logo.key}
+                src={logo.src}
+                alt={logo.alt}
+                width={logo.width}
+                height={logo.height}
+                className={logoClass}
+                unoptimized={logo.unoptimized}
+              />
+            ))}
+          </div>
+        )}
         {proofLines.length > 0 ? (
           <div className="mt-8 flex flex-wrap items-center justify-center gap-x-10 gap-y-2 text-center">
             {proofLines.map((line, i) => (

@@ -324,7 +324,13 @@ export function resolveStartAiContent(
       cms?.testimonials,
       d.testimonials ?? DEFAULT_TESTIMONIALS_HEADER,
     ),
-    contact: resolveContact(cms?.contact, d.contact),
+    contact: (() => {
+      const resolved = resolveContact(cms?.contact, d.contact);
+      if (resolved.personRole === "Partner, Wonka") {
+        return { ...resolved, personRole: d.contact.personRole };
+      }
+      return resolved;
+    })(),
     faq: {
       header: resolveSectionHeader(cms?.faq?.header, d.faq.header!),
       items: resolveItems(cms?.faq?.items, d.faq.items ?? []),

@@ -19,7 +19,7 @@ interface CapabilityGridProps {
   className?: string;
 }
 
-type ClusterLayout = "two-top" | "two-bottom";
+type ClusterLayout = "two-top" | "two-bottom" | "workspace-features";
 
 function visualClass(tall: boolean) {
   return cn(
@@ -181,6 +181,33 @@ function CapabilityCard({
   );
 }
 
+function renderWorkspaceFeaturesLayout(cards: CapabilityGridCard[]) {
+  const [first, second, third, fourth, fifth, sixth] = cards;
+
+  return (
+    <>
+      <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <CapabilityCard card={first} />
+        <CapabilityCard card={second} />
+      </div>
+      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="md:col-span-2">
+          <CapabilityCard card={third} tall />
+        </div>
+      </div>
+      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <CapabilityCard card={fourth} />
+        <CapabilityCard card={fifth} />
+      </div>
+      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
+        <div className="md:col-span-2">
+          <CapabilityCard card={sixth} tall />
+        </div>
+      </div>
+    </>
+  );
+}
+
 function CapabilityCluster({
   heading,
   cards,
@@ -190,7 +217,62 @@ function CapabilityCluster({
   cards: CapabilityGridCard[];
   layout: ClusterLayout;
 }) {
-  const [first, second, third] = cards;
+  if (layout === "workspace-features") {
+    return (
+      <Section className="py-18 md:py-24">
+        <SectionHeader
+          align="left"
+          className="max-w-2xl"
+          heading={heading}
+          headingRole="subsection"
+        />
+        {renderWorkspaceFeaturesLayout(cards)}
+      </Section>
+    );
+  }
+
+  const cardGroups = Array.from(
+    { length: Math.ceil(cards.length / 3) },
+    (_, index) => cards.slice(index * 3, index * 3 + 3),
+  ).filter((group) => group.length === 3);
+
+  function renderGroup(group: CapabilityGridCard[], groupIndex: number) {
+    const [first, second, third] = group;
+
+    if (layout === "two-top") {
+      return (
+        <div
+          key={groupIndex}
+          className={cn(
+            "grid grid-cols-1 gap-5 md:grid-cols-2",
+            groupIndex === 0 ? "mt-10" : "mt-5",
+          )}
+        >
+          <CapabilityCard card={first} />
+          <CapabilityCard card={second} />
+          <div className="md:col-span-2">
+            <CapabilityCard card={third} tall />
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <div
+        key={groupIndex}
+        className={cn(
+          "grid grid-cols-1 gap-5 md:grid-cols-2",
+          groupIndex === 0 ? "mt-10" : "mt-5",
+        )}
+      >
+        <div className="md:col-span-2">
+          <CapabilityCard card={first} tall />
+        </div>
+        <CapabilityCard card={second} />
+        <CapabilityCard card={third} />
+      </div>
+    );
+  }
 
   return (
     <Section className="py-18 md:py-24">
@@ -201,23 +283,7 @@ function CapabilityCluster({
         headingRole="subsection"
       />
 
-      {layout === "two-top" ? (
-        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
-          <CapabilityCard card={first} />
-          <CapabilityCard card={second} />
-          <div className="md:col-span-2">
-            <CapabilityCard card={third} tall />
-          </div>
-        </div>
-      ) : (
-        <div className="mt-10 grid grid-cols-1 gap-5 md:grid-cols-2">
-          <div className="md:col-span-2">
-            <CapabilityCard card={first} tall />
-          </div>
-          <CapabilityCard card={second} />
-          <CapabilityCard card={third} />
-        </div>
-      )}
+      {cardGroups.map((group, groupIndex) => renderGroup(group, groupIndex))}
     </Section>
   );
 }
@@ -230,7 +296,9 @@ export function CapabilityGrid({ data, id, className }: CapabilityGridProps) {
           key={cluster.heading}
           heading={cluster.heading}
           cards={cluster.cards}
-          layout={index % 2 === 0 ? "two-top" : "two-bottom"}
+          layout={
+            cluster.layout ?? (index % 2 === 0 ? "two-top" : "two-bottom")
+          }
         />
       ))}
     </div>
