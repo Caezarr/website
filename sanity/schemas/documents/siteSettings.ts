@@ -47,6 +47,15 @@ export const siteSettings = defineType({
             Rule.uri({ scheme: ["http", "https", "mailto", "tel"] }),
         }),
         defineField({
+          name: "franceMeetingUrl",
+          title: "France booking URL",
+          type: "url",
+          description:
+            "French team calendar, used by meeting CTAs on France pages (/france, /fr/audit-ia…). Leave empty to use the default French calendar.",
+          validation: (Rule) =>
+            Rule.uri({ scheme: ["http", "https", "mailto", "tel"] }),
+        }),
+        defineField({
           name: "wonkaChatMeetingUrl",
           title: "WonkaChat booking URL",
           type: "url",

@@ -31,7 +31,6 @@ const redirects = async () => [
   // Legacy meetwonka.com paths — the meetwonka 301s preserve the old path,
   // so each one must land on its closest equivalent here (not a 404)
   { source: '/services/ai-strategy', destination: '/start-ai', permanent: true },
-  { source: '/services/start-ai-subsidized-flanders', destination: '/nl/kmo-portefeuille-ai', permanent: true },
   { source: '/services/start-ai', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-en', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-nl', destination: '/start-ai', permanent: true },

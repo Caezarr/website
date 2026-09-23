@@ -25,7 +25,11 @@
       "aiForBusiness": "AI for business",
       "aiConsultancy": "AI consultancy",
       "chatgptForBusiness": "ChatGPT for business",
-      "kmoPortefeuille": "KMO-portefeuille"
+      "kmoPortefeuille": "KMO-portefeuille",
+      "auditIa": "AI audit",
+      "acculturationIa": "AI literacy",
+      "chatbotEntreprise": "Company chatbot",
+      "charteIa": "AI policy"
     }
   },
   "nav": {

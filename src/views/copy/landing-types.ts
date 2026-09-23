@@ -1,3 +1,5 @@
+import type { MeetingContext } from "@/lib/shared-links-defaults";
+
 /**
  * Copy contract for SEO landing pages (src/views/seo-landing.tsx).
  * One object per page × locale. Every claim must come from facts already
@@ -17,6 +19,8 @@ export interface LandingLink {
 }
 
 export interface LandingCopy {
+  /** Which booking link "meeting" CTAs use (France pages use the French team's). */
+  meetingContext?: MeetingContext;
   seo: {
     /** ≤ 60 chars, primary keyword first. */
     title: string;
