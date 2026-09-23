@@ -4,6 +4,9 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const redirects = async () => [
+  // EN is unprefixed: /en/* is never canonical (runs before the i18n middleware)
+  { source: '/en', destination: '/', permanent: true },
+  { source: '/en/:path*', destination: '/:path*', permanent: true },
   // EN: old → new
   { source: '/glossary', destination: '/learn', permanent: true },
   { source: '/glossary/:slug*', destination: '/learn/:slug*', permanent: true },
@@ -28,6 +31,7 @@ const redirects = async () => [
   // Legacy meetwonka.com paths — the meetwonka 301s preserve the old path,
   // so each one must land on its closest equivalent here (not a 404)
   { source: '/services/ai-strategy', destination: '/start-ai', permanent: true },
+  { source: '/services/start-ai-subsidized-flanders', destination: '/nl/kmo-portefeuille-ai', permanent: true },
   { source: '/services/start-ai', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-en', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-nl', destination: '/start-ai', permanent: true },

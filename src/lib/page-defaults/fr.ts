@@ -450,7 +450,7 @@ export const FR_PAGE_DEFAULTS: LocalePageDefaults = {
       variant: "darkImage",
       backgroundImage: null,
       showCta: true,
-      ctaHref: "/services/start-ai-subsidized-flanders",
+      ctaHref: "/nl/kmo-portefeuille-ai",
       ctaLabel: "En savoir plus sur la subvention",
       fallbackBackground: { src: "/images/how-to-start/how-to-start-bg.avif", alt: "" },
     },
