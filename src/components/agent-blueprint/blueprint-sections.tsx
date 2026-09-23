@@ -76,7 +76,8 @@ export function SampleBlueprint() {
   return (
     <Section
       id="example-blueprint"
-      className="bg-background scroll-mt-16"
+      // The illustrative example is redundant once a real blueprint exists.
+      className="bg-background scroll-mt-16 group-data-[state=result]/blueprint:hidden"
       containerClassName="grid gap-12 py-18 md:py-24 lg:grid-cols-[0.8fr_1.2fr] lg:items-center lg:gap-16"
     >
       <div className="flex flex-col items-start gap-6">

@@ -63,11 +63,11 @@ export default async function AgentBlueprintPage() {
       >
         <SampleBlueprint />
         <BlueprintSteps />
-        <div className="pt-2">
+        <div className="flex flex-col gap-10 py-10 md:gap-16 md:py-16">
           <Stats />
+          <Security />
         </div>
         <Testimonials id="testimonials" />
-        <Security />
         <BlueprintFaq />
       </AgentBlueprintExperience>
     </main>

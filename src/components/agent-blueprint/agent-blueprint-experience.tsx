@@ -1402,7 +1402,13 @@ export function AgentBlueprintExperience({
         />
       ) : null}
 
-      {children}
+      {/* Server sections read the state via group-data-[state=…]/blueprint. */}
+      <div
+        className="group/blueprint"
+        data-state={state === "result" && response ? "result" : state}
+      >
+        {children}
+      </div>
 
       <section
         data-theme="dark"
