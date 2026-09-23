@@ -11,7 +11,6 @@ import { WorkspaceTrialCta } from "@/components/sections/workspace-trial-cta";
 import { DEFAULT_WONKA_CHAT_SECURITY } from "@/lib/cms-sections";
 import { AI_CHAT_CAPABILITY_CLUSTERS } from "@/lib/page-defaults/ai-chat-capability-grid";
 import { resolveWonkaChatContent } from "@/lib/page-defaults/resolve-pages";
-import { WONKA_CHAT_DEFAULTS } from "@/lib/page-defaults/wonka-chat";
 import { resolveSectionHeader } from "@/lib/resolve-cms";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import { buildMetadata } from "@/lib/seo";
@@ -31,12 +30,16 @@ async function getPageContent() {
   };
 }
 
+// Own SEO: the CMS `seo` on the WonkaChat document belongs to /wonka-chat
+const PAGE_SEO = {
+  metaTitle: "AI Chat | Safe AI chat on your company knowledge | Wonka",
+  metaDescription:
+    "Chat with the best AI models on your company documents and tools. EU-hosted, GDPR-compliant, with enterprise access control. Start a free trial.",
+  ogImage: null,
+};
+
 export async function generateMetadata(): Promise<Metadata> {
-  const { content } = await getPageContent();
-  return buildMetadata(content.seo, {
-    path: pagePath,
-    fallbackTitle: "WonkaChat | Safe AI chat on your company knowledge",
-  });
+  return buildMetadata(PAGE_SEO, { path: pagePath });
 }
 
 export default async function WorkspaceAiChatPage() {
