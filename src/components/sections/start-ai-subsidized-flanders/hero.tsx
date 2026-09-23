@@ -79,7 +79,8 @@ export function StartAiSubsidizedFlandersHero() {
 
           >
 
-            Zet uw bedrijf in een hogere versnelling met AI.
+            Zet uw bedrijf in een hogere versnelling met AI, met steun van de
+            KMO-portefeuille.
 
           </h1>
 

@@ -426,7 +426,7 @@ export function Hero({
       </div>
 
       <FadeIn delay={0.6}>
-        <HeroMarquee />
+        <HeroMarquee messages={t.raw("home.hero.marquee") as string[]} />
       </FadeIn>
     </section>
   );

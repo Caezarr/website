@@ -19,6 +19,13 @@
       "terms": "Voorwaarden",
       "privacy": "Privacy",
       "cookies": "Cookies"
+    },
+    "solutions": {
+      "title": "Oplossingen",
+      "aiForBusiness": "AI voor bedrijven",
+      "aiConsultancy": "AI-consultancy",
+      "chatgptForBusiness": "ChatGPT voor bedrijven",
+      "kmoPortefeuille": "KMO-portefeuille voor AI"
     }
   },
   "nav": {

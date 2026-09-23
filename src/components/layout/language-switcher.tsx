@@ -7,6 +7,8 @@ import {
   commercialPageFromPathname,
   commercialPath,
   stripLocale,
+  landingPageFromPathname,
+  landingPath,
 } from "@/i18n/routes";
 import { useT, useUiLocale } from "@/i18n/use-t";
 import { HREFLANG } from "@/lib/hreflang";
@@ -38,6 +40,9 @@ const HUB_ROOT_SEGMENTS: Record<string, HubSection> = {
 export function getLanguageSwitchHref(pathname: string, target: Locale): string {
   const page = commercialPageFromPathname(pathname);
   if (page) return commercialPath(page, target);
+
+  const landing = landingPageFromPathname(pathname);
+  if (landing) return landingPath(landing, target) ?? commercialPath("home", target);
 
   const stripped = stripLocale(pathname).replace(/\/+$/, "");
   const segments = stripped.split("/").filter(Boolean);

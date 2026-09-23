@@ -6,7 +6,15 @@ import { hubPath, itemPath } from "@/lib/locale-path";
 import { locales } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 import { buildExistingItemLanguages, buildHubLanguages } from "@/lib/hreflang";
-import { commercialLanguages, commercialPath, type CommercialPage } from "@/i18n/routes";
+import {
+  commercialLanguages,
+  commercialPath,
+  LANDING_PATHS,
+  landingLanguages,
+  landingPath,
+  type CommercialPage,
+  type LandingPage,
+} from "@/i18n/routes";
 
 const COMMERCIAL_PRIORITY: Record<CommercialPage, number> = {
   home: 1.0,
@@ -58,9 +66,26 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
+  // SEO landing pages: localized slugs, hreflang limited to existing locales
+  const landingPages: MetadataRoute.Sitemap = (
+    Object.keys(LANDING_PATHS) as LandingPage[]
+  ).flatMap((page) =>
+    locales.flatMap((locale) => {
+      const path = landingPath(page, locale as Locale);
+      if (!path) return [];
+      return [{
+        url: `${siteUrl}${path}`,
+        lastModified,
+        changeFrequency: "monthly" as const,
+        priority: 0.85,
+        alternates: { languages: landingLanguages(siteUrl, page) },
+      }];
+    })
+  );
+
   const staticPages: MetadataRoute.Sitemap = [
     ...commercialPages,
-    { url: `${siteUrl}/services/start-ai-subsidized-flanders`, lastModified, changeFrequency: "monthly", priority: 0.8 },
+    ...landingPages,
     { url: `${siteUrl}/case-studies/itzu`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/case-studies/n-allo`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/terms`, lastModified, changeFrequency: "yearly", priority: 0.3 },

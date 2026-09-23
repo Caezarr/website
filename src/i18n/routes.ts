@@ -27,6 +27,62 @@ export const TRANSLATED_LOCALES = ["fr", "nl"] as const satisfies readonly Local
 
 const COMMERCIAL_PATH_SET = new Set<string>(Object.values(COMMERCIAL_PATHS));
 
+/**
+ * SEO landing pages. Unlike commercial pages, each locale gets its own
+ * keyword slug (`/ai-for-business`, `/fr/ia-pour-entreprise`, …). A page
+ * may exist in a subset of locales (e.g. the Flemish KMO-portefeuille page).
+ */
+export const LANDING_PATHS = {
+  aiForBusiness: {
+    en: "/ai-for-business",
+    fr: "/fr/ia-pour-entreprise",
+    nl: "/nl/ai-voor-bedrijven",
+  },
+  aiConsultancy: {
+    en: "/ai-consultancy",
+    fr: "/fr/agence-ia",
+    nl: "/nl/ai-consultancy",
+  },
+  chatgptForBusiness: {
+    en: "/chatgpt-for-business",
+    fr: "/fr/chatgpt-entreprise",
+    nl: "/nl/chatgpt-voor-bedrijven",
+  },
+  kmoPortefeuille: {
+    nl: "/nl/kmo-portefeuille-ai",
+  },
+} as const satisfies Record<string, Partial<Record<Locale, string>>>;
+
+export type LandingPage = keyof typeof LANDING_PATHS;
+
+export function landingPath(page: LandingPage, locale: Locale): string | null {
+  const paths: Partial<Record<Locale, string>> = LANDING_PATHS[page];
+  return paths[locale] ?? null;
+}
+
+export function landingPageFromPathname(pathname: string): LandingPage | null {
+  const path = pathname.replace(/\/+$/, "") || "/";
+  for (const [page, paths] of Object.entries(LANDING_PATHS)) {
+    if ((Object.values(paths) as string[]).includes(path)) return page as LandingPage;
+  }
+  return null;
+}
+
+/** hreflang map for a landing page, limited to the locales it exists in. */
+export function landingLanguages(
+  siteUrl: string,
+  page: LandingPage,
+): Record<string, string> {
+  const languages: Record<string, string> = {};
+  for (const locale of locales) {
+    const path = landingPath(page, locale);
+    if (path) languages[HREFLANG[locale]] = `${siteUrl}${path}`;
+  }
+  const fallback = languages[HREFLANG.en] ?? Object.values(languages)[0];
+  if (fallback) languages["x-default"] = fallback;
+  return languages;
+}
+
 /** Content hubs whose first segment changes per locale (see locale-path.ts). */
 const HUB_SEGMENTS: Record<string, Record<Locale, string>> = {
   blog: { en: "blog", fr: "blog", nl: "blog" },
@@ -68,6 +124,12 @@ export function localizeHref(href: string, locale: Locale): string {
   const match = href.match(/^([^?#]*)(.*)$/);
   const path = match?.[1] || "/";
   const suffix = match?.[2] ?? "";
+
+  const landing = landingPageFromPathname(path);
+  if (landing) {
+    const target = landingPath(landing, locale);
+    if (target) return `${target}${suffix}`;
+  }
 
   if (COMMERCIAL_PATH_SET.has(path)) {
     return `${path === "/" ? `/${locale}` : `/${locale}${path}`}${suffix}`;

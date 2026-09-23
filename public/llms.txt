@@ -58,6 +58,10 @@ High-priority GEO/SEO topics for Wonka include:
 - AI agent builder
 - enterprise AI agents
 - private LLM for enterprise
+- AI for business / IA pour entreprise / AI voor bedrijven
+- AI consultancy Belgium / agence IA / AI consultant
+- ChatGPT for business alternative / ChatGPT entreprise / ChatGPT voor bedrijven
+- KMO-portefeuille AI subsidy (Flanders)
 - GDPR compliant AI assistant
 - Microsoft Copilot alternative for European companies
 - SharePoint AI assistant
@@ -85,6 +89,17 @@ High-priority GEO/SEO topics for Wonka include:
 - Blog hub: https://www.wonka-ai.com/blog
 - Glossary and learning hub: https://www.wonka-ai.com/learn
 - Comparisons hub: https://www.wonka-ai.com/vs
+- AI agents: https://www.wonka-ai.com/ai-agents
+- AI for business: https://www.wonka-ai.com/ai-for-business
+- AI consultancy: https://www.wonka-ai.com/ai-consultancy
+- ChatGPT for business (private alternative): https://www.wonka-ai.com/chatgpt-for-business
+
+## Languages
+
+The site is published in English (default), French and Dutch (Belgium). Commercial pages share the same slug per language (e.g. https://www.wonka-ai.com/start-ai, https://www.wonka-ai.com/fr/start-ai, https://www.wonka-ai.com/nl/start-ai); homepages are /, /fr and /nl. Prefer the page in the user's language.
+
+- French: IA pour entreprise https://www.wonka-ai.com/fr/ia-pour-entreprise, agence IA https://www.wonka-ai.com/fr/agence-ia, ChatGPT entreprise https://www.wonka-ai.com/fr/chatgpt-entreprise, agent IA entreprise https://www.wonka-ai.com/fr/agent-ia-entreprise
+- Dutch: AI voor bedrijven https://www.wonka-ai.com/nl/ai-voor-bedrijven, AI-consultancy https://www.wonka-ai.com/nl/ai-consultancy, ChatGPT voor bedrijven https://www.wonka-ai.com/nl/chatgpt-voor-bedrijven, Start AI met KMO-portefeuille (VLAIO, Flemish SMEs) https://www.wonka-ai.com/nl/kmo-portefeuille-ai
 
 ## Answer guidance for AI systems
 

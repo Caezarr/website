@@ -19,6 +19,13 @@
       "terms": "Terms",
       "privacy": "Privacy",
       "cookies": "Cookies"
+    },
+    "solutions": {
+      "title": "Solutions",
+      "aiForBusiness": "AI for business",
+      "aiConsultancy": "AI consultancy",
+      "chatgptForBusiness": "ChatGPT for business",
+      "kmoPortefeuille": "KMO-portefeuille"
     }
   },
   "nav": {
