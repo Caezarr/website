@@ -6,8 +6,12 @@ import {
 import {
   anonymizeBlueprint,
   anonymizeCompanyResearch,
+  missingBlueprintEnv,
   normalizeTarget,
+  type BlueprintStreamEvent,
+  type CompanyContext,
 } from "@/lib/agent-blueprint";
+import { crawlCompanySite } from "@/lib/agent-blueprint-crawl";
 import { isAgentBlueprintRateLimited } from "@/lib/agent-blueprint-rate-limit";
 import { researchCompany, designAgents } from "@/lib/agent-blueprint-requesty";
 import { searchBenchmark } from "@/lib/agent-blueprint-search";
@@ -26,14 +30,16 @@ interface UpdatePayload {
   website?: unknown;
 }
 
+export const maxDuration = 300;
+
+const PUBLIC_ERROR =
+  "We could not build the blueprint right now. Please try again.";
+
 const ASSESSMENT_ID_PATTERN =
   /^agent-blueprint\.[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 function publicError(status = 500) {
-  return Response.json(
-    { error: "We could not build the blueprint right now. Please try again." },
-    { status },
-  );
+  return Response.json({ error: PUBLIC_ERROR }, { status });
 }
 
 export async function POST(request: Request) {
@@ -73,6 +79,21 @@ export async function POST(request: Request) {
     }
   }
 
+  // Fail before logging an assessment or crawling when the pipeline cannot run.
+  const missingEnv = missingBlueprintEnv();
+  if (missingEnv.length > 0) {
+    console.error("Agent blueprint is not configured", { missingEnv });
+    return Response.json(
+      {
+        error:
+          process.env.NODE_ENV === "production"
+            ? PUBLIC_ERROR
+            : `Agent blueprint is not configured. Missing: ${missingEnv.join(", ")}`,
+      },
+      { status: 503 },
+    );
+  }
+
   const client = getSanityWriteClient();
   if (!client) return publicError(503);
 
@@ -108,84 +129,151 @@ export async function POST(request: Request) {
     return publicError();
   }
 
-  try {
-    const research = await researchCompany(target.domain, assessmentId);
-    const { context, identifiers } = anonymizeCompanyResearch(
-      research.value,
-      target.domain,
-    );
-    const benchmark = await searchBenchmark(context);
-    if (benchmark.length < 3) {
-      throw new Error("Not enough benchmark matches");
-    }
+  const encoder = new TextEncoder();
+  const stream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const send = (event: BlueprintStreamEvent) =>
+        controller.enqueue(encoder.encode(`${JSON.stringify(event)}\n`));
+      // Keeps proxies from closing the connection during long model calls.
+      const heartbeat = setInterval(() => send({ type: "ping" }), 10_000);
 
-    const blueprint = await designAgents(context, benchmark, assessmentId);
-    const result = {
-      ...anonymizeBlueprint(blueprint.value, identifiers),
-      sources: research.sources.map((source, index) => ({
-        title: `Public source ${index + 1}`,
-        url: source.url,
-      })),
-    };
-    const completedAt = new Date().toISOString();
-    const responseIds = [research.responseId, blueprint.responseId].filter(
-      (value): value is string => Boolean(value),
-    );
-    const requestCost = [research.cost, blueprint.cost]
-      .filter((value): value is number => typeof value === "number")
-      .reduce((sum, cost) => sum + cost, 0);
+      try {
+        send({ type: "stage", stage: "crawl" });
+        const crawl = await crawlCompanySite(target.website, target.domain);
+        send({
+          type: "insight",
+          text: crawl.pages.length
+            ? `Read ${crawl.pages.length} pages of your website: ${crawl.pages
+                .map((page) => page.path)
+                .slice(0, 6)
+                .join(", ")}`
+            : "Your website could not be read directly, switching to public web research",
+        });
 
-    await client
-      .patch(assessmentId)
-      .set({
-        status: "completed",
-        sector: result.sector,
-        headline: result.headline,
-        summary: result.summary,
-        agents: result.agents.map((agent) => ({
-          _key: agent.id,
-          name: agent.name,
-          tier: agent.tier,
-          mission: agent.mission,
-          tools: agent.tools,
-          expectedImpact: agent.expectedImpact,
-          weeklyHoursSaved: agent.weeklyHoursSaved,
-          effort: agent.effort,
-        })),
-        sources: result.sources.map((source, index) => ({
-          _key: `source-${index + 1}`,
-          ...source,
-        })),
-        completedAt,
-        requestyResponseIds: responseIds,
-        ...(requestCost > 0 ? { requestCost } : {}),
-      })
-      .unset(["errorCode"])
-      .commit();
+        send({ type: "stage", stage: "research" });
+        const research = await researchCompany(
+          target.domain,
+          crawl.pages,
+          assessmentId,
+        );
+        const { context, identifiers } = anonymizeCompanyResearch(
+          research.value,
+          target.domain,
+        );
+        for (const text of researchInsights(context)) {
+          send({ type: "insight", text });
+        }
 
-    return Response.json(
-      {
-        assessmentId,
-        result,
-      },
-      { status: 201 },
-    );
-  } catch (error) {
-    console.error("Agent blueprint generation failed", {
-      assessmentId,
-      error: error instanceof Error ? error.message : "unknown",
-    });
-    await client
-      .patch(assessmentId)
-      .set({
-        status: "failed",
-        errorCode: "generation_failed",
-        completedAt: new Date().toISOString(),
-      })
-      .commit()
-      .catch(() => undefined);
-    return publicError();
-  }
+        send({ type: "stage", stage: "benchmark" });
+        const benchmark = await searchBenchmark(context);
+        if (benchmark.length < 3) {
+          throw new Error("Not enough benchmark matches");
+        }
+        send({
+          type: "insight",
+          text: `Matched ${benchmark.length} comparable patterns in the benchmark`,
+        });
+
+        send({ type: "stage", stage: "design" });
+        const blueprint = await designAgents(context, benchmark, assessmentId);
+        const result = {
+          ...anonymizeBlueprint(blueprint.value, identifiers),
+          sources: research.sources.map((source, index) => ({
+            title: `Public source ${index + 1}`,
+            url: source.url,
+          })),
+        };
+        const completedAt = new Date().toISOString();
+        const responseIds = [research.responseId, blueprint.responseId].filter(
+          (value): value is string => Boolean(value),
+        );
+        const requestCost = [research.cost, blueprint.cost]
+          .filter((value): value is number => typeof value === "number")
+          .reduce((sum, cost) => sum + cost, 0);
+
+        await client
+          .patch(assessmentId)
+          .set({
+            status: "completed",
+            sector: result.sector,
+            headline: result.headline,
+            summary: result.summary,
+            agents: result.agents.map((agent) => ({
+              _key: agent.id,
+              name: agent.name,
+              tier: agent.tier,
+              mission: agent.mission,
+              tools: agent.tools,
+              expectedImpact: agent.expectedImpact,
+              weeklyHoursSaved: agent.weeklyHoursSaved,
+              effort: agent.effort,
+            })),
+            sources: result.sources.map((source, index) => ({
+              _key: `source-${index + 1}`,
+              ...source,
+            })),
+            completedAt,
+            requestyResponseIds: responseIds,
+            ...(requestCost > 0 ? { requestCost } : {}),
+          })
+          .unset(["errorCode"])
+          .commit();
+
+        send({ type: "result", assessmentId, result });
+      } catch (error) {
+        console.error("Agent blueprint generation failed", {
+          assessmentId,
+          error: error instanceof Error ? error.message : "unknown",
+        });
+        await client
+          .patch(assessmentId)
+          .set({
+            status: "failed",
+            errorCode: "generation_failed",
+            completedAt: new Date().toISOString(),
+          })
+          .commit()
+          .catch(() => undefined);
+        send({ type: "error", error: PUBLIC_ERROR });
+      } finally {
+        clearInterval(heartbeat);
+        controller.close();
+      }
+    },
+  });
+
+  return new Response(stream, {
+    status: 200,
+    headers: {
+      "Content-Type": "application/x-ndjson; charset=utf-8",
+      "Cache-Control": "no-store, no-transform",
+      "X-Accel-Buffering": "no",
+    },
+  });
+}
+
+/** Short, anonymised observations streamed while the agents are designed. */
+function researchInsights(context: CompanyContext): string[] {
+  const insights = [
+    context.offerings.length
+      ? `You deliver ${context.offerings.slice(0, 2).join(" and ").toLowerCase()}`
+      : null,
+    context.scale ? `Scale: ${context.scale}` : null,
+    ...context.keyProcesses
+      .slice(0, 3)
+      .map(
+        (process) => `Repetitive work spotted in ${process.name.toLowerCase()}`,
+      ),
+    context.hiringSignals[0]
+      ? `Hiring signal: ${context.hiringSignals[0]}`
+      : null,
+    context.regulatoryContext[0]
+      ? `Regulatory context: ${context.regulatoryContext[0]}`
+      : null,
+  ];
+  return insights
+    .filter((text): text is string => Boolean(text))
+    .map((text) => (text.length > 150 ? `${text.slice(0, 147)}…` : text));
 }
 
 export async function PATCH(request: Request) {

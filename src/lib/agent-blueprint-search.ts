@@ -1,7 +1,4 @@
-import type {
-  BenchmarkPattern,
-  CompanyContext,
-} from "@/lib/agent-blueprint";
+import type { BenchmarkPattern, CompanyContext } from "@/lib/agent-blueprint";
 
 interface AzureSearchDocument {
   useCase?: unknown;
@@ -18,9 +15,7 @@ function requiredEnv(name: string): string {
   return value;
 }
 
-export async function searchBenchmark(
-  context: CompanyContext,
-): Promise<BenchmarkPattern[]> {
+async function runSearch(search: string): Promise<BenchmarkPattern[]> {
   const endpoint = requiredEnv("AZURE_AI_SEARCH_ENDPOINT").replace(/\/$/, "");
   const index = requiredEnv("AZURE_AI_SEARCH_INDEX");
   const apiKey = requiredEnv("AZURE_AI_SEARCH_API_KEY");
@@ -30,17 +25,11 @@ export async function searchBenchmark(
     process.env.AZURE_AI_SEARCH_SEMANTIC_CONFIGURATION?.trim();
 
   const body: Record<string, unknown> = {
-    search: [
-      context.benchmarkQuery,
-      context.sector,
-      context.operatingModel,
-      ...context.departments,
-      ...context.priorities,
-    ].join(" "),
+    search,
     searchFields: "useCase,description,sector",
     select: "useCase,description",
     filter: "recommended eq true",
-    top: 20,
+    top: 8,
   };
 
   if (semanticConfiguration) {
@@ -68,22 +57,63 @@ export async function searchBenchmark(
   }
 
   const data = (await response.json()) as AzureSearchResponse;
-  return (data.value ?? [])
-    .flatMap((document) => {
-      if (
-        typeof document.useCase !== "string" ||
-        typeof document.description !== "string"
-      ) {
-        return [];
-      }
+  return (data.value ?? []).flatMap((document) => {
+    if (
+      typeof document.useCase !== "string" ||
+      typeof document.description !== "string"
+    ) {
+      return [];
+    }
 
-      return [
-        {
-          useCase: document.useCase.slice(0, 180),
-          description: document.description.slice(0, 1_200),
-        },
-      ];
-    })
-    .slice(0, 20);
+    return [
+      {
+        useCase: document.useCase.slice(0, 180),
+        description: document.description.slice(0, 1_200),
+      },
+    ];
+  });
 }
 
+/**
+ * Runs one search per high-potential process plus a sector-wide one, then
+ * interleaves the results so every process keeps its best matches.
+ */
+export async function searchBenchmark(
+  context: CompanyContext,
+): Promise<BenchmarkPattern[]> {
+  const sectorLine = [context.sector, context.subSector].join(" ");
+  const queries = [
+    ...context.benchmarkQueries.map((query) => `${query} ${sectorLine}`),
+    ...context.keyProcesses
+      .slice(0, 3)
+      .map((process) => `${process.name} ${process.repetitiveWork}`),
+    [sectorLine, context.operatingModel, ...context.priorities].join(" "),
+  ].slice(0, 7);
+
+  const settled = await Promise.allSettled(queries.map(runSearch));
+  const lists = settled.flatMap((outcome) =>
+    outcome.status === "fulfilled" ? [outcome.value] : [],
+  );
+  if (lists.length === 0) {
+    const failure = settled.find((outcome) => outcome.status === "rejected");
+    throw failure?.status === "rejected"
+      ? failure.reason
+      : new Error("Azure AI Search returned no results");
+  }
+
+  const seen = new Set<string>();
+  const merged: BenchmarkPattern[] = [];
+  const longest = Math.max(...lists.map((list) => list.length));
+  for (let rank = 0; rank < longest; rank += 1) {
+    for (const list of lists) {
+      const pattern = list[rank];
+      if (!pattern) continue;
+      const key = pattern.useCase.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      merged.push(pattern);
+    }
+  }
+
+  return merged.slice(0, 24);
+}

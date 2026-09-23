@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
 import { AgentBlueprintExperience } from "@/components/agent-blueprint/agent-blueprint-experience";
+import {
+  BlueprintFaq,
+  BlueprintSteps,
+  SampleBlueprint,
+} from "@/components/agent-blueprint/blueprint-sections";
+import { Security } from "@/components/sections/security";
+import { Stats } from "@/components/sections/stats";
+import { Testimonials } from "@/components/sections/testimonials";
 import { BreadcrumbSchema } from "@/components/json-ld";
 import { getSiteUrl } from "@/lib/site-url";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
@@ -35,10 +43,8 @@ export const metadata: Metadata = {
 export default async function AgentBlueprintPage() {
   const siteUrl = getSiteUrl();
   const { data: settings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
-  const meetingUrl = resolveMeetingUrl(
-    (settings as SiteSettings | null)?.sharedLinks,
-    "default",
-  );
+  const sharedLinks = (settings as SiteSettings | null)?.sharedLinks;
+  const meetingUrl = resolveMeetingUrl(sharedLinks, "default");
 
   return (
     <main>
@@ -51,8 +57,19 @@ export default async function AgentBlueprintPage() {
           },
         ]}
       />
-      <AgentBlueprintExperience meetingUrl={meetingUrl} />
+      <AgentBlueprintExperience
+        meetingUrl={meetingUrl}
+        wonkaChatUrl={sharedLinks?.wonkaChatUrl ?? null}
+      >
+        <SampleBlueprint />
+        <BlueprintSteps />
+        <div className="pt-2">
+          <Stats />
+        </div>
+        <Testimonials id="testimonials" />
+        <Security />
+        <BlueprintFaq />
+      </AgentBlueprintExperience>
     </main>
   );
 }
-

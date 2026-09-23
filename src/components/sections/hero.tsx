@@ -61,7 +61,7 @@ function MicrosoftLogo() {
   );
 }
 
-function BackedBy() {
+export function BackedBy() {
   return (
     <p className="type-eyebrow flex flex-wrap items-center justify-center gap-x-1 gap-y-1.5 text-text/60">
       <span>Backed by</span>
@@ -123,6 +123,23 @@ function AwardLaurelIcon() {
   );
 }
 
+export function AwardBadge({ label = DEFAULT_AWARD_BADGE }: { label?: string }) {
+  return (
+    <div
+      className="award-marble-badge relative flex max-w-[min(90vw,36rem)] items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-3 py-1.5 text-white backdrop-blur-md md:gap-3 md:px-4"
+      style={{ animation: "award-glow 3s ease-in-out infinite" }}
+    >
+      <span className="relative z-10 flex items-center">
+        <AwardLaurelIcon />
+      </span>
+      <span className="relative z-10 h-5 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" aria-hidden />
+      <span className="type-eyebrow relative z-10 text-left text-[0.56rem] leading-3 tracking-[0.14em] text-white/88 md:text-[0.66rem] md:leading-4">
+        {label}
+      </span>
+    </div>
+  );
+}
+
 export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "general" }: HeroProps) {
   const awardBadge = data?.awardBadge ?? DEFAULT_AWARD_BADGE;
   const title = data?.title ?? DEFAULT_TITLE;
@@ -149,18 +166,7 @@ export function Hero({ data, meetingUrl, meetingLabel, meetingTrackType = "gener
       <div className="flex flex-1 items-center justify-center px-6 pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="flex max-w-3xl flex-col items-center gap-6 text-center">
           <FadeIn delay={0.05}>
-            <div
-              className="award-marble-badge relative flex max-w-[min(90vw,36rem)] items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-3 py-1.5 text-white backdrop-blur-md md:gap-3 md:px-4"
-              style={{ animation: "award-glow 3s ease-in-out infinite" }}
-            >
-              <span className="relative z-10 flex items-center">
-                <AwardLaurelIcon />
-              </span>
-              <span className="relative z-10 h-5 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" aria-hidden />
-              <span className="type-eyebrow relative z-10 text-left text-[0.56rem] leading-3 tracking-[0.14em] text-white/88 md:text-[0.66rem] md:leading-4">
-                {awardBadge}
-              </span>
-            </div>
+            <AwardBadge label={awardBadge} />
           </FadeIn>
           <FadeIn delay={0.15}>
             <h1 className={cn(headingClass.hero, "max-w-[14ch] text-balance")}>

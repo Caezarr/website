@@ -24,6 +24,10 @@ export interface AgentBlueprintAgent {
   };
   effort: "Low" | "Medium" | "High";
   benchmarkPattern: string;
+  /** The company process this agent takes over, in the company's own terms. */
+  process: string;
+  /** What we observed on the website or public sources that motivates it. */
+  companySignal: string;
 }
 
 export interface AgentBlueprintResult {
@@ -35,14 +39,58 @@ export interface AgentBlueprintResult {
   sources: Array<{ title: string; url: string }>;
 }
 
+const REQUIRED_ENV = [
+  "REQUESTY_API_KEY",
+  "REQUESTY_AGENT_BLUEPRINT_MODEL",
+  "AZURE_AI_SEARCH_ENDPOINT",
+  "AZURE_AI_SEARCH_INDEX",
+  "AZURE_AI_SEARCH_API_KEY",
+] as const;
+
+/** Env vars the generation pipeline needs that are missing or empty. */
+export function missingBlueprintEnv(): string[] {
+  return REQUIRED_ENV.filter((name) => !process.env[name]?.trim());
+}
+
+export type BlueprintStage = "crawl" | "research" | "benchmark" | "design";
+
+/** Newline-delimited JSON events streamed by POST /api/agent-blueprint. */
+export type BlueprintStreamEvent =
+  | { type: "stage"; stage: BlueprintStage }
+  | { type: "insight"; text: string }
+  | { type: "ping" }
+  | { type: "result"; assessmentId: string; result: AgentBlueprintResult }
+  | { type: "error"; error: string };
+
+export interface CompanyProcess {
+  name: string;
+  department: string;
+  description: string;
+  repetitiveWork: string;
+  documentsAndData: string[];
+  volumeSignal: string;
+  evidence: string;
+}
+
 export interface CompanyContext {
   sector: string;
+  subSector: string;
   operatingModel: string;
   summary: string;
+  scale: string;
+  markets: string[];
+  offerings: string[];
+  customerSegments: string[];
+  valueChain: string[];
+  keyProcesses: CompanyProcess[];
+  regulatoryContext: string[];
+  hiringSignals: string[];
+  techStackEvidence: string[];
+  painHypotheses: string[];
   departments: string[];
   priorities: string[];
   likelyTools: string[];
-  benchmarkQuery: string;
+  benchmarkQueries: string[];
   confidence: number;
 }
 
@@ -116,29 +164,37 @@ function redactText(value: string, identifiers: string[]): string {
     .replace(/\bthe company(?:\s+the company)+\b/gi, "the company");
 }
 
+/** Applies `redact` to every string in a JSON-like value, keeping its shape. */
+function redactDeep<T>(value: T, redact: (text: string) => string): T {
+  if (typeof value === "string") return redact(value) as T;
+  if (Array.isArray(value)) {
+    return value.map((item) => redactDeep(item, redact)) as T;
+  }
+  if (value && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [
+        key,
+        redactDeep(item, redact),
+      ]),
+    ) as T;
+  }
+  return value;
+}
+
 export function anonymizeCompanyResearch(
   research: CompanyResearch,
   domain: string,
 ): { context: CompanyContext; identifiers: string[] } {
+  const { privateIdentifiers, ...context } = research;
   const identifiers = Array.from(
-    new Set([
-      ...research.privateIdentifiers,
-      domain,
-      domain.split(".")[0] ?? "",
-    ]),
+    new Set([...privateIdentifiers, domain, domain.split(".")[0] ?? ""]),
   );
   const redact = (value: string) => redactText(value, identifiers);
 
   return {
     identifiers,
     context: {
-      sector: redact(research.sector),
-      operatingModel: redact(research.operatingModel),
-      summary: redact(research.summary),
-      departments: research.departments.map(redact),
-      priorities: research.priorities.map(redact),
-      likelyTools: research.likelyTools.map(redact),
-      benchmarkQuery: redact(research.benchmarkQuery),
+      ...redactDeep(context, redact),
       confidence: research.confidence,
     },
   };
@@ -166,6 +222,8 @@ export function anonymizeBlueprint(
       humanControl: redact(agent.humanControl),
       expectedImpact: redact(agent.expectedImpact),
       benchmarkPattern: redact(agent.benchmarkPattern),
+      process: redact(agent.process),
+      companySignal: redact(agent.companySignal),
     })),
   };
 }
@@ -194,6 +252,8 @@ function isAgentBlueprintAgent(value: unknown): value is AgentBlueprintAgent {
     agent.weeklyHoursSaved.min >= 0 &&
     agent.weeklyHoursSaved.max >= agent.weeklyHoursSaved.min &&
     ["Low", "Medium", "High"].includes(agent.effort ?? "") &&
-    typeof agent.benchmarkPattern === "string"
+    typeof agent.benchmarkPattern === "string" &&
+    typeof agent.process === "string" &&
+    typeof agent.companySignal === "string"
   );
 }

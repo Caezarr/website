@@ -3,21 +3,41 @@
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useEffect, useId, useMemo, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   isTurnstileEnabled,
   TurnstileWidget,
 } from "@/components/turnstile-widget";
+import {
+  AwardBadge,
+  BackedBy,
+  HERO_BG_IMAGE,
+} from "@/components/sections/hero";
+import { HeroMarquee } from "@/components/sections/hero-marquee";
 import { Button, ButtonLink } from "@/components/ui/button";
+import { headingClass } from "@/lib/design-tokens";
 import type {
   AgentBlueprintAgent,
   AgentBlueprintResult,
+  BlueprintStage,
+  BlueprintStreamEvent,
 } from "@/lib/agent-blueprint";
 import {
   type ConnectedTool,
   resolveConnectedTools,
 } from "@/lib/agent-blueprint-tools";
 import { cn } from "@/lib/utils";
+import {
+  BLUEPRINT_INPUT_ID,
+  focusBlueprintInput,
+} from "./blueprint-scroll-button";
 
 type ExperienceState = "idle" | "loading" | "result" | "error";
 
@@ -26,28 +46,87 @@ interface BlueprintApiResponse {
   result: AgentBlueprintResult;
 }
 
-const progressStages = [
+const progressStages: Array<{
+  stage: BlueprintStage;
+  label: string;
+  detail: string;
+  progress: [number, number];
+}> = [
   {
-    label: "Reading company signals",
-    detail: "Business model, priorities and public context",
+    stage: "crawl",
+    label: "Reading your website",
+    detail: "Services, products, sectors, careers and customer pages",
+    progress: [4, 16],
   },
   {
-    label: "Matching 570 use cases",
-    detail: "Finding the closest proven workflow patterns",
+    stage: "research",
+    label: "Mapping how your company works",
+    detail: "Offerings, value chain, hiring signals and regulation",
+    progress: [16, 52],
   },
   {
-    label: "Building the first agent",
-    detail: "Defining its mission, trigger and expected value",
+    stage: "benchmark",
+    label: "Matching 570 real use cases",
+    detail: "One search per high-potential process",
+    progress: [52, 60],
   },
   {
-    label: "Assembling the agent team",
-    detail: "Balancing copilot, approval and autonomous work",
-  },
-  {
-    label: "Connecting tools & controls",
-    detail: "Adding integrations, guardrails and time estimates",
+    stage: "design",
+    label: "Designing your three agents",
+    detail: "Workflows, integrations, controls and time saved",
+    progress: [60, 96],
   },
 ];
+
+const heroReassurance = [
+  "Free",
+  "No sign-up",
+  "Anonymous by default",
+  "About a minute",
+];
+
+function isNdjson(response: Response) {
+  return (response.headers.get("content-type") ?? "").includes(
+    "application/x-ndjson",
+  );
+}
+
+async function readBlueprintStream(
+  body: ReadableStream<Uint8Array>,
+  onEvent: (event: BlueprintStreamEvent) => void,
+) {
+  const reader = body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "";
+  while (true) {
+    const { done, value } = await reader.read();
+    buffer += decoder.decode(value, { stream: !done });
+    const lines = buffer.split("\n");
+    buffer = done ? "" : (lines.pop() ?? "");
+    for (const line of lines) {
+      if (!line.trim()) continue;
+      try {
+        onEvent(JSON.parse(line) as BlueprintStreamEvent);
+      } catch {
+        // Ignore a malformed line rather than dropping the whole blueprint.
+      }
+    }
+    if (done) break;
+  }
+}
+
+/**
+ * Browser autofill paints its own light background and dark text on inputs.
+ * Delay the background forever and keep our text color so a picked
+ * suggestion looks like typed text.
+ */
+const autofillReset =
+  "autofill:[-webkit-text-fill-color:var(--color-white)] autofill:[caret-color:var(--color-white)] autofill:[transition:background-color_9999s_ease-out_0s]";
+
+/** 52 weeks / 12 months / 8h working day. */
+function hoursPerWeekToDaysPerMonth(hours: number) {
+  return Math.round(((hours * 52) / 12 / 8) * 10) / 10;
+}
 
 const tierStyles: Record<AgentBlueprintAgent["tier"], string> = {
   Copilot: "bg-blue-100 text-blue-900",
@@ -66,136 +145,302 @@ function SparkIcon({ className }: { className?: string }) {
   );
 }
 
-function FoundryPreview({ activeStage = -1 }: { activeStage?: number }) {
+type FoundryMode = "idle" | "loading" | "result";
+
+const idleTiers = [
+  ["Copilot", "Works side by side with your team"],
+  ["Human in the loop", "Acts, then asks for approval"],
+  ["Fully autonomous", "Runs scheduled, controlled workflows"],
+] as const;
+
+function FoundryPanel({
+  mode,
+  stageIndex,
+  insights,
+  agents,
+  selectedIndex,
+  onSelect,
+}: {
+  mode: FoundryMode;
+  stageIndex: number;
+  insights: string[];
+  agents: AgentBlueprintAgent[] | null;
+  selectedIndex: number;
+  onSelect: (index: number) => void;
+}) {
   const reducedMotion = useReducedMotion();
-  const isLoading = activeStage >= 0;
-  const progress = [16, 36, 60, 80, 94][Math.max(activeStage, 0)] ?? 16;
-  const agentStates = [
-    activeStage >= 2 ? (activeStage >= 3 ? "ready" : "building") : "waiting",
-    activeStage >= 3 ? (activeStage >= 4 ? "ready" : "building") : "waiting",
-    activeStage >= 3 ? (activeStage >= 4 ? "ready" : "building") : "waiting",
-  ] as const;
+  const isLoading = mode === "loading";
+  const stage = progressStages[Math.max(stageIndex, 0)] ?? progressStages[0]!;
+  const creepKey = `${mode}-${stageIndex}`;
+  const [creepState, setCreepState] = useState({ key: creepKey, value: 0 });
+  const creep = creepState.key === creepKey ? creepState.value : 0;
+
+  // Model calls take a while; creep within the current stage's range so the
+  // bar never looks frozen, without ever reaching the next stage.
+  useEffect(() => {
+    if (!isLoading) return;
+    const interval = window.setInterval(
+      () =>
+        setCreepState((current) => ({
+          key: creepKey,
+          value: Math.min(
+            (current.key === creepKey ? current.value : 0) + 0.04,
+            0.92,
+          ),
+        })),
+      900,
+    );
+    return () => window.clearInterval(interval);
+  }, [creepKey, isLoading]);
+
+  const [from, to] = stage.progress;
+  const progress =
+    mode === "result"
+      ? 100
+      : isLoading
+        ? Math.round(from + (to - from) * creep)
+        : 6;
+  const totalHours = agents?.reduce(
+    (total, agent) => ({
+      min: total.min + agent.weeklyHoursSaved.min,
+      max: total.max + agent.weeklyHoursSaved.max,
+    }),
+    { min: 0, max: 0 },
+  );
 
   return (
     <div
       id="agent-foundry"
-      className="scroll-mt-24 overflow-hidden rounded-sm border border-white/12 bg-[#111c18]"
-      aria-live={isLoading ? "polite" : undefined}
+      className="scroll-mt-24 overflow-hidden rounded-sm border border-white/20 bg-black/55 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)] backdrop-blur-xl"
+      aria-live="polite"
     >
-      <div className="flex items-center justify-between border-b border-dashed border-white/15 px-5 py-4 md:px-6">
-        <div>
-          <span className="type-eyebrow text-white/40">Agent foundry</span>
+      <div className="flex items-center justify-between gap-4 border-b border-dashed border-white/15 px-5 py-4 md:px-6">
+        <div className="min-w-0">
+          <span className="type-eyebrow text-white/45">
+            {mode === "result" ? "Blueprint ready" : "Agent foundry"}
+          </span>
           <p className="type-paragraph-m-bold mt-1 text-white">
-            {isLoading
-              ? progressStages[activeStage]?.label
-              : "Your agent team will appear here"}
+            {mode === "result"
+              ? "Your agent team is ready"
+              : isLoading
+                ? stage.label
+                : "Your agent team will appear here"}
           </p>
         </div>
-        <span className="type-paragraph-s flex items-center gap-2 text-green-300">
-          <motion.span
-            className="size-2 rounded-full bg-green-400"
-            animate={
-              isLoading && !reducedMotion
-                ? { opacity: [0.35, 1, 0.35] }
-                : undefined
-            }
-            transition={{ duration: 1.3, repeat: Infinity }}
-          />
-          Private
-        </span>
+        {mode === "result" && totalHours ? (
+          <div className="shrink-0 text-right">
+            <p className="type-h6 text-blue-300 tabular-nums">
+              {totalHours.min}–{totalHours.max}h
+            </p>
+            <p className="type-paragraph-s text-white/45">saved / week</p>
+          </div>
+        ) : (
+          <span className="type-paragraph-s flex shrink-0 items-center gap-2 text-green-300">
+            <motion.span
+              className="size-2 rounded-full bg-green-400"
+              animate={
+                isLoading && !reducedMotion
+                  ? { opacity: [0.35, 1, 0.35] }
+                  : undefined
+              }
+              transition={{ duration: 1.3, repeat: Infinity }}
+            />
+            Private
+          </span>
+        )}
       </div>
 
       <div className="px-5 py-5 md:px-6 md:py-6">
         <div className="h-1 overflow-hidden rounded-full bg-white/8">
           <motion.div
-            className="h-full rounded-full bg-blue-400"
+            className={cn(
+              "h-full rounded-full",
+              mode === "result" ? "bg-green-400" : "bg-blue-400",
+            )}
             initial={false}
-            animate={{ width: isLoading ? `${progress}%` : "8%" }}
+            animate={{ width: `${progress}%` }}
             transition={{ duration: reducedMotion ? 0 : 0.6, ease: "easeOut" }}
           />
         </div>
 
-        <div className="mt-6 grid gap-3">
-          {[
-            ["Copilot", "Works side by side with your team"],
-            ["Human in the loop", "Acts, then asks for approval"],
-            ["Autonomous", "Runs scheduled, controlled workflows"],
-          ].map(([tier, detail], index) => {
-            const agentState = isLoading ? agentStates[index] : "waiting";
-            return (
-              <motion.div
-                key={tier}
-                initial={false}
-                animate={{ opacity: agentState === "waiting" ? 0.38 : 1 }}
-                className={cn(
-                  "relative grid min-h-[5.4rem] grid-cols-[2.75rem_1fr_auto] items-center gap-3 overflow-hidden rounded-sm border px-4 py-3",
-                  agentState === "ready"
-                    ? "border-green-300/25 bg-green-300/[0.06]"
-                    : agentState === "building"
-                      ? "border-blue-400/40 bg-blue-400/[0.08]"
-                      : "border-white/10 bg-black/20",
-                )}
-              >
-                {agentState === "building" && !reducedMotion ? (
-                  <motion.span
-                    className="absolute inset-y-0 w-24 bg-gradient-to-r from-transparent via-blue-300/10 to-transparent"
-                    animate={{ x: [-120, 520] }}
-                    transition={{
-                      duration: 1.6,
-                      repeat: Infinity,
-                      ease: "linear",
-                    }}
-                  />
-                ) : null}
-                <div
+        {isLoading ? (
+          <div className="mt-5">
+            <ol className="grid grid-cols-4 gap-2">
+              {progressStages.map((item, index) => (
+                <li
+                  key={item.stage}
                   className={cn(
-                    "relative flex size-10 items-center justify-center rounded-full border",
-                    agentState === "ready"
-                      ? "border-green-300/30 bg-green-300/15 text-green-300"
-                      : "border-white/12 bg-white/[0.05] text-blue-300",
+                    "type-paragraph-s border-t pt-2 transition-colors",
+                    index < stageIndex
+                      ? "border-green-300/60 text-green-300"
+                      : index === stageIndex
+                        ? "border-blue-300 text-white"
+                        : "border-white/12 text-white/30",
                   )}
                 >
-                  {agentState === "ready" ? (
-                    <span aria-hidden>✓</span>
-                  ) : (
-                    <SparkIcon className="size-4" />
-                  )}
-                </div>
-                <div className="relative">
-                  <p className="type-paragraph-m-bold text-white">{tier}</p>
-                  <p className="type-paragraph-s mt-1 text-white/45">
-                    {detail}
-                  </p>
-                </div>
-                <span className="type-paragraph-s relative text-white/40">
-                  {agentState === "ready"
-                    ? "Ready"
-                    : agentState === "building"
-                      ? "Building…"
+                  {index < stageIndex ? "✓ " : ""}
+                  {["Website", "Operations", "Benchmark", "Agents"][index]}
+                </li>
+              ))}
+            </ol>
+
+            <div className="mt-5 min-h-[15.5rem] rounded-sm border border-white/12 bg-white/[0.03] p-4">
+              <p className="type-eyebrow text-white/40">What we are finding</p>
+              <ul className="mt-3 grid gap-2.5">
+                {insights.slice(-6).map((insight) => (
+                  <motion.li
+                    key={insight}
+                    initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="type-paragraph-s flex gap-2.5 text-white/80"
+                  >
+                    <span aria-hidden className="text-blue-300">
+                      ›
+                    </span>
+                    <span>{insight}</span>
+                  </motion.li>
+                ))}
+                <li className="type-paragraph-s flex gap-2.5 text-white/40">
+                  <motion.span
+                    aria-hidden
+                    className="text-blue-300"
+                    animate={
+                      reducedMotion ? undefined : { opacity: [0.2, 1, 0.2] }
+                    }
+                    transition={{ duration: 1.2, repeat: Infinity }}
+                  >
+                    ●
+                  </motion.span>
+                  {stage.detail}…
+                </li>
+              </ul>
+            </div>
+          </div>
+        ) : (
+          <div className="mt-6 grid gap-3">
+            {(mode === "result" && agents
+              ? agents.map((agent) => [agent.tier, agent.name] as const)
+              : idleTiers
+            ).map(([tier, detail], index) => {
+              const agent = mode === "result" ? agents?.[index] : undefined;
+              const isSelected = Boolean(agent) && selectedIndex === index;
+              const content = (
+                <>
+                  <div
+                    className={cn(
+                      "relative flex size-10 items-center justify-center rounded-full border",
+                      agent
+                        ? "border-green-300/30 bg-green-300/15 text-green-300"
+                        : "border-white/15 bg-white/[0.06] text-blue-300",
+                    )}
+                  >
+                    {agent ? (
+                      <span aria-hidden>✓</span>
+                    ) : (
+                      <SparkIcon className="size-4" />
+                    )}
+                  </div>
+                  <div className="relative min-w-0">
+                    <p
+                      className={cn(
+                        agent
+                          ? "type-paragraph-s text-white/50"
+                          : "type-paragraph-m-bold text-white/85",
+                      )}
+                    >
+                      {tier}
+                    </p>
+                    <p
+                      className={cn(
+                        "mt-1",
+                        agent
+                          ? "type-paragraph-m-bold text-white"
+                          : "type-paragraph-s text-white/55",
+                      )}
+                    >
+                      {detail}
+                    </p>
+                  </div>
+                  <span className="type-paragraph-s relative text-right text-white/55">
+                    {agent
+                      ? `${agent.weeklyHoursSaved.min}–${agent.weeklyHoursSaved.max}h/w`
                       : `0${index + 1}`}
-                </span>
-              </motion.div>
-            );
-          })}
+                  </span>
+                </>
+              );
+              const rowClass = cn(
+                "relative grid min-h-[5.4rem] w-full grid-cols-[2.75rem_1fr_auto] items-center gap-3 overflow-hidden rounded-sm border px-4 py-3 text-left",
+                agent
+                  ? isSelected
+                    ? "border-blue-300/60 bg-blue-400/[0.12]"
+                    : "border-white/15 bg-white/[0.05] transition-colors hover:border-white/30 hover:bg-white/[0.08]"
+                  : "border-white/12 bg-white/[0.04]",
+              );
+
+              return agent ? (
+                <motion.button
+                  key={agent.id}
+                  type="button"
+                  initial={reducedMotion ? false : { opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.35, delay: index * 0.12 }}
+                  onClick={() => onSelect(index)}
+                  className={cn(
+                    rowClass,
+                    "focus-visible:ring-2 focus-visible:ring-blue-300 focus-visible:outline-none",
+                  )}
+                >
+                  {content}
+                </motion.button>
+              ) : (
+                <div key={tier} className={rowClass}>
+                  {content}
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        <div className="mt-5 flex items-center justify-between gap-4 border-t border-dashed border-white/12 pt-4">
+          {mode === "result" ? (
+            <>
+              <p className="type-paragraph-s text-white/50">
+                Tap an agent for its workflow and integrations
+              </p>
+              <button
+                type="button"
+                onClick={() => onSelect(selectedIndex)}
+                className="type-paragraph-s shrink-0 text-blue-300 underline-offset-4 hover:underline"
+              >
+                Full blueprint <span aria-hidden>↓</span>
+              </button>
+            </>
+          ) : (
+            <>
+              <p className="type-paragraph-s text-white/50">
+                {isLoading
+                  ? "Built from your own website, not a template"
+                  : "Website → operations → benchmark → agents"}
+              </p>
+              <p className="type-paragraph-s shrink-0 text-white/65">
+                {isLoading ? `${progress}%` : "≈ 1 min"}
+              </p>
+            </>
+          )}
         </div>
 
-        <div className="mt-5 flex items-center justify-between border-t border-dashed border-white/12 pt-4">
-          <p className="type-paragraph-s text-white/40">
-            {isLoading
-              ? progressStages[activeStage]?.detail
-              : "Research → benchmark → agent architecture"}
-          </p>
-          <p className="type-paragraph-s text-white/60">
-            {isLoading ? `${progress}%` : "≈ 30 sec"}
-          </p>
-        </div>
+        {mode === "idle" ? (
+          <a
+            href="#example-blueprint"
+            className="type-paragraph-s mt-4 inline-flex items-center gap-2 text-blue-300 underline-offset-4 hover:underline"
+          >
+            See an example blueprint <span aria-hidden>↓</span>
+          </a>
+        ) : null}
       </div>
     </div>
   );
-}
-
-function LoadingPanel({ activeStage }: { activeStage: number }) {
-  return <FoundryPreview activeStage={activeStage} />;
 }
 
 const logoDevToken =
@@ -251,9 +496,13 @@ function ToolChain({ tools }: { tools: string[] }) {
 function AgentDetailPanel({
   agent,
   index,
+  meetingUrl,
+  onBook,
 }: {
   agent: AgentBlueprintAgent;
   index: number;
+  meetingUrl: string;
+  onBook: () => void;
 }) {
   const reducedMotion = useReducedMotion();
 
@@ -295,10 +544,21 @@ function AgentDetailPanel({
 
       <div className="grid gap-6 p-5 md:grid-cols-[0.9fr_1.1fr] md:p-6">
         <div>
-          <p className="type-body">{agent.mission}</p>
-          <div className="mt-5 rounded-sm bg-blue-50 p-4">
-            <p className="type-eyebrow text-blue-700/55">Why this one</p>
-            <p className="type-paragraph-m text-text/65 mt-2">{agent.whyNow}</p>
+          <p className="type-eyebrow text-text/35">{agent.process}</p>
+          <p className="type-body mt-2">{agent.mission}</p>
+          <div className="mt-5 grid gap-px overflow-hidden rounded-sm bg-blue-200">
+            <div className="bg-blue-100 p-4">
+              <p className="type-eyebrow text-blue-700">What we saw</p>
+              <p className="type-paragraph-m text-text/75 mt-2">
+                {agent.companySignal}
+              </p>
+            </div>
+            <div className="bg-blue-100 p-4">
+              <p className="type-eyebrow text-blue-700">Why now</p>
+              <p className="type-paragraph-m text-text/75 mt-2">
+                {agent.whyNow}
+              </p>
+            </div>
           </div>
           <div className="mt-5">
             <div className="flex items-center justify-between">
@@ -337,14 +597,26 @@ function AgentDetailPanel({
         </div>
       </div>
 
-      <div className="border-border grid grid-cols-2 border-t border-dashed">
+      <div className="border-border grid border-t border-dashed sm:grid-cols-[1fr_1fr_auto]">
         <div className="p-4 md:px-6">
           <p className="type-paragraph-s text-text/40">Business impact</p>
           <p className="type-paragraph-m-bold mt-1">{agent.expectedImpact}</p>
         </div>
-        <div className="border-border border-l border-dashed p-4 md:px-6">
+        <div className="border-border border-t border-dashed p-4 sm:border-t-0 sm:border-l md:px-6">
           <p className="type-paragraph-s text-text/40">Build effort</p>
           <p className="type-paragraph-m-bold mt-1">{agent.effort}</p>
+        </div>
+        <div className="border-border flex items-center border-t border-dashed p-4 sm:border-t-0 sm:border-l md:px-6">
+          <ButtonLink
+            href={meetingUrl}
+            onClick={onBook}
+            data-track="meeting"
+            data-meeting-type="general"
+            data-blueprint-cta="agent_detail"
+            variant="secondary"
+          >
+            Scope this agent
+          </ButtonLink>
         </div>
       </div>
     </motion.article>
@@ -354,12 +626,20 @@ function AgentDetailPanel({
 function BlueprintResults({
   response,
   meetingUrl,
+  wonkaChatUrl,
+  onReset,
+  selectedAgentIndex,
+  onSelectAgent,
 }: {
   response: BlueprintApiResponse;
   meetingUrl: string;
+  wonkaChatUrl: string | null;
+  onReset: () => void;
+  selectedAgentIndex: number;
+  onSelectAgent: (index: number, scroll: boolean) => void;
 }) {
-  const [selectedAgentIndex, setSelectedAgentIndex] = useState(0);
   const selectedAgent = response.result.agents[selectedAgentIndex];
+  const firstAgent = response.result.agents[0];
   const weeklySavings = useMemo(
     () =>
       response.result.agents.reduce(
@@ -384,29 +664,73 @@ function BlueprintResults({
     });
   }, [response.assessmentId]);
 
+  const impactTiles = [
+    {
+      value: `${weeklySavings.min}–${weeklySavings.max}h`,
+      label: "returned to the team every week",
+    },
+    {
+      value: `${hoursPerWeekToDaysPerMonth(weeklySavings.min)}–${hoursPerWeekToDaysPerMonth(weeklySavings.max)}`,
+      label: "working days freed up every month",
+    },
+    {
+      value: String(response.result.agents.length),
+      label: "agents, from copilot to autonomous",
+    },
+  ];
+
   return (
     <section
       id="blueprint-results"
       className="border-border bg-light-gray scroll-mt-16 border-t border-dashed"
     >
-      <div className="mx-auto max-w-[84rem] px-6 py-10 md:px-8 md:py-12 lg:px-12">
-        <div className="border-border border-b border-dashed pb-7">
-          <span className="type-eyebrow text-blue-700">Blueprint ready</span>
-          <h2 className="type-h4 mt-3 max-w-5xl">{response.result.headline}</h2>
+      <div className="mx-auto max-w-[84rem] px-6 py-10 md:px-8 md:py-14 lg:px-12">
+        <div className="border-border border-b border-dashed pb-8">
+          <span className="type-eyebrow text-blue-700">
+            Your blueprint is ready
+          </span>
+          <h2 className={cn(headingClass.section, "mt-3 max-w-5xl")}>
+            {response.result.headline}
+          </h2>
           <p className="type-paragraph-m text-text/55 mt-3 max-w-4xl">
             {response.result.summary}
           </p>
-          <p className="type-paragraph-m mt-5 flex flex-wrap items-baseline gap-x-2">
-            <span className="type-eyebrow text-text/40">Estimated impact</span>
-            <span>
-              <strong className="type-paragraph-l font-medium text-blue-700">
-                {weeklySavings.min}–{weeklySavings.max} hours
-              </strong>{" "}
-              <span className="text-text/60">
-                returned to the team each week.
-              </span>
-            </span>
-          </p>
+          {response.result.signals.length ? (
+            <div className="mt-6">
+              <p className="type-eyebrow text-text/40">
+                What shaped your blueprint
+              </p>
+              <ul className="mt-3 flex flex-wrap gap-2">
+                {response.result.signals.map((signal) => (
+                  <li
+                    key={signal}
+                    className="type-paragraph-s border-border text-text/70 rounded-full border bg-white px-3 py-1.5"
+                  >
+                    {signal}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+          <ul className="border-border mt-7 grid overflow-hidden rounded-sm border border-dashed bg-white sm:grid-cols-3">
+            {impactTiles.map((tile, index) => (
+              <li
+                key={tile.label}
+                className={cn(
+                  "p-5 md:px-6",
+                  index > 0 &&
+                    "border-border border-t border-dashed sm:border-t-0 sm:border-l",
+                )}
+              >
+                <p className="type-h4 text-blue-700 tabular-nums">
+                  {tile.value}
+                </p>
+                <p className="type-paragraph-s text-text/55 mt-1">
+                  {tile.label}
+                </p>
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="mt-7">
@@ -437,24 +761,12 @@ function BlueprintResults({
                   type="button"
                   role="tab"
                   aria-selected={isSelected}
-                  onClick={() => {
-                    setSelectedAgentIndex(index);
-                    if (window.innerWidth < 1024) {
-                      window.setTimeout(() => {
-                        document
-                          .getElementById("agent-detail-panel")
-                          ?.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start",
-                          });
-                      }, 80);
-                    }
-                  }}
+                  onClick={() => onSelectAgent(index, window.innerWidth < 1024)}
                   className={cn(
                     "group relative min-w-[15rem] flex-1 snap-start p-4 text-left transition-colors focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none sm:min-w-0",
                     isSelected
                       ? "bg-black text-white"
-                      : "bg-white hover:bg-blue-50",
+                      : "bg-white hover:bg-blue-100",
                   )}
                 >
                   <div className="flex items-center justify-between gap-3">
@@ -465,6 +777,7 @@ function BlueprintResults({
                       )}
                     >
                       Agent 0{index + 1}
+                      {index === 0 ? " · Start here" : ""}
                     </span>
                     <span className="type-paragraph-s">
                       {agent.weeklyHoursSaved.min}–{agent.weeklyHoursSaved.max}
@@ -505,80 +818,280 @@ function BlueprintResults({
                   key={selectedAgent.id}
                   agent={selectedAgent}
                   index={selectedAgentIndex}
+                  meetingUrl={meetingUrl}
+                  onBook={trackDemoClick}
                 />
               ) : null}
             </AnimatePresence>
           </div>
         </div>
 
-        <div className="mt-5 rounded-sm bg-[#0f2119] px-5 py-5 text-white sm:flex sm:items-center sm:justify-between sm:gap-8 md:px-6">
-          <div>
-            <p className="type-paragraph-m-bold text-white">
-              Which agent should you build first?
-            </p>
-            <p className="type-paragraph-s mt-1 text-white/45">
-              Validate the estimate, integrations and delivery scope with Wonka.
-            </p>
+        <div
+          data-theme="dark"
+          className="bg-background text-text relative isolate mt-6 overflow-hidden rounded-sm"
+        >
+          <Image
+            src="/images/CTA/cta-bg.avif"
+            alt=""
+            fill
+            sizes="(min-width: 84rem) 84rem, 100vw"
+            className="-z-10 object-cover opacity-70"
+          />
+          <div className="grid gap-8 p-6 md:p-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
+            <div>
+              <span className="type-eyebrow text-blue-300">Next step</span>
+              <h3 className={cn(headingClass.subsection, "mt-3 max-w-[24ch]")}>
+                {firstAgent
+                  ? `Build “${firstAgent.name}” first and get ${firstAgent.weeklyHoursSaved.min}–${firstAgent.weeklyHoursSaved.max}h back every week.`
+                  : "Turn this blueprint into your first live agent."}
+              </h3>
+              <ul className="mt-6 grid gap-2.5">
+                {[
+                  "30-minute call with a Wonka AI engineer",
+                  "Validate volumes, integrations and ROI",
+                  "Leave with a scoped delivery plan",
+                ].map((item) => (
+                  <li
+                    key={item}
+                    className="type-paragraph-m text-text/80 flex items-center gap-3"
+                  >
+                    <span aria-hidden className="text-green-300">
+                      ✓
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="flex flex-col items-start gap-4 lg:items-end">
+              <ButtonLink
+                href={meetingUrl}
+                onClick={trackDemoClick}
+                data-track="meeting"
+                data-meeting-type="general"
+                data-blueprint-cta="results_panel"
+              >
+                Book a 30 min call
+              </ButtonLink>
+              {wonkaChatUrl ? (
+                <Link
+                  href={wonkaChatUrl}
+                  data-track="wonkachat_trial"
+                  className="type-paragraph-s text-text/70 hover:text-text underline underline-offset-4"
+                >
+                  Or start free with WonkaChat
+                </Link>
+              ) : null}
+              <p className="type-paragraph-s text-text/50 lg:text-right">
+                Backed by Nvidia Inception and Microsoft for Startups.
+              </p>
+            </div>
           </div>
-          <ButtonLink
-            href={meetingUrl}
-            onClick={trackDemoClick}
-            data-track="meeting"
-            data-meeting-type="general"
-            className="mt-4 shrink-0 sm:mt-0"
-          >
-            Book a demo
-          </ButtonLink>
         </div>
 
-        <p className="type-paragraph-s text-text/38 mt-4">
-          Time savings are directional estimates based on recurring tasks in the
-          benchmark. Validate them against real volumes before investment.
-        </p>
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+          <p className="type-paragraph-s text-text/40 max-w-3xl">
+            Time savings are directional estimates based on recurring tasks in
+            the benchmark. Validate them against real volumes before investment.
+          </p>
+          <button
+            type="button"
+            onClick={onReset}
+            className="type-paragraph-s text-text/60 hover:text-text underline underline-offset-4"
+          >
+            Try another company
+          </button>
+        </div>
       </div>
     </section>
   );
 }
 
+function StickyBar({
+  state,
+  weeklySavings,
+  meetingUrl,
+  onBook,
+  formInView,
+}: {
+  state: ExperienceState;
+  weeklySavings: { min: number; max: number } | null;
+  meetingUrl: string;
+  onBook: () => void;
+  formInView: boolean;
+}) {
+  const reducedMotion = useReducedMotion();
+  const hasResult = state === "result" && weeklySavings;
+  const visible = !formInView && state !== "loading";
+
+  return (
+    <AnimatePresence>
+      {visible ? (
+        <motion.div
+          initial={reducedMotion ? false : { y: 96, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: 96, opacity: 0 }}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          data-theme="dark"
+          className="bg-background/85 text-text fixed inset-x-2 bottom-2 z-40 mx-auto flex max-w-[52rem] items-center justify-between gap-4 rounded-sm border border-white/15 py-2.5 pr-2.5 pl-4 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.6)] backdrop-blur-xl md:pl-5"
+        >
+          <p className="type-paragraph-s text-text/80 min-w-0">
+            {hasResult ? (
+              <>
+                <span className="text-text font-medium">
+                  {weeklySavings.min}–{weeklySavings.max}h/week
+                </span>
+                <span className="hidden sm:inline">
+                  {" "}
+                  identified for your team
+                </span>
+              </>
+            ) : (
+              <>
+                <span className="text-text font-medium">
+                  Free AI agent blueprint
+                </span>
+                <span className="hidden sm:inline">
+                  {" "}
+                  · ready in about a minute
+                </span>
+              </>
+            )}
+          </p>
+          {hasResult ? (
+            <ButtonLink
+              href={meetingUrl}
+              onClick={onBook}
+              data-track="meeting"
+              data-meeting-type="general"
+              data-blueprint-cta="sticky_bar"
+              className="shrink-0"
+            >
+              Book a call
+            </ButtonLink>
+          ) : (
+            <Button
+              type="button"
+              onClick={focusBlueprintInput}
+              data-track="blueprint_scroll_to_form"
+              className="shrink-0"
+            >
+              Get mine
+            </Button>
+          )}
+        </motion.div>
+      ) : null}
+    </AnimatePresence>
+  );
+}
+
 export function AgentBlueprintExperience({
   meetingUrl,
+  wonkaChatUrl = null,
+  children,
 }: {
   meetingUrl: string;
+  wonkaChatUrl?: string | null;
+  children?: React.ReactNode;
 }) {
   const formId = useId();
   const reducedMotion = useReducedMotion();
   const turnstileEnabled = isTurnstileEnabled();
+  const heroFormRef = useRef<HTMLFormElement>(null);
+  const footerFormRef = useRef<HTMLFormElement>(null);
   const [state, setState] = useState<ExperienceState>("idle");
   const [response, setResponse] = useState<BlueprintApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [activeStage, setActiveStage] = useState(0);
+  const [stageIndex, setStageIndex] = useState(0);
+  const [insights, setInsights] = useState<string[]>([]);
+  const [selectedAgentIndex, setSelectedAgentIndex] = useState(0);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileResetKey, setTurnstileResetKey] = useState(0);
+  const [formsInView, setFormsInView] = useState<Set<Element>>(new Set());
 
   useEffect(() => {
-    if (state !== "loading") return;
-    const interval = window.setInterval(() => {
-      setActiveStage((current) =>
-        Math.min(current + 1, progressStages.length - 1),
-      );
-    }, 4_200);
-    return () => window.clearInterval(interval);
-  }, [state]);
+    const forms = [heroFormRef.current, footerFormRef.current].filter(
+      (form): form is HTMLFormElement => form !== null,
+    );
+    const observer = new IntersectionObserver((entries) => {
+      setFormsInView((current) => {
+        const next = new Set(current);
+        for (const entry of entries) {
+          if (entry.isIntersecting) next.add(entry.target);
+          else next.delete(entry.target);
+        }
+        return next;
+      });
+    });
+    forms.forEach((form) => observer.observe(form));
+    return () => observer.disconnect();
+  }, []);
 
+  // Results land in the hero panel; on small screens that panel sits below
+  // the form, so bring it into view once the agents are in.
   useEffect(() => {
     if (state !== "result" || !response) return;
+    if (window.innerWidth >= 1024) return;
     const timeout = window.setTimeout(() => {
-      document.getElementById("blueprint-results")?.scrollIntoView({
+      document.getElementById("agent-foundry")?.scrollIntoView({
         behavior: reducedMotion ? "auto" : "smooth",
-        block: "start",
+        block: "center",
       });
     }, 120);
     return () => window.clearTimeout(timeout);
   }, [reducedMotion, response, state]);
 
+  const selectAgent = useCallback(
+    (index: number, scroll = true) => {
+      setSelectedAgentIndex(index);
+      if (!scroll) return;
+      window.setTimeout(() => {
+        document.getElementById("agent-detail-panel")?.scrollIntoView({
+          behavior: reducedMotion ? "auto" : "smooth",
+          block: "start",
+        });
+      }, 80);
+    },
+    [reducedMotion],
+  );
+
+  const weeklySavings = useMemo(
+    () =>
+      response?.result.agents.reduce(
+        (total, agent) => ({
+          min: total.min + agent.weeklyHoursSaved.min,
+          max: total.max + agent.weeklyHoursSaved.max,
+        }),
+        { min: 0, max: 0 },
+      ) ?? null,
+    [response],
+  );
+
+  const trackDemoClick = useCallback(() => {
+    if (!response) return;
+    void fetch("/api/agent-blueprint", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        assessmentId: response.assessmentId,
+        event: "demo_clicked",
+      }),
+      keepalive: true,
+    });
+  }, [response]);
+
   const resetTurnstile = useCallback(() => {
     setTurnstileToken(null);
     setTurnstileResetKey((key) => key + 1);
+  }, []);
+
+  const resetExperience = useCallback(() => {
+    setResponse(null);
+    setError(null);
+    setState("idle");
+    const input = document.getElementById(BLUEPRINT_INPUT_ID);
+    if (input instanceof HTMLInputElement) input.value = "";
+    focusBlueprintInput();
   }, []);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -599,7 +1112,10 @@ export function AgentBlueprintExperience({
     const website = (form.elements.namedItem("website") as HTMLInputElement)
       .value;
 
-    setActiveStage(0);
+    setStageIndex(0);
+    setInsights([]);
+    setSelectedAgentIndex(0);
+    setResponse(null);
     setState("loading");
     window.setTimeout(() => {
       document.getElementById("agent-foundry")?.scrollIntoView({
@@ -607,6 +1123,15 @@ export function AgentBlueprintExperience({
         block: "center",
       });
     }, 80);
+
+    const fail = (message?: string) => {
+      setError(
+        message ??
+          "We could not build the blueprint right now. Please try again.",
+      );
+      setState("error");
+      if (turnstileEnabled) resetTurnstile();
+    };
 
     try {
       const apiResponse = await fetch("/api/agent-blueprint", {
@@ -619,78 +1144,162 @@ export function AgentBlueprintExperience({
           ...(turnstileToken ? { turnstileToken } : {}),
         }),
       });
-      const data = (await apiResponse.json().catch(() => null)) as
-        | BlueprintApiResponse
-        | { error?: string }
-        | null;
 
-      if (!apiResponse.ok || !data || !("result" in data)) {
-        setError(
-          data && "error" in data && data.error
-            ? data.error
-            : "We could not build the blueprint right now. Please try again.",
-        );
-        setState("error");
-        if (turnstileEnabled) resetTurnstile();
+      // Validation errors (bad domain, rate limit…) come back as plain JSON.
+      if (!apiResponse.body || !isNdjson(apiResponse)) {
+        const data = (await apiResponse.json().catch(() => null)) as {
+          error?: string;
+        } | null;
+        fail(data?.error);
         return;
       }
 
-      setResponse(data);
-      setState("result");
+      let finished = false;
+      await readBlueprintStream(apiResponse.body, (streamEvent) => {
+        switch (streamEvent.type) {
+          case "stage":
+            setStageIndex(
+              Math.max(
+                0,
+                progressStages.findIndex(
+                  (item) => item.stage === streamEvent.stage,
+                ),
+              ),
+            );
+            break;
+          case "insight":
+            setInsights((current) =>
+              current.includes(streamEvent.text)
+                ? current
+                : [...current, streamEvent.text],
+            );
+            break;
+          case "result":
+            finished = true;
+            setResponse({
+              assessmentId: streamEvent.assessmentId,
+              result: streamEvent.result,
+            });
+            setState("result");
+            break;
+          case "error":
+            finished = true;
+            fail(streamEvent.error);
+            break;
+        }
+      });
+      if (!finished) fail();
     } catch {
-      setError("We could not build the blueprint right now. Please try again.");
-      setState("error");
-      if (turnstileEnabled) resetTurnstile();
+      fail();
     }
   }
 
+  /** The closing CTA hands its value to the hero form so Turnstile runs once. */
+  function submitFromFooter(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const value = (
+      event.currentTarget.elements.namedItem("footerTarget") as HTMLInputElement
+    ).value;
+    const heroInput = document.getElementById(BLUEPRINT_INPUT_ID);
+    if (!(heroInput instanceof HTMLInputElement) || !heroFormRef.current) {
+      return;
+    }
+    heroInput.value = value;
+    heroFormRef.current.requestSubmit();
+  }
+
+  const isLoading = state === "loading";
+
   return (
     <>
-      <section className="min-h-[92svh] overflow-hidden border-b border-dashed border-white/15 bg-black text-white">
-        <div className="mx-auto grid max-w-[84rem] gap-10 px-6 pt-24 pb-12 md:px-8 md:pt-32 md:pb-16 lg:min-h-[92svh] lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:px-12">
-          <div className="self-center">
-            <span className="type-eyebrow text-blue-300">
-              AI Agent Blueprint
-            </span>
-            <h1 className="type-h2 mt-6 max-w-3xl text-white">
-              Enter your company. Watch your agent team take shape.
+      <section
+        data-theme="dark"
+        className="bg-background text-text relative isolate flex min-h-svh flex-col overflow-hidden"
+      >
+        <div aria-hidden className="absolute inset-0 -z-10">
+          <Image
+            src={HERO_BG_IMAGE}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
+          <div className="from-background/80 via-background/45 to-background/70 absolute inset-0 bg-gradient-to-r" />
+        </div>
+
+        <div className="mx-auto grid w-full max-w-[84rem] flex-1 gap-10 px-6 pt-28 pb-14 md:px-8 md:pt-36 md:pb-20 lg:grid-cols-[1fr_0.95fr] lg:items-center lg:gap-14 lg:px-12">
+          <div className="flex flex-col items-start">
+            <AwardBadge />
+            <h1
+              className={cn(
+                headingClass.hero,
+                "mt-7 max-w-[16ch] text-balance",
+              )}
+            >
+              See the 3 AI agents your company should build first.
             </h1>
-            <p className="type-body mt-6 max-w-xl text-white/62">
-              In about 30 seconds, we research the business, match 570 real use
-              cases and build three practical agents with a weekly time-saving
-              estimate.
+            <p className="type-body text-text/80 mt-6 max-w-xl">
+              Enter your website. We read your pages, map how your company
+              actually works, match it against 570 real enterprise AI projects
+              and design three agents built around your own processes, with the
+              hours each one gives back every week.
             </p>
 
-            <form onSubmit={submit} className="mt-9 max-w-xl">
-              <label
-                htmlFor={`${formId}-target`}
-                className="type-paragraph-m-bold"
-              >
+            <form
+              ref={heroFormRef}
+              onSubmit={submit}
+              className="mt-9 w-full max-w-xl"
+            >
+              <label htmlFor={BLUEPRINT_INPUT_ID} className="sr-only">
                 Company website
               </label>
-              <div className="mt-3 flex flex-col gap-3 sm:flex-row">
-                <input
-                  id={`${formId}-target`}
-                  name="target"
-                  type="text"
-                  required
-                  disabled={state === "loading"}
-                  inputMode="url"
-                  placeholder="company.com"
-                  className="type-paragraph-m min-w-0 flex-1 rounded-sm border border-white/20 bg-white/10 px-4 py-3 text-white outline-none placeholder:text-white/35 focus:ring-2 focus:ring-blue-400 disabled:opacity-50"
-                />
+              <div className="flex flex-col gap-2 rounded-sm border border-white/20 bg-black/35 p-2 backdrop-blur-md focus-within:border-blue-300/70 sm:flex-row sm:items-center">
+                <div className="flex min-w-0 flex-1 items-center gap-1 px-3">
+                  <span
+                    aria-hidden
+                    className="type-paragraph-m text-text/35 select-none"
+                  >
+                    https://
+                  </span>
+                  <input
+                    id={BLUEPRINT_INPUT_ID}
+                    name="target"
+                    type="text"
+                    required
+                    disabled={isLoading}
+                    inputMode="url"
+                    autoComplete="url"
+                    autoCapitalize="none"
+                    spellCheck={false}
+                    placeholder="yourcompany.com"
+                    className={cn(
+                      "type-paragraph-m text-text placeholder:text-text/35 min-w-0 flex-1 bg-transparent py-3 outline-none disabled:opacity-50",
+                      autofillReset,
+                    )}
+                  />
+                </div>
                 <Button
                   type="submit"
-                  disabled={state === "loading"}
-                  className="h-[3.25rem]"
+                  disabled={isLoading}
+                  className="h-[3.25rem] shrink-0"
                 >
-                  {state === "loading"
-                    ? "Building agents…"
-                    : "Build my agent team"}
+                  {isLoading ? "Building agents…" : "Build my agent team"}
                 </Button>
               </div>
 
-              <label className="type-paragraph-s mt-4 flex cursor-pointer items-start gap-3 text-white/55">
+              <ul className="type-paragraph-s text-text/70 mt-4 flex flex-wrap gap-x-5 gap-y-2">
+                {heroReassurance.map((item) => (
+                  <li key={item} className="flex items-center gap-1.5">
+                    <span aria-hidden className="text-green-300">
+                      ✓
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+
+              <label className="type-paragraph-s text-text/55 mt-4 flex cursor-pointer items-start gap-3">
                 <input
                   name="anonymous"
                   type="checkbox"
@@ -715,6 +1324,7 @@ export function AgentBlueprintExperience({
               />
 
               <input
+                id={`${formId}-website`}
                 tabIndex={-1}
                 autoComplete="off"
                 name="website"
@@ -731,7 +1341,7 @@ export function AgentBlueprintExperience({
                   {error}
                 </p>
               ) : null}
-              <p className="type-paragraph-s mt-4 text-white/35">
+              <p className="type-paragraph-s text-text/45 mt-4">
                 Public web research only. By continuing, you agree to our{" "}
                 <Link href="/privacy" className="underline underline-offset-4">
                   privacy policy
@@ -740,42 +1350,133 @@ export function AgentBlueprintExperience({
               </p>
             </form>
 
-            <div className="type-paragraph-s mt-8 flex flex-wrap items-center gap-x-3 gap-y-2 text-white/40">
-              {[
-                "Public company signals",
-                "570 benchmark use cases",
-                "3 agents with controls",
-              ].map((label, index) => (
-                <div key={label} className="flex items-center gap-3">
-                  {index > 0 ? <span className="text-white/15">→</span> : null}
-                  <span>{label}</span>
-                </div>
-              ))}
+            <div className="mt-8">
+              <BackedBy />
             </div>
           </div>
 
           <AnimatePresence mode="wait">
             <motion.div
-              key={state === "loading" ? "loading" : "preview"}
+              key={
+                isLoading
+                  ? "loading"
+                  : state === "result"
+                    ? "result"
+                    : "preview"
+              }
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -12 }}
               transition={{ duration: 0.25 }}
               className="self-center"
             >
-              {state === "loading" ? (
-                <LoadingPanel activeStage={activeStage} />
-              ) : (
-                <FoundryPreview />
-              )}
+              <FoundryPanel
+                mode={
+                  isLoading
+                    ? "loading"
+                    : state === "result" && response
+                      ? "result"
+                      : "idle"
+                }
+                stageIndex={stageIndex}
+                insights={insights}
+                agents={response?.result.agents ?? null}
+                selectedIndex={selectedAgentIndex}
+                onSelect={selectAgent}
+              />
             </motion.div>
           </AnimatePresence>
         </div>
+
+        <HeroMarquee />
       </section>
 
       {state === "result" && response ? (
-        <BlueprintResults response={response} meetingUrl={meetingUrl} />
+        <BlueprintResults
+          response={response}
+          meetingUrl={meetingUrl}
+          wonkaChatUrl={wonkaChatUrl}
+          onReset={resetExperience}
+          selectedAgentIndex={selectedAgentIndex}
+          onSelectAgent={selectAgent}
+        />
       ) : null}
+
+      {children}
+
+      <section
+        data-theme="dark"
+        className="bg-background text-text relative isolate overflow-hidden"
+      >
+        <Image
+          src="/images/CTA/cta-bg.avif"
+          alt=""
+          fill
+          sizes="100vw"
+          className="pointer-events-none -z-10 object-cover opacity-80"
+        />
+        <div className="mx-auto flex max-w-[84rem] flex-col items-center px-6 py-16 text-center md:px-12 md:py-24">
+          <h2 className={cn(headingClass.section, "max-w-[22ch] text-balance")}>
+            Your team is too good for repetitive work.
+          </h2>
+          <p className="type-body text-text/80 mt-5 max-w-[35rem]">
+            Find out which three agents would take it off their plate. Free,
+            ready in about a minute.
+          </p>
+          <form
+            ref={footerFormRef}
+            onSubmit={submitFromFooter}
+            className="mt-8 flex w-full max-w-xl flex-col gap-2 rounded-sm border border-white/20 bg-black/35 p-2 text-left backdrop-blur-md focus-within:border-blue-300/70 sm:flex-row sm:items-center"
+          >
+            <label htmlFor={`${formId}-footer`} className="sr-only">
+              Company website
+            </label>
+            <input
+              id={`${formId}-footer`}
+              name="footerTarget"
+              type="text"
+              required
+              disabled={isLoading}
+              inputMode="url"
+              autoComplete="url"
+              autoCapitalize="none"
+              spellCheck={false}
+              placeholder="yourcompany.com"
+              className={cn(
+                "type-paragraph-m text-text placeholder:text-text/35 min-w-0 flex-1 bg-transparent px-3 py-3 outline-none disabled:opacity-50",
+                autofillReset,
+              )}
+            />
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="h-[3.25rem] shrink-0"
+            >
+              Build my agent team
+            </Button>
+          </form>
+          <p className="type-paragraph-s text-text/55 mt-5">
+            Prefer to talk first?{" "}
+            <Link
+              href={meetingUrl}
+              data-track="meeting"
+              data-meeting-type="general"
+              data-blueprint-cta="footer_link"
+              className="text-text underline underline-offset-4"
+            >
+              Book a 30 min call
+            </Link>
+          </p>
+        </div>
+      </section>
+
+      <StickyBar
+        state={state}
+        weeklySavings={weeklySavings}
+        meetingUrl={meetingUrl}
+        onBook={trackDemoClick}
+        formInView={formsInView.size > 0}
+      />
     </>
   );
 }
