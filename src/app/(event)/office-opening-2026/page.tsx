@@ -257,7 +257,7 @@ export const OFFICE_OPENING_CONTENT: OfficeOpeningContent = {
     subline:
       "Limited spots. Register before Friday 25 September at 10:00 and we send the practical details right after.",
     ctaLabel: "Save your spot",
-    contactName: "Tom Van Nieuwenhuizen",
+    contactName: "Tom Van Nieuwenhuyse",
     contactEmail: "tom@meetwonka.com",
   },
   sticky: {

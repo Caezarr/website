@@ -193,14 +193,16 @@ function HighlightItem({
   item,
   mapsUrl,
   compact = false,
+  className,
 }: {
   item: OfficeOpeningContent["highlights"][number];
   mapsUrl: string;
   compact?: boolean;
+  className?: string;
 }) {
   const valueClass = compact
-    ? "type-paragraph-s mt-0.5 text-light-gray"
-    : "type-paragraph-m mt-1 text-light-gray";
+    ? "type-paragraph-s mt-0.5 break-words text-light-gray"
+    : "type-paragraph-m mt-1 break-words text-light-gray";
 
   const value =
     item.id === "location" ? (
@@ -221,13 +223,37 @@ function HighlightItem({
     );
 
   return (
-    <li className={cn("flex", compact ? "gap-3" : "gap-3.5")}>
+    <li className={cn("flex min-w-0", compact ? "gap-3" : "gap-3.5", className)}>
       <HighlightIcon id={item.id} className="mt-0.5" />
-      <div>
+      <div className="min-w-0 flex-1">
         <p className="type-eyebrow text-light-brown">{item.label}</p>
         {value}
       </div>
     </li>
+  );
+}
+
+function QuickInfoPanel({
+  content,
+  className,
+}: {
+  content: OfficeOpeningContent;
+  className?: string;
+}) {
+  return (
+    <PanelShell className={className}>
+      <p className="type-eyebrow text-light-brown">Quick info</p>
+      <ul className="mt-5 space-y-4">
+        {content.highlights.map((item) => (
+          <HighlightItem
+            key={item.id}
+            item={item}
+            mapsUrl={content.practical.mapsUrl}
+            compact
+          />
+        ))}
+      </ul>
+    </PanelShell>
   );
 }
 
@@ -727,24 +753,24 @@ export function OfficeOpeningPage({
     <div className="bg-black pb-[calc(5rem+env(safe-area-inset-bottom))] text-light-gray lg:pb-0">
       <section
         ref={heroRef}
-        className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden bg-black"
+        className="relative flex min-h-[100svh] flex-col justify-start overflow-hidden bg-black lg:justify-center"
       >
         <HeroBackground
           src={content.hero.image}
           alt={content.hero.imageAlt}
         />
 
-        <Section className="relative pb-28 pt-20 md:py-20 md:pb-20">
+        <Section className="relative pb-24 pt-[5.25rem] md:py-20 md:pb-20">
           <FadeIn y={24} duration={0.8}>
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)] lg:items-center lg:gap-12 xl:gap-16">
-              <div className="mx-auto flex w-full max-w-[36rem] flex-col items-center text-center lg:mx-0 lg:max-w-none lg:items-start lg:text-left">
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,18rem)] lg:items-center lg:gap-12 xl:gap-16">
+              <div className="flex w-full flex-col items-start text-left">
                 <h1 className="type-h5 max-w-[52rem] text-balance text-white lg:type-h4">
                   {content.hero.title}
                 </h1>
-                <p className="type-paragraph-m mt-4 text-light-gray sm:type-h6">
+                <p className="type-paragraph-m mt-3 text-light-gray sm:mt-4 sm:type-h6">
                   {content.hero.subtitle}
                 </p>
-                <ul className="mt-6 w-full space-y-3 text-left">
+                <ul className="mt-5 w-full space-y-3 sm:mt-6">
                   {content.hero.supportingLines.map((line) => (
                     <li
                       key={line}
@@ -758,46 +784,22 @@ export function OfficeOpeningPage({
                     </li>
                   ))}
                 </ul>
-                <div className="mt-9 flex w-full flex-col items-stretch gap-4 sm:items-center lg:items-start">
+                <div className="mt-8 flex w-full max-w-sm flex-col items-stretch gap-3 sm:mt-9">
                   <RegisterButton
                     href={registrationUrl}
                     label={content.hero.ctaLabel}
                     placement="hero"
-                    className="sm:w-auto"
+                    className="sm:w-auto sm:self-start"
                   />
-                  <p className="type-paragraph-s text-center text-light-gray/75 sm:max-w-sm lg:text-left">
+                  <p className="type-paragraph-s text-light-gray/75">
                     {content.hero.deadlineNote}
                   </p>
                 </div>
-
-                <PanelShell className="mt-10 lg:hidden">
-                  <p className="type-eyebrow text-light-brown">Quick info</p>
-                  <ul className="mt-5 space-y-4">
-                    {content.highlights.map((item) => (
-                      <HighlightItem
-                        key={item.id}
-                        item={item}
-                        mapsUrl={content.practical.mapsUrl}
-                        compact
-                      />
-                    ))}
-                  </ul>
-                </PanelShell>
               </div>
 
-              <PanelShell className="hidden lg:block">
-                <p className="type-eyebrow text-light-brown">Quick info</p>
-                <ul className="mt-5 space-y-4">
-                  {content.highlights.map((item) => (
-                    <HighlightItem
-                      key={item.id}
-                      item={item}
-                      mapsUrl={content.practical.mapsUrl}
-                      compact
-                    />
-                  ))}
-                </ul>
-              </PanelShell>
+              <QuickInfoPanel content={content} className="lg:hidden" />
+
+              <QuickInfoPanel content={content} className="hidden lg:block" />
             </div>
           </FadeIn>
         </Section>
