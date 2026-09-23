@@ -633,7 +633,7 @@ function BlueprintResults({
 }: {
   response: BlueprintApiResponse;
   meetingUrl: string;
-  wonkaChatUrl: string | null;
+  wonkaChatUrl: string;
   onReset: () => void;
   selectedAgentIndex: number;
   onSelectAgent: (index: number, scroll: boolean) => void;
@@ -865,23 +865,22 @@ function BlueprintResults({
             </div>
             <div className="flex flex-col items-start gap-4 lg:items-end">
               <ButtonLink
+                href={wonkaChatUrl}
+                data-track="wonkachat_start"
+                data-blueprint-cta="results_panel"
+              >
+                Use my agents now
+              </ButtonLink>
+              <Link
                 href={meetingUrl}
                 onClick={trackDemoClick}
                 data-track="meeting"
                 data-meeting-type="general"
-                data-blueprint-cta="results_panel"
+                data-blueprint-cta="results_panel_call"
+                className="type-paragraph-m text-text/80 hover:text-text underline underline-offset-4"
               >
                 Book a 30 min call
-              </ButtonLink>
-              {wonkaChatUrl ? (
-                <Link
-                  href={wonkaChatUrl}
-                  data-track="wonkachat_trial"
-                  className="type-paragraph-s text-text/70 hover:text-text underline underline-offset-4"
-                >
-                  Or start free with WonkaChat
-                </Link>
-              ) : null}
+              </Link>
               <p className="type-paragraph-s text-text/50 lg:text-right">
                 Backed by Nvidia Inception and Microsoft for Startups.
               </p>
@@ -911,12 +910,14 @@ function StickyBar({
   state,
   weeklySavings,
   meetingUrl,
+  wonkaChatUrl,
   onBook,
   formInView,
 }: {
   state: ExperienceState;
   weeklySavings: { min: number; max: number } | null;
   meetingUrl: string;
+  wonkaChatUrl: string;
   onBook: () => void;
   formInView: boolean;
 }) {
@@ -959,16 +960,25 @@ function StickyBar({
             )}
           </p>
           {hasResult ? (
-            <ButtonLink
-              href={meetingUrl}
-              onClick={onBook}
-              data-track="meeting"
-              data-meeting-type="general"
-              data-blueprint-cta="sticky_bar"
-              className="shrink-0"
-            >
-              Book a call
-            </ButtonLink>
+            <div className="flex shrink-0 items-center gap-4">
+              <Link
+                href={meetingUrl}
+                onClick={onBook}
+                data-track="meeting"
+                data-meeting-type="general"
+                data-blueprint-cta="sticky_bar_call"
+                className="type-paragraph-s text-text/70 hover:text-text hidden underline underline-offset-4 sm:inline"
+              >
+                Book a 30 min call
+              </Link>
+              <ButtonLink
+                href={wonkaChatUrl}
+                data-track="wonkachat_start"
+                data-blueprint-cta="sticky_bar"
+              >
+                Use my agents
+              </ButtonLink>
+            </div>
           ) : (
             <Button
               type="button"
@@ -987,11 +997,11 @@ function StickyBar({
 
 export function AgentBlueprintExperience({
   meetingUrl,
-  wonkaChatUrl = null,
+  wonkaChatUrl,
   children,
 }: {
   meetingUrl: string;
-  wonkaChatUrl?: string | null;
+  wonkaChatUrl: string;
   children?: React.ReactNode;
 }) {
   const formId = useId();
@@ -1480,6 +1490,7 @@ export function AgentBlueprintExperience({
         state={state}
         weeklySavings={weeklySavings}
         meetingUrl={meetingUrl}
+        wonkaChatUrl={wonkaChatUrl}
         onBook={trackDemoClick}
         formInView={formsInView.size > 0}
       />

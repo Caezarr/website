@@ -10,14 +10,16 @@ import { Stats } from "@/components/sections/stats";
 import { Testimonials } from "@/components/sections/testimonials";
 import { BreadcrumbSchema } from "@/components/json-ld";
 import { getSiteUrl } from "@/lib/site-url";
-import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
-import type { SiteSettings } from "@/lib/types";
-import { sanityFetch } from "@sanity/lib/live";
-import { SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
 
 export const dynamic = "force-static";
 
 const pagePath = "/ai-agent-blueprint";
+
+/** Every meeting CTA on this page books directly with Gabriel. */
+const BLUEPRINT_MEETING_URL =
+  "https://bookings.cloud.microsoft/book/WonkaAIFrance@meetwonka.com/?ismsaljsauthenabled";
+/** Where visitors go to build and run their agents. */
+const WONKA_CHAT_URL = "https://wonka.chat";
 const title = "Free AI Agent Blueprint for Your Company | Wonka AI";
 const description =
   "Get three anonymous AI agent recommendations for your company, grounded in 570 real-world enterprise AI use cases.";
@@ -40,11 +42,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function AgentBlueprintPage() {
+export default function AgentBlueprintPage() {
   const siteUrl = getSiteUrl();
-  const { data: settings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
-  const sharedLinks = (settings as SiteSettings | null)?.sharedLinks;
-  const meetingUrl = resolveMeetingUrl(sharedLinks, "default");
 
   return (
     <main>
@@ -58,8 +57,8 @@ export default async function AgentBlueprintPage() {
         ]}
       />
       <AgentBlueprintExperience
-        meetingUrl={meetingUrl}
-        wonkaChatUrl={sharedLinks?.wonkaChatUrl ?? null}
+        meetingUrl={BLUEPRINT_MEETING_URL}
+        wonkaChatUrl={WONKA_CHAT_URL}
       >
         <SampleBlueprint />
         <BlueprintSteps />
