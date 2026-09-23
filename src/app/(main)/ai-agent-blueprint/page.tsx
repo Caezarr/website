@@ -3,8 +3,8 @@ import { AgentBlueprintExperience } from "@/components/agent-blueprint/agent-blu
 import {
   BlueprintFaq,
   BlueprintSteps,
+  BlueprintTrust,
 } from "@/components/agent-blueprint/blueprint-sections";
-import { Security } from "@/components/sections/security";
 import { Stats } from "@/components/sections/stats";
 import { Testimonials } from "@/components/sections/testimonials";
 import { BreadcrumbSchema } from "@/components/json-ld";
@@ -70,7 +70,7 @@ export default async function AgentBlueprintPage() {
         <BlueprintSteps />
         <div className="flex flex-col gap-10 py-10 md:gap-16 md:py-16">
           <Stats />
-          <Security />
+          <BlueprintTrust />
         </div>
         {hasTestimonials ? <Testimonials id="testimonials" /> : null}
         <BlueprintFaq />

@@ -12,6 +12,7 @@ import {
   type BlueprintStreamEvent,
   type CompanyContext,
   type CompanyResearch,
+  type InsightKind,
 } from "@/lib/agent-blueprint";
 import { crawlCompanySite } from "@/lib/agent-blueprint-crawl";
 import { isAgentBlueprintRateLimited } from "@/lib/agent-blueprint-rate-limit";
@@ -170,12 +171,13 @@ export async function POST(request: Request) {
         mark("crawl");
         send({
           type: "insight",
+          kind: "pages",
           text: crawl.pages.length
-            ? `Read ${crawl.pages.length} pages of your website: ${crawl.pages
+            ? `${crawl.pages.length} pages read · ${crawl.pages
                 .map((page) => page.path)
-                .slice(0, 6)
-                .join(", ")}`
-            : "Your website could not be read directly, switching to public web research",
+                .slice(0, 4)
+                .join("  ")}`
+            : "Site not readable · using public web research",
         });
 
         send({ type: "stage", stage: "research" });
@@ -189,8 +191,8 @@ export async function POST(request: Request) {
           research.value,
           target.domain,
         );
-        for (const text of researchInsights(siteOnly.context)) {
-          send({ type: "insight", text });
+        for (const insight of researchInsights(siteOnly.context)) {
+          send({ type: "insight", ...insight });
         }
 
         send({ type: "stage", stage: "benchmark" });
@@ -210,15 +212,16 @@ export async function POST(request: Request) {
           mergeSignals(research.value, signals?.value ?? null),
           target.domain,
         );
-        for (const text of signalInsights(
+        for (const insight of signalInsights(
           signals?.value ?? null,
           identifiers,
         )) {
-          send({ type: "insight", text });
+          send({ type: "insight", ...insight });
         }
         send({
           type: "insight",
-          text: `Matched ${benchmark.length} comparable patterns in the benchmark`,
+          kind: "match",
+          text: `${benchmark.length} comparable use cases matched`,
         });
 
         send({ type: "stage", stage: "design" });
@@ -348,40 +351,46 @@ function mergeSignals(
   };
 }
 
+interface Insight {
+  kind: InsightKind;
+  text: string;
+}
+
+/** Keeps streamed insights scannable: one short line each. */
+function shortInsight(kind: InsightKind, text: string | undefined): Insight[] {
+  const clean = text?.replace(/\s+/g, " ").trim();
+  if (!clean) return [];
+  return [
+    {
+      kind,
+      text: clean.length > 90 ? `${clean.slice(0, 88).trimEnd()}…` : clean,
+    },
+  ];
+}
+
 function signalInsights(
   signals: ExternalSignals | null,
   identifiers: string[],
-): string[] {
+): Insight[] {
   if (!signals) return [];
   return [
-    signals.hiringSignals[0]
-      ? `Hiring signal: ${signals.hiringSignals[0]}`
-      : null,
-    signals.regulatoryContext[0]
-      ? `Regulatory context: ${signals.regulatoryContext[0]}`
-      : null,
-  ]
-    .filter((text): text is string => Boolean(text))
-    .map((text) => redactText(text, identifiers))
-    .map((text) => (text.length > 150 ? `${text.slice(0, 147)}…` : text));
+    ...shortInsight("hiring", signals.hiringSignals[0]),
+    ...shortInsight("rules", signals.regulatoryContext[0]),
+  ].map((insight) => ({
+    ...insight,
+    text: redactText(insight.text, identifiers),
+  }));
 }
 
 /** Short, anonymised observations streamed while the agents are designed. */
-function researchInsights(context: CompanyContext): string[] {
-  const insights = [
-    context.offerings.length
-      ? `You deliver ${context.offerings.slice(0, 2).join(" and ").toLowerCase()}`
-      : null,
-    context.scale ? `Scale: ${context.scale}` : null,
+function researchInsights(context: CompanyContext): Insight[] {
+  return [
+    ...shortInsight("offer", context.offerings.slice(0, 3).join(" · ")),
+    ...shortInsight("scale", context.scale),
     ...context.keyProcesses
       .slice(0, 3)
-      .map(
-        (process) => `Repetitive work spotted in ${process.name.toLowerCase()}`,
-      ),
+      .flatMap((process) => shortInsight("process", process.name)),
   ];
-  return insights
-    .filter((text): text is string => Boolean(text))
-    .map((text) => (text.length > 150 ? `${text.slice(0, 147)}…` : text));
 }
 
 export async function PATCH(request: Request) {

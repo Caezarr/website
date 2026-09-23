@@ -1,3 +1,6 @@
+import { BadgeGdpr } from "@/components/ui/icons/badge-gdpr";
+import { BadgeIso } from "@/components/ui/icons/badge-iso";
+import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -89,6 +92,36 @@ const BLUEPRINT_FAQ_ITEMS: FaqItem[] = [
       "Nothing, unless you want it to. If an agent looks worth building, book a 30-minute call and a Wonka engineer turns it into a scoped delivery plan.",
   },
 ];
+
+/**
+ * Light trust strip. The page already has one blue panel (stats); a second
+ * one right after it reads as a wall of blue, so security stays compact.
+ */
+export function BlueprintTrust() {
+  return (
+    <Section>
+      <div className="border-border flex flex-col gap-6 rounded-sm border border-dashed px-6 py-6 md:flex-row md:items-center md:justify-between md:px-8">
+        <div>
+          <h2 className={headingClass.subsection}>
+            Your data is always yours.
+          </h2>
+        </div>
+        {/* The badge artwork is white; invert it for the light background. */}
+        <ul className="flex items-center gap-4 invert md:gap-6">
+          <li>
+            <BadgeGdpr className="size-16 opacity-70 md:size-20" />
+          </li>
+          <li>
+            <BadgeIso className="size-16 opacity-70 md:size-20" />
+          </li>
+          <li>
+            <BadgeNis2 className="size-16 opacity-70 md:size-20" />
+          </li>
+        </ul>
+      </div>
+    </Section>
+  );
+}
 
 export function BlueprintFaq() {
   return (

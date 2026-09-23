@@ -28,6 +28,7 @@ import type {
   AgentBlueprintResult,
   BlueprintStage,
   BlueprintStreamEvent,
+  InsightKind,
 } from "@/lib/agent-blueprint";
 import {
   type ConnectedTool,
@@ -118,9 +119,25 @@ async function readBlueprintStream(
 const autofillReset =
   "autofill:[-webkit-text-fill-color:var(--color-white)] autofill:[caret-color:var(--color-white)] autofill:[transition:background-color_9999s_ease-out_0s]";
 
+interface StreamInsight {
+  kind?: InsightKind;
+  text: string;
+}
+
+const insightStyles: Record<InsightKind, { label: string; className: string }> =
+  {
+    pages: { label: "Pages", className: "bg-white/10 text-white/70" },
+    offer: { label: "Offer", className: "bg-blue-300/20 text-blue-200" },
+    scale: { label: "Scale", className: "bg-blue-300/20 text-blue-200" },
+    process: { label: "Process", className: "bg-green-300/20 text-green-200" },
+    hiring: { label: "Hiring", className: "bg-orange-300/20 text-orange-300" },
+    rules: { label: "Rules", className: "bg-orange-300/20 text-orange-300" },
+    match: { label: "Match", className: "bg-white/10 text-white/70" },
+  };
+
 /** 52 weeks / 12 months / 8h working day. */
 function hoursPerWeekToDaysPerMonth(hours: number) {
-  return Math.round(((hours * 52) / 12 / 8) * 10) / 10;
+  return Math.round((hours * 52) / 12 / 8);
 }
 
 const tierStyles: Record<AgentBlueprintAgent["tier"], string> = {
@@ -158,7 +175,7 @@ function FoundryPanel({
 }: {
   mode: FoundryMode;
   stageIndex: number;
-  insights: string[];
+  insights: StreamInsight[];
   agents: AgentBlueprintAgent[] | null;
   selectedIndex: number;
   onSelect: (index: number) => void;
@@ -284,18 +301,25 @@ function FoundryPanel({
             <div className="mt-5 min-h-[15.5rem] rounded-sm border border-white/12 bg-white/[0.03] p-4">
               <p className="type-eyebrow text-white/40">What we are finding</p>
               <ul className="mt-3 grid gap-2.5">
-                {insights.slice(-6).map((insight) => (
+                {insights.slice(-7).map((insight) => (
                   <motion.li
-                    key={insight}
+                    key={insight.text}
                     initial={reducedMotion ? false : { opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="type-paragraph-s flex gap-2.5 text-white/80"
+                    className="flex items-center gap-3"
                   >
-                    <span aria-hidden className="text-blue-300">
-                      ›
+                    <span
+                      className={cn(
+                        "type-eyebrow w-[4.75rem] shrink-0 rounded-full px-2 py-0.5 text-center text-[0.6rem]",
+                        insightStyles[insight.kind ?? "pages"].className,
+                      )}
+                    >
+                      {insightStyles[insight.kind ?? "pages"].label}
                     </span>
-                    <span>{insight}</span>
+                    <span className="type-paragraph-s min-w-0 truncate text-white/85">
+                      {insight.text}
+                    </span>
                   </motion.li>
                 ))}
                 <li className="type-paragraph-s flex gap-2.5 text-white/40">
@@ -461,23 +485,68 @@ function ToolLogo({ tool }: { tool: ConnectedTool }) {
   );
 }
 
-function ToolChain({ tools }: { tools: string[] }) {
-  const connectedTools = resolveConnectedTools(tools);
+const effortLevels: Record<AgentBlueprintAgent["effort"], number> = {
+  Low: 1,
+  Medium: 2,
+  High: 3,
+};
 
+function EffortMeter({ effort }: { effort: AgentBlueprintAgent["effort"] }) {
+  const level = effortLevels[effort];
   return (
-    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-      {connectedTools.map((tool) => (
-        <div
-          key={tool.name}
-          className="border-border bg-light-gray flex min-h-12 items-center gap-2.5 rounded-sm border px-2.5 py-2"
+    <span className="flex items-center gap-2" title={`${effort} build effort`}>
+      <span className="flex items-end gap-0.5" aria-hidden>
+        {[1, 2, 3].map((bar) => (
+          <span
+            key={bar}
+            className={cn(
+              "w-1.5 rounded-full",
+              bar === 1 ? "h-2" : bar === 2 ? "h-3" : "h-4",
+              bar <= level ? "bg-blue-600" : "bg-black/10",
+            )}
+          />
+        ))}
+      </span>
+      <span className="type-paragraph-s text-text/55">{effort} effort</span>
+    </span>
+  );
+}
+
+function FlowNode({
+  label,
+  text,
+  tone = "step",
+  index,
+}: {
+  label: string;
+  text: string;
+  tone?: "trigger" | "step" | "human";
+  index?: number;
+}) {
+  return (
+    <li className="group/flow relative flex min-w-0 flex-1 gap-3 md:flex-col md:gap-0">
+      <div className="flex flex-col items-center md:flex-row">
+        <span
+          className={cn(
+            "type-paragraph-s relative z-10 flex size-8 shrink-0 items-center justify-center rounded-full border tabular-nums",
+            tone === "trigger" && "border-blue-600 bg-blue-600 text-white",
+            tone === "step" && "border-blue-300 bg-white text-blue-700",
+            tone === "human" && "border-green-600 bg-green-100 text-green-800",
+          )}
         >
-          <ToolLogo tool={tool} />
-          <span className="type-paragraph-s text-text/70 min-w-0 truncate">
-            {tool.name}
-          </span>
-        </div>
-      ))}
-    </div>
+          {tone === "trigger" ? "⚡" : tone === "human" ? "✓" : index}
+        </span>
+        {/* Connector to the next node (vertical on mobile, horizontal above). */}
+        <span
+          aria-hidden
+          className="w-px flex-1 bg-blue-200 group-last/flow:hidden md:h-px md:w-auto"
+        />
+      </div>
+      <div className="min-w-0 pb-5 md:pt-3 md:pr-4 md:pb-0">
+        <p className="type-eyebrow text-text/40">{label}</p>
+        <p className="type-paragraph-s text-text/80 mt-1">{text}</p>
+      </div>
+    </li>
   );
 }
 
@@ -493,6 +562,7 @@ function AgentDetailPanel({
   onBook: () => void;
 }) {
   const reducedMotion = useReducedMotion();
+  const tools = resolveConnectedTools(agent.tools);
 
   return (
     <motion.article
@@ -503,98 +573,95 @@ function AgentDetailPanel({
       id="agent-detail-panel"
       className="border-border scroll-mt-20 overflow-hidden rounded-sm border bg-white"
     >
-      <div className="border-border flex flex-col gap-5 border-b border-dashed p-5 sm:flex-row sm:items-center sm:justify-between md:p-6">
-        <div className="flex items-center gap-4">
+      <div className="border-border flex flex-col gap-5 border-b border-dashed p-5 sm:flex-row sm:items-start sm:justify-between md:p-6">
+        <div className="flex items-start gap-4">
           <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-black text-white">
             <SparkIcon className="size-4" />
           </div>
-          <div>
-            <span
-              className={cn(
-                "type-paragraph-s inline-flex rounded-full px-2.5 py-1",
-                tierStyles[agent.tier],
-              )}
-            >
-              {agent.tier}
-            </span>
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <span
+                className={cn(
+                  "type-paragraph-s inline-flex rounded-full px-2.5 py-1",
+                  tierStyles[agent.tier],
+                )}
+              >
+                {agent.tier}
+              </span>
+              <span className="type-eyebrow text-text/40">
+                Agent 0{index + 1} · {agent.process}
+              </span>
+            </div>
             <h3 className="type-h5 mt-2">{agent.name}</h3>
+            <p className="type-paragraph-m text-text/60 mt-1.5 max-w-2xl">
+              {agent.mission}
+            </p>
           </div>
         </div>
-        <div className="flex items-end gap-2 sm:text-right">
-          <span className="type-h4 text-blue-700">
-            {agent.weeklyHoursSaved.min}–{agent.weeklyHoursSaved.max}h
-          </span>
-          <span className="type-paragraph-s text-text/45 pb-1">
-            saved / week
-          </span>
+        <div className="flex shrink-0 flex-row items-end justify-between gap-4 sm:flex-col sm:items-end">
+          <p className="sm:text-right">
+            <span className="type-h4 text-blue-700 tabular-nums">
+              {agent.weeklyHoursSaved.min}–{agent.weeklyHoursSaved.max}h
+            </span>
+            <span className="type-paragraph-s text-text/45 block">
+              saved every week
+            </span>
+          </p>
+          <EffortMeter effort={agent.effort} />
         </div>
       </div>
 
-      <div className="grid gap-6 p-5 md:grid-cols-[0.9fr_1.1fr] md:p-6">
-        <div>
-          <p className="type-eyebrow text-text/35">{agent.process}</p>
-          <p className="type-body mt-2">{agent.mission}</p>
-          <div className="mt-5 grid gap-px overflow-hidden rounded-sm bg-blue-200">
-            <div className="bg-blue-100 p-4">
-              <p className="type-eyebrow text-blue-700">What we saw</p>
-              <p className="type-paragraph-m text-text/75 mt-2">
-                {agent.companySignal}
-              </p>
-            </div>
-            <div className="bg-blue-100 p-4">
-              <p className="type-eyebrow text-blue-700">Why now</p>
-              <p className="type-paragraph-m text-text/75 mt-2">
-                {agent.whyNow}
-              </p>
-            </div>
-          </div>
-          <div className="mt-5">
-            <div className="flex items-center justify-between">
-              <p className="type-eyebrow text-text/35">Suggested stack</p>
-              <p className="type-paragraph-s text-text/35">
-                Example integrations
-              </p>
-            </div>
-            <div className="mt-3">
-              <ToolChain tools={agent.tools} />
-            </div>
-          </div>
+      <div className="border-border border-b border-dashed p-5 md:p-6">
+        <p className="type-eyebrow text-text/35">How it runs</p>
+        <ol className="mt-4 flex flex-col md:flex-row">
+          {[
+            { label: "Trigger", text: agent.trigger, tone: "trigger" as const },
+            ...agent.workflow.map((step, stepIndex) => ({
+              label: `Step ${stepIndex + 1}`,
+              text: step,
+              tone: "step" as const,
+              index: stepIndex + 1,
+            })),
+            {
+              label: "Human check",
+              text: agent.humanControl,
+              tone: "human" as const,
+            },
+          ].map((node) => (
+            <FlowNode key={`${node.label}-${node.text}`} {...node} />
+          ))}
+        </ol>
+      </div>
+
+      <div className="grid md:grid-cols-3">
+        <div className="p-5 md:p-6">
+          <p className="type-eyebrow text-blue-700">What we saw</p>
+          <p className="type-paragraph-m text-text/75 mt-2">
+            {agent.companySignal}
+          </p>
+          <p className="type-paragraph-s text-text/45 mt-2">{agent.whyNow}</p>
         </div>
-        <div className="bg-mid-gray rounded-sm p-5">
-          <div className="flex items-center justify-between">
-            <p className="type-eyebrow text-text/35">How it works</p>
-            <span className="type-eyebrow text-text/25">
-              Agent 0{index + 1}
-            </span>
-          </div>
-          <ol className="mt-4 space-y-3">
-            {agent.workflow.map((step, stepIndex) => (
+        <div className="border-border border-t border-dashed p-5 md:border-t-0 md:border-l md:p-6">
+          <p className="type-eyebrow text-text/35">Plugs into</p>
+          <ul className="mt-3 flex flex-wrap gap-2">
+            {tools.map((tool) => (
               <li
-                key={step}
-                className="type-paragraph-s text-text/70 flex gap-3"
+                key={tool.name}
+                className="border-border bg-light-gray flex items-center gap-2 rounded-full border py-1 pr-3 pl-1"
               >
-                <span className="text-blue-600">0{stepIndex + 1}</span>
-                {step}
+                <ToolLogo tool={tool} />
+                <span className="type-paragraph-s text-text/70">
+                  {tool.name}
+                </span>
               </li>
             ))}
-          </ol>
-          <div className="border-border mt-5 border-t border-dashed pt-4">
-            <p className="type-paragraph-s text-text/50">Human control</p>
-            <p className="type-paragraph-m-bold mt-1">{agent.humanControl}</p>
+          </ul>
+        </div>
+        <div className="border-border flex flex-col justify-between gap-4 border-t border-dashed p-5 md:border-t-0 md:border-l md:p-6">
+          <div>
+            <p className="type-eyebrow text-text/35">Outcome</p>
+            <p className="type-paragraph-m-bold mt-2">{agent.expectedImpact}</p>
           </div>
-        </div>
-      </div>
-
-      <div className="border-border grid border-t border-dashed sm:grid-cols-[1fr_1fr_auto]">
-        <div className="p-4 md:px-6">
-          <p className="type-paragraph-s text-text/40">Business impact</p>
-          <p className="type-paragraph-m-bold mt-1">{agent.expectedImpact}</p>
-        </div>
-        <div className="border-border border-t border-dashed p-4 sm:border-t-0 sm:border-l md:px-6">
-          <p className="type-paragraph-s text-text/40">Build effort</p>
-          <p className="type-paragraph-m-bold mt-1">{agent.effort}</p>
-        </div>
-        <div className="border-border flex items-center border-t border-dashed p-4 sm:border-t-0 sm:border-l md:px-6">
           <ButtonLink
             href={meetingUrl}
             onClick={onBook}
@@ -602,6 +669,7 @@ function AgentDetailPanel({
             data-meeting-type="general"
             data-blueprint-cta="agent_detail"
             variant="secondary"
+            className="self-start"
           >
             Scope this agent
           </ButtonLink>
@@ -627,6 +695,10 @@ function BlueprintResults({
   onSelectAgent: (index: number, scroll: boolean) => void;
 }) {
   const selectedAgent = response.result.agents[selectedAgentIndex];
+  const maxAgentHours = Math.max(
+    1,
+    ...response.result.agents.map((agent) => agent.weeklyHoursSaved.max),
+  );
   const firstAgent = response.result.agents[0];
   const weeklySavings = useMemo(
     () =>
@@ -783,6 +855,23 @@ function BlueprintResults({
                   >
                     {agent.tier}
                   </p>
+                  <div
+                    aria-hidden
+                    className={cn(
+                      "mt-4 h-1.5 overflow-hidden rounded-full",
+                      isSelected ? "bg-white/12" : "bg-black/6",
+                    )}
+                  >
+                    <div
+                      className={cn(
+                        "h-full rounded-full",
+                        isSelected ? "bg-blue-300" : "bg-blue-500",
+                      )}
+                      style={{
+                        width: `${Math.max(8, (agent.weeklyHoursSaved.max / maxAgentHours) * 100)}%`,
+                      }}
+                    />
+                  </div>
                   <div
                     className={cn(
                       "type-paragraph-s mt-4 flex items-center justify-between border-t pt-3",
@@ -1001,7 +1090,7 @@ export function AgentBlueprintExperience({
   const [response, setResponse] = useState<BlueprintApiResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [stageIndex, setStageIndex] = useState(0);
-  const [insights, setInsights] = useState<string[]>([]);
+  const [insights, setInsights] = useState<StreamInsight[]>([]);
   const [selectedAgentIndex, setSelectedAgentIndex] = useState(0);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [turnstileResetKey, setTurnstileResetKey] = useState(0);
@@ -1167,9 +1256,12 @@ export function AgentBlueprintExperience({
             break;
           case "insight":
             setInsights((current) =>
-              current.includes(streamEvent.text)
+              current.some((item) => item.text === streamEvent.text)
                 ? current
-                : [...current, streamEvent.text],
+                : [
+                    ...current,
+                    { kind: streamEvent.kind, text: streamEvent.text },
+                  ],
             );
             break;
           case "result":

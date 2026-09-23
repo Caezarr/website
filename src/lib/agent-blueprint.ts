@@ -55,9 +55,18 @@ export function missingBlueprintEnv(): string[] {
 export type BlueprintStage = "crawl" | "research" | "benchmark" | "design";
 
 /** Newline-delimited JSON events streamed by POST /api/agent-blueprint. */
+export type InsightKind =
+  | "pages"
+  | "offer"
+  | "scale"
+  | "process"
+  | "hiring"
+  | "rules"
+  | "match";
+
 export type BlueprintStreamEvent =
   | { type: "stage"; stage: BlueprintStage }
-  | { type: "insight"; text: string }
+  | { type: "insight"; kind: InsightKind; text: string }
   | { type: "ping" }
   | { type: "result"; assessmentId: string; result: AgentBlueprintResult }
   | { type: "error"; error: string };
