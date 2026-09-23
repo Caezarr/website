@@ -37,6 +37,9 @@ export interface NavDropdownChild {
   label: string;
   href: string;
   description?: string;
+  /** Shown in nav but not clickable until the page is live again. */
+  disabled?: boolean;
+  external?: boolean;
 }
 
 export interface NavItem {
@@ -67,6 +70,7 @@ export interface SharedLinks {
   startAiMeetingUrl: string | null;
   wonkaBuildMeetingUrl: string | null;
   wonkaChatMeetingUrl: string | null;
+  franceMeetingUrl: string | null;
   meetingLabel: string | null;
   startAiUrl: string | null;
   wonkaBuildUrl: string | null;

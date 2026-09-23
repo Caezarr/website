@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { getLocale } from "next-intl/server";
 import { sanityFetch } from "@sanity/lib/live";
-import { HOMEPAGE_CONTENT_QUERY, SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
+import {
+  HOMEPAGE_CONTENT_QUERY,
+  SITE_SETTINGS_QUERY,
+} from "@sanity/lib/queries";
 import type { HomepageContent, SiteSettings } from "@/lib/types";
 import { buildMetadata } from "@/lib/seo";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
-import { Hero } from "@/components/sections/hero";
+import { HomepageHeroExperiment } from "@/components/sections/homepage-hero-experiment";
 import { Problem } from "@/components/sections/problem";
 import { Solution } from "@/components/sections/solution";
 import { HowItWorks } from "@/components/sections/how-it-works";
@@ -29,9 +32,16 @@ async function getSiteSettings() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const [content, locale] = await Promise.all([getHomepageContent(), getLocale()]);
+  const [content, locale] = await Promise.all([
+    getHomepageContent(),
+    getLocale(),
+  ]);
   const path = locale === "en" ? "/" : `/${locale}`;
-  return buildMetadata(content?.seo ?? null, { path, locale, hreflang: "home" });
+  return buildMetadata(content?.seo ?? null, {
+    path,
+    locale,
+    hreflang: "home",
+  });
 }
 
 export default async function Home() {
@@ -45,7 +55,7 @@ export default async function Home() {
 
   return (
     <>
-      <Hero
+      <HomepageHeroExperiment
         data={content?.hero ?? null}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}

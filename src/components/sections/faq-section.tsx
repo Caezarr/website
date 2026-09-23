@@ -9,12 +9,14 @@ interface FaqSectionProps {
   data: FaqSectionData;
   className?: string;
   bordered?: boolean;
+  variant?: "default" | "plain";
 }
 
 export function FaqSection({
   data,
   className,
   bordered = true,
+  variant = "default",
 }: FaqSectionProps) {
   const header = data.header;
   const items = data.items ?? [];
@@ -26,7 +28,7 @@ export function FaqSection({
   return (
     <section
       className={cn(
-        "bg-mid-gray",
+        variant === "plain" ? "bg-background" : "bg-mid-gray",
         bordered && "border-t border-dashed border-border",
       )}
     >

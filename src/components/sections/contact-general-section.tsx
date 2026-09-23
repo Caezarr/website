@@ -45,6 +45,7 @@ export function ContactGeneralSection({
         align="left"
         bordered
         headingRole="hero"
+        headingAs="h1"
         eyebrow={header.eyebrow ? <Eyebrow>{header.eyebrow}</Eyebrow> : undefined}
         heading={header.heading ?? "Contact"}
         body={header.body ?? undefined}

@@ -1,7 +1,9 @@
 export const LEAD_SOURCES = [
   "start-ai-hero",
+  "start-ai-flanders-hero",
   "wonka-chat-hero",
   "wonka-chat-odoo-hero",
+  "france-diagnostic",
 ] as const;
 
 export type LeadSource = (typeof LEAD_SOURCES)[number];
@@ -21,6 +23,11 @@ export const LEAD_FORM_COPY: Record<
     submitLabel: "Get more info",
     successMessage: "Thanks — we'll be in touch with more Start AI info.",
   },
+  "start-ai-flanders-hero": {
+    submitLabel: "Check subsidy eligibility",
+    successMessage:
+      "Thanks — we'll be in touch about Start AI and the KMO-portefeuille.",
+  },
   "wonka-chat-hero": {
     submitLabel: "Try WonkaChat",
     successMessage: "Thanks — we'll be in touch about trying WonkaChat.",
@@ -28,5 +35,9 @@ export const LEAD_FORM_COPY: Record<
   "wonka-chat-odoo-hero": {
     submitLabel: "Try WonkaChat",
     successMessage: "Thanks — we'll be in touch about trying WonkaChat for Odoo.",
+  },
+  "france-diagnostic": {
+    submitLabel: "Voir mon résultat",
+    successMessage: "Merci — nous vous contacterons bientôt.",
   },
 };

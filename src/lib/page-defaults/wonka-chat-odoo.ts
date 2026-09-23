@@ -99,7 +99,7 @@ export const WONKA_CHAT_ODOO_DEFAULTS: WonkaChatOdooDefaults = {
   hero: {
     ...WONKA_CHAT_DEFAULTS.hero,
     eyebrow: "WonkaChat · Odoo",
-    title: "AI on top of Odoo. Ask your ERP in plain language.",
+    title: "AI agents that act in Odoo, for IT and ops teams already on Odoo",
     subtitle:
       "WonkaChat connects to Odoo so your team can query CRM, sales, inventory, and accounting data — and prepare the next action without digging through modules.",
     secondaryLink: null,
@@ -249,7 +249,7 @@ export const WONKA_CHAT_ODOO_DEFAULTS: WonkaChatOdooDefaults = {
   },
   contact: WONKA_CHAT_DEFAULTS.contact,
   seo: {
-    metaTitle: "WonkaChat for Odoo · AI on your ERP | Wonka",
+    metaTitle: "WonkaChat for Odoo | AI agents that act in your ERP",
     metaDescription:
       "Connect WonkaChat to Odoo to query CRM, inventory, accounting, and sales data in natural language. Private AI for Odoo SaaS and self-hosted.",
     ogImage: null,

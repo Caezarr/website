@@ -58,7 +58,7 @@ const labels = {
     empty: "Nog geen artikelen.",
     clusters: ["AI-agents", "RAG", "Enterprise AI", "Workflowautomatisering", "Private AI"],
     seo: {
-      metaTitle: "Enterprise AI Blog | Wonka AI",
+      metaTitle: "Enterprise AI-blog | Wonka AI",
       metaDescription: "Lees Wonka-gidsen over private AI-agents, RAG, workflowautomatisering, governance en enterprise AI-uitrol.",
       ogImage: null,
     },

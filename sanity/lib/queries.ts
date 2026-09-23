@@ -149,7 +149,9 @@ const PROMO_PANEL_FIELDS = `
   backgroundImage {
     ${IMAGE_WITH_ALT_FIELDS}
   },
-  showCta
+  showCta,
+  ctaHref,
+  ctaLabel
 `;
 
 const CONTACT_SECTION_FIELDS = `

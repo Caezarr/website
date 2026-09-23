@@ -214,6 +214,8 @@ export interface PromoPanelData {
   variant: "gradient" | "darkImage" | null;
   backgroundImage: SanityImageData | null;
   showCta: boolean | null;
+  ctaHref: string | null;
+  ctaLabel: string | null;
 }
 
 export interface PromoPanelResolved extends PromoPanelData {

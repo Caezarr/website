@@ -60,23 +60,18 @@ async function main() {
   console.log(`Found ${legacyLeads.length} legacy lead(s) to migrate.${dryRun ? " (dry run)" : ""}`);
 
   for (const lead of legacyLeads) {
-    const nextId = `siteLead-${lead._id.replace(/^drafts\./, "")}`;
     const nextDoc = {
-      _id: nextId,
+      _id: lead._id,
       _type: "siteLead" as const,
       email: lead.email,
       submittedAt: lead.submittedAt ?? new Date().toISOString(),
       source: lead.source ?? "start-ai-hero",
     };
 
-    console.log(`- ${lead._id} → ${nextId} (${nextDoc.email})`);
+    console.log(`- ${lead._id} → siteLead (${nextDoc.email})`);
 
     if (!dryRun) {
-      await client
-        .transaction()
-        .createIfNotExists(nextDoc)
-        .delete(lead._id)
-        .commit();
+      await client.createOrReplace(nextDoc);
     }
   }
 

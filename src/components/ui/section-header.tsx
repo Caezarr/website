@@ -1,4 +1,3 @@
-import { Eyebrow } from "@/components/ui/eyebrow";
 import { MultilineText } from "@/lib/cms-text";
 import { cn } from "@/lib/utils";
 import { headingClass, type HeadingRole } from "@/lib/design-tokens";
@@ -8,6 +7,7 @@ interface SectionHeaderProps {
   heading: string;
   body?: string;
   headingId?: string;
+  headingAs?: "h1" | "h2";
   /** Section titles use type-h4; page heroes use type-h3 */
   headingRole?: HeadingRole;
   align?: "center" | "left";
@@ -22,6 +22,7 @@ export function SectionHeader({
   heading,
   body,
   headingId,
+  headingAs = "h2",
   headingRole = "section",
   align = "center",
   bordered = false,
@@ -51,7 +52,7 @@ export function SectionHeader({
       ) : null}
       <MultilineText
         text={heading}
-        as="h2"
+        as={headingAs}
         id={headingId}
         className={cn(
           headingClass[headingRole],

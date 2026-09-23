@@ -27,11 +27,11 @@ const redirects = async () => [
   { source: '/nl/connectoren/:slug*', destination: '/nl/integrations/:slug*', permanent: true },
   // Legacy meetwonka.com paths — the meetwonka 301s preserve the old path,
   // so each one must land on its closest equivalent here (not a 404)
+  { source: '/services/ai-strategy', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-en', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-nl', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-old', destination: '/start-ai', permanent: true },
-  { source: '/services/:slug*', destination: '/', permanent: true },
   { source: '/products/wonka-chat-odoo', destination: '/wonka-chat/odoo', permanent: true },
   { source: '/products/wonka-chat', destination: '/wonka-chat', permanent: true },
   { source: '/products/:slug*', destination: '/ai-agents', permanent: true },
@@ -48,6 +48,11 @@ const redirects = async () => [
   { source: '/team', destination: '/', permanent: true },
   { source: '/fr/contact', destination: '/contact', permanent: true },
   { source: '/book-a-meeting', destination: '/', permanent: true },
+  // Blog posts → short comparison pages (DISABLED until /vs/dust and /vs/langdock confirmed 200)
+  // { source: '/blog/wonka-vs-dust', destination: '/vs/dust', permanent: true },
+  // { source: '/fr/blog/fr-wonka-vs-dust', destination: '/fr/vs/dust', permanent: true },
+  // { source: '/blog/wonka-vs-langdock', destination: '/vs/langdock', permanent: true },
+  // { source: '/fr/blog/fr-wonka-vs-langdock', destination: '/fr/vs/langdock', permanent: true },
 ];
 
 const headers = async () => [

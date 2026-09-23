@@ -7,33 +7,33 @@ import type { Locale } from "@/i18n/config";
 const copy = {
   en: {
     eyebrow: "The Wonka AI answer",
-    headline: "Your data stays yours. Your AI works for you.",
-    body: "Wonka AI deploys a private LLM inside your infrastructure — connected to your existing tools, processing everything on your servers. No data leaves. No cloud dependency. Full GDPR compliance, out of the box.",
+    headline: "Private enterprise AI with GDPR built in.",
+    body: "Wonka AI connects private AI agents to your existing tools and data. Hosted in Azure West Europe (Microsoft Ireland) by default, with GDPR compliance, access control and audit logs included.",
     bullets: [
-      "Model runs on your servers — nothing reaches a third party",
       "Connects to your full stack: SharePoint, Salesforce, Slack, Jira and more",
+      "Azure West Europe hosting, GDPR compliant, ISO 27001 certified",
       "Deployed in weeks, not months",
     ],
     cta: "Book a demo",
   },
   fr: {
     eyebrow: "La réponse Wonka AI",
-    headline: "Vos données restent les vôtres. Votre IA travaille pour vous.",
-    body: "Wonka AI déploie un LLM privé dans votre infrastructure — connecté à vos outils existants, tout traité sur vos serveurs. Aucune donnée ne quitte votre périmètre. Aucune dépendance cloud. Conformité RGPD totale, dès le départ.",
+    headline: "IA d'entreprise privée avec RGPD intégré.",
+    body: "Wonka AI connecte des agents IA privés à vos outils et données existants. Hébergement par défaut sur Azure West Europe (Microsoft Irlande), avec conformité RGPD, contrôle d'accès et journaux d'audit inclus.",
     bullets: [
-      "Le modèle tourne sur vos serveurs — rien n'atteint un tiers",
       "Connecté à toute votre stack : SharePoint, Salesforce, Slack, Jira et plus",
+      "Hébergement Azure West Europe, conforme RGPD, certifié ISO 27001",
       "Déployé en semaines, pas en mois",
     ],
     cta: "Réserver une démo",
   },
   nl: {
     eyebrow: "Het Wonka AI antwoord",
-    headline: "Uw data blijft van u. Uw AI werkt voor u.",
-    body: "Wonka AI implementeert een private LLM binnen uw infrastructuur — verbonden met uw bestaande tools, alles verwerkt op uw servers. Geen data verlaat uw omgeving. Geen cloudafhankelijkheid. Volledige AVG-naleving, standaard inbegrepen.",
+    headline: "Private enterprise AI met AVG ingebouwd.",
+    body: "Wonka AI verbindt private AI-agents met uw bestaande tools en data. Standaard gehost op Azure West Europe (Microsoft Ierland), met AVG-naleving, toegangscontrole en auditlogs inbegrepen.",
     bullets: [
-      "Het model draait op uw servers — niets bereikt een derde partij",
       "Verbonden met uw volledige stack: SharePoint, Salesforce, Slack, Jira en meer",
+      "Azure West Europe hosting, AVG-conform, ISO 27001 gecertificeerd",
       "Geïmplementeerd in weken, niet maanden",
     ],
     cta: "Demo boeken",

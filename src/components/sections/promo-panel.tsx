@@ -23,7 +23,9 @@ export function PromoPanel({
   meetingTrackType,
   className,
 }: PromoPanelProps) {
-  const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
+  const ctaHref = data.ctaHref ?? meetingUrl ?? "#contact";
+  const ctaLabel = data.ctaLabel ?? meetingLabel ?? DEFAULT_MEETING_LABEL;
+  const meetingTrack = data.ctaHref ? {} : meetingTrackProps(meetingTrackType);
   const variant = data.variant ?? "darkImage";
   const fallback = data.fallbackBackground ?? { src: "", alt: "" };
   const bgSrc = resolveImageSrc(data.backgroundImage, fallback);
@@ -61,9 +63,9 @@ export function PromoPanel({
             {showCta ? (
               <div className="md:justify-self-end">
                 <ButtonLink
-                  href={meetingUrl ?? "#contact"}
+                  href={ctaHref}
                   variant="primary"
-                  {...meetingTrackProps(meetingTrackType)}
+                  {...meetingTrack}
                 >
                   {ctaLabel}
                 </ButtonLink>
@@ -104,9 +106,9 @@ export function PromoPanel({
           {showCta ? (
             <div className="md:justify-self-end">
               <ButtonLink
-                href={meetingUrl ?? "#contact"}
+                href={ctaHref}
                 variant="primary"
-                {...meetingTrackProps(meetingTrackType)}
+                {...meetingTrack}
               >
                 {ctaLabel}
               </ButtonLink>

@@ -4,9 +4,11 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { CookieConsentProvider } from "@/components/cookie-consent/cookie-consent-provider";
 import { InlineScript } from "@/components/inline-script";
 import { JsonLd } from "@/components/json-ld/json-ld";
-import { META_PIXEL_ID, MetaPixel } from "@/components/meta-pixel";
-import { ATTRIBUTION_TRACKER_SCRIPT } from "@/lib/attribution-tracker-script";
-import { fontVariables } from "@/lib/fonts";
+import { MetaPixel } from "@/components/meta-pixel";
+import { ApolloTracker } from "@/components/apollo-tracker";
+import { AnalyticsProvider } from "@/components/analytics-provider";
+import { gtSectra, interDisplay } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
 import { getSiteUrl } from "@/lib/site-url";
 import "@/styles/globals.css";
 
@@ -88,38 +90,7 @@ const organizationSchema = {
     "https://www.linkedin.com/company/wonka-ai",
   ],
   description:
-    "Wonka AI deploys private LLMs inside European enterprises — connected to your existing tools, processing everything on your own servers. Full data sovereignty, GDPR compliance, deployed in weeks.",
-};
-
-const softwareApplicationSchema = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Wonka AI",
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Web",
-  url: SITE_URL,
-  description:
-    "Private enterprise AI platform. Deploy a secure LLM inside your infrastructure, connected to SharePoint, Salesforce, Slack, Jira and more — with full data sovereignty and GDPR compliance.",
-  publisher: {
-    "@type": "Organization",
-    name: "Wonka AI",
-    url: SITE_URL,
-  },
-  offers: {
-    "@type": "Offer",
-    url: SITE_URL,
-    price: "0",
-    priceCurrency: "EUR",
-    availability: "https://schema.org/OnlineOnly",
-  },
-  featureList: [
-    "Private LLM deployment on your infrastructure",
-    "GDPR-compliant enterprise AI",
-    "Connectors for SharePoint, Salesforce, Slack, Jira, HubSpot, Notion",
-    "Data sovereignty — no data leaves your environment",
-    "RAG on your internal documents and knowledge base",
-    "Deployed in weeks, not months",
-  ],
+    "Wonka AI deploys private enterprise AI agents connected to your existing tools. ISO 27001 certified. GDPR compliant. NIS 2 compliant. SOC 2 Type II in progress. Hosted in Azure West Europe (Microsoft Ireland).",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -130,7 +101,7 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s – Wonka AI",
     },
     description:
-      "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance and no data leaving your environment.",
+      "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance. Hosted in Azure West Europe (Microsoft Ireland).",
     robots: {
       index: true,
       follow: true,
@@ -146,8 +117,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" dir="ltr">
-      <body className={fontVariables}>
+    <html lang="en" dir="ltr" className={cn(interDisplay.variable, gtSectra.variable)}>
+      <body className="font-sans antialiased">
         {GTM_ID && (
           <>
             <InlineScript
@@ -174,32 +145,16 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             />
           </noscript>
         )}
-        <InlineScript
-          id="apollo-tracker"
-          html={`function initApollo(){var n=Math.random().toString(36).substring(7),o=document.createElement("script");o.src="https://assets.apollo.io/micro/website-tracker/tracker.iife.js?nocache="+n,o.async=!0,o.defer=!0,o.onload=function(){window.trackingFunctions.onLoad({appId:"691d86987b3dc0000db97e49"})},document.head.appendChild(o)}initApollo();`}
-        />
-        <InlineScript
-          id="wonka-attribution-tracker"
-          html={ATTRIBUTION_TRACKER_SCRIPT}
-        />
-        <noscript>
-          <img
-            height="1"
-            width="1"
-            alt=""
-            style={{ display: "none" }}
-            src={`https://www.facebook.com/tr?id=${META_PIXEL_ID}&ev=PageView&noscript=1`}
-          />
-        </noscript>
         <CookieConsentProvider>
+          <AnalyticsProvider />
           {children}
+          <ApolloTracker />
           <MetaPixel />
         </CookieConsentProvider>
         <Analytics />
         <JsonLd id="schema-website" data={websiteSchema} />
         <JsonLd id="schema-site-navigation" data={siteNavigationSchema} />
         <JsonLd id="schema-organization" data={organizationSchema} />
-        <JsonLd id="schema-software-application" data={softwareApplicationSchema} />
         <SpeedInsights />
       </body>
     </html>

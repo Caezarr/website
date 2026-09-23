@@ -8,7 +8,7 @@ import { HREFLANG } from "@/lib/hreflang";
 
 const HOME_TITLE = "Wonka AI - Private Enterprise AI Agents";
 const DEFAULT_DESCRIPTION =
-  "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance and no data leaving your environment.";
+  "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance. Hosted in Azure West Europe (Microsoft Ireland).";
 const SITE_NAME = "Wonka AI";
 const DEFAULT_OG_IMAGE = "/opengraph-image.jpg";
 

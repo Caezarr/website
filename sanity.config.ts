@@ -129,6 +129,41 @@ export default defineConfig({
                   .title("Leads")
                   .items([
                     S.listItem()
+                      .title("All leads")
+                      .child(
+                        S.documentTypeList("siteLead")
+                          .title("All leads")
+                          .filter('_type in ["siteLead", "startAiLead"]')
+                          .defaultOrdering([
+                            { field: "submittedAt", direction: "desc" },
+                          ]),
+                      ),
+                    S.listItem()
+                      .title("MQL")
+                      .child(
+                        S.documentTypeList("siteLead")
+                          .title("Marketing qualified leads")
+                          .filter(
+                            '_type == "siteLead" && lifecycleStage == "mql"',
+                          )
+                          .defaultOrdering([
+                            { field: "submittedAt", direction: "desc" },
+                          ]),
+                      ),
+                    S.listItem()
+                      .title("France diagnostic")
+                      .child(
+                        S.documentTypeList("siteLead")
+                          .title("France diagnostic leads")
+                          .filter(
+                            '_type == "siteLead" && source == "france-diagnostic"',
+                          )
+                          .defaultOrdering([
+                            { field: "submittedAt", direction: "desc" },
+                          ]),
+                      ),
+                    S.divider(),
+                    S.listItem()
                       .title("Start AI")
                       .child(
                         S.documentTypeList("siteLead")

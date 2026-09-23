@@ -1,16 +1,23 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useCookieConsent } from "@/components/cookie-consent/cookie-consent-provider";
+import { allowsTracking, useCookieConsent } from "@/components/cookie-consent/cookie-consent-provider";
+import { META_PIXEL_ID } from "@/lib/meta-pixel-id";
 
-const META_PIXEL_ID = "2083978768839489";
+const META_PIXEL_SCRIPT_SRC = "https://connect.facebook.net/en_US/fbevents.js";
+
+let metaPixelLoadStarted = false;
 
 function loadMetaPixel() {
-  if (typeof window === "undefined" || window.fbq) return;
+  if (typeof window === "undefined" || metaPixelLoadStarted || window.fbq) return;
+  metaPixelLoadStarted = true;
 
+  const existing = document.querySelector(
+    `script[src="${META_PIXEL_SCRIPT_SRC}"]`,
+  );
+  if (existing) return;
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const f = window;
-  if (f.fbq) return;
   const n: any = (f.fbq = function (...args: unknown[]) {
     n.callMethod ? n.callMethod(...args) : n.queue.push(args);
   });
@@ -21,7 +28,10 @@ function loadMetaPixel() {
   n.queue = [];
   const script = document.createElement("script");
   script.async = true;
-  script.src = "https://connect.facebook.net/en_US/fbevents.js";
+  script.src = META_PIXEL_SCRIPT_SRC;
+  script.onerror = () => {
+    metaPixelLoadStarted = false;
+  };
   const firstScript = document.getElementsByTagName("script")[0];
   firstScript.parentNode?.insertBefore(script, firstScript);
 
@@ -30,18 +40,26 @@ function loadMetaPixel() {
   /* eslint-enable @typescript-eslint/no-explicit-any */
 }
 
+function deferLoadMetaPixel() {
+  const win = window as Window & { requestIdleCallback?: typeof requestIdleCallback };
+  
+  if (win.requestIdleCallback) {
+    win.requestIdleCallback(() => loadMetaPixel(), { timeout: 3000 });
+  } else {
+    win.addEventListener("load", loadMetaPixel);
+  }
+}
+
 export function MetaPixel() {
   const { consent } = useCookieConsent();
   const loaded = useRef(false);
 
   useEffect(() => {
-    if (!consent?.categories.marketing) return;
+    if (!allowsTracking(consent)) return;
     if (loaded.current) return;
     loaded.current = true;
-    loadMetaPixel();
+    deferLoadMetaPixel();
   }, [consent]);
 
   return null;
 }
-
-export { META_PIXEL_ID };

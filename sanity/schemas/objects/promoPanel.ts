@@ -45,5 +45,17 @@ export const promoPanel = defineType({
       type: "boolean",
       initialValue: true,
     }),
+    defineField({
+      name: "ctaHref",
+      title: "CTA link",
+      type: "string",
+      description: "Optional. Overrides the default meeting link when set.",
+    }),
+    defineField({
+      name: "ctaLabel",
+      title: "CTA label",
+      type: "string",
+      description: "Optional. Overrides the default meeting button label when set.",
+    }),
   ],
 });

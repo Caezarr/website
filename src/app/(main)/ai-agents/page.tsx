@@ -16,7 +16,7 @@ export const dynamic = "force-static";
 const pagePath = "/ai-agents";
 const title = "Private Enterprise AI Agents | Wonka AI";
 const description =
-  "Wonka AI builds private enterprise AI agents connected to Odoo, SharePoint, Outlook, Teams, CRM, ERP and internal tools, with GDPR and data sovereignty built in.";
+  "Wonka AI builds private enterprise AI agents connected to Odoo, SharePoint, Outlook, Teams, CRM, ERP and internal tools, with GDPR compliance. Hosted in Azure West Europe.";
 
 const connectors = [
   { name: "Odoo", logo: "/images/solution/card-3/logos/odoo.svg" },
@@ -80,7 +80,7 @@ const faqItems = [
   {
     question: "Where does company data go?",
     answer:
-      "Wonka is designed for private and controlled enterprise deployments. The architecture can keep sensitive company data inside the customer's environment, with GDPR, access control and data sovereignty constraints handled from the start.",
+      "Wonka is hosted in Azure West Europe (Microsoft Ireland) by default, with GDPR compliance, role-based access control and audit logs. Customer data is not used to train public AI models. A Data Processing Agreement is available on request.",
   },
 ];
 
@@ -161,7 +161,7 @@ export default async function AiAgentsPage() {
               <p className="type-eyebrow text-white/38">Short answer</p>
               <p className="mt-5 type-body text-white/78">
                 Wonka AI helps European companies deploy private AI agents connected to existing
-                tools and data, with GDPR, data sovereignty and enterprise access control built in.
+                tools and data, with GDPR compliance and enterprise access control. Hosted in Azure West Europe (Microsoft Ireland).
               </p>
               <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden bg-white/12">
                 {[

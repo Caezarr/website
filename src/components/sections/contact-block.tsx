@@ -16,6 +16,8 @@ interface ContactBlockProps {
   meetingUrl?: string | null;
   meetingLabel?: string | null;
   meetingTrackType: MeetingTrackType;
+  email?: string | null;
+  phone?: string | null;
   id?: string;
   className?: string;
 }
@@ -25,6 +27,8 @@ export function ContactBlock({
   meetingUrl,
   meetingLabel,
   meetingTrackType,
+  email,
+  phone,
   id = "contact",
   className,
 }: ContactBlockProps) {
@@ -79,6 +83,26 @@ export function ContactBlock({
             ) : null}
             {personRole ? (
               <div className="type-paragraph-s text-text/55">{personRole}</div>
+            ) : null}
+          </div>
+        ) : null}
+        {email || phone ? (
+          <div className="flex flex-col items-center gap-1">
+            {email ? (
+              <a
+                href={`mailto:${email}`}
+                className="type-paragraph-m text-text/70 underline underline-offset-4 transition-opacity hover:text-text"
+              >
+                {email}
+              </a>
+            ) : null}
+            {phone ? (
+              <a
+                href={`tel:${phone.replace(/\s+/g, "")}`}
+                className="type-paragraph-m text-text/70 underline underline-offset-4 transition-opacity hover:text-text"
+              >
+                {phone}
+              </a>
             ) : null}
           </div>
         ) : null}

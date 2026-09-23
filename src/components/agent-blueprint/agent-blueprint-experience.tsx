@@ -1467,7 +1467,7 @@ export function AgentBlueprintExperience({
               />
 
               <TurnstileWidget
-                resetKey={turnstileResetKey}
+                key={turnstileResetKey}
                 onToken={setTurnstileToken}
                 onExpire={() => setTurnstileToken(null)}
                 onError={() => {

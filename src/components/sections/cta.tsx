@@ -16,6 +16,7 @@ interface CtaProps {
   meetingUrl?: string | null;
   meetingLabel?: string | null;
   meetingTrackType?: MeetingTrackType;
+  showImage?: boolean;
 }
 
 export function Cta({
@@ -24,6 +25,7 @@ export function Cta({
   meetingUrl,
   meetingLabel,
   meetingTrackType = "general",
+  showImage = true,
 }: CtaProps) {
   const heading = data?.heading ?? DEFAULT_HEADING;
   const body = data?.body ?? DEFAULT_BODY;
@@ -37,13 +39,15 @@ export function Cta({
       className="bg-black px-0 md:px-0 lg:px-0"
       containerClassName="relative overflow-hidden flex flex-col items-center px-6 md:px-12 py-15 md:py-22"
     >
-      <Image
-        src="/images/CTA/cta-bg.avif"
-        alt=""
-        fill
-        sizes="100vw"
-        className="pointer-events-none object-cover opacity-80"
-      />
+      {showImage && (
+        <Image
+          src="/images/CTA/cta-bg.avif"
+          alt=""
+          fill
+          sizes="100vw"
+          className="pointer-events-none object-cover opacity-80"
+        />
+      )}
       <div className="relative flex flex-col items-center gap-6 text-center">
         <h2 className={cn(headingClass.section, "text-text xl:whitespace-nowrap")}>{heading}</h2>
         <p className="type-body max-w-[35.125rem] text-text opacity-80">{body}</p>
