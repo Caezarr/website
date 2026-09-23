@@ -43,7 +43,7 @@ export async function StartAiView({ locale }: { locale: Locale }) {
     sanityFetch({ query: SITE_SETTINGS_QUERY }),
   ]);
   const sharedLinks = (settings as SiteSettings | null)?.sharedLinks ?? null;
-  const meetingUrl = resolveMeetingUrl(sharedLinks, "start-ai");
+  const meetingUrl = resolveMeetingUrl(sharedLinks, "start-ai", locale);
   const meetingLabel = resolveMeetingLabel(sharedLinks, locale);
 
   return (

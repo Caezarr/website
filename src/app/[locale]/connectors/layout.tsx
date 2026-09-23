@@ -1,5 +1,17 @@
 import { PageLayout } from "@/components/layout/page-layout";
+import type { Locale } from "@/i18n/config";
 
-export default function ConnectorsLayout({ children }: { children: React.ReactNode }) {
-  return <PageLayout headerVariant="inline-light">{children}</PageLayout>;
+export default async function ConnectorsLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return (
+    <PageLayout headerVariant="inline-light" locale={locale as Locale}>
+      {children}
+    </PageLayout>
+  );
 }

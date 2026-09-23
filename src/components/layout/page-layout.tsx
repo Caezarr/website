@@ -3,6 +3,7 @@ import { SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
 import type { Locale } from "@/i18n/config";
 import type { SiteSettings } from "@/lib/types";
 import { resolveNavigation } from "@/lib/nav-defaults";
+import { isBookingUrl, resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import { Header, type HeaderVariant } from "./header";
 import { Footer } from "./footer";
 
@@ -24,12 +25,17 @@ export async function PageLayout({
 }: PageLayoutProps) {
   const settings = await getSiteSettings();
   const navItems = resolveNavigation(settings?.navigation, locale);
+  // French pages book with the French team, including the header CTA.
+  const headerCta =
+    locale === "fr" && settings?.headerCta && isBookingUrl(settings.headerCta.href)
+      ? { ...settings.headerCta, href: resolveMeetingUrl(settings.sharedLinks, "france") }
+      : settings?.headerCta;
 
   return (
     <div className="relative">
       <Header
         navItems={navItems}
-        headerCta={settings?.headerCta}
+        headerCta={headerCta}
         variant={headerVariant}
         locale={locale}
       />

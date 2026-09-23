@@ -66,7 +66,7 @@ export async function WonkaChatView({ locale }: { locale: Locale }) {
   const pageUrl = `${siteUrl}${commercialPath("wonkaChat", locale)}`;
   const { settings, content, rawContent } = await getPageBundle(locale);
   const sharedLinks = settings?.sharedLinks ?? null;
-  const meetingUrl = resolveMeetingUrl(sharedLinks, "wonka-chat");
+  const meetingUrl = resolveMeetingUrl(sharedLinks, "wonka-chat", locale);
   const meetingLabel = resolveMeetingLabel(sharedLinks, locale);
   const faqItems =
     content.faq.items?.map((item) => ({

@@ -19,12 +19,11 @@ export async function pricingMetadata(locale: Locale): Promise<Metadata> {
   return buildCommercialMetadata(seo, "pricing", locale, title);
 }
 
-export async function PricingView({ locale: _locale }: { locale: Locale }) {
-  // Client component reads the locale from the URL prefix (useUiLocale).
-  void _locale;
+export async function PricingView({ locale }: { locale: Locale }) {
+  // PricingPage (client) reads its own strings' locale from the URL prefix.
   const { data } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
   const settings = data as SiteSettings | null;
-  const bookingHref = resolveMeetingUrl(settings?.sharedLinks, "wonka-chat");
+  const bookingHref = resolveMeetingUrl(settings?.sharedLinks, "wonka-chat", locale);
 
   return (
     <main className="bg-background text-text">

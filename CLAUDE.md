@@ -22,6 +22,8 @@ The site is published in EN / FR / NL. See **Internationalization** below before
 - **UI strings** (shell, forms, section chrome): `src/i18n/messages/{en,fr,nl}/<namespace>.json`, read with `getT(locale)` (server) or `useT()` (client, locale from URL prefix). FR/NL must mirror EN keys (type-checked).
 - **Page copy**: Sanity singletons per locale (`<id>`, `<id>-fr`, `<id>-nl`, queried by `_id` via `fetchPageDoc`), falling back field by field to `getPageDefaults(locale)` (`src/lib/page-defaults/{fr,nl}.ts`). Code-only pages keep copy in `src/views/copy/*.ts` as `Record<Locale, …>`.
 - **Tone**: FR vouvoiement, NL u-vorm (Flemish B2B). Product names never translated.
+- **Booking links**: every French page (`/fr/*`, `/france*`) books with the French team calendar — pass `locale` to `resolveMeetingUrl` / `resolveTeamMeetingUrl`; `PageLayout` swaps the header CTA. `/france*` pages count as `fr` in `getLocaleFromPathname`. Never fall back to the HQ calendar for France.
+- **Layouts**: every `PageLayout` under `src/app/[locale]/` must receive `locale`, otherwise header/footer render in English.
 - `bun scripts/i18n/seed-sanity-translations.ts [--dry-run]` creates missing FR/NL singletons (createIfNotExists, never overwrites Studio edits).
 
 ## Commands

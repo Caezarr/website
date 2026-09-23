@@ -45,7 +45,7 @@ export default async function ComparisonDetailPage({ params }: PageProps) {
   ]);
   if (!data) notFound();
 
-  const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null);
+  const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null, locale as Locale);
   const c = data as ComparisonPage;
   const [{ data: relatedPosts }, { data: relatedConnectors }] = await Promise.all([
     sanityFetch({ query: RELATED_BLOG_POSTS_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),

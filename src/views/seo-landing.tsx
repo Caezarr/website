@@ -88,7 +88,7 @@ export async function SeoLandingView({
   // France never falls back to the HQ calendar (see resolveMeetingUrl): until a
   // French booking link is configured, meeting CTAs send people to the free
   // French diagnostic instead of an empty href.
-  const resolvedMeetingUrl = resolveMeetingUrl(sharedLinks, meetingContext);
+  const resolvedMeetingUrl = resolveMeetingUrl(sharedLinks, meetingContext, locale);
   const franceFallback = meetingContext === "france" && !resolvedMeetingUrl;
   const meetingUrl = franceFallback ? FRANCE_DIAGNOSTIC_PATH : resolvedMeetingUrl;
   const meetingLabel = franceFallback

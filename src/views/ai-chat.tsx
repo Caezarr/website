@@ -42,7 +42,7 @@ export async function AiChatView({ locale }: { locale: Locale }) {
   ]);
   const content = resolveWonkaChatContent(rawContent, null, locale);
   const sharedLinks = (settings as SiteSettings | null)?.sharedLinks ?? null;
-  const meetingUrl = resolveMeetingUrl(sharedLinks, "wonka-chat");
+  const meetingUrl = resolveMeetingUrl(sharedLinks, "wonka-chat", locale);
   const meetingLabel = resolveMeetingLabel(sharedLinks, locale);
   const trialLabel = t("common.startFreeTrial");
 
