@@ -9,6 +9,8 @@ import { ACCULTURATION_IA_COPY } from "@/views/copy/landing/acculturation-ia";
 import { AUDIT_IA_COPY } from "@/views/copy/landing/audit-ia";
 import { CHARTE_IA_COPY } from "@/views/copy/landing/charte-ia";
 import { CHATBOT_ENTREPRISE_COPY } from "@/views/copy/landing/chatbot-entreprise";
+import { COMPARATIF_IA_COPY } from "@/views/copy/landing/comparatif-ia";
+import { SHADOW_AI_COPY } from "@/views/copy/landing/shadow-ai";
 
 /** Copy per landing page; a page only has copy for the locales in LANDING_PATHS. */
 export const LANDING_COPY: Record<LandingPage, Partial<Record<Locale, LandingCopy>>> = {
@@ -20,4 +22,6 @@ export const LANDING_COPY: Record<LandingPage, Partial<Record<Locale, LandingCop
   acculturationIa: ACCULTURATION_IA_COPY,
   chatbotEntreprise: CHATBOT_ENTREPRISE_COPY,
   charteIa: CHARTE_IA_COPY,
+  shadowAi: SHADOW_AI_COPY,
+  comparatifIa: COMPARATIF_IA_COPY,
 };
