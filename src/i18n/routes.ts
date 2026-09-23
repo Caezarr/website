@@ -51,6 +51,19 @@ export const LANDING_PATHS = {
   kmoPortefeuille: {
     nl: "/nl/kmo-portefeuille-ai",
   },
+  // French-market pages (France): published in French only
+  auditIa: {
+    fr: "/fr/audit-ia",
+  },
+  acculturationIa: {
+    fr: "/fr/acculturation-ia",
+  },
+  chatbotEntreprise: {
+    fr: "/fr/chatbot-entreprise",
+  },
+  charteIa: {
+    fr: "/fr/charte-ia-entreprise",
+  },
 } as const satisfies Record<string, Partial<Record<Locale, string>>>;
 
 export type LandingPage = keyof typeof LANDING_PATHS;

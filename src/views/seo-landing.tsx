@@ -27,6 +27,8 @@ import type { LandingCopy, LandingCta } from "@/views/copy/landing-types";
 import { LANDING_COPY } from "@/views/copy/landing";
 
 const TRIAL_URL = "https://wonka.chat/register";
+const FRANCE_DIAGNOSTIC_PATH = "/france/diagnostic";
+const FRANCE_DIAGNOSTIC_LABEL = "Faire le diagnostic gratuit";
 
 function getCopy(page: LandingPage, locale: Locale): LandingCopy {
   const copy = LANDING_COPY[page][locale];
@@ -81,8 +83,17 @@ export async function SeoLandingView({
 
   const { data: settings } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
   const sharedLinks = (settings as SiteSettings | null)?.sharedLinks ?? null;
-  const meetingUrl = resolveMeetingUrl(sharedLinks, "default");
-  const meetingLabel = resolveMeetingLabel(sharedLinks, locale);
+  const meetingContext = copy.meetingContext ?? "default";
+  const meetingTrack = meetingContext === "france" ? "france" : "general";
+  // France never falls back to the HQ calendar (see resolveMeetingUrl): until a
+  // French booking link is configured, meeting CTAs send people to the free
+  // French diagnostic instead of an empty href.
+  const resolvedMeetingUrl = resolveMeetingUrl(sharedLinks, meetingContext);
+  const franceFallback = meetingContext === "france" && !resolvedMeetingUrl;
+  const meetingUrl = franceFallback ? FRANCE_DIAGNOSTIC_PATH : resolvedMeetingUrl;
+  const meetingLabel = franceFallback
+    ? FRANCE_DIAGNOSTIC_LABEL
+    : resolveMeetingLabel(sharedLinks, locale);
   const defaults = getPageDefaults(locale);
 
   const serviceSchema = {
@@ -102,9 +113,11 @@ export async function SeoLandingView({
   };
 
   const primaryHref = ctaHref(copy.hero.primaryCta, meetingUrl);
-  const secondaryHref = copy.hero.secondaryCta
+  const secondaryTarget = copy.hero.secondaryCta
     ? ctaHref(copy.hero.secondaryCta, meetingUrl)
     : null;
+  // Hide the secondary CTA when a fallback makes it point where the primary does.
+  const secondaryHref = secondaryTarget === primaryHref ? null : secondaryTarget;
 
   return (
     <>
@@ -134,17 +147,21 @@ export async function SeoLandingView({
                   href={primaryHref}
                   variant="primary"
                   {...(copy.hero.primaryCta.href === "meeting"
-                    ? meetingTrackProps("general")
+                    ? meetingTrackProps(meetingTrack)
                     : {})}
                 >
-                  {copy.hero.primaryCta.label}
+                  {franceFallback && copy.hero.primaryCta.href === "meeting"
+                    ? FRANCE_DIAGNOSTIC_LABEL
+                    : copy.hero.primaryCta.label}
                 </ButtonLink>
                 {copy.hero.secondaryCta && secondaryHref ? (
                   <Link
                     href={secondaryHref}
                     className="type-paragraph-m-bold text-white underline underline-offset-4"
                   >
-                    {copy.hero.secondaryCta.label}
+                    {franceFallback && copy.hero.secondaryCta.href === "meeting"
+                      ? FRANCE_DIAGNOSTIC_LABEL
+                      : copy.hero.secondaryCta.label}
                   </Link>
                 ) : null}
               </div>
@@ -324,7 +341,7 @@ export async function SeoLandingView({
         data={{ heading: copy.cta.heading, body: copy.cta.body }}
         meetingUrl={meetingUrl}
         meetingLabel={meetingLabel}
-        meetingTrackType="general"
+        meetingTrackType={meetingTrack}
         locale={locale}
       />
     </>
