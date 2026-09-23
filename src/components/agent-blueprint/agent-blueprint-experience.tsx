@@ -116,9 +116,9 @@ async function readBlueprintStream(
 }
 
 /**
- * Browser autofill paints its own light background and dark text on inputs.
- * Delay the background forever and keep our text color so a picked
- * suggestion looks like typed text.
+ * Autocomplete is off on the website inputs because recent Chrome paints an
+ * opaque autofill background with !important. This keeps text readable if a
+ * browser or password manager fills the field anyway.
  */
 const autofillReset =
   "autofill:[-webkit-text-fill-color:var(--color-white)] autofill:[caret-color:var(--color-white)] autofill:[transition:background-color_9999s_ease-out_0s]";
@@ -1270,7 +1270,7 @@ export function AgentBlueprintExperience({
                     required
                     disabled={isLoading}
                     inputMode="url"
-                    autoComplete="url"
+                    autoComplete="off"
                     autoCapitalize="none"
                     spellCheck={false}
                     placeholder="yourcompany.com"
@@ -1439,7 +1439,7 @@ export function AgentBlueprintExperience({
               required
               disabled={isLoading}
               inputMode="url"
-              autoComplete="url"
+              autoComplete="off"
               autoCapitalize="none"
               spellCheck={false}
               placeholder="yourcompany.com"
