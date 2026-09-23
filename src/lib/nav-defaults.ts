@@ -68,7 +68,7 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
       {
         _key: "ai-strategy",
         label: "AI Strategy",
-        href: "/services/ai-strategy",
+        href: "/start-ai",
         description: "Become AI native in four weeks",
       },
       {
