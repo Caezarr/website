@@ -3,7 +3,6 @@ import { AgentBlueprintExperience } from "@/components/agent-blueprint/agent-blu
 import {
   BlueprintFaq,
   BlueprintSteps,
-  SampleBlueprint,
 } from "@/components/agent-blueprint/blueprint-sections";
 import { Security } from "@/components/sections/security";
 import { Stats } from "@/components/sections/stats";
@@ -60,7 +59,6 @@ export default function AgentBlueprintPage() {
         meetingUrl={BLUEPRINT_MEETING_URL}
         wonkaChatUrl={WONKA_CHAT_URL}
       >
-        <SampleBlueprint />
         <BlueprintSteps />
         <div className="flex flex-col gap-10 py-10 md:gap-16 md:py-16">
           <Stats />

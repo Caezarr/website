@@ -429,15 +429,6 @@ function FoundryPanel({
             </>
           )}
         </div>
-
-        {mode === "idle" ? (
-          <a
-            href="#example-blueprint"
-            className="type-paragraph-s mt-4 inline-flex items-center gap-2 text-blue-300 underline-offset-4 hover:underline"
-          >
-            See an example blueprint <span aria-hidden>↓</span>
-          </a>
-        ) : null}
       </div>
     </div>
   );
@@ -1412,13 +1403,7 @@ export function AgentBlueprintExperience({
         />
       ) : null}
 
-      {/* Server sections read the state via group-data-[state=…]/blueprint. */}
-      <div
-        className="group/blueprint"
-        data-state={state === "result" && response ? "result" : state}
-      >
-        {children}
-      </div>
+      {children}
 
       <section
         data-theme="dark"
