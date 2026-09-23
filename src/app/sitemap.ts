@@ -86,6 +86,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const staticPages: MetadataRoute.Sitemap = [
     ...commercialPages,
     ...landingPages,
+    { url: `${siteUrl}/ai-agent-blueprint`, lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${siteUrl}/case-studies/itzu`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/case-studies/n-allo`, lastModified, changeFrequency: "monthly", priority: 0.7 },
     { url: `${siteUrl}/terms`, lastModified, changeFrequency: "yearly", priority: 0.3 },

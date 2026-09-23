@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { getT } from "@/i18n/ui";
 
 const LOGO_HEIGHT_PX = 24;
 
@@ -51,7 +52,11 @@ function ProofItem({ item, message }: { item: ProofItemData; message: string }) 
 }
 
 /** `messages` are the localized captions, in PROOF_ITEMS order. */
-export function HeroMarquee({ messages }: { messages: string[] }) {
+export function HeroMarquee({
+  messages = getT("en").raw("home.hero.marquee") as string[],
+}: {
+  messages?: string[];
+}) {
   return (
     <div
       className="group/marquee relative w-full overflow-clip border-t border-dashed border-border bg-text/[0.06]"
