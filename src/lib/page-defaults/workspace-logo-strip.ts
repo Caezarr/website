@@ -1,47 +1,50 @@
+import type { Locale } from "@/i18n/config";
 import type { LogoStripResolved } from "@/lib/types/page-sections";
+import { WORKSPACE_COPY } from "@/views/copy/workspace";
 
-export const WORKSPACE_LOGO_STRIP: LogoStripResolved = {
-  logos: null,
-  proofLines: [
-    "Trusted by Belgian teams of every size",
-    "European data storage",
-  ],
-  fallbackLogos: [
-    {
-      src: "/images/workspace/logos/senitas.png",
-      alt: "Senitas",
-      width: 120,
-      height: 68,
-    },
-    {
-      src: "/images/workspace/logos/haelvoet.png",
-      alt: "Haelvoet",
-      width: 120,
-      height: 68,
-    },
-    {
-      src: "/images/workspace/logos/gerantis.png",
-      alt: "Gerantis",
-      width: 120,
-      height: 68,
-    },
-    {
-      src: "/images/workspace/logos/itzu.png",
-      alt: "itzu",
-      width: 120,
-      height: 68,
-    },
-    {
-      src: "/images/workspace/logos/ingenium-group.png",
-      alt: "Ingenium Group",
-      width: 120,
-      height: 68,
-    },
-    {
-      src: "/images/workspace/logos/respace.png",
-      alt: "Respace",
-      width: 120,
-      height: 68,
-    },
-  ],
-};
+const WORKSPACE_LOGOS: LogoStripResolved["fallbackLogos"] = [
+  {
+    src: "/images/workspace/logos/senitas.png",
+    alt: "Senitas",
+    width: 120,
+    height: 68,
+  },
+  {
+    src: "/images/workspace/logos/haelvoet.png",
+    alt: "Haelvoet",
+    width: 120,
+    height: 68,
+  },
+  {
+    src: "/images/workspace/logos/gerantis.png",
+    alt: "Gerantis",
+    width: 120,
+    height: 68,
+  },
+  {
+    src: "/images/workspace/logos/itzu.png",
+    alt: "itzu",
+    width: 120,
+    height: 68,
+  },
+  {
+    src: "/images/workspace/logos/ingenium-group.png",
+    alt: "Ingenium Group",
+    width: 120,
+    height: 68,
+  },
+  {
+    src: "/images/workspace/logos/respace.png",
+    alt: "Respace",
+    width: 120,
+    height: 68,
+  },
+];
+
+export function getWorkspaceLogoStrip(locale: Locale): LogoStripResolved {
+  return {
+    logos: null,
+    proofLines: WORKSPACE_COPY[locale].proofLines,
+    fallbackLogos: WORKSPACE_LOGOS,
+  };
+}

@@ -1,7 +1,5 @@
-import type { Metadata } from "next";
-import type { Locale } from "@/i18n/config";
+import { redirect } from "next/navigation";
 import { TRANSLATED_LOCALES } from "@/i18n/routes";
-import { WonkaChatView, wonkaChatMetadata } from "@/views/wonka-chat";
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
@@ -14,12 +12,7 @@ export function generateStaticParams() {
   return TRANSLATED_LOCALES.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { locale } = await params;
-  return wonkaChatMetadata(locale as Locale);
-}
-
 export default async function LocalizedWonkaChatPage({ params }: PageProps) {
   const { locale } = await params;
-  return <WonkaChatView locale={locale as Locale} />;
+  redirect(`/${locale}/workspace`);
 }
