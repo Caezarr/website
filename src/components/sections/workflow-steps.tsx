@@ -21,6 +21,7 @@ import type {
   WorkflowStepsData,
 } from "@/lib/types/page-sections";
 import { cn } from "@/lib/utils";
+import { useT } from "@/i18n/use-t";
 
 interface WorkflowStepsProps {
   data: WorkflowStepsData;
@@ -33,6 +34,7 @@ function StepVisual({
 }: {
   step: WorkflowStepResolved;
 }) {
+  const t = useT();
   const fallback = step.fallbackImage ?? { src: "", alt: "" };
   const imageSrc = resolveImageSrc(step.image, fallback);
 
@@ -53,7 +55,7 @@ function StepVisual({
 
   if (step.visual === "step2") return <Step2Visual />;
   if (step.visual === "step3") return <Step3Visual />;
-  return <Step1Visual />;
+  return <Step1Visual prompt={t("sections.workflowSteps.voicePrompt")} />;
 }
 
 function StepText({
@@ -65,10 +67,11 @@ function StepText({
   title: string;
   body: string;
 }) {
+  const t = useT();
   return (
     <div className="flex flex-col items-start gap-3 pr-0 lg:pr-12">
       <span className="type-eyebrow rounded-full bg-dark-brown px-2.5 py-1 text-white">
-        Step {index + 1}
+        {t("sections.workflowSteps.stepTag", { number: index + 1 })}
       </span>
       <h3 className={headingClass.card}>{title}</h3>
       <p className="type-body text-text opacity-80">{body}</p>
@@ -77,6 +80,7 @@ function StepText({
 }
 
 export function WorkflowSteps({ data, id, className }: WorkflowStepsProps) {
+  const t = useT();
   const headingId = id ? `${id}-heading` : "workflow-steps-heading";
   const header = data.header;
   const steps = data.steps ?? [];
@@ -191,7 +195,7 @@ export function WorkflowSteps({ data, id, className }: WorkflowStepsProps) {
               type="button"
               onClick={scrollPrev}
               disabled={!canPrev}
-              aria-label="Previous step"
+              aria-label={t("sections.workflowSteps.previous")}
               className={cn(
                 "inline-flex size-9 items-center justify-center rounded-full border border-border text-text transition-opacity",
                 !canPrev && "opacity-30",
@@ -203,7 +207,7 @@ export function WorkflowSteps({ data, id, className }: WorkflowStepsProps) {
               type="button"
               onClick={scrollNext}
               disabled={!canNext}
-              aria-label="Next step"
+              aria-label={t("sections.workflowSteps.next")}
               className={cn(
                 "inline-flex size-9 items-center justify-center rounded-full border border-border text-text transition-opacity",
                 !canNext && "opacity-30",

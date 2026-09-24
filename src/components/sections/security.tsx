@@ -9,11 +9,17 @@ import { DEFAULT_SECURITY, resolveSecuritySection } from "@/lib/cms-sections";
 import { cn } from "@/lib/utils";
 import { headingClass } from "@/lib/design-tokens";
 import type { SecurityData } from "@/lib/types";
+import type { Locale } from "@/i18n/config";
 
 interface SecurityProps {
   id?: string;
   data?: SecurityData | null;
   defaults?: SecurityData;
+  /**
+   * Accepted for API symmetry with other sections. Copy is fully driven by
+   * `data`/`defaults` (pass `getPageDefaults(locale)` values for FR/NL).
+   */
+  locale?: Locale;
 }
 
 export function Security({ id, data, defaults = DEFAULT_SECURITY }: SecurityProps) {

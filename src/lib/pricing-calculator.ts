@@ -37,12 +37,15 @@ export function bandSeatCounts(seats: number) {
   };
 }
 
-const TIER_LABELS = [
-  "For the first",
-  "For the next",
-  "For the next",
-  "For the next",
-] as const;
+/** Band label keys; translated via `pricing.breakdown.bandFirst|bandNext`. */
+export type PricingBandLabel = "bandFirst" | "bandNext";
+
+const TIER_LABELS: readonly PricingBandLabel[] = [
+  "bandFirst",
+  "bandNext",
+  "bandNext",
+  "bandNext",
+];
 
 const TIER_CAPACITIES: readonly (number | "1000+")[] = [
   50,
@@ -58,8 +61,8 @@ export function getPricingTierCatalog(
 ) {
   const discount = annual ? ANNUAL_DISCOUNT_FACTOR : 1;
 
-  return TIER_LABELS.slice(0, 3).map((label, index) => ({
-    label,
+  return TIER_LABELS.slice(0, 3).map((labelKey, index) => ({
+    labelKey,
     tierSeats: TIER_CAPACITIES[index],
     ratePerSeat: rateForTier(index, aiModelsIncluded) * discount,
   }));

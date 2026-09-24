@@ -11,39 +11,12 @@ import {
   SolutionCardShape,
   type SolutionCardVariant,
 } from "@/components/sections/solution/card-shape";
+import { useT } from "@/i18n/use-t";
 import { cn } from "@/lib/utils";
 import { headingClass } from "@/lib/design-tokens";
 import type { SolutionData, SolutionStep } from "@/lib/types";
 
-const EYEBROW = "How we work";
-const HEADING = "Wonka AI makes AI work for your whole organisation.";
-const BODY =
-  "Most AI looks great on launch day and gathers dust by week three. We start with your current processes, work backwards from everyday use, and stay until your whole team is genuinely using it.";
-
 const SOLUTION_STEP_COUNT = 4;
-
-const STEPS: SolutionStep[] = [
-  {
-    _key: "step-1",
-    title: "We start where you are.",
-    body: "Some companies come to us with a clear use case, others just know AI matters but not where it fits. Either way, we know how to take it from there.",
-  },
-  {
-    _key: "step-2",
-    title: "We build around how you really work.",
-    body: "We don't drop in a generic tool and hope it sticks. We shape everything around how your business runs today, so it belongs from day one.",
-  },
-  {
-    _key: "step-3",
-    title: "We put it in your team's hands.",
-    body: "A roadmap, a custom build, or an AI chat everyone uses day to day. We deliver exactly what your situation needs, and we make sure it lands with the people who'll rely on it.",
-  },
-  {
-    _key: "step-4",
-    title: "We stay until everyone's on board.",
-    body: "Most AI projects fail at adoption, not at technology. We embed with your team and stay until people are genuinely using it, not just until it's live.",
-  },
-];
 
 const CARD_VARIANTS: SolutionCardVariant[] = [
   "card-1",
@@ -88,11 +61,18 @@ interface SolutionProps {
 }
 
 export function Solution({ id, data }: SolutionProps) {
-  const eyebrow = data?.eyebrow ?? EYEBROW;
-  const heading = data?.heading ?? HEADING;
-  const body = data?.body ?? BODY;
-  const steps =
-    data?.steps?.length === SOLUTION_STEP_COUNT ? data.steps : STEPS;
+  const t = useT();
+  const eyebrow = data?.eyebrow ?? t("home.solution.eyebrow");
+  const heading = data?.heading ?? t("home.solution.heading");
+  const body = data?.body ?? t("home.solution.body");
+  const steps: SolutionStep[] =
+    data?.steps?.length === SOLUTION_STEP_COUNT
+      ? data.steps
+      : (
+          t.raw("home.solution.steps") as Array<
+            Pick<SolutionStep, "title" | "body">
+          >
+        ).map((step, i) => ({ _key: `step-${i + 1}`, ...step }));
   const [activeIndex, setActiveIndex] = useState(0);
   const cardRefs = useRef<Array<HTMLElement | null>>([]);
   const headerRef = useRef<HTMLDivElement>(null);

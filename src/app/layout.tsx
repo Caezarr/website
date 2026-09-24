@@ -93,43 +93,6 @@ const organizationSchema = {
     "Wonka AI deploys private enterprise AI agents connected to your existing tools. ISO 27001 certified. GDPR compliant. NIS 2 compliant. SOC 2 Type II in progress. Hosted in Azure West Europe (Microsoft Ireland).",
 };
 
-const softwareApplicationSchema = {
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "WonkaChat",
-  applicationCategory: "BusinessApplication",
-  operatingSystem: "Web",
-  url: SITE_URL,
-  description:
-    "Private enterprise AI platform. Deploy secure AI agents connected to SharePoint, Salesforce, Slack, Jira and more — with GDPR compliance. Hosted in Azure West Europe (Microsoft Ireland).",
-  publisher: {
-    "@type": "Organization",
-    name: "Wonka AI",
-    url: SITE_URL,
-  },
-  offers: {
-    "@type": "Offer",
-    url: `${SITE_URL}/pricing`,
-    priceCurrency: "EUR",
-    price: "21.60",
-    priceSpecification: {
-      "@type": "UnitPriceSpecification",
-      price: "21.60",
-      priceCurrency: "EUR",
-      unitText: "per user per month",
-    },
-    availability: "https://schema.org/OnlineOnly",
-  },
-  featureList: [
-    "Private AI agent deployment",
-    "GDPR-compliant enterprise AI",
-    "Connectors for SharePoint, Salesforce, Slack, Jira, HubSpot, Notion",
-    "Azure West Europe hosting (Microsoft Ireland)",
-    "RAG on your internal documents and knowledge base",
-    "Deployed in weeks, not months",
-  ],
-};
-
 export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(getSiteUrl()),
@@ -192,7 +155,6 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         <JsonLd id="schema-website" data={websiteSchema} />
         <JsonLd id="schema-site-navigation" data={siteNavigationSchema} />
         <JsonLd id="schema-organization" data={organizationSchema} />
-        <JsonLd id="schema-software-application" data={softwareApplicationSchema} />
         <SpeedInsights />
       </body>
     </html>

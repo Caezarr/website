@@ -133,7 +133,7 @@ export default async function CasClientsPage({ params }: PageProps) {
             <h2 className="type-h5 mb-6">{l.all}</h2>
             <div className="grid gap-5 md:grid-cols-2">
               <a
-                href={itemPath("case-studies", locale, "itzu")}
+                href={itemPath("case-studies", "en", "itzu")}
                 className="group flex min-h-72 flex-col rounded-lg border border-border p-6 transition-colors hover:border-accent"
               >
                 <span className="type-eyebrow text-text/40">Recruitment & HR</span>
@@ -145,7 +145,7 @@ export default async function CasClientsPage({ params }: PageProps) {
                 </ul>
               </a>
               <a
-                href={itemPath("case-studies", locale, "n-allo")}
+                href={itemPath("case-studies", "en", "n-allo")}
                 className="group flex min-h-72 flex-col rounded-lg border border-border p-6 transition-colors hover:border-accent"
               >
                 <span className="type-eyebrow text-text/40">Energy & Utilities</span>

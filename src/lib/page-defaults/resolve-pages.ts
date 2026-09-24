@@ -1,14 +1,9 @@
-import { DEFAULT_TESTIMONIALS_HEADER } from "@/lib/testimonials-defaults";
+import type { Locale } from "@/i18n/config";
 import {
-  DEFAULT_USE_CASES,
-  DEFAULT_WONKA_CHAT_SECURITY,
   resolveSecuritySection,
   resolveUseCasesSection,
 } from "@/lib/cms-sections";
-import { START_AI_DEFAULTS } from "@/lib/page-defaults/start-ai";
-import { WONKA_BUILD_DEFAULTS } from "@/lib/page-defaults/wonka-build";
-import { WONKA_CHAT_DEFAULTS } from "@/lib/page-defaults/wonka-chat";
-import { WONKA_CHAT_ODOO_DEFAULTS } from "@/lib/page-defaults/wonka-chat-odoo";
+import { getPageDefaults } from "@/lib/page-defaults/localized";
 import {
   hasSanityImage,
   resolveItems,
@@ -288,8 +283,9 @@ function resolveNumberedCards(
 
 export function resolveStartAiContent(
   cms: StartAiContent | null,
+  locale: Locale = "en",
 ): StartAiResolvedContent {
-  const d = START_AI_DEFAULTS;
+  const d = getPageDefaults(locale).startAi;
 
   return {
     hero: resolveHero(cms?.hero, d.hero),
@@ -322,7 +318,7 @@ export function resolveStartAiContent(
     promo: resolvePromo(cms?.promo, d.promo),
     testimonials: resolveSectionHeader(
       cms?.testimonials,
-      d.testimonials ?? DEFAULT_TESTIMONIALS_HEADER,
+      d.testimonials ?? getPageDefaults(locale).testimonialsHeader,
     ),
     contact: (() => {
       const resolved = resolveContact(cms?.contact, d.contact);
@@ -341,8 +337,9 @@ export function resolveStartAiContent(
 
 export function resolveWonkaBuildContent(
   cms: WonkaBuildContent | null,
+  locale: Locale = "en",
 ): WonkaBuildResolvedContent {
-  const d = WONKA_BUILD_DEFAULTS;
+  const d = getPageDefaults(locale).wonkaBuild;
 
   return {
     hero: resolveHero(cms?.hero, d.hero),
@@ -375,7 +372,7 @@ export function resolveWonkaBuildContent(
     promo: resolvePromo(cms?.promo, d.promo),
     testimonials: resolveSectionHeader(
       cms?.testimonials,
-      d.testimonials ?? DEFAULT_TESTIMONIALS_HEADER,
+      d.testimonials ?? getPageDefaults(locale).testimonialsHeader,
     ),
     contact: resolveContact(cms?.contact, d.contact),
     faq: {
@@ -542,8 +539,10 @@ function resolveSplitContent(
 export function resolveWonkaChatContent(
   cms: WonkaChatContent | null,
   homepageUseCases?: UseCasesData | null,
+  locale: Locale = "en",
 ): WonkaChatResolvedContent {
-  const d = WONKA_CHAT_DEFAULTS;
+  const defaults = getPageDefaults(locale);
+  const d = defaults.wonkaChat;
 
   return {
     hero: resolveHero(cms?.hero, d.hero),
@@ -554,15 +553,15 @@ export function resolveWonkaChatContent(
     useCases: resolveUseCasesSection(
       cms?.useCases,
       homepageUseCases,
-      DEFAULT_USE_CASES,
+      defaults.useCases,
     ),
     security: resolveSecuritySection(
       cms?.security,
-      DEFAULT_WONKA_CHAT_SECURITY,
+      defaults.wonkaChatSecurity,
     ),
     testimonials: resolveSectionHeader(
       cms?.testimonials,
-      d.testimonials ?? DEFAULT_TESTIMONIALS_HEADER,
+      d.testimonials ?? getPageDefaults(locale).testimonialsHeader,
     ),
     contact: resolveContact(cms?.contact, d.contact),
     faq: {
@@ -575,8 +574,9 @@ export function resolveWonkaChatContent(
 
 export function resolveWonkaChatOdooContent(
   cms: WonkaChatOdooContent | null,
+  locale: Locale = "en",
 ): WonkaChatOdooResolvedContent {
-  const d = WONKA_CHAT_ODOO_DEFAULTS;
+  const d = getPageDefaults(locale).wonkaChatOdoo;
 
   return {
     hero: resolveHero(cms?.hero, d.hero),

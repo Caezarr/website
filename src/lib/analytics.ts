@@ -13,6 +13,7 @@ export const WEBSITE_EVENTS = {
   FRANCE_DIAGNOSTIC_START: "france_diagnostic_start",
   FRANCE_DIAGNOSTIC_COMPLETE: "france_diagnostic_complete",
   FRANCE_BOOKING_CLICK: "france_booking_click",
+  OFFICE_OPENING_REGISTER_CLICK: "office_opening_register_click",
 } as const;
 
 export type WebsiteEvent = (typeof WEBSITE_EVENTS)[keyof typeof WEBSITE_EVENTS];
@@ -195,6 +196,23 @@ export function subscribeToWebsiteFeatureFlags(
   featureFlagListeners.add(listener);
   listener();
   return () => featureFlagListeners.delete(listener);
+}
+
+export type OfficeOpeningRegisterPlacement = "hero" | "footer" | "sticky";
+
+export function trackOfficeOpeningRegisterClick(
+  placement: OfficeOpeningRegisterPlacement,
+): void {
+  const event = WEBSITE_EVENTS.OFFICE_OPENING_REGISTER_CLICK;
+  const properties = { button: placement };
+
+  if (!trackingAllowed()) return;
+
+  if (initialized && !posthog.has_opted_out_capturing()) {
+    posthog.capture(event, properties);
+  }
+
+  window.dataLayer?.push({ event, ...properties });
 }
 
 export function trackWebsiteEvent(

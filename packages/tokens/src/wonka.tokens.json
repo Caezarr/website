@@ -497,8 +497,8 @@
       "destructive": {
         "background": {
           "$type": "color",
-          "$value": "{semantic.color.danger}",
-          "$description": "Destructive/delete actions."
+          "$value": "#c04622",
+          "$description": "Destructive/delete actions. Tuned for 4.5:1 contrast with white label text."
         },
         "foreground": {
           "$type": "color",

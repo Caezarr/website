@@ -4,6 +4,9 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const redirects = async () => [
+  // EN is unprefixed: /en/* is never canonical (runs before the i18n middleware)
+  { source: '/en', destination: '/', permanent: true },
+  { source: '/en/:path*', destination: '/:path*', permanent: true },
   // EN: old → new
   { source: '/glossary', destination: '/learn', permanent: true },
   { source: '/glossary/:slug*', destination: '/learn/:slug*', permanent: true },
@@ -27,6 +30,7 @@ const redirects = async () => [
   { source: '/nl/connectoren/:slug*', destination: '/nl/integrations/:slug*', permanent: true },
   // Legacy meetwonka.com paths — the meetwonka 301s preserve the old path,
   // so each one must land on its closest equivalent here (not a 404)
+  { source: '/services/ai-strategy', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-en', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-nl', destination: '/start-ai', permanent: true },
@@ -46,7 +50,6 @@ const redirects = async () => [
   { source: '/resources', destination: '/blog', permanent: true },
   { source: '/post/:slug*', destination: '/blog', permanent: true },
   { source: '/team', destination: '/', permanent: true },
-  { source: '/fr/contact', destination: '/contact', permanent: true },
   { source: '/book-a-meeting', destination: '/', permanent: true },
   // Blog posts → short comparison pages (DISABLED until /vs/dust and /vs/langdock confirmed 200)
   // { source: '/blog/wonka-vs-dust', destination: '/vs/dust', permanent: true },
@@ -70,7 +73,11 @@ const config: NextConfig = {
   redirects,
   headers,
   images: {
-    remotePatterns: [{ protocol: 'https', hostname: 'cdn.sanity.io' }],
+    remotePatterns: [
+      { protocol: 'https', hostname: 'cdn.sanity.io' },
+      { protocol: 'https', hostname: 'img.logo.dev' },
+      { protocol: 'https', hostname: 'stwonkachatpweu001.blob.core.windows.net' },
+    ],
     qualities: [75, 90],
   },
 };

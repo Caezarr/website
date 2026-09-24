@@ -160,7 +160,7 @@
   --ds-component-button-primary-foreground: var(--color-white);
   --ds-component-button-secondary-background: var(--color-white);
   --ds-component-button-secondary-foreground: var(--color-black);
-  --ds-component-button-destructive-background: var(--color-danger);
+  --ds-component-button-destructive-background: #c04622;
   --ds-component-button-destructive-foreground: var(--color-white);
   --ds-component-button-outline-background: var(--color-surface);
   --ds-component-button-outline-foreground: var(--color-text);

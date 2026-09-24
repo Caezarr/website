@@ -16,6 +16,18 @@ import type { BlogPost, CaseStudy, ConnectorPage } from "@/lib/types";
 
 export const dynamic = "force-static";
 
+// SEO for the static fallback case studies rendered below when the CMS has no entry
+const FALLBACK_CASE_STUDY_SEO: Record<string, { title: string; description: string }> = {
+  itzu: {
+    title: "Itzu Case Study: Personal AI Assistants for Every Employee | Wonka AI",
+    description: "Itzu deployed personal WonkaChat assistants to 100% of their workforce, with employees saving multiple hours per week.",
+  },
+  "n-allo": {
+    title: "N-allo (Engie) Case Study: 50% Faster Support Emails | Wonka AI",
+    description: "Engie subsidiary N-allo deployed AI agents to handle support emails, cutting handling time by 50% across a team of +70 employees.",
+  },
+};
+
 interface PageProps { params: Promise<{ locale: Locale; slug: string }> }
 
 export async function generateStaticParams() {
@@ -34,7 +46,14 @@ export async function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, slug } = await params;
   const { data } = await sanityFetch({ query: CASE_STUDY_QUERY, params: { slug, language: locale } });
-  if (!data) return {};
+  if (!data) {
+    const fallback = locale === "en" ? FALLBACK_CASE_STUDY_SEO[slug] : undefined;
+    if (!fallback) return {};
+    return buildMetadata(
+      { metaTitle: fallback.title, metaDescription: fallback.description, ogImage: null },
+      { path: itemPath('case-studies', locale, slug), locale },
+    );
+  }
   const c = data as CaseStudy;
   const siteUrl = getSiteUrl();
   const languages = await getContentLanguages(siteUrl, "case-studies", slug);

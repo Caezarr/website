@@ -1,10 +1,17 @@
 import { DEFAULT_MEETING_URLS, type MeetingContext } from "@/lib/shared-links-defaults";
+import type { Locale } from "@/i18n/config";
 import type { SharedLinks } from "@/lib/types";
 
+/**
+ * Booking link for a meeting CTA. French pages always book with the French
+ * team, whatever the page context; other locales use the context's calendar.
+ */
 export function resolveMeetingUrl(
   sharedLinks: SharedLinks | null | undefined,
   context: MeetingContext = "default",
+  locale?: Locale,
 ): string {
+  if (locale === "fr") context = "france";
   switch (context) {
     case "start-ai":
       return (
@@ -38,6 +45,13 @@ export function resolveMeetingUrl(
 /** For routes that only fetch the team meeting URL scalar from Sanity. */
 export function resolveTeamMeetingUrl(
   teamUrl: string | null | undefined,
+  locale?: Locale,
 ): string {
+  if (locale === "fr") return DEFAULT_MEETING_URLS.france;
   return teamUrl ?? DEFAULT_MEETING_URLS.team;
+}
+
+/** True for Microsoft Bookings links (the team calendars). */
+export function isBookingUrl(href: string | null | undefined): boolean {
+  return Boolean(href && /outlook\.office\.com\/book|bookings\.cloud\.microsoft\/book/.test(href));
 }

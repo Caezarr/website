@@ -12,16 +12,21 @@ import { WORKSPACE_LOGO_STRIP } from "@/lib/page-defaults/workspace-logo-strip";
 import { WORKSPACE_PRODUCTS } from "@/lib/page-defaults/workspace-products";
 import { resolveWonkaChatContent } from "@/lib/page-defaults/resolve-pages";
 import { resolveSectionHeader } from "@/lib/resolve-cms";
+import { fetchPageDoc } from "@/lib/localized-content";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import type { SiteSettings, WonkaChatContent } from "@/lib/types";
 
 const TRIAL_URL = "https://wonka.chat/register";
 
 async function getPageContent() {
-  const { data } = await sanityFetch({ query: WONKA_CHAT_CONTENT_QUERY });
+  const content = await fetchPageDoc<WonkaChatContent>(
+    WONKA_CHAT_CONTENT_QUERY,
+    "wonkaChatContent",
+    "en",
+  );
 
   return {
-    content: resolveWonkaChatContent((data as WonkaChatContent | null) ?? null),
+    content: resolveWonkaChatContent(content),
   };
 }
 

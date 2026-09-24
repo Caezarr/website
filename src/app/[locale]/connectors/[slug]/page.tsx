@@ -53,7 +53,7 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
 
   if (!data) notFound();
 
-  const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null);
+  const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null, locale as Locale);
   const c = data as ConnectorPage;
   const [{ data: relatedConnectors }, { data: relatedPosts }] = await Promise.all([
     sanityFetch({ query: RELATED_CONNECTOR_PAGES_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),

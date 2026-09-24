@@ -10,6 +10,8 @@ import {
   isHomepageHeroVariant,
   type HomepageHeroVariant,
 } from "@/lib/homepage-hero-variants";
+import type { Locale } from "@/i18n/config";
+import { useUiLocale } from "@/i18n/use-t";
 import { Hero } from "./hero";
 
 export const HOMEPAGE_HERO_EXPERIMENT_FLAG = "homepage-hero-product-preview-v1";
@@ -18,9 +20,16 @@ interface HomepageHeroExperimentProps {
   data?: HeroData | null;
   meetingUrl?: string | null;
   meetingLabel?: string | null;
+  /** Defaults to the locale of the current URL. */
+  locale?: Locale;
 }
 
-export function HomepageHeroExperiment(props: HomepageHeroExperimentProps) {
+export function HomepageHeroExperiment({
+  locale: localeProp,
+  ...props
+}: HomepageHeroExperimentProps) {
+  const urlLocale = useUiLocale();
+  const locale = localeProp ?? urlLocale;
   const [variant, setVariant] = useState<HomepageHeroVariant>("control");
 
   useEffect(() => {
@@ -48,5 +57,5 @@ export function HomepageHeroExperiment(props: HomepageHeroExperimentProps) {
     });
   }, []);
 
-  return <Hero {...props} variant={variant} />;
+  return <Hero {...props} locale={locale} variant={variant} />;
 }

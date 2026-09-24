@@ -461,7 +461,7 @@ function ProductCandidate() {
           aria-labelledby="product-task-title"
           className="border-border border-b p-4 sm:p-5 lg:border-r lg:border-b-0"
         >
-          <p className="text-info font-mono text-[0.625rem] font-semibold tracking-[0.1em] uppercase">
+          <p className="text-accent font-mono text-[0.625rem] font-semibold tracking-[0.1em] uppercase">
             Agent run · VC-048
           </p>
           <h4 className="type-h6 mt-3 max-w-[20ch]" id="product-task-title">
@@ -635,7 +635,7 @@ function PatternBlueprints() {
               <article aria-labelledby={`${pattern.id}-title`}>
                 <header className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <p className="text-info font-mono text-[0.625rem]">
+                    <p className="text-accent font-mono text-[0.625rem]">
                       {pattern.id}
                     </p>
                     <h3 className="type-h6 mt-2" id={`${pattern.id}-title`}>
@@ -1033,7 +1033,7 @@ function ArtifactLab() {
               key={stage.marker}
             >
               <div className="flex items-start gap-3">
-                <span className="text-info font-mono text-[0.625rem] font-semibold">
+                <span className="text-accent font-mono text-[0.625rem] font-semibold">
                   {stage.marker}
                 </span>
                 <span>

@@ -103,7 +103,7 @@ export default async function GlossaryTermPage({ params }: PageProps) {
     sanityFetch({ query: MEETING_URL_QUERY }),
   ]);
 
-  const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null);
+  const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null, locale as Locale);
   const siteUrl = getSiteUrl();
   const pageUrl = `${siteUrl}${itemPath('glossary', locale, slug)}`;
   const parentUrl = `${siteUrl}${hubPath('glossary', locale)}`;

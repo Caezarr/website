@@ -64,7 +64,7 @@ export function WonkaSolves({
           <h2 className="type-h4">{t.headline}</h2>
           <p className="type-paragraph-m text-text/60">{t.body}</p>
           <ButtonLink
-            href={resolveTeamMeetingUrl(meetingUrl)}
+            href={resolveTeamMeetingUrl(meetingUrl, locale as Locale)}
             variant="primary"
             className="self-start"
             {...meetingTrackProps(meetingTrackType)}

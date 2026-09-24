@@ -1,3 +1,5 @@
+import type { Locale } from "@/i18n/config";
+import { getT } from "@/i18n/ui";
 import { DEFAULT_NAVIGATION } from "@/lib/nav-defaults";
 import type { FooterLinkGroup, NavItem } from "@/lib/types";
 
@@ -36,3 +38,15 @@ export const FOOTER_LEGAL_LINKS = [
   { label: "Privacy", href: "/privacy" },
   { label: "Cookies", href: "/cookies" },
 ];
+
+/** Legal links with translated labels. Hrefs stay EN (legal pages are EN-only). */
+export function getFooterLegalLinks(
+  locale: Locale,
+): { label: string; href: string }[] {
+  const t = getT(locale);
+  return [
+    { label: t("shell.footer.legal.terms"), href: "/terms" },
+    { label: t("shell.footer.legal.privacy"), href: "/privacy" },
+    { label: t("shell.footer.legal.cookies"), href: "/cookies" },
+  ];
+}

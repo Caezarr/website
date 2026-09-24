@@ -12,7 +12,19 @@
 - **Cookie consent**: vanilla-cookieconsent with GTM integration
 - **Package Manager**: bun
 
-This project is English-only. The starter's next-intl/multi-locale wiring has been stripped.
+The site is published in EN / FR / NL. See **Internationalization** below before adding or editing a page.
+
+## Internationalization
+
+- **Routes**: EN at the root, FR/NL prefixed. Content hubs (blog, integrations, learn, vs, case-studies) live in `src/app/[locale]/`. Commercial pages are listed in `COMMERCIAL_PATHS` (`src/i18n/routes.ts`): same slug in every locale (`/start-ai`, `/fr/start-ai`, `/nl/start-ai`). EN route files are thin wrappers around a view in `src/views/<page>.tsx` (`<Name>View({ locale })` + `<name>Metadata(locale)`); FR/NL wrappers live in `src/app/[locale]/(main|light)/` with `generateStaticParams` = `TRANSLATED_LOCALES` and `dynamicParams = false`.
+- **Links**: pass every internal href through `localizeHref(href, locale)`; it only rewrites paths that exist in that locale. Legal pages stay EN.
+- **SEO**: use `buildCommercialMetadata(seo, page, locale)` (localized canonical + hreflang). The sitemap emits every commercial page per locale with alternates.
+- **UI strings** (shell, forms, section chrome): `src/i18n/messages/{en,fr,nl}/<namespace>.json`, read with `getT(locale)` (server) or `useT()` (client, locale from URL prefix). FR/NL must mirror EN keys (type-checked).
+- **Page copy**: Sanity singletons per locale (`<id>`, `<id>-fr`, `<id>-nl`, queried by `_id` via `fetchPageDoc`), falling back field by field to `getPageDefaults(locale)` (`src/lib/page-defaults/{fr,nl}.ts`). Code-only pages keep copy in `src/views/copy/*.ts` as `Record<Locale, …>`.
+- **Tone**: FR vouvoiement, NL u-vorm (Flemish B2B). Product names never translated.
+- **Booking links**: every French page (`/fr/*`, `/france*`) books with the French team calendar — pass `locale` to `resolveMeetingUrl` / `resolveTeamMeetingUrl`; `PageLayout` swaps the header CTA. `/france*` pages count as `fr` in `getLocaleFromPathname`. Never fall back to the HQ calendar for France.
+- **Layouts**: every `PageLayout` under `src/app/[locale]/` must receive `locale`, otherwise header/footer render in English.
+- `bun scripts/i18n/seed-sanity-translations.ts [--dry-run]` creates missing FR/NL singletons (createIfNotExists, never overwrites Studio edits).
 
 ## Commands
 

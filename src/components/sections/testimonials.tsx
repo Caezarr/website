@@ -4,6 +4,8 @@ import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { cn } from "@/lib/utils";
+import type { Locale } from "@/i18n/config";
+import { getT } from "@/i18n/ui";
 import type { Testimonial } from "@/lib/types";
 import {
   DEFAULT_TESTIMONIALS_HEADER,
@@ -26,9 +28,37 @@ interface TestimonialsProps {
   id?: string;
   header?: TestimonialsHeader | null;
   className?: string;
+  locale?: Locale;
 }
 
-export async function Testimonials({ id, header, className }: TestimonialsProps) {
+/**
+ * Swap header fields that still hold the EN defaults (page fallbacks) for
+ * the locale's translation. CMS-authored values are left untouched.
+ */
+function localizeHeader(
+  header: TestimonialsHeader | null | undefined,
+  locale: Locale,
+): TestimonialsHeader | null | undefined {
+  if (!header || locale === "en") return header;
+  const t = getT(locale);
+  const pick = (value: string | null | undefined, key: keyof TestimonialsHeader) =>
+    value != null && value === DEFAULT_TESTIMONIALS_HEADER[key]
+      ? t(`sections.testimonials.header.${key}`)
+      : value;
+  return {
+    eyebrow: pick(header.eyebrow, "eyebrow"),
+    heading: pick(header.heading, "heading"),
+    body: pick(header.body, "body"),
+  };
+}
+
+export async function Testimonials({
+  id,
+  header: headerProp,
+  className,
+  locale = "en",
+}: TestimonialsProps) {
+  const header = localizeHeader(headerProp, locale);
   const testimonials = await getTestimonials();
 
   if (testimonials.length === 0) {

@@ -2,13 +2,11 @@ import Image from "next/image";
 import { Section } from "@/components/ui/section";
 import { ButtonLink } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { DEFAULT_MEETING_LABEL } from "@/lib/cms-text";
+import type { Locale } from "@/i18n/config";
+import { getT } from "@/i18n/ui";
 import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { headingClass } from "@/lib/design-tokens";
 import type { HomepageCtaData } from "@/lib/types";
-
-const DEFAULT_HEADING = "Your team is too good for this work.";
-const DEFAULT_BODY = "Let's find out where Wonka AI can make a difference.";
 
 interface CtaProps {
   id?: string;
@@ -17,6 +15,7 @@ interface CtaProps {
   meetingLabel?: string | null;
   meetingTrackType?: MeetingTrackType;
   showImage?: boolean;
+  locale?: Locale;
 }
 
 export function Cta({
@@ -26,10 +25,12 @@ export function Cta({
   meetingLabel,
   meetingTrackType = "general",
   showImage = true,
+  locale = "en",
 }: CtaProps) {
-  const heading = data?.heading ?? DEFAULT_HEADING;
-  const body = data?.body ?? DEFAULT_BODY;
-  const ctaLabel = meetingLabel ?? DEFAULT_MEETING_LABEL;
+  const t = getT(locale);
+  const heading = data?.heading ?? t("home.cta.heading");
+  const body = data?.body ?? t("home.cta.body");
+  const ctaLabel = meetingLabel ?? t("common.bookMeeting");
 
   return (
     <Section

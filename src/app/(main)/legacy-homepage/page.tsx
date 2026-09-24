@@ -1,35 +1,24 @@
 import type { Metadata } from "next";
-import { getLocale } from "next-intl/server";
-import { sanityFetch } from "@sanity/lib/live";
 import { HOMEPAGE_CONTENT_QUERY } from "@sanity/lib/queries";
 import type { HomepageContent } from "@/lib/types";
-import { LegacyHomepage } from "@/components/pages/legacy-homepage";
+import { fetchPageDoc } from "@/lib/localized-content";
 import { buildMetadata } from "@/lib/seo";
+import { HomeView } from "@/views/home";
 
 export const dynamic = "force-static";
 
 const pagePath = "/legacy-homepage";
 
-async function getHomepageContent() {
-  const { data } = await sanityFetch({ query: HOMEPAGE_CONTENT_QUERY });
-  return data as HomepageContent | null;
-}
-
 export async function generateMetadata(): Promise<Metadata> {
-  const [content, locale] = await Promise.all([
-    getHomepageContent(),
-    getLocale(),
-  ]);
+  const content = await fetchPageDoc<HomepageContent>(
+    HOMEPAGE_CONTENT_QUERY,
+    "homepageContent",
+    "en",
+  );
 
-  return {
-    ...buildMetadata(content?.seo ?? null, {
-      path: pagePath,
-      locale,
-    }),
-    robots: { index: false, follow: false },
-  };
+  return buildMetadata(content?.seo ?? null, { path: pagePath, noindex: true });
 }
 
 export default function LegacyHomepagePage() {
-  return <LegacyHomepage />;
+  return <HomeView locale="en" />;
 }
