@@ -32,6 +32,12 @@ const redirects = async () => [
   // so each one must land on its closest equivalent here (not a 404)
   { source: '/services/ai-strategy', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai', destination: '/start-ai', permanent: true },
+  // Legacy meetwonka service pages that were landing on a 404 / empty placeholder
+  { source: '/services/ai-services', destination: '/ai-consultancy', permanent: true },
+  { source: '/services/application-builders', destination: '/wonka-build', permanent: true },
+  { source: '/services/smarter-workflows', destination: '/ai-agents', permanent: true },
+  { source: '/services/workforce-transformation', destination: '/start-ai', permanent: true },
+  { source: '/services/ai-training', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-en', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-nl', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-old', destination: '/start-ai', permanent: true },

@@ -64,6 +64,12 @@ export const LANDING_PATHS = {
   charteIa: {
     fr: "/fr/charte-ia-entreprise",
   },
+  shadowAi: {
+    fr: "/fr/shadow-ai",
+  },
+  comparatifIa: {
+    fr: "/fr/comparatif-ia-entreprise",
+  },
 } as const satisfies Record<string, Partial<Record<Locale, string>>>;
 
 export type LandingPage = keyof typeof LANDING_PATHS;

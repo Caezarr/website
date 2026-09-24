@@ -38,4 +38,6 @@ export const LANDING_VISUALS: Record<LandingPage, LandingVisual> = {
   acculturationIa: { background: BG.wheat },
   chatbotEntreprise: { background: BG.path, productShot: SHOT.erpChat },
   charteIa: { background: BG.sky },
+  shadowAi: { background: BG.river },
+  comparatifIa: { background: BG.fields, productShot: SHOT.workspace },
 };
