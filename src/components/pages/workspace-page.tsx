@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { sanityFetch } from "@sanity/lib/live";
 import { SITE_SETTINGS_QUERY, WONKA_CHAT_CONTENT_QUERY } from "@sanity/lib/queries";
 import { CapabilityGrid } from "@/components/sections/capability-grid";
@@ -7,72 +8,89 @@ import { LogoStrip } from "@/components/sections/logo-strip";
 import { ProductHero } from "@/components/sections/product-hero";
 import { WorkspaceTrialCta } from "@/components/sections/workspace-trial-cta";
 import { WorkspaceProductCarousel } from "@/components/sections/workspace-product-carousel";
-import { WORKSPACE_CAPABILITY_CLUSTERS } from "@/lib/page-defaults/workspace-capabilities";
-import { WORKSPACE_LOGO_STRIP } from "@/lib/page-defaults/workspace-logo-strip";
-import { WORKSPACE_PRODUCTS } from "@/lib/page-defaults/workspace-products";
+import type { Locale } from "@/i18n/config";
+import { getT } from "@/i18n/ui";
+import { getWorkspaceCapabilityClusters } from "@/lib/page-defaults/workspace-capabilities";
+import { getWorkspaceLogoStrip } from "@/lib/page-defaults/workspace-logo-strip";
+import { getWorkspaceProducts } from "@/lib/page-defaults/workspace-products";
+import { getPageDefaults } from "@/lib/page-defaults/localized";
 import { resolveWonkaChatContent } from "@/lib/page-defaults/resolve-pages";
 import { resolveSectionHeader } from "@/lib/resolve-cms";
-import { fetchPageDoc } from "@/lib/localized-content";
+import { fetchPageDoc, resolveMeetingLabel } from "@/lib/localized-content";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
+import { buildCommercialMetadata } from "@/lib/seo";
 import type { SiteSettings, WonkaChatContent } from "@/lib/types";
+import { WORKSPACE_COPY } from "@/views/copy/workspace";
 
 const TRIAL_URL = "https://wonka.chat/register";
 
-async function getPageContent() {
+async function getPageContent(locale: Locale) {
   const content = await fetchPageDoc<WonkaChatContent>(
     WONKA_CHAT_CONTENT_QUERY,
     "wonkaChatContent",
-    "en",
+    locale,
   );
 
   return {
-    content: resolveWonkaChatContent(content),
+    content: resolveWonkaChatContent(content, null, locale),
   };
 }
 
-export async function getWorkspacePageContent() {
-  return getPageContent();
+/** Home metadata: `/`, `/fr`, `/nl` canonicals with the full hreflang cluster. */
+export async function workspaceMetadata(locale: Locale): Promise<Metadata> {
+  const { content } = await getPageContent(locale);
+  return buildCommercialMetadata(
+    content.seo,
+    "home",
+    locale,
+    getPageDefaults(locale).wonkaChat.seo.metaTitle ??
+      "Discover Wonka Workspace | Wonka",
+  );
 }
 
-export async function WorkspacePage() {
+export async function WorkspacePage({ locale = "en" }: { locale?: Locale }) {
+  const copy = WORKSPACE_COPY[locale];
   const [{ content }, { data: settings }] = await Promise.all([
-    getPageContent(),
+    getPageContent(locale),
     sanityFetch({ query: SITE_SETTINGS_QUERY }),
   ]);
   const sharedLinks = (settings as SiteSettings | null)?.sharedLinks ?? null;
-  const meetingUrl = resolveMeetingUrl(sharedLinks, "wonka-chat");
-  const meetingLabel = sharedLinks?.meetingLabel ?? null;
+  const meetingUrl = resolveMeetingUrl(sharedLinks, "wonka-chat", locale);
+  const meetingLabel = resolveMeetingLabel(sharedLinks, locale);
 
   return (
     <main className="bg-background text-text">
       <ProductHero
         data={{
           ...content.hero,
-          eyebrow: "Wonka Workspace",
-          title: "The AI workspace for your entire organization.",
-          subtitle:
-            "Let your entire organization use AI in a safe and secure way. Optimize your work by connecting to your daily tools.",
+          eyebrow: copy.hero.eyebrow,
+          title: copy.hero.title,
+          subtitle: copy.hero.subtitle,
           theme: "light",
           heroImage: null,
           fallbackHero: {
             src: "/images/workspace/wonka-workspace-header.png",
-            alt: "Wonka Workspace product screenshot",
+            alt: copy.hero.imageAlt,
             width: 1024,
             height: 576,
           },
           secondaryLink: {
-            label: "Talk to sales",
+            label: copy.hero.talkToSales,
             href: meetingUrl,
           },
         }}
         meetingUrl={TRIAL_URL}
-        meetingLabel="Start free trial"
+        meetingLabel={getT(locale)("common.startFreeTrial")}
         secondaryMeetingTrackType="wonka-chat"
+        locale={locale}
       />
-      <LogoStrip data={WORKSPACE_LOGO_STRIP} logoSize="lg" marquee />
-      <WorkspaceProductCarousel data={WORKSPACE_PRODUCTS} />
-      <CapabilityGrid id="capabilities" data={WORKSPACE_CAPABILITY_CLUSTERS} />
-      <WorkspaceTrialCta href={TRIAL_URL} />
+      <LogoStrip data={getWorkspaceLogoStrip(locale)} logoSize="lg" marquee />
+      <WorkspaceProductCarousel data={getWorkspaceProducts(locale)} />
+      <CapabilityGrid
+        id="capabilities"
+        data={getWorkspaceCapabilityClusters(locale)}
+      />
+      <WorkspaceTrialCta href={TRIAL_URL} locale={locale} />
       <FaqSection data={content.faq} bordered={false} />
       <ContactBlock
         id="contact"
@@ -80,7 +98,7 @@ export async function WorkspacePage() {
           ...content.contact,
           header: resolveSectionHeader(content.contact.header, {
             eyebrow: null,
-            heading: "Book a demo meeting.",
+            heading: copy.contactHeading,
             body: null,
           }),
         }}
@@ -88,6 +106,7 @@ export async function WorkspacePage() {
         meetingLabel={meetingLabel}
         meetingTrackType="wonka-chat"
         className="py-18 text-center md:py-24"
+        locale={locale}
       />
     </main>
   );

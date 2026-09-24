@@ -1,3 +1,7 @@
+import type { Locale } from "@/i18n/config";
+import { localizeHref } from "@/i18n/routes";
+import { WORKSPACE_COPY } from "@/views/copy/workspace";
+
 export interface WorkspaceProductCard {
   title: string;
   body: string;
@@ -15,27 +19,31 @@ export interface WorkspaceProductsData {
   products: WorkspaceProductCard[];
 }
 
-export const WORKSPACE_PRODUCTS: WorkspaceProductsData = {
-  heading: "Explore Wonka Workspace.",
-  body: null,
-  products: [
-    {
-      title: "AI Chat",
-      body: "Chat with your data, safely.",
-      href: "/workspace/ai-chat",
-      ctaLabel: "Discover AI Chat",
-      image: {
-        src: "/images/workspace/features/ai-chat-feature.png",
-        alt: "AI Chat in Wonka Workspace",
+export function getWorkspaceProducts(locale: Locale): WorkspaceProductsData {
+  const copy = WORKSPACE_COPY[locale].products;
+
+  return {
+    heading: copy.heading,
+    body: null,
+    products: [
+      {
+        title: copy.aiChat.title,
+        body: copy.aiChat.body,
+        href: localizeHref("/workspace/ai-chat", locale),
+        ctaLabel: copy.aiChat.ctaLabel,
+        image: {
+          src: "/images/workspace/features/ai-chat-feature.png",
+          alt: copy.aiChat.alt,
+        },
       },
-    },
-    {
-      title: "AI Agents",
-      body: "Delegate recurring tasks to AI.",
-      image: {
-        src: "/images/workspace/features/ai-agents-feature.png",
-        alt: "AI Agents in Wonka Workspace",
+      {
+        title: copy.aiAgents.title,
+        body: copy.aiAgents.body,
+        image: {
+          src: "/images/workspace/features/ai-agents-feature.png",
+          alt: copy.aiAgents.alt,
+        },
       },
-    },
-  ],
-};
+    ],
+  };
+}

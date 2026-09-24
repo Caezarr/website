@@ -16,11 +16,11 @@ import {
   type LandingPage,
 } from "@/i18n/routes";
 
-const COMMERCIAL_PRIORITY: Record<CommercialPage, number> = {
+// /wonka-chat redirects to /workspace (a duplicate of the homepage): not listed.
+const COMMERCIAL_PRIORITY: Record<Exclude<CommercialPage, "wonkaChat">, number> = {
   home: 1.0,
   startAi: 0.9,
   wonkaBuild: 0.9,
-  wonkaChat: 0.9,
   aiAgents: 0.85,
   wonkaChatOdoo: 0.85,
   aiChat: 0.85,
@@ -52,7 +52,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Commercial pages: one entry per locale, each listing its EN/FR/NL siblings
   const commercialPages: MetadataRoute.Sitemap = (
-    Object.keys(COMMERCIAL_PRIORITY) as CommercialPage[]
+    Object.keys(COMMERCIAL_PRIORITY) as Array<keyof typeof COMMERCIAL_PRIORITY>
   ).flatMap((page) =>
     locales.map((locale) => {
       const path = commercialPath(page, locale as Locale);
