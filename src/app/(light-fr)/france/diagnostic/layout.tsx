@@ -10,6 +10,8 @@ export const metadata: Metadata = buildMetadata(
   },
   {
     path: "/france/diagnostic",
+    locale: "fr",
+    noindex: true,
     fallbackTitle: "Diagnostic IA entreprise | 5 questions, 3 agents | Wonka",
   },
 );

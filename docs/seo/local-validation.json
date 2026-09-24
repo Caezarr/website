@@ -1,0 +1,1531 @@
+{
+  "checkedAt": "2026-09-24T18:03:31.523Z",
+  "base": "http://127.0.0.1:3102",
+  "origin": "https://www.wonka-ai.com",
+  "pages": 169,
+  "errors": [],
+  "warnings": [],
+  "rows": [
+    {
+      "path": "/",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com",
+      "title": "WonkaChat | AI workspace for your entire organization",
+      "description": "WonkaChat connects all your tools, understands what you need and executes tasks automatically. Secure, governed and useful — not just another chatbot.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/ai-agent-blueprint",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/ai-agent-blueprint",
+      "title": "Free AI Agent Blueprint for Your Company | Wonka AI",
+      "description": "Get three anonymous AI agent recommendations for your company, grounded in 570 real-world enterprise AI use cases.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/ai-agents",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/ai-agents",
+      "title": "Private Enterprise AI Agents | Wonka AI",
+      "description": "Wonka AI builds private enterprise AI agents connected to Odoo, SharePoint, Outlook, Teams, CRM, ERP and internal tools, with GDPR compliance. Hosted in Azure West Europe.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/ai-consultancy",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/ai-consultancy",
+      "title": "AI Consultancy in Belgium: Strategy to Build | Wonka AI",
+      "description": "AI consultancy from strategy to production: AI roadmap, custom AI agents and a secure platform, by a Belgian team. Book a 30-minute call.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/ai-for-business",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/ai-for-business",
+      "title": "AI for Business: Private, Secure &amp; Practical | Wonka AI",
+      "description": "AI for business, done right: strategy, private GDPR-compliant AI workspace and custom agents, hosted in Europe. Book a 30-minute call with Wonka AI.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog",
+      "title": "Enterprise AI Blog | Wonka AI",
+      "description": "Read practical Wonka guides on private AI agents, RAG, workflow automation, governance and enterprise AI deployments.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog/agentic-ai-for-enterprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog/agentic-ai-for-enterprise",
+      "title": "Agentic AI for Enterprise: 2026 Guide, Definition &amp; Use Cases",
+      "description": "What is agentic AI? How it differs from chatbots and classic AI assistants. 5 concrete enterprise use cases and how to deploy it pragmatically across your organisation.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog/dust-alternatives",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog/dust-alternatives",
+      "title": "5 Best Dust.tt Alternatives in 2026 — Honest Comparison",
+      "description": "Looking for a Dust.tt alternative? We tested 5 platforms that beat Dust on ease of use, integrations, and pricing. Find the best fit for your team.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog/glean-alternatives",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog/glean-alternatives",
+      "title": "6 Best Glean Alternatives in 2026 — Cheaper &amp; More Flexible",
+      "description": "Glean costs $20-30+/user/month with annual contracts. These 6 alternatives deliver comparable value for less — including native Odoo integration and faster setup.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog/how-to-calculate-roi-enterprise-ai",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog/how-to-calculate-roi-enterprise-ai",
+      "title": "How to Calculate Enterprise AI ROI: A Practical Framework | Wonka AI",
+      "description": "Stop guessing. Use this concrete framework to calculate the real ROI of your enterprise AI deployment — before you commit.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog/how-to-choose-enterprise-ai-model",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog/how-to-choose-enterprise-ai-model",
+      "title": "How to Choose the Right Enterprise AI Model in 2026 | Wonka AI",
+      "description": "Open or proprietary? Cloud or on-premise? A practical decision framework for selecting the right AI model for your enterprise use case, budget, and data requirements.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog/langdock-alternatives",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog/langdock-alternatives",
+      "title": "5 Best Langdock Alternatives in 2026 (Honest Comparison)",
+      "description": "Looking for a Langdock alternative? We tested 5 platforms that outperform Langdock on agents, integrations, and pricing. See which one fits your team.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog/notebooklm-alternatives",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog/notebooklm-alternatives",
+      "title": "7 Best NotebookLM Alternatives for Enterprise (2026)",
+      "description": "NotebookLM is great for personal use but limited for business teams. These 7 alternatives add team collaboration, Odoo integration, and autonomous agents.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog/odoo-ai-agent",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog/odoo-ai-agent",
+      "title": "Odoo AI Agent — Deploy Autonomous AI Directly in Your ERP | Wonka AI",
+      "description": "Wonka AI puts autonomous agents inside Odoo — CRM, Helpdesk, Accounting, HR, Inventory. Native integration, no custom dev, live in under 1 hour. Odoo 16/17/18 compatible.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog/odoo-chatbot",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog/odoo-chatbot",
+      "title": "Odoo AI Chatbot — Autonomous AI That Reads &amp; Acts in Your Odoo",
+      "description": "Replace Odoo&#x27;s scripted chatbot with a real AI that understands natural language, reads live CRM data, qualifies leads, and handles support — in English, French, and Dutch.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog/why-microsoft-copilot-is-not-enough",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog/why-microsoft-copilot-is-not-enough",
+      "title": "Why Microsoft Copilot Isn&#x27;t Enough for European Enterprises | Wonka AI",
+      "description": "Microsoft Copilot sends your data to Microsoft servers. For European enterprises bound by GDPR and sovereignty requirements, a private LLM is the only viable alternative.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog/wonka-vs-dust",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog/wonka-vs-dust",
+      "title": "Wonka AI vs Dust.tt (2026) — Full Honest Comparison",
+      "description": "Wonka AI vs Dust.tt: honest head-to-head on features, Odoo integration, agent autonomy, and pricing. Find out which platform wins for your team.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/blog/wonka-vs-langdock",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/blog/wonka-vs-langdock",
+      "title": "Wonka AI vs Langdock (2026) — Full Feature &amp; Pricing Comparison",
+      "description": "Wonka AI vs Langdock: an honest side-by-side comparison of features, pricing, integrations, and agent autonomy. Find out which platform wins for your team.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/case-studies",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/case-studies",
+      "title": "Private AI Case Studies | Wonka AI",
+      "description": "Explore Wonka AI case studies showing private enterprise AI deployments, connected workflows and measurable business outcomes.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/chatgpt-for-business",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/chatgpt-for-business",
+      "title": "ChatGPT for Business, private &amp; EU-hosted | Wonka AI",
+      "description": "ChatGPT for business without shadow AI: WonkaChat is a private AI workspace hosted in the EU, ISO 27001 certified. Start your 7-day free trial.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/contact",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/contact",
+      "title": "Contact | Wonka",
+      "description": "Get in touch with Wonka. Email, phone, and direct contacts for your AI questions.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr",
+      "title": "WonkaChat | Espace de travail IA pour toute l&#x27;entreprise",
+      "description": "WonkaChat connecte vos outils, comprend vos besoins et exécute les tâches avec des agents IA. Une IA pour entreprise sécurisée et encadrée, pas un chatbot.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/acculturation-ia",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/acculturation-ia",
+      "title": "Acculturation IA : embarquer direction et équipes | Wonka",
+      "description": "Acculturation IA pour dirigeants et équipes : atelier IA, règles communes et un espace de travail IA sécurisé pour tous. Parlez à l&#x27;équipe France.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/agence-ia",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/agence-ia",
+      "title": "Agence IA en Belgique : stratégie et agents IA | Wonka AI",
+      "description": "Agence IA belge : stratégie IA, agents IA sur mesure et plateforme sécurisée, de l&#x27;analyse à la production. Réservez un appel de 30 minutes.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/agent-ia-entreprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/agent-ia-entreprise",
+      "title": "Agent IA entreprise pour ceux qui arbitrent le SI d&#x27;ETI | Wonka",
+      "description": "Agent IA entreprise pour les directions informatiques d&#x27;ETI. Agents qui agissent dans Odoo et SharePoint. Azure West Europe. ISO 27001, RGPD, NIS 2.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/ai-agents",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/ai-agents",
+      "title": "Agents IA privés pour entreprises | Wonka AI",
+      "description": "Agents IA privés connectés à Odoo, SharePoint, Outlook, Teams, CRM et ERP. Conformes RGPD, hébergés dans Azure West Europe. Pour les entreprises belges.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/apprendre",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/apprendre",
+      "title": "Glossaire IA entreprise | Wonka AI",
+      "description": "Définitions claires des agents IA, du RAG, du MCP, de la gouvernance, des LLM privés et de l&#x27;automatisation enterprise.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/apprendre/ai-agent",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/apprendre/ai-agent",
+      "title": "Agent IA : définition, exemples et guide entreprise | Wonka AI",
+      "description": "Comprenez ce qu&#x27;est un agent IA, sa différence avec un chatbot et comment déployer des agents IA privés avec gouvernance et validation humaine.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/apprendre/data-sovereignty",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/apprendre/data-sovereignty",
+      "title": "Souveraineté des données — Définition &amp; Guide Enterprise | Wonka AI",
+      "description": "Qu&#x27;est-ce que la souveraineté des données ? En quoi elle diffère de la conformité RGPD, pourquoi elle compte pour l&#x27;IA en entreprise et comment le déploiement LLM privé l&#x27;assure.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/apprendre/fine-tuning",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/apprendre/fine-tuning",
+      "title": "Fine-tuning IA en entreprise | Wonka AI",
+      "description": "Qu&#x27;est-ce que le fine-tuning ? Comment ça fonctionne, quand l&#x27;utiliser vs. RAG, de combien de données vous avez besoin et les vrais coûts du fine-tuning pour les entreprises.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/apprendre/llm",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/apprendre/llm",
+      "title": "LLM (Grand Modèle de Langage) — Définition &amp; Guide Enterprise",
+      "description": "Qu&#x27;est-ce qu&#x27;un LLM ? Explication simple des grands modèles de langage et ce que signifie le déploiement LLM privé pour les entreprises européennes.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/apprendre/mcp",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/apprendre/mcp",
+      "title": "MCP (Model Context Protocol) — Définition &amp; Guide Enterprise",
+      "description": "Qu&#x27;est-ce que le MCP ? Comment le Model Context Protocol fonctionne, pourquoi il est essentiel pour l&#x27;IA en entreprise et comment il permet aux modèles IA de se connecter à n&#x27;importe quel outil.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/apprendre/on-premise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/apprendre/on-premise",
+      "title": "On-premise IA : définition entreprise | Wonka AI",
+      "description": "Que signifie l&#x27;on-premise pour les déploiements IA ? Comment l&#x27;on-prem diffère du cloud privé, les vraies exigences matérielles et quand l&#x27;on-premise est le bon choix.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/apprendre/prompt-engineering",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/apprendre/prompt-engineering",
+      "title": "Prompt Engineering — Guide &amp; techniques pour l&#x27;IA enterprise",
+      "description": "Qu&#x27;est-ce que le prompt engineering ? Techniques clés incluant le few-shot prompting, le chain-of-thought et les system prompts pour les applications IA enterprise.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/apprendre/rag",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/apprendre/rag",
+      "title": "RAG : définition IA entreprise | Wonka AI",
+      "description": "Qu&#x27;est-ce que le RAG ? Comment fonctionne la génération augmentée par récupération et pourquoi c&#x27;est essentiel pour l&#x27;IA en entreprise.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/apprendre/vector-database",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/apprendre/vector-database",
+      "title": "Base de données vectorielle — Définition &amp; Guide IA Enterprise",
+      "description": "Qu&#x27;est-ce qu&#x27;une base de données vectorielle ? Comment fonctionnent les embeddings et la recherche par similarité, pourquoi elles alimentent les systèmes RAG.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/audit-ia",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/audit-ia",
+      "title": "Audit IA : maturité, priorités et feuille de route | Wonka",
+      "description": "Audit IA pour PME et ETI : maturité IA, cas d&#x27;usage priorisés avec ROI, feuille de route et plan à 90 jours. Commencez par le diagnostic gratuit.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog",
+      "title": "Blog IA entreprise | Wonka AI",
+      "description": "Guides Wonka sur les agents IA privés, le RAG, l&#x27;automatisation, la gouvernance et les déploiements IA en entreprise.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog/alternatives-dust-tt",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog/alternatives-dust-tt",
+      "title": "5 Meilleures Alternatives à Dust.tt en 2026 — Comparatif Complet",
+      "description": "Vous cherchez une alternative à Dust.tt ? On a testé 5 plateformes qui surpassent Dust sur la simplicité, les intégrations et le prix. Trouvez celle qui convient à votre équipe.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog/alternatives-glean",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog/alternatives-glean",
+      "title": "6 alternatives à Glean en 2026 : moins chères et plus flexibles",
+      "description": "Glean coûte 20–30+$/utilisateur/mois avec des contrats annuels. Ces 6 alternatives délivrent une valeur comparable pour moins cher — avec intégration Odoo native.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog/alternatives-langdock",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog/alternatives-langdock",
+      "title": "5 Meilleures Alternatives à Langdock en 2026 — Comparatif Complet",
+      "description": "Vous cherchez une alternative à Langdock ? On a testé 5 plateformes qui surpassent Langdock sur les agents, les intégrations et le prix. Trouvez celle qui correspond à votre équipe.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog/alternatives-notebooklm",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog/alternatives-notebooklm",
+      "title": "7 Meilleures Alternatives à NotebookLM pour les Équipes (2026)",
+      "description": "NotebookLM est limité pour les équipes. Ces 7 alternatives ajoutent la collaboration, l&#x27;intégration Odoo et des agents autonomes.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog/fr-choisir-modele-ia",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog/fr-choisir-modele-ia",
+      "title": "Comment choisir le bon modèle IA pour votre entreprise en 2026",
+      "description": "Open source ou propriétaire ? Cloud ou on-premise ? Un cadre de décision pratique pour choisir le bon modèle IA en entreprise selon votre cas d&#x27;usage et vos exigences de données.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog/fr-microsoft-copilot-insuffisant",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog/fr-microsoft-copilot-insuffisant",
+      "title": "Microsoft Copilot ne suffit pas | Wonka AI",
+      "description": "Microsoft Copilot envoie vos données aux serveurs Microsoft. Pour les entreprises européennes soumises au RGPD, un LLM privé est la seule alternative viable.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog/fr-odoo-chatbot",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog/fr-odoo-chatbot",
+      "title": "Chatbot IA Odoo — IA Autonome qui Lit et Agit dans Votre Odoo",
+      "description": "Remplacez le chatbot scripté d&#x27;Odoo par une vraie IA qui comprend le langage naturel, lit les données CRM en direct, qualifie les leads, et gère le support — en FR, NL et EN.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog/fr-roi-ia-entreprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog/fr-roi-ia-entreprise",
+      "title": "Comment calculer le ROI de l&#x27;IA en entreprise : cadre pratique",
+      "description": "Arrêtez de supposer. Utilisez ce cadre concret pour calculer le vrai ROI de votre déploiement IA en entreprise — avant de vous engager.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog/fr-wonka-vs-dust",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog/fr-wonka-vs-dust",
+      "title": "Wonka AI vs Dust.tt (2026) — Comparatif Honnête Complet",
+      "description": "Wonka AI vs Dust.tt : comparatif honnête fonctionnalités, intégration Odoo, autonomie agents et prix. Découvrez quelle plateforme convient à votre équipe.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog/fr-wonka-vs-langdock",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog/fr-wonka-vs-langdock",
+      "title": "Wonka AI vs Langdock (2026) : comparatif fonctionnalités &amp; prix",
+      "description": "Wonka AI vs Langdock : comparatif honnête des fonctionnalités, prix, intégrations et autonomie des agents. Découvrez quelle plateforme convient le mieux à votre équipe.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog/ia-agentique-entreprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog/ia-agentique-entreprise",
+      "title": "IA agentique en entreprise : guide 2026, définition &amp; cas d&#x27;usage",
+      "description": "Qu&#x27;est-ce que l&#x27;IA agentique ? Comment elle diffère des chatbots et assistants IA classiques. 5 cas d&#x27;usage concrets en entreprise et comment la déployer pragmatiquement.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/blog/odoo-agent-ia",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/blog/odoo-agent-ia",
+      "title": "Agent IA Odoo — Déployez de l&#x27;IA Autonome dans Votre ERP | Wonka AI",
+      "description": "Wonka AI place des agents autonomes dans Odoo — CRM, Helpdesk, Comptabilité, RH, Inventaire. Intégration native, sans dev, opérationnel en moins d&#x27;1 heure. Compatible Odoo 16/17/18.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/cas-clients",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/cas-clients",
+      "title": "Cas clients IA privée | Wonka AI",
+      "description": "Découvrez des cas clients Wonka sur l&#x27;IA privée en entreprise, les workflows connectés et les résultats métier mesurables.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/charte-ia-entreprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/charte-ia-entreprise",
+      "title": "Charte IA entreprise : guide pratique en 5 étapes | Wonka",
+      "description": "Charte IA entreprise : outils autorisés, données interdites, validation humaine, AI Act. Le guide pour rédiger la vôtre. Parlez-en avec nos experts.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/chatbot-entreprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/chatbot-entreprise",
+      "title": "Chatbot entreprise : assistant IA interne sécurisé | Wonka",
+      "description": "Chatbot entreprise connecté à SharePoint, Outlook, Teams et Odoo, avec droits d&#x27;accès et hébergement UE. Essai gratuit 7 jours, sans carte de crédit.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/chatgpt-entreprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/chatgpt-entreprise",
+      "title": "ChatGPT entreprise privé, hébergé en Europe | Wonka AI",
+      "description": "ChatGPT entreprise sans shadow AI : WonkaChat, l&#x27;espace de travail IA privé hébergé dans l&#x27;UE, certifié ISO 27001. Essai gratuit de 7 jours.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/comparatif-ia-entreprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/comparatif-ia-entreprise",
+      "title": "Comparatif IA entreprise : ChatGPT, Claude, Gemini, Mistral",
+      "description": "Comparatif IA entreprise : ChatGPT, Claude, Gemini, Copilot et Le Chat de Mistral, jugés sur données, intégrations et gouvernance. Guide PME/ETI.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/contact",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/contact",
+      "title": "Contact | Wonka - Agents IA pour entreprise",
+      "description": "Contactez Wonka : e-mail, téléphone et interlocuteurs directs pour vos questions sur l&#x27;IA et les agents IA pour entreprise.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/ia-pour-entreprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/ia-pour-entreprise",
+      "title": "IA pour entreprise : stratégie, IA privée, agents | Wonka",
+      "description": "IA pour entreprise, privée et conforme RGPD : stratégie, espace de travail IA et agents IA, hébergés en Europe. Réservez un appel de 30 minutes.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/integrations",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/integrations",
+      "title": "Connecteurs IA et intégrations | Wonka AI",
+      "description": "Explorez les connecteurs Wonka pour Odoo, SharePoint, Salesforce, Slack, Google Drive, HubSpot et les systèmes enterprise.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/integrations/google-drive",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/integrations/google-drive",
+      "title": "IA sur Google Drive — Q&amp;R documentaire en langage naturel | Wonka AI",
+      "description": "Connectez Wonka AI à Google Drive pour la recherche instantanée de documents, l&#x27;analyse de feuilles de calcul et les résumés de notes de réunion.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/integrations/hubspot",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/integrations/hubspot",
+      "title": "IA sur HubSpot — Intelligence CRM &amp; analyse de campagnes | Wonka AI",
+      "description": "Connectez Wonka AI à HubSpot pour une intelligence de contacts instantanée, l&#x27;analyse de campagnes et le reporting du pipeline.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/integrations/jira",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/integrations/jira",
+      "title": "Connecteur Jira IA | Wonka AI",
+      "description": "Connectez Wonka AI à Jira pour des résumés de sprint instantanés, la génération de tickets et la récupération de l&#x27;historique du projet.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/integrations/microsoft-teams",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/integrations/microsoft-teams",
+      "title": "Connecteur Microsoft Teams IA | Wonka AI",
+      "description": "Connectez Wonka AI à Microsoft Teams pour des résumés de transcriptions de réunions, la recherche de conversations et des briefings pré-réunion.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/integrations/notion",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/integrations/notion",
+      "title": "IA sur Notion — Q&amp;R wiki &amp; récupération de connaissances | Wonka AI",
+      "description": "Connectez Wonka AI à Notion pour rendre votre wiki, vos SOPs et vos bases de données de projets instantanément consultables.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/integrations/odoo",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/integrations/odoo",
+      "title": "Agent IA Odoo : automatiser votre ERP en langage naturel | Wonka AI",
+      "description": "Connectez Wonka AI à Odoo pour la Q&amp;R ERP privée, l&#x27;analyse CRM, le suivi stock et l&#x27;automatisation sans SQL ni formation technique.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/integrations/outlook",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/integrations/outlook",
+      "title": "IA privée sur Outlook — Alternative RGPD à Microsoft Copilot",
+      "description": "Connectez Outlook à un LLM privé dans votre infrastructure. Résumés d&#x27;emails, rédaction IA, priorisation — sans que vos données quittent votre organisation. Alternative souveraine à Copilot.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/integrations/salesforce",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/integrations/salesforce",
+      "title": "Agent IA Salesforce : intelligence CRM pour équipes sales | Wonka AI",
+      "description": "Connectez Wonka AI à Salesforce pour des résumés de deals privés, briefings comptes, analyse pipeline et automatisation sales.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/integrations/sharepoint",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/integrations/sharepoint",
+      "title": "Agent IA SharePoint : Q&amp;R documentaire privée | Wonka AI",
+      "description": "Connectez Wonka AI à SharePoint pour la Q&amp;R documentaire privée, la recherche de politiques et la synthèse avec sources.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/integrations/slack",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/integrations/slack",
+      "title": "Connecteur Slack IA | Wonka AI",
+      "description": "Connectez Wonka AI à Slack pour résumer les threads, retrouver les décisions passées et accéder à la connaissance collective de votre équipe.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/pricing",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/pricing",
+      "title": "Tarifs AI Workspace : prix par utilisateur | Wonka",
+      "description": "Tarifs transparents par utilisateur pour Wonka AI Workspace : IA privée, modèles hébergés dans l&#x27;UE et essai gratuit de 7 jours.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/security",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/security",
+      "title": "Sécurité et conformité | Wonka AI",
+      "description": "Certifié ISO 27001, conforme RGPD et NIS 2. Hébergé dans Azure West Europe (Microsoft Irlande). Audit SOC 2 Type II en cours.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/shadow-ai",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/shadow-ai",
+      "title": "Shadow AI : définition, risques et comment l&#x27;éviter | Wonka",
+      "description": "Shadow AI : pourquoi vos équipes utilisent des IA non autorisées, quels risques pour vos données et le RGPD, et comment l&#x27;encadrer sans l&#x27;interdire.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/start-ai",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/start-ai",
+      "title": "Start AI | Stratégie IA et feuille de route pour entreprise",
+      "description": "Un programme de 6 semaines pour rendre votre PME AI-native : identifiez les bonnes opportunités IA, bâtissez votre stratégie, obtenez des résultats vite.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/vs",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/vs",
+      "title": "Comparatifs IA : ChatGPT, Claude, Dust, Langdock | Wonka",
+      "description": "Comparez Wonka à ChatGPT, Claude, Dust et Langdock : intégrations, gouvernance, données, coût total et tests pour choisir une IA d’entreprise.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/vs/claude",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/vs/claude",
+      "title": "Alternative Claude entreprise : comparez Wonka et Anthropic",
+      "description": "Wonka ou Claude pour votre entreprise ? Comparez l&#x27;écosystème Anthropic, le choix des modèles, les intégrations métier et l&#x27;accompagnement en France.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/vs/dust",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/vs/dust",
+      "title": "Alternative Dust AI : Wonka ou Dust pour votre entreprise ?",
+      "description": "Comparez Dust et Wonka pour vos agents IA : modèles, données, intégrations Odoo et SharePoint, gouvernance et déploiement auprès de vos équipes.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/vs/langdock",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/vs/langdock",
+      "title": "Alternative Langdock : comparez Wonka pour votre entreprise",
+      "description": "Wonka ou Langdock ? Comparez deux plateformes IA européennes sur vos workflows, modèles, intégrations, gouvernance et besoins d&#x27;accompagnement.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/vs/private-llm-vs-public-llm",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/vs/private-llm-vs-public-llm",
+      "title": "LLM privé vs LLM public : guide de décision enterprise | Wonka AI",
+      "description": "LLM privé ou public ? Comparaison détaillée sur la gestion des données, le coût, la qualité et la conformité RGPD pour les entreprises européennes.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/vs/wonka-ai-vs-chatgpt-enterprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/vs/wonka-ai-vs-chatgpt-enterprise",
+      "title": "Alternative ChatGPT entreprise : Wonka ou OpenAI ?",
+      "description": "Comparez Wonka et ChatGPT pour votre entreprise : modèles, intégrations ERP, gouvernance, accompagnement et méthode de test sur vos cas d&#x27;usage.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/vs/wonka-ai-vs-microsoft-copilot",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/vs/wonka-ai-vs-microsoft-copilot",
+      "title": "Wonka AI vs Microsoft Copilot : comparaison IA enterprise | Wonka AI",
+      "description": "Wonka AI ou Microsoft Copilot ? Comparaison détaillée sur la gestion des données, le coût, les intégrations et la conformité RGPD pour choisir la bonne IA enterprise.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/wonka-build",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/wonka-build",
+      "title": "Wonka Build · Applications IA sur mesure | Wonka",
+      "description": "Nous développons des applications et agents IA sur mesure pour votre entreprise, adaptés à vos systèmes et intégrés à votre quotidien.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/wonka-chat/odoo",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/wonka-chat/odoo",
+      "title": "WonkaChat pour Odoo | Agents IA qui agissent dans l&#x27;ERP",
+      "description": "Connectez WonkaChat à Odoo pour interroger CRM, stock, comptabilité et ventes en langage naturel. IA privée pour Odoo SaaS et auto-hébergé.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/fr/workspace/ai-chat",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/fr/workspace/ai-chat",
+      "title": "Chat IA sécurisé pour votre entreprise | Wonka",
+      "description": "Les meilleurs modèles d&#x27;IA sur vos documents et outils d&#x27;entreprise. Hébergé dans l&#x27;UE, conforme RGPD, contrôle d&#x27;accès. Essai gratuit.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/france",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/france",
+      "title": "Wonka AI France - IA d&#x27;entreprise déployable",
+      "description": "IA d&#x27;entreprise avec agents et gouvernance. ISO 27001, GDPR, NIS 2. Hébergement Azure West Europe (Microsoft Irlande).",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/integrations",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/integrations",
+      "title": "AI Integrations and Connectors | Wonka AI",
+      "description": "Explore Wonka AI connectors for Odoo, SharePoint, Salesforce, Slack, Google Drive, HubSpot and other enterprise systems.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/integrations/google-drive",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/integrations/google-drive",
+      "title": "AI on Google Drive — Document Q&amp;A &amp; Search in Plain Language",
+      "description": "Connect Wonka AI to Google Drive for instant document search, spreadsheet analysis, and meeting note summaries — privately in your infrastructure.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/integrations/hubspot",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/integrations/hubspot",
+      "title": "HubSpot AI Connector | Wonka AI",
+      "description": "Connect Wonka AI to HubSpot for instant contact intelligence, campaign analysis, and pipeline reporting — privately in your infrastructure.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/integrations/jira",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/integrations/jira",
+      "title": "Jira AI Connector | Wonka AI",
+      "description": "Connect Wonka AI to Jira for instant sprint summaries, ticket generation, and project history retrieval — without JQL or Jira expertise.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/integrations/microsoft-teams",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/integrations/microsoft-teams",
+      "title": "AI on Microsoft Teams — Meeting Summaries &amp; Channel Search | Wonka AI",
+      "description": "Connect Wonka AI to Microsoft Teams for meeting transcript summaries, channel conversation search, and pre-meeting briefings — privately in your infrastructure.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/integrations/notion",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/integrations/notion",
+      "title": "AI on Notion — Wiki Q&amp;A &amp; Knowledge Retrieval in Plain Language",
+      "description": "Connect Wonka AI to Notion to make your team wiki, SOPs, and project databases instantly searchable — privately in your infrastructure.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/integrations/odoo",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/integrations/odoo",
+      "title": "Odoo AI Agent: ERP Automation in Plain Language | Wonka AI",
+      "description": "Connect Wonka AI to Odoo for private ERP Q&amp;A, CRM analysis, inventory tracking and workflow automation without SQL or technical training.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/integrations/outlook",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/integrations/outlook",
+      "title": "Private AI on Outlook — GDPR Alternative to Microsoft Copilot",
+      "description": "Connect Outlook to a private LLM in your infrastructure. Email summaries, AI drafting, inbox prioritization — without your data leaving your organization. Sovereign alternative to Copilot.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/integrations/salesforce",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/integrations/salesforce",
+      "title": "Salesforce AI Agent: CRM Intelligence for Sales Teams | Wonka AI",
+      "description": "Connect Wonka AI to Salesforce for private deal summaries, account briefings, pipeline analysis and sales workflow automation.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/integrations/sharepoint",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/integrations/sharepoint",
+      "title": "SharePoint AI Agent: Private Document Q&amp;A | Wonka AI",
+      "description": "Connect Wonka AI to SharePoint for private document Q&amp;A, policy lookup and cross-document synthesis with source-aware answers.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/integrations/slack",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/integrations/slack",
+      "title": "AI on Slack — Thread Summaries &amp; Knowledge Retrieval | Wonka AI",
+      "description": "Connect Wonka AI to Slack to summarize threads, retrieve past decisions, and surface your team&#x27;s collective knowledge — privately in your infrastructure.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/learn",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/learn",
+      "title": "Enterprise AI Glossary | Wonka AI",
+      "description": "Clear definitions of AI agents, RAG, MCP, governance, private LLMs and workflow automation for enterprise teams.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/learn/ai-agent",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/learn/ai-agent",
+      "title": "AI Agent: Definition, Examples &amp; Enterprise Guide | Wonka AI",
+      "description": "Learn what an AI agent is, how it differs from a chatbot, and how enterprises deploy private AI agents with tools, governance and human review.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/learn/data-sovereignty",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/learn/data-sovereignty",
+      "title": "Data Sovereignty — Definition &amp; Enterprise Guide | Wonka AI",
+      "description": "What is data sovereignty? How it differs from GDPR compliance, why it matters for European enterprise AI, and how private LLM deployment achieves true data sovereignty.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/learn/fine-tuning",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/learn/fine-tuning",
+      "title": "Fine-tuning — AI Model Customization Guide for Enterprises | Wonka AI",
+      "description": "What is fine-tuning? How it works, when to use it vs. RAG, how much data you need, and the real costs of fine-tuning an LLM for enterprise use cases.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/learn/llm",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/learn/llm",
+      "title": "LLM (Large Language Model) — Definition &amp; Enterprise Guide | Wonka AI",
+      "description": "What is an LLM? A plain-language explanation of large language models, how they work, and what private LLM deployment means for European enterprises.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/learn/mcp",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/learn/mcp",
+      "title": "MCP (Model Context Protocol) — Definition &amp; Enterprise Guide",
+      "description": "What is MCP? How the Model Context Protocol works, why it matters for enterprise AI, and how it enables AI models to connect to any tool without custom integration code.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/learn/on-premise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/learn/on-premise",
+      "title": "On-premise AI — Definition, Pros and Cons for Enterprises | Wonka AI",
+      "description": "What does on-premise mean for AI deployments? How on-prem differs from private cloud, the real hardware requirements, and when on-premise is the right choice for data sovereignty.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/learn/prompt-engineering",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/learn/prompt-engineering",
+      "title": "Prompt Engineering — Guide &amp; Techniques for Enterprise AI | Wonka AI",
+      "description": "What is prompt engineering? Key techniques including few-shot prompting, chain-of-thought, and system prompts — and how to evaluate prompts for enterprise AI applications.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/learn/rag",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/learn/rag",
+      "title": "RAG (Retrieval-Augmented Generation) — Enterprise AI Definition",
+      "description": "What is RAG? How retrieval-augmented generation works, why it matters for enterprise AI, and how it differs from fine-tuning.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/learn/vector-database",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/learn/vector-database",
+      "title": "Vector Database — Definition &amp; Enterprise AI Guide | Wonka AI",
+      "description": "What is a vector database? How embeddings and similarity search work, why vector databases power RAG systems, and which options are best for private enterprise deployment.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl",
+      "title": "WonkaChat | AI-werkplek voor uw hele organisatie",
+      "description": "WonkaChat koppelt al uw tools, begrijpt wat u nodig hebt en voert taken uit met AI-agents. Veilige, beheerste AI voor bedrijven, geen zoveelste chatbot.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/ai-agents",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/ai-agents",
+      "title": "Private AI-agents voor bedrijven | Wonka AI",
+      "description": "Private AI-agents gekoppeld aan Odoo, SharePoint, Outlook, Teams, CRM en ERP. AVG-conform, gehost in Azure West Europe. Voor Belgische bedrijven.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/ai-consultancy",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/ai-consultancy",
+      "title": "AI consultancy in België: van strategie tot AI | Wonka AI",
+      "description": "AI consultancy van strategie tot productie: AI-roadmap, AI-agents op maat en een veilig platform, door een Belgisch team. Plan een gesprek.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/ai-voor-bedrijven",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/ai-voor-bedrijven",
+      "title": "AI voor bedrijven: strategie, veilige AI en agents | Wonka",
+      "description": "AI voor bedrijven, privé en AVG-conform: AI-strategie, AI-werkruimte en AI-agents, gehost in Europa. Tot 70% subsidie voor kmo&#x27;s. Plan een gesprek.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog",
+      "title": "Enterprise AI-blog | Wonka AI",
+      "description": "Lees Wonka-gidsen over private AI-agents, RAG, workflowautomatisering, governance en enterprise AI-uitrol.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog/agentische-ai-enterprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog/agentische-ai-enterprise",
+      "title": "Agentische AI voor Enterprise | Wonka AI",
+      "description": "Wat is agentische AI? Hoe het verschilt van chatbots en klassieke AI-assistenten. 5 concrete enterprise use cases en hoe u het pragmatisch implementeert.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog/dust-tt-alternatieven",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog/dust-tt-alternatieven",
+      "title": "5 Beste Dust.tt Alternatieven in 2026 — Volledige Vergelijking",
+      "description": "Op zoek naar een Dust.tt alternatief? We testten 5 platforms die Dust overtreffen op gebruiksgemak, integraties en prijs. Ontdek welke het beste past bij uw team.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog/glean-alternatieven",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog/glean-alternatieven",
+      "title": "6 Beste Glean-alternatieven in 2026 — Goedkoper &amp; Flexibeler",
+      "description": "Glean kost $20-30+/gebruiker/maand met jaarlijkse contracten. Deze 6 alternatieven leveren vergelijkbare waarde voor minder — inclusief native Odoo-integratie.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog/langdock-alternatieven",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog/langdock-alternatieven",
+      "title": "5 Beste Langdock Alternatieven in 2026 — Volledige Vergelijking",
+      "description": "Op zoek naar een Langdock alternatief? We testten 5 platforms die Langdock overtreffen op agents, integraties en prijs. Ontdek welke het beste past bij uw team.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog/nl-ai-model-kiezen",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog/nl-ai-model-kiezen",
+      "title": "Hoe kiest u het juiste enterprise AI-model in 2026 | Wonka AI",
+      "description": "Open source of propriëtair? Cloud of on-premise? Een praktisch beslisserskader voor het kiezen van het juiste AI-model voor uw enterprise use case en gegevensvereisten.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog/nl-microsoft-copilot-niet-genoeg",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog/nl-microsoft-copilot-niet-genoeg",
+      "title": "Microsoft Copilot niet genoeg | Wonka AI",
+      "description": "Microsoft Copilot stuurt uw gegevens naar Microsoft-servers. Voor Europese ondernemingen die gebonden zijn aan AVG, is een private LLM het enige haalbare alternatief.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog/nl-odoo-ai-agent",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog/nl-odoo-ai-agent",
+      "title": "Odoo AI Agent — Zet Autonome AI In uw ERP | Wonka AI",
+      "description": "Wonka AI plaatst autonome agents in Odoo — CRM, Helpdesk, Boekhouding, HR, Inventaris. Native integratie, geen development, live in &lt;1 uur. Odoo 16/17/18 compatibel.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog/nl-odoo-chatbot",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog/nl-odoo-chatbot",
+      "title": "Odoo AI Chatbot — Autonome AI die Leest en Handelt in Uw Odoo",
+      "description": "Vervang Odoo&#x27;s gescripteerde chatbot door echte AI die gewone taal begrijpt, live CRM-data leest, leads kwalificeert en support afhandelt — in NL, FR en EN.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog/nl-roi-enterprise-ai",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog/nl-roi-enterprise-ai",
+      "title": "Hoe bereken je enterprise AI ROI: praktisch kader | Wonka AI",
+      "description": "Stop met gissen. Gebruik dit concrete kader om de werkelijke ROI van uw enterprise AI-implementatie te berekenen — voordat u zich vastlegt.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog/nl-wonka-vs-dust",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog/nl-wonka-vs-dust",
+      "title": "Wonka AI vs Dust.tt (2026) — Volledige Eerlijke Vergelijking",
+      "description": "Wonka AI vs Dust.tt: eerlijke vergelijking functies, Odoo-integratie, agentautonomie en prijs. Ontdek welk platform past bij uw team.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog/nl-wonka-vs-langdock",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog/nl-wonka-vs-langdock",
+      "title": "Wonka AI vs Langdock (2026) — Volledige Functie- &amp; Prijsvergelijking",
+      "description": "Wonka AI vs Langdock: eerlijke vergelijking van functies, prijzen, integraties en agentautonomie. Ontdek welk platform het beste past bij uw team.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/blog/notebooklm-alternatieven",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/blog/notebooklm-alternatieven",
+      "title": "NotebookLM Alternatieven | Wonka AI",
+      "description": "NotebookLM is beperkt voor teams. Deze 7 alternatieven voegen samenwerking, Odoo-integratie en autonome agents toe.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/chatgpt-voor-bedrijven",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/chatgpt-voor-bedrijven",
+      "title": "ChatGPT voor bedrijven, privé en in de EU | Wonka AI",
+      "description": "ChatGPT voor bedrijven zonder shadow AI: WonkaChat is een privé AI-werkplek, gehost in de EU en ISO 27001-gecertificeerd. Start uw gratis proef.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/contact",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/contact",
+      "title": "Contact | Wonka - AI voor bedrijven",
+      "description": "Neem contact op met Wonka: e-mail, telefoon en directe contactpersonen voor al uw vragen over AI voor bedrijven.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/integrations",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/integrations",
+      "title": "AI-integraties en connectoren | Wonka AI",
+      "description": "Ontdek Wonka AI-connectoren voor Odoo, SharePoint, Salesforce, Slack, Google Drive, HubSpot en enterprise systemen.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/integrations/google-drive",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/integrations/google-drive",
+      "title": "AI op Google Drive — Document Q&amp;A in gewone taal | Wonka AI",
+      "description": "Verbind Wonka AI met Google Drive voor directe documentzoekopdrachten, spreadsheetanalyse en samenvattingen van vergadernotities.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/integrations/hubspot",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/integrations/hubspot",
+      "title": "AI op HubSpot — CRM-intelligentie &amp; campagneanalyse | Wonka AI",
+      "description": "Verbind Wonka AI met HubSpot voor directe contactintelligentie, campagneanalyse en pijplijnrapportage.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/integrations/jira",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/integrations/jira",
+      "title": "AI op Jira — Sprintstatus &amp; ticketintelligentie in gewone taal",
+      "description": "Verbind Wonka AI met Jira voor directe sprintsamenvattingen, ticketgeneratie en projectgeschiedenisophaling.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/integrations/microsoft-teams",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/integrations/microsoft-teams",
+      "title": "Microsoft Teams AI-connector | Wonka AI",
+      "description": "Verbind Wonka AI met Microsoft Teams voor samenvattingen van vergadertranscripties, zoeken in kanaalconversaties en pre-vergaderbriefings.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/integrations/notion",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/integrations/notion",
+      "title": "AI op Notion — Wiki Q&amp;A &amp; kennisophaling in gewone taal | Wonka AI",
+      "description": "Verbind Wonka AI met Notion om uw teamwiki, SOP&#x27;s en projectdatabases direct doorzoekbaar te maken.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/integrations/odoo",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/integrations/odoo",
+      "title": "Odoo AI-agent: ERP automatisering in gewone taal | Wonka AI",
+      "description": "Verbind Wonka AI met Odoo voor private ERP Q&amp;A, CRM-analyse, voorraadbeheer en workflowautomatisering zonder SQL.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/integrations/outlook",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/integrations/outlook",
+      "title": "Privé AI op Outlook — AVG-alternatief voor Microsoft Copilot",
+      "description": "Verbind Outlook met een privé LLM in uw infrastructuur. E-mailsamenvattingen, AI-opstellingen, inboxprioritering — zonder dat uw gegevens uw organisatie verlaten.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/integrations/salesforce",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/integrations/salesforce",
+      "title": "Salesforce AI-agent: CRM intelligence voor sales teams | Wonka AI",
+      "description": "Verbind Wonka AI met Salesforce voor private deal summaries, accountbriefings, pipeline-analyse en sales workflowautomatisering.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/integrations/sharepoint",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/integrations/sharepoint",
+      "title": "SharePoint AI-agent: private document Q&amp;A | Wonka AI",
+      "description": "Verbind Wonka AI met SharePoint voor private document Q&amp;A, policy lookup en synthese over documenten heen.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/integrations/slack",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/integrations/slack",
+      "title": "AI op Slack — Thread-samenvattingen &amp; kennisophaling | Wonka AI",
+      "description": "Verbind Wonka AI met Slack om threads samen te vatten, vroegere beslissingen op te halen en de collectieve kennis van uw team te benutten.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/klantcases",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/klantcases",
+      "title": "Private AI-klantcases | Wonka AI",
+      "description": "Bekijk Wonka AI-klantcases over private enterprise AI, gekoppelde workflows en meetbare bedrijfsresultaten.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/kmo-portefeuille-ai",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/kmo-portefeuille-ai",
+      "title": "KMO-portefeuille voor AI: tot 70% subsidie | Wonka",
+      "description": "Zo gebruikt u de VLAIO KMO-portefeuille voor een AI-traject: wie in aanmerking komt, wat het kost en hoe u aanvraagt. Tot 70% terug op Start AI.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/leren",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/leren",
+      "title": "Enterprise AI-woordenlijst | Wonka AI",
+      "description": "Heldere definities van AI-agents, RAG, MCP, governance, private LLMs en workflowautomatisering voor enterprise teams.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/leren/ai-agent",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/leren/ai-agent",
+      "title": "AI-agent: definitie, voorbeelden en enterprise gids | Wonka AI",
+      "description": "Leer wat een AI-agent is, hoe hij verschilt van een chatbot en hoe bedrijven private AI-agents veilig uitrollen met governance.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/leren/data-sovereignty",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/leren/data-sovereignty",
+      "title": "Gegevenssouvereiniteit — Definitie &amp; Enterprise Gids | Wonka AI",
+      "description": "Wat is gegevenssouvereiniteit? Hoe het verschilt van AVG-naleving, waarom het belangrijk is voor enterprise AI en hoe private LLM-implementatie echte gegevenssouvereiniteit bereikt.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/leren/fine-tuning",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/leren/fine-tuning",
+      "title": "Fine-tuning — AI-modelaanpassingsgids voor ondernemingen | Wonka AI",
+      "description": "Wat is fine-tuning? Hoe het werkt, wanneer u het gebruikt vs. RAG, hoeveel data u nodig heeft en de werkelijke kosten van het fine-tunen van een LLM voor enterprise use cases.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/leren/llm",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/leren/llm",
+      "title": "LLM (Groot Taalmodel) — Definitie &amp; Enterprise Gids | Wonka AI",
+      "description": "Wat is een LLM? Een duidelijke uitleg van grote taalmodellen en wat private LLM-implementatie betekent voor Europese ondernemingen.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/leren/mcp",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/leren/mcp",
+      "title": "MCP (Model Context Protocol) — Definitie &amp; Enterprise Gids | Wonka AI",
+      "description": "Wat is MCP? Hoe het Model Context Protocol werkt, waarom het belangrijk is voor enterprise AI en hoe het AI-modellen in staat stelt verbinding te maken met elke tool.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/leren/on-premise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/leren/on-premise",
+      "title": "On-premise AI — Definitie, voor- en nadelen voor ondernemingen",
+      "description": "Wat betekent on-premise voor AI-implementaties? Hoe on-prem verschilt van private cloud, de werkelijke hardwarevereisten en wanneer on-premise de juiste keuze is voor gegevenssouvereiniteit.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/leren/prompt-engineering",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/leren/prompt-engineering",
+      "title": "Prompt Engineering — Gids &amp; technieken voor enterprise AI | Wonka AI",
+      "description": "Wat is prompt engineering? Sleuteltechnieken waaronder few-shot prompting, chain-of-thought en systeem-prompts voor enterprise AI-toepassingen.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/leren/rag",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/leren/rag",
+      "title": "RAG (Retrieval-Augmented Generation) — Enterprise AI Definitie",
+      "description": "Wat is RAG? Hoe retrieval-augmented generation werkt, waarom het belangrijk is voor enterprise AI en hoe het verschilt van fine-tuning.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/leren/vector-database",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/leren/vector-database",
+      "title": "Vectordatabase — Definitie &amp; Enterprise AI Gids | Wonka AI",
+      "description": "Wat is een vectordatabase? Hoe embeddings en similariteitszoeken werken, waarom vectordatabases RAG-systemen aandrijven en welke opties het beste zijn voor private enterprise-implementatie.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/pricing",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/pricing",
+      "title": "Prijzen AI Workspace: prijs per gebruiker | Wonka",
+      "description": "Transparante prijzen per gebruiker voor Wonka AI Workspace: private AI, in de EU gehoste modellen en 7 dagen gratis uitproberen.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/security",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/security",
+      "title": "Beveiliging en compliance | Wonka AI",
+      "description": "ISO 27001-gecertificeerd, AVG- en NIS 2-conform. Gehost in Azure West Europe (Microsoft Ierland). SOC 2 Type II-audit loopt.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/start-ai",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/start-ai",
+      "title": "Start AI | AI-strategie en roadmap voor uw bedrijf",
+      "description": "Een programma van 6 weken om uw kmo AI-native te maken. Vind de juiste AI-kansen voor uw bedrijf, bouw uw strategie en boek snel resultaat.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/vs",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/vs",
+      "title": "Enterprise AI-vergelijkingen | Wonka AI",
+      "description": "Vergelijk Wonka AI met ChatGPT Enterprise, Microsoft Copilot, publieke LLMs en andere enterprise AI-platformen.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/vs/private-llm-vs-public-llm",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/vs/private-llm-vs-public-llm",
+      "title": "Private LLM vs publieke LLM: enterprise beslissingsguide | Wonka AI",
+      "description": "Private of publieke LLM? Een gedetailleerde vergelijking van gegevensverwerking, kosten, kwaliteit en AVG-naleving voor Europese ondernemingen.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/vs/wonka-ai-vs-chatgpt-enterprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/vs/wonka-ai-vs-chatgpt-enterprise",
+      "title": "Wonka AI vs ChatGPT Enterprise: vergelijking voor bedrijven",
+      "description": "ChatGPT Enterprise of Wonka AI? Een gedetailleerde vergelijking voor Europese ondernemingen over gegevenssouvereiniteit, AVG-naleving, integratiediepte en total cost of ownership.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/vs/wonka-ai-vs-microsoft-copilot",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/vs/wonka-ai-vs-microsoft-copilot",
+      "title": "Wonka AI vs Microsoft Copilot: enterprise AI vergelijking | Wonka AI",
+      "description": "Wonka AI of Microsoft Copilot? Een gedetailleerde vergelijking van gegevensverwerking, kosten, integraties en AVG-naleving.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/wonka-build",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/wonka-build",
+      "title": "Wonka Build · AI-applicaties op maat voor bedrijven",
+      "description": "Wij bouwen AI-applicaties en AI-agents op maat voor uw bedrijf, afgestemd op uw systemen en ingezet in uw dagelijkse werk.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/wonka-chat/odoo",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/wonka-chat/odoo",
+      "title": "WonkaChat voor Odoo | AI-agents die handelen in uw ERP",
+      "description": "Koppel WonkaChat aan Odoo en vraag CRM-, voorraad-, boekhoud- en verkoopdata op in gewone taal. Private AI voor Odoo SaaS en self-hosted.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/nl/workspace/ai-chat",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/nl/workspace/ai-chat",
+      "title": "Veilige AI-chat voor uw bedrijf | Wonka",
+      "description": "De beste AI-modellen op uw bedrijfsdocumenten en tools. Gehost in de EU, AVG-conform, met toegangsbeheer. Start een gratis proefperiode.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/pricing",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/pricing",
+      "title": "AI Workspace pricing | Wonka",
+      "description": "Transparent per-seat pricing for Wonka AI Workspace.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/security",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/security",
+      "title": "Security &amp; Compliance | Wonka AI",
+      "description": "ISO 27001 certified, GDPR compliant, NIS 2 compliant. Hosted in Azure West Europe (Microsoft Ireland). SOC 2 Type II in progress.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/services/start-ai-subsidized-flanders",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/services/start-ai-subsidized-flanders",
+      "title": "Start AI met 70% subsidie in Vlaanderen | Wonka",
+      "description": "Vlaamse KMO&#x27;s kunnen tot 70% subsidie krijgen op Start AI via de VLAIO KMO-portefeuille. Ontdek het programma en plan een gesprek met Wonka.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/start-ai",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/start-ai",
+      "title": "Start AI | AI strategy and roadmap for your company",
+      "description": "A 6-week program to make your SME AI-native. Identify the right opportunities, build your strategy, ship results, fast.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/vs",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/vs",
+      "title": "Enterprise AI Comparisons | Wonka AI",
+      "description": "Compare Wonka AI with ChatGPT Enterprise, Microsoft Copilot, public LLMs and other enterprise AI platforms.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/vs/dust",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/vs/dust",
+      "title": "Dust AI alternative for French ETI | Wonka vs Dust",
+      "description": "Dust AI alternative for French ETI. Agents that act in Odoo and SharePoint. Data in Azure West Europe. 45 min diagnostic with Gabriel.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/vs/langdock",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/vs/langdock",
+      "title": "Langdock alternative for ETI: Odoo agents, Azure West Europe",
+      "description": "AI agents in Odoo and SharePoint, for IT and security leads evaluating Langdock. Data in Azure West Europe. ISO 27001, GDPR, NIS 2.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/vs/private-llm-vs-public-llm",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/vs/private-llm-vs-public-llm",
+      "title": "Private LLM vs Public LLM: Enterprise Decision Guide | Wonka AI",
+      "description": "Private or public LLM? A detailed comparison of data handling, cost, quality, and compliance to help European enterprises make the right AI architecture decision.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/vs/wonka-ai-vs-chatgpt-enterprise",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/vs/wonka-ai-vs-chatgpt-enterprise",
+      "title": "Wonka AI vs ChatGPT Enterprise: European Business Comparison",
+      "description": "ChatGPT Enterprise or Wonka AI? A detailed comparison for European enterprises on data sovereignty, GDPR compliance, integration depth, and total cost of ownership.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/vs/wonka-ai-vs-microsoft-copilot",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/vs/wonka-ai-vs-microsoft-copilot",
+      "title": "Wonka AI vs Microsoft Copilot: Enterprise AI Comparison | Wonka AI",
+      "description": "Wonka AI or Microsoft Copilot? A detailed comparison of data handling, cost, integrations, and GDPR compliance to help you choose the right enterprise AI.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/wonka-build",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/wonka-build",
+      "title": "Wonka Build · Custom AI applications for your business | Wonka",
+      "description": "We build custom AI applications that fit your systems and run in your day-to-day work.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/wonka-chat/odoo",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/wonka-chat/odoo",
+      "title": "WonkaChat for Odoo | AI agents that act in your ERP",
+      "description": "Connect WonkaChat to Odoo to query CRM, inventory, accounting, and sales data in natural language. Private AI for Odoo SaaS and self-hosted.",
+      "robots": "index, follow",
+      "h1": 1
+    },
+    {
+      "path": "/workspace/ai-chat",
+      "status": 200,
+      "canonical": "https://www.wonka-ai.com/workspace/ai-chat",
+      "title": "AI Chat | Safe AI chat on your company knowledge | Wonka",
+      "description": "Chat with the best AI models on your company documents and tools. EU-hosted, GDPR-compliant, with enterprise access control. Start a free trial.",
+      "robots": "index, follow",
+      "h1": 1
+    }
+  ]
+}
