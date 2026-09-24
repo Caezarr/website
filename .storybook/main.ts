@@ -18,7 +18,7 @@ const config: StorybookConfig = {
   refs: {
     "wonkachat-product": {
       title: "WonkaChat Product",
-      url: "https://wonkachat.wonka-ai.com",
+      url: process.env.WONKACHAT_STORYBOOK_URL || "https://wonkachat.wonka-ai.com",
     },
   },
   viteFinal: async (viteConfig) => ({

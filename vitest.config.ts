@@ -11,7 +11,7 @@ function storybookProject(theme: "light" | "dark") {
     extends: true as const,
     plugins: [
       storybookTest({
-        configDir: join(repositoryDirectory, ".storybook"),
+        configDir: join(repositoryDirectory, ".storybook-validation"),
         initialGlobals: { theme },
       }),
     ],

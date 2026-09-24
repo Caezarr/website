@@ -17,7 +17,7 @@ bun run --cwd apps/wonkachat-lab dev --host 127.0.0.1 --port 5187
 - `/?mode=capture&scenario=execution&frame=150&clean=1` : plan de capture 1920×1080.
 - `&theme=dark` : thème sombre canonique.
 
-`bun run storybook` expose les huit familles **Product** dans le Storybook central. Le Storybook du lab reprend les mêmes stories, en plus de ses composants historiques. Aucun déploiement public automatique n’est supposé.
+`bun run storybook` regroupe le produit dans la section composée **WonkaChat Product** existante. Les huit familles **Product** appartiennent au Storybook du lab, avec ses composants historiques ; elles ne sont pas dupliquées dans la navigation principale. En local, lancer le Storybook du lab sur 6007 puis définir `WONKACHAT_STORYBOOK_URL=http://127.0.0.1:6007` pour le Storybook central. Aucun déploiement public automatique n’est supposé.
 
 ## Ce qui existait et ce qui est ajouté
 

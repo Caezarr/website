@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { productDecorator } from "./product-story-layout";
-import { CaptureExperience } from "../../../apps/wonkachat-lab/src/product/CaptureExperience";
+import { CaptureExperience } from "../CaptureExperience";
 const meta = {
   title: "Product/Motion",
   component: CaptureExperience,
