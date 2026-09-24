@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { sanityFetch } from "@sanity/lib/live";
 import { SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
@@ -21,10 +22,12 @@ import { meetingTrackProps } from "@/lib/meeting-track";
 import { getPageDefaults } from "@/lib/page-defaults/localized";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import { buildMetadata } from "@/lib/seo";
+import { radius } from "@/lib/design-tokens";
 import { getSiteUrl } from "@/lib/site-url";
 import type { SiteSettings } from "@/lib/types";
 import type { LandingCopy, LandingCta } from "@/views/copy/landing-types";
 import { LANDING_COPY } from "@/views/copy/landing";
+import { LANDING_VISUALS } from "@/views/copy/landing-visuals";
 
 const TRIAL_URL = "https://wonka.chat/register";
 const FRANCE_DIAGNOSTIC_PATH = "/france/diagnostic";
@@ -75,6 +78,7 @@ export async function SeoLandingView({
   locale: Locale;
 }) {
   const copy = getCopy(page, locale);
+  const visual = LANDING_VISUALS[page];
   const t = getT(locale);
   const siteUrl = getSiteUrl();
   const homePath = commercialPath("home", locale);
@@ -131,17 +135,31 @@ export async function SeoLandingView({
       <FaqSchema items={copy.faq.items} />
 
       <main className="bg-background text-text">
-        {/* Hero */}
-        <section className="relative overflow-hidden border-b border-dashed border-border bg-black text-white">
-          <div className="absolute inset-x-0 top-0 h-px bg-white/40" />
-          <div className="absolute right-[-10%] top-24 hidden h-[28rem] w-[28rem] rotate-12 border border-white/10 md:block" />
-          <div className="absolute right-[6%] top-40 hidden h-[16rem] w-[16rem] rotate-12 border border-white/15 md:block" />
+        {/* Hero — landscape background like the product pages, facts or product shot on the right */}
+        <section className="relative isolate overflow-hidden bg-black text-white">
+          <Image
+            src={visual.background.src}
+            alt=""
+            fill
+            priority
+            unoptimized
+            sizes="100vw"
+            className="pointer-events-none -z-10 object-cover"
+          />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-black/70 via-black/35 to-black/0" />
+          <div className="absolute inset-0 -z-10 bg-gradient-to-b from-black/35 via-transparent to-black/45" />
 
-          <div className="mx-auto grid max-w-[1200px] gap-12 px-6 pb-18 pt-32 md:grid-cols-[1.05fr_0.95fr] md:pb-24 md:pt-40">
+          <div className="mx-auto grid max-w-[1200px] items-center gap-12 px-6 pb-18 pt-32 md:grid-cols-[1.05fr_0.95fr] md:pb-24 md:pt-40">
             <div>
-              <p className="type-eyebrow text-white/45">{copy.hero.eyebrow}</p>
-              <h1 className="mt-6 max-w-3xl type-h2 text-white">{copy.hero.title}</h1>
-              <p className="mt-6 max-w-2xl type-body text-white/68">{copy.hero.subtitle}</p>
+              <span
+                className={`inline-block ${radius.full} bg-white px-4 py-1.5 type-eyebrow text-text`}
+              >
+                {copy.hero.eyebrow}
+              </span>
+              <h1 className="mt-6 max-w-3xl text-balance type-h2 text-white">
+                {copy.hero.title}
+              </h1>
+              <p className="mt-6 max-w-2xl type-body text-white/80">{copy.hero.subtitle}</p>
               <div className="mt-9 flex flex-wrap items-center gap-4">
                 <ButtonLink
                   href={primaryHref}
@@ -165,18 +183,43 @@ export async function SeoLandingView({
                   </Link>
                 ) : null}
               </div>
+
+              {visual.productShot ? (
+                <dl className="mt-10 grid max-w-xl grid-cols-2 gap-x-6 gap-y-4 border-t border-white/20 pt-6">
+                  {copy.hero.facts.map(([label, value]) => (
+                    <div key={label}>
+                      <dt className="type-eyebrow text-white/55">{label}</dt>
+                      <dd className="mt-1 type-paragraph-m-bold text-white">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              ) : null}
             </div>
 
-            <div className="self-end border border-white/16 bg-white/[0.04] p-6 backdrop-blur md:p-8">
-              <div className="grid grid-cols-2 gap-px overflow-hidden bg-white/12">
+            {visual.productShot ? (
+              <div className={`overflow-hidden ${radius.sm} border border-white/20 bg-white shadow-2xl`}>
+                <Image
+                  src={visual.productShot.src}
+                  alt={copy.schema.serviceName}
+                  width={visual.productShot.width}
+                  height={visual.productShot.height}
+                  priority
+                  sizes="(min-width: 768px) 560px, 100vw"
+                  className="h-auto w-full"
+                />
+              </div>
+            ) : (
+              <dl
+                className={`grid grid-cols-2 gap-px overflow-hidden ${radius.sm} border border-white/20 bg-white/15 backdrop-blur-md`}
+              >
                 {copy.hero.facts.map(([label, value]) => (
-                  <div key={label} className="bg-black/70 p-4">
-                    <p className="type-eyebrow text-white/35">{label}</p>
-                    <p className="mt-2 type-paragraph-m-bold text-white">{value}</p>
+                  <div key={label} className="bg-black/35 p-5 md:p-6">
+                    <dt className="type-eyebrow text-white/60">{label}</dt>
+                    <dd className="mt-2 type-paragraph-m-bold text-white">{value}</dd>
                   </div>
                 ))}
-              </div>
-            </div>
+              </dl>
+            )}
           </div>
         </section>
 
