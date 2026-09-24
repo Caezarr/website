@@ -5,8 +5,9 @@ import leadForm from "./en/lead-form.json";
 import home from "./en/home.json";
 import sections from "./en/sections.json";
 import pricing from "./en/pricing.json";
+import article from "./en/article.json";
 
 
-export const en = { common, shell, cookies, leadForm, home, sections, pricing };
+export const en = { common, shell, cookies, leadForm, home, sections, pricing, article };
 
 export type UiMessages = typeof en;

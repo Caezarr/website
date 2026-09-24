@@ -1,3 +1,8 @@
+import { ArticleGoFurther, ArticleProductCard } from "@/components/article/article-blocks";
+import { SmartPortableText } from "@/components/portable-text-components";
+import { resolveTopic, topicForGlossary } from "@/lib/article-topics";
+import { autoLinkBody } from "@/lib/auto-link";
+import { getT } from "@/i18n/ui";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@sanity/lib/live";
@@ -7,7 +12,6 @@ import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import { hubPath, itemPath } from "@/lib/locale-path";
 import { getContentLanguages } from "@/lib/content-languages";
-import { PortableText } from "@portabletext/react";
 import { DefinedTermSchema, FaqSchema, BreadcrumbSchema } from "@/components/json-ld";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
@@ -109,19 +113,22 @@ export default async function GlossaryTermPage({ params }: PageProps) {
   const parentUrl = `${siteUrl}${hubPath('glossary', locale)}`;
   const evergreenLinks = getEvergreenInternalLinks(locale, "glossary", itemPath("glossary", locale, slug));
   const context = contextLabels[locale];
+  const termPath = itemPath("glossary", locale, slug);
+  const topic = resolveTopic(topicForGlossary(slug), locale, termPath);
+  const glossaryBody = t.body ? autoLinkBody(t.body as unknown[], locale, termPath) : [];
 
   return (
     <>
       <main className="container mx-auto px-4 py-24 max-w-3xl">
         <DefinedTermSchema term={t.term} definition={t.shortDefinition} url={pageUrl} />
-        <BreadcrumbSchema items={[{ name: "Home", url: siteUrl }, { name: parentLabels[locale], url: parentUrl }, { name: t.term, url: pageUrl }]} />
+        <BreadcrumbSchema items={[{ name: getT(locale)("common.home"), url: locale === "en" ? siteUrl : `${siteUrl}/${locale}` }, { name: parentLabels[locale], url: parentUrl }, { name: t.term, url: pageUrl }]} />
         {t.faq?.length ? <FaqSchema items={t.faq} /> : null}
 
         <h1 className="type-h2 mb-4">{t.term}</h1>
         <p className="type-body text-text/60 mb-12">{t.shortDefinition}</p>
 
         <div className="prose prose-lg max-w-none">
-          {t.body && <PortableText value={t.body as never} />}
+          {glossaryBody.length ? <SmartPortableText value={glossaryBody} /> : null}
         </div>
 
         <section className="mt-16 rounded-lg border border-border bg-mid-gray p-6">
@@ -133,6 +140,9 @@ export default async function GlossaryTermPage({ params }: PageProps) {
             <p className="type-paragraph-m leading-relaxed text-text/65">{context.rollout}</p>
           </div>
         </section>
+
+        <ArticleProductCard locale={locale} topic={topic} />
+        <ArticleGoFurther locale={locale} links={topic.links} />
 
         {t.faq?.length ? (
           <section className="mt-16 border-t border-border pt-12">

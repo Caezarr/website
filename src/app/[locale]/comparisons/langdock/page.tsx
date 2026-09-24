@@ -5,6 +5,7 @@ import { Stats } from "@/components/sections/stats";
 import { Security } from "@/components/sections/security";
 import { Cta } from "@/components/sections/cta";
 import { buildMetadata } from "@/lib/seo";
+import { getSiteUrl } from "@/lib/site-url";
 import type { HeroData } from "@/lib/types";
 import type { Locale } from "@/i18n/config";
 
@@ -126,7 +127,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const c = content[locale === "fr" ? "fr" : "en"];
   return buildMetadata(
     { metaTitle: c.title, metaDescription: c.description, ogImage: null },
-    { path: c.path, fallbackTitle: c.title },
+    {
+      path: c.path,
+      fallbackTitle: c.title,
+      locale: locale === "fr" ? "fr" : "en",
+      languages: {
+        "en-US": `${getSiteUrl()}/vs/langdock`,
+        "fr-FR": `${getSiteUrl()}/fr/vs/langdock`,
+        "x-default": `${getSiteUrl()}/vs/langdock`,
+      },
+    },
   );
 }
 

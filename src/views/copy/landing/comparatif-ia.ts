@@ -272,6 +272,8 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
           href: "/fr/pricing",
           description: "Licences par utilisateur et essai gratuit de 7 jours.",
         },
+        { label: "Shadow AI : définition et risques", href: "/fr/shadow-ai", description: "Reprendre la main sur les usages d'IA non encadrés, sans les interdire." },
+        { label: "Charte IA entreprise", href: "/fr/charte-ia-entreprise", description: "Des règles d'usage claires, appliquées par vos outils." },
       ],
     },
     cta: {

@@ -200,6 +200,8 @@ export const AUDIT_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         { label: "Wonka Build", href: "/fr/wonka-build", description: "Construire les cas d'usage prioritaires de votre feuille de route." },
         { label: "Sécurité et conformité", href: "/fr/security", description: "ISO 27001, RGPD, NIS 2 et hébergement européen." },
         { label: "Wonka AI en France", href: "/france", description: "Notre offre pour les entreprises françaises." },
+        { label: "Shadow AI : définition et risques", href: "/fr/shadow-ai", description: "Reprendre la main sur les usages d'IA non encadrés, sans les interdire." },
+        { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
       ],
     },
     cta: {

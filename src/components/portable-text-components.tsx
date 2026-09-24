@@ -1,3 +1,5 @@
+import Link from "next/link";
+import type { ReactNode } from "react";
 import { PortableText, type PortableTextComponents } from "@portabletext/react";
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -120,7 +122,49 @@ function ProseTable({ rows }: { rows: string[][] }) {
 
 // ─── Base PortableText components ────────────────────────────────────────────
 
+/** Stable anchor id for a heading (used by the article table of contents). */
+export function headingId(text: string): string {
+  return (
+    text
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 80) || "section"
+  );
+}
+
+/** H2 headings of a Portable Text body, in order. */
+export function extractHeadings(value: unknown[]): { id: string; text: string }[] {
+  return (value as PTNode[])
+    .filter((node): node is PTBlock => node._type === "block" && (node as PTBlock).style === "h2")
+    .map((block) => {
+      const text = blockText(block).trim();
+      return { id: headingId(text), text };
+    })
+    .filter((heading) => heading.text && !heading.text.startsWith("|"));
+}
+
 const ptComponents: PortableTextComponents = {
+  block: {
+    h2: ({ children, value }) => (
+      <h2 id={headingId(blockText(value as PTBlock))} className="scroll-mt-28">
+        {children}
+      </h2>
+    ),
+  },
+  marks: {
+    link: ({ children, value }) => {
+      const href = (value as { href?: string })?.href ?? "#";
+      const className = "font-medium text-accent underline decoration-accent/30 underline-offset-4 hover:decoration-accent";
+      return href.startsWith("/") ? (
+        <Link href={href} className={className}>{children}</Link>
+      ) : (
+        <a href={href} className={className} target="_blank" rel="noopener noreferrer">{children}</a>
+      );
+    },
+  },
   types: {
     imageWithAlt: ({ value }: { value: { asset?: unknown; alt?: string } }) =>
       value?.asset ? (
@@ -147,9 +191,35 @@ const ptComponents: PortableTextComponents = {
 
 interface SmartPortableTextProps {
   value: unknown[];
+  /** Elements rendered right before the Nth H2 (0-based), e.g. product visuals. */
+  inserts?: Record<number, ReactNode>;
 }
 
-export function SmartPortableText({ value }: SmartPortableTextProps) {
+export function SmartPortableText({ value, inserts }: SmartPortableTextProps) {
+  if (inserts && Object.keys(inserts).length) {
+    // Split the body before each H2 that has an insert and render segment by segment.
+    const segments: { before?: ReactNode; nodes: unknown[] }[] = [{ nodes: [] }];
+    let h2Index = -1;
+    for (const node of value as PTNode[]) {
+      const isH2 = node._type === "block" && (node as PTBlock).style === "h2";
+      if (isH2) {
+        h2Index += 1;
+        if (inserts[h2Index] !== undefined) segments.push({ before: inserts[h2Index], nodes: [] });
+      }
+      segments[segments.length - 1].nodes.push(node);
+    }
+    return (
+      <>
+        {segments.map((segment, index) => (
+          <div key={index} className="contents">
+            {segment.before}
+            {segment.nodes.length ? <SmartPortableText value={segment.nodes} /> : null}
+          </div>
+        ))}
+      </>
+    );
+  }
+
   const groups = groupNodes(value as PTNode[]);
 
   return (

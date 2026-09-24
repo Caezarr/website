@@ -271,7 +271,7 @@
   color:        var(--color-black);
 
   /* Headings → GT Sectra via next/font variable on html */
-  h1, h2, h3, h4, h5, h6 {
+  h1:where(:not(.not-prose, .not-prose *)), h2:where(:not(.not-prose, .not-prose *)), h3:where(:not(.not-prose, .not-prose *)), h4:where(:not(.not-prose, .not-prose *)), h5:where(:not(.not-prose, .not-prose *)), h6:where(:not(.not-prose, .not-prose *)) {
     font-family:    var(--font-wonka-serif, var(--font-serif, var(--ds-font-family-serif)));
     font-weight:    400;
     letter-spacing: -0.03em;
@@ -279,21 +279,21 @@
     scroll-margin-top: 6rem;
   }
 
-  h2 {
+  h2:where(:not(.not-prose, .not-prose *)) {
     font-size:   2rem;
     line-height: 1.15;
     margin-top:  2.5rem;
     margin-bottom: 0.75rem;
   }
 
-  h3 {
+  h3:where(:not(.not-prose, .not-prose *)) {
     font-size:   1.5rem;
     line-height: 1.25;
     margin-top:  2rem;
     margin-bottom: 0.5rem;
   }
 
-  h4 {
+  h4:where(:not(.not-prose, .not-prose *)) {
     font-size:   1.125rem;
     line-height: 1.4;
     font-family: var(--font-sans);
@@ -304,7 +304,7 @@
   }
 
   /* Body */
-  p {
+  p:where(:not(.not-prose, .not-prose *)) {
     margin-top:    1rem;
     margin-bottom: 1rem;
     line-height:   1.8;
@@ -318,7 +318,7 @@
   }
 
   /* Links */
-  a {
+  a:where(:not(.not-prose, .not-prose *)) {
     color:            var(--color-blue-600);
     text-decoration:  underline;
     text-underline-offset: 3px;
@@ -327,20 +327,20 @@
   }
 
   /* Lists */
-  ul, ol {
+  ul:where(:not(.not-prose, .not-prose *)), ol:where(:not(.not-prose, .not-prose *)) {
     padding-left: 1.4rem;
     margin-top:   0.75rem;
     margin-bottom: 0.75rem;
   }
 
-  li {
+  li:where(:not(.not-prose, .not-prose *)) {
     margin-top:    0.35rem;
     margin-bottom: 0.35rem;
     line-height:   1.65;
   }
 
   /* Blockquote */
-  blockquote {
+  blockquote:where(:not(.not-prose, .not-prose *)) {
     border-left-width: 3px;
     border-left-color: var(--color-blue-500);
     padding-left:     1.25rem;
@@ -355,7 +355,7 @@
   }
 
   /* HR */
-  hr {
+  hr:where(:not(.not-prose, .not-prose *)) {
     border-color: var(--color-dark-gray);
     margin-top:   2rem;
     margin-bottom: 2rem;
@@ -371,7 +371,7 @@
   }
 
   /* Strong */
-  strong {
+  strong:where(:not(.not-prose, .not-prose *)) {
     font-weight: 600;
   }
 }

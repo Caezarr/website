@@ -440,6 +440,8 @@ const fr: LandingCopy = {
         href: "/fr/cas-clients",
         description: "Comment Itzu et N-allo (Engie) utilisent l'IA.",
       },
+      { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
+      { label: "Shadow AI : définition et risques", href: "/fr/shadow-ai", description: "Reprendre la main sur les usages d'IA non encadrés, sans les interdire." },
     ],
   },
   cta: {

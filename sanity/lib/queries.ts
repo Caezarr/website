@@ -513,6 +513,7 @@ export const BLOG_POSTS_QUERY = defineQuery(`
 export const BLOG_POST_QUERY = defineQuery(`
   *[_type == "blogPost" && slug.current == $slug && language == $language][0] {
     ${CONTENT_FIELDS},
+    _updatedAt,
     title,
     publishedAt,
     excerpt,

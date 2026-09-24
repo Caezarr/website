@@ -232,6 +232,7 @@ export const SHADOW_AI_COPY: Partial<Record<Locale, LandingCopy>> = {
           href: "/fr/start-ai",
           description: "Stratégie IA, feuille de route et politique IA sur mesure.",
         },
+        { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
       ],
     },
     cta: {

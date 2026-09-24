@@ -227,6 +227,8 @@ export const CHARTE_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
           href: "/fr/wonka-chat",
           description: "L'espace de travail IA gouverné pour toute l'organisation.",
         },
+        { label: "Shadow AI : définition et risques", href: "/fr/shadow-ai", description: "Reprendre la main sur les usages d'IA non encadrés, sans les interdire." },
+        { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
       ],
     },
     cta: {
