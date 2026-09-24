@@ -33,6 +33,9 @@ function storybookProject(theme: "light" | "dark") {
 }
 
 export default defineConfig({
+  // Homepage stories load next-intl lazily; prebundle it before browser tests
+  // so Vite cannot invalidate running stories during a cold-cache run.
+  optimizeDeps: { include: ["next-intl"] },
   test: {
     projects: [
       storybookProject("light"),

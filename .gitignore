@@ -53,3 +53,6 @@ pnpm-lock.yaml
 package-lock.json
 yarn.lock
 .gstack/
+
+# Local TypeScript build cache
+apps/wonkachat-lab/.cache/

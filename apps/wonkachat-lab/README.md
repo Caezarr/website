@@ -1,5 +1,8 @@
 # @wonka/wonkachat-lab
 
+> **Product system extension — 24 September 2026.** The app now opens an interactive product workspace, with 51 new controlled components in `packages/product-ui`, 70 public templates, connector cards, the eight-section builder, settings and frame-based motion capture. Read [coverage and limits](../../design-system/product/README.md) and [studio instructions](../../design-system/product/MOTION.md). The legacy port notes below remain valid for `src/components`; their TODO list describes the earlier port, not the new presentation library. Both Storybooks index the new Product stories.
+
+
 Motion-design companion for WonkaChat, living as a workspace app inside the
 `website` monorepo (`apps/wonkachat-lab`) so the product's component library
 sits next to the brand design system (`apps/design-system-docs`) under one
