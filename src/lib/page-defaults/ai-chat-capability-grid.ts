@@ -29,6 +29,7 @@ export interface CapabilityGridCard {
 export interface CapabilityGridCluster {
   heading: string;
   cards: CapabilityGridCard[];
+  layout?: "two-top" | "two-bottom" | "workspace-features";
 }
 
 export interface AiChatCapabilityClustersData {

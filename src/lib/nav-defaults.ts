@@ -16,12 +16,12 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
     _key: "ai-workspace",
     itemType: "dropdown",
     label: "AI Workspace",
-    href: "/wonka-chat",
+    href: "/",
     children: [
       {
         _key: "overview",
         label: "Overview",
-        href: "/wonka-chat",
+        href: "/",
         description: "Discover Wonka Workspace",
       },
       {
@@ -35,20 +35,6 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
         label: "AI Agents",
         href: "/workspace/ai-agents",
         description: "Delegate recurring tasks to AI",
-        disabled: true,
-      },
-      {
-        _key: "ai-apps",
-        label: "AI Apps",
-        href: "/workspace/ai-apps",
-        description: "Complex workflows as simple applications",
-        disabled: true,
-      },
-      {
-        _key: "ai-automations",
-        label: "AI Automations",
-        href: "/workspace/ai-automations",
-        description: "Let AI start and finish the job",
         disabled: true,
       },
       {
@@ -84,47 +70,6 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
         description: "We build your agents and ship them",
         disabled: true,
       },
-      {
-        _key: "ai-app-development",
-        label: "AI App Development",
-        href: "/services/ai-app-development",
-        description: "Custom AI applications on your systems",
-        disabled: true,
-      },
-      {
-        _key: "ai-training",
-        label: "AI Training",
-        href: "/services/ai-training",
-        description: "For your developers and your teams",
-        disabled: true,
-      },
-    ],
-  },
-  {
-    _key: "resources",
-    itemType: "dropdown",
-    label: "Resources",
-    children: [
-      {
-        _key: "use-cases",
-        label: "Use cases",
-        href: "/use-cases",
-        description: "The work AI already takes over",
-        disabled: true,
-      },
-      {
-        _key: "clients",
-        label: "Clients",
-        href: "/clients",
-        description: "What we built at 200 organisations",
-        disabled: true,
-      },
-      {
-        _key: "blog",
-        label: "Blog",
-        href: "/blog",
-        disabled: true,
-      },
     ],
   },
   {
@@ -132,13 +77,6 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
     itemType: "dropdown",
     label: "Company",
     children: [
-      {
-        _key: "about",
-        label: "About Wonka",
-        href: "/about",
-        disabled: true,
-      },
-      { _key: "team", label: "Team", href: "/team", disabled: true },
       {
         _key: "jobs",
         label: "Jobs",
