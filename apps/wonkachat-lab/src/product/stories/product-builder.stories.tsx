@@ -1,8 +1,8 @@
 import { useState } from "react";
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, within } from "storybook/test";
-import * as UI from "../../../packages/product-ui/src";
-import * as F from "../../../apps/wonkachat-lab/src/product/fixtures";
+import * as UI from "../../../../../packages/product-ui/src";
+import * as F from "../fixtures";
 import { productDecorator } from "./product-story-layout";
 const meta = {
   title: "Product/Builder",

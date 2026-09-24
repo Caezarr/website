@@ -281,7 +281,7 @@
       "name": "ProductTheme",
       "status": "draft",
       "source": "packages/product-ui/src/foundation.tsx",
-      "storyId": "product-foundations",
+      "storyId": "wonkachat-product_product-foundations",
       "exports": [
         "ProductTheme"
       ],
@@ -319,7 +319,7 @@
       "name": "ActionButton",
       "status": "draft",
       "source": "packages/product-ui/src/foundation.tsx",
-      "storyId": "product-foundations",
+      "storyId": "wonkachat-product_product-foundations",
       "exports": [
         "ActionButton"
       ],
@@ -356,7 +356,7 @@
       "name": "Icon",
       "status": "draft",
       "source": "packages/product-ui/src/foundation.tsx",
-      "storyId": "product-foundations",
+      "storyId": "wonkachat-product_product-foundations",
       "exports": [
         "Icon"
       ],
@@ -393,7 +393,7 @@
       "name": "IdentityAvatar",
       "status": "draft",
       "source": "packages/product-ui/src/foundation.tsx",
-      "storyId": "product-foundations",
+      "storyId": "wonkachat-product_product-foundations",
       "exports": [
         "IdentityAvatar"
       ],
@@ -430,7 +430,7 @@
       "name": "Panel",
       "status": "draft",
       "source": "packages/product-ui/src/foundation.tsx",
-      "storyId": "product-foundations",
+      "storyId": "wonkachat-product_product-foundations",
       "exports": [
         "Panel"
       ],
@@ -467,7 +467,7 @@
       "name": "Field",
       "status": "draft",
       "source": "packages/product-ui/src/foundation.tsx",
-      "storyId": "product-foundations",
+      "storyId": "wonkachat-product_product-foundations",
       "exports": [
         "Field"
       ],
@@ -504,7 +504,7 @@
       "name": "Toggle",
       "status": "draft",
       "source": "packages/product-ui/src/foundation.tsx",
-      "storyId": "product-foundations",
+      "storyId": "wonkachat-product_product-foundations",
       "exports": [
         "Toggle"
       ],
@@ -541,7 +541,7 @@
       "name": "Tag",
       "status": "draft",
       "source": "packages/product-ui/src/foundation.tsx",
-      "storyId": "product-foundations",
+      "storyId": "wonkachat-product_product-foundations",
       "exports": [
         "Tag"
       ],
@@ -578,7 +578,7 @@
       "name": "SearchInput",
       "status": "draft",
       "source": "packages/product-ui/src/foundation.tsx",
-      "storyId": "product-foundations",
+      "storyId": "wonkachat-product_product-foundations",
       "exports": [
         "SearchInput"
       ],
@@ -615,7 +615,7 @@
       "name": "StateNotice",
       "status": "draft",
       "source": "packages/product-ui/src/foundation.tsx",
-      "storyId": "product-foundations",
+      "storyId": "wonkachat-product_product-foundations",
       "exports": [
         "StateNotice"
       ],
@@ -652,7 +652,7 @@
       "name": "ProductDialog",
       "status": "draft",
       "source": "packages/product-ui/src/foundation.tsx",
-      "storyId": "product-foundations",
+      "storyId": "wonkachat-product_product-foundations",
       "exports": [
         "ProductDialog"
       ],
@@ -689,7 +689,7 @@
       "name": "MotionStage",
       "status": "draft",
       "source": "packages/product-ui/src/foundation.tsx",
-      "storyId": "product-motion",
+      "storyId": "wonkachat-product_product-motion",
       "exports": [
         "MotionStage"
       ],
@@ -729,7 +729,7 @@
       "name": "ConnectorCard",
       "status": "draft",
       "source": "packages/product-ui/src/connectors.tsx",
-      "storyId": "product-connectors",
+      "storyId": "wonkachat-product_product-connectors",
       "exports": [
         "ConnectorCard"
       ],
@@ -774,7 +774,7 @@
       "name": "ConnectorConfiguration",
       "status": "draft",
       "source": "packages/product-ui/src/connectors.tsx",
-      "storyId": "product-connectors",
+      "storyId": "wonkachat-product_product-connectors",
       "exports": [
         "ConnectorConfiguration"
       ],
@@ -811,7 +811,7 @@
       "name": "ConnectorAuthorization",
       "status": "draft",
       "source": "packages/product-ui/src/connectors.tsx",
-      "storyId": "product-connectors",
+      "storyId": "wonkachat-product_product-connectors",
       "exports": [
         "ConnectorAuthorization"
       ],
@@ -848,7 +848,7 @@
       "name": "ConnectorCatalog",
       "status": "draft",
       "source": "packages/product-ui/src/connectors.tsx",
-      "storyId": "product-connectors",
+      "storyId": "wonkachat-product_product-connectors",
       "exports": [
         "ConnectorCatalog"
       ],
@@ -885,7 +885,7 @@
       "name": "TemplateCard",
       "status": "draft",
       "source": "packages/product-ui/src/templates.tsx",
-      "storyId": "product-templates",
+      "storyId": "wonkachat-product_product-templates",
       "exports": [
         "TemplateCard"
       ],
@@ -923,7 +923,7 @@
       "name": "TemplateGallery",
       "status": "draft",
       "source": "packages/product-ui/src/templates.tsx",
-      "storyId": "product-templates",
+      "storyId": "wonkachat-product_product-templates",
       "exports": [
         "TemplateGallery"
       ],
@@ -964,7 +964,7 @@
       "name": "TemplateDetail",
       "status": "draft",
       "source": "packages/product-ui/src/templates.tsx",
-      "storyId": "product-templates",
+      "storyId": "wonkachat-product_product-templates",
       "exports": [
         "TemplateDetail"
       ],
@@ -1005,7 +1005,7 @@
       "name": "BuilderSection",
       "status": "draft",
       "source": "packages/product-ui/src/builder.tsx",
-      "storyId": "product-builder",
+      "storyId": "wonkachat-product_product-builder",
       "exports": [
         "BuilderSection"
       ],
@@ -1042,7 +1042,7 @@
       "name": "AgentBuilderHeader",
       "status": "draft",
       "source": "packages/product-ui/src/builder.tsx",
-      "storyId": "product-builder",
+      "storyId": "wonkachat-product_product-builder",
       "exports": [
         "AgentBuilderHeader"
       ],
@@ -1079,7 +1079,7 @@
       "name": "ModelPicker",
       "status": "draft",
       "source": "packages/product-ui/src/builder.tsx",
-      "storyId": "product-builder",
+      "storyId": "wonkachat-product_product-builder",
       "exports": [
         "ModelPicker"
       ],
@@ -1116,7 +1116,7 @@
       "name": "SkillPicker",
       "status": "draft",
       "source": "packages/product-ui/src/builder.tsx",
-      "storyId": "product-builder",
+      "storyId": "wonkachat-product_product-builder",
       "exports": [
         "SkillPicker"
       ],
@@ -1153,7 +1153,7 @@
       "name": "ToolPicker",
       "status": "draft",
       "source": "packages/product-ui/src/builder.tsx",
-      "storyId": "product-builder",
+      "storyId": "wonkachat-product_product-builder",
       "exports": [
         "ToolPicker"
       ],
@@ -1190,7 +1190,7 @@
       "name": "KnowledgeFiles",
       "status": "draft",
       "source": "packages/product-ui/src/builder.tsx",
-      "storyId": "product-builder",
+      "storyId": "wonkachat-product_product-builder",
       "exports": [
         "KnowledgeFiles"
       ],
@@ -1230,7 +1230,7 @@
       "name": "ScheduleEditor",
       "status": "draft",
       "source": "packages/product-ui/src/builder.tsx",
-      "storyId": "product-builder",
+      "storyId": "wonkachat-product_product-builder",
       "exports": [
         "ScheduleEditor"
       ],
@@ -1267,7 +1267,7 @@
       "name": "VersionHistory",
       "status": "draft",
       "source": "packages/product-ui/src/builder.tsx",
-      "storyId": "product-builder",
+      "storyId": "wonkachat-product_product-builder",
       "exports": [
         "VersionHistory"
       ],
@@ -1304,7 +1304,7 @@
       "name": "AgentBuilder",
       "status": "draft",
       "source": "packages/product-ui/src/builder.tsx",
-      "storyId": "product-builder",
+      "storyId": "wonkachat-product_product-builder",
       "exports": [
         "AgentBuilder"
       ],
@@ -1346,7 +1346,7 @@
       "name": "ProductShell",
       "status": "draft",
       "source": "packages/product-ui/src/workspace.tsx",
-      "storyId": "product-workspace",
+      "storyId": "wonkachat-product_product-workspace",
       "exports": [
         "ProductShell"
       ],
@@ -1383,7 +1383,7 @@
       "name": "ProductAgentCard",
       "status": "draft",
       "source": "packages/product-ui/src/workspace.tsx",
-      "storyId": "product-workspace",
+      "storyId": "wonkachat-product_product-workspace",
       "exports": [
         "ProductAgentCard"
       ],
@@ -1420,7 +1420,7 @@
       "name": "AgentLibrary",
       "status": "draft",
       "source": "packages/product-ui/src/workspace.tsx",
-      "storyId": "product-workspace",
+      "storyId": "wonkachat-product_product-workspace",
       "exports": [
         "AgentLibrary"
       ],
@@ -1457,7 +1457,7 @@
       "name": "ChatComposer",
       "status": "draft",
       "source": "packages/product-ui/src/workspace.tsx",
-      "storyId": "product-workspace",
+      "storyId": "wonkachat-product_product-workspace",
       "exports": [
         "ChatComposer"
       ],
@@ -1497,7 +1497,7 @@
       "name": "ExecutionTrace",
       "status": "draft",
       "source": "packages/product-ui/src/workspace.tsx",
-      "storyId": "product-workspace",
+      "storyId": "wonkachat-product_product-workspace",
       "exports": [
         "ExecutionTrace"
       ],
@@ -1537,7 +1537,7 @@
       "name": "SourceCitation",
       "status": "draft",
       "source": "packages/product-ui/src/workspace.tsx",
-      "storyId": "product-workspace",
+      "storyId": "wonkachat-product_product-workspace",
       "exports": [
         "SourceCitation"
       ],
@@ -1574,7 +1574,7 @@
       "name": "ChatMessage",
       "status": "draft",
       "source": "packages/product-ui/src/workspace.tsx",
-      "storyId": "product-workspace",
+      "storyId": "wonkachat-product_product-workspace",
       "exports": [
         "ChatMessage"
       ],
@@ -1611,7 +1611,7 @@
       "name": "DeliverablePreview",
       "status": "draft",
       "source": "packages/product-ui/src/workspace.tsx",
-      "storyId": "product-workspace",
+      "storyId": "wonkachat-product_product-workspace",
       "exports": [
         "DeliverablePreview"
       ],
@@ -1648,7 +1648,7 @@
       "name": "SharingPanel",
       "status": "draft",
       "source": "packages/product-ui/src/workspace.tsx",
-      "storyId": "product-workspace",
+      "storyId": "wonkachat-product_product-workspace",
       "exports": [
         "SharingPanel"
       ],
@@ -1689,7 +1689,7 @@
       "name": "SettingsNavigation",
       "status": "draft",
       "source": "packages/product-ui/src/settings.tsx",
-      "storyId": "product-settings",
+      "storyId": "wonkachat-product_product-settings",
       "exports": [
         "SettingsNavigation"
       ],
@@ -1726,7 +1726,7 @@
       "name": "MembersTable",
       "status": "draft",
       "source": "packages/product-ui/src/settings.tsx",
-      "storyId": "product-settings",
+      "storyId": "wonkachat-product_product-settings",
       "exports": [
         "MembersTable"
       ],
@@ -1763,7 +1763,7 @@
       "name": "ResourceTable",
       "status": "draft",
       "source": "packages/product-ui/src/settings.tsx",
-      "storyId": "product-settings",
+      "storyId": "wonkachat-product_product-settings",
       "exports": [
         "ResourceTable"
       ],
@@ -1800,7 +1800,7 @@
       "name": "UsageOverview",
       "status": "draft",
       "source": "packages/product-ui/src/settings.tsx",
-      "storyId": "product-settings",
+      "storyId": "wonkachat-product_product-settings",
       "exports": [
         "UsageOverview"
       ],
@@ -1837,7 +1837,7 @@
       "name": "SettingsPanel",
       "status": "draft",
       "source": "packages/product-ui/src/settings.tsx",
-      "storyId": "product-settings",
+      "storyId": "wonkachat-product_product-settings",
       "exports": [
         "SettingsPanel"
       ],
@@ -1878,7 +1878,7 @@
       "name": "SettingsWorkspace",
       "status": "draft",
       "source": "packages/product-ui/src/settings.tsx",
-      "storyId": "product-settings",
+      "storyId": "wonkachat-product_product-settings",
       "exports": [
         "SettingsWorkspace"
       ],
@@ -1915,7 +1915,7 @@
       "name": "SkillCard",
       "status": "draft",
       "source": "packages/product-ui/src/resources.tsx",
-      "storyId": "product-resources",
+      "storyId": "wonkachat-product_product-resources",
       "exports": [
         "SkillCard"
       ],
@@ -1952,7 +1952,7 @@
       "name": "SkillLibrary",
       "status": "draft",
       "source": "packages/product-ui/src/resources.tsx",
-      "storyId": "product-resources",
+      "storyId": "wonkachat-product_product-resources",
       "exports": [
         "SkillLibrary"
       ],
@@ -1989,7 +1989,7 @@
       "name": "SkillDetail",
       "status": "draft",
       "source": "packages/product-ui/src/resources.tsx",
-      "storyId": "product-resources",
+      "storyId": "wonkachat-product_product-resources",
       "exports": [
         "SkillDetail"
       ],
@@ -2026,7 +2026,7 @@
       "name": "OnboardingChecklist",
       "status": "draft",
       "source": "packages/product-ui/src/resources.tsx",
-      "storyId": "product-resources",
+      "storyId": "wonkachat-product_product-resources",
       "exports": [
         "OnboardingChecklist"
       ],
@@ -2063,7 +2063,7 @@
       "name": "ApprovalCard",
       "status": "draft",
       "source": "packages/product-ui/src/resources.tsx",
-      "storyId": "product-resources",
+      "storyId": "wonkachat-product_product-resources",
       "exports": [
         "ApprovalCard"
       ],
@@ -2102,7 +2102,7 @@
       "name": "WorkflowRuns",
       "status": "draft",
       "source": "packages/product-ui/src/resources.tsx",
-      "storyId": "product-resources",
+      "storyId": "wonkachat-product_product-resources",
       "exports": [
         "WorkflowRuns"
       ],
@@ -2139,7 +2139,7 @@
       "name": "PromptLibrary",
       "status": "draft",
       "source": "packages/product-ui/src/resources.tsx",
-      "storyId": "product-resources",
+      "storyId": "wonkachat-product_product-resources",
       "exports": [
         "PromptLibrary"
       ],
@@ -2176,7 +2176,7 @@
       "name": "NotificationToast",
       "status": "draft",
       "source": "packages/product-ui/src/resources.tsx",
-      "storyId": "product-resources",
+      "storyId": "wonkachat-product_product-resources",
       "exports": [
         "NotificationToast"
       ],

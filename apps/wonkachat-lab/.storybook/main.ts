@@ -4,7 +4,6 @@ const config: StorybookConfig = {
   staticDirs: [{ from: "../../../public", to: "/" }],
   stories: [
     "../src/**/*.mdx",
-    "../../../src/design-system/stories/product-*.stories.tsx",
     "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)",
   ],
   addons: [
