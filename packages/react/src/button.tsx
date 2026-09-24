@@ -159,12 +159,15 @@ export interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   ref?: Ref<HTMLButtonElement>;
+  /** Hide the decorative trailing arrow for an icon-only action. */
+  showArrow?: boolean;
 }
 
 export function Button({
   className,
   variant = "primary",
   size,
+  showArrow = true,
   children,
   ...props
 }: ButtonProps) {
@@ -179,7 +182,7 @@ export function Button({
       ) : (
         children
       )}
-      {VARIANTS_WITH_ARROW.has(variant ?? "primary") ? (
+      {showArrow && VARIANTS_WITH_ARROW.has(variant ?? "primary") ? (
         <ArrowIcon className="transition-transform duration-[var(--ds-motion-duration-normal)] group-hover/btn:translate-x-[0.125rem]" />
       ) : null}
     </button>

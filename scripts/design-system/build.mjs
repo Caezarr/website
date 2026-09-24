@@ -574,7 +574,51 @@ export function createArtifacts() {
     "",
   ].join("\n");
 
+  const productTypeTokens = tokens.filter((token) =>
+    token.id.startsWith("typography."),
+  );
+  const productTypeById = new Map(tokens.map((token) => [token.id, token]));
+  const productTypography = [];
+  for (const [breakpoint, width] of [
+    ["mobile", null],
+    ["tablet", "48rem"],
+    ["desktop", "64rem"],
+  ]) {
+    const declarations = [];
+    for (const token of productTypeTokens) {
+      for (const [property, cssProperty] of Object.entries(
+        TYPOGRAPHY_PROPERTIES,
+      )) {
+        const raw = token.value[property];
+        if (raw === undefined) continue;
+        const responsive =
+          raw !== null && typeof raw === "object" && !Array.isArray(raw);
+        if (breakpoint !== "mobile" && !responsive) continue;
+        const value = responsive ? raw[breakpoint] : raw;
+        if (value === undefined) continue;
+        declarations.push(
+          `  --wp-type-${token.id.slice(11)}-${cssProperty}: ${typographyPropertyValue(value, productTypeById)};`,
+        );
+      }
+    }
+    productTypography.push(
+      `${width ? `@media (width >= ${width}) {\n` : ""}.wp {\n${declarations.join("\n")}\n}${width ? "\n}" : ""}`,
+    );
+  }
+
+  // Scoped standards-only CSS for the product package and Tailwind-v3 lab.
+  // Derived from the same token graph; included in generated-drift validation.
+  const productCss =
+    generateCss(tokens)
+      .split("@utility")[0]
+      .replace(/@theme(?: inline)?\s*\{/g, ".wp {")
+      .replace(/\s*--color-\*: initial;/g, "")
+      .replace(/:root/g, ".wp")
+      .replace(/\[data-theme="(light|dark)"\]/g, '.wp[data-theme="$1"]') +
+    productTypography.join("\n") +
+    "\n";
   return new Map([
+    [resolve(repositoryRoot, "packages/product-ui/src/tokens.css"), productCss],
     [
       resolve(repositoryRoot, "src/styles/generated/tokens.css"),
       generateCss(tokens),

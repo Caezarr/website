@@ -103,6 +103,14 @@
         "vitest": "latest",
       },
     },
+    "packages/product-ui": {
+      "name": "@wonka/product-ui",
+      "version": "0.1.0",
+      "peerDependencies": {
+        "react": "^19.2.0",
+        "react-dom": "^19.2.0",
+      },
+    },
     "packages/react": {
       "name": "@wonka/react",
       "version": "0.3.0",
@@ -1435,6 +1443,8 @@
     "@webcontainer/env": ["@webcontainer/env@1.1.1", "", {}, "sha512-6aN99yL695Hi9SuIk1oC88l9o0gmxL1nGWWQ/kNy81HigJ0FoaoTXpytCj6ItzgyCEwA9kF1wixsTuv5cjsgng=="],
 
     "@wonka/design-system-docs": ["@wonka/design-system-docs@workspace:apps/design-system-docs"],
+
+    "@wonka/product-ui": ["@wonka/product-ui@workspace:packages/product-ui"],
 
     "@wonka/react": ["@wonka/react@workspace:packages/react"],
 

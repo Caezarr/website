@@ -234,7 +234,7 @@ interface NavProps {
 export default function Nav({ defaultNavVisible = true, organizationName = 'gabriel' }: NavProps) {
   const [navVisible, setNavVisible] = useState(defaultNavVisible);
   const isSmallScreen = useIsSmallScreen();
-  const [selectedAgentId, setSelectedAgentId] = useState('');
+  const [, setSelectedAgentId] = useState('');
   const [visibleHistoryCount, setVisibleHistoryCount] = useState(RECENT_CONVERSATION_LIMIT);
   const [searchText, setSearchText] = useState('');
   const [archivesOpen, setArchivesOpen] = useState(false);

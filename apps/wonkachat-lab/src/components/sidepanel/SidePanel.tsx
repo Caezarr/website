@@ -61,7 +61,7 @@ interface SidePanelProps {
   setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
   fullCollapse: boolean;
   setFullCollapse: React.Dispatch<React.SetStateAction<boolean>>;
-  panelRef: React.RefObject<ImperativePanelHandle>;
+  panelRef: React.RefObject<ImperativePanelHandle | null>;
 }
 
 const SidePanel = ({
