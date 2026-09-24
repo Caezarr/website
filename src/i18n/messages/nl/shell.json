@@ -86,7 +86,16 @@
           "description": "Wat we bouwden bij 200 organisaties"
         },
         "blog": {
-          "label": "Blog"
+          "label": "Blog",
+          "description": "Gidsen over AI en agents in bedrijven"
+        },
+        "glossary": {
+          "label": "Woordenlijst",
+          "description": "AI-termen eenvoudig uitgelegd"
+        },
+        "comparisons": {
+          "label": "Vergelijkingen",
+          "description": "Wonka AI naast andere tools"
         }
       }
     },
