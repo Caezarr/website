@@ -376,6 +376,7 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         { label: "Cas clients", href: "/fr/cas-clients", description: "Comment nos clients ont mis l'IA en production." },
         { label: "Sécurité et conformité", href: "/fr/security", description: "ISO 27001, RGPD, NIS 2 et hébergement européen." },
         { label: "Tarifs WonkaChat", href: "/fr/pricing", description: "Tarification par utilisateur et essai gratuit." },
+        { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
       ],
     },
     cta: {

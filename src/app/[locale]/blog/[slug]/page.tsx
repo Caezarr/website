@@ -1,3 +1,4 @@
+import type { ReactNode } from "react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@sanity/lib/live";
@@ -12,10 +13,22 @@ import { SmartPortableText } from "@/components/portable-text-components";
 import { WonkaSolves } from "@/components/sections/wonka-solves";
 import { Cta } from "@/components/sections/cta";
 import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
-import { ButtonLink } from "@/components/ui/button";
 import { getEvergreenInternalLinks } from "@/lib/internal-links";
 import { resolveTeamMeetingUrl } from "@/lib/resolve-meeting-url";
-import { meetingTrackProps } from "@/lib/meeting-track";
+import {
+  ArticleGoFurther,
+  ArticleHero,
+  ArticleProductCard,
+  ArticleProof,
+  ArticleSidebarCta,
+  ArticleToc,
+  ArticleTocMobile,
+} from "@/components/article/article-blocks";
+import { extractHeadings } from "@/components/portable-text-components";
+import { HREFLANG } from "@/lib/hreflang";
+import { resolveTopic, topicForArticle } from "@/lib/article-topics";
+import { autoLinkBody } from "@/lib/auto-link";
+import { getT } from "@/i18n/ui";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost, ComparisonPage, ConnectorPage, GlossaryTerm } from "@/lib/types";
 
@@ -95,69 +108,66 @@ export default async function BlogPostPage({ params }: PageProps) {
   ]);
 
   const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null, locale as Locale);
+  const meetingTrack = locale === "fr" ? "france" : "general";
+  const t = getT(locale);
   const siteUrl  = getSiteUrl();
-  const postUrl  = `${siteUrl}${itemPath("blog", locale, slug)}`;
+  const postPath = itemPath("blog", locale, slug);
+  const postUrl  = `${siteUrl}${postPath}`;
   const hubUrl   = `${siteUrl}${hubPath("blog", locale)}`;
+  const homePath = locale === "en" ? "/" : `/${locale}`;
   const readMins = p.body ? estimateReadingTime(p.body as unknown[]) : 1;
   const catLabel = p.category ? (categoryLabels[p.category]?.[locale] ?? p.category) : null;
-  const evergreenLinks = getEvergreenInternalLinks(locale, "blog", itemPath("blog", locale, slug));
+  const evergreenLinks = getEvergreenInternalLinks(locale, "blog", postPath);
 
-  const hasRightSidebar =
-    (relatedPosts as BlogPost[])?.length > 0 ||
-    (relatedTerms as GlossaryTerm[])?.length > 0 ||
-    (relatedConnectors as ConnectorPage[])?.length > 0 ||
-    (relatedComparisons as ComparisonPage[])?.length > 0;
+  // Rich template: topic-driven cover, product visual, proof block and links.
+  const topic = resolveTopic(topicForArticle(slug, p.category), locale, postPath);
+  const body = p.body ? autoLinkBody(p.body as unknown[], locale, postPath) : [];
+  const headings = extractHeadings(body);
+  const inserts: Record<number, ReactNode> = {};
+  if (headings.length >= 2) inserts[1] = <ArticleProductCard locale={locale} topic={topic} />;
+  if (headings.length >= 4) inserts[Math.ceil(headings.length * 0.6)] = <ArticleProof locale={locale} />;
+  const proofInBody = headings.length >= 4;
 
   return (
     <>
-      <ArticleSchema title={p.title} description={p.excerpt} publishedAt={p.publishedAt} url={postUrl} />
-      <BreadcrumbSchema items={[{ name: "Home", url: siteUrl }, { name: L(labels.backToBlog, locale), url: hubUrl }, { name: p.title, url: postUrl }]} />
+      <ArticleSchema
+        title={p.title}
+        description={p.excerpt}
+        publishedAt={p.publishedAt}
+        updatedAt={p._updatedAt}
+        url={postUrl}
+        imageUrl={`${siteUrl}${topic.cover.src}`}
+        inLanguage={HREFLANG[locale]}
+      />
+      <BreadcrumbSchema items={[{ name: t("article.home"), url: locale === "en" ? siteUrl : `${siteUrl}/${locale}` }, { name: L(labels.backToBlog, locale), url: hubUrl }, { name: p.title, url: postUrl }]} />
       {p.faq?.length ? <FaqSchema items={p.faq} /> : null}
 
-      {/* ── ARTICLE HEADER ── */}
-      <header className="border-b border-dashed border-border bg-background">
-        <div className="mx-auto max-w-[1200px] px-6 pb-12 pt-32 md:pt-36">
-          {/* Breadcrumb */}
-          <nav className="mb-6 flex items-center gap-2 type-eyebrow text-text/40">
-            <a href={hubUrl} className="hover:text-text transition-colors">{L(labels.backToBlog, locale)}</a>
-            <span>/</span>
-            <span className="text-text/60 truncate max-w-xs">{p.title}</span>
-          </nav>
-
-          {/* Category + reading time */}
-          <div className="mb-4 flex flex-wrap items-center gap-3">
-            {catLabel && (
-              <span className="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 type-eyebrow text-blue-800">
-                {catLabel}
-              </span>
-            )}
-            <span className="type-paragraph-s text-text/40">
-              {readMins} {L(labels.readingTime, locale)}
-            </span>
-          </div>
-
-          {/* Title */}
-          <h1 className="type-h2 max-w-3xl">{p.title}</h1>
-
-          {/* Excerpt + date */}
-          {p.excerpt && (
-            <p className="mt-4 max-w-2xl type-body text-text/60 leading-relaxed">{p.excerpt}</p>
-          )}
-          <time className="mt-4 block type-paragraph-s text-text/35" dateTime={p.publishedAt}>
-            {new Date(p.publishedAt).toLocaleDateString(locale, { year: "numeric", month: "long", day: "numeric" })}
-          </time>
-        </div>
-      </header>
+      <ArticleHero
+        locale={locale}
+        topic={topic}
+        title={p.title}
+        excerpt={p.excerpt}
+        category={catLabel}
+        readMins={readMins}
+        publishedAt={p.publishedAt}
+        updatedAt={p._updatedAt}
+        crumbs={[
+          { label: t("article.home"), href: homePath },
+          { label: L(labels.backToBlog, locale), href: hubPath("blog", locale) },
+        ]}
+      />
 
       {/* ── BODY + SIDEBAR ── */}
       <div className="mx-auto max-w-[1200px] px-6 py-16">
-        <div className={`flex gap-16 ${hasRightSidebar ? "lg:grid lg:grid-cols-[1fr_300px]" : ""}`}>
+        <div className="flex gap-16 lg:grid lg:grid-cols-[1fr_300px]">
 
           {/* Main article */}
           <article className="min-w-0">
+            <ArticleTocMobile locale={locale} headings={headings} />
             <div className="prose prose-lg max-w-none">
-              {p.body && <SmartPortableText value={p.body as unknown[]} />}
+              {body.length ? <SmartPortableText value={body} inserts={inserts} /> : null}
             </div>
+            {proofInBody ? null : <ArticleProof locale={locale} />}
 
             <section className="mt-16 rounded-lg border border-border bg-mid-gray p-6">
               <h2 className="type-h5">{L(labels.applyTitle, locale)}</h2>
@@ -178,12 +188,14 @@ export default async function BlogPostPage({ params }: PageProps) {
                 </div>
               </section>
             ) : null}
+
+            <ArticleGoFurther locale={locale} links={topic.links} />
           </article>
 
           {/* Sidebar */}
-          {hasRightSidebar && (
-            <aside className="hidden lg:block">
-              <div className="sticky top-24 flex flex-col gap-8">
+          <aside className="hidden lg:block">
+              <div className="sticky top-24 flex max-h-[calc(100vh-7rem)] flex-col gap-8 overflow-y-auto pb-6">
+                <ArticleToc locale={locale} headings={headings} />
 
                 {/* Related posts */}
                 {(relatedPosts as BlogPost[])?.length > 0 && (
@@ -261,22 +273,10 @@ export default async function BlogPostPage({ params }: PageProps) {
                   </div>
                 )}
 
-                {/* CTA mini */}
-                <div className="rounded-xl border border-border bg-mid-gray p-6">
-                  <p className="type-body font-medium mb-1">Ready to start?</p>
-                  <p className="type-paragraph-s text-text/55 mb-4">30-minute call, no slides.</p>
-                  <ButtonLink
-                    href={bookingUrl}
-                    variant="primary"
-                    {...meetingTrackProps("general")}
-                  >
-                    Book a call
-                  </ButtonLink>
-                </div>
+                <ArticleSidebarCta locale={locale} bookingUrl={bookingUrl} meetingTrack={meetingTrack} />
 
               </div>
             </aside>
-          )}
         </div>
       </div>
 
@@ -287,7 +287,7 @@ export default async function BlogPostPage({ params }: PageProps) {
       <div className="mx-auto max-w-[1200px] px-6">
         <WonkaSolves locale={locale} meetingUrl={bookingUrl} />
       </div>
-      <Cta meetingUrl={bookingUrl} />
+      <Cta meetingUrl={bookingUrl} meetingTrackType={meetingTrack} locale={locale} />
     </>
   );
 }

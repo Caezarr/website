@@ -237,6 +237,7 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
           href: "/fr/pricing",
           description: "Prix par utilisateur et essai gratuit de 7 jours.",
         },
+        { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
       ],
     },
     cta: {

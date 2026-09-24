@@ -142,7 +142,6 @@ export async function SeoLandingView({
             alt=""
             fill
             priority
-            unoptimized
             sizes="100vw"
             className="pointer-events-none -z-10 object-cover"
           />

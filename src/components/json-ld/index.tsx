@@ -6,11 +6,14 @@ interface ArticleSchemaProps {
   title: string;
   description: string;
   publishedAt: string;
+  /** Last edit date; falls back to publishedAt. */
+  updatedAt?: string | null;
   url: string;
   imageUrl?: string;
+  inLanguage?: string;
 }
 
-export function ArticleSchema({ title, description, publishedAt, url, imageUrl }: ArticleSchemaProps) {
+export function ArticleSchema({ title, description, publishedAt, updatedAt, url, imageUrl, inLanguage }: ArticleSchemaProps) {
   const siteUrl = getSiteUrl();
   const schema = {
     "@context": "https://schema.org",
@@ -18,8 +21,15 @@ export function ArticleSchema({ title, description, publishedAt, url, imageUrl }
     headline: title,
     description,
     datePublished: publishedAt,
-    dateModified: publishedAt,
+    dateModified: updatedAt ?? publishedAt,
     url,
+    mainEntityOfPage: url,
+    ...(inLanguage && { inLanguage }),
+    author: {
+      "@type": "Organization",
+      name: "Wonka AI",
+      url: siteUrl,
+    },
     publisher: {
       "@type": "Organization",
       name: "Wonka AI",

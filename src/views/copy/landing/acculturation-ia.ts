@@ -182,6 +182,7 @@ export const ACCULTURATION_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         { label: "Chatbot d'entreprise", href: "/fr/chatbot-entreprise", description: "Un assistant IA connecté à vos documents et outils." },
         { label: "Sécurité et conformité", href: "/fr/security", description: "ISO 27001, RGPD, NIS 2 et hébergement européen." },
         { label: "Diagnostic IA gratuit", href: "/france/diagnostic", description: "5 questions, 2 minutes, 3 agents adaptés à vos outils." },
+        { label: "Shadow AI : définition et risques", href: "/fr/shadow-ai", description: "Reprendre la main sur les usages d'IA non encadrés, sans les interdire." },
       ],
     },
     cta: {
