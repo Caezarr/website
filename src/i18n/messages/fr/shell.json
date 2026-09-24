@@ -86,7 +86,16 @@
           "description": "Ce que nous avons construit pour 200 organisations"
         },
         "blog": {
-          "label": "Blog"
+          "label": "Blog",
+          "description": "Guides sur l'IA et les agents en entreprise"
+        },
+        "glossary": {
+          "label": "Glossaire",
+          "description": "Les termes de l'IA expliqués simplement"
+        },
+        "comparisons": {
+          "label": "Comparatifs",
+          "description": "Wonka AI face aux autres outils"
         }
       }
     },

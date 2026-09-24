@@ -73,6 +73,31 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
     ],
   },
   {
+    _key: "resources",
+    itemType: "dropdown",
+    label: "Resources",
+    children: [
+      {
+        _key: "blog",
+        label: "Blog",
+        href: "/blog",
+        description: "Guides on enterprise AI and agents",
+      },
+      {
+        _key: "glossary",
+        label: "Glossary",
+        href: "/learn",
+        description: "AI terms explained simply",
+      },
+      {
+        _key: "comparisons",
+        label: "Comparisons",
+        href: "/vs",
+        description: "Wonka AI compared with other tools",
+      },
+    ],
+  },
+  {
     _key: "company",
     itemType: "dropdown",
     label: "Company",

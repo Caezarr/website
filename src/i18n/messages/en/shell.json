@@ -86,7 +86,16 @@
           "description": "What we built at 200 organisations"
         },
         "blog": {
-          "label": "Blog"
+          "label": "Blog",
+          "description": "Guides on enterprise AI and agents"
+        },
+        "glossary": {
+          "label": "Glossary",
+          "description": "AI terms explained simply"
+        },
+        "comparisons": {
+          "label": "Comparisons",
+          "description": "Wonka AI compared with other tools"
         }
       }
     },
