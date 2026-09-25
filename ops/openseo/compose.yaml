@@ -1,0 +1,20 @@
+name: wonka-openseo
+
+services:
+  open-seo:
+    image: ghcr.io/every-app/open-seo:v0.1.9@sha256:babc731b51d2fb89fe8ab1f7acc5abed07977f035c18f628ac48142f5ade1bf2
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      CLOUDFLARE_INCLUDE_PROCESS_ENV: "true"
+      AUTH_MODE: local_noauth
+      PORT: "3001"
+      OPENSEO_TELEMETRY_DISABLED: "1"
+      VITE_SHOW_DEVTOOLS: "false"
+    ports:
+      - "127.0.0.1:3001:3001"
+    volumes:
+      - open_seo_data:/app/.wrangler
+
+volumes:
+  open_seo_data:

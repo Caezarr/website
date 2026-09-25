@@ -1,3 +1,4 @@
+import { HtmlLang } from "@/components/html-lang";
 import { sanityFetch, SanityLive } from "@sanity/lib/live";
 import { SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
 import type { Locale } from "@/i18n/config";
@@ -32,7 +33,8 @@ export async function PageLayout({
       : settings?.headerCta;
 
   return (
-    <div className="relative">
+    <div className="relative" lang={locale}>
+      <HtmlLang lang={locale} />
       <Header
         navItems={navItems}
         headerCta={headerCta}

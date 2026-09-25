@@ -1,0 +1,46 @@
+{
+  "scope": "New French comparison article, with the existing website shell",
+  "designSystemVersion": "0.3.0",
+  "brandVersionId": "wonka-brand-v0.1.0",
+  "channel": "website",
+  "theme": "light",
+  "policyStatus": "review_required",
+  "tokens": [
+    "semantic.color.background",
+    "semantic.color.text",
+    "semantic.color.border",
+    "typography.h2",
+    "typography.h4",
+    "typography.h6",
+    "typography.body",
+    "typography.paragraph-m",
+    "typography.paragraph-m-bold",
+    "typography.eyebrow",
+    "radius.button",
+    "radius.sm",
+    "radius.xs",
+    "component.button.primary.background",
+    "component.button.primary.foreground",
+    "component.button.effect.drop-shadow",
+    "component.button.effect.highlight",
+    "component.focus-ring.color",
+    "motion.duration.normal"
+  ],
+  "components": [
+    "component.button",
+    "component.section",
+    "component.surface",
+    "component.eyebrow"
+  ],
+  "assets": [
+    "asset.logo.wordmark",
+    "asset.font.inter-display",
+    "asset.font.gt-sectra"
+  ],
+  "patterns": ["pattern.website.editorial-landing"],
+  "claims": "Editorial decision criteria with linked publisher sources; no fabricated benchmark, ranking, pricing or certification.",
+  "primaryAction": { "label": "Évaluer mon projet IA", "href": "/france/diagnostic" },
+  "unresolvedDecisions": [
+    "The inherited beta website policy and new editorial/conversion copy remain subject to the user's PR review. No design-system approval or brand activation is claimed."
+  ]
+}

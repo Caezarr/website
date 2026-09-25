@@ -1,0 +1,10 @@
+cluster,requete_principale,variantes,page_cible,intention,conversion,pays,langue,volume,position
+plateforme,IA pour entreprise,"plateforme IA entreprise; espace de travail IA",/fr/ia-pour-entreprise,évaluer une plateforme,diagnostic,France,fr,non mesuré,non mesurée
+chatgpt,alternative ChatGPT entreprise,"Wonka vs ChatGPT; alternative ChatGPT Business",/fr/vs/wonka-ai-vs-chatgpt-enterprise,comparer les offres,diagnostic,France,fr,non mesuré,non mesurée
+claude,alternative Claude entreprise,"Wonka vs Claude; Claude pour entreprise",/fr/vs/claude,comparer les écosystèmes,diagnostic,France,fr,non mesuré,non mesurée
+dust,alternative Dust AI,"Wonka vs Dust; Dust Odoo; alternative Dust France",/fr/vs/dust,comparer intégrations et déploiement,diagnostic,France,fr,non mesuré,non mesurée
+langdock,alternative Langdock,"Wonka vs Langdock; Langdock France",/fr/vs/langdock,comparer plateformes européennes,diagnostic,France,fr,non mesuré,non mesurée
+comparatif,comparatif IA entreprise,"ChatGPT Claude Dust Langdock; choisir IA entreprise",/fr/comparatif-ia-entreprise,établir une sélection,comparatif détaillé,France,fr,non mesuré,non mesurée
+odoo,agent IA Odoo,"assistant IA Odoo; automatisation Odoo IA",/fr/wonka-chat/odoo,évaluer une intégration,diagnostic,France,fr,non mesuré,non mesurée
+audit,audit IA entreprise,"diagnostic IA PME; audit intelligence artificielle",/fr/audit-ia,cadrer un projet,diagnostic,France,fr,non mesuré,non mesurée
+gouvernance,shadow AI,"charte IA entreprise; gouvernance IA",/fr/shadow-ai,cadrer les usages,diagnostic,France,fr,non mesuré,non mesurée

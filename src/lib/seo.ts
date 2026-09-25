@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import type { SeoData } from "@/lib/types";
-import { getSiteUrl } from "@/lib/site-url";
+import { getSiteUrl, isIndexableEnvironment } from "@/lib/site-url";
 import { locales } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
-import { itemPath, hubPath } from "@/lib/locale-path";
-import { HREFLANG } from "@/lib/hreflang";
+import { hubPath } from "@/lib/locale-path";
+import { buildHubLanguages } from "@/lib/hreflang";
 import {
   commercialLanguages,
   commercialPath,
@@ -12,8 +12,11 @@ import {
 } from "@/i18n/routes";
 
 const HOME_TITLE = "Wonka AI - Private Enterprise AI Agents";
-const DEFAULT_DESCRIPTION =
-  "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance. Hosted in Azure West Europe (Microsoft Ireland).";
+const DEFAULT_DESCRIPTIONS: Record<string, string> = {
+  en: "Deploy private AI agents connected to your business tools. Explore Wonka's AI workspace, integrations and support for enterprise adoption.",
+  fr: "Déployez des agents IA connectés à vos outils métier avec Wonka. Découvrez notre espace de travail IA, ses intégrations et notre accompagnement.",
+  nl: "Implementeer private AI-agents verbonden met uw bedrijfstools. Ontdek Wonka's AI-werkruimte, integraties en begeleiding voor uw teams.",
+};
 const SITE_NAME = "Wonka AI";
 const DEFAULT_OG_IMAGE = "/opengraph-image.jpg";
 
@@ -29,19 +32,27 @@ export interface BuildMetadataOptions {
   locale?: string;
   languages?: Record<string, string>;
   /** Pass section + slug to generate per-locale hreflang alternates */
-  hreflang?: {
-    section: "blog" | "connectors" | "glossary" | "comparisons" | "case-studies";
-    slug: string;
-  } | "hub" | "home";
+  hreflang?:
+    | {
+        section:
+          | "blog"
+          | "connectors"
+          | "glossary"
+          | "comparisons"
+          | "case-studies";
+        slug: string;
+      }
+    | "hub"
+    | "home";
   /** Keep the page out of the index (placeholder / thin pages). */
   noindex?: boolean;
 }
 
 /**
  * Build hreflang languages map for a given path.
- * - "home": English homepage only; localized homepages are not published
+ * - "home": published EN/FR/NL homepages
  * - "hub": all locales → their hub path (requires section in path context – caller passes hubPath)
- * - { section, slug }: all locales → itemPath(section, locale, slug)
+ * - CMS items: use explicit, verified languages instead of guessing siblings
  * - undefined: returns empty (no cross-locale siblings known)
  */
 function buildLanguages(
@@ -55,36 +66,30 @@ function buildLanguages(
   if (!hreflang) return undefined;
 
   if (hreflang === "home") {
-    return {
-      "en-US": siteUrl,
-      "x-default": siteUrl,
-    };
+    return commercialLanguages(siteUrl, "home");
   }
 
   if (hreflang === "hub") {
     // Infer section from current path by comparing hub paths
-    const sections = ["blog", "connectors", "glossary", "comparisons", "case-studies"] as const;
+    const sections = [
+      "blog",
+      "connectors",
+      "glossary",
+      "comparisons",
+      "case-studies",
+    ] as const;
     for (const section of sections) {
       for (const loc of locales) {
         if (hubPath(section, loc as Locale) === path) {
-          const languages: Record<string, string> = { "x-default": siteUrl };
-          locales.forEach((l) => {
-            languages[HREFLANG[l]] = `${siteUrl}${hubPath(section, l as Locale)}`;
-          });
-          return languages;
+          return buildHubLanguages(siteUrl, section, locales);
         }
       }
     }
     return undefined;
   }
 
-  // { section, slug }
-  const { section, slug } = hreflang;
-  const languages: Record<string, string> = { "x-default": siteUrl };
-  locales.forEach((l) => {
-    languages[HREFLANG[l]] = `${siteUrl}${itemPath(section, l as Locale, slug)}`;
-  });
-  return languages;
+  // Callers must supply verified languages for CMS items via getContentLanguages.
+  return undefined;
 }
 
 export function buildMetadata(
@@ -102,8 +107,17 @@ export function buildMetadata(
       ? { absolute: HOME_TITLE }
       : (fallbackTitle ?? SITE_NAME);
 
-  const description = seo?.metaDescription || DEFAULT_DESCRIPTION;
-  const ogTitle = cmsTitle || (isHome ? HOME_TITLE : fallbackTitle ? `${fallbackTitle} – ${SITE_NAME}` : SITE_NAME);
+  const description =
+    seo?.metaDescription ||
+    DEFAULT_DESCRIPTIONS[locale] ||
+    DEFAULT_DESCRIPTIONS.en;
+  const ogTitle =
+    cmsTitle ||
+    (isHome
+      ? HOME_TITLE
+      : fallbackTitle
+        ? `${fallbackTitle} – ${SITE_NAME}`
+        : SITE_NAME);
   const customOgImage = seo?.ogImage || undefined;
   const ogLocale = OG_LOCALE[locale] ?? "en_US";
 
@@ -112,9 +126,18 @@ export function buildMetadata(
   return {
     title,
     description,
-    robots: options.noindex
-      ? { index: false, follow: true }
-      : { index: true, follow: true },
+    robots:
+      options.noindex || !isIndexableEnvironment()
+        ? { index: false, follow: true }
+        : {
+            index: true,
+            follow: true,
+            googleBot: {
+              "max-image-preview": "large",
+              "max-snippet": -1,
+              "max-video-preview": -1,
+            },
+          },
     alternates: {
       canonical: `${siteUrl}${path}`,
       ...(languages ? { languages } : {}),

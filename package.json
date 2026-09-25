@@ -25,7 +25,9 @@
     "storybook": "bun run ds:build && storybook dev -p 6006",
     "storybook:build": "bun run ds:build && storybook build",
     "test:storybook": "vitest run --project=storybook-light --project=storybook-dark",
-    "test:storybook:watch": "vitest --project=storybook-light --project=storybook-dark"
+    "test:storybook:watch": "vitest --project=storybook-light --project=storybook-dark",
+    "test:seo": "bun test scripts/seo/metadata.test.js",
+    "seo:check": "node scripts/seo/check.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",

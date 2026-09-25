@@ -34,7 +34,7 @@ export function ArticleSchema({ title, description, publishedAt, updatedAt, url,
       "@type": "Organization",
       name: "Wonka AI",
       url: siteUrl,
-      logo: { "@type": "ImageObject", url: `${siteUrl}/opengraph-image.jpg` },
+      logo: { "@type": "ImageObject", url: `${siteUrl}/images/brand/wonka-logo-mark-transparent.png` },
     },
     ...(imageUrl && { image: imageUrl }),
   };
@@ -117,13 +117,6 @@ export function SoftwareAppSchema({ name, description, url, features }: {
           name: feature,
         },
       })),
-    },
-    offers: {
-      "@type": "Offer",
-      url,
-      price: "0",
-      priceCurrency: "EUR",
-      availability: "https://schema.org/OnlineOnly",
     },
   };
   return <JsonLd id="schema-service" data={schema} />;
