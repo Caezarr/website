@@ -1,6 +1,6 @@
 # Wonka Product UI — candidate library
 
-Private, controlled React components for product composition and motion capture. The canonical registry is `design-system/components.json`; the component stories appear under **Product** in both Storybooks.
+Private, controlled React components for product composition and motion capture. The canonical registry is `design-system/components.json`; the component stories appear under **Product** in the lab Storybook, composed into the existing **WonkaChat Product** section of the main Storybook.
 
 ```tsx
 import {ProductTheme, ConnectorCard} from '@wonka/product-ui';

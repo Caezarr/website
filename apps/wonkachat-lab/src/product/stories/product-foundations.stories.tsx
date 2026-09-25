@@ -1,7 +1,7 @@
 import { useState } from "react";
-import type { Meta, StoryObj } from "@storybook/nextjs-vite";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 import { expect, userEvent, within } from "storybook/test";
-import * as UI from "../../../packages/product-ui/src";
+import * as UI from "../../../../../packages/product-ui/src";
 import { productDecorator } from "./product-story-layout";
 const meta = {
   title: "Product/Foundations",
