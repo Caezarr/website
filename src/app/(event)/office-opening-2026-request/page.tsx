@@ -18,13 +18,13 @@ export const OFFICE_OPENING_REQUEST_CONTENT: OfficeOpeningContent = {
     ...OFFICE_OPENING_CONTENT.hero,
     ctaLabel: "Request a spot",
     deadlineNote:
-      "Limited spots. Request yours before Friday 25 September at 22:00.",
+      "Limited spots. Request yours before Sunday 27 September at 23:00.",
   },
   highlights: OFFICE_OPENING_CONTENT.highlights.map((item) =>
     item.id === "spots"
       ? {
           ...item,
-          value: "Limited. Request a spot before Friday 25 September, 22:00",
+          value: "Limited. Request a spot before Sunday 27 September, 23:00",
         }
       : item,
   ),
@@ -32,7 +32,7 @@ export const OFFICE_OPENING_REQUEST_CONTENT: OfficeOpeningContent = {
     step.id === "register"
       ? {
           ...step,
-          title: "Request a spot before Friday 25 September, 22:00.",
+          title: "Request a spot before Sunday 27 September, 23:00.",
           body: "Spot requests are free but limited. We review every request and confirm by mail with practical details.",
         }
       : step,
@@ -60,12 +60,12 @@ export const OFFICE_OPENING_REQUEST_CONTENT: OfficeOpeningContent = {
   closing: {
     ...OFFICE_OPENING_CONTENT.closing,
     subline:
-      "Limited spots. Request yours before Friday 25 September at 22:00 and we confirm by mail.",
+      "Limited spots. Request yours before Sunday 27 September at 23:00 and we confirm by mail.",
     ctaLabel: "Request a spot",
   },
   sticky: {
     ctaLabel: "Request a spot",
-    deadline: "Request before Friday 25 September, 22:00",
+    deadline: "Request before Sunday 27 September, 23:00",
   },
 };
 

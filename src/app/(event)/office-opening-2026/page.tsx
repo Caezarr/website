@@ -101,7 +101,7 @@ export const OFFICE_OPENING_CONTENT: OfficeOpeningContent = {
     ],
     ctaLabel: "Save your spot",
     deadlineNote:
-      "Limited spots. Registration closes Friday 25 September at 22:00.",
+      "Limited spots. Registration closes Sunday 27 September at 23:00.",
     image: "/images/office-opening/office-hero.png",
     imageAlt: "Wonka AI office lounge with logo wall",
     imageInitials: "WA",
@@ -125,7 +125,7 @@ export const OFFICE_OPENING_CONTENT: OfficeOpeningContent = {
     {
       id: "spots",
       label: "Spots",
-      value: "Limited. Register before Friday 25 September, 22:00",
+      value: "Limited. Register before Sunday 27 September, 23:00",
     },
   ],
   scrollSteps: [
@@ -155,7 +155,7 @@ export const OFFICE_OPENING_CONTENT: OfficeOpeningContent = {
     },
     {
       id: "register",
-      title: "Save your spot before Friday 25 September, 22:00.",
+      title: "Save your spot before Sunday 27 September, 23:00.",
       body: "Registration is free but limited. We confirm by mail and send practical details right after.",
       panel: "register",
     },
@@ -242,7 +242,7 @@ export const OFFICE_OPENING_CONTENT: OfficeOpeningContent = {
       { label: "Price", value: "Free, registration required" },
       {
         label: "Register before",
-        value: "Friday 25 September, 22:00",
+        value: "Sunday 27 September, 23:00",
       },
       { label: "Spots", value: "Limited, we confirm by mail" },
     ],
@@ -255,14 +255,14 @@ export const OFFICE_OPENING_CONTENT: OfficeOpeningContent = {
   closing: {
     title: "See you on the 28th.",
     subline:
-      "Limited spots. Register before Friday 25 September at 10:00 and we send the practical details right after.",
+      "Limited spots. Register before Sunday 27 September at 23:00 and we send the practical details right after.",
     ctaLabel: "Save your spot",
     contactName: "Tom Van Nieuwenhuyse",
     contactEmail: "tom@meetwonka.com",
   },
   sticky: {
     ctaLabel: "Save your spot",
-    deadline: "Register before Friday 25 September, 22:00",
+    deadline: "Register before Sunday 27 September, 23:00",
   },
 };
 
