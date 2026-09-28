@@ -232,6 +232,9 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     related: {
       heading: "Pour aller plus loin",
       links: [
+        { label: "Wonka vs Claude", href: "/fr/vs/claude", description: "Écosystème Anthropic, choix des modèles et processus métier." },
+        { label: "Wonka vs Dust", href: "/fr/vs/dust", description: "Agents, gouvernance, intégrations et méthode de test." },
+        { label: "Wonka vs Langdock", href: "/fr/vs/langdock", description: "Deux plateformes européennes à comparer sur vos usages." },
         {
           label: "ChatGPT entreprise",
           href: "/fr/chatgpt-entreprise",

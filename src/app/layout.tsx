@@ -9,7 +9,7 @@ import { ApolloTracker } from "@/components/apollo-tracker";
 import { AnalyticsProvider } from "@/components/analytics-provider";
 import { gtSectra, interDisplay } from "@/lib/fonts";
 import { cn } from "@/lib/utils";
-import { getSiteUrl } from "@/lib/site-url";
+import { getSiteUrl, isIndexableEnvironment } from "@/lib/site-url";
 import "@/styles/globals.css";
 
 const GTM_ID = "GTM-5LCPHCRF";
@@ -85,12 +85,12 @@ const organizationSchema = {
   "@id": `${SITE_URL}/#organization`,
   name: "Wonka AI",
   url: SITE_URL,
-  logo: `${SITE_URL}/opengraph-image.jpg`,
+  logo: `${SITE_URL}/images/brand/wonka-logo-mark-transparent.png`,
   sameAs: [
     "https://www.linkedin.com/company/wonka-ai",
   ],
   description:
-    "Wonka AI deploys private enterprise AI agents connected to your existing tools. ISO 27001 certified. GDPR compliant. NIS 2 compliant. SOC 2 Type II in progress. Hosted in Azure West Europe (Microsoft Ireland).",
+    "Wonka AI is a Belgian enterprise AI company offering a multi-model workspace, connected agents and implementation services for European organizations.",
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -101,9 +101,9 @@ export async function generateMetadata(): Promise<Metadata> {
       template: "%s – Wonka AI",
     },
     description:
-      "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance. Hosted in Azure West Europe (Microsoft Ireland).",
+      "Deploy AI agents connected to your business tools. Explore Wonka’s multi-model workspace, integrations and support for enterprise adoption.",
     robots: {
-      index: true,
+      index: isIndexableEnvironment(),
       follow: true,
     },
     // No canonical here — each page sets its own via buildMetadata

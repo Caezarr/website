@@ -111,6 +111,7 @@ export async function SeoLandingView({
     provider: { "@id": `${siteUrl}/#organization` },
     areaServed: [
       { "@type": "Country", name: "Belgium" },
+      { "@type": "Country", name: "France" },
       { "@type": "Place", name: "European Union" },
     ],
     audience: { "@type": "BusinessAudience", audienceType: "Companies" },

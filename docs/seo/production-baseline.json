@@ -1,0 +1,604 @@
+{
+  "date": "2026-09-24T17:51:06.651Z",
+  "origin": "https://www.wonka-ai.com",
+  "rows": [
+    {
+      "path": "/",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/",
+      "title": "WonkaChat | AI workspace for your entire organization",
+      "description": "WonkaChat connects all your tools, understands what you need and executes tasks automatically. Secure, governed and useful — not just another chatbot.",
+      "canonical": "https://www.wonka-ai.com/",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "The AI workspace for your entire organization."
+      ],
+      "hreflang": [
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/"
+        }
+      ],
+      "jsonLd": 3
+    },
+    {
+      "path": "/fr",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr",
+      "title": "WonkaChat | Espace de travail IA pour toute l'entreprise",
+      "description": "WonkaChat connecte vos outils, comprend vos besoins et exécute les tâches avec des agents IA. Une IA pour entreprise sécurisée et encadrée, pas un chatbot.",
+      "canonical": "https://www.wonka-ai.com/fr",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "L'espace de travail IA pour toute votre organisation."
+      ],
+      "hreflang": [
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/"
+        }
+      ],
+      "jsonLd": 3
+    },
+    {
+      "path": "/france",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/france",
+      "title": "Wonka AI France - IA d'entreprise déployable",
+      "description": "IA d'entreprise avec agents et gouvernance. ISO 27001, GDPR, NIS 2. Hébergement Azure West Europe (Microsoft Irlande).",
+      "canonical": "https://www.wonka-ai.com/france",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "L'IA d'entreprise qui se déploie vraiment"
+      ],
+      "hreflang": [],
+      "jsonLd": 3
+    },
+    {
+      "path": "/france/diagnostic",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/france/diagnostic",
+      "title": "Diagnostic IA entreprise | 5 questions, 3 agents | Wonka",
+      "description": "5 questions, 2 minutes. Vous voyez 3 agents pour vos outils. Puis 45 min avec Gabriel.",
+      "canonical": "https://www.wonka-ai.com/france/diagnostic",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "Vous travaillez dans quel secteur ?"
+      ],
+      "hreflang": [],
+      "jsonLd": 3
+    },
+    {
+      "path": "/fr/vs",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/vs",
+      "title": "Comparatifs IA enterprise | Wonka AI",
+      "description": "Comparez Wonka AI à ChatGPT Enterprise, Microsoft Copilot, aux LLM publics et aux plateformes IA pour entreprises.",
+      "canonical": "https://www.wonka-ai.com/fr/vs",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "Comparez Wonka aux outils IA enterprise"
+      ],
+      "hreflang": [
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/"
+        },
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/vs"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/vs"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl/vs"
+        }
+      ],
+      "jsonLd": 3
+    },
+    {
+      "path": "/fr/vs/dust",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/vs/dust",
+      "title": "Alternative Dust AI pour ETI françaises | Wonka vs Dust",
+      "description": "L'alternative Dust pour ceux qui arbitrent le SI des ETI françaises. Agents IA dans Odoo et SharePoint. Données en Azure West Europe.",
+      "canonical": "https://www.wonka-ai.com/fr/vs/dust",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "L'alternative Dust pour ceux qui arbitrent le SI des ETI françaises"
+      ],
+      "hreflang": [
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/vs/dust"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/vs/dust"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/vs/dust"
+        }
+      ],
+      "jsonLd": 3
+    },
+    {
+      "path": "/fr/vs/langdock",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/vs/langdock",
+      "title": "Alternative Langdock pour ETI : Odoo, Azure West Europe",
+      "description": "Des agents IA dans Odoo et SharePoint, pour ceux qui arbitrent le SI d'ETI qui évaluent Langdock. Données en Azure West Europe.",
+      "canonical": "https://www.wonka-ai.com/fr/vs/langdock",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "Des agents IA dans Odoo et SharePoint, pour ceux qui arbitrent le SI d'ETI qui évaluent Langdock"
+      ],
+      "hreflang": [
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/vs/langdock"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/vs/langdock"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/vs/langdock"
+        }
+      ],
+      "jsonLd": 3
+    },
+    {
+      "path": "/fr/vs/wonka-ai-vs-chatgpt-enterprise",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/vs/wonka-ai-vs-chatgpt-enterprise",
+      "title": "Wonka AI vs ChatGPT Enterprise : comparatif entreprises UE",
+      "description": "ChatGPT Enterprise ou Wonka AI ? Comparaison détaillée sur la souveraineté des données, la conformité RGPD, la profondeur d'intégration et le coût total de possession.",
+      "canonical": "https://www.wonka-ai.com/fr/vs/wonka-ai-vs-chatgpt-enterprise",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "Wonka AI vs ChatGPT Enterprise : lequel pour les entreprises européennes ?"
+      ],
+      "hreflang": [
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/vs/wonka-ai-vs-chatgpt-enterprise"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/vs/wonka-ai-vs-chatgpt-enterprise"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl/vs/wonka-ai-vs-chatgpt-enterprise"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/vs/wonka-ai-vs-chatgpt-enterprise"
+        }
+      ],
+      "jsonLd": 6
+    },
+    {
+      "path": "/fr/vs/claude",
+      "status": 404,
+      "finalUrl": "https://www.wonka-ai.com/fr/vs/claude",
+      "title": "Wonka AI - Private Enterprise AI Agents",
+      "description": "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance. Hosted in Azure West Europe (Microsoft Ireland).",
+      "robots": "noindex",
+      "htmlLang": "",
+      "h1": [],
+      "hreflang": [
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/"
+        }
+      ],
+      "jsonLd": 0
+    },
+    {
+      "path": "/fr/comparatif-ia-entreprise",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/comparatif-ia-entreprise",
+      "title": "Comparatif IA entreprise : ChatGPT, Claude, Gemini, Mistral",
+      "description": "Comparatif IA entreprise : ChatGPT, Claude, Gemini, Copilot et Le Chat de Mistral, jugés sur données, intégrations et gouvernance. Guide PME/ETI.",
+      "canonical": "https://www.wonka-ai.com/fr/comparatif-ia-entreprise",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "Comparatif IA entreprise : quelle IA choisir pour votre organisation ?"
+      ],
+      "hreflang": [
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/comparatif-ia-entreprise"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/fr/comparatif-ia-entreprise"
+        }
+      ],
+      "jsonLd": 6
+    },
+    {
+      "path": "/fr/chatgpt-entreprise",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/chatgpt-entreprise",
+      "title": "ChatGPT entreprise privé, hébergé en Europe | Wonka AI",
+      "description": "ChatGPT entreprise sans shadow AI : WonkaChat, l'espace de travail IA privé hébergé dans l'UE, certifié ISO 27001. Essai gratuit de 7 jours.",
+      "canonical": "https://www.wonka-ai.com/fr/chatgpt-entreprise",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "ChatGPT entreprise : privé, sécurisé et hébergé en Europe."
+      ],
+      "hreflang": [
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/chatgpt-for-business"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/chatgpt-entreprise"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl/chatgpt-voor-bedrijven"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/chatgpt-for-business"
+        }
+      ],
+      "jsonLd": 6
+    },
+    {
+      "path": "/fr/ia-pour-entreprise",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/ia-pour-entreprise",
+      "title": "IA pour entreprise : stratégie, IA privée, agents | Wonka",
+      "description": "IA pour entreprise, privée et conforme RGPD : stratégie, espace de travail IA et agents IA, hébergés en Europe. Réservez un appel de 30 minutes.",
+      "canonical": "https://www.wonka-ai.com/fr/ia-pour-entreprise",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "L'IA pour entreprise que toutes vos équipes utilisent vraiment."
+      ],
+      "hreflang": [
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/ai-for-business"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/ia-pour-entreprise"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl/ai-voor-bedrijven"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/ai-for-business"
+        }
+      ],
+      "jsonLd": 6
+    },
+    {
+      "path": "/fr/audit-ia",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/audit-ia",
+      "title": "Audit IA : maturité, priorités et feuille de route | Wonka",
+      "description": "Audit IA pour PME et ETI : maturité IA, cas d'usage priorisés avec ROI, feuille de route et plan à 90 jours. Commencez par le diagnostic gratuit.",
+      "canonical": "https://www.wonka-ai.com/fr/audit-ia",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "Un audit IA qui débouche sur un plan, pas sur un rapport."
+      ],
+      "hreflang": [
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/audit-ia"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/fr/audit-ia"
+        }
+      ],
+      "jsonLd": 6
+    },
+    {
+      "path": "/fr/pricing",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/pricing",
+      "title": "Tarifs AI Workspace : prix par utilisateur | Wonka",
+      "description": "Tarifs transparents par utilisateur pour Wonka AI Workspace : IA privée, modèles hébergés dans l'UE et essai gratuit de 7 jours.",
+      "canonical": "https://www.wonka-ai.com/fr/pricing",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "Un seul espace de travail. Des tarifs qui évoluent avec votre équipe."
+      ],
+      "hreflang": [
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/pricing"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/pricing"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl/pricing"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/pricing"
+        }
+      ],
+      "jsonLd": 3
+    },
+    {
+      "path": "/fr/security",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/security",
+      "title": "Sécurité et conformité | Wonka AI",
+      "description": "Certifié ISO 27001, conforme RGPD et NIS 2. Hébergé dans Azure West Europe (Microsoft Irlande). Audit SOC 2 Type II en cours.",
+      "canonical": "https://www.wonka-ai.com/fr/security",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "La sécurité chez Wonka AI"
+      ],
+      "hreflang": [
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/security"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/security"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl/security"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/security"
+        }
+      ],
+      "jsonLd": 3
+    },
+    {
+      "path": "/fr/wonka-chat/odoo",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/wonka-chat/odoo",
+      "title": "WonkaChat pour Odoo | Agents IA qui agissent dans l'ERP",
+      "description": "Connectez WonkaChat à Odoo pour interroger CRM, stock, comptabilité et ventes en langage naturel. IA privée pour Odoo SaaS et auto-hébergé.",
+      "canonical": "https://www.wonka-ai.com/fr/wonka-chat/odoo",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "L'IA numéro un pour les entreprises qui utilisent Odoo."
+      ],
+      "hreflang": [
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/wonka-chat/odoo"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/wonka-chat/odoo"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl/wonka-chat/odoo"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/wonka-chat/odoo"
+        }
+      ],
+      "jsonLd": 4
+    },
+    {
+      "path": "/fr/blog",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/blog",
+      "title": "Blog IA entreprise | Wonka AI",
+      "description": "Guides Wonka sur les agents IA privés, le RAG, l'automatisation, la gouvernance et les déploiements IA en entreprise.",
+      "canonical": "https://www.wonka-ai.com/fr/blog",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "Guides IA entreprise pour les équipes qui déploient de vrais workflows"
+      ],
+      "hreflang": [
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/"
+        },
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/blog"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/blog"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl/blog"
+        }
+      ],
+      "jsonLd": 3
+    },
+    {
+      "path": "/fr/integrations",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/integrations",
+      "title": "Connecteurs IA et intégrations | Wonka AI",
+      "description": "Explorez les connecteurs Wonka pour Odoo, SharePoint, Salesforce, Slack, Google Drive, HubSpot et les systèmes enterprise.",
+      "canonical": "https://www.wonka-ai.com/fr/integrations",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "Connectez des agents IA privés à votre stack entreprise"
+      ],
+      "hreflang": [
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/"
+        },
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/integrations"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/integrations"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl/integrations"
+        }
+      ],
+      "jsonLd": 3
+    },
+    {
+      "path": "/fr/apprendre",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/fr/apprendre",
+      "title": "Glossaire IA entreprise | Wonka AI",
+      "description": "Définitions claires des agents IA, du RAG, du MCP, de la gouvernance, des LLM privés et de l'automatisation enterprise.",
+      "canonical": "https://www.wonka-ai.com/fr/apprendre",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "Glossaire IA entreprise pour agents privés et workflows"
+      ],
+      "hreflang": [
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/"
+        },
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/learn"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/apprendre"
+        },
+        {
+          "lang": "nl-BE",
+          "url": "https://www.wonka-ai.com/nl/leren"
+        }
+      ],
+      "jsonLd": 3
+    },
+    {
+      "path": "/nl/vs/dust",
+      "status": 200,
+      "finalUrl": "https://www.wonka-ai.com/nl/vs/dust",
+      "title": "Dust AI alternative for French ETI | Wonka vs Dust",
+      "description": "Dust AI alternative for French ETI. Agents that act in Odoo and SharePoint. Data in Azure West Europe. 45 min diagnostic with Gabriel.",
+      "canonical": "https://www.wonka-ai.com/vs/dust",
+      "robots": "index, follow",
+      "htmlLang": "en",
+      "h1": [
+        "Dust alternative for IT and security leads of French ETI"
+      ],
+      "hreflang": [
+        {
+          "lang": "en-US",
+          "url": "https://www.wonka-ai.com/vs/dust"
+        },
+        {
+          "lang": "fr-FR",
+          "url": "https://www.wonka-ai.com/fr/vs/dust"
+        },
+        {
+          "lang": "x-default",
+          "url": "https://www.wonka-ai.com/vs/dust"
+        }
+      ],
+      "jsonLd": 3
+    },
+    {
+      "path": "/fr/page-inconnue-seo-test",
+      "status": 404,
+      "finalUrl": "https://www.wonka-ai.com/fr/page-inconnue-seo-test",
+      "title": "Wonka AI - Private Enterprise AI Agents",
+      "description": "Deploy private AI agents inside your company. Connected to Odoo, SharePoint, Salesforce and Slack, with GDPR compliance. Hosted in Azure West Europe (Microsoft Ireland).",
+      "robots": "noindex",
+      "htmlLang": "en",
+      "h1": [
+        "This page wandered off"
+      ],
+      "hreflang": [],
+      "jsonLd": 3
+    }
+  ],
+  "sitemap": {
+    "urls": 174,
+    "lastModified": [
+      "2026-09-24T17:43:15.400Z",
+      "2026-09-24T17:43:15.400Z",
+      "2026-09-24T17:43:15.400Z",
+      "2026-09-24T17:43:15.400Z"
+    ]
+  }
+}

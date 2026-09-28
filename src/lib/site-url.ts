@@ -1,22 +1,25 @@
-export function getSiteUrl(): string {
-  const normalize = (url: string) => {
-    const withoutTrailingSlash = url.replace(/\/+$/, "");
-    return withoutTrailingSlash === "https://wonka-ai.com"
-      ? "https://www.wonka-ai.com"
-      : withoutTrailingSlash;
-  };
+const PRODUCTION_SITE_URL = "https://www.wonka-ai.com";
 
-  if (process.env.NEXT_PUBLIC_SITE_URL) {
-    return normalize(process.env.NEXT_PUBLIC_SITE_URL);
+/** Canonicals must never inherit a deployment-specific Vercel hostname. */
+export function getSiteUrl(): string {
+  const configured = process.env.NEXT_PUBLIC_SITE_URL;
+  if (!configured) return PRODUCTION_SITE_URL;
+  const url = new URL(configured);
+  if (
+    !["https:", "http:"].includes(url.protocol) ||
+    url.username ||
+    url.password
+  ) {
+    throw new Error(
+      "NEXT_PUBLIC_SITE_URL must be an HTTP(S) origin without credentials",
+    );
   }
-  if (process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL) {
-    return normalize(`https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`);
-  }
-  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
-    return normalize(`https://${process.env.NEXT_PUBLIC_VERCEL_URL}`);
-  }
-  if (process.env.NODE_ENV === "production") {
-    return "https://www.wonka-ai.com";
-  }
-  return "http://localhost:3000";
+  if (url.hostname === "wonka-ai.com") return PRODUCTION_SITE_URL;
+  return url.origin;
+}
+
+export function isIndexableEnvironment(): boolean {
+  return (
+    process.env.VERCEL_ENV !== "preview" && process.env.SEO_NOINDEX !== "true"
+  );
 }

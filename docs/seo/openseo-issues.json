@@ -1,0 +1,1392 @@
+{
+  "result": {
+    "_meta": {
+      "projectId": "3c5eb5bd-4095-4f42-a838-ba0b3aed1019",
+      "url": "http://127.0.0.1:3001/p/3c5eb5bd-4095-4f42-a838-ba0b3aed1019/audit?auditId=608c6638-8b90-4095-86cb-4fed5d06e97b"
+    },
+    "content": [
+      {
+        "type": "text",
+        "text": "Audit 608c6638-8b90-4095-86cb-4fed5d06e97b (https://www.wonka-ai.com/fr): 133 issues.\nBy type:\n- [warning] Thin content (thin-content): 8\n- [warning] Orphan page (orphan-page): 5\n- [info] Title too long (title-too-long): 65\n- [info] Meta description too long (meta-description-too-long): 43\n- [info] Canonicalized to another URL (canonicalized-page): 7\n- [info] Page is noindex (noindex-page): 4\n- [info] Meta description too short (meta-description-too-short): 1\nFull issue rows with how_to_fix instructions are in structuredContent.issues."
+      }
+    ],
+    "structuredContent": {
+      "summary": [
+        {
+          "issueType": "thin-content",
+          "title": "Thin content",
+          "severity": "warning",
+          "count": 8
+        },
+        {
+          "issueType": "orphan-page",
+          "title": "Orphan page",
+          "severity": "warning",
+          "count": 5
+        },
+        {
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "severity": "info",
+          "count": 65
+        },
+        {
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "severity": "info",
+          "count": 43
+        },
+        {
+          "issueType": "canonicalized-page",
+          "title": "Canonicalized to another URL",
+          "severity": "info",
+          "count": 7
+        },
+        {
+          "issueType": "noindex-page",
+          "title": "Page is noindex",
+          "severity": "info",
+          "count": 4
+        },
+        {
+          "issueType": "meta-description-too-short",
+          "title": "Meta description too short",
+          "severity": "info",
+          "count": 1
+        }
+      ],
+      "issues": [
+        {
+          "severity": "warning",
+          "issueType": "orphan-page",
+          "title": "Orphan page",
+          "url": "https://www.wonka-ai.com/ai-agent-blueprint",
+          "details": null,
+          "howToFix": "Link to this page from relevant pages (navigation, related content, hub pages), or remove it from the sitemap if it shouldn't be indexed."
+        },
+        {
+          "severity": "warning",
+          "issueType": "orphan-page",
+          "title": "Orphan page",
+          "url": "https://www.wonka-ai.com/vs/dust",
+          "details": null,
+          "howToFix": "Link to this page from relevant pages (navigation, related content, hub pages), or remove it from the sitemap if it shouldn't be indexed."
+        },
+        {
+          "severity": "warning",
+          "issueType": "orphan-page",
+          "title": "Orphan page",
+          "url": "https://www.wonka-ai.com/fr/vs/dust",
+          "details": null,
+          "howToFix": "Link to this page from relevant pages (navigation, related content, hub pages), or remove it from the sitemap if it shouldn't be indexed."
+        },
+        {
+          "severity": "warning",
+          "issueType": "orphan-page",
+          "title": "Orphan page",
+          "url": "https://www.wonka-ai.com/fr/vs/langdock",
+          "details": null,
+          "howToFix": "Link to this page from relevant pages (navigation, related content, hub pages), or remove it from the sitemap if it shouldn't be indexed."
+        },
+        {
+          "severity": "warning",
+          "issueType": "orphan-page",
+          "title": "Orphan page",
+          "url": "https://www.wonka-ai.com/vs/langdock",
+          "details": null,
+          "howToFix": "Link to this page from relevant pages (navigation, related content, hub pages), or remove it from the sitemap if it shouldn't be indexed."
+        },
+        {
+          "severity": "warning",
+          "issueType": "thin-content",
+          "title": "Thin content",
+          "url": "https://www.wonka-ai.com/contact",
+          "details": {
+            "wordCount": 100
+          },
+          "howToFix": "Either expand the page with genuinely useful content, noindex it, or consolidate it into a stronger page. If the content exists but is rendered by JavaScript, ensure it is server-rendered or pre-rendered."
+        },
+        {
+          "severity": "warning",
+          "issueType": "thin-content",
+          "title": "Thin content",
+          "url": "https://www.wonka-ai.com/nl/contact",
+          "details": {
+            "wordCount": 91
+          },
+          "howToFix": "Either expand the page with genuinely useful content, noindex it, or consolidate it into a stronger page. If the content exists but is rendered by JavaScript, ensure it is server-rendered or pre-rendered."
+        },
+        {
+          "severity": "warning",
+          "issueType": "thin-content",
+          "title": "Thin content",
+          "url": "https://www.wonka-ai.com/fr/contact",
+          "details": {
+            "wordCount": 104
+          },
+          "howToFix": "Either expand the page with genuinely useful content, noindex it, or consolidate it into a stronger page. If the content exists but is rendered by JavaScript, ensure it is server-rendered or pre-rendered."
+        },
+        {
+          "severity": "warning",
+          "issueType": "thin-content",
+          "title": "Thin content",
+          "url": "https://www.wonka-ai.com/france/diagnostic",
+          "details": {
+            "wordCount": 86
+          },
+          "howToFix": "Either expand the page with genuinely useful content, noindex it, or consolidate it into a stronger page. If the content exists but is rendered by JavaScript, ensure it is server-rendered or pre-rendered."
+        },
+        {
+          "severity": "warning",
+          "issueType": "thin-content",
+          "title": "Thin content",
+          "url": "https://www.wonka-ai.com/france/diagnostic?utm_campaign=france&utm_source=vs-dust",
+          "details": {
+            "wordCount": 86
+          },
+          "howToFix": "Either expand the page with genuinely useful content, noindex it, or consolidate it into a stronger page. If the content exists but is rendered by JavaScript, ensure it is server-rendered or pre-rendered."
+        },
+        {
+          "severity": "warning",
+          "issueType": "thin-content",
+          "title": "Thin content",
+          "url": "https://www.wonka-ai.com/france/diagnostic?utm_campaign=france&utm_source=vs-langdock",
+          "details": {
+            "wordCount": 86
+          },
+          "howToFix": "Either expand the page with genuinely useful content, noindex it, or consolidate it into a stronger page. If the content exists but is rendered by JavaScript, ensure it is server-rendered or pre-rendered."
+        },
+        {
+          "severity": "warning",
+          "issueType": "thin-content",
+          "title": "Thin content",
+          "url": "https://www.wonka-ai.com/france/diagnostic?utm_campaign=france&utm_source=agent-ia-entreprise",
+          "details": {
+            "wordCount": 86
+          },
+          "howToFix": "Either expand the page with genuinely useful content, noindex it, or consolidate it into a stronger page. If the content exists but is rendered by JavaScript, ensure it is server-rendered or pre-rendered."
+        },
+        {
+          "severity": "warning",
+          "issueType": "thin-content",
+          "title": "Thin content",
+          "url": "https://www.wonka-ai.com/france/diagnostic?utm_campaign=france",
+          "details": {
+            "wordCount": 86
+          },
+          "howToFix": "Either expand the page with genuinely useful content, noindex it, or consolidate it into a stronger page. If the content exists but is rendered by JavaScript, ensure it is server-rendered or pre-rendered."
+        },
+        {
+          "severity": "info",
+          "issueType": "canonicalized-page",
+          "title": "Canonicalized to another URL",
+          "url": "https://www.wonka-ai.com/france/diagnostic?utm_campaign=france&utm_source=vs-dust",
+          "details": {
+            "canonicalUrl": "https://www.wonka-ai.com/france/diagnostic"
+          },
+          "howToFix": "If this page should rank on its own, set its canonical to itself. Otherwise no action is needed."
+        },
+        {
+          "severity": "info",
+          "issueType": "canonicalized-page",
+          "title": "Canonicalized to another URL",
+          "url": "https://www.wonka-ai.com/france/diagnostic?utm_campaign=france&utm_source=vs-langdock",
+          "details": {
+            "canonicalUrl": "https://www.wonka-ai.com/france/diagnostic"
+          },
+          "howToFix": "If this page should rank on its own, set its canonical to itself. Otherwise no action is needed."
+        },
+        {
+          "severity": "info",
+          "issueType": "canonicalized-page",
+          "title": "Canonicalized to another URL",
+          "url": "https://www.wonka-ai.com/france/diagnostic?utm_campaign=france&utm_source=agent-ia-entreprise",
+          "details": {
+            "canonicalUrl": "https://www.wonka-ai.com/france/diagnostic"
+          },
+          "howToFix": "If this page should rank on its own, set its canonical to itself. Otherwise no action is needed."
+        },
+        {
+          "severity": "info",
+          "issueType": "canonicalized-page",
+          "title": "Canonicalized to another URL",
+          "url": "https://www.wonka-ai.com/france/diagnostic?utm_campaign=france",
+          "details": {
+            "canonicalUrl": "https://www.wonka-ai.com/france/diagnostic"
+          },
+          "howToFix": "If this page should rank on its own, set its canonical to itself. Otherwise no action is needed."
+        },
+        {
+          "severity": "info",
+          "issueType": "canonicalized-page",
+          "title": "Canonicalized to another URL",
+          "url": "https://www.wonka-ai.com/fr/workspace",
+          "details": {
+            "canonicalUrl": "https://www.wonka-ai.com/fr"
+          },
+          "howToFix": "If this page should rank on its own, set its canonical to itself. Otherwise no action is needed."
+        },
+        {
+          "severity": "info",
+          "issueType": "canonicalized-page",
+          "title": "Canonicalized to another URL",
+          "url": "https://www.wonka-ai.com/workspace",
+          "details": {
+            "canonicalUrl": "https://www.wonka-ai.com/"
+          },
+          "howToFix": "If this page should rank on its own, set its canonical to itself. Otherwise no action is needed."
+        },
+        {
+          "severity": "info",
+          "issueType": "canonicalized-page",
+          "title": "Canonicalized to another URL",
+          "url": "https://www.wonka-ai.com/nl/workspace",
+          "details": {
+            "canonicalUrl": "https://www.wonka-ai.com/nl"
+          },
+          "howToFix": "If this page should rank on its own, set its canonical to itself. Otherwise no action is needed."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/ai-agents",
+          "details": {
+            "length": 171
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/privacy",
+          "details": {
+            "length": 161
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/blog/agentic-ai-for-enterprise",
+          "details": {
+            "length": 168
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/blog/ia-agentique-entreprise",
+          "details": {
+            "length": 170
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/nl/blog/dust-tt-alternatieven",
+          "details": {
+            "length": 162
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/blog/glean-alternatives",
+          "details": {
+            "length": 162
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/blog/alternatives-glean",
+          "details": {
+            "length": 162
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/blog/alternatives-dust-tt",
+          "details": {
+            "length": 177
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/blog/how-to-choose-enterprise-ai-model",
+          "details": {
+            "length": 166
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/blog/fr-choisir-modele-ia",
+          "details": {
+            "length": 178
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/nl/blog/nl-ai-model-kiezen",
+          "details": {
+            "length": 168
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/blog/alternatives-langdock",
+          "details": {
+            "length": 181
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/blog/odoo-ai-agent",
+          "details": {
+            "length": 170
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/blog/odoo-agent-ia",
+          "details": {
+            "length": 181
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/nl/blog/nl-odoo-ai-agent",
+          "details": {
+            "length": 165
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/blog/odoo-chatbot",
+          "details": {
+            "length": 172
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/blog/why-microsoft-copilot-is-not-enough",
+          "details": {
+            "length": 170
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/blog/fr-odoo-chatbot",
+          "details": {
+            "length": 174
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/nl/blog/nl-microsoft-copilot-niet-genoeg",
+          "details": {
+            "length": 166
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/blog/fr-wonka-vs-langdock",
+          "details": {
+            "length": 168
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/learn/data-sovereignty",
+          "details": {
+            "length": 168
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/apprendre/data-sovereignty",
+          "details": {
+            "length": 178
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/nl/leren/data-sovereignty",
+          "details": {
+            "length": 181
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/nl/leren/fine-tuning",
+          "details": {
+            "length": 175
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/apprendre/fine-tuning",
+          "details": {
+            "length": 174
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/learn/mcp",
+          "details": {
+            "length": 169
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/nl/leren/mcp",
+          "details": {
+            "length": 166
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/learn/on-premise",
+          "details": {
+            "length": 179
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/apprendre/on-premise",
+          "details": {
+            "length": 167
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/apprendre/mcp",
+          "details": {
+            "length": 194
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/nl/leren/on-premise",
+          "details": {
+            "length": 190
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/learn/prompt-engineering",
+          "details": {
+            "length": 171
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/apprendre/prompt-engineering",
+          "details": {
+            "length": 164
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/learn/vector-database",
+          "details": {
+            "length": 171
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/nl/leren/vector-database",
+          "details": {
+            "length": 189
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/vs/private-llm-vs-public-llm",
+          "details": {
+            "length": 162
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/vs/wonka-ai-vs-chatgpt-enterprise",
+          "details": {
+            "length": 164
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/vs/wonka-ai-vs-chatgpt-enterprise",
+          "details": {
+            "length": 167
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/nl/vs/wonka-ai-vs-chatgpt-enterprise",
+          "details": {
+            "length": 179
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/vs/wonka-ai-vs-microsoft-copilot",
+          "details": {
+            "length": 166
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/integrations/outlook",
+          "details": {
+            "length": 188
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/fr/integrations/outlook",
+          "details": {
+            "length": 190
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-long",
+          "title": "Meta description too long",
+          "url": "https://www.wonka-ai.com/nl/integrations/outlook",
+          "details": {
+            "length": 162
+          },
+          "howToFix": "Trim the description to roughly 70\u2013160 characters while keeping the core message and call to action."
+        },
+        {
+          "severity": "info",
+          "issueType": "meta-description-too-short",
+          "title": "Meta description too short",
+          "url": "https://www.wonka-ai.com/pricing",
+          "details": {
+            "length": 52
+          },
+          "howToFix": "Expand the description to roughly 70\u2013160 characters that summarize the page and give a reason to click."
+        },
+        {
+          "severity": "info",
+          "issueType": "noindex-page",
+          "title": "Page is noindex",
+          "url": "https://www.wonka-ai.com/terms",
+          "details": {
+            "robotsMeta": "noindex, follow",
+            "xRobotsTag": null
+          },
+          "howToFix": "If this page should rank, remove the noindex directive. If it's intentional (admin, thank-you, filter pages), no action is needed."
+        },
+        {
+          "severity": "info",
+          "issueType": "noindex-page",
+          "title": "Page is noindex",
+          "url": "https://www.wonka-ai.com/cookies",
+          "details": {
+            "robotsMeta": "noindex, follow",
+            "xRobotsTag": null
+          },
+          "howToFix": "If this page should rank, remove the noindex directive. If it's intentional (admin, thank-you, filter pages), no action is needed."
+        },
+        {
+          "severity": "info",
+          "issueType": "noindex-page",
+          "title": "Page is noindex",
+          "url": "https://www.wonka-ai.com/privacy",
+          "details": {
+            "robotsMeta": "noindex, follow",
+            "xRobotsTag": null
+          },
+          "howToFix": "If this page should rank, remove the noindex directive. If it's intentional (admin, thank-you, filter pages), no action is needed."
+        },
+        {
+          "severity": "info",
+          "issueType": "noindex-page",
+          "title": "Page is noindex",
+          "url": "https://www.wonka-ai.com/services",
+          "details": {
+            "robotsMeta": "noindex, follow",
+            "xRobotsTag": null
+          },
+          "howToFix": "If this page should rank, remove the noindex directive. If it's intentional (admin, thank-you, filter pages), no action is needed."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/wonka-build",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/case-studies/itzu",
+          "details": {
+            "length": 69
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/case-studies/n-allo",
+          "details": {
+            "length": 63
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/agent-ia-entreprise",
+          "details": {
+            "length": 63
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/blog/agentic-ai-for-enterprise",
+          "details": {
+            "length": 61
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/blog/ia-agentique-entreprise",
+          "details": {
+            "length": 65
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/blog/dust-tt-alternatieven",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/blog/alternatives-glean",
+          "details": {
+            "length": 63
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/blog/how-to-calculate-roi-enterprise-ai",
+          "details": {
+            "length": 68
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/blog/alternatives-dust-tt",
+          "details": {
+            "length": 64
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/blog/fr-roi-ia-entreprise",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/blog/how-to-choose-enterprise-ai-model",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/blog/fr-choisir-modele-ia",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/blog/nl-ai-model-kiezen",
+          "details": {
+            "length": 61
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/blog/alternatives-langdock",
+          "details": {
+            "length": 65
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/blog/langdock-alternatieven",
+          "details": {
+            "length": 63
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/blog/alternatives-notebooklm",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/blog/odoo-ai-agent",
+          "details": {
+            "length": 68
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/blog/odoo-agent-ia",
+          "details": {
+            "length": 67
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/blog/odoo-chatbot",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/blog/nl-odoo-chatbot",
+          "details": {
+            "length": 61
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/blog/why-microsoft-copilot-is-not-enough",
+          "details": {
+            "length": 70
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/blog/fr-odoo-chatbot",
+          "details": {
+            "length": 61
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/blog/wonka-vs-langdock",
+          "details": {
+            "length": 63
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/blog/nl-wonka-vs-langdock",
+          "details": {
+            "length": 68
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/blog/fr-wonka-vs-langdock",
+          "details": {
+            "length": 63
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/leren/ai-agent",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/apprendre/ai-agent",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/apprendre/data-sovereignty",
+          "details": {
+            "length": 67
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/leren/data-sovereignty",
+          "details": {
+            "length": 63
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/learn/fine-tuning",
+          "details": {
+            "length": 69
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/leren/fine-tuning",
+          "details": {
+            "length": 67
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/learn/llm",
+          "details": {
+            "length": 69
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/apprendre/llm",
+          "details": {
+            "length": 61
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/leren/llm",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/leren/mcp",
+          "details": {
+            "length": 69
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/learn/on-premise",
+          "details": {
+            "length": 68
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/leren/on-premise",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/learn/prompt-engineering",
+          "details": {
+            "length": 68
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/learn/rag",
+          "details": {
+            "length": 63
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/leren/rag",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/leren/prompt-engineering",
+          "details": {
+            "length": 68
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/learn/vector-database",
+          "details": {
+            "length": 61
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/vs/private-llm-vs-public-llm",
+          "details": {
+            "length": 63
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/vs/private-llm-vs-public-llm",
+          "details": {
+            "length": 65
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/apprendre/vector-database",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/vs/wonka-ai-vs-microsoft-copilot",
+          "details": {
+            "length": 66
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/vs/private-llm-vs-public-llm",
+          "details": {
+            "length": 67
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/vs/wonka-ai-vs-microsoft-copilot",
+          "details": {
+            "length": 68
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/vs/wonka-ai-vs-microsoft-copilot",
+          "details": {
+            "length": 68
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/integrations/google-drive",
+          "details": {
+            "length": 68
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/integrations/hubspot",
+          "details": {
+            "length": 67
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/integrations/hubspot",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/integrations/jira",
+          "details": {
+            "length": 62
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/integrations/microsoft-teams",
+          "details": {
+            "length": 69
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/integrations/notion",
+          "details": {
+            "length": 67
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/integrations/notion",
+          "details": {
+            "length": 66
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/integrations/notion",
+          "details": {
+            "length": 63
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/integrations/odoo",
+          "details": {
+            "length": 67
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/integrations/outlook",
+          "details": {
+            "length": 61
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/integrations/salesforce",
+          "details": {
+            "length": 64
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/integrations/salesforce",
+          "details": {
+            "length": 65
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/fr/integrations/salesforce",
+          "details": {
+            "length": 68
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/integrations/slack",
+          "details": {
+            "length": 63
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        },
+        {
+          "severity": "info",
+          "issueType": "title-too-long",
+          "title": "Title too long",
+          "url": "https://www.wonka-ai.com/nl/integrations/slack",
+          "details": {
+            "length": 63
+          },
+          "howToFix": "Shorten the title to roughly 50\u201360 characters, front-loading the most important words."
+        }
+      ],
+      "meta": {
+        "projectId": "3c5eb5bd-4095-4f42-a838-ba0b3aed1019",
+        "url": "http://127.0.0.1:3001/p/3c5eb5bd-4095-4f42-a838-ba0b3aed1019/audit?auditId=608c6638-8b90-4095-86cb-4fed5d06e97b"
+      }
+    }
+  },
+  "jsonrpc": "2.0",
+  "id": 1
+}

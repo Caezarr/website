@@ -1,0 +1,13 @@
+{
+  "name": "Wonka France",
+  "domain": "wonka-ai.com",
+  "country": "France",
+  "language": "fr",
+  "business_overview": "Wonka AI est un éditeur belge de workspace IA multi-modèles, d'agents connectés et de services de déploiement IA. Le projet vise des entreprises françaises recherchant une IA connectée aux données et outils métier, avec gouvernance et accompagnement.",
+  "current_goal": "Augmenter les demandes qualifiées de diagnostic et les essais Wonka depuis des recherches françaises sur les IA d'entreprise et les alternatives à ChatGPT, Claude, Dust et Langdock.",
+  "positioning": "Évaluer un workflow complet : données, permissions, actions, intégrations Odoo et outils documentaires, adoption et coût total. Ne pas prétendre que les concurrents sont dépourvus d'agents, de gouvernance ou d'options européennes.",
+  "competitors": ["openai.com", "claude.com", "dust.tt", "langdock.com"],
+  "key_pages": ["/fr", "/fr/vs", "/fr/vs/wonka-ai-vs-chatgpt-enterprise", "/fr/vs/claude", "/fr/vs/dust", "/fr/vs/langdock", "/fr/comparatif-ia-entreprise", "/fr/wonka-chat/odoo", "/fr/security", "/fr/pricing", "/france/diagnostic"],
+  "writing_preferences": "Français concret, termes métier, sources officielles datées. Pas de volumes inventés, pas de classement garanti, pas de certification ni de prix sans preuve. Distinguer éditeur belge, marché français et lieu de traitement des données.",
+  "measurement_status": "DataForSEO et Search Console non connectés lors de la préparation. Intentions proposées, volumes et positions inconnus."
+}

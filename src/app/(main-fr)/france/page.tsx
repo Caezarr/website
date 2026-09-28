@@ -26,7 +26,7 @@ export async function generateMetadata(): Promise<Metadata> {
       metaDescription: description,
       ogImage: null,
     },
-    { path: pagePath, fallbackTitle: title },
+    { path: pagePath, fallbackTitle: title, locale: "fr" },
   );
 }
 

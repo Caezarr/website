@@ -1,0 +1,36 @@
+{
+  "result": {
+    "_meta": {
+      "projectId": "3c5eb5bd-4095-4f42-a838-ba0b3aed1019",
+      "url": "http://127.0.0.1:3001/p/3c5eb5bd-4095-4f42-a838-ba0b3aed1019/audit?auditId=608c6638-8b90-4095-86cb-4fed5d06e97b"
+    },
+    "content": [
+      {
+        "type": "text",
+        "text": "Audit 608c6638-8b90-4095-86cb-4fed5d06e97b (https://www.wonka-ai.com/fr): completed \u2014 phase completed, 185/185 pages. Call get_audit_issues for the issue report."
+      }
+    ],
+    "structuredContent": {
+      "status": {
+        "id": "608c6638-8b90-4095-86cb-4fed5d06e97b",
+        "startUrl": "https://www.wonka-ai.com/fr",
+        "status": "completed",
+        "pagesCrawled": 185,
+        "pagesTotal": 185,
+        "lighthouseTotal": 0,
+        "lighthouseCompleted": 0,
+        "lighthouseFailed": 0,
+        "currentPhase": "completed",
+        "errorCode": null,
+        "startedAt": "2026-09-24 17:53:41",
+        "completedAt": "2026-09-24T17:56:46.846Z"
+      },
+      "meta": {
+        "projectId": "3c5eb5bd-4095-4f42-a838-ba0b3aed1019",
+        "url": "http://127.0.0.1:3001/p/3c5eb5bd-4095-4f42-a838-ba0b3aed1019/audit?auditId=608c6638-8b90-4095-86cb-4fed5d06e97b"
+      }
+    }
+  },
+  "jsonrpc": "2.0",
+  "id": 1
+}
