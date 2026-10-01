@@ -1,150 +1,164 @@
 "use client";
 
-import { useState } from "react";
-import { motion, useReducedMotion } from "motion/react";
-import { LogoMark } from "@/components/ui/logo-mark";
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import { useReducedMotion } from "motion/react";
+import { btpPhases } from "./btp-content";
 import styles from "./btp.module.css";
 
-type VideoStep = readonly [string, string];
-
-interface BtpVideoSlotProps {
-  number: string;
-  category: string;
+interface BtpVideoProps {
+  slug: string;
   title: string;
-  steps: readonly VideoStep[];
-  videoId?: string;
-  videoHash?: string;
+  priority?: boolean;
 }
 
-export function BtpVideoSlot({
-  number,
-  category,
-  title,
-  steps,
-  videoId,
-  videoHash,
-}: BtpVideoSlotProps) {
-  const validVideoId = videoId && /^\d+$/.test(videoId) ? videoId : null;
-  const source = validVideoId
-    ? "https://player.vimeo.com/video/" +
-      validVideoId +
-      "?dnt=1&title=0&byline=0&portrait=0" +
-      (videoHash ? "&h=" + encodeURIComponent(videoHash) : "")
-    : null;
+export function BtpVideo({ slug, title, priority = false }: BtpVideoProps) {
+  const reduced = useReducedMotion();
+  const frameRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [source, setSource] = useState<string | null>(null);
+  const [ready, setReady] = useState(false);
+  const [paused, setPaused] = useState(false);
 
-  if (source) {
-    return (
-      <div className={styles.motionSlot}>
-        <div className={styles.videoFrame}>
-          <iframe
-            src={source}
-            title={title}
-            loading="lazy"
-            allow="autoplay; fullscreen; picture-in-picture; clipboard-write; encrypted-media"
-            allowFullScreen
-            referrerPolicy="strict-origin-when-cross-origin"
-          />
-        </div>
-      </div>
+  useEffect(() => {
+    const frame = frameRef.current;
+    if (!frame || reduced) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const video = videoRef.current;
+        if (entry.isIntersecting) {
+          setSource((current) => {
+            if (current) return current;
+            const width = window.innerWidth * window.devicePixelRatio;
+            return "/videos/france/btp/" + slug + (width > 1400 ? "-1080" : "-720") + ".mp4";
+          });
+          if (video && !paused) video.play().catch(() => undefined);
+        } else if (video) {
+          video.pause();
+        }
+      },
+      { rootMargin: "200px 0px", threshold: 0.25 },
     );
+    observer.observe(frame);
+    return () => observer.disconnect();
+  }, [slug, reduced, paused]);
+
+  function toggle() {
+    const video = videoRef.current;
+    if (!video) {
+      setPaused(false);
+      setSource("/videos/france/btp/" + slug + "-720.mp4");
+      return;
+    }
+    if (video.paused) {
+      video.play().catch(() => undefined);
+      setPaused(false);
+    } else {
+      video.pause();
+      setPaused(true);
+    }
   }
 
+  const playing = ready && !paused;
+
   return (
-    <div className={styles.motionSlot}>
-      <div
-        className={styles.motionPoster}
-        role="img"
-        aria-label={category + " — " + title}
+    <figure className={styles.videoFrame} ref={frameRef}>
+      <Image
+        src={"/images/france/btp/" + slug + "-poster.jpg"}
+        alt=""
+        fill
+        priority={priority}
+        sizes="(min-width: 75rem) 50vw, 100vw"
+        className={styles.videoPoster}
+      />
+      {source ? (
+        <video
+          ref={videoRef}
+          src={source}
+          muted
+          loop
+          playsInline
+          autoPlay
+          preload="metadata"
+          aria-label={title}
+          onPlaying={() => setReady(true)}
+          className={styles.videoMedia}
+          data-ready={ready || undefined}
+        />
+      ) : null}
+      <button
+        type="button"
+        className={styles.videoToggle}
+        onClick={toggle}
+        aria-label={playing ? "Mettre la vidéo en pause" : "Lire la vidéo"}
       >
-        <div className={styles.posterTop}>
-          <LogoMark className="h-5 w-auto" variant="light" />
-          <span>WONKA MOTION · {number}</span>
-          <span>{category}</span>
-        </div>
-        <div className={styles.posterContent}>
-          <p>{category}</p>
-          <h3>{title}</h3>
-          <div className={styles.posterFlow}>
-            {steps.map(([label, detail], index) => (
-              <div className={styles.posterStep} key={label}>
-                <span>0{index + 1}</span>
-                <strong>{label}</strong>
-                <small>{detail}</small>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className={styles.posterBottom}>
-          <span>Sources vérifiables</span>
-          <span>Décision humaine</span>
-        </div>
-      </div>
-    </div>
+        <span aria-hidden="true">{playing ? "❚❚" : "▶"}</span>
+      </button>
+      <figcaption className="sr-only">{title}</figcaption>
+    </figure>
   );
 }
 
-export function TimeCalculator() {
-  const reduced = useReducedMotion();
-  const [people, setPeople] = useState(100);
-  const [minutes, setMinutes] = useState(30);
-  const hours = Math.round((people * minutes * 220) / 60);
+export function AgentExplorer() {
+  const [active, setActive] = useState(0);
+  const phase = btpPhases[active];
 
   return (
-    <div className={styles.calculator}>
-      <div className={styles.calcPresets}>
-        <span>Votre équipe</span>
-        {[20, 50, 100, 200].map((count) => (
+    <div className={styles.explorer}>
+      <div className={styles.explorerTabs} role="tablist" aria-label="Phases du chantier">
+        {btpPhases.map((item, index) => (
           <button
-            key={count}
+            key={item.id}
+            id={"phase-tab-" + item.id}
             type="button"
-            aria-pressed={people === count}
-            onClick={() => setPeople(count)}
+            role="tab"
+            aria-selected={index === active}
+            aria-controls={"phase-panel-" + item.id}
+            onClick={() => setActive(index)}
           >
-            {count}
+            <span>{"0" + (index + 1)}</span>
+            {item.label}
           </button>
         ))}
       </div>
-      <label htmlFor="btp-people">
-        Collaborateurs concernés <strong>{people}</strong>
-      </label>
-      <input
-        id="btp-people"
-        type="range"
-        min="1"
-        max="200"
-        value={people}
-        onChange={(event) => setPeople(Number(event.target.value))}
-      />
-      <label htmlFor="btp-minutes">
-        Minutes à réaffecter par personne et par jour{" "}
-        <strong>{minutes} min</strong>
-      </label>
-      <input
-        id="btp-minutes"
-        type="range"
-        min="5"
-        max="120"
-        step="5"
-        value={minutes}
-        onChange={(event) => setMinutes(Number(event.target.value))}
-      />
-      <div className={styles.hours}>
-        <div className={styles.capacityBar} aria-hidden="true">
-          <motion.span
-            animate={{ width: Math.min(100, (minutes / 120) * 100) + "%" }}
-            transition={{ duration: reduced ? 0 : 0.25 }}
-          />
-        </div>
-        <output>
-          {new Intl.NumberFormat("fr-FR").format(hours)}
-          <span> h / an (simulation)</span>
-        </output>
-        <p>à réinvestir dans vos chantiers, vos clients et vos équipes.</p>
+      <div
+        className={styles.explorerPanel}
+        role="tabpanel"
+        id={"phase-panel-" + phase.id}
+        aria-labelledby={"phase-tab-" + phase.id}
+        key={phase.id}
+      >
+        <p className={styles.explorerIntro}>{phase.intro}</p>
+        <ul className={styles.agentGrid}>
+          {phase.agents.map((agent) => (
+            <li className={styles.agentCard} key={agent.name}>
+              <div className={styles.agentHead}>
+                <span className={styles.agentIcon} aria-hidden="true">
+                  {agent.name.slice(0, 1)}
+                </span>
+                <div>
+                  <h3>{agent.name}</h3>
+                  <small>Agent Wonka Chat</small>
+                </div>
+              </div>
+              <dl className={styles.agentFlow}>
+                <div>
+                  <dt>Vous donnez</dt>
+                  <dd>{agent.input}</dd>
+                </div>
+                <div>
+                  <dt>L’agent prépare</dt>
+                  <dd>{agent.output}</dd>
+                </div>
+                <div>
+                  <dt>Vous validez</dt>
+                  <dd>{agent.check}</dd>
+                </div>
+              </dl>
+            </li>
+          ))}
+        </ul>
       </div>
-      <small>
-        Simulation, pas un gain garanti. Hypothèse : 220 jours travaillés par
-        an. À confirmer sur vos usages réels.
-      </small>
     </div>
   );
 }

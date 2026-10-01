@@ -1,46 +1,35 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/button";
-import { BtpVideoSlot, TimeCalculator } from "./btp-interactive";
+import { BadgeGdpr } from "@/components/ui/icons/badge-gdpr";
+import { BadgeIso } from "@/components/ui/icons/badge-iso";
+import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
+import { AgentExplorer, BtpVideo } from "./btp-interactive";
+import {
+  btpComparison,
+  btpFaqs,
+  btpLibrary,
+  btpPains,
+  btpTeams,
+} from "./btp-content";
 import { btpIntegrations } from "./mcp-integrations";
 import styles from "./btp.module.css";
 
 export const metadata: Metadata = {
-  title: "Wonka Chat pour la construction | CCTP et comptes rendus",
+  title: "Wonka Chat pour la construction | Agents IA pour le BTP",
   description:
-    "Préparez vos analyses de CCTP, comparatifs d’offres et comptes rendus de chantier avec Wonka Chat. Vos sources restent vérifiables et vos équipes gardent la décision.",
+    "CCTP, comptes rendus, comparatifs fournisseurs, DOE : les agents Wonka Chat préparent le travail de vos équipes travaux. Sources vérifiables, validation humaine, données hébergées en Europe.",
   alternates: { canonical: "/france/btp" },
 };
 
 const contactHref =
   "/france/diagnostic?secteur=btp&utm_source=btp&utm_campaign=construction";
 
-const faqs = [
-  [
-    "Je n’ai déjà pas le temps. Qui prépare les agents ?",
-    "Dans le programme entreprise, nous identifions les tâches avec vos services et accompagnons la préparation des usages convenus. Vos équipes apportent leurs documents et leurs règles métier : elles n’ont pas à inventer seules leur stratégie IA.",
-  ],
-  [
-    "Mon entreprise compte moins de 100 personnes : puis-je utiliser Wonka ?",
-    "Oui. Wonka Chat peut s’utiliser individuellement. Le programme accompagné présenté ici s’adresse aux entreprises de 100 collaborateurs et plus. Le nombre de licences, la durée d’engagement et le périmètre sont définis ensemble avant signature.",
-  ],
-  [
-    "Et si l’agent oublie une contrainte du chantier ?",
-    "Les synthèses et brouillons restent à vérifier avec les documents sources. L’agent prépare le travail ; il ne remplace ni votre expertise technique, ni la validation du responsable métier. Nous définissons les points de contrôle pendant le déploiement.",
-  ],
-  [
-    "Est-ce que Wonka envoie des emails à ma place ?",
-    "Les scénarios présentés ici préparent des brouillons à relire. Toute action dans vos outils dépend des connecteurs, des autorisations et des validations configurés avec votre entreprise.",
-  ],
-  [
-    "Mes équipes doivent-elles changer de logiciels ?",
-    "Non. Nous partons de votre environnement. Les outils déjà connectés restent en place ; pour les logiciels métier, nous vérifions le connecteur ou cadrons l’intégration avec vos équipes.",
-  ],
-  [
-    "Qu’inclut l’accompagnement offert ?",
-    "Le pré-kick-off, le kick-off, les échanges avec vos services, la cartographie des cas d’usage, un plan d’action priorisé et l’accompagnement au déploiement convenu. Les intégrations spécifiques et leur périmètre sont précisés dans la proposition.",
-  ],
-] as const;
+const teamPhotos = [
+  { src: "/images/france/team/chantier-terrain.jpg", alt: "Gabriel sur un chantier de gros œuvre" },
+  { src: "/images/france/team/wonka-picture-day.jpg", alt: "Gabriel, équipe Wonka France" },
+  { src: "/images/france/team/chantier-plans.jpg", alt: "Gabriel relisant des plans sur chantier" },
+];
 
 function ToolTrack({ duplicate = false }: { duplicate?: boolean }) {
   return (
@@ -54,6 +43,7 @@ function ToolTrack({ duplicate = false }: { duplicate?: boolean }) {
               alt={tool.wordmark ? tool.name : ""}
               width={tool.wordmark ? 130 : 34}
               height={tool.wordmark ? 48 : 34}
+              loading="eager"
             />
           ) : null}
           {!tool.wordmark ? <span>{tool.name}</span> : null}
@@ -61,6 +51,12 @@ function ToolTrack({ duplicate = false }: { duplicate?: boolean }) {
       ))}
     </ul>
   );
+}
+
+function Mark({ value }: { value: string }) {
+  if (value === "yes") return <span className={styles.markYes}>Oui</span>;
+  if (value === "partial") return <span className={styles.markPartial}>En partie</span>;
+  return <span className={styles.markNo}>Non</span>;
 }
 
 export default function BtpLandingPage() {
@@ -73,58 +69,173 @@ export default function BtpLandingPage() {
               <span /> Wonka Chat pour la construction
             </p>
             <h1 className="type-h3">
-              Vos dossiers de chantier avancent. Vos équipes gardent la main.
+              Moins de paperasse.
+              <br />
+              Plus de chantier.
             </h1>
             <p className={styles.lead}>
-              CCTP, offres fournisseurs, notes de visite : Wonka Chat prépare
-              les synthèses et les actions à relire, à partir des pièces que
-              vous lui donnez.
+              L’administratif dévore le temps de vos équipes. Les agents Wonka
+              Chat le préparent, vos équipes valident.
             </p>
             <div className={styles.actions}>
               <ButtonLink href={contactHref}>Évaluer mes besoins IA</ButtonLink>
-              <a href="#demonstration" className={styles.watch}>
-                Voir le scénario CCTP <span aria-hidden="true">↓</span>
+              <a href="#agents" className={styles.watch}>
+                Voir les agents BTP <span aria-hidden="true">↓</span>
               </a>
             </div>
-            <p className={styles.heroNote}>
-              Vous vérifiez les sources. Vous décidez de la suite.
-            </p>
+            <ul className={styles.heroTrust}>
+              <li>Certifié ISO 27001</li>
+              <li>Conforme RGPD</li>
+              <li>Hébergé en Europe</li>
+            </ul>
           </div>
           <div className={styles.videoWrap} id="demonstration">
-            <BtpVideoSlot
-              number="01"
-              category="CCTP · CHIFFRAGE"
-              title="Lire un dossier sans perdre de vue les points à vérifier."
-              steps={[
-                ["Pièces du dossier", "CCTP · plans · notes"],
-                ["Analyse ciblée", "Exigences · écarts · manques"],
-                ["Brouillon vérifiable", "Sources · arbitrage humain"],
-              ]}
+            <BtpVideo
+              slug="btp-01-cctp"
+              title="Un agent Wonka Chat analyse un CCTP, signale les points à vérifier et attend votre validation."
+              priority
             />
           </div>
         </div>
       </section>
 
-      <section className={styles.proof} aria-label="Notre expérience construction">
-        <div className={styles.proofClient}>
+      <section className={styles.proof} aria-label="Nos références">
+        <a
+          className={styles.proofCard + " " + styles.proofLink}
+          href="https://tooli.be"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <p className={styles.proofKicker}>Construction · Belgique</p>
+          <span className={styles.proofBrand}>
+            <Image
+              src="/images/france/logos/tooli.png"
+              alt=""
+              width={40}
+              height={36}
+            />
+            Tooli
+          </span>
+          <p className={styles.proofStatement}>
+            <strong>Tooli</strong> est l’assistant IA de la construction en
+            Belgique, conçu avec les fédérations et les centres techniques du
+            secteur pour leurs membres. Il fonctionne avec Wonka : analyse
+            d’appels d’offres, comptes rendus, aide aux offres.
+          </p>
+          <span className={styles.proofMore}>
+            Découvrir Tooli <span aria-hidden="true">↗</span>
+          </span>
+        </a>
+        <article className={styles.proofCard}>
+          <p className={styles.proofKicker}>Groupe ENGIE</p>
           <Image
-            src="/images/france/logos/buildwise.svg"
-            alt="Buildwise"
-            width={150}
-            height={50}
+            className={styles.proofLogo}
+            src="/images/france/logos/engie.svg"
+            alt="ENGIE"
+            width={132}
+            height={48}
           />
-          <p>
-            <strong>Une expérience IA menée avec Buildwise.</strong>
-            <span>Wonka a accompagné Buildwise dans ses projets IA.</span>
+          <p className={styles.proofStatement}>
+            Au sein du groupe ENGIE, une équipe support de plus de 70
+            personnes gère les mails de ses clients. Des agents Wonka prennent
+            désormais en charge ce traitement :
+            <strong> le temps passé sur ces mails a été divisé par deux.</strong>
+          </p>
+        </article>
+        <article className={styles.proofCard}>
+          <p className={styles.proofKicker}>Notre équipe France</p>
+          <p className={styles.proofYears}>10+ ans</p>
+          <p className={styles.proofStatement}>
+            dans le BTP, des Compagnons du Devoir jusqu’au pilotage de
+            chantiers de plus de 10 M€.
+          </p>
+          <ul className={styles.teamPhotos} aria-label="Notre équipe sur le terrain">
+            {teamPhotos.map((photo) => (
+              <li key={photo.src}>
+                <Image src={photo.src} alt={photo.alt} width={64} height={64} />
+              </li>
+            ))}
+          </ul>
+        </article>
+      </section>
+
+      <section className={styles.painSection}>
+        <div className={styles.sectionHeading}>
+          <p className={styles.label}>Même semaine, mêmes équipes.</p>
+          <h2 className="type-h4">
+            Ce qui vous prend du temps
+            <br />
+            devient un brouillon à relire.
+          </h2>
+        </div>
+        <ol className={styles.painList}>
+          {btpPains.map(([before, after]) => (
+            <li key={before}>
+              <p className={styles.painBefore}>
+                <span>Aujourd’hui</span>
+                {before}
+              </p>
+              <span className={styles.painArrow} aria-hidden="true">→</span>
+              <p className={styles.painAfter}>
+                <span>Avec Wonka</span>
+                {after}
+              </p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className={styles.agentsSection} id="agents">
+        <div className={styles.sectionHeading}>
+          <p className={styles.label}>De l’appel d’offres à la réception.</p>
+          <h2 className="type-h4">
+            Un agent pour chaque étape
+            <br />
+            de vos chantiers.
+          </h2>
+          <p className={styles.sectionSubhead}>
+            Les agents partent de vos pièces et de vos règles métier. Chacun
+            prépare un livrable précis, et chaque livrable attend votre
+            validation.
           </p>
         </div>
-        <div className={styles.proofExperience}>
-          <span className={styles.proofYears}>10+ ans</span>
+        <AgentExplorer />
+      </section>
+
+      <section className={styles.librarySection} aria-label="Bibliothèque d’agents">
+        <div className={styles.libraryCopy}>
+          <p className={styles.label}>Ce n’est qu’un début.</p>
+          <h2 className="type-h4">
+            Des dizaines d’agents prêts.
+            <br />
+            Et tous ceux que vous créerez.
+          </h2>
           <p>
-            <strong>de connaissance métier cumulée dans l’équipe.</strong>
-            <span>Une expérience de terrain au service de vos usages.</span>
+            Partez des agents prêts à l’emploi, adaptez-les à vos règles, ou
+            créez les vôtres en quelques minutes. Chaque nouvel agent se
+            partage avec toute l’équipe.
           </p>
+          <ol className={styles.buildSteps}>
+            <li>
+              <b>01</b>
+              <span>Décrivez la tâche, avec vos mots</span>
+            </li>
+            <li>
+              <b>02</b>
+              <span>Ajoutez vos documents et vos règles métier</span>
+            </li>
+            <li>
+              <b>03</b>
+              <span>Partagez l’agent avec votre équipe</span>
+            </li>
+          </ol>
         </div>
+        <ul className={styles.libraryCloud}>
+          {btpLibrary.map((name) => (
+            <li key={name}>{name}</li>
+          ))}
+          <li className={styles.libraryCustom}>+ Votre agent sur mesure</li>
+        </ul>
       </section>
 
       <section className={styles.section + " " + styles.storySection}>
@@ -136,49 +247,125 @@ export default function BtpLandingPage() {
             Votre journée, pas encore.
           </h2>
           <p className={styles.shortCopy}>
-            Devis, planning, administratif : les tâches de bureau s’ajoutent au
-            terrain. Wonka prépare la suite ; vos équipes gardent la décision.
+            Devis, planning, compte rendu : les tâches de bureau s’ajoutent au
+            terrain. Wonka prépare la suite dans un seul espace ; vos équipes
+            gardent le dernier mot.
           </p>
         </div>
-        <BtpVideoSlot
-          number="02"
-          category="LA JOURNÉE D’UNE ÉQUIPE"
-          title="Faire avancer le travail entre deux visites."
-          steps={[
-            ["08:00 · Demandes", "Trier les priorités"],
-            ["11:00 · Chantier", "Préparer les suites"],
-            ["Fin de journée", "Relire et décider"],
-          ]}
+        <BtpVideo
+          slug="btp-02-journee"
+          title="Après une visite de chantier, Wonka Chat prépare la réponse au devis, les points à confirmer et le compte rendu à relire."
         />
       </section>
 
-      <section className={styles.features}>
-        <div className={styles.sectionHeading}>
-          <p className={styles.label}>Des tâches bien réelles.</p>
+      <section className={styles.section + " " + styles.controlSection}>
+        <BtpVideo
+          slug="btp-03-action"
+          title="Des notes, un planning et un compte rendu deviennent des actions classées par lot, validées par le conducteur de travaux."
+        />
+        <div className={styles.sectionCopy}>
+          <p className={styles.label}>L’humain valide, toujours.</p>
           <h2 className="type-h4">
-            Du document reçu
-            <br />à la décision à prendre.
+            Une préparation claire.
+            <br />
+            La décision reste à vous.
+          </h2>
+          <ol className={styles.controlSteps}>
+            <li>
+              <b>01</b>
+              <span>
+                <strong>Brouillon sourcé</strong>
+                Chaque point renvoie à la pièce et à l’article d’origine.
+              </span>
+            </li>
+            <li>
+              <b>02</b>
+              <span>
+                <strong>Manques signalés</strong>
+                Ce qui n’est pas dans vos pièces reste marqué « à confirmer ».
+              </span>
+            </li>
+            <li>
+              <b>03</b>
+              <span>
+                <strong>Validation humaine</strong>
+                Rien ne part, rien n’est modifié sans l’accord d’une personne
+                habilitée.
+              </span>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <section className={styles.personaSection}>
+        <div className={styles.sectionHeading}>
+          <p className={styles.label}>Pour toute l’entreprise.</p>
+          <h2 className="type-h4">
+            Chaque équipe
+            <br />
+            a ses agents.
           </h2>
           <p className={styles.sectionSubhead}>
-            CCTP, offres fournisseurs, suivi de chantier : un même espace pour
-            préparer le travail et rendre les points à arbitrer visibles.
+            Le chantier est au cœur, mais l’IA sert aussi tous les services qui
+            le font tourner.
           </p>
         </div>
-        <BtpVideoSlot
-          number="03"
-          category="FLUX MÉTIERS"
-          title="Vos documents deviennent une prochaine action claire."
-          steps={[
-            ["CCTP ou notes", "Vos pièces et consignes"],
-            ["Agent Wonka", "Classe · compare · synthétise"],
-            ["Votre équipe", "Vérifie · arbitre · agit"],
-          ]}
-        />
+        <ul className={styles.personaGrid}>
+          {btpTeams.map(([team, promise]) => (
+            <li key={team}>
+              <h3 className="type-h6">{team}</h3>
+              <p>{promise}</p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className={styles.compareSection}>
+        <div className={styles.sectionHeading}>
+          <p className={styles.label}>Pourquoi pas un simple chatbot ?</p>
+          <h2 className="type-h4">
+            Une IA de chantier,
+            <br />
+            pas une IA de passage.
+          </h2>
+          <p className={styles.sectionSubhead}>
+            Wonka ne remplace pas votre logiciel de gestion : il prépare le
+            travail autour, avec vos documents et vos outils.
+          </p>
+        </div>
+        <div className={styles.compareWrap}>
+          <table className={styles.compareTable}>
+            <thead>
+              <tr>
+                <th scope="col">
+                  <span className="sr-only">Critère</span>
+                </th>
+                {btpComparison.columns.map((column, index) => (
+                  <th scope="col" key={column} data-highlight={index === 0 || undefined}>
+                    {column}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {btpComparison.rows.map(([label, ...values]) => (
+                <tr key={label}>
+                  <th scope="row">{label}</th>
+                  {values.map((value, index) => (
+                    <td key={index} data-highlight={index === 0 || undefined}>
+                      <Mark value={value} />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
 
       <section
         className={styles.toolSection}
-        aria-label="Plus de 70 connecteurs MCP et outils compatibles"
+        aria-label="Connecteurs et outils compatibles"
       >
         <div className={styles.toolCopy}>
           <p className={styles.label}>Pas besoin de changer d’outils.</p>
@@ -186,9 +373,9 @@ export default function BtpLandingPage() {
             Wonka s’intègre à votre environnement de travail.
           </h2>
           <p>
-            Wonka Chat propose plus de 70 connecteurs MCP. Vos équipes gardent
-            leurs outils : nous activons les connexions adaptées et cadrons avec
-            vous l’intégration des logiciels métier selon vos besoins.
+            Des centaines de connecteurs pour vos mails, documents, tableurs et
+            logiciels métier. Vos équipes gardent leurs outils ; s’il en manque
+            un, nous l’ajoutons ou cadrons l’intégration avec vous.
           </p>
         </div>
         <div className={styles.toolMarquee}>
@@ -199,20 +386,30 @@ export default function BtpLandingPage() {
         </div>
       </section>
 
-      <section className={styles.section + " " + styles.calculatorSection}>
-        <div className={styles.sectionCopy}>
-          <p className={styles.label}>Faites le calcul avec votre équipe.</p>
-          <h2 className="type-h4">
-            Les petites tâches
-            <br />
-            font les grandes journées.
-          </h2>
+      <section className={styles.securitySection} aria-label="Sécurité et conformité">
+        <div className={styles.securityCopy}>
+          <p className={styles.label}>Vos données de chantier restent les vôtres.</p>
+          <h2 className="type-h4">Une sécurité au niveau de vos donneurs d’ordre.</h2>
           <p>
-            Quelques minutes par personne deviennent des centaines d’heures à
-            l’échelle de l’entreprise. Quel serait votre objectif ?
+            Certifié ISO 27001, conforme au RGPD et à NIS 2. Hébergement par
+            défaut sur Microsoft Azure, région Europe de l’Ouest. Accès et
+            permissions définis avec votre entreprise.
           </p>
         </div>
-        <TimeCalculator />
+        <ul className={styles.securityBadges}>
+          <li>
+            <BadgeIso className={styles.badge} />
+            <span>ISO 27001</span>
+          </li>
+          <li>
+            <BadgeGdpr className={styles.badge} />
+            <span>RGPD</span>
+          </li>
+          <li>
+            <BadgeNis2 className={styles.badge} />
+            <span>NIS 2</span>
+          </li>
+        </ul>
       </section>
 
       <section className={styles.offer} id="offre">
@@ -289,6 +486,10 @@ export default function BtpLandingPage() {
               <span>03 · DÉPLOIEMENT</span>
               <span>100+ collaborateurs</span>
             </div>
+            <p className={styles.planScarcity}>
+              <span aria-hidden="true" />
+              5 places par mois, pas une de plus
+            </p>
             <h3 className="type-h5">Un déploiement IA accompagné</h3>
             <p className={styles.planDescription}>
               Pour coordonner les usages, les métiers et les outils à l’échelle
@@ -307,8 +508,8 @@ export default function BtpLandingPage() {
               Évaluer mon déploiement <span aria-hidden="true">↗</span>
             </a>
             <small>
-              5 entreprises accompagnées · licences, intégrations et périmètre
-              définis sur proposition.
+              Nous accompagnons 5 entreprises par mois. Une fois les places
+              prises, les nouvelles demandes passent au mois suivant.
             </small>
           </article>
         </div>
@@ -316,15 +517,10 @@ export default function BtpLandingPage() {
 
       <section className={styles.section + " " + styles.faq}>
         <div className={styles.sectionCopy}>
-          <p className={styles.label}>Un déploiement lisible, sans mauvaise surprise.</p>
-          <h2 className="type-h4">
-            Les questions
-            <br />
-            qu’on nous pose.
-          </h2>
+          <h2 className="type-h4">FAQ</h2>
         </div>
         <div className={styles.faqList}>
-          {faqs.map(([q, a]) => (
+          {btpFaqs.map(([q, a]) => (
             <details key={q}>
               <summary>
                 {q}
@@ -347,12 +543,16 @@ export default function BtpLandingPage() {
         />
         <div className={styles.heroShade} />
         <div>
-          <p>Votre prochain chantier mérite votre attention.</p>
+          <p>Wonka Chat pour la construction</p>
           <h2 className="type-h3">
-            Récupérez du temps
+            Par des gens de la construction,
             <br />
-            pour votre vrai métier.
+            pour les gens de la construction.
           </h2>
+          <p className={styles.finalSub}>
+            Identifions ensemble vos premiers agents, à partir de vos propres
+            pièces.
+          </p>
           <ButtonLink href={contactHref}>Évaluer mes besoins IA</ButtonLink>
         </div>
       </section>
