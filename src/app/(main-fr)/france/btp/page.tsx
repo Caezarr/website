@@ -48,11 +48,15 @@ function ToolTrack({ duplicate = false }: { duplicate?: boolean }) {
       {btpIntegrations.map((tool) => (
         <li className={styles.toolMark} key={tool.name}>
           {tool.src ? (
-            <Image src={tool.src} alt="" width={34} height={34} />
+            <Image
+              className={tool.wordmark ? styles.toolLogo : undefined}
+              src={tool.src}
+              alt={tool.wordmark ? tool.name : ""}
+              width={tool.wordmark ? 130 : 34}
+              height={tool.wordmark ? 48 : 34}
+            />
           ) : null}
-          <span className={tool.wordmark ? styles.toolWordmark : undefined}>
-            {tool.name}
-          </span>
+          {!tool.wordmark ? <span>{tool.name}</span> : null}
         </li>
       ))}
     </ul>

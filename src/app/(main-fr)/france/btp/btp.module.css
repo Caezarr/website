@@ -410,6 +410,14 @@
   filter: saturate(0.9);
 }
 
+.toolMark img.toolLogo {
+  max-width: 112px;
+  height: 38px;
+  border-radius: 4px;
+  background: #fff;
+  object-fit: contain;
+}
+
 .calculatorSection {
   display: grid;
   grid-template-columns: minmax(260px, 0.8fr) minmax(360px, 1.2fr);
@@ -987,6 +995,11 @@
     width: auto;
     height: 25px;
     max-width: 36px;
+  }
+
+  .toolMark img.toolLogo {
+    max-width: 94px;
+    height: 34px;
   }
 
   .toolRail {

@@ -74,7 +74,11 @@ export const btpIntegrations: readonly BtpIntegration[] = [
   { name: "Wrike", src: "/images/mcp-integrations/wrike.svg" },
   { name: "Zendesk", src: "/images/mcp-integrations/zendesk.svg" },
   { name: "Zoom", src: "/images/mcp-integrations/zoom.svg" },
-  { name: "Sage", wordmark: true },
-  { name: "Obat", wordmark: true },
-  { name: "ProGBat", wordmark: true },
+  { name: "Sage", src: "/images/btp-integrations/sage.png", wordmark: true },
+  { name: "Obat", src: "/images/btp-integrations/obat.png", wordmark: true },
+  {
+    name: "ProGBat",
+    src: "/images/btp-integrations/progbat.png",
+    wordmark: true,
+  },
 ];
