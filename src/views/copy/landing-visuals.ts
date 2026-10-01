@@ -1,4 +1,4 @@
-import type { LandingPage } from "@/i18n/routes";
+import type { SeoLandingPage } from "@/i18n/routes";
 
 export interface LandingImage {
   src: string;
@@ -29,7 +29,7 @@ const SHOT = {
 } satisfies Record<string, LandingImage>;
 
 /** Hero imagery per landing page (shared by every locale of the page). */
-export const LANDING_VISUALS: Record<LandingPage, LandingVisual> = {
+export const LANDING_VISUALS: Record<SeoLandingPage, LandingVisual> = {
   aiForBusiness: { background: BG.path },
   aiConsultancy: { background: BG.valley },
   chatgptForBusiness: { background: BG.river, productShot: SHOT.workspace },

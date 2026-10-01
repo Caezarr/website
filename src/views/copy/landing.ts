@@ -1,5 +1,5 @@
 import type { Locale } from "@/i18n/config";
-import type { LandingPage } from "@/i18n/routes";
+import type { SeoLandingPage } from "@/i18n/routes";
 import type { LandingCopy } from "@/views/copy/landing-types";
 import { AI_CONSULTANCY_COPY } from "@/views/copy/landing/ai-consultancy";
 import { AI_FOR_BUSINESS_COPY } from "@/views/copy/landing/ai-for-business";
@@ -13,7 +13,7 @@ import { COMPARATIF_IA_COPY } from "@/views/copy/landing/comparatif-ia";
 import { SHADOW_AI_COPY } from "@/views/copy/landing/shadow-ai";
 
 /** Copy per landing page; a page only has copy for the locales in LANDING_PATHS. */
-export const LANDING_COPY: Record<LandingPage, Partial<Record<Locale, LandingCopy>>> = {
+export const LANDING_COPY: Record<SeoLandingPage, Partial<Record<Locale, LandingCopy>>> = {
   aiForBusiness: AI_FOR_BUSINESS_COPY,
   aiConsultancy: AI_CONSULTANCY_COPY,
   chatgptForBusiness: CHATGPT_FOR_BUSINESS_COPY,

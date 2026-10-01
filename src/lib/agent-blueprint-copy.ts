@@ -251,7 +251,6 @@ const nl: CopyDictionary = {
   "Please complete the verification check.": "Voltooi de verificatie.",
   "Site not readable · using public web research": "Website niet leesbaar · openbare bronnen worden gebruikt",
   "Too many requests. Please try again later.": "Te veel aanvragen. Probeer het later opnieuw.",
-  "Copied, paste it in WonkaChat": "Gekopieerd. Plak het in WonkaChat",
   "We could not build the blueprint right now. Please try again.": "Je plan kan nu niet worden gemaakt. Probeer het opnieuw.",
   "See the 3 AI agents your company should build first.": "Ontdek welke drie AI-agents je bedrijf eerst kan bouwen.",
   "Enter your website. We map how your company works and design three agents around your own processes.": "Vul je website in. We brengen je werking in kaart en stellen drie agents voor je processen voor.",

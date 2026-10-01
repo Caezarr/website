@@ -78,6 +78,7 @@ export const LANDING_PATHS = {
 } as const satisfies Record<string, Partial<Record<Locale, string>>>;
 
 export type LandingPage = keyof typeof LANDING_PATHS;
+export type SeoLandingPage = Exclude<LandingPage, "agentBlueprint">;
 
 export function landingPath(page: LandingPage, locale: Locale): string | null {
   const paths: Partial<Record<Locale, string>> = LANDING_PATHS[page];
