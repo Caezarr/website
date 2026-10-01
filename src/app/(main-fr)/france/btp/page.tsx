@@ -388,12 +388,12 @@ export default function BtpLandingPage() {
 
       <section className={styles.securitySection} aria-label="Sécurité et conformité">
         <div className={styles.securityCopy}>
-          <p className={styles.label}>Vos données de chantier restent les vôtres.</p>
-          <h2 className="type-h4">Une sécurité au niveau de vos donneurs d’ordre.</h2>
+          <p className={styles.label}>Sécurité et conformité.</p>
+          <h2 className="type-h4">Vos données de chantier restent les vôtres.</h2>
           <p>
-            Certifié ISO 27001, conforme au RGPD et à NIS 2. Hébergement par
-            défaut sur Microsoft Azure, région Europe de l’Ouest. Accès et
-            permissions définis avec votre entreprise.
+            Wonka est certifié ISO 27001, conforme au RGPD et à NIS 2. Vos
+            données sont hébergées en Europe, sur Microsoft Azure. Vous décidez
+            qui accède à quoi.
           </p>
         </div>
         <ul className={styles.securityBadges}>
