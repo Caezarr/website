@@ -25,11 +25,7 @@ export const metadata: Metadata = {
 const contactHref =
   "/france/diagnostic?secteur=btp&utm_source=btp&utm_campaign=construction";
 
-const btpUpcoming = [
-  ...btpIntegrations.filter((tool) => tool.wordmark),
-  { name: "Constructor" },
-  { name: "Graneet" },
-];
+const btpSoftware = btpIntegrations.filter((tool) => tool.wordmark);
 
 const teamPhotos = [
   { src: "/images/france/team/chantier-terrain.jpg", alt: "Gabriel sur un chantier de gros œuvre" },
@@ -393,7 +389,7 @@ export default function BtpLandingPage() {
         <div className={styles.toolSoon}>
           <span>Logiciels BTP</span>
           <ul>
-            {btpUpcoming.map((tool) => (
+            {btpSoftware.map((tool) => (
               <li key={tool.name}>
                 {tool.src ? (
                   <Image src={tool.src} alt={tool.name} width={100} height={36} />

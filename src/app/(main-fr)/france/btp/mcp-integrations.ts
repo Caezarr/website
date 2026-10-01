@@ -75,10 +75,16 @@ export const btpIntegrations: readonly BtpIntegration[] = [
   { name: "Zendesk", src: "/images/mcp-integrations/zendesk.svg" },
   { name: "Zoom", src: "/images/mcp-integrations/zoom.svg" },
   { name: "Sage", src: "/images/btp-integrations/sage.png", wordmark: true },
-  { name: "Obat", src: "/images/btp-integrations/obat.png", wordmark: true },
+  { name: "Obat", src: "/images/btp-integrations/obat-wordmark.png", wordmark: true },
   {
     name: "ProGBat",
-    src: "/images/btp-integrations/progbat.png",
+    src: "/images/btp-integrations/progbat-wordmark.png",
     wordmark: true,
   },
+  {
+    name: "Costructor",
+    src: "/images/btp-integrations/costructor.png",
+    wordmark: true,
+  },
+  { name: "Graneet", src: "/images/btp-integrations/graneet.png", wordmark: true },
 ];
