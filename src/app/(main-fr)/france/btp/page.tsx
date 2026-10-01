@@ -391,7 +391,7 @@ export default function BtpLandingPage() {
           </div>
         </div>
         <div className={styles.toolSoon}>
-          <span>Logiciels BTP en cours d’ajout</span>
+          <span>Logiciels BTP</span>
           <ul>
             {btpUpcoming.map((tool) => (
               <li key={tool.name}>
