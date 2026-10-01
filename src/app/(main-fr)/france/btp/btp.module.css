@@ -362,7 +362,7 @@
 .toolRail {
   display: flex;
   width: max-content;
-  animation: toolMarquee 38s linear infinite;
+  animation: toolMarquee 90s linear infinite;
 }
 
 .toolMarquee:hover .toolRail,
@@ -990,7 +990,7 @@
   }
 
   .toolRail {
-    animation-duration: 32s;
+    animation-duration: 76s;
   }
 
   .calculator {
