@@ -70,9 +70,15 @@ export const LANDING_PATHS = {
   comparatifIa: {
     fr: "/fr/comparatif-ia-entreprise",
   },
+  agentBlueprint: {
+    en: "/ai-agent-blueprint",
+    fr: "/fr/ai-agent-blueprint",
+    nl: "/nl/ai-agent-blueprint",
+  },
 } as const satisfies Record<string, Partial<Record<Locale, string>>>;
 
 export type LandingPage = keyof typeof LANDING_PATHS;
+export type SeoLandingPage = Exclude<LandingPage, "agentBlueprint">;
 
 export function landingPath(page: LandingPage, locale: Locale): string | null {
   const paths: Partial<Record<Locale, string>> = LANDING_PATHS[page];

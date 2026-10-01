@@ -56,3 +56,5 @@ yarn.lock
 
 # Local TypeScript build cache
 apps/wonkachat-lab/.cache/
+# Generated from actual Wonka Chat lab components by predev/prebuild
+/public/wonkachat-preview/

@@ -5,6 +5,8 @@ import {
   type CompanyContext,
   type CompanyResearch,
 } from "@/lib/agent-blueprint";
+import type { Locale } from "@/i18n/config";
+import { blueprintOutputLanguage } from "@/lib/agent-blueprint-copy";
 import type { CrawledPage } from "@/lib/agent-blueprint-crawl";
 
 interface RequestyAnnotation {
@@ -333,6 +335,7 @@ export async function researchCompany(
   domain: string,
   pages: CrawledPage[],
   assessmentId: string,
+  locale: Locale = "en",
 ): Promise<RequestyResult<CompanyResearch>> {
   const { fastModel } = requestyConfig();
   // With a readable site, web search is left to externalSignals() running in
@@ -354,6 +357,8 @@ export async function researchCompany(
         assessment_id: assessmentId,
       },
       instructions: `You are the research analyst for Wonka AI, a European generative AI and agent company. Your job is to understand one company deeply enough that an advisor can design AI agents for its actual day-to-day work, not for its sector in general.
+
+Write every natural-language value in ${blueprintOutputLanguage(locale)}. This includes all strings in the returned JSON. Keep software names, product names, regulations, and company-provided proper nouns unchanged. JSON keys and schema enum values must remain exactly as specified.
 
 You receive the text of the company's own website pages. Base your analysis on them. Only when the website text is missing or too thin, use web search to learn what the company does. Public signals such as job postings and news are gathered separately; leave hiringSignals empty unless the website itself lists open roles.
 
@@ -431,6 +436,7 @@ const EXTERNAL_SIGNALS_SCHEMA = {
 export async function externalSignals(
   domain: string,
   assessmentId: string,
+  locale: Locale = "en",
 ): Promise<RequestyResult<ExternalSignals>> {
   const { fastModel } = requestyConfig();
   return createResponse<ExternalSignals>(
@@ -444,7 +450,7 @@ export async function externalSignals(
         phase: "external-signals",
         assessment_id: assessmentId,
       },
-      instructions: `You gather public signals about one company for Wonka AI. Use web search briefly (two or three searches at most) and return only facts you found:
+      instructions: `You gather public signals about one company for Wonka AI. Use web search briefly (two or three searches at most) and return only facts you found. Write every natural-language value in ${blueprintOutputLanguage(locale)}; keep proper nouns and software names unchanged:
 - scale: employees, sites or revenue range, if public ("about 250 employees across 3 sites"). Empty string if unknown.
 - hiringSignals: roles currently being recruited and what each suggests about workload.
 - techStackEvidence: software the company visibly uses (job posts, partner pages), each with its evidence.
@@ -470,6 +476,7 @@ export async function designAgents(
   context: CompanyContext,
   benchmark: BenchmarkPattern[],
   assessmentId: string,
+  locale: Locale = "en",
 ): Promise<RequestyResult<Omit<AgentBlueprintResult, "sources">>> {
   const { model } = requestyConfig();
   const result = await createResponse<Omit<AgentBlueprintResult, "sources">>(
@@ -484,6 +491,8 @@ export async function designAgents(
         assessment_id: assessmentId,
       },
       instructions: `You are a senior Wonka AI use-case advisor. Wonka AI helps companies move from AI strategy to generative-AI agents on the Wonka Chat platform.
+
+Write every natural-language string in ${blueprintOutputLanguage(locale)}. For French, use natural business French for France. For Dutch, use natural business Dutch for Belgium. This applies to every generated user-facing field, including the headline, summary, signals, agent names, process, mission, workflow, controls, impact, benchmark pattern and conversation starters. Keep software/product names unchanged. The tier and effort values must remain the exact schema enum strings.
 
 Design exactly three agents for this specific company, ranked by expected business value. The reader must recognise their own business in every line: an agent that would fit any company in the sector is a failure.
 

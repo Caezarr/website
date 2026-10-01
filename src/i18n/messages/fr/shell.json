@@ -60,6 +60,10 @@
           "label": "Stratégie IA",
           "description": "Devenez AI native en quatre semaines"
         },
+        "agent-blueprint": {
+          "label": "Concevez votre équipe d’agents IA",
+          "description": "Identifiez trois agents adaptés à votre entreprise"
+        },
         "ai-agent-development": {
           "label": "Développement d'agents IA",
           "description": "Nous créons et déployons vos agents"

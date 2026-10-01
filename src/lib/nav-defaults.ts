@@ -64,6 +64,12 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
         description: "Become AI native in four weeks",
       },
       {
+        _key: "agent-blueprint",
+        label: "Design your agent team",
+        href: "/ai-agent-blueprint",
+        description: "Get three tailored AI agent ideas for your company",
+      },
+      {
         _key: "ai-agent-development",
         label: "AI Agent Development",
         href: "/services/ai-agent-development",

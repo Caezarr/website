@@ -14,7 +14,7 @@ import {
   commercialPath,
   landingLanguages,
   landingPath,
-  type LandingPage,
+  type SeoLandingPage,
 } from "@/i18n/routes";
 import { getT } from "@/i18n/ui";
 import { resolveMeetingLabel } from "@/lib/localized-content";
@@ -33,20 +33,20 @@ const TRIAL_URL = "https://wonka.chat/register";
 const FRANCE_DIAGNOSTIC_PATH = "/france/diagnostic";
 const FRANCE_DIAGNOSTIC_LABEL = "Faire le diagnostic gratuit";
 
-function getCopy(page: LandingPage, locale: Locale): LandingCopy {
+function getCopy(page: SeoLandingPage, locale: Locale): LandingCopy {
   const copy = LANDING_COPY[page][locale];
   if (!copy) throw new Error(`No ${locale} copy for landing page ${page}`);
   return copy;
 }
 
-function getPagePath(page: LandingPage, locale: Locale): string {
+function getPagePath(page: SeoLandingPage, locale: Locale): string {
   const path = landingPath(page, locale);
   if (!path) throw new Error(`Landing page ${page} has no ${locale} route`);
   return path;
 }
 
 export async function landingMetadata(
-  page: LandingPage,
+  page: SeoLandingPage,
   locale: Locale,
 ): Promise<Metadata> {
   const copy = getCopy(page, locale);
@@ -74,7 +74,7 @@ export async function SeoLandingView({
   page,
   locale,
 }: {
-  page: LandingPage;
+  page: SeoLandingPage;
   locale: Locale;
 }) {
   const copy = getCopy(page, locale);

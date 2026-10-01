@@ -24,12 +24,15 @@ import {
 } from "@/lib/agent-blueprint-requesty";
 import { searchBenchmark } from "@/lib/agent-blueprint-search";
 import { getSanityWriteClient } from "@sanity/lib/write-client";
+import type { Locale } from "@/i18n/config";
+import { blueprintText as t } from "@/lib/agent-blueprint-copy";
 
 interface CreatePayload {
   target?: unknown;
   anonymous?: unknown;
   turnstileToken?: unknown;
   website?: unknown;
+  locale?: unknown;
 }
 
 interface UpdatePayload {
@@ -40,14 +43,17 @@ interface UpdatePayload {
 
 export const maxDuration = 300;
 
-const PUBLIC_ERROR =
-  "We could not build the blueprint right now. Please try again.";
+const PUBLIC_ERRORS: Record<Locale, string> = {
+  en: "We could not build the blueprint right now. Please try again.",
+  fr: "Impossible de créer le plan pour le moment. Réessayez.",
+  nl: "Je plan kan nu niet worden gemaakt. Probeer het opnieuw.",
+};
 
 const ASSESSMENT_ID_PATTERN =
   /^agent-blueprint\.[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-function publicError(status = 500) {
-  return Response.json({ error: PUBLIC_ERROR }, { status });
+function publicError(status = 500, locale: Locale = "en") {
+  return Response.json({ error: PUBLIC_ERRORS[locale] }, { status });
 }
 
 export async function POST(request: Request) {
@@ -63,16 +69,19 @@ export async function POST(request: Request) {
   }
 
   const target = normalizeTarget(payload.target);
+  const locale: Locale = payload.locale === "fr" || payload.locale === "nl"
+    ? payload.locale
+    : "en";
   if (!target) {
     return Response.json(
-      { error: "Enter a valid company website." },
+      { error: locale === "fr" ? "Saisissez le site web de votre entreprise." : locale === "nl" ? "Vul de website van je bedrijf in." : "Enter a valid company website." },
       { status: 400 },
     );
   }
 
   if (payload.anonymous !== true) {
     return Response.json(
-      { error: "Confirm anonymous output before starting." },
+      { error: locale === "fr" ? "Confirmez que le résultat peut être anonymisé." : locale === "nl" ? "Bevestig dat het resultaat anoniem mag zijn." : "Confirm anonymous output before starting." },
       { status: 400 },
     );
   }
@@ -81,7 +90,7 @@ export async function POST(request: Request) {
     const valid = await verifyTurnstileToken(payload.turnstileToken);
     if (!valid) {
       return Response.json(
-        { error: "Verification failed. Please try again." },
+        { error: locale === "fr" ? "La vérification a échoué. Réessayez." : locale === "nl" ? "De verificatie is mislukt. Probeer het opnieuw." : "Verification failed. Please try again." },
         { status: 403 },
       );
     }
@@ -95,7 +104,7 @@ export async function POST(request: Request) {
       {
         error:
           process.env.NODE_ENV === "production"
-            ? PUBLIC_ERROR
+            ? PUBLIC_ERRORS[locale]
             : `Agent blueprint is not configured. Missing: ${missingEnv.join(", ")}`,
       },
       { status: 503 },
@@ -103,19 +112,19 @@ export async function POST(request: Request) {
   }
 
   const client = getSanityWriteClient();
-  if (!client) return publicError(503);
+  if (!client) return publicError(503, locale);
 
   const clientIp = getClientIp(request);
   if (clientIp) {
     try {
       if (await isAgentBlueprintRateLimited(client, clientIp)) {
         return Response.json(
-          { error: "Too many requests. Please try again later." },
+          { error: t(locale, "Too many requests. Please try again later.") },
           { status: 429 },
         );
       }
     } catch {
-      return publicError();
+      return publicError(500, locale);
     }
   }
 
@@ -134,7 +143,7 @@ export async function POST(request: Request) {
       ...(clientIp ? { clientIp } : {}),
     });
   } catch {
-    return publicError();
+    return publicError(500, locale);
   }
 
   const encoder = new TextEncoder();
@@ -154,7 +163,7 @@ export async function POST(request: Request) {
 
         send({ type: "stage", stage: "crawl" });
         // Public signals (web search) don't depend on the crawl: start now.
-        const signalsPromise = externalSignals(target.domain, assessmentId)
+        const signalsPromise = externalSignals(target.domain, assessmentId, locale)
           .then((outcome) => {
             mark("signals");
             return outcome;
@@ -172,12 +181,12 @@ export async function POST(request: Request) {
         send({
           type: "insight",
           kind: "pages",
-          text: crawl.pages.length
+        text: crawl.pages.length
             ? `${crawl.pages.length} pages read · ${crawl.pages
                 .map((page) => page.path)
                 .slice(0, 4)
                 .join("  ")}`
-            : "Site not readable · using public web research",
+            : t(locale, "Site not readable · using public web research"),
         });
 
         send({ type: "stage", stage: "research" });
@@ -185,6 +194,7 @@ export async function POST(request: Request) {
           target.domain,
           crawl.pages,
           assessmentId,
+          locale,
         );
         mark("research");
         const siteOnly = anonymizeCompanyResearch(
@@ -225,7 +235,7 @@ export async function POST(request: Request) {
         });
 
         send({ type: "stage", stage: "design" });
-        const blueprint = await designAgents(context, benchmark, assessmentId);
+        const blueprint = await designAgents(context, benchmark, assessmentId, locale);
         mark("design");
         console.info("Agent blueprint timings (ms since start)", {
           assessmentId,
@@ -292,7 +302,7 @@ export async function POST(request: Request) {
           })
           .commit()
           .catch(() => undefined);
-        send({ type: "error", error: PUBLIC_ERROR });
+        send({ type: "error", error: PUBLIC_ERRORS[locale] });
       } finally {
         clearInterval(heartbeat);
         controller.close();

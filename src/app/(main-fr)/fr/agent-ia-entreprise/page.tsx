@@ -11,8 +11,8 @@ import type { HeroData, SolutionData } from "@/lib/types";
 export const dynamic = "force-static";
 
 const pagePath = "/fr/agent-ia-entreprise";
-const title = "Agent IA entreprise pour ceux qui arbitrent le SI d'ETI | Wonka";
-const description = "Agent IA entreprise pour les directions informatiques d'ETI. Agents qui agissent dans Odoo et SharePoint. Azure West Europe. ISO 27001, RGPD, NIS 2.";
+const title = "Agents IA pour ETI françaises | Wonka AI";
+const description = "Identifiez les agents IA à connecter à Odoo, SharePoint et vos processus métier, avec gouvernance et hébergement européen.";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata(
@@ -26,109 +26,105 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const heroData: HeroData = {
-  awardBadge: "#1 AI START-UP OF THE YEAR - BELGIUM STARTUP AWARDS 2026",
-  title: "Agent IA entreprise pour ceux qui arbitrent le SI d'une ETI",
-  subtitle: "Agents qui agissent dans Odoo et SharePoint. Gouvernance centralisée. Azure West Europe. ISO 27001, RGPD, NIS 2.",
+  awardBadge: "Pour les DSI et RSSI d’ETI françaises",
+  title: "Déployez des agents IA dans vos outils métier.",
+  subtitle: "Repérez les premiers cas d’usage dans Odoo, SharePoint et vos processus, avec un cadre de gouvernance adapté à votre SI.",
 };
 
 const problemItems: ProblemItem[] = [
   {
     tag: "h2",
-    content: "Votre ChatGPT perso marche très bien.",
+    content: "L’IA est déjà utilisée dans certaines équipes.",
   },
   {
     tag: "p",
-    content: "Pour les 12 qui savent s'en servir.",
+    content: "Mais les usages et les résultats restent difficiles à généraliser.",
   },
   {
     tag: "p",
-    content: "Pour tout le monde ailleurs, le travail avance encore à la main.",
+    content: "Les tâches répétitives continuent de mobiliser vos équipes.",
   },
   {
     tag: "p",
-    content: "La direction informatique n'a aucune visibilité sur ce qui sort de l'entreprise.",
+    content: "La DSI doit aussi savoir quelles données sont accessibles et quelles actions sont autorisées.",
   },
   {
     tag: "p",
-    content: "Un agent dans vos outils, ça se gouverne.",
+    content: "Un agent doit s’intégrer au SI et respecter vos règles d’accès.",
   },
 ];
 
 const solutionData: SolutionData = {
   eyebrow: "Pour les ETI françaises",
-  heading: "Des agents IA qui agissent dans vos outils métier.",
-  body: "Les directions informatiques d'ETI savent qu'elles ont besoin d'agents qui se connectent à Odoo et SharePoint, de données hébergées en Europe, et de gouvernance sur qui fait quoi. Pas juste du chat.",
+  heading: "Des agents ancrés dans vos processus et votre SI.",
+  body: "Un premier déploiement commence par les tâches à valeur, les systèmes concernés et les validations nécessaires. Le diagnostic vous aide à cadrer ces choix avant de lancer un projet.",
   steps: [
     {
       _key: "step-1",
-      title: "Agents natifs Odoo et SharePoint",
-      body: "Si vous utilisez Odoo comme ERP et SharePoint pour les documents, Wonka se connecte nativement. Les agents lisent le contexte, suggèrent des actions, et laissent les équipes ops valider avant exécution.",
+      title: "Ciblez les bons outils",
+      body: "Indiquez les systèmes où se trouvent vos données et vos tâches récurrentes. Nous vérifions les connecteurs et les besoins d’intégration pendant le cadrage.",
     },
     {
       _key: "step-2",
-      title: "Données en Azure West Europe",
-      body: "Hébergé en Azure West Europe (Microsoft Irlande) par défaut. Vos données ne quittent jamais l'infrastructure européenne. Certifié ISO 27001, conforme RGPD, conforme NIS 2, SOC 2 Type II en cours.",
+      title: "Définissez vos exigences de déploiement",
+      body: "Précisez vos attentes en matière d’hébergement, de sécurité et de conformité pour évaluer le cadre adapté à votre entreprise.",
     },
     {
       _key: "step-3",
-      title: "Gouvernance centralisée",
-      body: "Visibilité complète sur qui utilise quels agents, quelles données sont accessibles, quelles actions sont suggérées. Les directions informatiques gardent le contrôle.",
+      title: "Cadrez les accès et les validations",
+      body: "Déterminez qui peut utiliser chaque agent, quelles données il peut consulter et quelles actions nécessitent une validation humaine.",
     },
     {
       _key: "step-4",
-      title: "Diagnostic 45 min avec Gabriel",
-      body: "45 minutes pour identifier 3 agents prêts pour votre configuration Odoo et SharePoint. Agents de test livrés dans la semaine suivant le diagnostic.",
+      title: "Commencez par un diagnostic court",
+      body: "Répondez à cinq questions sur votre entreprise et vos outils pour recevoir trois pistes à examiner. Vous pourrez ensuite réserver un échange de cadrage.",
     },
   ],
 };
 
 export default async function AgentIaEntreprisePage() {
   const diagnosticUrl = "/france/diagnostic?utm_campaign=france&utm_source=agent-ia-entreprise";
-  const registerUrl = "https://wonka.chat/register";
 
   return (
     <>
       <Hero
         data={heroData}
         ctaHref={diagnosticUrl}
-        ctaLabel="Diagnostic 45 min"
+        ctaLabel="Voir mes pistes d’agents"
       />
       <Problem id="problem" items={problemItems} />
       <Solution id="solution" data={solutionData} />
 
       <section className="mx-auto max-w-[1200px] px-6 py-16">
         <div className="mb-12 rounded-lg border border-border bg-mid-gray p-8">
-          <h2 className="type-h4 mb-6">Pour les ETI françaises avec Odoo et SharePoint</h2>
+          <h2 className="type-h4 mb-4">Des agents dans vos outils, selon votre contexte</h2>
+          <p className="type-body mb-6 text-text/70">
+            Odoo et SharePoint peuvent faire partie du périmètre. Le diagnostic sert à repérer les tâches à étudier ; les connecteurs, les droits d’accès et les actions possibles sont confirmés pendant le cadrage.
+          </p>
           <ul className="space-y-4 type-body">
             <li className="flex gap-3">
               <span className="text-green-600">✓</span>
-              <span>Odoo: intégration native. Les agents lisent les enregistrements, préparent les actions (créer devis, mettre à jour livraison), laissent les ops valider.</span>
+              <span><strong>Odoo :</strong> identifiez les tâches où un agent pourrait retrouver du contexte, préparer une mise à jour ou aider une équipe opérationnelle.</span>
             </li>
             <li className="flex gap-3">
               <span className="text-green-600">✓</span>
-              <span>SharePoint: connexion via Microsoft Graph API avec vos credentials. Accès aux documents sans duplication.</span>
+              <span><strong>SharePoint :</strong> repérez les recherches documentaires et les traitements récurrents à évaluer avec vos règles d’accès.</span>
             </li>
             <li className="flex gap-3">
               <span className="text-green-600">✓</span>
-              <span>MCP: protocole Model Context Protocol pour connecter des outils personnalisés. Les agents agissent dans votre SI, pas juste du chat.</span>
+              <span><strong>Actions et validations :</strong> définissez ce que l’agent peut préparer, ce qu’une personne doit vérifier et ce qui reste hors périmètre.</span>
             </li>
             <li className="flex gap-3">
               <span className="text-green-600">✓</span>
-              <span>AIPD: Analyse d'Impact sur la Protection des Données disponible pour les directions informatiques qui doivent justifier auprès de leur DPO.</span>
+              <span><strong>Intégration :</strong> confirmez les connecteurs, les accès et les contraintes techniques avant de fixer le périmètre de réalisation.</span>
             </li>
           </ul>
-          <p className="mt-6 type-paragraph-m text-text/60">
-            MCP: Model Context Protocol. Standard pour connecter des agents IA à des systèmes externes. AIPD: Analyse d'Impact sur la Protection des Données (Data Protection Impact Assessment). ERP: Enterprise Resource Planning (Planification des Ressources d'Entreprise).
-          </p>
         </div>
 
         <div className="mb-12 rounded-lg border border-border bg-background p-8">
-          <h2 className="type-h4 mb-6">Certifications et conformité</h2>
-          <p className="type-body font-medium mb-4">
-            Certifié ISO 27001. Conforme RGPD. Conforme NIS 2. SOC 2 Type II en cours. Hébergé en Azure West Europe (Microsoft Irlande).
-          </p>
+          <h2 className="type-h4 mb-4">Sécurité et conformité : à cadrer avec votre DSI</h2>
           <p className="type-paragraph-m text-text/60">
-            Les directions informatiques peuvent coller cette ligne dans leurs dossiers de conformité. AIPD disponible sur demande.
+            Le traitement des données, les exigences d’hébergement et les documents nécessaires dépendent du périmètre retenu. Nous les examinons avec vos équipes avant tout déploiement ; nous ne présumons pas de la conformité de votre environnement.
           </p>
         </div>
 
@@ -161,20 +157,20 @@ export default async function AgentIaEntreprisePage() {
           <h2 className="type-h4 mb-6">FAQ pour les directions informatiques</h2>
           <div className="space-y-6">
             <div>
-              <h3 className="type-paragraph-m-bold mb-2">Qu'est-ce que MCP et pourquoi c'est important?</h3>
-              <p className="type-paragraph-m text-text/60">MCP (Model Context Protocol) est un standard pour connecter des agents IA à des systèmes externes. Pour les ETI, ça signifie que les agents peuvent agir dans Odoo, SharePoint, votre CRM, votre ERP personnalisé, sans développement lourd.</p>
+              <h3 className="type-paragraph-m-bold mb-2">Pouvez-vous connecter un agent à Odoo ou SharePoint ?</h3>
+              <p className="type-paragraph-m text-text/60">Ces outils peuvent être étudiés pendant le cadrage. La faisabilité dépend des données concernées, des connecteurs disponibles et des droits que votre entreprise peut accorder.</p>
             </div>
             <div>
-              <h3 className="type-paragraph-m-bold mb-2">Avez-vous une AIPD disponible?</h3>
-              <p className="type-paragraph-m text-text/60">Oui. L'AIPD (Analyse d'Impact sur la Protection des Données) est disponible pour les directions informatiques qui doivent justifier le déploiement auprès de leur DPO ou RSSI.</p>
+              <h3 className="type-paragraph-m-bold mb-2">Comment les accès et les actions sont-ils définis ?</h3>
+              <p className="type-paragraph-m text-text/60">Avec vos équipes, selon les tâches et les systèmes concernés. Le cadrage précise les données utiles, les permissions et les étapes qui demandent une validation humaine.</p>
             </div>
             <div>
-              <h3 className="type-paragraph-m-bold mb-2">Où les données sont-elles traitées?</h3>
-              <p className="type-paragraph-m text-text/60">Azure West Europe (Microsoft Irlande) par défaut. Vos données ne quittent jamais l'infrastructure européenne. Certifié ISO 27001, conforme RGPD, conforme NIS 2, SOC 2 Type II en cours.</p>
+              <h3 className="type-paragraph-m-bold mb-2">Où les données sont-elles traitées ?</h3>
+              <p className="type-paragraph-m text-text/60">Cela dépend du produit et du périmètre de déploiement. Nous vérifions vos exigences d’hébergement et de traitement avec votre DSI avant de confirmer une architecture.</p>
             </div>
             <div>
-              <h3 className="type-paragraph-m-bold mb-2">Combien de temps pour déployer?</h3>
-              <p className="type-paragraph-m text-text/60">Diagnostic de 45 minutes, 3 agents définis pour vos workflows Odoo et SharePoint. Agents de test en ligne dans la semaine. Déploiement complet selon cycles de validation, typiquement 4-8 semaines pour une ETI de 50-100 personnes.</p>
+              <h3 className="type-paragraph-m-bold mb-2">Que vais-je obtenir après le diagnostic ?</h3>
+              <p className="type-paragraph-m text-text/60">Trois pistes d’agents générées à partir de vos réponses. Ce sont des propositions à examiner, pas des intégrations déjà configurées. Vous choisissez ensuite si vous souhaitez un échange de cadrage.</p>
             </div>
           </div>
         </div>
@@ -213,11 +209,11 @@ export default async function AgentIaEntreprisePage() {
       <Cta
         id="get-started"
         data={{
-          heading: "En 5 questions, 3 agents prêts pour vos outils.",
-          body: "Secteur, outils, données, frein, rôle. Deux minutes. Vous voyez le résultat avant de parler à quelqu'un.",
+          heading: "Trouvez trois pistes à étudier dans votre SI.",
+          body: "Cinq questions sur vos outils et vos priorités. Consultez le résultat, puis décidez si vous souhaitez un échange de cadrage.",
         }}
         meetingUrl={diagnosticUrl}
-        meetingLabel="Voir les 3 agents"
+        meetingLabel="Voir mes pistes d’agents"
         meetingTrackType="france"
         showImage={false}
       />
