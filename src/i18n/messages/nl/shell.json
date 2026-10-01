@@ -60,6 +60,10 @@
           "label": "AI-strategie",
           "description": "Word AI-native in vier weken"
         },
+        "agent-blueprint": {
+          "label": "Stel uw AI-agentteam samen",
+          "description": "Ontdek drie agents op maat van uw bedrijf"
+        },
         "ai-agent-development": {
           "label": "Ontwikkeling van AI-agents",
           "description": "Wij bouwen en lanceren uw agents"

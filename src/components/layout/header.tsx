@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect, useLayoutEffect } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { ButtonLink } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
 import { Section } from "@/components/ui/section";
@@ -33,6 +34,8 @@ export function Header({
   variant = "overlay-dark",
   locale = "en",
 }: HeaderProps) {
+  const pathname = usePathname();
+  const isBtpLanding = pathname === "/france/btp";
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [activeNavKey, setActiveNavKey] = useState<string | null>(null);
   const [headerBarHeight, setHeaderBarHeight] = useState(0);
@@ -44,7 +47,7 @@ export function Header({
   const homeHref = commercialPath("home", locale);
   const ctaLabel = t("shell.headerCta");
   const ctaHref = headerCta ? localizeHref(headerCta.href, locale) : null;
-  const isOverlayDark = variant === "overlay-dark";
+  const isOverlayDark = variant === "overlay-dark" && !isBtpLanding;
   const isMegaOpen = activeNavKey !== null;
   const activeNavItem =
     navItems.find((item) => item._key === activeNavKey) ?? null;
@@ -152,19 +155,30 @@ export function Header({
               </Link>
             </div>
 
-            <nav aria-label={t("shell.mainNavLabel")}>
-              <DesktopNav
-                navItems={navItems}
-                activeKey={activeNavKey}
-                onActivate={activateMega}
-              />
-            </nav>
+            {!isBtpLanding ? (
+              <nav aria-label={t("shell.mainNavLabel")}>
+                <DesktopNav
+                  navItems={navItems}
+                  activeKey={activeNavKey}
+                  onActivate={activateMega}
+                />
+              </nav>
+            ) : null}
 
             <div className="flex flex-1 items-center justify-end gap-4">
-              {SHOW_LANGUAGE_SWITCHER ? <LanguageSwitcher /> : null}
+              {SHOW_LANGUAGE_SWITCHER && !isBtpLanding ? (
+                <LanguageSwitcher />
+              ) : null}
               {ctaHref && (
-                <ButtonLink href={ctaHref} variant="primary">
-                  {ctaLabel}
+                <ButtonLink
+                  href={
+                    isBtpLanding
+                      ? "/france/diagnostic?secteur=btp&utm_source=btp&utm_campaign=construction"
+                      : ctaHref
+                  }
+                  variant="primary"
+                >
+                  {isBtpLanding ? "Évaluer mes besoins IA" : ctaLabel}
                 </ButtonLink>
               )}
             </div>
@@ -198,22 +212,33 @@ export function Header({
 
         <div className="flex items-center gap-2">
           {ctaHref && (
-            <ButtonLink href={ctaHref} variant="primary">
-              {ctaLabel}
+            <ButtonLink
+              href={
+                isBtpLanding
+                  ? "/france/diagnostic?secteur=btp&utm_source=btp&utm_campaign=construction"
+                  : ctaHref
+              }
+              variant="primary"
+            >
+              {isBtpLanding ? "Évaluer" : ctaLabel}
             </ButtonLink>
           )}
-          <MobileNavToggle
-            isOpen={mobileNavOpen}
-            onToggle={() => setMobileNavOpen((open) => !open)}
-          />
+          {!isBtpLanding ? (
+            <MobileNavToggle
+              isOpen={mobileNavOpen}
+              onToggle={() => setMobileNavOpen((open) => !open)}
+            />
+          ) : null}
         </div>
       </Section>
 
-      <MobileNavOverlay
-        isOpen={mobileNavOpen}
-        onClose={closeMobileNav}
-        navItems={navItems}
-      />
+      {!isBtpLanding ? (
+        <MobileNavOverlay
+          isOpen={mobileNavOpen}
+          onClose={closeMobileNav}
+          navItems={navItems}
+        />
+      ) : null}
     </>
   );
 }

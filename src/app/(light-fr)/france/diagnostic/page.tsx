@@ -30,6 +30,7 @@ const QUESTIONS: Question[] = [
       { value: "energie", label: "Énergie" },
       { value: "public", label: "Secteur public" },
       { value: "services", label: "Services" },
+      { value: "btp", label: "BTP / Construction" },
       { value: "autre", label: "Autre" },
     ],
   },
@@ -98,9 +99,29 @@ const AGENT_POOL: Record<string, AgentType> = {
     title: "Agents privés gouvernés",
     description: "Un seul endroit pour tous vos agents IA. Le RSSI voit ce qui sort de l'entreprise, contrôle d'accès centralisé, logs d'audit. Hébergement Azure West Europe.",
   },
+  "cctp-btp": {
+    title: "Préparation de l’analyse d’un CCTP",
+    description: "Prépare une synthèse des exigences, des pièces à consulter et des questions à clarifier avant le chiffrage. Chaque point reste à vérifier dans le document source.",
+  },
+  "offres-fournisseurs-btp": {
+    title: "Comparaison d’offres fournisseurs",
+    description: "Met en regard prix, délais, variantes et éléments manquants à partir des offres reçues. La conformité technique et le choix du fournisseur restent validés par l’équipe.",
+  },
+  "compte-rendu-chantier": {
+    title: "Compte rendu de visite chantier",
+    description: "Structure les notes en avancement, réserves, actions, responsables et échéances. Le conducteur relit le compte rendu avant son partage.",
+  },
 };
 
 function pickAgents(answers: Record<QuestionId, string>): AgentType[] {
+  if (answers.secteur === "btp") {
+    return [
+      AGENT_POOL["cctp-btp"],
+      AGENT_POOL["offres-fournisseurs-btp"],
+      AGENT_POOL["compte-rendu-chantier"],
+    ];
+  }
+
   const picked: AgentType[] = [];
   const used = new Set<string>();
 
@@ -125,13 +146,14 @@ function pickAgents(answers: Record<QuestionId, string>): AgentType[] {
   }
 
   const remaining = Object.entries(AGENT_POOL)
-    .filter(([key]) => !used.has(key))
+    .filter(([key]) =>
+      !used.has(key) &&
+      !["cctp-btp", "offres-fournisseurs-btp", "compte-rendu-chantier"].includes(key),
+    )
     .map(([, agent]) => agent);
 
   while (picked.length < 3 && remaining.length > 0) {
-    const randomIndex = Math.floor(Math.random() * remaining.length);
-    picked.push(remaining[randomIndex]);
-    remaining.splice(randomIndex, 1);
+    picked.push(remaining.shift()!);
   }
 
   return picked.slice(0, 3);
@@ -153,19 +175,26 @@ export default function FranceDiagnosticPage() {
 
   useEffect(() => {
     const stored = sessionStorage.getItem("diagnostic-answers");
+    const sectorFromLanding = new URLSearchParams(window.location.search).get("secteur");
+    let initialAnswers: Record<QuestionId, string> = {} as Record<QuestionId, string>;
     if (stored) {
       try {
-        const parsed = JSON.parse(stored);
-        setAnswers(parsed);
-        const completedCount = Object.keys(parsed).length;
-        if (completedCount > 0 && completedCount < QUESTIONS.length) {
-          setCurrentQuestionIndex(completedCount);
-        } else if (completedCount === QUESTIONS.length) {
-          setStep("email");
-        }
+        initialAnswers = JSON.parse(stored) as Record<QuestionId, string>;
       } catch {
         // ignore
       }
+    }
+
+    if (sectorFromLanding === "btp") initialAnswers.secteur = "btp";
+    setAnswers(initialAnswers);
+    const nextQuestionIndex = QUESTIONS.findIndex(({ id }) => !initialAnswers[id]);
+    if (nextQuestionIndex === -1) {
+      setStep("email");
+    } else {
+      setCurrentQuestionIndex(nextQuestionIndex);
+    }
+    if (Object.keys(initialAnswers).length) {
+      sessionStorage.setItem("diagnostic-answers", JSON.stringify(initialAnswers));
     }
 
     fetch("/api/meeting-url?context=france")
@@ -317,10 +346,10 @@ export default function FranceDiagnosticPage() {
           {step === "email" && (
             <>
               <h1 className={cn(headingClass.section, "mb-6")}>
-                On prépare vos 3 agents.
+                Préparons trois pistes d’agents pour votre entreprise.
               </h1>
               <p className="type-body mb-10 text-text/70">
-                Prénom, email pro, entreprise. Pas de newsletter. Le résultat s'affiche ensuite.
+                Indiquez vos coordonnées professionnelles pour afficher le résultat. Pas d’inscription à une newsletter.
               </p>
 
               <form onSubmit={handleEmailSubmit} className="flex flex-col gap-4">
@@ -393,13 +422,13 @@ export default function FranceDiagnosticPage() {
             <>
               <h1 className={cn(headingClass.section, "mb-6")}>
                 {firstName && company
-                  ? `${firstName}, voici 3 agents pour ${company}.`
+                  ? `${firstName}, voici trois pistes d’agents pour ${company}.`
                   : firstName
-                    ? `${firstName}, voici 3 agents pour vos outils.`
-                    : "Voici 3 agents pour vos outils."}
+                    ? `${firstName}, voici trois pistes d’agents pour votre entreprise.`
+                    : "Voici trois pistes d’agents pour votre entreprise."}
               </h1>
               <p className="type-body mb-10 text-text/70">
-                Ces agents sont des exemples concrets de ce que Wonka AI peut déployer pour votre entreprise. Chaque agent est connecté à vos systèmes existants et gouverné de manière centralisée.
+                Ces pistes illustrent des agents que Wonka AI pourrait déployer pour votre entreprise. Les connexions, les accès et les validations sont définis avec vos équipes lors du cadrage.
               </p>
 
               <div className="flex flex-col gap-6">
@@ -426,7 +455,7 @@ export default function FranceDiagnosticPage() {
                       diagnostic_name: "france",
                     })}
                   >
-                    Voir ça en 45 min avec Gabriel
+                    Parler de ces pistes avec Gabriel · 45 min
                   </ButtonLink>
                 </div>
               ) : (

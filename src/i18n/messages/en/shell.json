@@ -60,6 +60,10 @@
           "label": "AI Strategy",
           "description": "Become AI native in four weeks"
         },
+        "agent-blueprint": {
+          "label": "Design your agent team",
+          "description": "Get three tailored AI agent ideas for your company"
+        },
         "ai-agent-development": {
           "label": "AI Agent Development",
           "description": "We build your agents and ship them"

@@ -54,14 +54,16 @@ function ProofItem({ item, message }: { item: ProofItemData; message: string }) 
 /** `messages` are the localized captions, in PROOF_ITEMS order. */
 export function HeroMarquee({
   messages = getT("en").raw("home.hero.marquee") as string[],
+  ariaLabel = "Customer proof",
 }: {
   messages?: string[];
+  ariaLabel?: string;
 }) {
   return (
     <div
       className="group/marquee relative w-full overflow-clip border-t border-dashed border-border bg-text/[0.06]"
       role="region"
-      aria-label="Customer proof"
+      aria-label={ariaLabel}
     >
       <div className="flex w-max animate-marquee items-stretch motion-reduce:animate-none group-hover/marquee:[animation-play-state:paused]">
         {PROOF_ITEMS.map((item, i) => (

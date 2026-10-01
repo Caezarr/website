@@ -76,22 +76,24 @@ export default async function AgentBlueprintPage() {
         ]}
       />
       <AgentBlueprintExperience
+        locale="en"
         meetingUrl={BLUEPRINT_MEETING_URL}
         wonkaChatUrl={WONKA_CHAT_URL}
       >
         <Problem id="problem" />
-        <BlueprintValueStack />
-        <BlueprintSteps />
+        <BlueprintValueStack locale="en" />
+        <BlueprintSteps locale="en" />
         <BlueprintToWonkaChat
+          locale="en"
           wonkaChatUrl={WONKA_CHAT_URL}
           meetingUrl={BLUEPRINT_MEETING_URL}
         />
         <div className="flex flex-col gap-10 py-10 md:gap-16 md:py-16">
           <Stats />
-          <BlueprintTrust />
+          <BlueprintTrust locale="en" />
         </div>
         {hasTestimonials ? <Testimonials id="testimonials" /> : null}
-        <BlueprintFaq />
+        <BlueprintFaq locale="en" />
       </AgentBlueprintExperience>
     </main>
   );

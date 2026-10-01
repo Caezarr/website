@@ -11,9 +11,9 @@
     "bun": ">=1.1.0"
   },
   "scripts": {
-    "predev": "bun run ds:build",
+    "predev": "bun run ds:build && bun run chat:preview:build",
     "dev": "next dev --turbopack",
-    "prebuild": "bun run ds:build",
+    "prebuild": "bun run ds:build && bun run chat:preview:build",
     "build": "next build && node scripts/externalize-next-flight.mjs",
     "start": "next start",
     "lint": "eslint",
@@ -25,7 +25,8 @@
     "storybook": "bun run ds:build && storybook dev -p 6006",
     "storybook:build": "bun run ds:build && storybook build",
     "test:storybook": "vitest run --project=storybook-light --project=storybook-dark",
-    "test:storybook:watch": "vitest --project=storybook-light --project=storybook-dark"
+    "test:storybook:watch": "vitest --project=storybook-light --project=storybook-dark",
+    "chat:preview:build": "bun run --cwd apps/wonkachat-lab build:preview"
   },
   "dependencies": {
     "@base-ui/react": "^1.4.1",

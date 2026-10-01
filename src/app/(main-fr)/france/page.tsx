@@ -16,8 +16,8 @@ import { FranceHero, FranceCta } from "./france-page-client";
 export const dynamic = "force-static";
 
 const pagePath = "/france";
-const title = "Wonka AI France - IA d'entreprise déployable";
-const description = "IA d'entreprise avec agents et gouvernance. ISO 27001, GDPR, NIS 2. Hébergement Azure West Europe (Microsoft Irlande).";
+const title = "Wonka AI France | Agents IA connectés à vos outils métier";
+const description = "Identifiez les agents IA à déployer dans vos outils et processus. Un diagnostic court pour faire émerger trois pistes adaptées à votre entreprise.";
 
 export async function generateMetadata(): Promise<Metadata> {
   return buildMetadata(
@@ -36,52 +36,53 @@ async function getSiteSettings() {
 }
 
 const heroData: HeroData = {
-  awardBadge: "#1 AI START-UP OF THE YEAR - BELGIUM STARTUP AWARDS 2026",
-  title: "L'IA d'entreprise qui se déploie vraiment",
-  subtitle: "Une bibliothèque d'agents prêts à brancher sur vos outils (ERP, CRM, SharePoint, Teams). Gouvernance centralisée, conformité RGPD.",
+  awardBadge: "Agents IA adaptés à vos outils métier",
+  title: "Trouvez les agents IA utiles à votre entreprise.",
+  subtitle: "En cinq questions, repérez trois pistes d’agents à partir de vos outils, de vos données et de vos priorités. Vous voyez le résultat avant de réserver un échange.",
 };
 
 const problemItems: ProblemItem[] = [
   {
     tag: "h2",
-    content: "Votre ChatGPT perso marche très bien.",
+    content: "L’IA est déjà utilisée dans votre entreprise.",
   },
-  { tag: "p", content: "Pour les 12 qui savent s'en servir." },
+  { tag: "p", content: "Mais les usages restent souvent individuels." },
   {
     tag: "p",
-    content: "Pour tout le monde ailleurs, le travail avance encore à la main.",
+    content: "Les équipes continuent à chercher, recopier et traiter les mêmes tâches à la main.",
   },
-  { tag: "p", content: "Le RSSI n'a aucune visibilité sur ce qui sort de l'entreprise." },
+  { tag: "p", content: "Et la direction manque de visibilité sur les données utilisées et les actions lancées.",
+  },
   {
     tag: "p",
-    content: "Un agent dans vos outils, ça se gouverne.",
+    content: "Un agent utile doit s’intégrer aux outils métier et rester sous contrôle.",
   },
 ];
 
 const solutionData: SolutionData = {
-  eyebrow: "Comment on travaille",
-  heading: "Wonka AI fait fonctionner l'IA pour toute votre organisation.",
-  body: "La plupart des projets IA ont l'air géniaux le jour du lancement et prennent la poussière à la troisième semaine. On part de vos processus actuels, on travaille à rebours depuis l'usage quotidien, et on reste jusqu'à ce que toute votre équipe l'utilise vraiment.",
+  eyebrow: "Du cas d’usage au déploiement",
+  heading: "Partez de votre travail réel, pas d’une démo d’IA.",
+  body: "Nous partons des tâches répétitives, des outils déjà en place et des contraintes de vos équipes. Le diagnostic vous aide à prioriser les premiers agents à étudier.",
   steps: [
     {
       _key: "step-1",
-      title: "On part de là où vous êtes.",
-      body: "Certaines entreprises viennent avec un cas d'usage clair, d'autres savent juste que l'IA compte mais pas où elle s'intègre. Dans tous les cas, on sait comment avancer.",
+      title: "Repérez les tâches qui reviennent.",
+      body: "Nous examinons vos activités, vos outils et les tâches où vos équipes cherchent, vérifient ou recopient souvent des informations.",
     },
     {
       _key: "step-2",
-      title: "On construit autour de votre vraie façon de travailler.",
-      body: "On ne largue pas un outil générique en espérant que ça colle. On façonne tout autour de la façon dont votre entreprise fonctionne aujourd'hui, pour que ça appartienne dès le premier jour.",
+      title: "Choisissez les bons premiers agents.",
+      body: "Nous priorisons les pistes selon leur valeur attendue, les données disponibles et le niveau de contrôle requis.",
     },
     {
       _key: "step-3",
-      title: "On le met entre les mains de votre équipe.",
-      body: "Une feuille de route, un build sur mesure, ou un chat IA que tout le monde utilise au quotidien. On livre exactement ce dont votre situation a besoin, et on s'assure que ça atterrit auprès des gens qui vont s'y fier.",
+      title: "Connectez-les à vos outils.",
+      body: "Les agents peuvent s’appuyer sur vos outils et données existants, selon les connecteurs disponibles et les accès validés avec votre entreprise.",
     },
     {
       _key: "step-4",
-      title: "On reste jusqu'à ce que tout le monde soit à bord.",
-      body: "La plupart des projets IA échouent sur l'adoption, pas sur la technologie. On s'intègre à votre équipe et on reste jusqu'à ce que les gens l'utilisent vraiment, pas juste jusqu'à ce que ce soit en ligne.",
+      title: "Gardez la maîtrise des actions.",
+      body: "Définissez les permissions, les validations humaines et les indicateurs qui permettront de suivre l’usage une fois l’agent déployé.",
     },
   ],
 };
@@ -99,7 +100,7 @@ export default async function FrancePage() {
       <TrustedBy id="trusted-by" />
       
       <section className="mx-auto max-w-[1200px] px-6 py-16 md:py-20">
-        <h2 className={cn(headingClass.section, "mb-12 text-center")}>Preuves</h2>
+        <h2 className={cn(headingClass.section, "mb-12 text-center")}>Des résultats obtenus chez nos clients</h2>
         <div className="grid gap-8 md:grid-cols-2">
           <div className="rounded-sm border border-border bg-background p-8">
             <h3 className={cn(headingClass.card, "mb-4")}>N-allo (Engie)</h3>
@@ -139,8 +140,8 @@ export default async function FrancePage() {
       </div>
       <FranceCta
         data={{
-          heading: "En 5 questions, 3 agents prêts pour vos outils.",
-          body: "Secteur, outils, données, frein, rôle. Deux minutes. Vous voyez le résultat avant de parler à quelqu'un.",
+          heading: "Recevez trois pistes d’agents pour votre entreprise.",
+          body: "Cinq questions sur vos outils et vos priorités. Le résultat s’affiche avant toute prise de rendez-vous.",
         }}
       />
     </>

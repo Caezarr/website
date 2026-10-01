@@ -12,6 +12,8 @@ import type { FaqItem } from "@/lib/types";
 import { headingClass } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 import { BlueprintScrollButton } from "./blueprint-scroll-button";
+import type { Locale } from "@/i18n/config";
+import { blueprintText as t } from "@/lib/agent-blueprint-copy";
 
 const valueStack = [
   {
@@ -41,29 +43,28 @@ const valueStack = [
 ];
 
 /** What the free blueprint contains, stacked like a receipt. */
-export function BlueprintValueStack() {
+export function BlueprintValueStack({ locale }: { locale: Locale }) {
   return (
     <Section containerClassName="grid gap-12 py-18 md:py-24 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-16">
       <div className="flex flex-col items-start gap-6">
-        <Eyebrow>What you get</Eyebrow>
+        <Eyebrow>{t(locale, "What you get")}</Eyebrow>
         <h2 className={cn(headingClass.section, "max-w-[16ch]")}>
-          A consultant-grade AI plan. Free, in a minute.
+          {t(locale, "A consultant-grade AI plan. Free, in a minute.")}
         </h2>
         <p className="type-body text-text/65 max-w-md">
-          The same use-case prioritisation we run with clients in our Start AI
-          programs, as a first version. Enter a website and it is yours.
+          {t(locale, "The same use-case prioritisation we run with clients in our Start AI programs, as a first version. Enter a website and it is yours.")}
         </p>
         <BlueprintScrollButton className="mt-2">
-          Build my blueprint
+          {t(locale, "Build my blueprint")}
         </BlueprintScrollButton>
       </div>
 
       <div className="border-border overflow-hidden rounded-sm border bg-white">
         <div className="border-border flex items-center justify-between border-b border-dashed px-5 py-4 md:px-6">
           <span className="type-eyebrow text-text/45">
-            Your AI agent blueprint
+            {t(locale, "Your AI agent blueprint")}
           </span>
-          <span className="type-eyebrow text-blue-700">Included</span>
+          <span className="type-eyebrow text-blue-700">{t(locale, "Included")}</span>
         </div>
         <ol>
           {valueStack.map((item, index) => (
@@ -75,9 +76,9 @@ export function BlueprintValueStack() {
                 {index + 1}
               </span>
               <div className="min-w-0 flex-1">
-                <p className="type-paragraph-m-bold">{item.title}</p>
+                <p className="type-paragraph-m-bold">{t(locale, item.title)}</p>
                 <p className="type-paragraph-s text-text/55 mt-0.5">
-                  {item.detail}
+                  {t(locale, item.detail)}
                 </p>
               </div>
               <span aria-hidden className="text-green-600">
@@ -89,15 +90,15 @@ export function BlueprintValueStack() {
         <div className="bg-light-gray border-border grid gap-4 border-t px-5 py-5 sm:grid-cols-2 sm:items-end md:px-6">
           <div>
             <p className="type-paragraph-s text-text/50">
-              No call. No sign-up. No credit card.
+              {t(locale, "No call. No sign-up. No credit card.")}
             </p>
             <p className="type-paragraph-s text-text/40 mt-1">
-              Copy any agent straight into WonkaChat.
+              {t(locale, "Copy any agent straight into WonkaChat.")}
             </p>
           </div>
           <div className="sm:text-right">
-            <p className="type-eyebrow text-text/45">Your blueprint</p>
-            <p className="type-h3 text-blue-700">Free</p>
+            <p className="type-eyebrow text-text/45">{t(locale, "Your blueprint")}</p>
+            <p className="type-h3 text-blue-700">{t(locale, "Free")}</p>
           </div>
         </div>
       </div>
@@ -109,31 +110,33 @@ export function BlueprintValueStack() {
 export function BlueprintToWonkaChat({
   wonkaChatUrl,
   meetingUrl,
+  locale,
 }: {
   wonkaChatUrl: string;
   meetingUrl: string;
+  locale: Locale;
 }) {
   const cards = [
     {
       src: "/images/wonka-chat/create-ai-agents-for-specific-tasks.png",
-      alt: "WonkaChat board where AI agents move tasks from to do to done",
-      title: "Agents that move work forward",
-      body: "Each agent in your blueprint becomes a WonkaChat agent that picks up the task, runs the steps and hands back the result.",
+      alt: t(locale, "WonkaChat board where AI agents move tasks from to do to done"),
+      title: t(locale, "Agents that move work forward"),
+      body: t(locale, "Each agent in your blueprint becomes a WonkaChat agent that picks up the task, runs the steps and hands back the result."),
     },
     {
       src: "/images/wonka-chat/feature-tools.png",
-      alt: "Tools WonkaChat connects to, including Outlook, SharePoint, Odoo and Salesforce",
-      title: "Plugged into your tools",
-      body: "Outlook, SharePoint, Teams, Odoo, Salesforce, Notion and more, so agents work where your data already lives.",
+      alt: t(locale, "Tools WonkaChat connects to, including Outlook, SharePoint, Odoo and Salesforce"),
+      title: t(locale, "Plugged into your tools"),
+      body: t(locale, "Outlook, SharePoint, Teams, Odoo, Salesforce, Notion and more, so agents work where your data already lives."),
     },
   ];
 
   return (
     <Section containerClassName="py-18 md:py-24">
       <SectionHeader
-        eyebrow={<Eyebrow>After the blueprint</Eyebrow>}
-        heading={"Your blueprint doesn't\nstay a slide."}
-        body="Turn the agents you like into working agents in WonkaChat, the AI workspace Itzu rolled out to every employee."
+        eyebrow={<Eyebrow>{t(locale, "After the blueprint")}</Eyebrow>}
+        heading={t(locale, "Your blueprint doesn't\nstay a slide.")}
+        body={t(locale, "Turn the agents you like into working agents in WonkaChat, the AI workspace Itzu rolled out to every employee.")}
       />
       <div className="mt-12 grid gap-4 md:grid-cols-2">
         {cards.map((card) => (
@@ -159,7 +162,7 @@ export function BlueprintToWonkaChat({
       </div>
       <div className="mt-8 flex flex-col items-center gap-3">
         <ButtonLink href={wonkaChatUrl} data-track="wonkachat_start">
-          Start with WonkaChat
+          {t(locale, "Start with WonkaChat")}
         </ButtonLink>
         <a
           href={meetingUrl}
@@ -168,7 +171,7 @@ export function BlueprintToWonkaChat({
           data-blueprint-cta="wonkachat_section_call"
           className="type-paragraph-m text-text/60 hover:text-text underline underline-offset-4"
         >
-          Or book a 30 min call
+          {t(locale, "Or book a 30 min call")}
         </a>
       </div>
     </Section>
@@ -190,13 +193,13 @@ const steps = [
   },
 ];
 
-export function BlueprintSteps() {
+export function BlueprintSteps({ locale }: { locale: Locale }) {
   return (
     <section className="bg-mid-gray border-border border-y border-dashed">
       <Section containerClassName="py-18 md:py-24">
         <SectionHeader
-          eyebrow={<Eyebrow>How it works</Eyebrow>}
-          heading={"From website to agent team\nin three steps."}
+          eyebrow={<Eyebrow>{t(locale, "How it works")}</Eyebrow>}
+          heading={t(locale, "From website to agent team\nin three steps.")}
         />
         <ol className="border-border mt-12 grid rounded-sm border border-dashed md:grid-cols-3">
           {steps.map((step, index) => (
@@ -212,9 +215,9 @@ export function BlueprintSteps() {
                 0{index + 1}
               </span>
               <div>
-                <h3 className={headingClass.card}>{step.title}</h3>
+                <h3 className={headingClass.card}>{t(locale, step.title)}</h3>
                 <p className="type-paragraph-m text-text/65 mt-3">
-                  {step.body}
+                  {t(locale, step.body)}
                 </p>
               </div>
             </li>
@@ -262,13 +265,13 @@ const BLUEPRINT_FAQ_ITEMS: FaqItem[] = [
  * Light trust strip. The page already has one blue panel (stats); a second
  * one right after it reads as a wall of blue, so security stays compact.
  */
-export function BlueprintTrust() {
+export function BlueprintTrust({ locale }: { locale: Locale }) {
   return (
     <Section>
       <div className="border-border flex flex-col gap-6 rounded-sm border border-dashed px-6 py-6 md:flex-row md:items-center md:justify-between md:px-8">
         <div>
           <h2 className={headingClass.subsection}>
-            Your data is always yours.
+            {t(locale, "Your data is always yours.")}
           </h2>
         </div>
         {/* The badge artwork is white; invert it for the light background. */}
@@ -288,18 +291,22 @@ export function BlueprintTrust() {
   );
 }
 
-export function BlueprintFaq() {
+export function BlueprintFaq({ locale }: { locale: Locale }) {
+  const items = BLUEPRINT_FAQ_ITEMS.map((item) => ({
+    question: t(locale, item.question),
+    answer: t(locale, item.answer),
+  }));
   return (
     <>
-      <FaqSchema items={BLUEPRINT_FAQ_ITEMS} />
+      <FaqSchema items={items} />
       <FaqSection
         data={{
           header: {
-            eyebrow: "FAQ",
-            heading: "Questions before you try it",
+            eyebrow: t(locale, "FAQ"),
+            heading: t(locale, "Questions before you try it"),
             body: null,
           },
-          items: BLUEPRINT_FAQ_ITEMS,
+          items,
         }}
       />
     </>

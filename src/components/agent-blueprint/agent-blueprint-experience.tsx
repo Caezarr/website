@@ -36,6 +36,9 @@ import {
   resolveConnectedTools,
 } from "@/lib/agent-blueprint-tools";
 import { cn } from "@/lib/utils";
+import type { Locale } from "@/i18n/config";
+import { getT } from "@/i18n/ui";
+import { blueprintText as t } from "@/lib/agent-blueprint-copy";
 import {
   buildWonkaChatSetup,
   formatWonkaChatSetup,
@@ -162,6 +165,7 @@ const idleTiers = [
 
 function FoundryPanel({
   mode,
+  locale,
   stageIndex,
   insights,
   agents,
@@ -169,6 +173,7 @@ function FoundryPanel({
   onSelect,
 }: {
   mode: FoundryMode;
+  locale: Locale;
   stageIndex: number;
   insights: StreamInsight[];
   agents: AgentBlueprintAgent[] | null;
@@ -224,14 +229,14 @@ function FoundryPanel({
       <div className="flex items-center justify-between gap-4 border-b border-dashed border-white/15 px-5 py-4 md:px-6">
         <div className="min-w-0">
           <span className="type-eyebrow text-white/45">
-            {mode === "result" ? "Blueprint ready" : "Agent foundry"}
+            {t(locale, mode === "result" ? "Blueprint ready" : "Agent foundry")}
           </span>
           <p className="type-paragraph-m-bold mt-1 text-white">
             {mode === "result"
-              ? "Your agent team is ready"
+              ? t(locale, "Your agent team is ready")
               : isLoading
-                ? stage.label
-                : "Your agent team will appear here"}
+                ? t(locale, stage.label)
+                : t(locale, "Your agent team will appear here")}
           </p>
         </div>
         {mode === "result" && totalHours ? (
@@ -239,7 +244,7 @@ function FoundryPanel({
             <p className="type-h6 text-blue-300 tabular-nums">
               {totalHours.min}–{totalHours.max}h
             </p>
-            <p className="type-paragraph-s text-white/45">saved / week</p>
+            <p className="type-paragraph-s text-white/45">{t(locale, "saved / week")}</p>
           </div>
         ) : (
           <span className="type-paragraph-s flex shrink-0 items-center gap-2 text-green-300">
@@ -252,7 +257,7 @@ function FoundryPanel({
               }
               transition={{ duration: 1.3, repeat: Infinity }}
             />
-            Private
+            {t(locale, "Private")}
           </span>
         )}
       </div>
@@ -285,7 +290,7 @@ function FoundryPanel({
                 )}
               >
                 {isLoading && index < stageIndex ? "✓ " : ""}
-                {["Website", "Operations", "Benchmark", "Agents"][index]}
+                {t(locale, ["Website", "Operations", "Benchmark", "Agents"][index] ?? "Agents")}
               </li>
             ))}
           </ol>
@@ -294,7 +299,7 @@ function FoundryPanel({
         {isLoading ? (
           <div>
             <div className="mt-5 min-h-[15.5rem] rounded-sm border border-white/12 bg-white/[0.03] p-4">
-              <p className="type-eyebrow text-white/40">What we are finding</p>
+              <p className="type-eyebrow text-white/40">{t(locale, "What we are finding")}</p>
               <ul className="mt-3 grid gap-2.5">
                 {insights.slice(-7).map((insight) => (
                   <motion.li
@@ -310,7 +315,7 @@ function FoundryPanel({
                         insightStyles[insight.kind ?? "pages"].className,
                       )}
                     >
-                      {insightStyles[insight.kind ?? "pages"].label}
+                      {t(locale, insightStyles[insight.kind ?? "pages"].label)}
                     </span>
                     <span className="type-paragraph-s min-w-0 truncate text-white/85">
                       {insight.text}
@@ -328,7 +333,7 @@ function FoundryPanel({
                   >
                     ●
                   </motion.span>
-                  {stage.detail}…
+                  {t(locale, stage.detail)}…
                 </li>
               </ul>
             </div>
@@ -365,7 +370,7 @@ function FoundryPanel({
                           : "type-paragraph-m-bold text-white/85",
                       )}
                     >
-                      {tier}
+                      {t(locale, tier)}
                     </p>
                     <p
                       className={cn(
@@ -375,12 +380,12 @@ function FoundryPanel({
                           : "type-paragraph-s text-white/55",
                       )}
                     >
-                      {detail}
+                      {t(locale, detail)}
                     </p>
                   </div>
                   <span className="type-paragraph-s relative text-right text-white/55">
                     {agent
-                      ? `${agent.weeklyHoursSaved.min}–${agent.weeklyHoursSaved.max}h/w`
+                      ? `${agent.weeklyHoursSaved.min}–${agent.weeklyHoursSaved.max}${locale === "nl" ? " u/week" : locale === "fr" ? " h/sem" : "h/w"}`
                       : `0${index + 1}`}
                   </span>
                 </>
@@ -422,22 +427,22 @@ function FoundryPanel({
           {mode === "result" ? (
             <>
               <p className="type-paragraph-s text-white/50">
-                Tap an agent for its workflow and integrations
+                {t(locale, "Tap an agent for its workflow and integrations")}
               </p>
               <button
                 type="button"
                 onClick={() => onSelect(selectedIndex)}
                 className="type-paragraph-s shrink-0 text-blue-300 underline-offset-4 hover:underline"
               >
-                Full blueprint <span aria-hidden>↓</span>
+                {t(locale, "Full blueprint")} <span aria-hidden>↓</span>
               </button>
             </>
           ) : (
             <>
               <p className="type-paragraph-s text-white/50">
                 {isLoading
-                  ? "Built from your own website, not a template"
-                  : "Built from your own pages, not a template"}
+                  ? t(locale, "Built from your own website, not a template")
+                  : t(locale, "Built from your own pages, not a template")}
               </p>
               <p className="type-paragraph-s shrink-0 text-white/65">
                 {isLoading ? `${progress}%` : "≈ 1 min"}
@@ -499,7 +504,7 @@ async function copyText(text: string): Promise<boolean> {
   }
 }
 
-function CopyInstructionsButton({ agent }: { agent: AgentBlueprintAgent }) {
+function CopyInstructionsButton({ agent, locale }: { agent: AgentBlueprintAgent; locale: Locale }) {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
@@ -514,10 +519,10 @@ function CopyInstructionsButton({ agent }: { agent: AgentBlueprintAgent }) {
       data-track="blueprint_copy_instructions"
       onClick={async () => {
         setCopied(
-          await copyText(formatWonkaChatSetup(buildWonkaChatSetup(agent))),
+          await copyText(formatWonkaChatSetup(buildWonkaChatSetup(agent, locale), locale)),
         );
       }}
-      title={`Copy the setup (model ${WONKACHAT_MODEL}, connectors, scheduling, instructions) and paste it into WonkaChat's "Create new agent"`}
+      title={locale === "fr" ? `Copier la configuration (modèle ${WONKACHAT_MODEL}, connecteurs, planification, instructions) dans « Créer un agent » sur WonkaChat` : locale === "nl" ? `Kopieer de configuratie (model ${WONKACHAT_MODEL}, koppelingen, planning, instructies) naar ‘Nieuwe agent maken’ in WonkaChat` : `Copy the setup (model ${WONKACHAT_MODEL}, connectors, scheduling, instructions) and paste it into WonkaChat's "Create new agent"`}
       className="border-border text-text/60 hover:text-text hover:border-text/30 type-paragraph-s inline-flex items-center gap-1.5 rounded-full border bg-white px-2.5 py-1 transition-colors focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:outline-none"
     >
       {copied ? (
@@ -538,7 +543,7 @@ function CopyInstructionsButton({ agent }: { agent: AgentBlueprintAgent }) {
         </svg>
       )}
       <span aria-live="polite">
-        {copied ? "Copied, paste it in WonkaChat" : "Copy WonkaChat setup"}
+        {t(locale, copied ? "Copied, paste it in WonkaChat" : "Copy WonkaChat setup")}
       </span>
     </button>
   );
@@ -550,10 +555,10 @@ const effortLevels: Record<AgentBlueprintAgent["effort"], number> = {
   High: 3,
 };
 
-function EffortMeter({ effort }: { effort: AgentBlueprintAgent["effort"] }) {
+function EffortMeter({ effort, locale }: { effort: AgentBlueprintAgent["effort"]; locale: Locale }) {
   const level = effortLevels[effort];
   return (
-    <span className="flex items-center gap-2" title={`${effort} build effort`}>
+    <span className="flex items-center gap-2" title={t(locale, `${effort} effort`)}>
       <span className="flex items-end gap-0.5" aria-hidden>
         {[1, 2, 3].map((bar) => (
           <span
@@ -566,7 +571,7 @@ function EffortMeter({ effort }: { effort: AgentBlueprintAgent["effort"] }) {
           />
         ))}
       </span>
-      <span className="type-paragraph-s text-text/55">{effort} effort</span>
+      <span className="type-paragraph-s text-text/55">{t(locale, `${effort} effort`)}</span>
     </span>
   );
 }
@@ -613,11 +618,13 @@ function AgentDetailPanel({
   agent,
   index,
   meetingUrl,
+  locale,
   onBook,
 }: {
   agent: AgentBlueprintAgent;
   index: number;
   meetingUrl: string;
+  locale: Locale;
   onBook: () => void;
 }) {
   const reducedMotion = useReducedMotion();
@@ -645,7 +652,7 @@ function AgentDetailPanel({
                   tierStyles[agent.tier],
                 )}
               >
-                {agent.tier}
+                {t(locale, agent.tier)}
               </span>
               <span className="type-eyebrow text-text/40">
                 Agent 0{index + 1} · {agent.process}
@@ -653,7 +660,7 @@ function AgentDetailPanel({
             </div>
             <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
               <h3 className="type-h5">{agent.name}</h3>
-              <CopyInstructionsButton agent={agent} />
+              <CopyInstructionsButton agent={agent} locale={locale} />
             </div>
             <p className="type-paragraph-m text-text/60 mt-1.5 max-w-2xl">
               {agent.mission}
@@ -666,26 +673,26 @@ function AgentDetailPanel({
               {agent.weeklyHoursSaved.min}–{agent.weeklyHoursSaved.max}h
             </span>
             <span className="type-paragraph-s text-text/45 block">
-              saved every week
+              {t(locale, "saved every week")}
             </span>
           </p>
-          <EffortMeter effort={agent.effort} />
+          <EffortMeter effort={agent.effort} locale={locale} />
         </div>
       </div>
 
       <div className="border-border border-b border-dashed p-5 md:p-6">
-        <p className="type-eyebrow text-text/35">How it runs</p>
+        <p className="type-eyebrow text-text/35">{t(locale, "How it runs")}</p>
         <ol className="mt-4 flex flex-col md:flex-row">
           {[
-            { label: "Trigger", text: agent.trigger, tone: "trigger" as const },
+            { label: t(locale, "Trigger"), text: agent.trigger, tone: "trigger" as const },
             ...agent.workflow.map((step, stepIndex) => ({
-              label: `Step ${stepIndex + 1}`,
+              label: locale === "fr" ? `Étape ${stepIndex + 1}` : locale === "nl" ? `Stap ${stepIndex + 1}` : `Step ${stepIndex + 1}`,
               text: step,
               tone: "step" as const,
               index: stepIndex + 1,
             })),
             {
-              label: "Human check",
+              label: t(locale, "Human check"),
               text: agent.humanControl,
               tone: "human" as const,
             },
@@ -697,14 +704,14 @@ function AgentDetailPanel({
 
       <div className="grid md:grid-cols-3">
         <div className="p-5 md:p-6">
-          <p className="type-eyebrow text-blue-700">What we saw</p>
+          <p className="type-eyebrow text-blue-700">{t(locale, "What we saw")}</p>
           <p className="type-paragraph-m text-text/75 mt-2">
             {agent.companySignal}
           </p>
           <p className="type-paragraph-s text-text/45 mt-2">{agent.whyNow}</p>
         </div>
         <div className="border-border border-t border-dashed p-5 md:border-t-0 md:border-l md:p-6">
-          <p className="type-eyebrow text-text/35">Plugs into</p>
+          <p className="type-eyebrow text-text/35">{t(locale, "Plugs into")}</p>
           <ul className="mt-3 flex flex-wrap gap-2">
             {tools.map((tool) => (
               <li
@@ -721,7 +728,7 @@ function AgentDetailPanel({
         </div>
         <div className="border-border flex flex-col justify-between gap-4 border-t border-dashed p-5 md:border-t-0 md:border-l md:p-6">
           <div>
-            <p className="type-eyebrow text-text/35">Outcome</p>
+            <p className="type-eyebrow text-text/35">{t(locale, "Outcome")}</p>
             <p className="type-paragraph-m-bold mt-2">{agent.expectedImpact}</p>
           </div>
           <ButtonLink
@@ -733,7 +740,7 @@ function AgentDetailPanel({
             variant="secondary"
             className="self-start"
           >
-            Scope this agent
+            {t(locale, "Scope this agent")}
           </ButtonLink>
         </div>
       </div>
@@ -743,6 +750,7 @@ function AgentDetailPanel({
 
 function BlueprintResults({
   response,
+  locale,
   meetingUrl,
   wonkaChatUrl,
   onReset,
@@ -750,6 +758,7 @@ function BlueprintResults({
   onSelectAgent,
 }: {
   response: BlueprintApiResponse;
+  locale: Locale;
   meetingUrl: string;
   wonkaChatUrl: string;
   onReset: () => void;
@@ -789,15 +798,15 @@ function BlueprintResults({
   const impactTiles = [
     {
       value: `${weeklySavings.min}–${weeklySavings.max}h`,
-      label: "returned to the team every week",
+      label: t(locale, "returned to the team every week"),
     },
     {
       value: `${hoursPerWeekToDaysPerMonth(weeklySavings.min)}–${hoursPerWeekToDaysPerMonth(weeklySavings.max)}`,
-      label: "working days freed up every month",
+      label: t(locale, "working days freed up every month"),
     },
     {
       value: String(response.result.agents.length),
-      label: "agents, from copilot to autonomous",
+      label: t(locale, "agents, from copilot to autonomous"),
     },
   ];
 
@@ -809,7 +818,7 @@ function BlueprintResults({
       <div className="mx-auto max-w-[84rem] px-6 py-10 md:px-8 md:py-14 lg:px-12">
         <div className="border-border border-b border-dashed pb-8">
           <span className="type-eyebrow text-blue-700">
-            Your blueprint is ready
+            {t(locale, "Your blueprint is ready")}
           </span>
           <h2 className={cn(headingClass.section, "mt-3 max-w-5xl")}>
             {response.result.headline}
@@ -820,7 +829,7 @@ function BlueprintResults({
           {response.result.signals.length ? (
             <div className="mt-6">
               <p className="type-eyebrow text-text/40">
-                What shaped your blueprint
+                {t(locale, "What shaped your blueprint")}
               </p>
               <ul className="mt-3 flex flex-wrap gap-2">
                 {response.result.signals.map((signal) => (
@@ -859,21 +868,21 @@ function BlueprintResults({
           <div className="flex items-end justify-between gap-4">
             <div>
               <p className="type-paragraph-m-bold">
-                Choose an agent to explore
+                {t(locale, "Choose an agent to explore")}
               </p>
               <p className="type-paragraph-s text-text/45 mt-1">
-                Compare the workflow, integrations and weekly time saved.
+                {t(locale, "Compare the workflow, integrations and weekly time saved.")}
               </p>
             </div>
             <p className="type-paragraph-s text-text/35 hidden sm:block">
-              {selectedAgentIndex + 1} of {response.result.agents.length}
+              {locale === "fr" ? `${selectedAgentIndex + 1} sur ${response.result.agents.length}` : locale === "nl" ? `${selectedAgentIndex + 1} van ${response.result.agents.length}` : `${selectedAgentIndex + 1} of ${response.result.agents.length}`}
             </p>
           </div>
 
           <div
             className="border-border bg-border mt-3 flex snap-x gap-px overflow-x-auto rounded-sm border sm:grid sm:grid-cols-3 sm:overflow-visible"
             role="tablist"
-            aria-label="Recommended agents"
+              aria-label={locale === "fr" ? "Agents recommandés" : locale === "nl" ? "Aanbevolen agents" : "Recommended agents"}
           >
             {response.result.agents.map((agent, index) => {
               const isSelected = selectedAgentIndex === index;
@@ -899,11 +908,10 @@ function BlueprintResults({
                       )}
                     >
                       Agent 0{index + 1}
-                      {index === 0 ? " · Start here" : ""}
+                      {index === 0 ? ` · ${t(locale, "Start here")}` : ""}
                     </span>
                     <span className="type-paragraph-s">
-                      {agent.weeklyHoursSaved.min}–{agent.weeklyHoursSaved.max}
-                      h/w
+                      {agent.weeklyHoursSaved.min}–{agent.weeklyHoursSaved.max}{locale === "nl" ? " u/week" : locale === "fr" ? " h/sem" : "h/w"}
                     </span>
                   </div>
                   <p className="type-paragraph-m-bold mt-3 min-h-10">
@@ -915,7 +923,7 @@ function BlueprintResults({
                       isSelected ? "text-white/50" : "text-text/45",
                     )}
                   >
-                    {agent.tier}
+                    {t(locale, agent.tier)}
                   </p>
                   <div
                     aria-hidden
@@ -942,7 +950,7 @@ function BlueprintResults({
                         : "border-border text-text/55",
                     )}
                   >
-                    <span>{isSelected ? "Viewing now" : "View details"}</span>
+                    <span>{t(locale, isSelected ? "Viewing now" : "View details")}</span>
                     <span aria-hidden>{isSelected ? "●" : "→"}</span>
                   </div>
                 </button>
@@ -958,6 +966,7 @@ function BlueprintResults({
                   agent={selectedAgent}
                   index={selectedAgentIndex}
                   meetingUrl={meetingUrl}
+                  locale={locale}
                   onBook={trackDemoClick}
                 />
               ) : null}
@@ -978,17 +987,21 @@ function BlueprintResults({
           />
           <div className="grid gap-8 p-6 md:p-10 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
             <div>
-              <span className="type-eyebrow text-blue-300">Next step</span>
+              <span className="type-eyebrow text-blue-300">{t(locale, "Next step")}</span>
               <h3 className={cn(headingClass.subsection, "mt-3 max-w-[24ch]")}>
                 {firstAgent
-                  ? `Build “${firstAgent.name}” first and get ${firstAgent.weeklyHoursSaved.min}–${firstAgent.weeklyHoursSaved.max}h back every week.`
-                  : "Turn this blueprint into your first live agent."}
+                  ? locale === "fr"
+                    ? `Commencez par « ${firstAgent.name} » pour récupérer ${firstAgent.weeklyHoursSaved.min} à ${firstAgent.weeklyHoursSaved.max} h par semaine.`
+                    : locale === "nl"
+                      ? `Bouw eerst “${firstAgent.name}” en win elke week ${firstAgent.weeklyHoursSaved.min} tot ${firstAgent.weeklyHoursSaved.max} uur terug.`
+                      : `Build “${firstAgent.name}” first and get ${firstAgent.weeklyHoursSaved.min}–${firstAgent.weeklyHoursSaved.max}h back every week.`
+                  : t(locale, "Turn this blueprint into your first live agent.")}
               </h3>
               <ul className="mt-6 grid gap-2.5">
                 {[
-                  "30-minute call with a Wonka AI engineer",
-                  "Validate volumes, integrations and ROI",
-                  "Leave with a scoped delivery plan",
+                  t(locale, "30-minute call with a Wonka AI engineer"),
+                  t(locale, "Validate volumes, integrations and ROI"),
+                  t(locale, "Leave with a scoped delivery plan"),
                 ].map((item) => (
                   <li
                     key={item}
@@ -1008,7 +1021,7 @@ function BlueprintResults({
                 data-track="wonkachat_start"
                 data-blueprint-cta="results_panel"
               >
-                Use my agents now
+                {t(locale, "Use my agents now")}
               </ButtonLink>
               <Link
                 href={meetingUrl}
@@ -1018,10 +1031,10 @@ function BlueprintResults({
                 data-blueprint-cta="results_panel_call"
                 className="type-paragraph-m text-text/80 hover:text-text underline underline-offset-4"
               >
-                Book a 30 min call
+                {t(locale, "Book a 30 min call")}
               </Link>
               <p className="type-paragraph-s text-text/50 lg:text-right">
-                Backed by Nvidia Inception and Microsoft for Startups.
+                {t(locale, "Backed by Nvidia Inception and Microsoft for Startups.")}
               </p>
             </div>
           </div>
@@ -1029,15 +1042,14 @@ function BlueprintResults({
 
         <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
           <p className="type-paragraph-s text-text/40 max-w-3xl">
-            Time savings are directional estimates based on recurring tasks in
-            the benchmark. Validate them against real volumes before investment.
+            {t(locale, "Time savings are directional estimates based on recurring tasks in the benchmark. Validate them against real volumes before investment.")}
           </p>
           <button
             type="button"
             onClick={onReset}
             className="type-paragraph-s text-text/60 hover:text-text underline underline-offset-4"
           >
-            Try another company
+            {t(locale, "Try another company")}
           </button>
         </div>
       </div>
@@ -1047,6 +1059,7 @@ function BlueprintResults({
 
 function StickyBar({
   state,
+  locale,
   weeklySavings,
   meetingUrl,
   wonkaChatUrl,
@@ -1054,6 +1067,7 @@ function StickyBar({
   formInView,
 }: {
   state: ExperienceState;
+  locale: Locale;
   weeklySavings: { min: number; max: number } | null;
   meetingUrl: string;
   wonkaChatUrl: string;
@@ -1079,21 +1093,20 @@ function StickyBar({
             {hasResult ? (
               <>
                 <span className="text-text font-medium">
-                  {weeklySavings.min}–{weeklySavings.max}h/week
+                  {weeklySavings.min}–{weeklySavings.max}{locale === "nl" ? " u/week" : locale === "fr" ? " h/sem" : "h/week"}
                 </span>
                 <span className="hidden sm:inline">
                   {" "}
-                  identified for your team
+                  {t(locale, "identified for your team")}
                 </span>
               </>
             ) : (
               <>
                 <span className="text-text font-medium">
-                  Free AI agent blueprint
+                  {t(locale, "Free AI agent blueprint")}
                 </span>
                 <span className="hidden sm:inline">
-                  {" "}
-                  · ready in about a minute
+                  {t(locale, " · ready in about a minute")}
                 </span>
               </>
             )}
@@ -1108,14 +1121,14 @@ function StickyBar({
                 data-blueprint-cta="sticky_bar_call"
                 className="type-paragraph-s text-text/70 hover:text-text hidden underline underline-offset-4 sm:inline"
               >
-                Book a 30 min call
+                {t(locale, "Book a 30 min call")}
               </Link>
               <ButtonLink
                 href={wonkaChatUrl}
                 data-track="wonkachat_start"
                 data-blueprint-cta="sticky_bar"
               >
-                Use my agents
+                {t(locale, "Use my agents")}
               </ButtonLink>
             </div>
           ) : (
@@ -1125,7 +1138,7 @@ function StickyBar({
               data-track="blueprint_scroll_to_form"
               className="shrink-0"
             >
-              Get mine
+              {t(locale, "Get mine")}
             </Button>
           )}
         </motion.div>
@@ -1137,10 +1150,14 @@ function StickyBar({
 export function AgentBlueprintExperience({
   meetingUrl,
   wonkaChatUrl,
+  locale,
+  awardBadge,
   children,
 }: {
   meetingUrl: string;
   wonkaChatUrl: string;
+  locale: Locale;
+  awardBadge?: string;
   children?: React.ReactNode;
 }) {
   const formId = useId();
@@ -1248,7 +1265,7 @@ export function AgentBlueprintExperience({
     setError(null);
 
     if (turnstileEnabled && !turnstileToken) {
-      setError("Please complete the verification check.");
+      setError(t(locale, "Please complete the verification check."));
       setState("error");
       return;
     }
@@ -1276,7 +1293,7 @@ export function AgentBlueprintExperience({
     const fail = (message?: string) => {
       setError(
         message ??
-          "We could not build the blueprint right now. Please try again.",
+          t(locale, "We could not build the blueprint right now. Please try again."),
       );
       setState("error");
       if (turnstileEnabled) resetTurnstile();
@@ -1289,6 +1306,7 @@ export function AgentBlueprintExperience({
         body: JSON.stringify({
           target,
           anonymous,
+          locale,
           website,
           ...(turnstileToken ? { turnstileToken } : {}),
         }),
@@ -1366,6 +1384,7 @@ export function AgentBlueprintExperience({
     <>
       <section
         data-theme="dark"
+        lang={locale}
         className="bg-background text-text relative isolate flex min-h-svh flex-col overflow-hidden"
       >
         <div aria-hidden className="absolute inset-0 -z-10">
@@ -1382,25 +1401,21 @@ export function AgentBlueprintExperience({
 
         <div className="mx-auto grid w-full max-w-[84rem] flex-1 gap-10 px-6 pt-24 pb-12 md:px-8 md:pt-36 md:pb-20 lg:grid-cols-[1fr_0.95fr] lg:items-center lg:gap-14 lg:px-12">
           <div className="flex flex-col items-start">
-            <AwardBadge />
+            <AwardBadge label={awardBadge ?? "#1 AI START-UP OF THE YEAR - BELGIUM STARTUP AWARDS 2026"} />
             <h1
               className={cn(
                 headingClass.hero,
                 "mt-5 max-w-[16ch] text-balance md:mt-7",
               )}
             >
-              See the 3 AI agents your company should build first.
+              {t(locale, "See the 3 AI agents your company should build first.")}
             </h1>
             <p className="type-body text-text/80 mt-4 max-w-xl md:mt-6">
               <span className="sm:hidden">
-                Enter your website. We map how your company works and design
-                three agents around your own processes.
+                {t(locale, "Enter your website. We map how your company works and design three agents around your own processes.")}
               </span>
               <span className="hidden sm:inline">
-                Enter your website. We read your pages, map how your company
-                actually works, match it against 570 real enterprise AI projects
-                and design three agents built around your own processes, with
-                the hours each one gives back every week.
+                {t(locale, "Enter your website. We read your pages, map how your company actually works, match it against 570 real enterprise AI projects and design three agents built around your own processes, with the hours each one gives back every week.")}
               </span>
             </p>
 
@@ -1410,7 +1425,7 @@ export function AgentBlueprintExperience({
               className="mt-7 w-full max-w-xl md:mt-9"
             >
               <label htmlFor={BLUEPRINT_INPUT_ID} className="sr-only">
-                Company website
+                {t(locale, "Company website")}
               </label>
               <div className="flex flex-col gap-2 rounded-sm border border-white/20 bg-black/35 p-2 backdrop-blur-md focus-within:border-blue-300/70 sm:flex-row sm:items-center">
                 <div className="flex min-w-0 flex-1 items-center gap-1 px-3">
@@ -1442,7 +1457,7 @@ export function AgentBlueprintExperience({
                   disabled={isLoading}
                   className="h-[3.25rem] shrink-0"
                 >
-                  {isLoading ? "Building agents…" : "Build my agent team"}
+                  {t(locale, isLoading ? "Building agents…" : "Build my agent team")}
                 </Button>
               </div>
 
@@ -1452,7 +1467,7 @@ export function AgentBlueprintExperience({
                     <span aria-hidden className="text-green-300">
                       ✓
                     </span>
-                    {item}
+                    {t(locale, item)}
                   </li>
                 ))}
               </ul>
@@ -1471,7 +1486,7 @@ export function AgentBlueprintExperience({
                 onToken={setTurnstileToken}
                 onExpire={() => setTurnstileToken(null)}
                 onError={() => {
-                  setError("Verification failed. Please try again.");
+                  setError(t(locale, "Verification failed. Please try again."));
                   setState("error");
                 }}
               />
@@ -1495,17 +1510,16 @@ export function AgentBlueprintExperience({
                 </p>
               ) : null}
               <p className="type-paragraph-s text-text/45 mt-3">
-                No company or client name appears in the blueprint. Public web
-                research only. By continuing, you agree to our{" "}
+                {t(locale, "No company or client name appears in the blueprint. Public web research only. By continuing, you agree to our ")}{" "}
                 <Link href="/privacy" className="underline underline-offset-4">
-                  privacy policy
+                  {t(locale, "privacy policy")}
                 </Link>
                 .
               </p>
             </form>
 
             <div className="mt-8">
-              <BackedBy />
+              <BackedBy t={getT(locale)} />
             </div>
           </div>
 
@@ -1532,6 +1546,7 @@ export function AgentBlueprintExperience({
                       ? "result"
                       : "idle"
                 }
+                locale={locale}
                 stageIndex={stageIndex}
                 insights={insights}
                 agents={response?.result.agents ?? null}
@@ -1542,12 +1557,16 @@ export function AgentBlueprintExperience({
           </AnimatePresence>
         </div>
 
-        <HeroMarquee />
+        <HeroMarquee
+          messages={getT(locale).raw("home.hero.marquee") as string[]}
+          ariaLabel={t(locale, "Customer proof")}
+        />
       </section>
 
       {state === "result" && response ? (
         <BlueprintResults
           response={response}
+          locale={locale}
           meetingUrl={meetingUrl}
           wonkaChatUrl={wonkaChatUrl}
           onReset={resetExperience}
@@ -1571,11 +1590,10 @@ export function AgentBlueprintExperience({
         />
         <div className="mx-auto flex max-w-[84rem] flex-col items-center px-6 py-16 text-center md:px-12 md:py-24">
           <h2 className={cn(headingClass.section, "max-w-[22ch] text-balance")}>
-            Your team is too good for repetitive work.
+            {t(locale, "Your team is too good for repetitive work.")}
           </h2>
           <p className="type-body text-text/80 mt-5 max-w-[35rem]">
-            Find out which three agents would take it off their plate. Free,
-            ready in about a minute.
+            {t(locale, "Find out which three agents would take it off their plate. Free, ready in about a minute.")}
           </p>
           <form
             ref={footerFormRef}
@@ -1583,7 +1601,7 @@ export function AgentBlueprintExperience({
             className="mt-8 flex w-full max-w-xl flex-col gap-2 rounded-sm border border-white/20 bg-black/35 p-2 text-left backdrop-blur-md focus-within:border-blue-300/70 sm:flex-row sm:items-center"
           >
             <label htmlFor={`${formId}-footer`} className="sr-only">
-              Company website
+              {t(locale, "Company website")}
             </label>
             <input
               id={`${formId}-footer`}
@@ -1606,11 +1624,11 @@ export function AgentBlueprintExperience({
               disabled={isLoading}
               className="h-[3.25rem] shrink-0"
             >
-              Build my agent team
+              {t(locale, "Build my agent team")}
             </Button>
           </form>
           <p className="type-paragraph-s text-text/55 mt-5">
-            Prefer to talk first?{" "}
+            {t(locale, "Prefer to talk first? ")}
             <Link
               href={meetingUrl}
               data-track="meeting"
@@ -1618,7 +1636,7 @@ export function AgentBlueprintExperience({
               data-blueprint-cta="footer_link"
               className="text-text underline underline-offset-4"
             >
-              Book a 30 min call
+              {t(locale, "Book a 30 min call")}
             </Link>
           </p>
         </div>
@@ -1626,6 +1644,7 @@ export function AgentBlueprintExperience({
 
       <StickyBar
         state={state}
+        locale={locale}
         weeklySavings={weeklySavings}
         meetingUrl={meetingUrl}
         wonkaChatUrl={wonkaChatUrl}
