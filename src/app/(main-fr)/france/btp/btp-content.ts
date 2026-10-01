@@ -195,7 +195,7 @@ export const btpFaqs = [
   ],
   [
     "Avec quels outils Wonka se connecte-t-il ?",
-    "Des centaines de connecteurs sont disponibles : messagerie, stockage de documents, tableurs, CRM, gestion de projet, ERP. Vos équipes gardent leurs outils. Si un connecteur manque, nous l’ajoutons ou cadrons l’intégration avec vous.",
+    "Plus de cent connecteurs sont disponibles : messagerie, stockage de documents, tableurs, CRM, gestion de projet, ERP. Les connecteurs vers les logiciels BTP (Obat, Sage, ProGBat, Constructor, Graneet) sont en cours d’ajout. Si un connecteur manque, nous l’ajoutons ou cadrons l’intégration avec vous.",
   ],
   [
     "Où sont hébergées nos données ?",

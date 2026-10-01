@@ -25,6 +25,12 @@ export const metadata: Metadata = {
 const contactHref =
   "/france/diagnostic?secteur=btp&utm_source=btp&utm_campaign=construction";
 
+const btpUpcoming = [
+  ...btpIntegrations.filter((tool) => tool.wordmark),
+  { name: "Constructor" },
+  { name: "Graneet" },
+];
+
 const teamPhotos = [
   { src: "/images/france/team/chantier-terrain.jpg", alt: "Gabriel sur un chantier de gros œuvre" },
   { src: "/images/france/team/wonka-picture-day.jpg", alt: "Gabriel, équipe Wonka France" },
@@ -34,7 +40,7 @@ const teamPhotos = [
 function ToolTrack({ duplicate = false }: { duplicate?: boolean }) {
   return (
     <ul className={styles.toolTrack} aria-hidden={duplicate || undefined}>
-      {btpIntegrations.map((tool) => (
+      {btpIntegrations.filter((tool) => !tool.wordmark).map((tool) => (
         <li className={styles.toolMark} key={tool.name}>
           {tool.src ? (
             <Image
@@ -373,7 +379,7 @@ export default function BtpLandingPage() {
             Wonka s’intègre à votre environnement de travail.
           </h2>
           <p>
-            Des centaines de connecteurs pour vos mails, documents, tableurs et
+            Plus de cent connecteurs pour vos mails, documents, tableurs et
             logiciels métier. Vos équipes gardent leurs outils ; s’il en manque
             un, nous l’ajoutons ou cadrons l’intégration avec vous.
           </p>
@@ -383,6 +389,20 @@ export default function BtpLandingPage() {
             <ToolTrack />
             <ToolTrack duplicate />
           </div>
+        </div>
+        <div className={styles.toolSoon}>
+          <span>Logiciels BTP en cours d’ajout</span>
+          <ul>
+            {btpUpcoming.map((tool) => (
+              <li key={tool.name}>
+                {tool.src ? (
+                  <Image src={tool.src} alt={tool.name} width={100} height={36} />
+                ) : (
+                  tool.name
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
