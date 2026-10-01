@@ -38,11 +38,20 @@ export const metadata: Metadata = {
     url: `${getSiteUrl()}${pagePath}`,
     type: "website",
     siteName: "Wonka AI",
+    images: [
+      {
+        url: "/opengraph-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Wonka AI",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title,
     description,
+    images: ["/opengraph-image.jpg"],
   },
 };
 
