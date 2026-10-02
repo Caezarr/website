@@ -19,6 +19,18 @@ export function BtpVideo({ slug, title, priority = false }: BtpVideoProps) {
   const [source, setSource] = useState<string | null>(null);
   const [ready, setReady] = useState(false);
   const [paused, setPaused] = useState(false);
+  const [muted, setMuted] = useState(true);
+
+  useEffect(() => {
+    const onSound = (event: Event) => {
+      if ((event as CustomEvent<string>).detail === slug) return;
+      const video = videoRef.current;
+      if (video) video.muted = true;
+      setMuted(true);
+    };
+    window.addEventListener("btp-video-sound", onSound);
+    return () => window.removeEventListener("btp-video-sound", onSound);
+  }, [slug]);
 
   useEffect(() => {
     const frame = frameRef.current;
@@ -59,6 +71,22 @@ export function BtpVideo({ slug, title, priority = false }: BtpVideoProps) {
     }
   }
 
+  function toggleSound() {
+    const video = videoRef.current;
+    if (!video) return;
+    if (muted) {
+      window.dispatchEvent(new CustomEvent("btp-video-sound", { detail: slug }));
+      video.muted = false;
+      video.currentTime = 0;
+      video.play().catch(() => undefined);
+      setPaused(false);
+      setMuted(false);
+    } else {
+      video.muted = true;
+      setMuted(true);
+    }
+  }
+
   const playing = ready && !paused;
 
   return (
@@ -85,6 +113,24 @@ export function BtpVideo({ slug, title, priority = false }: BtpVideoProps) {
           className={styles.videoMedia}
           data-ready={ready || undefined}
         />
+      ) : null}
+      {ready ? (
+        <button
+          type="button"
+          className={styles.videoSound}
+          onClick={toggleSound}
+          aria-pressed={!muted}
+        >
+          <svg aria-hidden="true" viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M2.5 6h2.5l3.5-3v10l-3.5-3H2.5z" fill="currentColor" />
+            {muted ? (
+              <path d="M11 6l3.5 4M14.5 6L11 10" />
+            ) : (
+              <path d="M11 5.5a3.5 3.5 0 0 1 0 5M12.75 3.5a6 6 0 0 1 0 9" />
+            )}
+          </svg>
+          {muted ? "Activer le son" : "Couper le son"}
+        </button>
       ) : null}
       <button
         type="button"
