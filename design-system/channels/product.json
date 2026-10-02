@@ -23,7 +23,10 @@
     "asset.logo.wordmark",
     "asset.logo.mark",
     "asset.font.inter-display",
-    "asset.font.gt-sectra"
+    "asset.font.gt-sectra",
+    "asset.logo.full",
+    "asset.logo.lockup",
+    "asset.logo.wordmark-ai"
   ],
   "constraints": [
     {

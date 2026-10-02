@@ -1,6 +1,6 @@
 {
   "name": "@wonka/design-system-docs",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "scripts": {
     "build": "bun run --cwd ../.. storybook:build -- --output-dir apps/design-system-docs/dist"

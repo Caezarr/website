@@ -51,6 +51,12 @@ bun run test:storybook
 The Storybook deploys as the isolated `apps/design-system-docs` Vercel project.
 Its static build settings must not be applied to the main Next.js project.
 
+## Brand pack
+
+The Wonka brand pack (logos, palette, backgrounds, logo treatments, watermarks, caption styles, and motion) is published under `public/brand/` and catalogued in `assets.json`. The Storybook page `Assets/Brand pack` renders it from the catalog.
+
+Files are web-optimized: paintings and logo treatments are WebP, transparent `.mov` animations (ProRes 4444) are VP9 WebM with alpha, and MP4 loops are re-encoded H.264. Full-resolution editing masters stay outside git, in the brand pack source folder.
+
 ## Token model
 
 Tokens use four layers:

@@ -22,7 +22,25 @@
     "asset.logo.wordmark",
     "asset.logo.mark",
     "asset.font.inter-display",
-    "asset.font.gt-sectra"
+    "asset.font.gt-sectra",
+    "asset.logo.full",
+    "asset.logo.lockup",
+    "asset.logo.wordmark-ai",
+    "asset.image.color-palette",
+    "asset.image.color-plate",
+    "asset.image.watermark",
+    "asset.image.background",
+    "asset.image.avatar",
+    "asset.image.logo-card",
+    "asset.image.window-icon",
+    "asset.image.window-wordmark",
+    "asset.image.glass-icon",
+    "asset.image.caption-styles",
+    "asset.video.logo-reveal",
+    "asset.video.icon-loop",
+    "asset.video.bar-wipe",
+    "asset.video.end-card",
+    "asset.video.painted-loop"
   ],
   "constraints": [
     {
