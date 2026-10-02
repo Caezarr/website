@@ -120,7 +120,7 @@ export default async function BtpLandingPage() {
           </div>
           <div className={styles.videoWrap} id="demonstration">
             <BtpVideo
-              slug="btp-01-cctp-v2"
+              slug="btp-01-cctp-v3"
               title="Un agent Wonka Chat analyse un CCTP, signale les points à vérifier et attend votre validation."
               priority
             />
@@ -282,14 +282,14 @@ export default async function BtpLandingPage() {
           </p>
         </div>
         <BtpVideo
-          slug="btp-02-journee-v2"
+          slug="btp-02-journee-v3"
           title="Après une visite de chantier, Wonka Chat prépare la réponse au devis, les points à confirmer et le compte rendu à relire."
         />
       </section>
 
       <section className={styles.section + " " + styles.controlSection}>
         <BtpVideo
-          slug="btp-03-action-v2"
+          slug="btp-03-action-v3"
           title="Des notes, un planning et un compte rendu deviennent des actions classées par lot, validées par le conducteur de travaux."
         />
         <div className={styles.sectionCopy}>
@@ -600,9 +600,9 @@ export default async function BtpLandingPage() {
         <div>
           <p>Wonka Chat pour la construction</p>
           <h2 className="type-h3">
-            Par des gens de la construction,
+            Plus de 10 ans de chantier.
             <br />
-            pour les gens de la construction.
+            Une IA qui parle votre langue.
           </h2>
           <p className={styles.finalSub}>
             Montrez-nous vos tâches et vos pièces : nous vous montrons les
