@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { sanityFetch } from "@sanity/lib/live";
+import { SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
 import { ButtonLink } from "@/components/ui/button";
 import { BadgeGdpr } from "@/components/ui/icons/badge-gdpr";
 import { BadgeIso } from "@/components/ui/icons/badge-iso";
@@ -12,6 +14,8 @@ import {
   btpPains,
   btpTeams,
 } from "./btp-content";
+import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
+import type { SiteSettings } from "@/lib/types";
 import { btpIntegrations } from "./mcp-integrations";
 import styles from "./btp.module.css";
 
@@ -22,8 +26,12 @@ export const metadata: Metadata = {
   alternates: { canonical: "/france/btp" },
 };
 
-const contactHref =
-  "/france/diagnostic?secteur=btp&utm_source=btp&utm_campaign=construction";
+const trialHref = "https://wonka.chat/register";
+
+async function getSiteSettings() {
+  const { data } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
+  return data as SiteSettings | null;
+}
 
 const btpSoftware = btpIntegrations.filter((tool) => tool.wordmark);
 
@@ -61,7 +69,19 @@ function Mark({ value }: { value: string }) {
   return <span className={styles.markNo}>Non</span>;
 }
 
-export default function BtpLandingPage() {
+export default async function BtpLandingPage() {
+  const settings = await getSiteSettings();
+  const meetingUrl = resolveMeetingUrl(settings?.sharedLinks, "france");
+  const meetingHref = (placement: string) =>
+    meetingUrl +
+    (meetingUrl.includes("?") ? "&" : "?") +
+    new URLSearchParams({
+      utm_campaign: "france",
+      utm_source: "btp",
+      utm_medium: "web",
+      utm_content: placement,
+    }).toString();
+
   return (
     <div className={styles.page} lang="fr">
       <section className={styles.hero}>
@@ -80,9 +100,16 @@ export default function BtpLandingPage() {
               Chat le préparent, vos équipes valident.
             </p>
             <div className={styles.actions}>
-              <ButtonLink href={contactHref}>Évaluer mes besoins IA</ButtonLink>
-              <a href="#agents" className={styles.watch}>
-                Voir les agents BTP <span aria-hidden="true">↓</span>
+              <ButtonLink
+                href={meetingHref("hero")}
+                id="btp-hero-demo"
+                data-track="meeting"
+                data-meeting-type="france"
+              >
+                Réserver une démo
+              </ButtonLink>
+              <a href={trialHref} id="btp-hero-trial" className={styles.watch}>
+                Démarrer l’essai gratuit <span aria-hidden="true">↗</span>
               </a>
             </div>
             <ul className={styles.heroTrust}>
@@ -461,10 +488,14 @@ export default function BtpLandingPage() {
                 <li>Préparer comptes rendus et tableaux</li>
               </ul>
             </div>
-            <a className={styles.planCtaSecondary} href="https://wonka.chat/register">
-              Découvrir Wonka Chat <span aria-hidden="true">↗</span>
+            <a
+              className={styles.planCtaSecondary}
+              href={trialHref}
+              id="btp-plan-individual-trial"
+            >
+              Démarrer l’essai gratuit <span aria-hidden="true">↗</span>
             </a>
-            <small>Tarifs et conditions présentés à l’inscription.</small>
+            <small>7 jours d’essai, sans carte bancaire.</small>
           </article>
 
           <article className={styles.planCard + " " + styles.planRecommended}>
@@ -493,8 +524,10 @@ export default function BtpLandingPage() {
                 <li><b>04</b><span>Faire grandir les usages en équipe</span></li>
               </ol>
             </div>
-            <ButtonLink href={contactHref}>Évaluer mes besoins IA</ButtonLink>
-            <small>Licences et périmètre définis avec votre entreprise.</small>
+            <ButtonLink href={trialHref} id="btp-plan-team-trial">
+              Démarrer l’essai gratuit
+            </ButtonLink>
+            <small>7 jours d’essai, sans carte bancaire. Licences définies avec votre entreprise.</small>
           </article>
 
           <article className={styles.planCard}>
@@ -520,8 +553,14 @@ export default function BtpLandingPage() {
                 <li>Accompagnement au déploiement convenu</li>
               </ul>
             </div>
-            <a className={styles.planCtaSecondary} href={contactHref}>
-              Évaluer mon déploiement <span aria-hidden="true">↗</span>
+            <a
+              className={styles.planCtaSecondary}
+              href={meetingHref("plan_deployment")}
+              id="btp-plan-deployment-demo"
+              data-track="meeting"
+              data-meeting-type="france"
+            >
+              Réserver une démo <span aria-hidden="true">↗</span>
             </a>
             <small>
               Nous accompagnons 5 entreprises par mois. Une fois les places
@@ -566,10 +605,22 @@ export default function BtpLandingPage() {
             pour les gens de la construction.
           </h2>
           <p className={styles.finalSub}>
-            Identifions ensemble vos premiers agents, à partir de vos propres
-            pièces.
+            Montrez-nous vos tâches et vos pièces : nous vous montrons les
+            agents qui vous feront gagner du temps.
           </p>
-          <ButtonLink href={contactHref}>Évaluer mes besoins IA</ButtonLink>
+          <div className={styles.finalActions}>
+            <ButtonLink
+              href={meetingHref("final")}
+              id="btp-final-demo"
+              data-track="meeting"
+              data-meeting-type="france"
+            >
+              Réserver une démo
+            </ButtonLink>
+            <a href={trialHref} id="btp-final-trial">
+              ou démarrer l’essai gratuit <span aria-hidden="true">↗</span>
+            </a>
+          </div>
         </div>
       </section>
     </div>

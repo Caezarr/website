@@ -36,6 +36,12 @@ export function AnalyticsProvider() {
 
       const tracked = anchor.closest<HTMLElement>("[data-track]");
       if (!tracked && !isWonkaSignup) return;
+      if (tracked?.dataset.track === "meeting" && tracked.dataset.meetingType === "france") {
+        trackWebsiteEvent(WEBSITE_EVENTS.FRANCE_BOOKING_CLICK, {
+          page_path: window.location.pathname,
+          placement: anchor.id || "unknown",
+        });
+      }
       trackWebsiteEvent(WEBSITE_EVENTS.CTA_CLICKED, {
         cta_type: isWonkaSignup ? "trial" : tracked?.dataset.track || "cta",
         cta_context: tracked?.dataset.meetingType || "general",

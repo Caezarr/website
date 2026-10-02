@@ -1529,3 +1529,16 @@
   object-fit: contain;
   mix-blend-mode: multiply;
 }
+
+.finalActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem 1.5rem;
+}
+
+.finalActions a:not([class]) {
+  color: color-mix(in srgb, var(--color-white) 85%, transparent);
+  font-size: 0.875rem;
+}
