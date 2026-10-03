@@ -3,7 +3,7 @@
 export const tokenCatalog = {
   "$schema": "/design-system/schemas/token-catalog.schema.json",
   "schemaVersion": "1.0.0",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "brandVersionId": "wonka-brand-v0.1.0",
   "source": "packages/tokens/src/wonka.tokens.json",
   "themes": [
@@ -24,11 +24,11 @@ export const tokenCatalog = {
     {
       "id": "color.blue.200",
       "type": "color",
-      "description": null,
+      "description": "Wonka Cloud Blue: soft backgrounds, tags, and subtle highlights.",
       "cssVariable": "--color-blue-200",
       "values": {
-        "light": "#c9dafb",
-        "dark": "#c9dafb"
+        "light": "#cadbfd",
+        "dark": "#cadbfd"
       }
     },
     {
@@ -189,6 +189,16 @@ export const tokenCatalog = {
       "values": {
         "light": "#173630",
         "dark": "#173630"
+      }
+    },
+    {
+      "id": "color.forest.500",
+      "type": "color",
+      "description": "Wonka Forest Green: natural accent for supporting elements and organic touches.",
+      "cssVariable": "--color-forest-500",
+      "values": {
+        "light": "#5c7f5d",
+        "dark": "#5c7f5d"
       }
     },
     {
@@ -359,6 +369,56 @@ export const tokenCatalog = {
       "values": {
         "light": "#e7efff",
         "dark": "#e7efff"
+      }
+    },
+    {
+      "id": "color.brand.black",
+      "type": "color",
+      "description": "Wonka Black. Text and dark backgrounds; never pure black.",
+      "cssVariable": "--color-brand-black",
+      "values": {
+        "light": "#0e1a16",
+        "dark": "#0e1a16"
+      }
+    },
+    {
+      "id": "color.brand.white",
+      "type": "color",
+      "description": "Wonka White. Text on dark and light backgrounds.",
+      "cssVariable": "--color-brand-white",
+      "values": {
+        "light": "#f7f7f7",
+        "dark": "#f7f7f7"
+      }
+    },
+    {
+      "id": "color.brand.water-blue",
+      "type": "color",
+      "description": "Wonka Water Blue. Primary accent for buttons, links, and highlights.",
+      "cssVariable": "--color-brand-water-blue",
+      "values": {
+        "light": "#75a3fd",
+        "dark": "#75a3fd"
+      }
+    },
+    {
+      "id": "color.brand.cloud-blue",
+      "type": "color",
+      "description": "Wonka Cloud Blue. Soft backgrounds, tags, and subtle highlights.",
+      "cssVariable": "--color-brand-cloud-blue",
+      "values": {
+        "light": "#cadbfd",
+        "dark": "#cadbfd"
+      }
+    },
+    {
+      "id": "color.brand.forest-green",
+      "type": "color",
+      "description": "Wonka Forest Green. Natural supporting accent.",
+      "cssVariable": "--color-brand-forest-green",
+      "values": {
+        "light": "#5c7f5d",
+        "dark": "#5c7f5d"
       }
     },
     {

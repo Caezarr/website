@@ -1,6 +1,6 @@
 # Wonka Design System
 
-Version: 0.3.0
+Version: 0.4.0
 Brand version: wonka-brand-v0.1.0
 Status: beta
 
@@ -63,6 +63,9 @@ Commands emit JSON so agents can consume them without scraping rendered document
 
 - Near-black `color.neutral.black` carries a green undertone associated with secure, sovereign enterprise AI.
 - Luminous `color.blue.400` is the primary branded action color.
+- The five official brand colors are `color.brand.black`, `color.brand.white`, `color.brand.water-blue`, `color.brand.cloud-blue`, and `color.brand.forest-green`. Never use pure black.
+- Brand-pack files live under `/brand/` (logos in five colors, painted backgrounds, avatars, logo cards, watermarks, motion). Pick them by asset ID from `/design-system/assets.json`, never by guessing file names.
+- The caption font in the video caption styles (Charter) is a stand-in for short-form video only; it is not a brand typeface.
 - GT Sectra is the restrained editorial display voice.
 - Inter Display carries product, body, and utility text.
 - Custom slanted button silhouettes are a signature element. Do not reproduce the silhouette as a generic rounded rectangle.

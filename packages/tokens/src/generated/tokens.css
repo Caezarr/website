@@ -6,7 +6,7 @@
   --color-current: currentColor;
   --color-inherit: inherit;
   --color-blue-100: #e7effd;
-  --color-blue-200: #c9dafb;
+  --color-blue-200: #cadbfd;
   --color-blue-300: #a9c3f8;
   --color-blue-400: #75a3fd;
   --color-blue-500: #4d86f5;
@@ -23,6 +23,7 @@
   --color-green-700: #3f9d64;
   --color-green-800: #2a6f4f;
   --color-green-900: #173630;
+  --color-forest-500: #5c7f5d;
   --color-orange-300: #fde6c1;
   --color-orange-900: #e89c32;
   --color-white: #ffffff;
@@ -40,6 +41,11 @@
   --color-status-danger: #df5c30;
   --color-status-danger-surface: #fbedea;
   --color-status-info-surface: #e7efff;
+  --color-brand-black: var(--color-black);
+  --color-brand-white: var(--color-light-gray);
+  --color-brand-water-blue: var(--color-blue-400);
+  --color-brand-cloud-blue: var(--color-blue-200);
+  --color-brand-forest-green: var(--color-forest-500);
   --radius-xs: 0.25rem;
   --radius-sm: 0.5rem;
   --radius-md: 0.75rem;

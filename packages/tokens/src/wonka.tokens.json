@@ -1,7 +1,7 @@
 {
   "$schema": "https://www.designtokens.org/schemas/2025.10/format.json",
   "$name": "Wonka design tokens",
-  "$version": "0.3.0",
+  "$version": "0.4.0",
   "$description": "Canonical, channel-neutral design decisions for Wonka products, campaigns, presentations, and agent-generated artifacts.",
   "color": {
     "$type": "color",
@@ -10,7 +10,10 @@
         "$value": "#e7effd",
         "$description": "Light blue wash for quiet branded surfaces."
       },
-      "200": { "$value": "#c9dafb" },
+      "200": {
+        "$value": "#cadbfd",
+        "$description": "Wonka Cloud Blue: soft backgrounds, tags, and subtle highlights."
+      },
       "300": { "$value": "#a9c3f8" },
       "400": {
         "$value": "#75a3fd",
@@ -37,6 +40,12 @@
       "900": {
         "$value": "#173630",
         "$description": "Deep green used for sovereign and secure product contexts."
+      }
+    },
+    "forest": {
+      "500": {
+        "$value": "#5c7f5d",
+        "$description": "Wonka Forest Green: natural accent for supporting elements and organic touches."
       }
     },
     "orange": {
@@ -91,6 +100,29 @@
         "$value": "#e7efff",
         "$description": "Light info wash for banners and toasts."
       }
+    },
+    "brand": {
+      "$description": "The five official Wonka brand colors from the brand pack, as aliases of the primitive scale.",
+      "black": {
+        "$value": "{color.neutral.black}",
+        "$description": "Wonka Black. Text and dark backgrounds; never pure black."
+      },
+      "white": {
+        "$value": "{color.neutral.light-gray}",
+        "$description": "Wonka White. Text on dark and light backgrounds."
+      },
+      "water-blue": {
+        "$value": "{color.blue.400}",
+        "$description": "Wonka Water Blue. Primary accent for buttons, links, and highlights."
+      },
+      "cloud-blue": {
+        "$value": "{color.blue.200}",
+        "$description": "Wonka Cloud Blue. Soft backgrounds, tags, and subtle highlights."
+      },
+      "forest-green": {
+        "$value": "{color.forest.500}",
+        "$description": "Wonka Forest Green. Natural supporting accent."
+      }
     }
   },
   "radius": {
@@ -129,21 +161,11 @@
     "family": {
       "$type": "fontFamily",
       "sans": {
-        "$value": [
-          "Inter Display",
-          "ui-sans-serif",
-          "system-ui",
-          "sans-serif"
-        ],
+        "$value": ["Inter Display", "ui-sans-serif", "system-ui", "sans-serif"],
         "$description": "Product, body, and utility typography."
       },
       "serif": {
-        "$value": [
-          "GT Sectra",
-          "ui-serif",
-          "Georgia",
-          "serif"
-        ],
+        "$value": ["GT Sectra", "ui-serif", "Georgia", "serif"],
         "$description": "Editorial display typography."
       },
       "mono": {
