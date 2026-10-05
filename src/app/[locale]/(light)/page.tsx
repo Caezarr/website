@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
 import type { Locale } from "@/i18n/config";
 import { TRANSLATED_LOCALES } from "@/i18n/routes";
-import {
-  WorkspacePage,
-  workspaceMetadata,
-} from "@/components/pages/workspace-page";
+import { HomeView, homeMetadata } from "@/views/home";
 
 export const dynamic = "force-static";
 export const dynamicParams = false;
@@ -19,10 +16,10 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
-  return workspaceMetadata(locale as Locale);
+  return homeMetadata(locale as Locale);
 }
 
 export default async function LocalizedHome({ params }: PageProps) {
   const { locale } = await params;
-  return <WorkspacePage locale={locale as Locale} />;
+  return <HomeView locale={locale as Locale} />;
 }
