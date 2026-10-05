@@ -1,9 +1,11 @@
 import { getSanityWriteClient } from "@sanity/lib/write-client";
+import { isWonkaChatExportExpired } from "@/lib/agent-blueprint-wonkachat";
 
 export const dynamic = "force-dynamic";
 
 /** Matches the contract shared with WonkaChat's blueprint import. */
-const BLUEPRINT_ID_PATTERN = /^agent-blueprint\.[0-9a-f-]{36}$/;
+const BLUEPRINT_ID_PATTERN =
+  /^agent-blueprint\.[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 const NO_STORE = { "Cache-Control": "no-store" };
 
@@ -16,6 +18,7 @@ function notFound() {
 
 interface AssessmentExportDoc {
   status?: string;
+  completedAt?: string;
   wonkachatExport?: string;
 }
 
@@ -51,6 +54,8 @@ export async function GET(
   }
 
   if (doc?.status !== "completed" || !doc.wonkachatExport) return notFound();
+  // The id is a capability URL that can leak: exports stop being importable after a while.
+  if (isWonkaChatExportExpired(doc.completedAt)) return notFound();
 
   let payload: unknown;
   try {

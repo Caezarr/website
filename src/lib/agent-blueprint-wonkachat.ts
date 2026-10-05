@@ -195,6 +195,60 @@ export function formatWonkaChatSetup(setup: WonkaChatSetup, locale: Locale = "en
     .join("\n");
 }
 
+/**
+ * Days an export stays importable after the blueprint completed. Ids are capability URLs that can
+ * leak (logs, analytics, shared links), so they should not be readable forever.
+ */
+export const WONKACHAT_EXPORT_TTL_DAYS = 30;
+
+export function isWonkaChatExportExpired(
+  completedAt: string | undefined,
+  now: Date = new Date(),
+): boolean {
+  const completed = completedAt ? Date.parse(completedAt) : Number.NaN;
+  if (Number.isNaN(completed)) return true;
+  return now.getTime() - completed > WONKACHAT_EXPORT_TTL_DAYS * 24 * 60 * 60 * 1000;
+}
+
+const MARKDOWN_LINK = /!?\[([^\]]*)\]\([^)]*\)/g;
+const URL_LIKE = /\b(?:https?:\/\/|www\.)[^\s<>"')]+/gi;
+const EMAIL_LIKE = /[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g;
+const STEP_MAX_LENGTH = 300;
+
+/**
+ * Blueprint text comes from an LLM reading a crawled website, which anyone can point at a site they
+ * control. Before it becomes an agent's instructions or an unattended prompt in WonkaChat, drop the
+ * pieces an injected instruction would need to exfiltrate data (links, URLs, email addresses) and cap
+ * each field. WonkaChat also shows everything in a consent dialog; this is defense in depth.
+ */
+export function sanitizeImportText(value: string, max: number = STEP_MAX_LENGTH): string {
+  const cleaned = value
+    .replace(MARKDOWN_LINK, "$1")
+    .replace(URL_LIKE, "")
+    .replace(EMAIL_LIKE, "")
+    .replace(/[ \t]{2,}/g, " ")
+    .trim();
+  return truncate(cleaned, max);
+}
+
+function sanitizeAgentForImport(agent: AgentBlueprintAgent): AgentBlueprintAgent {
+  const clean = (value: string) => sanitizeImportText(value);
+  return {
+    ...agent,
+    name: clean(agent.name),
+    mission: clean(agent.mission),
+    whyNow: clean(agent.whyNow),
+    trigger: clean(agent.trigger),
+    inputs: agent.inputs.map(clean),
+    workflow: agent.workflow.map(clean),
+    humanControl: clean(agent.humanControl),
+    expectedImpact: clean(agent.expectedImpact),
+    process: clean(agent.process),
+    companySignal: clean(agent.companySignal),
+    conversationStarters: agent.conversationStarters?.map(clean),
+  };
+}
+
 /** Version of the export payload read by WonkaChat's blueprint import. */
 export const WONKACHAT_EXPORT_VERSION = 1;
 
@@ -245,7 +299,8 @@ export function buildWonkaChatExport(
   const usedKeys = new Set<string>();
   const agents = result.agents
     .slice(0, EXPORT_LIMITS.agents)
-    .map((agent, index): WonkaChatExportAgent => {
+    .map((rawAgent, index): WonkaChatExportAgent => {
+      const agent = sanitizeAgentForImport(rawAgent);
       const setup = buildWonkaChatSetup(agent, locale);
       let key = agent.id?.trim() || `agent-${index + 1}`;
       if (usedKeys.has(key)) key = `${key}-${index + 1}`;
@@ -287,8 +342,8 @@ export function buildWonkaChatExport(
     version: WONKACHAT_EXPORT_VERSION,
     blueprintId: assessmentId,
     locale,
-    sector: result.sector,
-    headline: result.headline,
+    sector: sanitizeImportText(result.sector),
+    headline: sanitizeImportText(result.headline),
     agents,
   };
 }

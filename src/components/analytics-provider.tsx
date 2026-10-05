@@ -9,6 +9,14 @@ import {
   WEBSITE_EVENTS,
 } from "@/lib/analytics";
 
+/**
+ * Blueprint import links carry a capability id (`/blueprint/agent-blueprint.<uuid>`): anyone holding
+ * it can read that blueprint's export, so it must not be sent to analytics.
+ */
+function redactCapabilityPath(pathname: string): string {
+  return pathname.replace(/^\/blueprint\/[^/]+/, "/blueprint/:id");
+}
+
 export function AnalyticsProvider() {
   const { consent } = useCookieConsent();
 
@@ -29,7 +37,7 @@ export function AnalyticsProvider() {
       if (isWonkaSignup) {
         anchor.href = decorateWonkaChatUrl(anchor.href);
         trackWebsiteEvent(WEBSITE_EVENTS.TRIAL_CLICKED, {
-          destination_path: destination.pathname,
+          destination_path: redactCapabilityPath(destination.pathname),
           placement: anchor.closest<HTMLElement>("[id]")?.id || "unknown",
         });
       }
@@ -41,7 +49,7 @@ export function AnalyticsProvider() {
         cta_context: tracked?.dataset.meetingType || "general",
         cta_id: anchor.id || undefined,
         destination_host: destination.hostname,
-        destination_path: destination.pathname,
+        destination_path: redactCapabilityPath(destination.pathname),
         placement: anchor.closest<HTMLElement>("[id]")?.id || "unknown",
       });
     };
