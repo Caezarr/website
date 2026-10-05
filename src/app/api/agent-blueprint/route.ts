@@ -8,6 +8,7 @@ import {
   anonymizeCompanyResearch,
   missingBlueprintEnv,
   normalizeTarget,
+  companyPlaceholder,
   redactText,
   type BlueprintStreamEvent,
   type CompanyContext,
@@ -199,9 +200,11 @@ export async function POST(request: Request) {
           locale,
         );
         mark("research");
+        const placeholder = companyPlaceholder(locale);
         const siteOnly = anonymizeCompanyResearch(
           research.value,
           target.domain,
+          placeholder,
         );
         for (const insight of researchInsights(siteOnly.context)) {
           send({ type: "insight", ...insight });
@@ -223,17 +226,22 @@ export async function POST(request: Request) {
         const { context, identifiers } = anonymizeCompanyResearch(
           mergeSignals(research.value, signals?.value ?? null),
           target.domain,
+          placeholder,
         );
         for (const insight of signalInsights(
           signals?.value ?? null,
           identifiers,
+          placeholder,
         )) {
           send({ type: "insight", ...insight });
         }
         send({
           type: "insight",
           kind: "match",
-          text: `${benchmark.length} comparable use cases matched`,
+          text: t(locale, "{count} comparable use cases matched").replace(
+            "{count}",
+            String(benchmark.length),
+          ),
         });
 
         send({ type: "stage", stage: "design" });
@@ -245,7 +253,7 @@ export async function POST(request: Request) {
           ...timings,
         });
         const result = {
-          ...anonymizeBlueprint(blueprint.value, identifiers),
+          ...anonymizeBlueprint(blueprint.value, identifiers, placeholder),
           sources: research.sources.map((source, index) => ({
             title: `Public source ${index + 1}`,
             url: source.url,
@@ -373,7 +381,12 @@ interface Insight {
 
 /** Keeps streamed insights scannable: one short line each. */
 function shortInsight(kind: InsightKind, text: string | undefined): Insight[] {
-  const clean = text?.replace(/\s+/g, " ").trim();
+  const clean = text
+    // Web-search citations: "([label](https://…))" or "[label](https://…)".
+    ?.replace(/\(?\[([^\]]*)\]\([^)]*\)\)?/g, "")
+    .replace(/\s+/g, " ")
+    .replace(/\s+([.,;:])/g, "$1")
+    .trim();
   if (!clean) return [];
   return [
     {
@@ -386,6 +399,7 @@ function shortInsight(kind: InsightKind, text: string | undefined): Insight[] {
 function signalInsights(
   signals: ExternalSignals | null,
   identifiers: string[],
+  placeholder: string,
 ): Insight[] {
   if (!signals) return [];
   return [
@@ -393,7 +407,7 @@ function signalInsights(
     ...shortInsight("rules", signals.regulatoryContext[0]),
   ].map((insight) => ({
     ...insight,
-    text: redactText(insight.text, identifiers),
+    text: redactText(insight.text, identifiers, placeholder),
   }));
 }
 

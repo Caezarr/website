@@ -321,7 +321,7 @@ function FoundryPanel({
                   >
                     <span
                       className={cn(
-                        "type-eyebrow w-[4.75rem] shrink-0 rounded-full px-2 py-0.5 text-center text-[0.6rem]",
+                        "type-eyebrow w-[7.5rem] shrink-0 truncate rounded-full px-2 py-0.5 text-center text-[0.6rem]",
                         insightStyles[insight.kind ?? "pages"].className,
                       )}
                     >
