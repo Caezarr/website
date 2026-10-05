@@ -30,6 +30,19 @@ export interface AgentBlueprintAgent {
   companySignal: string;
   /** Three prompts a user would type to this agent in WonkaChat. */
   conversationStarters?: string[];
+  /** Illustrative run of the agent, played as a demo film on the page. */
+  demo?: AgentDemoScript;
+}
+
+/** One illustrative run of an agent: request, tool calls, deliverable. */
+export interface AgentDemoScript {
+  request: string;
+  steps: Array<{ action: string; tool: string; finding: string }>;
+  deliverable: {
+    kind: string;
+    title: string;
+    sections: Array<{ heading: string; body: string }>;
+  };
 }
 
 export interface AgentBlueprintResult {
@@ -236,6 +249,7 @@ export function anonymizeBlueprint(
       process: redact(agent.process),
       companySignal: redact(agent.companySignal),
       conversationStarters: agent.conversationStarters?.map(redact),
+      demo: agent.demo ? redactDeep(agent.demo, redact) : undefined,
     })),
   };
 }
@@ -269,6 +283,31 @@ function isAgentBlueprintAgent(value: unknown): value is AgentBlueprintAgent {
     typeof agent.companySignal === "string" &&
     (agent.conversationStarters === undefined ||
       (Array.isArray(agent.conversationStarters) &&
-        agent.conversationStarters.every((item) => typeof item === "string")))
+        agent.conversationStarters.every((item) => typeof item === "string"))) &&
+    (agent.demo === undefined || isAgentDemoScript(agent.demo))
+  );
+}
+
+function isAgentDemoScript(value: unknown): value is AgentDemoScript {
+  if (!value || typeof value !== "object") return false;
+  const demo = value as Partial<AgentDemoScript>;
+  return (
+    typeof demo.request === "string" &&
+    Array.isArray(demo.steps) &&
+    demo.steps.length > 0 &&
+    demo.steps.every(
+      (step) =>
+        typeof step?.action === "string" &&
+        typeof step.tool === "string" &&
+        typeof step.finding === "string",
+    ) &&
+    typeof demo.deliverable?.kind === "string" &&
+    typeof demo.deliverable.title === "string" &&
+    Array.isArray(demo.deliverable.sections) &&
+    demo.deliverable.sections.every(
+      (section) =>
+        typeof section?.heading === "string" &&
+        typeof section.body === "string",
+    )
   );
 }

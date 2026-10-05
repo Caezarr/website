@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -48,6 +49,15 @@ import {
   BLUEPRINT_INPUT_ID,
   focusBlueprintInput,
 } from "./blueprint-scroll-button";
+
+/** Remotion only loads once a blueprint result is on screen. */
+const AgentFilmPlayer = dynamic(
+  () => import("./agent-film/agent-film-player"),
+  {
+    ssr: false,
+    loading: () => <div className="bg-light-gray aspect-video w-full" />,
+  },
+);
 
 type ExperienceState = "idle" | "loading" | "result" | "error";
 
@@ -677,6 +687,16 @@ function AgentDetailPanel({
             </span>
           </p>
           <EffortMeter effort={agent.effort} locale={locale} />
+        </div>
+      </div>
+
+      <div className="border-border bg-light-gray border-b border-dashed p-5 md:p-6">
+        <p className="type-eyebrow text-blue-700">{t(locale, "Watch it run")}</p>
+        <p className="type-paragraph-s text-text/45 mt-1">
+          {t(locale, "An illustrative run, built from your blueprint. Figures are demo data.")}
+        </p>
+        <div className="border-border mt-4 overflow-hidden rounded-sm border bg-white">
+          <AgentFilmPlayer agent={agent} locale={locale} />
         </div>
       </div>
 

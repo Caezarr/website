@@ -31,6 +31,7 @@
   "dependencies": {
     "@base-ui/react": "^1.4.1",
     "@portabletext/react": "^6.0.3",
+    "@remotion/player": "4.0.533",
     "@sanity/document-internationalization": "^6.2.1",
     "@sanity/icons": "^3.7.4",
     "@sanity/image-url": "^2.1.1",
@@ -49,6 +50,7 @@
     "posthog-js": "^1.422.5",
     "react": "19.2.5",
     "react-dom": "19.2.5",
+    "remotion": "4.0.533",
     "sanity": "^5.23.0",
     "tailwind-merge": "^3.5.0"
   },

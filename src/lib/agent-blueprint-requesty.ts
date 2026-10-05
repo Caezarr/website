@@ -156,6 +156,7 @@ const AGENT_BLUEPRINT_SCHEMA = {
           "process",
           "companySignal",
           "conversationStarters",
+          "demo",
         ],
         properties: {
           id: { type: "string", enum: ["agent-1", "agent-2", "agent-3"] },
@@ -201,6 +202,52 @@ const AGENT_BLUEPRINT_SCHEMA = {
           process: { type: "string" },
           companySignal: { type: "string" },
           conversationStarters: stringArray(3, 3),
+          demo: {
+            type: "object",
+            additionalProperties: false,
+            required: ["request", "steps", "deliverable"],
+            properties: {
+              request: { type: "string" },
+              steps: {
+                type: "array",
+                minItems: 3,
+                maxItems: 4,
+                items: {
+                  type: "object",
+                  additionalProperties: false,
+                  required: ["action", "tool", "finding"],
+                  properties: {
+                    action: { type: "string" },
+                    tool: { type: "string" },
+                    finding: { type: "string" },
+                  },
+                },
+              },
+              deliverable: {
+                type: "object",
+                additionalProperties: false,
+                required: ["kind", "title", "sections"],
+                properties: {
+                  kind: { type: "string" },
+                  title: { type: "string" },
+                  sections: {
+                    type: "array",
+                    minItems: 2,
+                    maxItems: 3,
+                    items: {
+                      type: "object",
+                      additionalProperties: false,
+                      required: ["heading", "body"],
+                      properties: {
+                        heading: { type: "string" },
+                        body: { type: "string" },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
       },
     },
@@ -483,7 +530,7 @@ export async function designAgents(
     {
       model,
       store: false,
-      max_output_tokens: 8_000,
+      max_output_tokens: 10_000,
       reasoning: { effort: "medium" },
       metadata: {
         feature: "agent-blueprint",
@@ -492,7 +539,7 @@ export async function designAgents(
       },
       instructions: `You are a senior Wonka AI use-case advisor. Wonka AI helps companies move from AI strategy to generative-AI agents on the Wonka Chat platform.
 
-Write every natural-language string in ${blueprintOutputLanguage(locale)}. For French, use natural business French for France. For Dutch, use natural business Dutch for Belgium. This applies to every generated user-facing field, including the headline, summary, signals, agent names, process, mission, workflow, controls, impact, benchmark pattern and conversation starters. Keep software/product names unchanged. The tier and effort values must remain the exact schema enum strings.
+Write every natural-language string in ${blueprintOutputLanguage(locale)}. For French, use natural business French for France. For Dutch, use natural business Dutch for Belgium. This applies to every generated user-facing field, including the headline, summary, signals, agent names, process, mission, workflow, controls, impact, benchmark pattern, conversation starters and demo. Keep software/product names unchanged. The tier and effort values must remain the exact schema enum strings.
 
 Design exactly three agents for this specific company, ranked by expected business value. The reader must recognise their own business in every line: an agent that would fit any company in the sector is a failure.
 
@@ -522,6 +569,11 @@ Write for a skimming executive: short, concrete, no filler words. Hard limits:
 - headline: at most 14 words. summary: at most 25 words. Each signal: at most 8 words.
 - inputs: 1 to 4 items, 1 to 3 words each.
 - conversationStarters: exactly 3 messages a team member would send this agent in chat, at most 10 words each, in the company's terms.
+- demo: one illustrative run of the agent, played as a short animated demo on the page so a non-technical reader sees what happens.
+  - request: what triggers this run, at most 14 words. For a Copilot, the message a team member types. For the other tiers, the incoming event phrased as a short notification.
+  - steps: 3 or 4 tool calls in order, mirroring the workflow. action: at most 6 words, starting with a verb. tool: exactly one name from this agent's tools. finding: what the step found or produced, at most 10 words, with plausible illustrative figures.
+  - deliverable: what the agent hands back. kind: 1 to 3 words ("Draft quote", "Tender summary"). title: at most 10 words, stating the key conclusion. sections: 2 or 3 items, heading at most 3 words, body at most 20 words.
+  - Every figure is illustrative demo data: never present it as a real customer result.
 
 Use these tiers exactly:
 - Copilot: a person works directly with the agent.
