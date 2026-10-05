@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
-import {
-  WorkspacePage,
-  workspaceMetadata,
-} from "@/components/pages/workspace-page";
+import { HomeView, homeMetadata } from "@/views/home";
 
 export const dynamic = "force-static";
 
 export function generateMetadata(): Promise<Metadata> {
-  return workspaceMetadata("en");
+  return homeMetadata("en");
 }
 
 export default function HomePage() {
-  return <WorkspacePage locale="en" />;
+  return <HomeView locale="en" />;
 }
