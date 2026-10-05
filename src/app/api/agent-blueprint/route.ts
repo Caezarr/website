@@ -23,6 +23,7 @@ import {
   type ExternalSignals,
 } from "@/lib/agent-blueprint-requesty";
 import { searchBenchmark } from "@/lib/agent-blueprint-search";
+import { buildWonkaChatExport } from "@/lib/agent-blueprint-wonkachat";
 import { getSanityWriteClient } from "@sanity/lib/write-client";
 import type { Locale } from "@/i18n/config";
 import { blueprintText as t } from "@/lib/agent-blueprint-copy";
@@ -138,6 +139,7 @@ export async function POST(request: Request) {
       targetDomain: target.domain,
       anonymous: true,
       status: "processing",
+      locale,
       submittedAt: now,
       requestyModel: process.env.REQUESTY_AGENT_BLUEPRINT_MODEL?.trim(),
       ...(clientIp ? { clientIp } : {}),
@@ -280,6 +282,9 @@ export async function POST(request: Request) {
               _key: `source-${index + 1}`,
               ...source,
             })),
+            wonkachatExport: JSON.stringify(
+              buildWonkaChatExport(result, assessmentId, locale),
+            ),
             completedAt,
             requestyResponseIds: responseIds,
             ...(requestCost > 0 ? { requestCost } : {}),
@@ -430,6 +435,15 @@ export async function PATCH(request: Request) {
     await client
       .patch(payload.assessmentId)
       .setIfMissing({ demoClickedAt: now })
+      .commit()
+      .catch(() => undefined);
+    return Response.json({ ok: true });
+  }
+
+  if (payload.event === "import_clicked") {
+    await client
+      .patch(payload.assessmentId)
+      .setIfMissing({ importClickedAt: now })
       .commit()
       .catch(() => undefined);
     return Response.json({ ok: true });

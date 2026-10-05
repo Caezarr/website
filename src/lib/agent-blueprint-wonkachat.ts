@@ -1,4 +1,7 @@
-import type { AgentBlueprintAgent } from "@/lib/agent-blueprint";
+import type {
+  AgentBlueprintAgent,
+  AgentBlueprintResult,
+} from "@/lib/agent-blueprint";
 import { resolveConnectedTools } from "@/lib/agent-blueprint-tools";
 import type { Locale } from "@/i18n/config";
 
@@ -57,17 +60,30 @@ function truncate(value: string, max: number): string {
   return value.length <= max ? value : `${value.slice(0, max - 1).trimEnd()}…`;
 }
 
+/** Prompt sent on each scheduled run of a fully autonomous agent. */
+function schedulePromptFor(agent: AgentBlueprintAgent): string {
+  return agent.workflow[0] ?? agent.mission;
+}
+
+/** Prompt sent when the external event of a human-in-the-loop agent fires. */
+function triggerPromptFor(agent: AgentBlueprintAgent, locale: Locale): string {
+  const process = agent.process.toLowerCase();
+  if (locale === "fr") return `Traite cette demande liée à ${process} : {{trigger data}}`;
+  if (locale === "nl") return `Verwerk deze aanvraag voor ${process}: {{trigger data}}`;
+  return `Handle this ${process} request: {{trigger data}}`;
+}
+
 function schedulingFor(agent: AgentBlueprintAgent, locale: Locale): string {
-  const prompt = agent.workflow[0] ?? agent.mission;
+  const prompt = schedulePromptFor(agent);
   switch (agent.tier) {
     case "Fully autonomous":
       if (locale === "fr") return `Planification (Cron) : en semaine à 08 h. Consigne : « ${prompt} »`;
       if (locale === "nl") return `Planning (Cron): weekdagen om 08.00 uur. Prompt: “${prompt}”`;
       return `Schedule (Cron): Weekdays at 08:00. Prompt: "${prompt}"`;
     case "Human in the loop":
-      if (locale === "fr") return `Événement externe : ${agent.trigger}. Consigne : « Traite cette demande liée à ${agent.process.toLowerCase()} : {{trigger data}} »`;
-      if (locale === "nl") return `Externe gebeurtenis: ${agent.trigger}. Prompt: “Verwerk deze aanvraag voor ${agent.process.toLowerCase()}: {{trigger data}}”`;
-      return `External event: ${agent.trigger}. Prompt: "Handle this ${agent.process.toLowerCase()} request: {{trigger data}}"`;
+      if (locale === "fr") return `Événement externe : ${agent.trigger}. Consigne : « ${triggerPromptFor(agent, locale)} »`;
+      if (locale === "nl") return `Externe gebeurtenis: ${agent.trigger}. Prompt: “${triggerPromptFor(agent, locale)}”`;
+      return `External event: ${agent.trigger}. Prompt: "${triggerPromptFor(agent, locale)}"`;
     default:
       return locale === "fr" ? "Aucune. Utilisé directement dans le chat." : locale === "nl" ? "Geen. Rechtstreeks in de chat gebruiken." : "None. Used directly in chat.";
   }
@@ -177,4 +193,157 @@ export function formatWonkaChatSetup(setup: WonkaChatSetup, locale: Locale = "en
   ]
     .filter((line): line is string => line !== null)
     .join("\n");
+}
+
+/**
+ * Days an export stays importable after the blueprint completed. Ids are capability URLs that can
+ * leak (logs, analytics, shared links), so they should not be readable forever.
+ */
+export const WONKACHAT_EXPORT_TTL_DAYS = 30;
+
+export function isWonkaChatExportExpired(
+  completedAt: string | undefined,
+  now: Date = new Date(),
+): boolean {
+  const completed = completedAt ? Date.parse(completedAt) : Number.NaN;
+  if (Number.isNaN(completed)) return true;
+  return now.getTime() - completed > WONKACHAT_EXPORT_TTL_DAYS * 24 * 60 * 60 * 1000;
+}
+
+const MARKDOWN_LINK = /!?\[([^\]]*)\]\([^)]*\)/g;
+const URL_LIKE = /\b(?:https?:\/\/|www\.)[^\s<>"')]+/gi;
+const EMAIL_LIKE = /[\w.+-]+@[\w-]+(?:\.[\w-]+)+/g;
+const STEP_MAX_LENGTH = 300;
+
+/**
+ * Blueprint text comes from an LLM reading a crawled website, which anyone can point at a site they
+ * control. Before it becomes an agent's instructions or an unattended prompt in WonkaChat, drop the
+ * pieces an injected instruction would need to exfiltrate data (links, URLs, email addresses) and cap
+ * each field. WonkaChat also shows everything in a consent dialog; this is defense in depth.
+ */
+export function sanitizeImportText(value: string, max: number = STEP_MAX_LENGTH): string {
+  const cleaned = value
+    .replace(MARKDOWN_LINK, "$1")
+    .replace(URL_LIKE, "")
+    .replace(EMAIL_LIKE, "")
+    .replace(/[ \t]{2,}/g, " ")
+    .trim();
+  return truncate(cleaned, max);
+}
+
+function sanitizeAgentForImport(agent: AgentBlueprintAgent): AgentBlueprintAgent {
+  const clean = (value: string) => sanitizeImportText(value);
+  return {
+    ...agent,
+    name: clean(agent.name),
+    mission: clean(agent.mission),
+    whyNow: clean(agent.whyNow),
+    trigger: clean(agent.trigger),
+    inputs: agent.inputs.map(clean),
+    workflow: agent.workflow.map(clean),
+    humanControl: clean(agent.humanControl),
+    expectedImpact: clean(agent.expectedImpact),
+    process: clean(agent.process),
+    companySignal: clean(agent.companySignal),
+    conversationStarters: agent.conversationStarters?.map(clean),
+  };
+}
+
+/** Version of the export payload read by WonkaChat's blueprint import. */
+export const WONKACHAT_EXPORT_VERSION = 1;
+
+const EXPORT_LIMITS = {
+  agents: 3,
+  name: 60,
+  description: DESCRIPTION_MAX_LENGTH,
+  instructions: 8000,
+  starters: 4,
+  starter: 80,
+  prompt: 1000,
+} as const;
+
+export type WonkaChatCapability = "file_search" | "questions";
+
+export interface WonkaChatExportAgent {
+  key: string;
+  name: string;
+  description: string;
+  instructions: string;
+  tier: AgentBlueprintAgent["tier"];
+  conversationStarters: string[];
+  connectors: string[];
+  capabilities: WonkaChatCapability[];
+  schedule: { period: "weekdays"; time: string; prompt: string } | null;
+  trigger: { event: string; prompt: string } | null;
+}
+
+export interface WonkaChatExport {
+  version: typeof WONKACHAT_EXPORT_VERSION;
+  blueprintId: string;
+  locale: Locale;
+  sector: string;
+  headline: string;
+  agents: WonkaChatExportAgent[];
+}
+
+/**
+ * Structured payload WonkaChat reads to create the blueprint's agents in one
+ * click (GET /api/agent-blueprint/[id]/wonkachat). Built from the anonymised
+ * result, with the same mapping as the copy-paste setup.
+ */
+export function buildWonkaChatExport(
+  result: Pick<AgentBlueprintResult, "sector" | "headline" | "agents">,
+  assessmentId: string,
+  locale: Locale = "en",
+): WonkaChatExport {
+  const usedKeys = new Set<string>();
+  const agents = result.agents
+    .slice(0, EXPORT_LIMITS.agents)
+    .map((rawAgent, index): WonkaChatExportAgent => {
+      const agent = sanitizeAgentForImport(rawAgent);
+      const setup = buildWonkaChatSetup(agent, locale);
+      let key = agent.id?.trim() || `agent-${index + 1}`;
+      if (usedKeys.has(key)) key = `${key}-${index + 1}`;
+      usedKeys.add(key);
+
+      return {
+        key,
+        name: truncate(setup.name, EXPORT_LIMITS.name),
+        description: setup.description,
+        instructions: truncate(setup.instructions, EXPORT_LIMITS.instructions),
+        tier: agent.tier,
+        conversationStarters: setup.conversationStarters
+          .slice(0, EXPORT_LIMITS.starters)
+          .map((starter) => truncate(starter, EXPORT_LIMITS.starter)),
+        connectors: setup.connectors,
+        capabilities: [
+          "file_search",
+          ...(agent.tier === "Human in the loop" ? (["questions"] as const) : []),
+        ],
+        schedule:
+          agent.tier === "Fully autonomous"
+            ? {
+                period: "weekdays",
+                time: "08:00",
+                prompt: truncate(schedulePromptFor(agent), EXPORT_LIMITS.prompt),
+              }
+            : null,
+        trigger:
+          agent.tier === "Human in the loop"
+            ? {
+                event: truncate(agent.trigger, EXPORT_LIMITS.prompt),
+                prompt: truncate(triggerPromptFor(agent, locale), EXPORT_LIMITS.prompt),
+              }
+            : null,
+      };
+    });
+
+  return {
+    version: WONKACHAT_EXPORT_VERSION,
+    blueprintId: assessmentId,
+    locale,
+    sector: sanitizeImportText(result.sector),
+    headline: sanitizeImportText(result.headline),
+    agents,
+  };
 }
