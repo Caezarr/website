@@ -45,14 +45,33 @@ const tierStyles: Record<AgentFilmSpec["tier"], string> = {
   "Fully autonomous": "bg-green-200 text-green-900",
 };
 
+/** Wonka painted backgrounds (design-system asset.image.background), one per tier. */
+const BACKGROUNDS: Record<AgentFilmSpec["tier"], string> = {
+  Copilot: "/brand/backgrounds/16x9/wonka-bg-hills-1920x1080.webp",
+  "Human in the loop": "/brand/backgrounds/16x9/wonka-bg-river-1920x1080.webp",
+  "Fully autonomous": "/brand/backgrounds/16x9/wonka-bg-mountain-range-1920x1080.webp",
+};
+
 const logoDevToken =
   process.env.NEXT_PUBLIC_LOGO_DEV_TOKEN ?? "pk_W2OQu1QTRouRcByKgmxjCA";
 
-function ToolIcon({ tool, size = 28 }: { tool: ConnectedTool; size?: number }) {
+function ToolIcon({
+  tool,
+  size = 28,
+  bare = false,
+}: {
+  tool: ConnectedTool;
+  size?: number;
+  /** No tile around the logo, e.g. inside the composer's round icon stack. */
+  bare?: boolean;
+}) {
   const [failed, setFailed] = useState(false);
   return (
     <span
-      className="flex shrink-0 items-center justify-center overflow-hidden rounded-[6px] border border-black/8 bg-white"
+      className={cn(
+        "flex shrink-0 items-center justify-center overflow-hidden",
+        !bare && "rounded-[6px] border border-black/8 bg-white",
+      )}
       style={{ width: size, height: size }}
     >
       {failed ? (
@@ -67,7 +86,7 @@ function ToolIcon({ tool, size = 28 }: { tool: ConnectedTool; size?: number }) {
             `https://img.logo.dev/${tool.domain}?token=${logoDevToken}&size=64&format=png`
           }
           alt=""
-          className="size-full object-contain p-[3px]"
+          className={cn("size-full object-contain", !bare && "p-[3px]")}
           onError={() => setFailed(true)}
         />
       )}
@@ -121,20 +140,20 @@ function Intro({ spec, frame, timeline }: SceneProps) {
   if (frame >= from + duration) return null;
   return (
     <AbsoluteFill
-      className="bg-light-gray z-20 items-center justify-center px-24 text-center"
+      className="z-20 items-center justify-center bg-black/45 px-24 text-center"
       style={{ opacity: 1 - exit }}
     >
       <div style={rise(enter)}>
         <TierPill spec={spec} />
       </div>
       <h2
-        className="mt-5 font-serif text-[60px] leading-[1.05] font-normal tracking-[-0.03em] text-black"
+        className="mt-5 font-serif text-[64px] leading-[1.05] font-normal tracking-[-0.03em] text-white"
         style={rise(progress(frame, from + 6, 20))}
       >
         {spec.agentName}
       </h2>
       <p
-        className="text-text/60 mt-4 max-w-[760px] text-[22px] leading-snug"
+        className="mt-4 max-w-[760px] text-[22px] leading-snug text-white/80"
         style={rise(progress(frame, from + 14, 20))}
       >
         {spec.mission}
@@ -183,6 +202,32 @@ function StartMessage({ spec, frame, timeline }: SceneProps) {
   );
 }
 
+function Icon({ d, className }: { d: string[]; className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden
+    >
+      {d.map((path) => (
+        <path key={path} d={path} />
+      ))}
+    </svg>
+  );
+}
+
+const chevron = ["m6 9 6 6 6-6"];
+
+/**
+ * WonkaChat's composer (ChatForm + ChatInputActions), as ported in
+ * apps/wonkachat-lab/src/components/chat/Composer.tsx: rounded bar with the
+ * brand border and shadow, then "+", connected apps, model, mic and send.
+ */
 function Composer({ spec, frame, timeline }: SceneProps) {
   const { from } = timeline.scenes.start;
   const isMessage = spec.start.kind === "message";
@@ -200,21 +245,59 @@ function Composer({ spec, frame, timeline }: SceneProps) {
       : "";
   const caret = typed && Math.floor(frame / 8) % 2 === 0;
   return (
-    <div className="border-border flex items-center gap-3 rounded-[14px] border bg-white px-4 py-3">
-      <p className={cn("min-w-0 flex-1 truncate text-[15px]", typed ? "text-black" : "text-text/35")}>
-        {typed || `${spec.agentName}…`}
+    <div className="flex flex-col rounded-[24px] border border-[rgb(117_163_253/0.3)] bg-white shadow-[0_2px_16px_rgb(47_109_224/0.15)]">
+      <p className={cn("truncate px-5 py-3.5 text-[16px]", typed ? "text-black" : "text-black/50")}>
+        {typed || spec.labels.composerPlaceholder}
         {caret ? <span className="ml-px inline-block h-[18px] w-px translate-y-[3px] bg-black" /> : null}
       </p>
-      <span
-        className={cn(
-          "flex size-8 items-center justify-center rounded-full text-white",
-          typed ? "bg-blue-600" : "bg-black/15",
-        )}
-      >
-        <svg viewBox="0 0 16 16" className="size-4" aria-hidden>
-          <path d="M8 13V3M3.5 7.5L8 3l4.5 4.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </span>
+      <div className="flex items-center gap-2 pr-2 pb-2 pl-2">
+        <span className="flex size-9 items-center justify-center rounded-full text-gray-600">
+          <Icon d={["M5 12h14", "M12 5v14"]} className="size-5" />
+        </span>
+        <span className="flex h-9 min-w-0 items-center gap-2 rounded-[8px] border border-black/10 bg-gray-50 px-2.5 shadow-sm">
+          <span className="truncate text-[14px] font-medium text-black">
+            {spec.labels.connectedApps}
+          </span>
+          <span className="flex -space-x-2">
+            {spec.tools.map((tool) => (
+              <span
+                key={tool.name}
+                className="flex size-7 items-center justify-center rounded-full border border-black/15 bg-white"
+              >
+                <ToolIcon tool={tool} size={18} bare />
+              </span>
+            ))}
+          </span>
+          <Icon d={chevron} className="size-3.5 shrink-0 text-gray-600" />
+        </span>
+        <span className="flex-1" />
+        <span className="flex h-9 items-center gap-1.5 rounded-[8px] border border-black/10 bg-gray-50 px-2.5 text-[14px] font-medium text-black shadow-sm">
+          <Icon
+            d={[
+              "M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z",
+            ]}
+            className="size-3.5"
+          />
+          Auto
+          <Icon d={chevron} className="size-3.5 text-gray-600" />
+        </span>
+        <span className="flex size-9 items-center justify-center p-1.5 text-gray-700">
+          <Icon
+            d={[
+              "M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z",
+              "M19 10v2a7 7 0 0 1-14 0v-2",
+              "M12 19v3",
+            ]}
+            className="size-full"
+          />
+        </span>
+        <span
+          className="rounded-full bg-black p-1.5 text-white"
+          style={{ opacity: typed ? 1 : 0.1 }}
+        >
+          <Icon d={["M7 11L12 6L17 11M12 18V7"]} className="size-6" />
+        </span>
+      </div>
     </div>
   );
 }
@@ -235,7 +318,7 @@ function Trace({ spec, frame, timeline }: SceneProps) {
           return (
             <li
               key={`${step.action}-${index}`}
-              className="flex items-start gap-3 px-3 py-2.5"
+              className="flex items-start gap-3 px-3 py-2"
               style={rise(progress(frame, start, 10), 8)}
             >
               <ToolIcon tool={step.tool} size={26} />
@@ -375,16 +458,16 @@ function Outro({ spec, frame, timeline }: SceneProps) {
   const enter = progress(frame, from, 18);
   return (
     <AbsoluteFill
-      className="z-20 items-center justify-center bg-black px-24 text-center text-white"
+      className="z-20 items-center justify-center bg-black/50 px-24 text-center text-white"
       style={{ opacity: enter }}
     >
       <p
-        className="font-serif text-[112px] leading-none font-normal tracking-[-0.03em] text-blue-300 lining-nums tabular-nums"
+        className="font-serif text-[112px] leading-none font-normal tracking-[-0.03em] text-white lining-nums tabular-nums"
         style={rise(progress(frame, from + 6, 20))}
       >
         {spec.hours.min}–{spec.hours.max}h
       </p>
-      <p className="mt-3 text-[22px] text-white/70" style={rise(progress(frame, from + 12, 20))}>
+      <p className="mt-3 text-[22px] text-white/80" style={rise(progress(frame, from + 12, 20))}>
         {spec.labels.hours}
       </p>
       <div className="mt-10 flex items-center gap-2" style={rise(progress(frame, from + 22, 20))}>
@@ -392,7 +475,7 @@ function Outro({ spec, frame, timeline }: SceneProps) {
           <ToolIcon key={tool.name} tool={tool} size={34} />
         ))}
       </div>
-      <p className="mt-4 text-[16px] text-white/55" style={rise(progress(frame, from + 28, 20))}>
+      <p className="mt-4 text-[16px] text-white/70" style={rise(progress(frame, from + 28, 20))}>
         {spec.labels.builtWith}
       </p>
     </AbsoluteFill>
@@ -404,13 +487,24 @@ export function AgentFilm({ spec }: { spec: AgentFilmSpec }) {
   const timeline = agentFilmTimeline(spec);
   const props = { spec, frame, timeline };
   const showDeliverable = frame >= timeline.scenes.deliverable.from;
-  const windowIn = progress(frame, timeline.scenes.intro.duration - 14, 22);
+  const windowIn =
+    progress(frame, timeline.scenes.intro.duration - 14, 22) *
+    (1 - progress(frame, timeline.scenes.outro.from, 14));
 
   return (
-    <AbsoluteFill className="bg-light-gray font-sans">
+    <AbsoluteFill className="bg-black font-sans">
+      {/* eslint-disable-next-line @next/next/no-img-element -- rendered inside the Remotion canvas */}
+      <img
+        src={BACKGROUNDS[spec.tier]}
+        alt=""
+        className="absolute inset-0 size-full object-cover"
+        style={{
+          transform: `scale(${interpolate(frame, [0, timeline.total], [1, 1.08])})`,
+        }}
+      />
       <AbsoluteFill className="items-center justify-center">
         <div
-          className="border-border flex h-[640px] w-[1200px] flex-col overflow-hidden rounded-[18px] border bg-white shadow-[0_24px_60px_-30px_rgba(0,0,0,0.35)]"
+          className="flex h-[624px] w-[1140px] flex-col overflow-hidden rounded-[18px] border border-white/40 bg-white shadow-[0_30px_80px_-20px_rgba(0,0,0,0.55)]"
           style={{ opacity: windowIn, transform: `scale(${0.96 + 0.04 * windowIn})` }}
         >
           <header className="border-border flex items-center gap-3 border-b px-5 py-3">
@@ -427,8 +521,8 @@ export function AgentFilm({ spec }: { spec: AgentFilmSpec }) {
             </div>
           </header>
           <div className="flex min-h-0 flex-1">
-            <div className="flex w-[54%] min-w-0 flex-col gap-4 p-6">
-              <div className="flex min-h-0 flex-1 flex-col gap-4">
+            <div className="flex w-[54%] min-w-0 flex-col gap-3 p-5">
+              <div className="flex min-h-0 flex-1 flex-col gap-3">
                 <StartMessage {...props} />
                 <Trace {...props} />
               </div>
@@ -440,7 +534,7 @@ export function AgentFilm({ spec }: { spec: AgentFilmSpec }) {
           </div>
         </div>
       </AbsoluteFill>
-      <span className="text-text/45 absolute bottom-3 left-5 z-30 text-[12px]">
+      <span className="absolute bottom-2.5 left-5 z-30 text-[12px] text-white/75">
         {spec.labels.demoData}
       </span>
       <Intro {...props} />

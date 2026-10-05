@@ -42,6 +42,8 @@ export interface AgentFilmLabels {
   actionDone: string;
   hours: string;
   builtWith: string;
+  composerPlaceholder: string;
+  connectedApps: string;
 }
 
 const ACTION_LABEL: Record<AgentTier, [string, string]> = {
@@ -109,6 +111,11 @@ export function buildAgentFilmSpec(
       actionDone: t(locale, actionDone),
       hours: t(locale, "estimated hours saved every week"),
       builtWith: t(locale, "Built and run in WonkaChat"),
+      composerPlaceholder: t(locale, "Ask Wonka"),
+      connectedApps: t(locale, "{count} integrations connected").replace(
+        "{count}",
+        String(tools.length),
+      ),
     },
   };
 }
