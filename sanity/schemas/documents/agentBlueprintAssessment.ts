@@ -125,6 +125,26 @@ export const agentBlueprintAssessment = defineType({
       type: "datetime",
     }),
     defineField({
+      name: "importClickedAt",
+      title: "WonkaChat import clicked at",
+      type: "datetime",
+    }),
+    defineField({
+      name: "locale",
+      title: "Locale",
+      type: "string",
+      readOnly: true,
+    }),
+    defineField({
+      name: "wonkachatExport",
+      title: "WonkaChat export (JSON)",
+      description:
+        "Payload served to WonkaChat's one-click import. Written on completion.",
+      type: "text",
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({
       name: "clientIp",
       title: "Client IP",
       type: "string",

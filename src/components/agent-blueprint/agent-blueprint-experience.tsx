@@ -794,6 +794,10 @@ function BlueprintResults({
       keepalive: true,
     });
   }, [response.assessmentId]);
+  const trackImportClick = useCallback(
+    () => trackBlueprintEvent(response.assessmentId, "import_clicked"),
+    [response.assessmentId],
+  );
 
   const impactTiles = [
     {
@@ -1017,11 +1021,12 @@ function BlueprintResults({
             </div>
             <div className="flex flex-col items-start gap-4 lg:items-end">
               <ButtonLink
-                href={wonkaChatUrl}
+                href={wonkaChatImportUrl(wonkaChatUrl, response.assessmentId)}
+                onClick={trackImportClick}
                 data-track="wonkachat_start"
-                data-blueprint-cta="results_panel"
+                data-blueprint-cta="import_wonkachat"
               >
-                {t(locale, "Use my agents now")}
+                {t(locale, "Import my 3 agents into WonkaChat")}
               </ButtonLink>
               <Link
                 href={meetingUrl}
@@ -1063,7 +1068,9 @@ function StickyBar({
   weeklySavings,
   meetingUrl,
   wonkaChatUrl,
+  assessmentId,
   onBook,
+  onImport,
   formInView,
 }: {
   state: ExperienceState;
@@ -1071,7 +1078,9 @@ function StickyBar({
   weeklySavings: { min: number; max: number } | null;
   meetingUrl: string;
   wonkaChatUrl: string;
+  assessmentId: string | null;
   onBook: () => void;
+  onImport: () => void;
   formInView: boolean;
 }) {
   const reducedMotion = useReducedMotion();
@@ -1123,13 +1132,24 @@ function StickyBar({
               >
                 {t(locale, "Book a 30 min call")}
               </Link>
-              <ButtonLink
-                href={wonkaChatUrl}
-                data-track="wonkachat_start"
-                data-blueprint-cta="sticky_bar"
-              >
-                {t(locale, "Use my agents")}
-              </ButtonLink>
+              {assessmentId ? (
+                <ButtonLink
+                  href={wonkaChatImportUrl(wonkaChatUrl, assessmentId)}
+                  onClick={onImport}
+                  data-track="wonkachat_start"
+                  data-blueprint-cta="import_wonkachat"
+                >
+                  {t(locale, "Import my 3 agents into WonkaChat")}
+                </ButtonLink>
+              ) : (
+                <ButtonLink
+                  href={wonkaChatUrl}
+                  data-track="wonkachat_start"
+                  data-blueprint-cta="sticky_bar"
+                >
+                  {t(locale, "Use my agents")}
+                </ButtonLink>
+              )}
             </div>
           ) : (
             <Button
@@ -1145,6 +1165,23 @@ function StickyBar({
       ) : null}
     </AnimatePresence>
   );
+}
+
+/** WonkaChat page that imports this blueprint's agents in one click. */
+function wonkaChatImportUrl(wonkaChatUrl: string, assessmentId: string): string {
+  return `${wonkaChatUrl.replace(/\/+$/, "")}/blueprint/${encodeURIComponent(assessmentId)}`;
+}
+
+function trackBlueprintEvent(
+  assessmentId: string,
+  event: "demo_clicked" | "import_clicked",
+) {
+  void fetch("/api/agent-blueprint", {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ assessmentId, event }),
+    keepalive: true,
+  });
 }
 
 export function AgentBlueprintExperience({
@@ -1244,6 +1281,10 @@ export function AgentBlueprintExperience({
       }),
       keepalive: true,
     });
+  }, [response]);
+
+  const trackImportClick = useCallback(() => {
+    if (response) trackBlueprintEvent(response.assessmentId, "import_clicked");
   }, [response]);
 
   const resetTurnstile = useCallback(() => {
@@ -1648,7 +1689,9 @@ export function AgentBlueprintExperience({
         weeklySavings={weeklySavings}
         meetingUrl={meetingUrl}
         wonkaChatUrl={wonkaChatUrl}
+        assessmentId={response?.assessmentId ?? null}
         onBook={trackDemoClick}
+        onImport={trackImportClick}
         formInView={formsInView.size > 0}
       />
     </>
