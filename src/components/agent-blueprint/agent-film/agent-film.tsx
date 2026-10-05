@@ -128,7 +128,7 @@ function Intro({ spec, frame, timeline }: SceneProps) {
         <TierPill spec={spec} />
       </div>
       <h2
-        className="mt-5 text-[52px] leading-[1.05] font-semibold tracking-[-0.02em] text-black"
+        className="mt-5 font-serif text-[60px] leading-[1.05] font-normal tracking-[-0.03em] text-black"
         style={rise(progress(frame, from + 6, 20))}
       >
         {spec.agentName}
@@ -309,7 +309,7 @@ function Deliverable({ spec, frame, timeline }: SceneProps) {
         <span className="bg-light-gray text-text/60 rounded-full px-2.5 py-1 text-[12px] font-medium">
           {spec.deliverable.kind}
         </span>
-        <h3 className="mt-3 text-[22px] leading-tight font-semibold text-black">
+        <h3 className="mt-3 font-serif text-[26px] leading-tight font-normal tracking-[-0.02em] text-black">
           {spec.deliverable.title}
         </h3>
         <div className="mt-3 flex flex-col gap-3">
@@ -379,7 +379,7 @@ function Outro({ spec, frame, timeline }: SceneProps) {
       style={{ opacity: enter }}
     >
       <p
-        className="text-[96px] leading-none font-semibold tracking-[-0.03em] text-blue-300 tabular-nums"
+        className="font-serif text-[112px] leading-none font-normal tracking-[-0.03em] text-blue-300 lining-nums tabular-nums"
         style={rise(progress(frame, from + 6, 20))}
       >
         {spec.hours.min}–{spec.hours.max}h

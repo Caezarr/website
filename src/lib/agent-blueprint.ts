@@ -1,3 +1,5 @@
+import type { Locale } from "@/i18n/config";
+
 export const AGENT_TIERS = [
   "Copilot",
   "Human in the loop",
@@ -177,15 +179,30 @@ export function isAgentBlueprintResult(
   );
 }
 
-export function redactText(value: string, identifiers: string[]): string {
+/** What a redacted company name becomes, in the output language. */
+export function companyPlaceholder(locale: Locale = "en"): string {
+  if (locale === "fr") return "l’entreprise";
+  if (locale === "nl") return "het bedrijf";
+  return "the company";
+}
+
+export function redactText(
+  value: string,
+  identifiers: string[],
+  placeholder = "the company",
+): string {
+  const escapedPlaceholder = placeholder.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   return identifiers
     .filter((identifier) => identifier.trim().length >= 3)
     .sort((a, b) => b.length - a.length)
     .reduce((text, identifier) => {
       const escaped = identifier.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-      return text.replace(new RegExp(escaped, "gi"), "the company");
+      return text.replace(new RegExp(escaped, "gi"), placeholder);
     }, value)
-    .replace(/\bthe company(?:\s+the company)+\b/gi, "the company");
+    .replace(
+      new RegExp(`${escapedPlaceholder}(?:\\s+${escapedPlaceholder})+`, "gi"),
+      placeholder,
+    );
 }
 
 /** Applies `redact` to every string in a JSON-like value, keeping its shape. */
@@ -208,12 +225,13 @@ function redactDeep<T>(value: T, redact: (text: string) => string): T {
 export function anonymizeCompanyResearch(
   research: CompanyResearch,
   domain: string,
+  placeholder?: string,
 ): { context: CompanyContext; identifiers: string[] } {
   const { privateIdentifiers, ...context } = research;
   const identifiers = Array.from(
     new Set([...privateIdentifiers, domain, domain.split(".")[0] ?? ""]),
   );
-  const redact = (value: string) => redactText(value, identifiers);
+  const redact = (value: string) => redactText(value, identifiers, placeholder);
 
   return {
     identifiers,
@@ -227,8 +245,9 @@ export function anonymizeCompanyResearch(
 export function anonymizeBlueprint(
   result: Omit<AgentBlueprintResult, "sources">,
   identifiers: string[],
+  placeholder?: string,
 ): Omit<AgentBlueprintResult, "sources"> {
-  const redact = (value: string) => redactText(value, identifiers);
+  const redact = (value: string) => redactText(value, identifiers, placeholder);
   return {
     sector: redact(result.sector),
     headline: redact(result.headline),
