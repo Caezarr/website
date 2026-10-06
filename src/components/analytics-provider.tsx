@@ -30,12 +30,17 @@ export function AnalyticsProvider() {
       if (!anchor) return;
 
       const destination = new URL(anchor.href, window.location.href);
-      const isWonkaSignup =
-        (destination.hostname === "wonka.chat" || destination.hostname.endsWith(".wonka.chat")) &&
-        destination.pathname.startsWith("/register");
+      const isWonkaChat =
+        destination.hostname === "wonka.chat" || destination.hostname.endsWith(".wonka.chat");
+      const isWonkaSignup = isWonkaChat && destination.pathname.startsWith("/register");
+      // Blueprint imports land on a signup wall, so they carry attribution too.
+      const isBlueprintImport = isWonkaChat && destination.pathname.startsWith("/blueprint/");
+
+      if (isWonkaSignup || isBlueprintImport) {
+        anchor.href = decorateWonkaChatUrl(anchor.href);
+      }
 
       if (isWonkaSignup) {
-        anchor.href = decorateWonkaChatUrl(anchor.href);
         trackWebsiteEvent(WEBSITE_EVENTS.TRIAL_CLICKED, {
           destination_path: redactCapabilityPath(destination.pathname),
           placement: anchor.closest<HTMLElement>("[id]")?.id || "unknown",
