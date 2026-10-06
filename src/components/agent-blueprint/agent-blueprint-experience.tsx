@@ -24,6 +24,7 @@ import {
 import { HeroMarquee } from "@/components/sections/hero-marquee";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { LogoMark } from "@/components/ui/logo-mark";
+import { trackWebsiteEvent, WEBSITE_EVENTS } from "@/lib/analytics";
 import { headingClass } from "@/lib/design-tokens";
 import type {
   AgentBlueprintAgent,
@@ -1344,6 +1345,8 @@ export function AgentBlueprintExperience({
     setSelectedAgentIndex(0);
     setResponse(null);
     setState("loading");
+    // Never send the target domain: visitors can ask for an anonymous blueprint.
+    trackWebsiteEvent(WEBSITE_EVENTS.BLUEPRINT_STARTED, { locale, anonymous });
     window.setTimeout(() => {
       document.getElementById("agent-foundry")?.scrollIntoView({
         behavior: reducedMotion ? "auto" : "smooth",
@@ -1358,6 +1361,7 @@ export function AgentBlueprintExperience({
       );
       setState("error");
       if (turnstileEnabled) resetTurnstile();
+      trackWebsiteEvent(WEBSITE_EVENTS.BLUEPRINT_FAILED, { locale, anonymous });
     };
 
     try {
@@ -1412,6 +1416,11 @@ export function AgentBlueprintExperience({
               result: streamEvent.result,
             });
             setState("result");
+            trackWebsiteEvent(WEBSITE_EVENTS.BLUEPRINT_COMPLETED, {
+              locale,
+              anonymous,
+              agent_count: streamEvent.result.agents.length,
+            });
             break;
           case "error":
             finished = true;
