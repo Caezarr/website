@@ -35,7 +35,6 @@ export interface HomeV2Copy {
     title: string;
     body: string;
     auto: string;
-    eu: string;
     tasks: { task: string; model: "openai" | "claude" | "gemini" | "mistral"; reason: string }[];
   };
   integrations: {
@@ -127,10 +126,9 @@ const en: HomeV2Copy = {
     title: "The right model for every task.",
     body: "Writing, analysis, sensitive data: each task has the model that fits it best. Switch in one click, or let Auto choose.",
     auto: "Auto picks for you",
-    eu: "Hosted in the EU",
     tasks: [
       { task: "Write a commercial offer", model: "claude", reason: "Nuanced writing" },
-      { task: "Summarise HR files", model: "mistral", reason: "Sensitive data, EU" },
+      { task: "Summarise HR files", model: "mistral", reason: "Sensitive data" },
       { task: "Analyse a sales Excel", model: "openai", reason: "Reasoning on data" },
       { task: "Read a 60-page tender", model: "gemini", reason: "Very long documents" },
     ],
@@ -195,8 +193,8 @@ const en: HomeV2Copy = {
     eyebrow: "Security",
     title: "Your data stays yours.",
     columns: [
-      { title: "Hosting", items: ["Azure West Europe by default", "EU data residency", "Encryption at rest and in transit"] },
-      { title: "Control", items: ["Rights per team", "Your data never trains public models", "Audit trail"] },
+      { title: "Hosting", items: ["Azure West Europe (Microsoft Ireland) by default", "Encryption at rest (AES-256)", "Encryption in transit (TLS 1.2 or higher)"] },
+      { title: "Access", items: ["Single Sign-On (SSO) via Azure AD / Entra ID", "Granular permission management per user and team", "Customer data is not used to train public AI models"] },
       { title: "Compliance", items: ["ISO 27001 certified", "GDPR compliant, DPA included", "NIS 2 compliant"] },
     ],
     cta: "Security details",
@@ -259,10 +257,9 @@ const fr: HomeV2Copy = {
     title: "Le bon modèle pour chaque tâche.",
     body: "Rédaction, analyse, données sensibles : chaque tâche a le modèle qui lui convient. Changez en un clic, ou laissez Auto choisir.",
     auto: "Auto choisit pour vous",
-    eu: "Hébergé en UE",
     tasks: [
       { task: "Rédiger une offre commerciale", model: "claude", reason: "Rédaction nuancée" },
-      { task: "Synthétiser des dossiers RH", model: "mistral", reason: "Données sensibles, UE" },
+      { task: "Synthétiser des dossiers RH", model: "mistral", reason: "Données sensibles" },
       { task: "Analyser un Excel de ventes", model: "openai", reason: "Raisonnement sur données" },
       { task: "Lire un appel d'offres de 60 pages", model: "gemini", reason: "Documents très longs" },
     ],
@@ -327,9 +324,9 @@ const fr: HomeV2Copy = {
     eyebrow: "Sécurité",
     title: "Vos données restent les vôtres.",
     columns: [
-      { title: "Hébergement", items: ["Azure West Europe par défaut", "Données résidentes en UE", "Chiffrement au repos et en transit"] },
-      { title: "Contrôle", items: ["Droits par équipe", "Vos données n'entraînent jamais de modèles publics", "Historique des accès"] },
-      { title: "Conformité", items: ["Certifié ISO 27001", "Conforme RGPD, DPA inclus", "Conforme NIS 2"] },
+      { title: "Hébergement", items: ["Azure West Europe (Microsoft Irlande) par défaut", "Chiffrement au repos (AES-256)", "Chiffrement en transit (TLS 1.2 ou supérieur)"] },
+      { title: "Accès", items: ["Authentification unique (SSO) via Azure AD / Entra ID", "Gestion fine des permissions par utilisateur et par équipe", "Les données clients ne servent pas à entraîner des modèles d'IA publics"] },
+      { title: "Conformité", items: ["Certifié ISO 27001", "Conforme au RGPD, DPA inclus", "Conforme à NIS 2"] },
     ],
     cta: "Détails sécurité",
   },
@@ -391,10 +388,9 @@ const nl: HomeV2Copy = {
     title: "Het juiste model voor elke taak.",
     body: "Schrijven, analyse, gevoelige data: elke taak krijgt het model dat het best past. Wissel met één klik, of laat Auto kiezen.",
     auto: "Auto kiest voor u",
-    eu: "Gehost in de EU",
     tasks: [
       { task: "Een commerciële offerte schrijven", model: "claude", reason: "Genuanceerd schrijven" },
-      { task: "HR-dossiers samenvatten", model: "mistral", reason: "Gevoelige data, EU" },
+      { task: "HR-dossiers samenvatten", model: "mistral", reason: "Gevoelige data" },
       { task: "Een sales-Excel analyseren", model: "openai", reason: "Redeneren op data" },
       { task: "Een aanbesteding van 60 pagina's lezen", model: "gemini", reason: "Zeer lange documenten" },
     ],
@@ -459,9 +455,9 @@ const nl: HomeV2Copy = {
     eyebrow: "Beveiliging",
     title: "Uw data blijft van u.",
     columns: [
-      { title: "Hosting", items: ["Standaard Azure West Europe", "Dataresidentie in de EU", "Versleuteling in rust en onderweg"] },
-      { title: "Controle", items: ["Rechten per team", "Uw data traint nooit publieke modellen", "Audittrail"] },
-      { title: "Compliance", items: ["ISO 27001-gecertificeerd", "GDPR-conform, DPA inbegrepen", "NIS 2-conform"] },
+      { title: "Hosting", items: ["Standaard Azure West Europe (Microsoft Ierland)", "Versleuteling in rust (AES-256)", "Versleuteling tijdens transport (TLS 1.2 of hoger)"] },
+      { title: "Toegang", items: ["Single Sign-On (SSO) via Azure AD / Entra ID", "Gedetailleerd rechtenbeheer per gebruiker en team", "Klantdata wordt niet gebruikt om publieke AI-modellen te trainen"] },
+      { title: "Compliance", items: ["ISO 27001-gecertificeerd", "AVG-conform, DPA inbegrepen", "NIS 2-conform"] },
     ],
     cta: "Details beveiliging",
   },
