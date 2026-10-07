@@ -46,13 +46,12 @@ const CLIENT_LOGOS = [
 
 type Tool = { name: string; src?: string };
 
-// Tools without a logo file yet render as a monogram tile until the asset is added.
 const SECTOR_TOOLS: Record<SectorId, Tool[]> = {
   accounting: [
     { name: "Odoo", src: `${LOGO}/odoo.svg` },
-    { name: "Horus" },
+    { name: "Horus", src: `${LOGO}/horus.png` },
     { name: "QuickBooks", src: `${LOGO}/quickbooks.png` },
-    { name: "Zoho Books" },
+    { name: "Zoho Books", src: `${LOGO}/zoho-books.png` },
     { name: "Outlook", src: `${LOGO}/outlook.svg` },
     { name: "SharePoint", src: `${LOGO}/sharepoint.svg` },
   ],
@@ -65,21 +64,21 @@ const SECTOR_TOOLS: Record<SectorId, Tool[]> = {
     { name: "Outlook", src: `${LOGO}/outlook.svg` },
   ],
   hospitality: [
-    { name: "Hostaway" },
+    { name: "Hostaway", src: `${LOGO}/hostaway.png` },
     { name: "Breezeway", src: `${LOGO}/breezeway.png` },
     { name: "WhatsApp", src: `${MCP}/whatsapp.webp` },
     { name: "Gmail", src: `${LOGO}/gmail.svg` },
     { name: "Odoo", src: `${LOGO}/odoo.svg` },
   ],
   services: [
-    { name: "Stafiz" },
+    { name: "Stafiz", src: `${LOGO}/stafiz.png` },
     { name: "Odoo", src: `${LOGO}/odoo.svg` },
     { name: "Teams", src: `${LOGO}/teams.svg` },
     { name: "SharePoint", src: `${LOGO}/sharepoint.svg` },
     { name: "Jira", src: `${LOGO}/jira.svg` },
   ],
   sales: [
-    { name: "Pipedrive" },
+    { name: "Pipedrive", src: `${LOGO}/pipedrive.png` },
     { name: "HubSpot", src: `${LOGO}/hubspot.svg` },
     { name: "Salesforce", src: `${LOGO}/salesforce.svg` },
     { name: "Leexi", src: `${LOGO}/leexi.svg` },
@@ -87,8 +86,8 @@ const SECTOR_TOOLS: Record<SectorId, Tool[]> = {
     { name: "Close", src: `${LOGO}/close.svg` },
   ],
   marketing: [
-    { name: "Instagram" },
-    { name: "Facebook" },
+    { name: "Instagram", src: `${LOGO}/instagram.png` },
+    { name: "Facebook", src: `${LOGO}/facebook.png` },
     { name: "Meta Ads", src: `${MCP}/meta-ads.jpg` },
     { name: "Google Ads", src: `${MCP}/google-ads.png` },
     { name: "Brevo", src: `${MCP}/brevo.jpg` },
