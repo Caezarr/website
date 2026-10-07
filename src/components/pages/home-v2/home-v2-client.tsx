@@ -1,23 +1,29 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import {
   AnimatePresence,
   motion,
   useInView,
   useReducedMotion,
+  useScroll,
+  useTransform,
 } from "motion/react";
 import { BadgeGdpr } from "@/components/ui/icons/badge-gdpr";
 import { BadgeIso } from "@/components/ui/icons/badge-iso";
 import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
+import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
-import type { HomeV2Copy } from "@/views/copy/home-v2";
+import type { HomeV2Copy, SectorId } from "@/views/copy/home-v2";
 
 const TRIAL_URL = "https://wonka.chat/register";
 const AWARD_URL = "https://www.startupawards.be/belgium-startup-awards-winners-2026";
 const YOUTUBE_ID = "Qv_65poIhig";
 const BG = "/brand/backgrounds/16x9";
+const LOGO = "/images/home/logos";
+const MCP = "/images/mcp-integrations";
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 const CLIENT_LOGOS = [
   { src: "/images/france/logos/engie.svg", alt: "Engie" },
@@ -37,39 +43,17 @@ const CLIENT_LOGOS = [
   { src: "/images/workspace/logos/respace.png", alt: "Respace" },
 ];
 
-const EVERYDAY_TOOLS = [
-  ["outlook-mail.jpg", "Outlook"],
-  ["gmail.svg", "Gmail"],
-  ["onedrive.svg", "OneDrive"],
-  ["google-drive.png", "Google Drive"],
-  ["slack.svg", "Slack"],
-  ["notion.svg", "Notion"],
-  ["hubspot.svg", "HubSpot"],
-  ["salesforce.svg", "Salesforce"],
-  ["jira.svg", "Jira"],
-  ["google-sheets.png", "Google Sheets"],
-  ["power-bi.svg", "Power BI"],
-  ["zendesk.svg", "Zendesk"],
-  ["asana.svg", "Asana"],
-  ["monday-com.png", "monday.com"],
-  ["stripe.webp", "Stripe"],
-  ["shopify.jpg", "Shopify"],
-  ["linkedin.svg", "LinkedIn"],
-  ["zoom.svg", "Zoom"],
-  ["confluence.svg", "Confluence"],
-  ["dynamics-365.png", "Dynamics 365"],
-].map(([file, name]) => ({ src: `/images/mcp-integrations/${file}`, name }));
+type Tool = { name: string; src?: string };
 
-type SectorTool = { name: string; src?: string };
-
-const SECTOR_TOOLS: Record<string, SectorTool[]> = {
-  finance: [
-    { name: "Odoo", src: "/images/visual/odoo.png" },
+// Tools without a logo file yet render as a monogram tile until the asset is added.
+const SECTOR_TOOLS: Record<SectorId, Tool[]> = {
+  accounting: [
+    { name: "Odoo", src: `${LOGO}/odoo.svg` },
     { name: "Horus" },
     { name: "QuickBooks" },
     { name: "Zoho Books" },
-    { name: "Stripe", src: "/images/mcp-integrations/stripe.webp" },
-    { name: "Acerta", src: "/images/visual/acerta.svg" },
+    { name: "Outlook", src: `${LOGO}/outlook.svg` },
+    { name: "SharePoint", src: `${LOGO}/sharepoint.svg` },
   ],
   construction: [
     { name: "Sage", src: "/images/btp-integrations/sage.png" },
@@ -77,74 +61,143 @@ const SECTOR_TOOLS: Record<string, SectorTool[]> = {
     { name: "ProGBat", src: "/images/btp-integrations/progbat-wordmark.png" },
     { name: "Costructor", src: "/images/btp-integrations/costructor.png" },
     { name: "Graneet", src: "/images/btp-integrations/graneet.png" },
-    { name: "Stafiz" },
+    { name: "Outlook", src: `${LOGO}/outlook.svg` },
   ],
   hospitality: [
     { name: "Hostaway" },
     { name: "Breezeway" },
-    { name: "Odoo", src: "/images/visual/odoo.png" },
-    { name: "WhatsApp", src: "/images/mcp-integrations/whatsapp.webp" },
+    { name: "WhatsApp", src: `${MCP}/whatsapp.webp` },
+    { name: "Gmail", src: `${LOGO}/gmail.svg` },
+    { name: "Odoo", src: `${LOGO}/odoo.svg` },
+  ],
+  services: [
+    { name: "Stafiz" },
+    { name: "Odoo", src: `${LOGO}/odoo.svg` },
+    { name: "Teams", src: `${LOGO}/teams.svg` },
+    { name: "SharePoint", src: `${LOGO}/sharepoint.svg` },
+    { name: "Jira", src: `${LOGO}/jira.svg` },
   ],
   sales: [
     { name: "Pipedrive" },
-    { name: "HubSpot", src: "/images/mcp-integrations/hubspot.svg" },
-    { name: "Salesforce", src: "/images/mcp-integrations/salesforce.svg" },
+    { name: "HubSpot", src: `${LOGO}/hubspot.svg` },
+    { name: "Salesforce", src: `${LOGO}/salesforce.svg` },
+    { name: "Leexi", src: `${LOGO}/leexi.svg` },
+    { name: "Attio", src: `${LOGO}/attio.svg` },
+    { name: "Close", src: `${LOGO}/close.svg` },
+  ],
+  marketing: [
     { name: "Instagram" },
     { name: "Facebook" },
-    { name: "Meta Ads", src: "/images/mcp-integrations/meta-ads.jpg" },
+    { name: "Meta Ads", src: `${MCP}/meta-ads.jpg` },
+    { name: "Google Ads", src: `${MCP}/google-ads.png` },
+    { name: "Brevo", src: `${MCP}/brevo.jpg` },
+    { name: "Klaviyo", src: `${LOGO}/klaviyo.svg` },
+  ],
+  retail: [
+    { name: "Shopify", src: `${MCP}/shopify.jpg` },
+    { name: "Stripe", src: `${MCP}/stripe.webp` },
+    { name: "Square", src: `${MCP}/square.svg` },
+    { name: "Klaviyo", src: `${LOGO}/klaviyo.svg` },
+    { name: "WhatsApp", src: `${MCP}/whatsapp.webp` },
+  ],
+  support: [
+    { name: "Zendesk", src: `${MCP}/zendesk.svg` },
+    { name: "Intercom", src: `${MCP}/intercom.png` },
+    { name: "WhatsApp", src: `${MCP}/whatsapp.webp` },
+    { name: "Outlook", src: `${LOGO}/outlook.svg` },
+    { name: "Gmail", src: `${LOGO}/gmail.svg` },
   ],
 };
+
+const EVERYDAY_TOOLS: Tool[][] = [
+  [
+    { name: "Outlook", src: `${LOGO}/outlook.svg` },
+    { name: "Teams", src: `${LOGO}/teams.svg` },
+    { name: "SharePoint", src: `${LOGO}/sharepoint.svg` },
+    { name: "OneDrive", src: `${LOGO}/onedrive.svg` },
+    { name: "Gmail", src: `${LOGO}/gmail.svg` },
+    { name: "Google Drive", src: `${LOGO}/googledrive.svg` },
+    { name: "Google Sheets", src: `${LOGO}/googlesheets.svg` },
+    { name: "Google Calendar", src: `${LOGO}/googlecalendar.svg` },
+    { name: "Slack", src: `${LOGO}/slack.svg` },
+    { name: "Notion", src: `${LOGO}/notion.svg` },
+    { name: "Confluence", src: `${MCP}/confluence.svg` },
+    { name: "Dropbox", src: `${MCP}/dropbox.svg` },
+  ],
+  [
+    { name: "HubSpot", src: `${LOGO}/hubspot.svg` },
+    { name: "Salesforce", src: `${LOGO}/salesforce.svg` },
+    { name: "Jira", src: `${LOGO}/jira.svg` },
+    { name: "Asana", src: `${LOGO}/asana.svg` },
+    { name: "monday.com", src: `${LOGO}/mondaydotcom.svg` },
+    { name: "Linear", src: `${MCP}/linear.svg` },
+    { name: "Trello", src: `${MCP}/trello.svg` },
+    { name: "Airtable", src: `${MCP}/airtable.svg` },
+    { name: "Zoom", src: `${MCP}/zoom.svg` },
+    { name: "Miro", src: `${MCP}/miro.png` },
+    { name: "Canva", src: `${MCP}/canva.png` },
+    { name: "GitHub", src: `${MCP}/github.svg` },
+  ],
+];
+
+const MODEL_META = {
+  openai: { name: "GPT-5.6", vendor: "OpenAI", src: `${LOGO}/model-openai.svg` },
+  claude: { name: "Claude Opus 5.5", vendor: "Anthropic", src: `${LOGO}/model-claude.svg` },
+  gemini: { name: "Gemini 3 Pro", vendor: "Google", src: `${LOGO}/model-gemini.png` },
+  mistral: { name: "Mistral Large", vendor: "Mistral AI", src: `${LOGO}/model-mistral.png` },
+} as const;
+type ModelId = keyof typeof MODEL_META;
+const MODEL_ORDER: ModelId[] = ["openai", "claude", "gemini", "mistral"];
 
 export interface HomeV2Links {
   meetingUrl: string;
   securityUrl: string;
 }
 
-/* ───────────────────────── shared bits ───────────────────────── */
+/* ───────────────────────── primitives ───────────────────────── */
 
-function Eyebrow({ children, light }: { children: React.ReactNode; light?: boolean }) {
+function Eyebrow({ children, tone = "dark" }: { children: React.ReactNode; tone?: "dark" | "light" }) {
   return (
     <p
       className={cn(
-        "type-eyebrow text-xs uppercase tracking-[0.18em]",
-        light ? "text-white/75" : "text-text/55",
+        "flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em]",
+        tone === "light" ? "text-white/70" : "text-light-brown",
       )}
     >
+      <span className={cn("h-px w-6", tone === "light" ? "bg-white/40" : "bg-black/25")} />
       {children}
     </p>
   );
 }
 
-function PrimaryCta({ children, href }: { children: React.ReactNode; href: string }) {
+function PrimaryCta({ children, href, tone = "dark" }: { children: React.ReactNode; href: string; tone?: "dark" | "light" }) {
   return (
     <a
       href={href}
-      className="inline-flex items-center justify-center rounded-full bg-[#0E1A16] px-6 py-3 text-sm font-medium text-white shadow-lg shadow-black/20 transition hover:-translate-y-0.5 hover:bg-black"
+      className={cn(
+        "group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition duration-300 hover:-translate-y-0.5",
+        tone === "dark"
+          ? "bg-black text-white shadow-[0_12px_30px_-12px_rgba(14,26,22,0.6)] hover:bg-black/90"
+          : "bg-white text-black shadow-[0_12px_30px_-12px_rgba(0,0,0,0.5)]",
+      )}
     >
       {children}
+      <span className="transition group-hover:translate-x-0.5">→</span>
     </a>
   );
 }
 
-function SecondaryCta({
-  children,
-  href,
-  light,
-}: {
-  children: React.ReactNode;
-  href: string;
-  light?: boolean;
-}) {
+function GhostCta({ children, href, tone = "light" }: { children: React.ReactNode; href: string; tone?: "dark" | "light" }) {
   return (
     <a
       href={href}
       target="_blank"
       rel="noopener noreferrer"
       className={cn(
-        "inline-flex items-center justify-center rounded-full border px-6 py-3 text-sm font-medium backdrop-blur-md transition hover:-translate-y-0.5",
-        light
-          ? "border-white/50 bg-white/15 text-white hover:bg-white/25"
-          : "border-[#0E1A16]/20 bg-white/60 text-[#0E1A16] hover:bg-white",
+        "inline-flex items-center justify-center rounded-full border px-6 py-3.5 text-sm font-medium backdrop-blur-md transition duration-300 hover:-translate-y-0.5",
+        tone === "light"
+          ? "border-white/40 bg-white/10 text-white hover:bg-white/20"
+          : "border-black/15 bg-white text-black hover:border-black/30",
       )}
     >
       {children}
@@ -152,84 +205,153 @@ function SecondaryCta({
   );
 }
 
-function Glass({ className, children }: { className?: string; children: React.ReactNode }) {
-  return (
-    <div
-      className={cn(
-        "rounded-3xl border border-white/40 bg-white/70 shadow-2xl shadow-black/15 backdrop-blur-xl",
-        className,
-      )}
-    >
-      {children}
-    </div>
-  );
-}
-
-function WindowChrome({ title }: { title: string }) {
-  return (
-    <div className="flex items-center gap-2 border-b border-black/5 px-4 py-3">
-      <span className="size-2.5 rounded-full bg-[#0E1A16]/15" />
-      <span className="size-2.5 rounded-full bg-[#0E1A16]/15" />
-      <span className="size-2.5 rounded-full bg-[#0E1A16]/15" />
-      <span className="ml-2 truncate text-xs text-[#0E1A16]/60">{title}</span>
-    </div>
-  );
-}
-
-function FadeUp({
+function Reveal({
   children,
   delay = 0,
   className,
+  y = 28,
 }: {
   children: React.ReactNode;
   delay?: number;
   className?: string;
+  y?: number;
 }) {
   const reduce = useReducedMotion();
   return (
     <motion.div
       className={className}
-      initial={reduce ? false : { opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial={reduce ? false : { opacity: 0, y, filter: "blur(6px)" }}
+      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.9, delay, ease: EASE }}
     >
       {children}
     </motion.div>
   );
 }
 
-function useTypewriter(text: string, active: boolean, speed = 38) {
+function SectionTitle({
+  eyebrow,
+  title,
+  body,
+  tone = "dark",
+  className,
+}: {
+  eyebrow: string;
+  title: string;
+  body?: string;
+  tone?: "dark" | "light";
+  className?: string;
+}) {
+  return (
+    <Reveal className={cn("max-w-3xl space-y-5", className)}>
+      <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
+      <h2
+        className={cn(
+          "font-serif text-[2.4rem] leading-[1.02] tracking-[-0.01em] md:text-[3.6rem]",
+          tone === "light" ? "text-white" : "text-black",
+        )}
+      >
+        {title}
+      </h2>
+      {body && (
+        <p className={cn("max-w-2xl text-base md:text-lg", tone === "light" ? "text-white/70" : "text-black/65")}>
+          {body}
+        </p>
+      )}
+    </Reveal>
+  );
+}
+
+function ToolTile({ tool, size = "md" }: { tool: Tool; size?: "sm" | "md" }) {
+  return (
+    <span
+      className={cn(
+        "flex shrink-0 items-center justify-center border border-black/[0.06] bg-white shadow-[0_8px_24px_-12px_rgba(14,26,22,0.25)]",
+        size === "sm" ? "size-12 rounded-xl" : "size-14 rounded-2xl md:size-16",
+      )}
+      title={tool.name}
+    >
+      {tool.src ? (
+        <Image
+          src={tool.src}
+          alt={tool.name}
+          width={40}
+          height={40}
+          className={cn("object-contain", size === "sm" ? "size-6" : "size-7 md:size-8")}
+        />
+      ) : (
+        <span className="font-serif text-xl text-black" aria-label={tool.name}>
+          {tool.name.slice(0, 1)}
+        </span>
+      )}
+    </span>
+  );
+}
+
+/** Autoplays only while visible, so off-screen clips cost nothing. */
+function ClipVideo({
+  src,
+  poster,
+  className,
+  loop = true,
+  onTime,
+  onEnded,
+}: {
+  src: string;
+  poster: string;
+  className?: string;
+  loop?: boolean;
+  onTime?: (progress: number) => void;
+  onEnded?: () => void;
+}) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const inView = useInView(ref, { amount: 0.35 });
   const reduce = useReducedMotion();
-  // Callers remount the component (via `key`) to replay, so the count only grows.
-  const [count, setCount] = useState(0);
+
   useEffect(() => {
-    if (!active || reduce) return;
-    const id = window.setInterval(() => {
-      setCount((c) => {
-        if (c >= text.length) {
-          window.clearInterval(id);
-          return c;
-        }
-        return c + 1;
-      });
-    }, speed);
-    return () => window.clearInterval(id);
-  }, [text, active, speed, reduce]);
-  const shown = reduce ? text.length : count;
-  return { typed: text.slice(0, shown), done: shown >= text.length };
+    const video = ref.current;
+    if (!video) return;
+    if (inView && !reduce) {
+      // React does not reflect `muted` as an attribute, so set it before play() or autoplay is refused.
+      video.muted = true;
+      void video.play().catch(() => undefined);
+    } else video.pause();
+  }, [inView, reduce, src]);
+
+  return (
+    <video
+      ref={ref}
+      className={className}
+      src={src}
+      poster={poster}
+      muted
+      playsInline
+      loop={loop}
+      preload="metadata"
+      onTimeUpdate={(e) => {
+        const v = e.currentTarget;
+        if (onTime && v.duration) onTime(v.currentTime / v.duration);
+      }}
+      onEnded={onEnded}
+    />
+  );
 }
 
 /* ───────────────────────── award ───────────────────────── */
 
+function CrownIcon() {
+  return (
+    <svg viewBox="0 0 24 16" className="relative z-10 h-3.5 w-5" fill="none" aria-hidden>
+      <path d="M2 14 L3 3 L8 9 L12 2 L16 9 L21 3 L22 14 Z" stroke="#e8c477" strokeWidth="1.6" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function AwardTag({ copy }: { copy: HomeV2Copy["award"] }) {
   const [open, setOpen] = useState(false);
   return (
-    <div
-      className="relative inline-flex"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-    >
+    <div className="relative inline-flex" onMouseEnter={() => setOpen(true)} onMouseLeave={() => setOpen(false)}>
       <a
         href={AWARD_URL}
         target="_blank"
@@ -241,9 +363,7 @@ function AwardTag({ copy }: { copy: HomeV2Copy["award"] }) {
       >
         <CrownIcon />
         <span className="relative z-10 h-4 w-px bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" />
-        <span className="relative z-10 text-[0.68rem] font-medium uppercase tracking-[0.14em] md:text-xs">
-          {copy.label}
-        </span>
+        <span className="relative z-10 text-[0.66rem] font-medium uppercase tracking-[0.14em] md:text-xs">{copy.label}</span>
         <span className="relative z-10 text-[#e8c477] transition group-hover:translate-x-0.5">→</span>
       </a>
       <AnimatePresence>
@@ -258,16 +378,8 @@ function AwardTag({ copy }: { copy: HomeV2Copy["award"] }) {
             transition={{ duration: 0.2 }}
             className="absolute left-1/2 top-full z-30 mt-3 hidden w-[min(90vw,32rem)] -translate-x-1/2 overflow-hidden rounded-2xl shadow-2xl shadow-black/40 ring-1 ring-white/30 md:block"
           >
-            <Image
-              src="/images/awards/belgium-startup-awards-2026.png"
-              alt={copy.label}
-              width={1300}
-              height={300}
-              className="h-auto w-full"
-            />
-            <span className="block bg-[#0E1A16] px-4 py-2 text-center text-xs text-white/80">
-              {copy.cta} →
-            </span>
+            <Image src="/images/awards/belgium-startup-awards-2026.png" alt={copy.label} width={1300} height={300} className="h-auto w-full" />
+            <span className="block bg-black px-4 py-2 text-center text-xs text-white/80">{copy.cta} →</span>
           </motion.a>
         )}
       </AnimatePresence>
@@ -275,551 +387,589 @@ function AwardTag({ copy }: { copy: HomeV2Copy["award"] }) {
   );
 }
 
-function CrownIcon() {
-  return (
-    <svg viewBox="0 0 24 16" className="relative z-10 h-3.5 w-5" fill="none" aria-hidden>
-      <path
-        d="M2 14 L3 3 L8 9 L12 2 L16 9 L21 3 L22 14 Z"
-        stroke="#e8c477"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
 /* ───────────────────────── hero ───────────────────────── */
 
-function HeroDemo({ copy }: { copy: HomeV2Copy["hero"] }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { amount: 0.4 });
-  const [cycle, setCycle] = useState(0);
-  return (
-    <div ref={ref}>
-      <HeroDemoLoop
-        key={cycle}
-        copy={copy}
-        active={inView}
-        onDone={() => setCycle((c) => c + 1)}
-      />
-    </div>
-  );
-}
-
-function HeroDemoLoop({
+function Hero({
   copy,
-  active,
-  onDone,
+  award,
+  links,
+  locale,
+  onWatch,
 }: {
   copy: HomeV2Copy["hero"];
-  active: boolean;
-  onDone: () => void;
+  award: HomeV2Copy["award"];
+  links: HomeV2Links;
+  locale: Locale;
+  onWatch: () => void;
 }) {
-  const { typed, done } = useTypewriter(copy.demoPrompt, active, 34);
-
-  useEffect(() => {
-    if (!done || !active) return;
-    const id = window.setTimeout(onDone, 4200);
-    return () => window.clearTimeout(id);
-  }, [done, active, onDone]);
+  const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1.04, 1.18]);
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
+  const frameY = useTransform(scrollYProgress, [0, 1], [0, -60]);
 
   return (
-    <div>
-      <Glass className="mx-auto w-full max-w-xl text-left">
-        <WindowChrome title="WonkaChat" />
-        <div className="space-y-4 p-5">
-          <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[#0E1A16]">
-            {typed}
-            {!done && <span className="ml-0.5 inline-block h-4 w-px animate-pulse bg-[#0E1A16] align-middle" />}
+    <section ref={ref} className="relative overflow-hidden bg-black">
+      <motion.div className="absolute inset-0" style={reduce ? undefined : { scale: bgScale, y: bgY }}>
+        <Image src={`${BG}/wonka-bg-hills-1920x1080.webp`} alt="" fill priority className="object-cover" sizes="100vw" />
+      </motion.div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/10 to-black/80" />
+
+      <div className="relative mx-auto flex max-w-6xl flex-col items-center px-4 pb-20 pt-32 text-center md:pt-40">
+        <Reveal>
+          <AwardTag copy={award} />
+        </Reveal>
+        <Reveal delay={0.08} className="mt-8">
+          <h1 className="mx-auto max-w-5xl font-serif text-[2.6rem] leading-[1.02] tracking-[-0.015em] text-white md:text-[4.6rem]">
+            {copy.title}
+            <span className="block text-white/60">{copy.titleAccent}</span>
+          </h1>
+        </Reveal>
+        <Reveal delay={0.16} className="mt-6">
+          <p className="mx-auto max-w-2xl text-base text-white/85 md:text-lg">{copy.subtitle}</p>
+        </Reveal>
+        <Reveal delay={0.24} className="mt-9 flex flex-col items-center gap-5">
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <PrimaryCta href={TRIAL_URL} tone="light">{copy.primaryCta}</PrimaryCta>
+            <GhostCta href={links.meetingUrl}>{copy.secondaryCta}</GhostCta>
           </div>
-          <AnimatePresence>
-            {done && (
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-                className="flex items-center gap-3 rounded-2xl bg-[#CADBFD]/60 p-4"
-              >
-                <Image
-                  src="/brand/glass-icon/wonka-glass-icon-hills-square.webp"
-                  alt=""
-                  width={44}
-                  height={44}
-                  className="size-11 rounded-xl object-cover"
-                />
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-medium text-[#0E1A16]">{copy.demoAgentName}</p>
-                  <p className="truncate text-xs text-[#0E1A16]/60">{copy.demoAgentTools}</p>
+          <button type="button" onClick={onWatch} className="group inline-flex items-center gap-3 text-sm text-white/85">
+            <span className="relative flex size-8 items-center justify-center rounded-full bg-white/20 backdrop-blur">
+              <span className="absolute inset-0 animate-ping rounded-full bg-white/20" />
+              <svg viewBox="0 0 12 12" className="size-3 fill-white" aria-hidden><path d="M3 1.5v9l7.5-4.5z" /></svg>
+            </span>
+            <span className="underline-offset-4 group-hover:underline">{copy.videoCta}</span>
+          </button>
+        </Reveal>
+
+        <motion.div style={reduce ? undefined : { y: frameY }} className="mt-16 w-full">
+          <Reveal delay={0.3} y={60}>
+            <div className="relative mx-auto max-w-5xl">
+              <div className="absolute -inset-x-10 -bottom-10 top-10 rounded-[3rem] bg-blue-400/25 blur-3xl" aria-hidden />
+              <div className="relative overflow-hidden rounded-[1.75rem] border border-white/15 bg-black shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)]">
+                <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3">
+                  <span className="size-2.5 rounded-full bg-white/20" />
+                  <span className="size-2.5 rounded-full bg-white/20" />
+                  <span className="size-2.5 rounded-full bg-white/20" />
+                  <span className="ml-3 text-xs text-white/50">WonkaChat</span>
                 </div>
-                <span className="rounded-full bg-[#5C7F5D] px-3 py-1 text-xs text-white">
-                  ✓ {copy.demoStatus}
-                </span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </Glass>
-    </div>
+                <ClipVideo
+                  src={`/videos/home/${locale}/describe.mp4`}
+                  poster={`/videos/home/${locale}/describe.jpg`}
+                  className="aspect-[1920/760] w-full object-cover"
+                />
+              </div>
+              <p className="mt-5 text-sm text-white/65">{copy.demoCaption}</p>
+            </div>
+          </Reveal>
+        </motion.div>
+      </div>
+    </section>
   );
 }
 
-function LogoMarquee({ label }: { label: string }) {
+function TrustBand({ label }: { label: string }) {
   const reduce = useReducedMotion();
   const logos = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
   return (
-    <div className="w-full">
-      <p className="mb-4 text-center text-xs uppercase tracking-[0.18em] text-white/80">{label}</p>
-      <div className="relative overflow-hidden rounded-2xl bg-white/85 py-4 backdrop-blur-md [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]">
+    <section className="border-b border-black/5 bg-white py-12">
+      <p className="mb-8 text-center text-xs font-medium uppercase tracking-[0.18em] text-light-brown">{label}</p>
+      <div className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
         <motion.div
-          className="flex w-max items-center gap-12 px-6"
+          className="flex w-max items-center gap-16 px-8"
           animate={reduce ? undefined : { x: ["0%", "-50%"] }}
-          transition={{ duration: 45, ease: "linear", repeat: Infinity }}
+          transition={{ duration: 50, ease: "linear", repeat: Infinity }}
         >
           {logos.map((logo, i) => (
             <Image
               key={`${logo.alt}-${i}`}
               src={logo.src}
               alt={logo.alt}
-              width={120}
-              height={36}
-              className="h-7 w-auto max-w-[120px] object-contain opacity-80 grayscale transition hover:opacity-100 hover:grayscale-0"
+              width={140}
+              height={40}
+              className="h-8 w-auto max-w-[140px] object-contain opacity-60 grayscale transition duration-300 hover:opacity-100 hover:grayscale-0"
             />
           ))}
         </motion.div>
-      </div>
-    </div>
-  );
-}
-
-function Hero({
-  copy,
-  award,
-  links,
-  onPlay,
-}: {
-  copy: HomeV2Copy["hero"];
-  award: HomeV2Copy["award"];
-  links: HomeV2Links;
-  onPlay: () => void;
-}) {
-  return (
-    <section className="relative overflow-hidden">
-      <Image
-        src={`${BG}/wonka-bg-hills-1920x1080.webp`}
-        alt=""
-        fill
-        priority
-        className="object-cover"
-        sizes="100vw"
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/35 via-black/10 to-black/30" />
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-8 px-4 pb-14 pt-32 text-center md:pt-40">
-        <FadeUp>
-          <AwardTag copy={award} />
-        </FadeUp>
-        <FadeUp delay={0.05}>
-          <h1 className="mx-auto max-w-4xl font-serif text-4xl leading-[1.05] text-white md:text-6xl">
-            {copy.title}
-          </h1>
-        </FadeUp>
-        <FadeUp delay={0.1}>
-          <p className="mx-auto max-w-2xl text-base text-white/90 md:text-lg">{copy.subtitle}</p>
-        </FadeUp>
-        <FadeUp delay={0.15} className="flex flex-col items-center gap-4">
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <PrimaryCta href={TRIAL_URL}>{copy.primaryCta}</PrimaryCta>
-            <SecondaryCta href={links.meetingUrl} light>
-              {copy.secondaryCta}
-            </SecondaryCta>
-          </div>
-          <button
-            type="button"
-            onClick={onPlay}
-            className="inline-flex items-center gap-2 text-sm text-white/90 underline-offset-4 hover:underline"
-          >
-            <span className="flex size-7 items-center justify-center rounded-full bg-white/25 backdrop-blur">▶</span>
-            {copy.videoCta}
-          </button>
-        </FadeUp>
-        <FadeUp delay={0.25} className="w-full">
-          <HeroDemo copy={copy} />
-        </FadeUp>
-        <FadeUp delay={0.3} className="w-full">
-          <LogoMarquee label={copy.trustedBy} />
-        </FadeUp>
       </div>
     </section>
   );
 }
 
-/* ───────────────────────── results ───────────────────────── */
+/* ───────────────────────── platform film ───────────────────────── */
 
-function Results({ copy }: { copy: HomeV2Copy["results"] }) {
+function Platform({ copy, locale }: { copy: HomeV2Copy["platform"]; locale: Locale }) {
+  const [active, setActive] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const chapter = copy.chapters[active];
+  const select = useCallback((i: number) => {
+    setActive(i);
+    setProgress(0);
+  }, []);
+  const next = useCallback(() => select((active + 1) % copy.chapters.length), [active, copy.chapters.length, select]);
+
   return (
-    <section className="bg-[#F7F7F7] px-4 py-20 md:py-28">
-      <div className="mx-auto max-w-6xl">
-        <FadeUp className="mb-10 space-y-3">
-          <Eyebrow>{copy.eyebrow}</Eyebrow>
-          <h2 className="font-serif text-3xl text-[#0E1A16] md:text-5xl">{copy.title}</h2>
-        </FadeUp>
-        <div className="grid gap-4 md:grid-cols-3">
-          {copy.items.map((item, i) => (
-            <FadeUp key={item.client} delay={i * 0.08}>
-              <div className="flex h-full flex-col justify-between gap-8 rounded-3xl border border-black/5 bg-white p-7 shadow-sm">
-                <p className="font-serif text-5xl text-[#0E1A16] md:text-6xl">{item.metric}</p>
-                <div className="space-y-2">
-                  <p className="text-base text-[#0E1A16]/80">{item.label}</p>
-                  <p className="text-xs uppercase tracking-[0.16em] text-[#5C7F5D]">{item.client}</p>
-                </div>
-              </div>
-            </FadeUp>
-          ))}
+    <section className="relative overflow-hidden bg-black py-24 md:py-36">
+      <div
+        className="pointer-events-none absolute inset-0 opacity-60"
+        style={{ background: "radial-gradient(60% 50% at 75% 40%, rgba(117,163,253,0.18), transparent 70%)" }}
+        aria-hidden
+      />
+      <div className="relative mx-auto max-w-7xl px-4">
+        <SectionTitle eyebrow={copy.eyebrow} title={copy.title} tone="light" />
+
+        <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-14">
+          <div className="order-2 lg:order-1 lg:col-span-5">
+            <ol className="space-y-2">
+              {copy.chapters.map((c, i) => {
+                const isActive = i === active;
+                return (
+                  <li key={c.id}>
+                    <button
+                      type="button"
+                      onClick={() => select(i)}
+                      className={cn(
+                        "w-full rounded-2xl p-5 text-left transition duration-500",
+                        isActive ? "bg-white/[0.06]" : "hover:bg-white/[0.03]",
+                      )}
+                    >
+                      <span className="flex items-baseline gap-4">
+                        <span className={cn("font-serif text-sm tabular-nums", isActive ? "text-blue-400" : "text-white/30")}>
+                          0{i + 1}
+                        </span>
+                        <span
+                          className={cn(
+                            "font-serif text-xl transition-colors md:text-2xl",
+                            isActive ? "text-white" : "text-white/45",
+                          )}
+                        >
+                          {c.title}
+                        </span>
+                      </span>
+                      <AnimatePresence initial={false}>
+                        {isActive && (
+                          <motion.span
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.45, ease: EASE }}
+                            className="block overflow-hidden pl-9"
+                          >
+                            <span className="block pt-3 text-sm text-white/65 md:text-base">{c.body}</span>
+                            <span className="mt-5 block h-px w-full overflow-hidden bg-white/10">
+                              <span className="block h-full bg-blue-400" style={{ width: `${progress * 100}%` }} />
+                            </span>
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+
+          <div className="order-1 lg:order-2 lg:col-span-7">
+            <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#18231f] shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`${chapter.id}-${locale}`}
+                  initial={{ opacity: 0, scale: 1.03 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.98 }}
+                  transition={{ duration: 0.5, ease: EASE }}
+                  className="flex aspect-[16/10] items-center justify-center"
+                >
+                  <ClipVideo
+                    src={`/videos/home/${locale}/${chapter.id}.mp4`}
+                    poster={`/videos/home/${locale}/${chapter.id}.jpg`}
+                    className="h-full w-full object-contain"
+                    loop={false}
+                    onTime={setProgress}
+                    onEnded={next}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
 
-/* ───────────────────────── how it works (pinned) ───────────────────────── */
+/* ───────────────────────── models ───────────────────────── */
 
-function DescribeMock({ mock, active }: { mock: HomeV2Copy["how"]["mock"]; active: boolean }) {
-  const { typed, done } = useTypewriter(mock.describePrompt, active, 30);
+function Models({ copy }: { copy: HomeV2Copy["models"] }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { amount: 0.4 });
+  const reduce = useReducedMotion();
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (!inView || reduce) return;
+    const id = window.setInterval(() => setIndex((i) => (i + 1) % copy.tasks.length), 2600);
+    return () => window.clearInterval(id);
+  }, [inView, reduce, copy.tasks.length]);
+
+  const task = copy.tasks[index];
+
   return (
-    <div className="space-y-4">
-      <div className="rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm text-[#0E1A16]">
-        {typed}
-        {!done && <span className="ml-0.5 inline-block h-4 w-px animate-pulse bg-[#0E1A16] align-middle" />}
+    <section className="bg-light-gray py-24 md:py-36">
+      <div ref={ref} className="mx-auto grid max-w-7xl items-center gap-14 px-4 lg:grid-cols-12">
+        <div className="lg:col-span-5">
+          <SectionTitle eyebrow={copy.eyebrow} title={copy.title} body={copy.body} />
+          <ul className="mt-10 space-y-1">
+            {copy.tasks.map((t, i) => (
+              <li key={t.task}>
+                <button
+                  type="button"
+                  onClick={() => setIndex(i)}
+                  className={cn(
+                    "flex w-full items-center justify-between gap-4 rounded-xl px-4 py-3 text-left transition",
+                    i === index ? "bg-white shadow-sm" : "hover:bg-white/60",
+                  )}
+                >
+                  <span className={cn("text-sm md:text-base", i === index ? "text-black" : "text-black/50")}>{t.task}</span>
+                  <Image
+                    src={MODEL_META[t.model].src}
+                    alt=""
+                    width={20}
+                    height={20}
+                    className={cn("size-5 object-contain transition", i === index ? "opacity-100" : "opacity-30 grayscale")}
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <Reveal className="lg:col-span-7" delay={0.1}>
+          <div className="relative overflow-hidden rounded-[2rem] bg-white p-6 shadow-[0_30px_80px_-40px_rgba(14,26,22,0.45)] md:p-10">
+            <div className="flex items-center gap-3 rounded-2xl border border-black/10 bg-light-gray px-4 py-3.5">
+              <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-black">
+                <Image src={`${LOGO}/wonka-logo-mark-white-transparent.png`} alt="" width={18} height={18} className="size-4 object-contain" />
+              </span>
+              <AnimatePresence mode="wait">
+                <motion.span
+                  key={task.task}
+                  initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+                  transition={{ duration: 0.35 }}
+                  className="flex-1 truncate text-sm text-black md:text-base"
+                >
+                  {task.task}
+                </motion.span>
+              </AnimatePresence>
+              <span className="hidden items-center gap-1.5 rounded-full border border-black/10 bg-white px-3 py-1 text-xs text-black/70 sm:flex">
+                <span className="text-blue-500">✦</span> {copy.auto}
+              </span>
+            </div>
+
+            <div className="relative mx-auto my-4 h-12 w-px overflow-hidden bg-black/10" aria-hidden>
+              <motion.span
+                key={index}
+                className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-transparent via-blue-400 to-transparent"
+                initial={{ y: -24 }}
+                animate={{ y: 48 }}
+                transition={{ duration: 0.7, ease: "easeIn" }}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4">
+              {MODEL_ORDER.map((id) => {
+                const meta = MODEL_META[id];
+                const selected = id === task.model;
+                return (
+                  <div
+                    key={id}
+                    className={cn(
+                      "relative flex items-center gap-3 rounded-2xl border p-4 transition-all duration-500 md:p-5",
+                      selected ? "border-transparent bg-blue-100" : "border-black/[0.07] bg-white",
+                    )}
+                  >
+                    {selected && (
+                      <motion.span
+                        layoutId="model-ring"
+                        className="absolute inset-0 rounded-2xl ring-2 ring-blue-400"
+                        transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                      />
+                    )}
+                    <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-black/[0.06] bg-white">
+                      <Image src={meta.src} alt={meta.vendor} width={28} height={28} className="size-6 object-contain" />
+                    </span>
+                    <span className="min-w-0">
+                      <span className="block truncate text-sm font-medium text-black">{meta.name}</span>
+                      <span className="block truncate text-xs text-black/50">{id === "mistral" ? copy.eu : meta.vendor}</span>
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={task.reason}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="mt-6 text-center text-sm text-black/55"
+              >
+                {MODEL_META[task.model].name} · {task.reason}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+        </Reveal>
       </div>
-      <div className="space-y-2">
-        {mock.fields.map((f, i) => (
-          <motion.div
-            key={f.label}
-            initial={{ opacity: 0, x: -10 }}
-            animate={done ? { opacity: 1, x: 0 } : { opacity: 0, x: -10 }}
-            transition={{ delay: i * 0.25, duration: 0.4 }}
-            className="flex items-center justify-between gap-4 rounded-xl bg-[#CADBFD]/45 px-4 py-2.5 text-sm"
-          >
-            <span className="text-[#0E1A16]/55">{f.label}</span>
-            <span className="truncate font-medium text-[#0E1A16]">{f.value}</span>
-          </motion.div>
-        ))}
-      </div>
-    </div>
+    </section>
   );
 }
 
-function ConnectMock({ mock, active }: { mock: HomeV2Copy["how"]["mock"]; active: boolean }) {
-  const tools = [
-    { name: "Outlook", src: "/images/visual/outlook.svg" },
-    { name: "Odoo", src: "/images/visual/odoo.png" },
-    { name: "SharePoint", src: "/images/visual/sharepoint.svg" },
-  ];
-  const [connected, setConnected] = useState(0);
-  useEffect(() => {
-    if (!active) return;
-    const id = window.setInterval(() => setConnected((c) => Math.min(c + 1, tools.length)), 700);
-    return () => window.clearInterval(id);
-  }, [active, tools.length]);
+/* ───────────────────────── integrations ───────────────────────── */
+
+function Constellation({ sector }: { sector: SectorId }) {
+  const reduce = useReducedMotion();
+  const nodes: Tool[] = [...SECTOR_TOOLS[sector], { name: "+" }];
+  const radius = 38;
+  const position = (i: number) => {
+    const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2;
+    return { x: 50 + Math.cos(angle) * radius, y: 50 + Math.sin(angle) * radius };
+  };
+
   return (
-    <div className="space-y-3">
-      {tools.map((t, i) => {
-        const on = i < connected;
+    <div className="relative mx-auto aspect-square w-full max-w-[34rem]">
+      <div className="absolute inset-[12%] rounded-full border border-black/[0.06]" aria-hidden />
+      <div className="absolute inset-[30%] rounded-full border border-black/[0.05]" aria-hidden />
+
+      <svg className="absolute inset-0 size-full" viewBox="0 0 100 100" aria-hidden>
+        {nodes.map((tool, i) => {
+          const { x, y } = position(i);
+          return (
+            <motion.line
+              key={`${sector}-${tool.name}-line`}
+              x1={50}
+              y1={50}
+              x2={x}
+              y2={y}
+              stroke="var(--color-blue-400)"
+              strokeWidth={0.35}
+              strokeDasharray="1.2 1.6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.85, strokeDashoffset: reduce ? 0 : [0, -11] }}
+              transition={{
+                opacity: { duration: 0.5, delay: 0.05 * i },
+                strokeDashoffset: { duration: 2.2, repeat: Infinity, ease: "linear" },
+              }}
+            />
+          );
+        })}
+      </svg>
+
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+        <span className="absolute -inset-4 animate-ping rounded-[2rem] bg-blue-400/20 [animation-duration:2.6s]" aria-hidden />
+        <Image
+          src="/brand/glass-icon/wonka-glass-icon-hills-square.webp"
+          alt="WonkaChat"
+          width={128}
+          height={128}
+          className="relative size-20 rounded-[1.4rem] shadow-[0_20px_50px_-15px_rgba(14,26,22,0.6)] md:size-28 md:rounded-[1.6rem]"
+        />
+      </div>
+
+      {nodes.map((tool, i) => {
+        const { x, y } = position(i);
+        const isCustom = tool.name === "+";
         return (
-          <div key={t.name} className="flex items-center gap-3 rounded-2xl border border-black/5 bg-white p-3">
-            <Image src={t.src} alt={t.name} width={32} height={32} className="size-8 object-contain" />
-            <span className="flex-1 text-sm font-medium text-[#0E1A16]">{t.name}</span>
-            <motion.span
-              layout
-              className={cn(
-                "rounded-full px-3 py-1 text-xs transition-colors",
-                on ? "bg-[#5C7F5D] text-white" : "border border-black/15 text-[#0E1A16]/70",
-              )}
-            >
-              {on ? `✓ ${mock.connected}` : mock.connect}
-            </motion.span>
-          </div>
+          <motion.div
+            key={`${sector}-${tool.name}`}
+            className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-2"
+            style={{ left: `${x}%`, top: `${y}%` }}
+            initial={{ opacity: 0, scale: 0.4 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.45, delay: 0.05 * i, ease: EASE }}
+          >
+            {isCustom ? (
+              <span className="flex size-14 items-center justify-center rounded-2xl border border-dashed border-black/25 bg-white/60 font-serif text-2xl text-black/50 md:size-16">
+                +
+              </span>
+            ) : (
+              <ToolTile tool={tool} />
+            )}
+            {!isCustom && <span className="hidden whitespace-nowrap text-xs font-medium text-black/70 sm:block">{tool.name}</span>}
+          </motion.div>
         );
       })}
     </div>
   );
 }
 
-const MODELS = ["GPT", "Claude", "Gemini", "Mistral"];
-
-function ModelMock({ mock, active }: { mock: HomeV2Copy["how"]["mock"]; active: boolean }) {
-  const [taskIndex, setTaskIndex] = useState(0);
-  useEffect(() => {
-    if (!active) return;
-    const id = window.setInterval(() => setTaskIndex((i) => (i + 1) % mock.modelTasks.length), 1800);
-    return () => window.clearInterval(id);
-  }, [active, mock.modelTasks.length]);
-  const current = mock.modelTasks[taskIndex];
+function ToolRow({ tools, reverse }: { tools: Tool[]; reverse?: boolean }) {
+  const reduce = useReducedMotion();
+  const row = [...tools, ...tools];
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm">
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={current.task}
-            initial={{ opacity: 0, y: 6 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -6 }}
-            className="text-[#0E1A16]"
-          >
-            {current.task}
-          </motion.span>
-        </AnimatePresence>
-        <span className="text-xs text-[#0E1A16]/50">→</span>
-      </div>
-      <div className="grid grid-cols-2 gap-2">
-        {MODELS.map((m) => {
-          const selected = m === current.model;
-          return (
-            <motion.div
-              key={m}
-              animate={{ scale: selected ? 1.03 : 1 }}
-              className={cn(
-                "relative rounded-2xl border p-3 text-sm transition-colors",
-                selected
-                  ? "border-[#75A3FD] bg-[#CADBFD]/70 text-[#0E1A16]"
-                  : "border-black/5 bg-white text-[#0E1A16]/60",
-              )}
-            >
-              <span className="font-medium">{m}</span>
-              {m === "Mistral" && (
-                <span className="mt-1 block text-[0.65rem] uppercase tracking-wider text-[#5C7F5D]">
-                  {mock.modelEu}
-                </span>
-              )}
-              {selected && (
-                <motion.span
-                  layoutId="model-check"
-                  className="absolute right-3 top-3 flex size-5 items-center justify-center rounded-full bg-[#75A3FD] text-[0.6rem] text-white"
-                >
-                  ✓
-                </motion.span>
-              )}
-            </motion.div>
-          );
-        })}
-      </div>
-    </div>
-  );
-}
-
-function ShareMock({ mock, active }: { mock: HomeV2Copy["how"]["mock"]; active: boolean }) {
-  const portraits = [1, 2, 3, 4, 5].map((n) => `/images/visual/portrait-${n}.png`);
-  return (
-    <div className="space-y-4">
-      <p className="text-sm font-medium text-[#0E1A16]">{mock.shareTitle}</p>
-      <div className="space-y-2">
-        {mock.shareTeams.map((team, i) => (
-          <motion.div
-            key={team}
-            initial={{ opacity: 0, y: 8 }}
-            animate={active ? { opacity: 1, y: 0 } : { opacity: 0, y: 8 }}
-            transition={{ delay: 0.2 + i * 0.35 }}
-            className="flex items-center justify-between rounded-2xl border border-black/5 bg-white px-4 py-2.5"
-          >
-            <span className="text-sm text-[#0E1A16]">{team}</span>
-            <span className="flex -space-x-2">
-              {portraits.slice(i, i + 3).map((p) => (
-                <Image key={p} src={p} alt="" width={28} height={28} className="size-7 rounded-full border-2 border-white object-cover" />
-              ))}
-            </span>
-          </motion.div>
+    <div className="overflow-hidden py-2 [mask-image:linear-gradient(90deg,transparent,black_10%,black_90%,transparent)]">
+      <motion.div
+        className="flex w-max gap-4"
+        animate={reduce ? undefined : { x: reverse ? ["-50%", "0%"] : ["0%", "-50%"] }}
+        transition={{ duration: 40, ease: "linear", repeat: Infinity }}
+      >
+        {row.map((tool, i) => (
+          <ToolTile key={`${tool.name}-${i}`} tool={tool} size="sm" />
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 }
 
-function HowItWorks({ copy }: { copy: HomeV2Copy["how"] }) {
-  const [active, setActive] = useState(0);
-  const mocks = [DescribeMock, ConnectMock, ModelMock, ShareMock];
-  const ActiveMock = mocks[active];
+function Integrations({ copy }: { copy: HomeV2Copy["integrations"] }) {
+  const [sector, setSector] = useState<SectorId>(copy.sectors[0].id);
+  const ref = useRef<HTMLDivElement>(null);
+  const inView = useInView(ref, { amount: 0.35 });
+  const [paused, setPaused] = useState(false);
+  const reduce = useReducedMotion();
+
+  // Cycle sectors on its own until the visitor picks one.
+  useEffect(() => {
+    if (!inView || paused || reduce) return;
+    const id = window.setInterval(() => {
+      setSector((current) => {
+        const i = copy.sectors.findIndex((s) => s.id === current);
+        return copy.sectors[(i + 1) % copy.sectors.length].id;
+      });
+    }, 3200);
+    return () => window.clearInterval(id);
+  }, [inView, paused, reduce, copy.sectors]);
 
   return (
-    <section className="relative">
-      <div
-        className="absolute inset-0 bg-cover bg-center md:bg-fixed"
-        style={{ backgroundImage: `url(${BG}/wonka-bg-wheatfield-1920x1080.webp)` }}
-        aria-hidden
-      />
-      <div className="absolute inset-0 bg-black/25" aria-hidden />
-      <div className="relative mx-auto max-w-6xl px-4 py-20 md:py-28">
-        <FadeUp className="mb-12 max-w-3xl space-y-3">
-          <Eyebrow light>{copy.eyebrow}</Eyebrow>
-          <h2 className="font-serif text-3xl text-white md:text-5xl">{copy.title}</h2>
-        </FadeUp>
-        <div className="grid gap-10 md:grid-cols-2">
-          <div className="space-y-6 md:space-y-[30vh] md:pb-[20vh]">
-            {copy.steps.map((step, i) => (
-              <Step key={step.title} index={i} active={active === i} onEnter={() => setActive(i)}>
-                <Glass className={cn("p-6 transition", active === i ? "bg-white/85" : "bg-white/55")}>
-                  <p className="mb-2 text-xs uppercase tracking-[0.16em] text-[#5C7F5D]">0{i + 1}</p>
-                  <h3 className="mb-2 font-serif text-2xl text-[#0E1A16]">{step.title}</h3>
-                  <p className="text-sm text-[#0E1A16]/75 md:text-base">{step.body}</p>
-                  {/* Mobile: the mock sits under its step since nothing is pinned. */}
-                  <div className="mt-5 md:hidden">
-                    {(() => {
-                      const Mock = mocks[i];
-                      return <Mock mock={copy.mock} active />;
-                    })()}
-                  </div>
-                </Glass>
-              </Step>
-            ))}
-            <p className="text-sm text-white/90">✓ {copy.humanNote}</p>
-          </div>
-          <div className="hidden md:block">
-            <div className="sticky top-28">
-              <Glass>
-                <WindowChrome title={copy.steps[active].title} />
-                <div className="min-h-[300px] p-6">
-                  <AnimatePresence mode="wait">
-                    <motion.div
-                      key={active}
-                      initial={{ opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -16 }}
-                      transition={{ duration: 0.35 }}
+    <section className="bg-white py-24 md:py-36">
+      <div className="mx-auto max-w-7xl px-4">
+        <SectionTitle eyebrow={copy.eyebrow} title={copy.title} body={copy.body} />
+
+        <div ref={ref} className="mt-14 grid items-center gap-10 lg:grid-cols-12">
+          <div className="lg:col-span-5">
+            <ul className="grid grid-cols-2 gap-1 lg:grid-cols-1">
+              {copy.sectors.map((s) => {
+                const isActive = s.id === sector;
+                return (
+                  <li key={s.id}>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setSector(s.id);
+                        setPaused(true);
+                      }}
+                      className={cn(
+                        "group w-full rounded-2xl px-4 py-3 text-left transition duration-300 lg:px-5 lg:py-3.5",
+                        isActive ? "bg-light-gray" : "hover:bg-light-gray/60",
+                      )}
                     >
-                      <ActiveMock mock={copy.mock} active />
-                    </motion.div>
-                  </AnimatePresence>
-                </div>
-              </Glass>
-              <div className="mt-4 flex justify-center gap-2">
-                {copy.steps.map((s, i) => (
-                  <span
-                    key={s.title}
-                    className={cn("h-1.5 rounded-full transition-all", i === active ? "w-8 bg-white" : "w-3 bg-white/50")}
-                  />
-                ))}
-              </div>
-            </div>
+                      <span className="flex items-center gap-3">
+                        <span className={cn("size-1.5 shrink-0 rounded-full transition", isActive ? "bg-blue-500" : "bg-black/15")} />
+                        <span
+                          className={cn(
+                            "font-serif text-lg transition-colors lg:text-2xl",
+                            isActive ? "text-black" : "text-black/40 group-hover:text-black/70",
+                          )}
+                        >
+                          {s.label}
+                        </span>
+                      </span>
+                      {isActive && (
+                        <motion.span
+                          initial={{ opacity: 0, y: 4 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          className="mt-1 hidden pl-[1.125rem] text-sm text-black/55 lg:block"
+                        >
+                          {s.pitch}
+                        </motion.span>
+                      )}
+                    </button>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
+          <div className="lg:col-span-7">
+            <Constellation sector={sector} />
+            <p className="mt-4 text-center text-sm text-black/60">
+              <span className="font-medium text-black">{copy.customTitle}</span> {copy.customBody}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-20 rounded-[2rem] bg-light-gray p-6 md:p-10">
+          <div className="mb-6 flex flex-wrap items-baseline justify-between gap-3">
+            <p className="font-serif text-2xl text-black md:text-3xl">{copy.everydayTitle}</p>
+            <span className="rounded-full bg-black px-4 py-1.5 text-sm text-white">{copy.everydayCount}</span>
+          </div>
+          <ToolRow tools={EVERYDAY_TOOLS[0]} />
+          <ToolRow tools={EVERYDAY_TOOLS[1]} reverse />
         </div>
       </div>
     </section>
   );
 }
 
-function Step({
-  children,
-  onEnter,
-}: {
-  children: React.ReactNode;
-  index: number;
-  active: boolean;
-  onEnter: () => void;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { margin: "-45% 0px -45% 0px" });
-  useEffect(() => {
-    if (inView) onEnter();
-  }, [inView, onEnter]);
-  return <div ref={ref}>{children}</div>;
-}
+/* ───────────────────────── clients ───────────────────────── */
 
-/* ───────────────────────── integrations ───────────────────────── */
-
-function ToolChip({ tool }: { tool: SectorTool }) {
+function Clients({ copy, playing, onPlay }: { copy: HomeV2Copy["clients"]; playing: boolean; onPlay: () => void }) {
   return (
-    <div className="flex items-center gap-3 rounded-2xl border border-black/5 bg-white px-4 py-3 shadow-sm">
-      {tool.src ? (
-        <Image src={tool.src} alt="" width={28} height={28} className="size-7 object-contain" />
-      ) : (
-        <span className="flex size-7 items-center justify-center rounded-lg bg-[#CADBFD] text-xs font-semibold text-[#0E1A16]">
-          {tool.name.slice(0, 1)}
-        </span>
-      )}
-      <span className="text-sm font-medium text-[#0E1A16]">{tool.name}</span>
-    </div>
-  );
-}
-
-function Integrations({ copy }: { copy: HomeV2Copy["integrations"] }) {
-  const reduce = useReducedMotion();
-  const [sector, setSector] = useState(copy.sectors[0].id);
-  const row = [...EVERYDAY_TOOLS, ...EVERYDAY_TOOLS];
-
-  return (
-    <section className="relative overflow-hidden">
-      <Image src={`${BG}/wonka-bg-river-1920x1080.webp`} alt="" fill className="object-cover" sizes="100vw" />
-      <div className="absolute inset-0 bg-black/30" />
-      <div className="relative mx-auto max-w-6xl px-4 py-20 md:py-28">
-        <FadeUp className="mb-10 max-w-3xl space-y-3">
-          <Eyebrow light>{copy.eyebrow}</Eyebrow>
-          <h2 className="font-serif text-3xl text-white md:text-5xl">{copy.title}</h2>
-          <p className="text-white/85">{copy.subtitle}</p>
-        </FadeUp>
-
-        <FadeUp>
-          <p className="mb-3 text-xs uppercase tracking-[0.16em] text-white/80">{copy.everydayLabel}</p>
-          <div className="mb-12 overflow-hidden rounded-3xl bg-white/80 py-5 backdrop-blur-md [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
-            <motion.div
-              className="flex w-max gap-6 px-6"
-              animate={reduce ? undefined : { x: ["-50%", "0%"] }}
-              transition={{ duration: 50, ease: "linear", repeat: Infinity }}
-            >
-              {row.map((t, i) => (
-                <div key={`${t.name}-${i}`} className="flex items-center gap-2 whitespace-nowrap">
-                  <Image src={t.src} alt="" width={28} height={28} className="size-7 rounded-md object-contain" />
-                  <span className="text-sm text-[#0E1A16]/80">{t.name}</span>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </FadeUp>
-
-        <FadeUp>
-          <p className="mb-3 text-xs uppercase tracking-[0.16em] text-white/80">{copy.sectorLabel}</p>
-          <Glass className="p-5 md:p-8">
-            <div className="mb-6 flex flex-wrap gap-2" role="tablist">
-              {copy.sectors.map((s) => (
-                <button
-                  key={s.id}
-                  role="tab"
-                  aria-selected={sector === s.id}
-                  onClick={() => setSector(s.id)}
-                  className={cn(
-                    "rounded-full px-4 py-2 text-sm transition",
-                    sector === s.id ? "bg-[#0E1A16] text-white" : "bg-white text-[#0E1A16]/70 hover:text-[#0E1A16]",
-                  )}
-                >
-                  {s.label}
+    <section id="clients" className="bg-light-gray py-24 md:py-36">
+      <div className="mx-auto max-w-7xl px-4">
+        <SectionTitle eyebrow={copy.eyebrow} title={copy.title} />
+        <div className="mt-14 grid gap-5 lg:grid-cols-12">
+          <Reveal className="lg:col-span-7">
+            <div className="relative aspect-video overflow-hidden rounded-[2rem] bg-black shadow-[0_40px_100px_-50px_rgba(14,26,22,0.8)]">
+              {playing ? (
+                <iframe
+                  className="absolute inset-0 size-full"
+                  src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?autoplay=1&rel=0`}
+                  title={copy.videoLabel}
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowFullScreen
+                />
+              ) : (
+                <button type="button" onClick={onPlay} className="group absolute inset-0" aria-label={copy.play}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`https://i.ytimg.com/vi/${YOUTUBE_ID}/maxresdefault.jpg`}
+                    alt=""
+                    className="size-full object-cover transition duration-1000 group-hover:scale-[1.03]"
+                  />
+                  <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/10 to-transparent" />
+                  <span className="absolute left-1/2 top-1/2 flex size-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 shadow-2xl transition duration-500 group-hover:scale-110">
+                    <svg viewBox="0 0 12 12" className="ml-1 size-5 fill-black" aria-hidden><path d="M3 1.5v9l7.5-4.5z" /></svg>
+                  </span>
+                  <span className="absolute inset-x-6 bottom-6 text-left md:inset-x-8 md:bottom-8">
+                    <span className="block font-serif text-xl text-white md:text-3xl">{copy.videoQuote}</span>
+                    <span className="mt-2 block text-sm text-white/70">{copy.videoLabel}</span>
+                  </span>
                 </button>
-              ))}
+              )}
             </div>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={sector}
-                className="grid grid-cols-2 gap-3 md:grid-cols-3"
-                initial="hidden"
-                animate="show"
-                exit="hidden"
-                variants={{ show: { transition: { staggerChildren: 0.06 } }, hidden: {} }}
-              >
-                {SECTOR_TOOLS[sector].map((tool) => (
-                  <motion.div
-                    key={tool.name}
-                    variants={{
-                      hidden: { opacity: 0, x: -24 },
-                      show: { opacity: 1, x: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
-                    }}
-                  >
-                    <ToolChip tool={tool} />
-                  </motion.div>
-                ))}
-              </motion.div>
-            </AnimatePresence>
-            <div className="mt-6 flex flex-col gap-1 rounded-2xl border border-dashed border-[#5C7F5D]/50 bg-[#5C7F5D]/10 p-5 md:flex-row md:items-center md:gap-4">
-              <p className="font-serif text-lg text-[#0E1A16]">{copy.customTitle}</p>
-              <p className="text-sm text-[#0E1A16]/75">{copy.customBody}</p>
-            </div>
-          </Glass>
-        </FadeUp>
+          </Reveal>
+          <div className="grid gap-5 lg:col-span-5">
+            {copy.cases.map((c, i) => (
+              <Reveal key={c.client} delay={0.1 + i * 0.1}>
+                <a
+                  href={c.href}
+                  className="group flex h-full flex-col justify-between gap-8 rounded-[2rem] bg-white p-7 transition duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(14,26,22,0.35)] md:p-8"
+                >
+                  <span className="flex items-center justify-between">
+                    <Image src={c.logo} alt={c.client} width={120} height={36} className="h-8 w-auto max-w-[120px] object-contain" />
+                    <span className="text-sm text-black/50 transition group-hover:text-black">{copy.readCase} →</span>
+                  </span>
+                  <span>
+                    <span className="block font-serif text-6xl leading-none tracking-[-0.02em] text-black md:text-7xl">{c.metric}</span>
+                    <span className="mt-3 block max-w-sm text-base text-black/65">{c.label}</span>
+                  </span>
+                </a>
+              </Reveal>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -829,101 +979,62 @@ function Integrations({ copy }: { copy: HomeV2Copy["integrations"] }) {
 
 function Team({ copy, links }: { copy: HomeV2Copy["team"]; links: HomeV2Links }) {
   const portraits = [1, 2, 3, 4, 5].map((n) => `/images/visual/portrait-${n}.png`);
+  const lineRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: lineRef, offset: ["start 80%", "end 50%"] });
+  const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
+
   return (
-    <section className="bg-[#F7F7F7] px-4 py-20 md:py-28">
-      <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
-        <FadeUp className="space-y-5">
-          <Eyebrow>{copy.eyebrow}</Eyebrow>
-          <h2 className="font-serif text-3xl text-[#0E1A16] md:text-5xl">{copy.title}</h2>
-          <p className="text-[#0E1A16]/75 md:text-lg">{copy.subtitle}</p>
-          <div className="flex -space-x-3 pt-2">
-            {portraits.map((p, i) => (
-              <motion.div
-                key={p}
-                initial={{ opacity: 0, scale: 0.6 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.1 * i, type: "spring", stiffness: 260, damping: 20 }}
-              >
-                <Image src={p} alt="" width={56} height={56} className="size-14 rounded-full border-4 border-[#F7F7F7] object-cover" />
-              </motion.div>
-            ))}
-            <span className="flex size-14 items-center justify-center rounded-full border-4 border-[#F7F7F7] bg-[#0E1A16] text-sm font-medium text-white">
-              +30
-            </span>
+    <section className="bg-light-gray px-4 pb-24 md:pb-36">
+      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem]">
+        <Image src={`${BG}/wonka-bg-river-1920x1080.webp`} alt="" fill className="object-cover" sizes="100vw" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30" />
+        <div className="relative grid gap-12 p-8 md:p-14 lg:grid-cols-12 lg:p-20">
+          <div className="lg:col-span-6">
+            <SectionTitle eyebrow={copy.eyebrow} title={copy.title} body={copy.body} tone="light" />
+            <Reveal delay={0.1} className="mt-10 flex items-end gap-5">
+              <span className="font-serif text-[6rem] leading-[0.8] text-white md:text-[8rem]">{copy.count}</span>
+              <span className="max-w-[12rem] pb-2 text-sm text-white/75">{copy.countLabel}</span>
+            </Reveal>
+            <Reveal delay={0.15} className="mt-8 flex flex-wrap items-center gap-6">
+              <span className="flex -space-x-3">
+                {portraits.map((p, i) => (
+                  <motion.span
+                    key={p}
+                    initial={{ opacity: 0, x: -12 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: 0.08 * i, duration: 0.5, ease: EASE }}
+                  >
+                    <Image src={p} alt="" width={52} height={52} className="size-12 rounded-full border-2 border-black/40 object-cover" />
+                  </motion.span>
+                ))}
+              </span>
+              <GhostCta href={links.meetingUrl}>{copy.cta}</GhostCta>
+            </Reveal>
           </div>
-          <div className="pt-2">
-            <SecondaryCta href={links.meetingUrl}>{copy.cta}</SecondaryCta>
+
+          <div ref={lineRef} className="relative self-center lg:col-span-5 lg:col-start-8">
+            <div className="absolute bottom-8 left-[1.6rem] top-8 w-px bg-white/15" aria-hidden />
+            <motion.div className="absolute bottom-8 left-[1.6rem] top-8 w-px origin-top bg-blue-400" style={{ scaleY: lineScale }} aria-hidden />
+            <ol className="space-y-4">
+              {copy.steps.map((step, i) => (
+                <li key={step.title}>
+                  <Reveal delay={0.12 * i}>
+                    <div className="relative flex gap-5 rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur-xl">
+                      <span className="relative z-10 flex size-[2.2rem] shrink-0 items-center justify-center rounded-full bg-white font-serif text-sm text-black">
+                        {i + 1}
+                      </span>
+                      <div>
+                        <p className="font-serif text-xl text-white">{step.title}</p>
+                        <p className="mt-1 text-sm text-white/70">{step.body}</p>
+                      </div>
+                    </div>
+                  </Reveal>
+                </li>
+              ))}
+            </ol>
           </div>
-        </FadeUp>
-        <div className="relative space-y-4">
-          <div className="absolute bottom-6 left-[1.35rem] top-6 w-px bg-[#5C7F5D]/30" aria-hidden />
-          {copy.steps.map((step, i) => (
-            <FadeUp key={step.title} delay={i * 0.12}>
-              <div className="relative flex gap-5 rounded-3xl bg-white p-5 shadow-sm">
-                <span className="relative z-10 flex size-11 shrink-0 items-center justify-center rounded-full bg-[#5C7F5D] font-serif text-white">
-                  {i + 1}
-                </span>
-                <div>
-                  <h3 className="font-serif text-xl text-[#0E1A16]">{step.title}</h3>
-                  <p className="text-sm text-[#0E1A16]/70">{step.body}</p>
-                </div>
-              </div>
-            </FadeUp>
-          ))}
         </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────────────────── video ───────────────────────── */
-
-function VideoSection({
-  copy,
-  playing,
-  onPlay,
-}: {
-  copy: HomeV2Copy["video"];
-  playing: boolean;
-  onPlay: () => void;
-}) {
-  return (
-    <section id="video" className="relative overflow-hidden">
-      <Image src={`${BG}/wonka-bg-waterfall-1920x1080.webp`} alt="" fill className="object-cover" sizes="100vw" />
-      <div className="absolute inset-0 bg-black/40" />
-      <div className="relative mx-auto max-w-5xl px-4 py-20 md:py-28">
-        <FadeUp className="mb-10 space-y-3 text-center">
-          <Eyebrow light>{copy.eyebrow}</Eyebrow>
-          <h2 className="font-serif text-3xl text-white md:text-5xl">{copy.title}</h2>
-          <p className="text-white/85">{copy.body}</p>
-        </FadeUp>
-        <FadeUp>
-          <div className="relative aspect-video overflow-hidden rounded-3xl shadow-2xl shadow-black/40 ring-1 ring-white/20">
-            {playing ? (
-              <iframe
-                className="absolute inset-0 size-full"
-                src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?autoplay=1&rel=0`}
-                title={copy.title}
-                allow="autoplay; encrypted-media; picture-in-picture"
-                allowFullScreen
-              />
-            ) : (
-              <button type="button" onClick={onPlay} className="group absolute inset-0" aria-label={copy.play}>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={`https://i.ytimg.com/vi/${YOUTUBE_ID}/maxresdefault.jpg`}
-                  alt=""
-                  className="size-full object-cover transition duration-700 group-hover:scale-[1.03]"
-                />
-                <span className="absolute inset-0 bg-black/20 transition group-hover:bg-black/10" />
-                <span className="absolute left-1/2 top-1/2 flex size-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-2xl text-[#0E1A16] shadow-xl transition group-hover:scale-110">
-                  ▶
-                </span>
-              </button>
-            )}
-          </div>
-        </FadeUp>
       </div>
     </section>
   );
@@ -933,44 +1044,36 @@ function VideoSection({
 
 function Security({ copy, links }: { copy: HomeV2Copy["security"]; links: HomeV2Links }) {
   return (
-    <section className="relative overflow-hidden">
-      <Image src={`${BG}/wonka-bg-mountain-range-1920x1080.webp`} alt="" fill className="object-cover" sizes="100vw" />
-      <div className="absolute inset-0 bg-black/35" />
-      <div className="relative mx-auto max-w-6xl px-4 py-20 md:py-28">
-        <FadeUp className="mb-10 flex flex-col justify-between gap-6 md:flex-row md:items-end">
-          <div className="space-y-3">
-            <Eyebrow light>{copy.eyebrow}</Eyebrow>
-            <h2 className="font-serif text-3xl text-white md:text-5xl">{copy.title}</h2>
-          </div>
-          <div className="flex items-center gap-3">
+    <section className="bg-white py-24 md:py-32">
+      <div className="mx-auto grid max-w-7xl gap-12 px-4 lg:grid-cols-12">
+        <div className="lg:col-span-4">
+          <SectionTitle eyebrow={copy.eyebrow} title={copy.title} />
+          <Reveal delay={0.1} className="mt-8 flex items-center gap-4">
             <BadgeIso className="size-16" />
             <BadgeGdpr className="size-16" />
             <BadgeNis2 className="size-16" />
-          </div>
-        </FadeUp>
-        <div className="grid gap-4 md:grid-cols-3">
+          </Reveal>
+          <Reveal delay={0.15} className="mt-8">
+            <a href={links.securityUrl} className="text-sm text-black underline decoration-black/25 underline-offset-4 hover:decoration-black">
+              {copy.cta} →
+            </a>
+          </Reveal>
+        </div>
+        <div className="grid gap-px overflow-hidden rounded-[2rem] bg-black/[0.07] sm:grid-cols-3 lg:col-span-8">
           {copy.columns.map((col, i) => (
-            <FadeUp key={col.title} delay={i * 0.08}>
-              <Glass className="h-full p-6">
-                <h3 className="mb-4 font-serif text-xl text-[#0E1A16]">{col.title}</h3>
-                <ul className="space-y-2">
-                  {col.items.map((item) => (
-                    <li key={item} className="flex gap-2 text-sm text-[#0E1A16]/80">
-                      <span className="text-[#5C7F5D]">✓</span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </Glass>
-            </FadeUp>
+            <Reveal key={col.title} delay={0.08 * i} className="bg-white p-7">
+              <p className="font-serif text-xl text-black">{col.title}</p>
+              <ul className="mt-5 space-y-3">
+                {col.items.map((item) => (
+                  <li key={item} className="flex gap-2.5 text-sm text-black/70">
+                    <span className="mt-1.5 size-1.5 shrink-0 rounded-full bg-forest-500" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
           ))}
         </div>
-        <FadeUp className="mt-8 flex flex-col items-start justify-between gap-4 md:flex-row md:items-center">
-          <p className="text-white/90">{copy.models}</p>
-          <a href={links.securityUrl} className="text-sm text-white underline underline-offset-4">
-            {copy.cta} →
-          </a>
-        </FadeUp>
       </div>
     </section>
   );
@@ -978,32 +1081,29 @@ function Security({ copy, links }: { copy: HomeV2Copy["security"]; links: HomeV2
 
 /* ───────────────────────── final CTA ───────────────────────── */
 
-function FinalCta({
-  copy,
-  hero,
-  links,
-}: {
-  copy: HomeV2Copy["finalCta"];
-  hero: HomeV2Copy["hero"];
-  links: HomeV2Links;
-}) {
+function FinalCta({ copy, hero, links }: { copy: HomeV2Copy["finalCta"]; hero: HomeV2Copy["hero"]; links: HomeV2Links }) {
+  const ref = useRef<HTMLElement>(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end end"] });
+  const scale = useTransform(scrollYProgress, [0, 1], [1.2, 1]);
+
   return (
-    <section className="relative overflow-hidden">
-      <Image src={`${BG}/wonka-bg-snowy-mountain-1920x1080.webp`} alt="" fill className="object-cover" sizes="100vw" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-black/45" />
-      <div className="relative mx-auto flex min-h-[70vh] max-w-4xl flex-col items-center justify-center gap-6 px-4 py-24 text-center">
-        <FadeUp>
-          <h2 className="font-serif text-4xl text-white md:text-6xl">{copy.title}</h2>
-        </FadeUp>
-        <FadeUp delay={0.08}>
-          <p className="text-white/90 md:text-lg">{copy.subtitle}</p>
-        </FadeUp>
-        <FadeUp delay={0.15} className="flex flex-col gap-3 sm:flex-row">
-          <PrimaryCta href={TRIAL_URL}>{hero.primaryCta}</PrimaryCta>
-          <SecondaryCta href={links.meetingUrl} light>
-            {hero.secondaryCta}
-          </SecondaryCta>
-        </FadeUp>
+    <section ref={ref} className="relative overflow-hidden bg-black">
+      <motion.div className="absolute inset-0" style={reduce ? undefined : { scale }}>
+        <Image src={`${BG}/wonka-bg-snowy-mountain-1920x1080.webp`} alt="" fill className="object-cover" sizes="100vw" />
+      </motion.div>
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/20 to-black/60" />
+      <div className="relative mx-auto flex min-h-[80vh] max-w-4xl flex-col items-center justify-center gap-7 px-4 py-28 text-center">
+        <Reveal>
+          <h2 className="font-serif text-[2.6rem] leading-[1.02] text-white md:text-[4.4rem]">{copy.title}</h2>
+        </Reveal>
+        <Reveal delay={0.08}>
+          <p className="text-white/85 md:text-lg">{copy.subtitle}</p>
+        </Reveal>
+        <Reveal delay={0.16} className="flex flex-col gap-3 sm:flex-row">
+          <PrimaryCta href={TRIAL_URL} tone="light">{hero.primaryCta}</PrimaryCta>
+          <GhostCta href={links.meetingUrl}>{hero.secondaryCta}</GhostCta>
+        </Reveal>
       </div>
     </section>
   );
@@ -1011,21 +1111,22 @@ function FinalCta({
 
 /* ───────────────────────── page ───────────────────────── */
 
-export function HomeV2Client({ copy, links }: { copy: HomeV2Copy; links: HomeV2Links }) {
+export function HomeV2Client({ copy, links, locale }: { copy: HomeV2Copy; links: HomeV2Links; locale: Locale }) {
   const [playing, setPlaying] = useState(false);
-  const playFromHero = () => {
+  const watchClient = () => {
     setPlaying(true);
-    document.getElementById("video")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    document.getElementById("clients")?.scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   return (
-    <main className="bg-[#F7F7F7] text-[#0E1A16]">
-      <Hero copy={copy.hero} award={copy.award} links={links} onPlay={playFromHero} />
-      <Results copy={copy.results} />
-      <HowItWorks copy={copy.how} />
+    <main className="bg-white text-black">
+      <Hero copy={copy.hero} award={copy.award} links={links} locale={locale} onWatch={watchClient} />
+      <TrustBand label={copy.hero.trustedBy} />
+      <Platform copy={copy.platform} locale={locale} />
+      <Models copy={copy.models} />
       <Integrations copy={copy.integrations} />
+      <Clients copy={copy.clients} playing={playing} onPlay={() => setPlaying(true)} />
       <Team copy={copy.team} links={links} />
-      <VideoSection copy={copy.video} playing={playing} onPlay={() => setPlaying(true)} />
       <Security copy={copy.security} links={links} />
       <FinalCta copy={copy.finalCta} hero={copy.hero} links={links} />
     </main>
