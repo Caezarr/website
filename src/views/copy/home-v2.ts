@@ -11,10 +11,12 @@ export type SectorId =
   | "support";
 
 export type ChapterId = "templates" | "team" | "triggers" | "analytics";
+export type ModelId = "openai" | "claude" | "gemini" | "mistral";
+export type SecurityTileId = "iso" | "gdpr" | "nis2" | "eu" | "encryption" | "sso";
 
 export interface HomeV2Copy {
   seo: { title: string; description: string };
-  award: { label: string; cta: string };
+  award: { label: string };
   hero: {
     title: string;
     titleAccent: string;
@@ -28,6 +30,7 @@ export interface HomeV2Copy {
   platform: {
     eyebrow: string;
     title: string;
+    proofs: { metric: string; label: string; source: string; logo?: string }[];
     chapters: { id: ChapterId; title: string; body: string }[];
   };
   models: {
@@ -35,7 +38,14 @@ export interface HomeV2Copy {
     title: string;
     body: string;
     auto: string;
-    tasks: { task: string; model: "openai" | "claude" | "gemini" | "mistral"; reason: string }[];
+    light: string;
+    advanced: string;
+    tasks: { task: string; model: ModelId; tier: "light" | "advanced" }[];
+    costTitle: string;
+    costAll: string;
+    costRouted: string;
+    costNote: string;
+    costFoot: string;
   };
   integrations: {
     eyebrow: string;
@@ -64,15 +74,19 @@ export interface HomeV2Copy {
     countLabel: string;
     steps: { title: string; body: string }[];
     cta: string;
+    pageCta: string;
   };
   security: {
     eyebrow: string;
     title: string;
-    columns: { title: string; items: string[] }[];
+    tiles: { id: SecurityTileId; label: string }[];
     cta: string;
   };
   finalCta: { title: string; subtitle: string };
 }
+
+const NALLO = "/images/france/logos/n-allo.png";
+const ITZU = "/images/france/logos/itzu.svg";
 
 const en: HomeV2Copy = {
   seo: {
@@ -80,10 +94,7 @@ const en: HomeV2Copy = {
     description:
       "Describe a task, WonkaChat builds the agent, connects it to your tools and shares it with your teams. 35 AI consultants help you get it into production.",
   },
-  award: {
-    label: "#1 AI start-up of the year · Belgium Startup Awards 2026",
-    cta: "See the winners",
-  },
+  award: { label: "#1 AI start-up of the year · Belgium Startup Awards 2026" },
   hero: {
     title: "AI agents that work inside your tools.",
     titleAccent: "And a team that sets them up with you.",
@@ -96,42 +107,54 @@ const en: HomeV2Copy = {
     trustedBy: "They trust us",
   },
   platform: {
-    eyebrow: "The platform",
-    title: "Everything AI needs to actually do the work.",
+    eyebrow: "What changes",
+    title: "Hours handed back to your teams, every week.",
+    proofs: [
+      { metric: "−50%", label: "time on support emails", source: "N-allo (Engie), 70+ employees", logo: NALLO },
+      { metric: "100%", label: "of employees with their own WonkaChat", source: "Itzu", logo: ITZU },
+      { metric: "200", label: "organisations taught us what AI changes at work", source: "Wonka" },
+    ],
     chapters: [
       {
         id: "templates",
-        title: "Start from a proven agent",
-        body: "Pick from ready-made agents for sales, finance or operations, already connected to Gmail, Odoo or HubSpot.",
+        title: "Useful from day one",
+        body: "Start from proven agents for sales, finance or operations, already plugged into Gmail, Odoo or HubSpot. No blank page.",
       },
       {
         id: "team",
-        title: "Reuse your colleagues' agents",
-        body: "Ask in plain words. WonkaChat finds the agent your team already built and runs it for you.",
+        title: "One person builds it, the whole team benefits",
+        body: "Ask in plain words: WonkaChat finds the agent a colleague already built and runs it for you.",
       },
       {
         id: "triggers",
-        title: "Triggered from where work happens",
-        body: "A call ends, an email lands: the agent starts on its own and updates your CRM.",
+        title: "Your CRM fills itself after every call",
+        body: "A call ends, an email lands: the agent starts, writes and updates HubSpot without anyone thinking about it.",
       },
       {
         id: "analytics",
-        title: "See what every agent brings back",
-        body: "Runs, hours saved, active users: follow adoption agent by agent.",
+        title: "You finally see what AI brings back",
+        body: "Hours saved, runs, adoption per team: every agent is accountable.",
       },
     ],
   },
   models: {
     eyebrow: "Models",
-    title: "The right model for every task.",
-    body: "Writing, analysis, sensitive data: each task has the model that fits it best. Switch in one click, or let Auto choose.",
-    auto: "Auto picks for you",
+    title: "The right model for every task. Not a token more.",
+    body: "At company scale, sending every request to the most powerful model gets expensive. WonkaChat routes each task to the model that fits: power where it matters, light models everywhere else.",
+    auto: "Auto routing",
+    light: "Light",
+    advanced: "Advanced",
     tasks: [
-      { task: "Write a commercial offer", model: "claude", reason: "Nuanced writing" },
-      { task: "Summarise HR files", model: "mistral", reason: "Sensitive data" },
-      { task: "Analyse a sales Excel", model: "openai", reason: "Reasoning on data" },
-      { task: "Read a 60-page tender", model: "gemini", reason: "Very long documents" },
+      { task: "Sort 2,000 incoming emails", model: "mistral", tier: "light" },
+      { task: "Summarise a meeting", model: "gemini", tier: "light" },
+      { task: "Analyse a sales Excel", model: "openai", tier: "advanced" },
+      { task: "Write a commercial offer", model: "claude", tier: "advanced" },
     ],
+    costTitle: "Token bill",
+    costAll: "Everything on the most powerful model",
+    costRouted: "Routed by WonkaChat",
+    costNote: "Illustration",
+    costFoot: "Advanced models only run the tasks that need them.",
   },
   integrations: {
     eyebrow: "Integrations",
@@ -163,14 +186,14 @@ const en: HomeV2Copy = {
         metric: "−50%",
         label: "time spent on support emails, across 70+ employees",
         client: "N-allo (Engie)",
-        logo: "/images/france/logos/n-allo.png",
+        logo: NALLO,
         href: "/case-studies/n-allo",
       },
       {
         metric: "100%",
         label: "of employees have their own WonkaChat, saving hours every week",
         client: "Itzu",
-        logo: "/images/france/logos/itzu.svg",
+        logo: ITZU,
         href: "/case-studies/itzu",
       },
     ],
@@ -188,14 +211,18 @@ const en: HomeV2Copy = {
       { title: "Adoption", body: "Training, follow-up, next use case." },
     ],
     cta: "Talk to a consultant",
+    pageCta: "Meet the team",
   },
   security: {
     eyebrow: "Security",
     title: "Your data stays yours.",
-    columns: [
-      { title: "Hosting", items: ["Azure West Europe (Microsoft Ireland) by default", "Encryption at rest (AES-256)", "Encryption in transit (TLS 1.2 or higher)"] },
-      { title: "Access", items: ["Single Sign-On (SSO) via Azure AD / Entra ID", "Granular permission management per user and team", "Customer data is not used to train public AI models"] },
-      { title: "Compliance", items: ["ISO 27001 certified", "GDPR compliant, DPA included", "NIS 2 compliant"] },
+    tiles: [
+      { id: "eu", label: "Hosted in Europe" },
+      { id: "encryption", label: "Encrypted at rest and in transit" },
+      { id: "sso", label: "SSO with Entra ID" },
+      { id: "iso", label: "ISO 27001" },
+      { id: "gdpr", label: "GDPR" },
+      { id: "nis2", label: "NIS 2" },
     ],
     cta: "Security details",
   },
@@ -211,10 +238,7 @@ const fr: HomeV2Copy = {
     description:
       "Décrivez une tâche, WonkaChat crée l'agent, le connecte à vos outils et le partage à vos équipes. 35 consultants IA vous accompagnent jusqu'à la production.",
   },
-  award: {
-    label: "Start-up IA n°1 de l'année · Belgium Startup Awards 2026",
-    cta: "Voir les lauréats",
-  },
+  award: { label: "Start-up IA n°1 de l'année · Belgium Startup Awards 2026" },
   hero: {
     title: "Des agents IA qui travaillent dans vos outils.",
     titleAccent: "Et une équipe qui les met en place avec vous.",
@@ -227,42 +251,54 @@ const fr: HomeV2Copy = {
     trustedBy: "Ils nous font confiance",
   },
   platform: {
-    eyebrow: "La plateforme",
-    title: "Tout ce qu'il faut pour que l'IA fasse vraiment le travail.",
+    eyebrow: "Ce qui change",
+    title: "Des heures rendues à vos équipes, chaque semaine.",
+    proofs: [
+      { metric: "−50 %", label: "de temps sur les mails support", source: "N-allo (Engie), 70+ employés", logo: NALLO },
+      { metric: "100 %", label: "des employés équipés de leur WonkaChat", source: "Itzu", logo: ITZU },
+      { metric: "200", label: "organisations nous ont appris ce que l'IA change au travail", source: "Wonka" },
+    ],
     chapters: [
       {
         id: "templates",
-        title: "Partez d'un agent qui a fait ses preuves",
-        body: "Des agents prêts pour la vente, la finance ou les opérations, déjà connectés à Gmail, Odoo ou HubSpot.",
+        title: "Utile dès le premier jour",
+        body: "Partez d'agents éprouvés pour la vente, la finance ou les opérations, déjà branchés sur Gmail, Odoo ou HubSpot. Pas de page blanche.",
       },
       {
         id: "team",
-        title: "Réutilisez les agents de vos collègues",
-        body: "Demandez simplement. WonkaChat trouve l'agent que votre équipe a déjà créé et le lance pour vous.",
+        title: "Une personne le construit, toute l'équipe en profite",
+        body: "Demandez simplement : WonkaChat retrouve l'agent qu'un collègue a déjà créé et le lance pour vous.",
       },
       {
         id: "triggers",
-        title: "Déclenchés là où le travail se fait",
-        body: "Un appel se termine, un mail arrive : l'agent démarre seul et met à jour votre CRM.",
+        title: "Le CRM se remplit tout seul après chaque appel",
+        body: "Un appel se termine, un mail arrive : l'agent démarre, rédige et met à jour HubSpot sans que personne n'y pense.",
       },
       {
         id: "analytics",
-        title: "Voyez ce que chaque agent rapporte",
-        body: "Exécutions, heures gagnées, utilisateurs actifs : suivez l'adoption agent par agent.",
+        title: "Vous voyez enfin ce que l'IA rapporte",
+        body: "Heures gagnées, exécutions, adoption par équipe : chaque agent rend des comptes.",
       },
     ],
   },
   models: {
     eyebrow: "Modèles",
-    title: "Le bon modèle pour chaque tâche.",
-    body: "Rédaction, analyse, données sensibles : chaque tâche a le modèle qui lui convient. Changez en un clic, ou laissez Auto choisir.",
-    auto: "Auto choisit pour vous",
+    title: "Le bon modèle pour chaque tâche. Pas un token de plus.",
+    body: "À l'échelle d'une entreprise, envoyer chaque demande au modèle le plus puissant coûte cher. WonkaChat oriente chaque tâche vers le modèle adapté : la puissance là où elle compte, des modèles légers partout ailleurs.",
+    auto: "Routage automatique",
+    light: "Léger",
+    advanced: "Avancé",
     tasks: [
-      { task: "Rédiger une offre commerciale", model: "claude", reason: "Rédaction nuancée" },
-      { task: "Synthétiser des dossiers RH", model: "mistral", reason: "Données sensibles" },
-      { task: "Analyser un Excel de ventes", model: "openai", reason: "Raisonnement sur données" },
-      { task: "Lire un appel d'offres de 60 pages", model: "gemini", reason: "Documents très longs" },
+      { task: "Trier 2 000 mails entrants", model: "mistral", tier: "light" },
+      { task: "Résumer une réunion", model: "gemini", tier: "light" },
+      { task: "Analyser un Excel de ventes", model: "openai", tier: "advanced" },
+      { task: "Rédiger une offre commerciale", model: "claude", tier: "advanced" },
     ],
+    costTitle: "Facture de tokens",
+    costAll: "Tout sur le modèle le plus puissant",
+    costRouted: "Routé par WonkaChat",
+    costNote: "Illustration",
+    costFoot: "Les modèles avancés ne tournent que sur les tâches qui en ont besoin.",
   },
   integrations: {
     eyebrow: "Intégrations",
@@ -294,14 +330,14 @@ const fr: HomeV2Copy = {
         metric: "−50 %",
         label: "de temps sur les mails support, pour plus de 70 employés",
         client: "N-allo (Engie)",
-        logo: "/images/france/logos/n-allo.png",
+        logo: NALLO,
         href: "/case-studies/n-allo",
       },
       {
         metric: "100 %",
         label: "des employés ont leur propre WonkaChat, des heures gagnées chaque semaine",
         client: "Itzu",
-        logo: "/images/france/logos/itzu.svg",
+        logo: ITZU,
         href: "/case-studies/itzu",
       },
     ],
@@ -319,14 +355,18 @@ const fr: HomeV2Copy = {
       { title: "Adoption", body: "Formation, suivi, cas d'usage suivant." },
     ],
     cta: "Parler à un consultant",
+    pageCta: "Rencontrer l'équipe",
   },
   security: {
     eyebrow: "Sécurité",
     title: "Vos données restent les vôtres.",
-    columns: [
-      { title: "Hébergement", items: ["Azure West Europe (Microsoft Irlande) par défaut", "Chiffrement au repos (AES-256)", "Chiffrement en transit (TLS 1.2 ou supérieur)"] },
-      { title: "Accès", items: ["Authentification unique (SSO) via Azure AD / Entra ID", "Gestion fine des permissions par utilisateur et par équipe", "Les données clients ne servent pas à entraîner des modèles d'IA publics"] },
-      { title: "Conformité", items: ["Certifié ISO 27001", "Conforme au RGPD, DPA inclus", "Conforme à NIS 2"] },
+    tiles: [
+      { id: "eu", label: "Hébergé en Europe" },
+      { id: "encryption", label: "Chiffré au repos et en transit" },
+      { id: "sso", label: "SSO avec Entra ID" },
+      { id: "iso", label: "ISO 27001" },
+      { id: "gdpr", label: "RGPD" },
+      { id: "nis2", label: "NIS 2" },
     ],
     cta: "Détails sécurité",
   },
@@ -342,10 +382,7 @@ const nl: HomeV2Copy = {
     description:
       "Beschrijf een taak, WonkaChat bouwt de agent, koppelt hem aan uw tools en deelt hem met uw teams. 35 AI-consultants begeleiden u tot in productie.",
   },
-  award: {
-    label: "#1 AI-start-up van het jaar · Belgium Startup Awards 2026",
-    cta: "Bekijk de winnaars",
-  },
+  award: { label: "#1 AI-start-up van het jaar · Belgium Startup Awards 2026" },
   hero: {
     title: "AI-agents die in uw tools werken.",
     titleAccent: "En een team dat ze samen met u opzet.",
@@ -358,42 +395,54 @@ const nl: HomeV2Copy = {
     trustedBy: "Zij vertrouwen ons",
   },
   platform: {
-    eyebrow: "Het platform",
-    title: "Alles wat AI nodig heeft om echt het werk te doen.",
+    eyebrow: "Wat er verandert",
+    title: "Elke week uren terug voor uw teams.",
+    proofs: [
+      { metric: "−50%", label: "tijd op supportmails", source: "N-allo (Engie), 70+ medewerkers", logo: NALLO },
+      { metric: "100%", label: "van de medewerkers met een eigen WonkaChat", source: "Itzu", logo: ITZU },
+      { metric: "200", label: "organisaties leerden ons wat AI verandert op het werk", source: "Wonka" },
+    ],
     chapters: [
       {
         id: "templates",
-        title: "Start vanuit een beproefde agent",
-        body: "Kant-en-klare agents voor sales, finance of operations, al gekoppeld aan Gmail, Odoo of HubSpot.",
+        title: "Nuttig vanaf dag één",
+        body: "Start vanuit beproefde agents voor sales, finance of operations, al gekoppeld aan Gmail, Odoo of HubSpot. Geen blanco pagina.",
       },
       {
         id: "team",
-        title: "Hergebruik de agents van uw collega's",
-        body: "Vraag het gewoon. WonkaChat vindt de agent die uw team al bouwde en voert hem voor u uit.",
+        title: "Eén persoon bouwt hem, het hele team profiteert",
+        body: "Vraag het gewoon: WonkaChat vindt de agent die een collega al bouwde en voert hem voor u uit.",
       },
       {
         id: "triggers",
-        title: "Gestart waar het werk gebeurt",
-        body: "Een gesprek eindigt, een mail komt binnen: de agent start vanzelf en werkt uw CRM bij.",
+        title: "Uw CRM vult zichzelf na elk gesprek",
+        body: "Een gesprek eindigt, een mail komt binnen: de agent start, schrijft en werkt HubSpot bij zonder dat iemand eraan denkt.",
       },
       {
         id: "analytics",
-        title: "Zie wat elke agent oplevert",
-        body: "Uitvoeringen, bespaarde uren, actieve gebruikers: volg de adoptie per agent.",
+        title: "U ziet eindelijk wat AI oplevert",
+        body: "Bespaarde uren, uitvoeringen, adoptie per team: elke agent legt verantwoording af.",
       },
     ],
   },
   models: {
     eyebrow: "Modellen",
-    title: "Het juiste model voor elke taak.",
-    body: "Schrijven, analyse, gevoelige data: elke taak krijgt het model dat het best past. Wissel met één klik, of laat Auto kiezen.",
-    auto: "Auto kiest voor u",
+    title: "Het juiste model voor elke taak. Geen token te veel.",
+    body: "Op bedrijfsschaal wordt elke vraag naar het krachtigste model sturen duur. WonkaChat stuurt elke taak naar het model dat past: kracht waar het telt, lichte modellen overal elders.",
+    auto: "Automatische routing",
+    light: "Licht",
+    advanced: "Geavanceerd",
     tasks: [
-      { task: "Een commerciële offerte schrijven", model: "claude", reason: "Genuanceerd schrijven" },
-      { task: "HR-dossiers samenvatten", model: "mistral", reason: "Gevoelige data" },
-      { task: "Een sales-Excel analyseren", model: "openai", reason: "Redeneren op data" },
-      { task: "Een aanbesteding van 60 pagina's lezen", model: "gemini", reason: "Zeer lange documenten" },
+      { task: "2.000 inkomende mails sorteren", model: "mistral", tier: "light" },
+      { task: "Een vergadering samenvatten", model: "gemini", tier: "light" },
+      { task: "Een sales-Excel analyseren", model: "openai", tier: "advanced" },
+      { task: "Een commerciële offerte schrijven", model: "claude", tier: "advanced" },
     ],
+    costTitle: "Tokenfactuur",
+    costAll: "Alles op het krachtigste model",
+    costRouted: "Gerouteerd door WonkaChat",
+    costNote: "Illustratie",
+    costFoot: "Geavanceerde modellen draaien alleen op de taken die ze nodig hebben.",
   },
   integrations: {
     eyebrow: "Integraties",
@@ -425,14 +474,14 @@ const nl: HomeV2Copy = {
         metric: "−50%",
         label: "tijd op supportmails, voor meer dan 70 medewerkers",
         client: "N-allo (Engie)",
-        logo: "/images/france/logos/n-allo.png",
+        logo: NALLO,
         href: "/case-studies/n-allo",
       },
       {
         metric: "100%",
         label: "van de medewerkers heeft een eigen WonkaChat, elke week uren bespaard",
         client: "Itzu",
-        logo: "/images/france/logos/itzu.svg",
+        logo: ITZU,
         href: "/case-studies/itzu",
       },
     ],
@@ -450,14 +499,18 @@ const nl: HomeV2Copy = {
       { title: "Adoptie", body: "Training, opvolging, volgende use case." },
     ],
     cta: "Spreek een consultant",
+    pageCta: "Ontmoet het team",
   },
   security: {
     eyebrow: "Beveiliging",
     title: "Uw data blijft van u.",
-    columns: [
-      { title: "Hosting", items: ["Standaard Azure West Europe (Microsoft Ierland)", "Versleuteling in rust (AES-256)", "Versleuteling tijdens transport (TLS 1.2 of hoger)"] },
-      { title: "Toegang", items: ["Single Sign-On (SSO) via Azure AD / Entra ID", "Gedetailleerd rechtenbeheer per gebruiker en team", "Klantdata wordt niet gebruikt om publieke AI-modellen te trainen"] },
-      { title: "Compliance", items: ["ISO 27001-gecertificeerd", "AVG-conform, DPA inbegrepen", "NIS 2-conform"] },
+    tiles: [
+      { id: "eu", label: "Gehost in Europa" },
+      { id: "encryption", label: "Versleuteld in rust en tijdens transport" },
+      { id: "sso", label: "SSO met Entra ID" },
+      { id: "iso", label: "ISO 27001" },
+      { id: "gdpr", label: "AVG" },
+      { id: "nis2", label: "NIS 2" },
     ],
     cta: "Details beveiliging",
   },

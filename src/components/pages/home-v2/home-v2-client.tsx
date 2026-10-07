@@ -15,16 +15,19 @@ import { BadgeIso } from "@/components/ui/icons/badge-iso";
 import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
-import type { HomeV2Copy, SectorId } from "@/views/copy/home-v2";
+import type {
+  HomeV2Copy,
+  SectorId,
+  SecurityTileId,
+} from "@/views/copy/home-v2";
 
 const TRIAL_URL = "https://wonka.chat/register";
-const AWARD_URL =
-  "https://www.startupawards.be/belgium-startup-awards-winners-2026";
 const YOUTUBE_ID = "Qv_65poIhig";
 const BG = "/brand/backgrounds/16x9";
 const LOGO = "/images/home/logos";
 const MCP = "/images/mcp-integrations";
 const EASE = [0.22, 1, 0.36, 1] as const;
+const round = (n: number) => Math.round(n * 100) / 100;
 
 const CLIENT_LOGOS = [
   { src: "/images/france/logos/engie.svg", alt: "Engie" },
@@ -162,6 +165,7 @@ const MODEL_ORDER: ModelId[] = ["openai", "claude", "gemini", "mistral"];
 export interface HomeV2Links {
   meetingUrl: string;
   securityUrl: string;
+  teamUrl: string;
 }
 
 /* ───────────────────────── primitives ───────────────────────── */
@@ -383,6 +387,40 @@ function ClipVideo({
   );
 }
 
+/** Counts the number part of a metric up when it scrolls into view, keeping its sign and unit. */
+function CountUpMetric({ value }: { value: string }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, amount: 0.6 });
+  const reduce = useReducedMotion();
+  const match = value.match(/^(\D*)(\d+)(.*)$/);
+  const prefix = match?.[1] ?? "";
+  const target = match ? Number(match[2]) : 0;
+  const suffix = match?.[3] ?? "";
+  const [n, setN] = useState(0);
+
+  useEffect(() => {
+    if (!inView || !target || reduce) return;
+    const start = performance.now();
+    let frame = 0;
+    const tick = (now: number) => {
+      const t = Math.min(1, (now - start) / 1400);
+      setN(Math.round(target * (1 - Math.pow(1 - t, 3))));
+      if (t < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [inView, reduce, target]);
+
+  if (!match) return <span ref={ref}>{value}</span>;
+  return (
+    <span ref={ref}>
+      {prefix}
+      {reduce ? target : n}
+      {suffix}
+    </span>
+  );
+}
+
 /* ───────────────────────── award ───────────────────────── */
 
 function CrownIcon() {
@@ -404,56 +442,16 @@ function CrownIcon() {
 }
 
 function AwardTag({ copy }: { copy: HomeV2Copy["award"] }) {
-  const [open, setOpen] = useState(false);
   return (
     <div
-      className="relative inline-flex"
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
+      className="award-marble-badge relative flex items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-4 py-1.5 text-white backdrop-blur-md"
+      style={{ animation: "award-glow 3s ease-in-out infinite" }}
     >
-      <a
-        href={AWARD_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        onFocus={() => setOpen(true)}
-        onBlur={() => setOpen(false)}
-        className="award-marble-badge group relative flex items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-4 py-1.5 text-white backdrop-blur-md transition hover:scale-[1.03]"
-        style={{ animation: "award-glow 3s ease-in-out infinite" }}
-      >
-        <CrownIcon />
-        <span className="relative z-10 h-4 w-px bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" />
-        <span className="relative z-10 text-[0.66rem] font-medium tracking-[0.14em] uppercase md:text-xs">
-          {copy.label}
-        </span>
-        <span className="relative z-10 text-[#e8c477] transition group-hover:translate-x-0.5">
-          →
-        </span>
-      </a>
-      <AnimatePresence>
-        {open && (
-          <motion.a
-            href={AWARD_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            initial={{ opacity: 0, y: -6, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -6, scale: 0.98 }}
-            transition={{ duration: 0.2 }}
-            className="absolute top-full left-1/2 z-30 mt-3 hidden w-[min(90vw,32rem)] -translate-x-1/2 overflow-hidden rounded-2xl shadow-2xl ring-1 shadow-black/40 ring-white/30 md:block"
-          >
-            <Image
-              src="/images/awards/belgium-startup-awards-2026.png"
-              alt={copy.label}
-              width={1300}
-              height={300}
-              className="h-auto w-full"
-            />
-            <span className="block bg-black px-4 py-2 text-center text-xs text-white/80">
-              {copy.cta} →
-            </span>
-          </motion.a>
-        )}
-      </AnimatePresence>
+      <CrownIcon />
+      <span className="relative z-10 h-4 w-px bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" />
+      <span className="relative z-10 text-[0.66rem] font-medium tracking-[0.14em] uppercase md:text-xs">
+        {copy.label}
+      </span>
     </div>
   );
 }
@@ -563,7 +561,7 @@ function Hero({
                 <ClipVideo
                   src={`/videos/home/${locale}/describe.mp4`}
                   poster={`/videos/home/${locale}/describe.jpg`}
-                  className="aspect-[1920/760] w-full object-cover"
+                  className="aspect-[1920/900] w-full object-cover"
                 />
               </div>
               <p className="mt-5 text-sm text-white/65">{copy.demoCaption}</p>
@@ -639,7 +637,36 @@ function Platform({
       <div className="relative mx-auto max-w-7xl px-4">
         <SectionTitle eyebrow={copy.eyebrow} title={copy.title} tone="light" />
 
-        <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:items-stretch lg:gap-14">
+        <div className="mt-12 grid gap-px overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/10 md:grid-cols-3">
+          {copy.proofs.map((proof, i) => (
+            <Reveal
+              key={proof.source}
+              delay={0.08 * i}
+              className="bg-black p-7 md:p-8"
+            >
+              <p className="font-serif text-6xl leading-none tracking-[-0.02em] text-white md:text-7xl">
+                <CountUpMetric value={proof.metric} />
+              </p>
+              <p className="mt-4 text-base text-white/80">{proof.label}</p>
+              <p className="mt-5 flex items-center gap-3 text-xs tracking-[0.12em] text-white/45 uppercase">
+                {proof.logo && (
+                  <span className="flex h-7 items-center rounded-md bg-white px-2">
+                    <Image
+                      src={proof.logo}
+                      alt=""
+                      width={64}
+                      height={20}
+                      className="h-4 w-auto object-contain"
+                    />
+                  </span>
+                )}
+                {proof.source}
+              </p>
+            </Reveal>
+          ))}
+        </div>
+
+        <div className="mt-20 grid gap-10 lg:grid-cols-12 lg:items-stretch lg:gap-14">
           <div className="order-2 lg:order-1 lg:col-span-5">
             <ol className="flex h-full flex-col justify-center gap-2">
               {copy.chapters.map((c, i) => {
@@ -735,7 +762,7 @@ function Platform({
 
 function Models({ copy }: { copy: HomeV2Copy["models"] }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { amount: 0.4 });
+  const inView = useInView(ref, { amount: 0.35 });
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
 
@@ -743,164 +770,233 @@ function Models({ copy }: { copy: HomeV2Copy["models"] }) {
     if (!inView || reduce) return;
     const id = window.setInterval(
       () => setIndex((i) => (i + 1) % copy.tasks.length),
-      2600,
+      2400,
     );
     return () => window.clearInterval(id);
   }, [inView, reduce, copy.tasks.length]);
 
   const task = copy.tasks[index];
+  const modelRow = MODEL_ORDER.indexOf(task.model);
+  const rowY = (row: number) => ((row + 0.5) / 4) * 100;
+  const from = rowY(index);
+  const to = rowY(modelRow);
 
   return (
     <section className="bg-light-gray py-24 md:py-36">
-      <div
-        ref={ref}
-        className="mx-auto grid max-w-7xl items-center gap-14 px-4 lg:grid-cols-12"
-      >
-        <div className="lg:col-span-5">
-          <SectionTitle
-            eyebrow={copy.eyebrow}
-            title={copy.title}
-            body={copy.body}
-          />
-          <ul className="mt-10 space-y-1">
-            {copy.tasks.map((t, i) => (
-              <li key={t.task}>
-                <button
-                  type="button"
-                  onClick={() => setIndex(i)}
-                  className={cn(
-                    "flex w-full items-center justify-between gap-4 rounded-xl px-4 py-3 text-left transition",
-                    i === index ? "bg-white shadow-sm" : "hover:bg-white/60",
-                  )}
+      <div ref={ref} className="mx-auto max-w-7xl px-4">
+        <SectionTitle
+          eyebrow={copy.eyebrow}
+          title={copy.title}
+          body={copy.body}
+        />
+
+        <div className="mt-14 grid gap-5 lg:grid-cols-12">
+          {/* Router */}
+          <Reveal className="min-w-0 lg:col-span-8">
+            <div className="relative h-full rounded-[2rem] bg-white p-5 shadow-[0_30px_80px_-40px_rgba(14,26,22,0.45)] md:p-8">
+              <div className="relative grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-3 md:gap-14">
+                <svg
+                  className="pointer-events-none absolute inset-0 hidden size-full md:block"
+                  viewBox="0 0 100 100"
+                  preserveAspectRatio="none"
+                  aria-hidden
                 >
-                  <span
-                    className={cn(
-                      "text-sm md:text-base",
-                      i === index ? "text-black" : "text-black/50",
-                    )}
-                  >
-                    {t.task}
-                  </span>
-                  <Image
-                    src={MODEL_META[t.model].src}
-                    alt=""
-                    width={20}
-                    height={20}
-                    className={cn(
-                      "size-5 object-contain transition",
-                      i === index ? "opacity-100" : "opacity-30 grayscale",
-                    )}
+                  <motion.path
+                    key={`in-${index}`}
+                    d={`M 30 ${from} C 44 ${from}, 40 50, 50 50`}
+                    fill="none"
+                    stroke="var(--color-blue-400)"
+                    strokeWidth={2}
+                    vectorEffect="non-scaling-stroke"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 0.45, ease: "easeOut" }}
                   />
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+                  <motion.path
+                    key={`out-${index}`}
+                    d={`M 50 50 C 60 50, 56 ${to}, 70 ${to}`}
+                    fill="none"
+                    stroke="var(--color-blue-400)"
+                    strokeWidth={2}
+                    vectorEffect="non-scaling-stroke"
+                    initial={{ pathLength: 0 }}
+                    animate={{ pathLength: 1 }}
+                    transition={{ duration: 0.45, delay: 0.4, ease: "easeOut" }}
+                  />
+                </svg>
 
-        <Reveal className="lg:col-span-7" delay={0.1}>
-          <div className="relative overflow-hidden rounded-[2rem] bg-white p-6 shadow-[0_30px_80px_-40px_rgba(14,26,22,0.45)] md:p-10">
-            <div className="bg-light-gray flex items-center gap-3 rounded-2xl border border-black/10 px-4 py-3.5">
-              <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-black">
-                <Image
-                  src={`${LOGO}/wonka-logo-mark-white-transparent.png`}
-                  alt=""
-                  width={18}
-                  height={18}
-                  className="size-4 object-contain"
-                />
-              </span>
-              <AnimatePresence mode="wait">
-                <motion.span
-                  key={task.task}
-                  initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
-                  transition={{ duration: 0.35 }}
-                  className="flex-1 truncate text-sm text-black md:text-base"
-                >
-                  {task.task}
-                </motion.span>
-              </AnimatePresence>
-              <span className="hidden items-center gap-1.5 rounded-full border border-black/10 bg-white px-3 py-1 text-xs text-black/70 sm:flex">
-                <span className="text-blue-500">✦</span> {copy.auto}
-              </span>
-            </div>
+                <ul className="relative grid grid-rows-4 gap-2">
+                  {copy.tasks.map((t, i) => (
+                    <li key={t.task}>
+                      <button
+                        type="button"
+                        onClick={() => setIndex(i)}
+                        className={cn(
+                          "flex h-full w-full flex-col justify-center rounded-2xl border px-3 py-3 text-left transition duration-300 md:px-4",
+                          i === index
+                            ? "border-blue-400 bg-blue-100"
+                            : "bg-light-gray border-black/[0.06]",
+                        )}
+                      >
+                        <span
+                          className={cn(
+                            "text-xs md:text-sm",
+                            i === index ? "text-black" : "text-black/55",
+                          )}
+                        >
+                          {t.task}
+                        </span>
+                        <span
+                          className={cn(
+                            "mt-1.5 inline-flex w-fit rounded-full px-2 py-0.5 text-[0.65rem] font-medium tracking-wide uppercase",
+                            t.tier === "light"
+                              ? "bg-forest-500/15 text-forest-500"
+                              : "bg-black/[0.07] text-black/60",
+                          )}
+                        >
+                          {t.tier === "light" ? copy.light : copy.advanced}
+                        </span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
 
-            <div
-              className="relative mx-auto my-4 h-12 w-px overflow-hidden bg-black/10"
-              aria-hidden
-            >
-              <motion.span
-                key={index}
-                className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-transparent via-blue-400 to-transparent"
-                initial={{ y: -24 }}
-                animate={{ y: 48 }}
-                transition={{ duration: 0.7, ease: "easeIn" }}
-              />
-            </div>
-
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4">
-              {MODEL_ORDER.map((id) => {
-                const meta = MODEL_META[id];
-                const selected = id === task.model;
-                return (
-                  <div
-                    key={id}
-                    className={cn(
-                      "relative flex items-center gap-3 rounded-2xl border p-4 transition-all duration-500 md:p-5",
-                      selected
-                        ? "border-transparent bg-blue-100"
-                        : "border-black/[0.07] bg-white",
-                    )}
+                <div className="relative flex items-center">
+                  <motion.span
+                    key={index}
+                    initial={{ scale: 0.92 }}
+                    animate={{ scale: 1 }}
+                    transition={{
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 18,
+                      delay: 0.35,
+                    }}
+                    className="flex flex-col items-center gap-2 rounded-2xl bg-black px-3 py-4 text-center text-white shadow-[0_20px_40px_-20px_rgba(14,26,22,0.8)] md:px-4"
                   >
-                    {selected && (
-                      <motion.span
-                        layoutId="model-ring"
-                        className="absolute inset-0 rounded-2xl ring-2 ring-blue-400"
-                        transition={{
-                          type: "spring",
-                          stiffness: 380,
-                          damping: 32,
-                        }}
-                      />
-                    )}
-                    <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-black/[0.06] bg-white">
-                      <Image
-                        src={meta.src}
-                        alt={meta.vendor}
-                        width={28}
-                        height={28}
-                        className="size-6 object-contain"
-                      />
+                    <Image
+                      src={`${LOGO}/wonka-logo-mark-white-transparent.png`}
+                      alt=""
+                      width={28}
+                      height={28}
+                      className="size-6 object-contain md:size-7"
+                    />
+                    <span className="max-w-[5.5rem] text-[0.65rem] leading-tight text-white/75 md:text-xs">
+                      {copy.auto}
                     </span>
-                    <span className="min-w-0">
-                      <span className="block truncate text-sm font-medium text-black">
-                        {meta.name}
-                      </span>
-                      <span className="block truncate text-xs text-black/50">
-                        {meta.vendor}
-                      </span>
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
+                  </motion.span>
+                </div>
 
-            <AnimatePresence mode="wait">
-              <motion.p
-                key={task.reason}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="mt-6 text-center text-sm text-black/55"
-              >
-                {MODEL_META[task.model].name} · {task.reason}
-              </motion.p>
-            </AnimatePresence>
-          </div>
-        </Reveal>
+                <ul className="relative grid grid-rows-4 gap-2">
+                  {MODEL_ORDER.map((id) => {
+                    const meta = MODEL_META[id];
+                    const selected = id === task.model;
+                    return (
+                      <li
+                        key={id}
+                        className={cn(
+                          "relative flex items-center gap-3 rounded-2xl border px-3 py-3 transition-all duration-500 md:px-4",
+                          selected
+                            ? "border-transparent bg-blue-100"
+                            : "border-black/[0.06] bg-white",
+                        )}
+                      >
+                        {selected && (
+                          <motion.span
+                            layoutId="model-ring"
+                            className="absolute inset-0 rounded-2xl ring-2 ring-blue-400"
+                            transition={{
+                              type: "spring",
+                              stiffness: 380,
+                              damping: 32,
+                              delay: 0.5,
+                            }}
+                          />
+                        )}
+                        <span className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-black/[0.06] bg-white md:size-10">
+                          <Image
+                            src={meta.src}
+                            alt={meta.vendor}
+                            width={24}
+                            height={24}
+                            className="size-5 object-contain md:size-6"
+                          />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block truncate text-sm font-medium text-black">
+                            {meta.name}
+                          </span>
+                          <span className="hidden truncate text-xs text-black/50 sm:block">
+                            {meta.vendor}
+                          </span>
+                        </span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Cost */}
+          <Reveal className="min-w-0 lg:col-span-4" delay={0.1}>
+            <CostCard copy={copy} active={inView} />
+          </Reveal>
+        </div>
       </div>
     </section>
+  );
+}
+
+function CostCard({
+  copy,
+  active,
+}: {
+  copy: HomeV2Copy["models"];
+  active: boolean;
+}) {
+  const reduce = useReducedMotion();
+  const bar = (width: string, delay: number) =>
+    reduce
+      ? { width }
+      : {
+          width: active ? width : "0%",
+          transition: { duration: 1.4, delay, ease: EASE },
+        };
+  return (
+    <div className="flex h-full flex-col gap-12 rounded-[2rem] bg-black p-7 text-white md:p-8">
+      <div className="flex items-baseline justify-between">
+        <p className="font-serif text-2xl">{copy.costTitle}</p>
+        <span className="text-[0.65rem] tracking-[0.16em] text-white/40 uppercase">
+          {copy.costNote}
+        </span>
+      </div>
+      <div className="space-y-7">
+        <div>
+          <p className="mb-3 text-sm text-white/60">{copy.costAll}</p>
+          <div className="h-3 overflow-hidden rounded-full bg-white/10">
+            <motion.div
+              className="h-full rounded-full bg-white/40"
+              initial={{ width: "0%" }}
+              animate={bar("100%", 0.1)}
+            />
+          </div>
+        </div>
+        <div>
+          <p className="mb-3 text-sm text-white">{copy.costRouted}</p>
+          <div className="h-3 overflow-hidden rounded-full bg-white/10">
+            <motion.div
+              className="h-full rounded-full bg-blue-400"
+              initial={{ width: "0%" }}
+              animate={bar("38%", 0.5)}
+            />
+          </div>
+        </div>
+      </div>
+      <p className="mt-auto font-serif text-xl leading-snug text-white/90">
+        {copy.costFoot}
+      </p>
+    </div>
   );
 }
 
@@ -913,8 +1009,9 @@ function Constellation({ sector }: { sector: SectorId }) {
   const position = (i: number) => {
     const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2;
     return {
-      x: 50 + Math.cos(angle) * radius,
-      y: 50 + Math.sin(angle) * radius,
+      // Rounded so server and client render identical attribute strings.
+      x: round(50 + Math.cos(angle) * radius),
+      y: round(50 + Math.sin(angle) * radius),
     };
   };
 
@@ -1303,11 +1400,17 @@ function Team({
                   ))}
                 </span>
                 <GhostCta href={links.meetingUrl}>{copy.cta}</GhostCta>
+                <a
+                  href={links.teamUrl}
+                  className="text-sm text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
+                >
+                  {copy.pageCta} →
+                </a>
               </div>
             </Reveal>
           </div>
 
-          <div ref={lineRef} className="lg:col-span-5 lg:col-start-8">
+          <div ref={lineRef} className="relative lg:col-span-5 lg:col-start-8">
             <ol className="space-y-4">
               {copy.steps.map((step, i) => (
                 <li key={step.title}>
@@ -1346,6 +1449,79 @@ function Team({
 
 /* ───────────────────────── security ───────────────────────── */
 
+function SecurityVisual({ id }: { id: SecurityTileId }) {
+  if (id === "iso" || id === "gdpr" || id === "nis2") {
+    const Badge =
+      id === "iso" ? BadgeIso : id === "gdpr" ? BadgeGdpr : BadgeNis2;
+    return (
+      <span className="flex size-16 items-center justify-center rounded-full bg-black">
+        <Badge className="size-12" />
+      </span>
+    );
+  }
+  if (id === "eu")
+    return (
+      <svg viewBox="0 0 64 64" className="size-16" aria-hidden>
+        <circle cx="32" cy="32" r="31" fill="var(--color-blue-800)" />
+        {Array.from({ length: 12 }, (_, i) => {
+          const a = (i / 12) * Math.PI * 2;
+          return (
+            <circle
+              key={i}
+              cx={round(32 + Math.cos(a) * 18)}
+              cy={round(32 + Math.sin(a) * 18)}
+              r="2.6"
+              fill="#f7c948"
+            />
+          );
+        })}
+      </svg>
+    );
+  if (id === "encryption")
+    return (
+      <svg viewBox="0 0 64 64" className="size-16" aria-hidden>
+        <circle cx="32" cy="32" r="31" fill="var(--color-black)" />
+        <rect
+          x="21"
+          y="29"
+          width="22"
+          height="17"
+          rx="4"
+          fill="none"
+          stroke="white"
+          strokeWidth="2.5"
+        />
+        <path
+          d="M25 29v-5a7 7 0 0 1 14 0v5"
+          fill="none"
+          stroke="white"
+          strokeWidth="2.5"
+        />
+        <circle cx="32" cy="37.5" r="2.2" fill="var(--color-blue-400)" />
+      </svg>
+    );
+  return (
+    <svg viewBox="0 0 64 64" className="size-16" aria-hidden>
+      <circle cx="32" cy="32" r="31" fill="var(--color-blue-100)" />
+      <path
+        d="M32 17l12 5v9c0 8-5.2 13.6-12 16-6.8-2.4-12-8-12-16v-9z"
+        fill="none"
+        stroke="var(--color-blue-600)"
+        strokeWidth="2.5"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M26.5 32.5l4 4 7.5-8"
+        fill="none"
+        stroke="var(--color-blue-600)"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function Security({
   copy,
   links,
@@ -1355,35 +1531,32 @@ function Security({
 }) {
   return (
     <section className="bg-white py-24 md:py-32">
-      <div className="mx-auto grid max-w-7xl gap-12 px-4 lg:grid-cols-12">
-        <div className="lg:col-span-4">
+      <div className="mx-auto max-w-7xl px-4">
+        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
           <SectionTitle eyebrow={copy.eyebrow} title={copy.title} />
-          <Reveal delay={0.1} className="mt-8 flex items-center gap-4">
-            <BadgeIso className="size-16" />
-            <BadgeGdpr className="size-16" />
-            <BadgeNis2 className="size-16" />
-          </Reveal>
-          <Reveal delay={0.15} className="mt-8">
+          <Reveal>
             <a
               href={links.securityUrl}
-              className="text-sm text-black underline decoration-black/25 underline-offset-4 hover:decoration-black"
+              className="inline-flex items-center gap-2 rounded-full border border-black/15 px-5 py-3 text-sm text-black transition hover:border-black/40"
             >
-              {copy.cta} →
+              {copy.cta} <span aria-hidden>→</span>
             </a>
           </Reveal>
         </div>
-        <div className="grid gap-px overflow-hidden rounded-[2rem] bg-black/[0.07] sm:grid-cols-3 lg:col-span-8">
-          {copy.columns.map((col, i) => (
-            <Reveal key={col.title} delay={0.08 * i} className="bg-white p-7">
-              <p className="font-serif text-xl text-black">{col.title}</p>
-              <ul className="mt-5 space-y-3">
-                {col.items.map((item) => (
-                  <li key={item} className="flex gap-2.5 text-sm text-black/70">
-                    <span className="bg-forest-500 mt-1.5 size-1.5 shrink-0 rounded-full" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+        <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+          {copy.tiles.map((tile, i) => (
+            <Reveal key={tile.id} delay={0.06 * i}>
+              <a
+                href={links.securityUrl}
+                className="group bg-light-gray flex h-full flex-col items-center gap-4 rounded-3xl px-4 py-8 text-center transition duration-500 hover:-translate-y-1 hover:bg-white hover:shadow-[0_24px_50px_-30px_rgba(14,26,22,0.4)]"
+              >
+                <span className="transition duration-500 group-hover:scale-105">
+                  <SecurityVisual id={tile.id} />
+                </span>
+                <span className="text-sm font-medium text-black">
+                  {tile.label}
+                </span>
+              </a>
             </Reveal>
           ))}
         </div>

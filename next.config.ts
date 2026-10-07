@@ -55,7 +55,6 @@ const redirects = async () => [
   { source: '/resources/:slug*', destination: '/blog', permanent: true },
   { source: '/resources', destination: '/blog', permanent: true },
   { source: '/post/:slug*', destination: '/blog', permanent: true },
-  { source: '/team', destination: '/', permanent: true },
   { source: '/book-a-meeting', destination: '/', permanent: true },
   // Blog posts → short comparison pages (DISABLED until /vs/dust and /vs/langdock confirmed 200)
   // { source: '/blog/wonka-vs-dust', destination: '/vs/dust', permanent: true },

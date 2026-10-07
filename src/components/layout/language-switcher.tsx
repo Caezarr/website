@@ -46,9 +46,9 @@ export function getLanguageSwitchHref(pathname: string, target: Locale): string 
 
   const stripped = stripLocale(pathname).replace(/\/+$/, "");
   const segments = stripped.split("/").filter(Boolean);
-  // Temporary homepage draft, translated in all locales but kept out of the commercial routes.
-  if (segments.length === 1 && segments[0] === "home-v2") {
-    return target === "en" ? "/home-v2" : `/${target}/home-v2`;
+  // Homepage draft and team page: translated in all locales but kept out of the commercial routes.
+  if (segments.length === 1 && (segments[0] === "home-v2" || segments[0] === "team")) {
+    return target === "en" ? `/${segments[0]}` : `/${target}/${segments[0]}`;
   }
   if (segments.length === 1) {
     const section = HUB_ROOT_SEGMENTS[segments[0]];

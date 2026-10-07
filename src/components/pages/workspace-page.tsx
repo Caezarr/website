@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { sanityFetch } from "@sanity/lib/live";
-import { SITE_SETTINGS_QUERY, WONKA_CHAT_CONTENT_QUERY } from "@sanity/lib/queries";
+import {
+  SITE_SETTINGS_QUERY,
+  WONKA_CHAT_CONTENT_QUERY,
+} from "@sanity/lib/queries";
 import { CapabilityGrid } from "@/components/sections/capability-grid";
 import { ContactBlock } from "@/components/sections/contact-block";
 import { FaqSection } from "@/components/sections/faq-section";
