@@ -42,12 +42,12 @@ export const TEAM: TeamMember[] = [
   {
     name: "Younes Baghor",
     role: "Head of Agentic",
-    photo: "/images/team/younes-baghor.jpg",
+    photo: "/images/team/younes-baghor-v2.jpg",
   },
   {
     name: "Adrien Van Den Branden",
     role: "Go-to-Market & Delivery",
-    photo: "/images/team/adrien-van-den-branden.jpg",
+    photo: "/images/team/adrien-van-den-branden-v2.jpg",
   },
   {
     name: "Gabriel Rance",
@@ -63,7 +63,7 @@ export const TEAM: TeamMember[] = [
   {
     name: "Maarten Mollie",
     role: "Account Executive Lead",
-    photo: "/images/team/maarten-mollie.jpg",
+    photo: "/images/team/maarten-mollie-v2.jpg",
   },
   {
     name: "Foucauld Bellanger",
@@ -73,7 +73,7 @@ export const TEAM: TeamMember[] = [
   {
     name: "Rodolphe de Schaetzen",
     role: "Tech Lead",
-    photo: "/images/team/rodolphe-de-schaetzen.jpg",
+    photo: "/images/team/rodolphe-de-schaetzen-v2.jpg",
   },
   {
     name: "Juliette Felix",
