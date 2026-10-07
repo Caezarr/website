@@ -39,8 +39,16 @@ export const TEAM: TeamMember[] = [
     role: "Head of Sales",
     photo: "/images/team/nathan-de-witte.jpg",
   },
-  { name: "Younes Baghor", role: "Head of Agentic" },
-  { name: "Adrien Van Den Branden", role: "Go-to-Market & Delivery" },
+  {
+    name: "Younes Baghor",
+    role: "Head of Agentic",
+    photo: "/images/team/younes-baghor.jpg",
+  },
+  {
+    name: "Adrien Van Den Branden",
+    role: "Go-to-Market & Delivery",
+    photo: "/images/team/adrien-van-den-branden.jpg",
+  },
   {
     name: "Gabriel Rance",
     role: "Country Manager France",
@@ -52,13 +60,21 @@ export const TEAM: TeamMember[] = [
     role: "Start AI Lead",
     photo: "/images/team/jordy-callens.jpg",
   },
-  { name: "Maarten Mollie", role: "Account Executive Lead" },
+  {
+    name: "Maarten Mollie",
+    role: "Account Executive Lead",
+    photo: "/images/team/maarten-mollie.jpg",
+  },
   {
     name: "Foucauld Bellanger",
     role: "Tech Lead",
     photo: "/images/team/foucauld-bellanger.jpg",
   },
-  { name: "Rodolphe de Schaetzen", role: "Tech Lead" },
+  {
+    name: "Rodolphe de Schaetzen",
+    role: "Tech Lead",
+    photo: "/images/team/rodolphe-de-schaetzen.jpg",
+  },
   {
     name: "Juliette Felix",
     role: "Project Manager",
@@ -81,9 +97,17 @@ export const TEAM: TeamMember[] = [
     role: "Data & AI Engineer",
     photo: "/images/team/lucy-janssens.jpg",
   },
-  { name: "Fozan Shahid", role: "Data & AI Engineer" },
+  {
+    name: "Fozan Shahid",
+    role: "Data & AI Engineer",
+    photo: "/images/team/fozan-shahid.jpg",
+  },
   { name: "Yevgen Yakovliev", role: "Full-Stack Developer" },
-  { name: "Djager Al-Yussef", role: "Software Developer" },
+  {
+    name: "Djager Al-Yussef",
+    role: "Software Developer",
+    photo: "/images/team/djager-al-yussef.jpg",
+  },
   { name: "Elsa Valet", role: "Customer Support Expert" },
   { name: "Alexis Bonte", role: "Business Developer" },
   { name: "Gilles Liger", role: "Business Developer" },
@@ -98,6 +122,7 @@ export const TEAM: TeamMember[] = [
   {
     name: "Raffe Vanderbeken Vancauwenbeghe",
     role: "Sales & Marketing Intern",
+    photo: "/images/team/raffe-vanderbeken-vancauwenbeghe.jpg",
   },
 ];
 
