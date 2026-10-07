@@ -19,14 +19,18 @@ export const AUDIT_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     breadcrumb: "Audit IA",
     schema: {
       serviceName: "Audit IA Start AI",
-      serviceType: "Audit de maturité IA et feuille de route IA pour entreprise",
+      serviceType:
+        "Audit de maturité IA et feuille de route IA pour entreprise",
     },
     hero: {
       eyebrow: "Audit IA · PME et ETI en France",
       title: "Un audit IA qui débouche sur un plan, pas sur un rapport.",
       subtitle:
         "Tout le monde vous dit de « faire de l'IA ». Un audit IA vous dit où, dans quel ordre et pour quel retour. Avec Start AI, Wonka évalue votre maturité IA, analyse vos processus, priorise les cas d'usage et vous remet une feuille de route avec un plan d'exécution à 90 jours.",
-      primaryCta: { label: "Faire le diagnostic gratuit", href: "/france/diagnostic" },
+      primaryCta: {
+        label: "Faire le diagnostic gratuit",
+        href: "/france/diagnostic",
+      },
       secondaryCta: { label: "Parler à l'équipe France", href: "meeting" },
       facts: [
         ["Diagnostic gratuit", "5 questions, 2 minutes"],
@@ -46,16 +50,30 @@ export const AUDIT_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     },
     comparison: {
       eyebrow: "Diagnostic ou audit",
-      heading: "Diagnostic IA gratuit ou audit IA complet : quelle différence ?",
+      heading:
+        "Diagnostic IA gratuit ou audit IA complet : quelle différence ?",
       columns: ["", "Diagnostic IA gratuit", "Audit IA Start AI"],
       rows: [
         ["Durée", "2 minutes, en ligne", "6 semaines, avec nos experts"],
-        ["Ce que vous donnez", "5 réponses : secteur, outils, données, frein, rôle", "Environ une demi-journée par semaine pour 2 à 3 personnes clés"],
-        ["Ce que vous obtenez", "3 exemples d'agents adaptés à vos outils", "Maturité IA, business cases priorisés, feuille de route, politique IA, plan à 90 jours"],
-        ["Analyse de vos processus", "Non", "Oui : entretiens approfondis et analyse des workflows"],
+        [
+          "Ce que vous donnez",
+          "5 réponses : secteur, outils, données, frein, rôle",
+          "Environ une demi-journée par semaine pour 2 à 3 personnes clés",
+        ],
+        [
+          "Ce que vous obtenez",
+          "3 exemples d'agents adaptés à vos outils",
+          "Maturité IA, business cases priorisés, feuille de route, politique IA, plan à 90 jours",
+        ],
+        [
+          "Analyse de vos processus",
+          "Non",
+          "Oui : entretiens approfondis et analyse des workflows",
+        ],
         ["Coût", "Gratuit", "À partir de 15 000 €"],
       ],
-      footnote: "Le diagnostic est un point de départ. Il ne remplace pas l'analyse de vos processus réels.",
+      footnote:
+        "Le diagnostic est un point de départ. Il ne remplace pas l'analyse de vos processus réels.",
     },
     benefits: {
       eyebrow: "Pourquoi un audit",
@@ -98,12 +116,18 @@ export const AUDIT_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "Une analyse des opportunités avec ROI",
           body: "Les cas d'usage repérés dans vos processus, évalués selon leur impact et leur faisabilité, avec une estimation du retour pour chacun.",
-          link: { label: "L'IA pour entreprise, par où commencer", href: "/fr/ia-pour-entreprise" },
+          link: {
+            label: "L'IA pour entreprise, par où commencer",
+            href: "/fr/ia-pour-entreprise",
+          },
         },
         {
           title: "Des business cases IA prioritaires",
           body: "Les opportunités au meilleur retour, prêtes à être concrétisées, et des concepts d'agents IA là où un assistant sur mesure apportera le plus de valeur.",
-          link: { label: "Ce qu'un agent IA peut faire", href: "/fr/agent-ia-entreprise" },
+          link: {
+            label: "Ce qu'un agent IA peut faire",
+            href: "/fr/agent-ia-entreprise",
+          },
         },
         {
           title: "Une feuille de route et un plan à 90 jours",
@@ -113,7 +137,10 @@ export const AUDIT_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "Une politique IA et un cadre de gouvernance",
           body: "Des lignes directrices pour que tout ce qui suit s'inscrive dans le bon cadre : données autorisées, outils validés, validation humaine sur les actions importantes.",
-          link: { label: "Rédiger une charte IA d'entreprise", href: "/fr/charte-ia-entreprise" },
+          link: {
+            label: "Rédiger une charte IA d'entreprise",
+            href: "/fr/charte-ia-entreprise",
+          },
         },
       ],
     },
@@ -152,7 +179,8 @@ export const AUDIT_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
             "Chez Wonka, l'audit IA complet prend la forme du programme Start AI, qui démarre à 15 000 €. Le périmètre dépend de la taille de votre organisation et du nombre de processus analysés. Le diagnostic IA en ligne, lui, est gratuit : cinq questions, deux minutes, et un premier résultat avant tout échange commercial.",
         },
         {
-          question: "Quelle est la différence entre un diagnostic IA et un audit IA ?",
+          question:
+            "Quelle est la différence entre un diagnostic IA et un audit IA ?",
           answer:
             "Le diagnostic IA gratuit est une première lecture en deux minutes : à partir de votre secteur, vos outils, vos données, votre frein principal et votre rôle, il propose trois agents adaptés. L'audit IA analyse vos processus réels avec vos équipes pendant six semaines et livre une feuille de route priorisée, des business cases et un plan à 90 jours.",
         },
@@ -172,12 +200,14 @@ export const AUDIT_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
             "Une évaluation de maturité IA, des business cases IA prioritaires, une feuille de route concrète, une politique IA et un cadre de gouvernance, des quick wins et des concepts d'agents IA. Vous recevez aussi un plan d'exécution à 90 jours et une présentation pour la direction, prête à être partagée.",
         },
         {
-          question: "Existe-t-il des diagnostics IA publics, comme le Diag Data IA de Bpifrance ?",
+          question:
+            "Existe-t-il des diagnostics IA publics, comme le Diag Data IA de Bpifrance ?",
           answer:
             "Oui, certaines entreprises commencent par un diagnostic proposé par un organisme public. Wonka n'est pas prestataire de ces dispositifs. Si vous en avez déjà réalisé un, il constitue un bon point de départ : l'audit Start AI peut s'appuyer sur ses conclusions pour aller jusqu'aux business cases et au plan d'exécution.",
         },
         {
-          question: "Faut-il un audit IA avant de déployer ChatGPT ou un agent IA ?",
+          question:
+            "Faut-il un audit IA avant de déployer ChatGPT ou un agent IA ?",
           answer:
             "Pas toujours. Si vous savez déjà quel processus vous coûte du temps, vous pouvez démarrer directement un projet sur mesure. L'audit devient utile quand les idées partent dans tous les sens, que le RSSI bloque faute de cadre, ou que la direction veut prioriser avant d'investir.",
         },
@@ -191,17 +221,65 @@ export const AUDIT_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     related: {
       heading: "Pour aller plus loin",
       links: [
-        { label: "Diagnostic IA gratuit", href: "/france/diagnostic", description: "5 questions, 2 minutes, 3 agents adaptés à vos outils." },
-        { label: "Programme Start AI", href: "/fr/start-ai", description: "Stratégie IA et feuille de route en 6 semaines." },
-        { label: "Acculturation IA", href: "/fr/acculturation-ia", description: "Embarquer la direction et les équipes dans l'adoption de l'IA." },
-        { label: "Charte IA d'entreprise", href: "/fr/charte-ia-entreprise", description: "Les règles communes pour utiliser l'IA en sécurité." },
-        { label: "L'IA pour entreprise", href: "/fr/ia-pour-entreprise", description: "Ce que l'IA peut faire pour votre entreprise." },
-        { label: "Agence IA", href: "/fr/agence-ia", description: "De la stratégie IA aux agents en production." },
-        { label: "Wonka Build", href: "/fr/wonka-build", description: "Construire les cas d'usage prioritaires de votre feuille de route." },
-        { label: "Sécurité et conformité", href: "/fr/security", description: "ISO 27001, RGPD, NIS 2 et hébergement européen." },
-        { label: "Wonka AI en France", href: "/france", description: "Notre offre pour les entreprises françaises." },
-        { label: "Shadow AI : définition et risques", href: "/fr/shadow-ai", description: "Reprendre la main sur les usages d'IA non encadrés, sans les interdire." },
-        { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
+        {
+          label: "Diagnostic IA gratuit",
+          href: "/france/diagnostic",
+          description: "5 questions, 2 minutes, 3 agents adaptés à vos outils.",
+        },
+        {
+          label: "Programme Start AI",
+          href: "/fr/start-ai",
+          description: "Stratégie IA et feuille de route en 6 semaines.",
+        },
+        {
+          label: "Acculturation IA",
+          href: "/fr/acculturation-ia",
+          description:
+            "Embarquer la direction et les équipes dans l'adoption de l'IA.",
+        },
+        {
+          label: "Charte IA d'entreprise",
+          href: "/fr/charte-ia-entreprise",
+          description: "Les règles communes pour utiliser l'IA en sécurité.",
+        },
+        {
+          label: "L'IA pour entreprise",
+          href: "/fr/ia-pour-entreprise",
+          description: "Ce que l'IA peut faire pour votre entreprise.",
+        },
+        {
+          label: "Agence IA",
+          href: "/fr/agence-ia",
+          description: "De la stratégie IA aux agents en production.",
+        },
+        {
+          label: "Wonka Build",
+          href: "/fr/wonka-build",
+          description:
+            "Construire les cas d'usage prioritaires de votre feuille de route.",
+        },
+        {
+          label: "Sécurité et conformité",
+          href: "/fr/security",
+          description: "ISO 27001, RGPD, NIS 2 et hébergement européen.",
+        },
+        {
+          label: "Wonka AI en France",
+          href: "/france",
+          description: "Notre offre pour les entreprises françaises.",
+        },
+        {
+          label: "Shadow AI : définition et risques",
+          href: "/fr/shadow-ai",
+          description:
+            "Reprendre la main sur les usages d'IA non encadrés, sans les interdire.",
+        },
+        {
+          label: "Comparatif IA entreprise",
+          href: "/fr/comparatif-ia-entreprise",
+          description:
+            "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI.",
+        },
       ],
     },
     cta: {

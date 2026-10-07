@@ -17,7 +17,8 @@ const en: AiChatCopy = {
   hero: {
     eyebrow: "AI Chat",
     title: "Safe AI chat.",
-    subtitle: "The best AI models, connected to your company knowledge, running in the EU.",
+    subtitle:
+      "The best AI models, connected to your company knowledge, running in the EU.",
     imageAlt: "Wonka AI chat workspace",
   },
   trial: null,

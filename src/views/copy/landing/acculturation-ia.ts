@@ -24,11 +24,15 @@ export const ACCULTURATION_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     },
     hero: {
       eyebrow: "Acculturation IA · PME et ETI en France",
-      title: "Acculturation IA : embarquer toute l'équipe, pas seulement les 12 qui savent.",
+      title:
+        "Acculturation IA : embarquer toute l'équipe, pas seulement les 12 qui savent.",
       subtitle:
         "La plupart des projets IA échouent sur l'adoption, pas sur la technologie. Wonka aligne la direction, forme les équipes à bien utiliser l'IA lors d'un atelier concret, pose des règles communes, puis met tout le monde sur un espace de travail IA sécurisé.",
       primaryCta: { label: "Parler à l'équipe France", href: "meeting" },
-      secondaryCta: { label: "Faire le diagnostic gratuit", href: "/france/diagnostic" },
+      secondaryCta: {
+        label: "Faire le diagnostic gratuit",
+        href: "/france/diagnostic",
+      },
       facts: [
         ["Lancement", "Demi-journée avec atelier de prompting"],
         ["Règles communes", "Politique IA et gouvernance"],
@@ -80,7 +84,8 @@ export const ACCULTURATION_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
       heading: "Acculturation IA entreprise : ce que Wonka met en place",
       items: [
         {
-          title: "Une demi-journée de lancement pour la direction et les équipes",
+          title:
+            "Une demi-journée de lancement pour la direction et les équipes",
           body: "Les bases et les possibilités des outils d'IA comme ChatGPT et Claude, avec des exemples concrets et une projection de ce que l'IA peut signifier pour votre organisation.",
           link: { label: "Découvrir Start AI", href: "/fr/start-ai" },
         },
@@ -91,7 +96,10 @@ export const ACCULTURATION_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "Une politique IA et des règles communes",
           body: "Ce qui est autorisé, avec quelles données et dans quels outils. Une charte que tout le monde comprend, pour que l'usage de l'IA reste sous contrôle.",
-          link: { label: "Rédiger une charte IA d'entreprise", href: "/fr/charte-ia-entreprise" },
+          link: {
+            label: "Rédiger une charte IA d'entreprise",
+            href: "/fr/charte-ia-entreprise",
+          },
         },
         {
           title: "Un espace de travail IA sécurisé pour tous",
@@ -135,17 +143,20 @@ export const ACCULTURATION_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
       heading: "Acculturation IA : questions fréquentes",
       items: [
         {
-          question: "Quelle différence entre acculturation IA et sensibilisation IA ?",
+          question:
+            "Quelle différence entre acculturation IA et sensibilisation IA ?",
           answer:
             "La sensibilisation IA informe : elle explique ce qu'est l'IA et ses risques, souvent en une session. L'acculturation va plus loin : elle aligne la direction, apprend aux équipes à utiliser l'IA sur leurs propres tâches, pose des règles communes et donne un outil pour que l'usage devienne quotidien. L'objectif est l'adoption, pas seulement la compréhension.",
         },
         {
-          question: "Qu'impose l'article 4 de l'AI Act sur la maîtrise de l'IA ?",
+          question:
+            "Qu'impose l'article 4 de l'AI Act sur la maîtrise de l'IA ?",
           answer:
             "L'article 4 du règlement européen sur l'IA demande aux fournisseurs et aux déployeurs de systèmes d'IA de prendre des mesures pour garantir un niveau suffisant de maîtrise de l'IA (AI literacy) chez leur personnel. Cette obligation s'applique depuis le 2 février 2025. Elle concerne donc aussi les entreprises qui utilisent l'IA au quotidien, pas seulement celles qui la développent.",
         },
         {
-          question: "Comment former ses équipes à l'IA sans y passer des semaines ?",
+          question:
+            "Comment former ses équipes à l'IA sans y passer des semaines ?",
           answer:
             "En commençant par une demi-journée de lancement avec un atelier de prompting sur des outils comme ChatGPT et Claude. Ensuite, l'apprentissage se fait dans l'usage : chaque collaborateur dispose d'un espace de travail IA sécurisé, avec des règles claires, plutôt que d'un cours à retenir.",
         },
@@ -174,15 +185,54 @@ export const ACCULTURATION_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     related: {
       heading: "Pour aller plus loin",
       links: [
-        { label: "Audit IA", href: "/fr/audit-ia", description: "Évaluer votre maturité IA et prioriser les cas d'usage." },
-        { label: "Charte IA d'entreprise", href: "/fr/charte-ia-entreprise", description: "Les règles communes pour utiliser l'IA en sécurité." },
-        { label: "Programme Start AI", href: "/fr/start-ai", description: "Stratégie IA, acculturation et feuille de route en 6 semaines." },
-        { label: "WonkaChat", href: "/fr/wonka-chat", description: "L'espace de travail IA sécurisé pour toute l'équipe." },
-        { label: "ChatGPT pour entreprise", href: "/fr/chatgpt-entreprise", description: "Passer des ChatGPT personnels à un outil d'entreprise." },
-        { label: "Chatbot d'entreprise", href: "/fr/chatbot-entreprise", description: "Un assistant IA connecté à vos documents et outils." },
-        { label: "Sécurité et conformité", href: "/fr/security", description: "ISO 27001, RGPD, NIS 2 et hébergement européen." },
-        { label: "Diagnostic IA gratuit", href: "/france/diagnostic", description: "5 questions, 2 minutes, 3 agents adaptés à vos outils." },
-        { label: "Shadow AI : définition et risques", href: "/fr/shadow-ai", description: "Reprendre la main sur les usages d'IA non encadrés, sans les interdire." },
+        {
+          label: "Audit IA",
+          href: "/fr/audit-ia",
+          description:
+            "Évaluer votre maturité IA et prioriser les cas d'usage.",
+        },
+        {
+          label: "Charte IA d'entreprise",
+          href: "/fr/charte-ia-entreprise",
+          description: "Les règles communes pour utiliser l'IA en sécurité.",
+        },
+        {
+          label: "Programme Start AI",
+          href: "/fr/start-ai",
+          description:
+            "Stratégie IA, acculturation et feuille de route en 6 semaines.",
+        },
+        {
+          label: "WonkaChat",
+          href: "/fr/wonka-chat",
+          description: "L'espace de travail IA sécurisé pour toute l'équipe.",
+        },
+        {
+          label: "ChatGPT pour entreprise",
+          href: "/fr/chatgpt-entreprise",
+          description: "Passer des ChatGPT personnels à un outil d'entreprise.",
+        },
+        {
+          label: "Chatbot d'entreprise",
+          href: "/fr/chatbot-entreprise",
+          description: "Un assistant IA connecté à vos documents et outils.",
+        },
+        {
+          label: "Sécurité et conformité",
+          href: "/fr/security",
+          description: "ISO 27001, RGPD, NIS 2 et hébergement européen.",
+        },
+        {
+          label: "Diagnostic IA gratuit",
+          href: "/france/diagnostic",
+          description: "5 questions, 2 minutes, 3 agents adaptés à vos outils.",
+        },
+        {
+          label: "Shadow AI : définition et risques",
+          href: "/fr/shadow-ai",
+          description:
+            "Reprendre la main sur les usages d'IA non encadrés, sans les interdire.",
+        },
       ],
     },
     cta: {

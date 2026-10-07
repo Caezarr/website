@@ -19,16 +19,21 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     },
     breadcrumb: "Comparatif IA entreprise",
     schema: {
-      serviceName: "WonkaChat : espace de travail IA multi-modèles pour entreprise",
+      serviceName:
+        "WonkaChat : espace de travail IA multi-modèles pour entreprise",
       serviceType: "Espace de travail IA privé pour entreprises",
     },
     hero: {
       eyebrow: "Guide d'achat · IA générative",
-      title: "Comparatif IA entreprise : quelle IA choisir pour votre organisation ?",
+      title:
+        "Comparatif IA entreprise : quelle IA choisir pour votre organisation ?",
       subtitle:
         "ChatGPT, Claude, Gemini, Copilot, Le Chat de Mistral : les offres se ressemblent en démo et diffèrent sur ce qui compte. Ce guide compare les critères d'achat d'une PME ou d'une ETI.",
       primaryCta: { label: "Essai gratuit 7 jours", href: "trial" },
-      secondaryCta: { label: "Réserver un appel de 30 minutes", href: "meeting" },
+      secondaryCta: {
+        label: "Réserver un appel de 30 minutes",
+        href: "meeting",
+      },
       facts: [
         ["Offres comparées", "ChatGPT · Claude · Gemini · Copilot · Le Chat"],
         ["Critères", "8 critères d'achat pour PME et ETI"],
@@ -47,7 +52,8 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     },
     benefits: {
       eyebrow: "Les critères qui comptent",
-      heading: "Quelle IA choisir pour son entreprise : 6 critères avant de signer",
+      heading:
+        "Quelle IA choisir pour son entreprise : 6 critères avant de signer",
       items: [
         {
           title: "Hébergement et souveraineté des données",
@@ -77,7 +83,8 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     },
     useCases: {
       eyebrow: "Guide de choix",
-      heading: "ChatGPT vs Claude vs Gemini vs Copilot : quel outil pour quel besoin ?",
+      heading:
+        "ChatGPT vs Claude vs Gemini vs Copilot : quel outil pour quel besoin ?",
       items: [
         {
           title: "Vous êtes déjà tout sur Microsoft 365",
@@ -90,17 +97,26 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "Votre entreprise tourne sur Google Workspace",
           body: "Gemini est pensé pour Gmail, Docs et Drive : pour une équipe entièrement sur Google Workspace, c'est un point de départ logique. Vérifiez la connexion à votre ERP et à votre CRM.",
-          link: { label: "Voir les intégrations WonkaChat", href: "/fr/integrations" },
+          link: {
+            label: "Voir les intégrations WonkaChat",
+            href: "/fr/integrations",
+          },
         },
         {
           title: "Un usage centré sur un modèle précis",
           body: "Si une équipe a trouvé le modèle idéal pour sa tâche, l'offre de son éditeur (ChatGPT, Claude ou Le Chat de Mistral) est une option directe. Gardez en tête qu'elle restera construite autour de cette seule famille de modèles.",
-          link: { label: "Comment choisir un modèle d'IA", href: "/fr/blog/fr-choisir-modele-ia" },
+          link: {
+            label: "Comment choisir un modèle d'IA",
+            href: "/fr/blog/fr-choisir-modele-ia",
+          },
         },
         {
           title: "Remplacer les comptes ChatGPT personnels",
           body: "Si le vrai sujet est le shadow AI, proposez un outil validé aussi pratique que ChatGPT, avec hébergement dans l'UE et visibilité pour l'IT.",
-          link: { label: "ChatGPT entreprise, version privée", href: "/fr/chatgpt-entreprise" },
+          link: {
+            label: "ChatGPT entreprise, version privée",
+            href: "/fr/chatgpt-entreprise",
+          },
         },
         {
           title: "Plusieurs modèles, et une IA connectée à votre ERP",
@@ -137,7 +153,8 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     },
     comparison: {
       eyebrow: "Comparatif",
-      heading: "Meilleure IA pour entreprise : WonkaChat face aux offres des grands éditeurs",
+      heading:
+        "Meilleure IA pour entreprise : WonkaChat face aux offres des grands éditeurs",
       columns: ["Critère", "WonkaChat", "Offres IA des grands éditeurs"],
       rows: [
         [
@@ -193,7 +210,8 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
             "Il n'existe pas de meilleure IA dans l'absolu : les modèles progressent vite et chacun a ses points forts. Le bon choix dépend surtout de vos données, de vos outils, de vos exigences de sécurité et de l'adoption par vos équipes. C'est pourquoi un espace de travail qui donne accès à plusieurs modèles limite le risque de mauvais pari.",
         },
         {
-          question: "ChatGPT, Claude ou Gemini : lequel choisir pour son entreprise ?",
+          question:
+            "ChatGPT, Claude ou Gemini : lequel choisir pour son entreprise ?",
           answer:
             "ChatGPT (OpenAI), Claude (Anthropic) et Gemini (Google) sont trois offres américaines, chacune construite autour de ses propres modèles. Gemini a l'avantage de l'intégration à Google Workspace. Testez-les sur vos cas d'usage réels, et demandez-vous si vous voulez dépendre d'un seul modèle.",
         },
@@ -203,27 +221,32 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
             "Claude est la famille de modèles d'Anthropic, entreprise américaine, qui propose des offres pour les équipes et les entreprises. Comme pour toute offre, examinez l'hébergement, le contrat, les connecteurs et les contrôles d'administration. Consultez le site d'Anthropic pour les conditions actuelles.",
         },
         {
-          question: "Gemini entreprise : est-ce adapté si nous utilisons Google Workspace ?",
+          question:
+            "Gemini entreprise : est-ce adapté si nous utilisons Google Workspace ?",
           answer:
             "Oui, c'est son terrain naturel : Gemini est proposé par Google et s'intègre à Gmail, Docs, Sheets et Drive. Si toute votre activité passe par Google Workspace, c'est une option logique pour des usages bureautiques. Vérifiez en revanche ce qu'il peut faire avec vos systèmes hors Google, comme votre ERP ou votre CRM.",
         },
         {
-          question: "Mistral Le Chat est-il une bonne option pour une entreprise française ?",
+          question:
+            "Mistral Le Chat est-il une bonne option pour une entreprise française ?",
           answer:
             "Le Chat est l'assistant de Mistral AI, éditeur français, construit autour des modèles Mistral. Sa nationalité compte pour beaucoup d'entreprises, mais ne remplace pas l'analyse : hébergement, contrat, connecteurs, administration. Posez-lui les mêmes questions qu'aux autres éditeurs, et testez-le sur vos cas d'usage.",
         },
         {
-          question: "Microsoft Copilot suffit-il si nous sommes sur Microsoft 365 ?",
+          question:
+            "Microsoft Copilot suffit-il si nous sommes sur Microsoft 365 ?",
           answer:
             "Pour des usages simples dans Word, Outlook ou Teams, Copilot peut suffire. Les besoins changent quand l'IA doit exploiter des outils hors Microsoft ou d'autres modèles. WonkaChat se connecte aussi à SharePoint, Outlook et Teams, et peut compléter Microsoft 365 plutôt que le remplacer.",
         },
         {
-          question: "Qu'est-ce qu'un comparatif LLM et est-ce utile pour choisir ?",
+          question:
+            "Qu'est-ce qu'un comparatif LLM et est-ce utile pour choisir ?",
           answer:
             "Un comparatif LLM compare les grands modèles de langage eux-mêmes, souvent sur des tests standardisés. Utile pour suivre les tendances, moins pour choisir un outil : les classements changent vite et ne disent rien de vos données ni de vos intégrations. Testez plutôt sur vos propres cas d'usage.",
         },
         {
-          question: "Peut-on utiliser plusieurs modèles d'IA dans un seul outil ?",
+          question:
+            "Peut-on utiliser plusieurs modèles d'IA dans un seul outil ?",
           answer:
             "Oui. WonkaChat laisse votre organisation choisir le modèle adapté à ses besoins et à ses exigences de sécurité : modèles hébergés dans l'UE inclus dans la licence, ou votre propre clé API avec la facturation de votre fournisseur. Vous n'êtes pas enfermé dans une seule famille de modèles.",
         },
@@ -235,7 +258,8 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           label: "ChatGPT entreprise",
           href: "/fr/chatgpt-entreprise",
-          description: "WonkaChat face à ChatGPT Business, critère par critère.",
+          description:
+            "WonkaChat face à ChatGPT Business, critère par critère.",
         },
         {
           label: "Wonka AI vs ChatGPT Enterprise",
@@ -245,7 +269,8 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           label: "Choisir son modèle d'IA",
           href: "/fr/blog/fr-choisir-modele-ia",
-          description: "Comment raisonner le choix d'un modèle pour l'entreprise.",
+          description:
+            "Comment raisonner le choix d'un modèle pour l'entreprise.",
         },
         {
           label: "Quand Microsoft Copilot ne suffit plus",
@@ -272,8 +297,17 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
           href: "/fr/pricing",
           description: "Licences par utilisateur et essai gratuit de 7 jours.",
         },
-        { label: "Shadow AI : définition et risques", href: "/fr/shadow-ai", description: "Reprendre la main sur les usages d'IA non encadrés, sans les interdire." },
-        { label: "Charte IA entreprise", href: "/fr/charte-ia-entreprise", description: "Des règles d'usage claires, appliquées par vos outils." },
+        {
+          label: "Shadow AI : définition et risques",
+          href: "/fr/shadow-ai",
+          description:
+            "Reprendre la main sur les usages d'IA non encadrés, sans les interdire.",
+        },
+        {
+          label: "Charte IA entreprise",
+          href: "/fr/charte-ia-entreprise",
+          description: "Des règles d'usage claires, appliquées par vos outils.",
+        },
       ],
     },
     cta: {

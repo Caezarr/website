@@ -98,15 +98,9 @@ export async function TeamPage({ locale = "en" }: { locale?: Locale }) {
           <h1 className="mt-6 max-w-4xl font-serif text-[2.6rem] leading-[1.02] text-white md:text-[4.4rem]">
             {copy.title}
           </h1>
-          <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+          <div className="mt-8">
             <p className="max-w-2xl text-base text-white/85 md:text-lg">
               {copy.body}
-            </p>
-            <p className="flex items-baseline gap-3 text-white">
-              <span className="font-serif text-7xl leading-none">
-                {TEAM.length}
-              </span>
-              <span className="text-sm text-white/70">{copy.countLabel}</span>
             </p>
           </div>
         </div>

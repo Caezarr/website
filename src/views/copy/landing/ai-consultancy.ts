@@ -28,10 +28,16 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
       subtitle:
         "Wonka is the AI consultancy and implementation partner for Belgian companies. We design your AI strategy, build the agents and applications that handle your repetitive work, and keep them running on a secure platform your whole team uses.",
       primaryCta: { label: "Book a 30-minute call", href: "meeting" },
-      secondaryCta: { label: "Discover the Start AI programme", href: "/start-ai" },
+      secondaryCta: {
+        label: "Discover the Start AI programme",
+        href: "/start-ai",
+      },
       facts: [
         ["Start AI programmes", "+150 completed"],
-        ["Recognition", "#1 AI start-up of the year, Belgium Startup Awards 2026"],
+        [
+          "Recognition",
+          "#1 AI start-up of the year, Belgium Startup Awards 2026",
+        ],
         ["Security", "ISO 27001 · GDPR · NIS 2"],
         ["Backed by", "Nvidia Inception · Microsoft for Startups"],
       ],
@@ -47,7 +53,8 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
     },
     benefits: {
       eyebrow: "Why Wonka",
-      heading: "Why an AI consultancy with its own platform beats a pure consultancy",
+      heading:
+        "Why an AI consultancy with its own platform beats a pure consultancy",
       items: [
         {
           title: "Strategy and execution under one roof",
@@ -136,12 +143,14 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
       heading: "AI consultancy: frequently asked questions",
       items: [
         {
-          question: "What is the difference between an AI consultancy and an AI agency?",
+          question:
+            "What is the difference between an AI consultancy and an AI agency?",
           answer:
             "An AI consultancy typically focuses on advice: strategy, use cases and a roadmap. An AI agency typically focuses on building. Wonka does both, and adds its own platform, WonkaChat, so the AI we design and build keeps running securely for your whole team after the project ends.",
         },
         {
-          question: "What does an AI consultant deliver at the end of Start AI?",
+          question:
+            "What does an AI consultant deliver at the end of Start AI?",
           answer:
             "An AI readiness assessment, priority AI business cases, a concrete AI roadmap, an AI policy and governance framework, quick wins your team can start on immediately and AI agent concepts. You also get a 90-day execution plan and a leadership presentation ready to share.",
         },
@@ -151,7 +160,8 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
             "Start AI programmes start at €15,000, and Flemish SMEs can claim up to 70% back through the VLAIO KMO-portefeuille. Wonka Build engagements are scoped to your business. WonkaChat has transparent per-seat pricing and a 7-day free trial, so you can test it with a real company use case before committing.",
         },
         {
-          question: "Do we need a finished AI strategy before hiring AI experts to build?",
+          question:
+            "Do we need a finished AI strategy before hiring AI experts to build?",
           answer:
             "No. If you know the process that is costing you time, that is enough to start with Wonka Build. If you do not, Start AI gives you clarity first, and its business cases become the blueprint for your build. Either way, the same AI experts stay with you from the first workshop to production.",
         },
@@ -161,7 +171,8 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
             "Most teams kick off within 2 weeks of the first call. The Start AI programme itself runs over 6 weeks, after which you can move straight into building the priority use cases with the same team. Your kick-off starts with aligning expectations and involving the right people from day one.",
         },
         {
-          question: "Will we depend on the AI consultancy to keep things running?",
+          question:
+            "Will we depend on the AI consultancy to keep things running?",
           answer:
             "No. We upskill someone on your team to own, run and extend what we build, and stay through a hypercare period after go-live. Independence is part of the deliverable, while WonkaChat keeps the platform secure and up to date for every user in your organisation.",
         },
@@ -180,14 +191,47 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
     related: {
       heading: "Explore AI strategy, platform and results",
       links: [
-        { label: "Start AI programme", href: "/start-ai", description: "A 6-week AI strategy and roadmap programme." },
-        { label: "Wonka Build", href: "/wonka-build", description: "Custom AI agents and applications, shipped to production." },
-        { label: "WonkaChat", href: "/wonka-chat", description: "The secure AI workspace for your whole team." },
-        { label: "AI for business", href: "/ai-for-business", description: "What companies can do with AI, and how to start." },
-        { label: "AI agents for companies", href: "/ai-agents", description: "Private agents connected to your business tools." },
-        { label: "Customer case studies", href: "/case-studies", description: "How Itzu and N-allo put AI into production." },
-        { label: "Security and compliance", href: "/security", description: "ISO 27001, GDPR, NIS 2 and EU hosting." },
-        { label: "WonkaChat pricing", href: "/pricing", description: "Transparent per-seat pricing and a free trial." },
+        {
+          label: "Start AI programme",
+          href: "/start-ai",
+          description: "A 6-week AI strategy and roadmap programme.",
+        },
+        {
+          label: "Wonka Build",
+          href: "/wonka-build",
+          description:
+            "Custom AI agents and applications, shipped to production.",
+        },
+        {
+          label: "WonkaChat",
+          href: "/wonka-chat",
+          description: "The secure AI workspace for your whole team.",
+        },
+        {
+          label: "AI for business",
+          href: "/ai-for-business",
+          description: "What companies can do with AI, and how to start.",
+        },
+        {
+          label: "AI agents for companies",
+          href: "/ai-agents",
+          description: "Private agents connected to your business tools.",
+        },
+        {
+          label: "Customer case studies",
+          href: "/case-studies",
+          description: "How Itzu and N-allo put AI into production.",
+        },
+        {
+          label: "Security and compliance",
+          href: "/security",
+          description: "ISO 27001, GDPR, NIS 2 and EU hosting.",
+        },
+        {
+          label: "WonkaChat pricing",
+          href: "/pricing",
+          description: "Transparent per-seat pricing and a free trial.",
+        },
       ],
     },
     cta: {
@@ -216,10 +260,16 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
       subtitle:
         "Wonka accompagne les entreprises belges de la stratégie IA à la mise en production : nous identifions où l'IA crée de la valeur, construisons les agents et applications qui prennent en charge le travail répétitif, et les faisons tourner sur une plateforme sécurisée.",
       primaryCta: { label: "Réserver un appel de 30 minutes", href: "meeting" },
-      secondaryCta: { label: "Découvrir le programme Start AI", href: "/fr/start-ai" },
+      secondaryCta: {
+        label: "Découvrir le programme Start AI",
+        href: "/fr/start-ai",
+      },
       facts: [
         ["Start AI", "+150 réalisés"],
-        ["Distinction", "N°1 AI start-up of the year, Belgium Startup Awards 2026"],
+        [
+          "Distinction",
+          "N°1 AI start-up of the year, Belgium Startup Awards 2026",
+        ],
         ["Sécurité", "ISO 27001 · RGPD · NIS 2"],
         ["Soutenu par", "Nvidia Inception · Microsoft for Startups"],
       ],
@@ -265,17 +315,24 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
     },
     useCases: {
       eyebrow: "Nos services",
-      heading: "Conseil IA et intégration : les services de notre agence IA en Belgique",
+      heading:
+        "Conseil IA et intégration : les services de notre agence IA en Belgique",
       items: [
         {
           title: "Start AI : votre stratégie IA et votre feuille de route",
           body: "Un programme de 6 semaines pour passer des expérimentations à une stratégie IA à l'échelle de l'entreprise. Vous repartez avec des business cases prioritaires, une feuille de route, un plan d'exécution à 90 jours et un cadre de gouvernance IA.",
-          link: { label: "Découvrir le programme Start AI", href: "/fr/start-ai" },
+          link: {
+            label: "Découvrir le programme Start AI",
+            href: "/fr/start-ai",
+          },
         },
         {
           title: "Wonka Build : agents et applications IA sur mesure",
           body: "Quand l'IA dont vous avez besoin n'existe pas sur étagère, nos consultants IA la construisent : agents prêts pour la production, applications internes sur mesure et intégrations profondes, suivis d'une période d'hypercare.",
-          link: { label: "Voir comment fonctionne Wonka Build", href: "/fr/wonka-build" },
+          link: {
+            label: "Voir comment fonctionne Wonka Build",
+            href: "/fr/wonka-build",
+          },
         },
         {
           title: "WonkaChat : un espace de travail IA sécurisé",
@@ -285,7 +342,10 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         {
           title: "Des agents IA qui agissent dans vos outils",
           body: "Des agents qui prennent en charge un workflow de bout en bout, comme le tri des e-mails de support, le traitement des commandes ou la mise à jour du CRM, avec validation là où vous le souhaitez.",
-          link: { label: "L'agent IA pour entreprise", href: "/fr/agent-ia-entreprise" },
+          link: {
+            label: "L'agent IA pour entreprise",
+            href: "/fr/agent-ia-entreprise",
+          },
         },
         {
           title: "L'IA au cœur d'Odoo",
@@ -324,12 +384,14 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
       heading: "Agence IA : questions fréquentes",
       items: [
         {
-          question: "Quelle est la différence entre une agence IA et un consultant IA ?",
+          question:
+            "Quelle est la différence entre une agence IA et un consultant IA ?",
           answer:
             "Un consultant IA se concentre en général sur le conseil : stratégie IA, cas d'usage et feuille de route. Une agence IA se concentre plutôt sur la construction. Wonka fait les deux et ajoute sa propre plateforme, WonkaChat, pour que l'IA conçue et développée continue de tourner en sécurité après le projet.",
         },
         {
-          question: "Que livre un consultant en intelligence artificielle à la fin de Start AI ?",
+          question:
+            "Que livre un consultant en intelligence artificielle à la fin de Start AI ?",
           answer:
             "Une évaluation de maturité IA, des business cases IA prioritaires, une feuille de route IA concrète, une politique IA et un cadre de gouvernance, des quick wins et des concepts d'agents IA. Vous recevez aussi un plan d'exécution à 90 jours et une présentation pour la direction.",
         },
@@ -339,22 +401,26 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
             "Les programmes Start AI démarrent à 15 000 €, et les PME flamandes peuvent récupérer jusqu'à 70 % via le KMO-portefeuille de VLAIO. Les missions Wonka Build sont cadrées selon votre activité. WonkaChat a une tarification transparente par utilisateur et un essai gratuit de 7 jours.",
         },
         {
-          question: "Faut-il une stratégie IA finalisée avant de faire appel à un expert IA ?",
+          question:
+            "Faut-il une stratégie IA finalisée avant de faire appel à un expert IA ?",
           answer:
             "Non. Si vous connaissez le processus qui vous coûte du temps, c'est suffisant pour démarrer avec Wonka Build. Sinon, Start AI vous apporte d'abord la clarté, et ses business cases deviennent le plan de votre développement. Dans les deux cas, les mêmes experts IA vous accompagnent du premier atelier à la production.",
         },
         {
-          question: "En combien de temps une agence IA en Belgique peut-elle démarrer ?",
+          question:
+            "En combien de temps une agence IA en Belgique peut-elle démarrer ?",
           answer:
             "La plupart des équipes démarrent dans les 2 semaines suivant le premier appel. Le programme Start AI dure 6 semaines ; vous pouvez ensuite passer directement à la construction des cas d'usage prioritaires avec la même équipe. Le lancement commence par l'alignement des attentes et l'implication des bonnes personnes dès le départ.",
         },
         {
-          question: "Serons-nous dépendants de l'agence IA pour faire tourner la solution ?",
+          question:
+            "Serons-nous dépendants de l'agence IA pour faire tourner la solution ?",
           answer:
             "Non. Nous formons une personne de votre équipe pour piloter, faire tourner et faire évoluer ce que nous construisons, et restons mobilisés pendant une période d'hypercare. L'autonomie fait partie du livrable, tandis que WonkaChat maintient la plateforme sécurisée et à jour.",
         },
         {
-          question: "Nos données sont-elles en sécurité avec une agence IA comme Wonka ?",
+          question:
+            "Nos données sont-elles en sécurité avec une agence IA comme Wonka ?",
           answer:
             "Wonka est certifié ISO 27001, conforme RGPD et NIS 2, et WonkaChat est hébergé par défaut dans Azure West Europe (Microsoft Irlande). Un audit SOC 2 Type II est en cours. Les développements sur mesure peuvent aussi tourner entièrement on-premise, dans votre réseau.",
         },
@@ -368,15 +434,53 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
     related: {
       heading: "Stratégie IA, plateforme et résultats : pour aller plus loin",
       links: [
-        { label: "Programme Start AI", href: "/fr/start-ai", description: "Stratégie IA et feuille de route en 6 semaines." },
-        { label: "Wonka Build", href: "/fr/wonka-build", description: "Agents et applications IA sur mesure, en production." },
-        { label: "WonkaChat", href: "/fr/wonka-chat", description: "L'espace de travail IA sécurisé pour toute l'équipe." },
-        { label: "L'IA pour entreprise", href: "/fr/ia-pour-entreprise", description: "Ce que l'IA peut faire pour votre entreprise, et par où commencer." },
-        { label: "Agent IA pour entreprise", href: "/fr/agent-ia-entreprise", description: "Des agents privés connectés à vos outils métier." },
-        { label: "Cas clients", href: "/fr/cas-clients", description: "Comment nos clients ont mis l'IA en production." },
-        { label: "Sécurité et conformité", href: "/fr/security", description: "ISO 27001, RGPD, NIS 2 et hébergement européen." },
-        { label: "Tarifs WonkaChat", href: "/fr/pricing", description: "Tarification par utilisateur et essai gratuit." },
-        { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
+        {
+          label: "Programme Start AI",
+          href: "/fr/start-ai",
+          description: "Stratégie IA et feuille de route en 6 semaines.",
+        },
+        {
+          label: "Wonka Build",
+          href: "/fr/wonka-build",
+          description: "Agents et applications IA sur mesure, en production.",
+        },
+        {
+          label: "WonkaChat",
+          href: "/fr/wonka-chat",
+          description: "L'espace de travail IA sécurisé pour toute l'équipe.",
+        },
+        {
+          label: "L'IA pour entreprise",
+          href: "/fr/ia-pour-entreprise",
+          description:
+            "Ce que l'IA peut faire pour votre entreprise, et par où commencer.",
+        },
+        {
+          label: "Agent IA pour entreprise",
+          href: "/fr/agent-ia-entreprise",
+          description: "Des agents privés connectés à vos outils métier.",
+        },
+        {
+          label: "Cas clients",
+          href: "/fr/cas-clients",
+          description: "Comment nos clients ont mis l'IA en production.",
+        },
+        {
+          label: "Sécurité et conformité",
+          href: "/fr/security",
+          description: "ISO 27001, RGPD, NIS 2 et hébergement européen.",
+        },
+        {
+          label: "Tarifs WonkaChat",
+          href: "/fr/pricing",
+          description: "Tarification par utilisateur et essai gratuit.",
+        },
+        {
+          label: "Comparatif IA entreprise",
+          href: "/fr/comparatif-ia-entreprise",
+          description:
+            "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI.",
+        },
       ],
     },
     cta: {
@@ -405,10 +509,16 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
       subtitle:
         "Wonka is de AI consultancy- en implementatiepartner voor Belgische bedrijven. Wij bepalen uw AI-strategie, bouwen de agents en applicaties die uw repetitieve werk overnemen en houden ze draaiende op een veilig platform voor uw hele team.",
       primaryCta: { label: "Plan een gesprek van 30 minuten", href: "meeting" },
-      secondaryCta: { label: "Ontdek het Start AI-programma", href: "/nl/start-ai" },
+      secondaryCta: {
+        label: "Ontdek het Start AI-programma",
+        href: "/nl/start-ai",
+      },
       facts: [
         ["Start AI-trajecten", "+150 afgerond"],
-        ["Erkenning", "#1 AI start-up of the year, Belgium Startup Awards 2026"],
+        [
+          "Erkenning",
+          "#1 AI start-up of the year, Belgium Startup Awards 2026",
+        ],
         ["KMO-portefeuille", "Tot 70% subsidie op Start AI"],
         ["Beveiliging", "ISO 27001 · GDPR · NIS 2"],
       ],
@@ -459,17 +569,26 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         {
           title: "Start AI: uw AI-strategie en roadmap",
           body: "Een programma van 6 weken om van AI-experimenten naar een bedrijfsbrede AI-strategie te gaan. U krijgt geprioriteerde business cases, een concrete roadmap, een uitvoeringsplan voor 90 dagen en een AI-beleid met governancekader.",
-          link: { label: "Ontdek het Start AI-programma", href: "/nl/start-ai" },
+          link: {
+            label: "Ontdek het Start AI-programma",
+            href: "/nl/start-ai",
+          },
         },
         {
           title: "Start AI met KMO-portefeuille",
           body: "Start AI komt in aanmerking voor de VLAIO KMO-portefeuille. Vlaamse kmo's kunnen tot 70% subsidie aanvragen, zodat een AI-strategie ook voor kleinere teams haalbaar wordt.",
-          link: { label: "Start AI met 70% subsidie via de KMO-portefeuille", href: "/nl/kmo-portefeuille-ai" },
+          link: {
+            label: "Start AI met 70% subsidie via de KMO-portefeuille",
+            href: "/nl/kmo-portefeuille-ai",
+          },
         },
         {
           title: "Wonka Build: AI-agents en applicaties op maat",
           body: "Wanneer de AI die u nodig hebt niet kant-en-klaar bestaat, bouwen onze AI-consultants ze: productieklare agents, interne applicaties op maat en diepe integraties, gevolgd door een hypercareperiode.",
-          link: { label: "Bekijk hoe Wonka Build werkt", href: "/nl/wonka-build" },
+          link: {
+            label: "Bekijk hoe Wonka Build werkt",
+            href: "/nl/wonka-build",
+          },
         },
         {
           title: "WonkaChat: één veilige AI-werkplek",
@@ -518,7 +637,8 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
       heading: "AI consultancy: veelgestelde vragen",
       items: [
         {
-          question: "Wat is het verschil tussen een AI consultancy en een AI-bureau?",
+          question:
+            "Wat is het verschil tussen een AI consultancy en een AI-bureau?",
           answer:
             "Een AI consultancy focust meestal op advies: AI-strategie, toepassingen en een roadmap. Een AI-bureau focust eerder op bouwen. Wonka doet beide en voegt een eigen platform toe, WonkaChat, zodat de AI die we ontwerpen en bouwen na het project veilig blijft draaien voor uw hele team.",
         },
@@ -533,7 +653,8 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
             "Start AI-programma's starten vanaf € 15.000. Vlaamse kmo's kunnen via de VLAIO KMO-portefeuille tot 70% terugkrijgen; Wonka is een erkende dienstverlener en helpt met het papierwerk. Wonka Build wordt afgestemd op uw bedrijf. WonkaChat heeft transparante prijzen per gebruiker en een gratis proefperiode van 7 dagen.",
         },
         {
-          question: "Hebben we een afgewerkte AI-strategie nodig voor AI-implementatie?",
+          question:
+            "Hebben we een afgewerkte AI-strategie nodig voor AI-implementatie?",
           answer:
             "Nee. Als u weet welk proces u tijd kost, is dat genoeg om met Wonka Build te starten. Weet u dat niet, dan geeft Start AI u eerst duidelijkheid, en worden de business cases de blauwdruk voor uw build. Hetzelfde team begeleidt u van de eerste workshop tot productie.",
         },
@@ -548,7 +669,8 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
             "Nee. We leiden iemand in uw team op om te beheren, te laten draaien en uit te breiden wat we bouwen, en blijven mee aan boord tijdens een hypercareperiode. Onafhankelijkheid hoort bij de oplevering, terwijl WonkaChat het platform veilig en up-to-date houdt.",
         },
         {
-          question: "Zijn onze gegevens veilig bij een AI consultancy zoals Wonka?",
+          question:
+            "Zijn onze gegevens veilig bij een AI consultancy zoals Wonka?",
           answer:
             "Wonka is ISO 27001-gecertificeerd, GDPR- en NIS 2-conform, en WonkaChat wordt standaard gehost in Azure West Europe (Microsoft Ierland). Een SOC 2 Type II-audit loopt. Maatwerk kan ook volledig on-premise draaien, binnen uw eigen netwerk, zonder dat er data naar buiten gaat.",
         },
@@ -562,14 +684,46 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
     related: {
       heading: "Meer over AI-strategie, platform en resultaten",
       links: [
-        { label: "Start AI-programma", href: "/nl/start-ai", description: "AI-strategie en roadmap in 6 weken." },
-        { label: "Start AI met KMO-portefeuille", href: "/nl/kmo-portefeuille-ai", description: "Tot 70% subsidie voor Vlaamse kmo's." },
-        { label: "Wonka Build", href: "/nl/wonka-build", description: "AI-agents en applicaties op maat, in productie." },
-        { label: "WonkaChat", href: "/nl/wonka-chat", description: "De veilige AI-werkplek voor uw hele team." },
-        { label: "AI voor bedrijven", href: "/nl/ai-voor-bedrijven", description: "Wat bedrijven met AI kunnen doen, en hoe u start." },
-        { label: "AI-agents voor bedrijven", href: "/nl/ai-agents", description: "Private agents gekoppeld aan uw bedrijfstools." },
-        { label: "Klantcases", href: "/nl/klantcases", description: "Hoe klanten AI in productie brachten." },
-        { label: "Beveiliging en compliance", href: "/nl/security", description: "ISO 27001, GDPR, NIS 2 en Europese hosting." },
+        {
+          label: "Start AI-programma",
+          href: "/nl/start-ai",
+          description: "AI-strategie en roadmap in 6 weken.",
+        },
+        {
+          label: "Start AI met KMO-portefeuille",
+          href: "/nl/kmo-portefeuille-ai",
+          description: "Tot 70% subsidie voor Vlaamse kmo's.",
+        },
+        {
+          label: "Wonka Build",
+          href: "/nl/wonka-build",
+          description: "AI-agents en applicaties op maat, in productie.",
+        },
+        {
+          label: "WonkaChat",
+          href: "/nl/wonka-chat",
+          description: "De veilige AI-werkplek voor uw hele team.",
+        },
+        {
+          label: "AI voor bedrijven",
+          href: "/nl/ai-voor-bedrijven",
+          description: "Wat bedrijven met AI kunnen doen, en hoe u start.",
+        },
+        {
+          label: "AI-agents voor bedrijven",
+          href: "/nl/ai-agents",
+          description: "Private agents gekoppeld aan uw bedrijfstools.",
+        },
+        {
+          label: "Klantcases",
+          href: "/nl/klantcases",
+          description: "Hoe klanten AI in productie brachten.",
+        },
+        {
+          label: "Beveiliging en compliance",
+          href: "/nl/security",
+          description: "ISO 27001, GDPR, NIS 2 en Europese hosting.",
+        },
       ],
     },
     cta: {

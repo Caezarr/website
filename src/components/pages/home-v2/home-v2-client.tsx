@@ -637,36 +637,7 @@ function Platform({
       <div className="relative mx-auto max-w-7xl px-4">
         <SectionTitle eyebrow={copy.eyebrow} title={copy.title} tone="light" />
 
-        <div className="mt-12 grid gap-px overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/10 md:grid-cols-3">
-          {copy.proofs.map((proof, i) => (
-            <Reveal
-              key={proof.source}
-              delay={0.08 * i}
-              className="bg-black p-7 md:p-8"
-            >
-              <p className="font-serif text-6xl leading-none tracking-[-0.02em] text-white md:text-7xl">
-                <CountUpMetric value={proof.metric} />
-              </p>
-              <p className="mt-4 text-base text-white/80">{proof.label}</p>
-              <p className="mt-5 flex items-center gap-3 text-xs tracking-[0.12em] text-white/45 uppercase">
-                {proof.logo && (
-                  <span className="flex h-7 items-center rounded-md bg-white px-2">
-                    <Image
-                      src={proof.logo}
-                      alt=""
-                      width={64}
-                      height={20}
-                      className="h-4 w-auto object-contain"
-                    />
-                  </span>
-                )}
-                {proof.source}
-              </p>
-            </Reveal>
-          ))}
-        </div>
-
-        <div className="mt-20 grid gap-10 lg:grid-cols-12 lg:items-stretch lg:gap-14">
+        <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:items-stretch lg:gap-14">
           <div className="order-2 lg:order-1 lg:col-span-5">
             <ol className="flex h-full flex-col justify-center gap-2">
               {copy.chapters.map((c, i) => {
@@ -729,7 +700,7 @@ function Platform({
 
           <div className="order-1 self-center lg:order-2 lg:col-span-7">
             <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#18231f] shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]">
-              <div className="relative aspect-video">
+              <div className="relative aspect-[1920/905]">
                 <AnimatePresence initial={false}>
                   <motion.div
                     key={`${chapter.id}-${locale}`}
@@ -762,7 +733,7 @@ function Platform({
 
 function Models({ copy }: { copy: HomeV2Copy["models"] }) {
   const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { amount: 0.35 });
+  const inView = useInView(ref, { amount: 0.4 });
   const reduce = useReducedMotion();
   const [index, setIndex] = useState(0);
 
@@ -770,16 +741,12 @@ function Models({ copy }: { copy: HomeV2Copy["models"] }) {
     if (!inView || reduce) return;
     const id = window.setInterval(
       () => setIndex((i) => (i + 1) % copy.tasks.length),
-      2400,
+      2600,
     );
     return () => window.clearInterval(id);
   }, [inView, reduce, copy.tasks.length]);
 
   const task = copy.tasks[index];
-  const modelRow = MODEL_ORDER.indexOf(task.model);
-  const rowY = (row: number) => ((row + 0.5) / 4) * 100;
-  const from = rowY(index);
-  const to = rowY(modelRow);
 
   return (
     <section className="bg-light-gray py-24 md:py-36">
@@ -791,156 +758,121 @@ function Models({ copy }: { copy: HomeV2Copy["models"] }) {
         />
 
         <div className="mt-14 grid gap-5 lg:grid-cols-12">
-          {/* Router */}
-          <Reveal className="min-w-0 lg:col-span-8">
-            <div className="relative h-full rounded-[2rem] bg-white p-5 shadow-[0_30px_80px_-40px_rgba(14,26,22,0.45)] md:p-8">
-              <div className="relative grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-stretch gap-3 md:gap-14">
-                <svg
-                  className="pointer-events-none absolute inset-0 hidden size-full md:block"
-                  viewBox="0 0 100 100"
-                  preserveAspectRatio="none"
-                  aria-hidden
-                >
-                  <motion.path
-                    key={`in-${index}`}
-                    d={`M 30 ${from} C 44 ${from}, 40 50, 50 50`}
-                    fill="none"
-                    stroke="var(--color-blue-400)"
-                    strokeWidth={2}
-                    vectorEffect="non-scaling-stroke"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.45, ease: "easeOut" }}
+          <Reveal className="min-w-0 lg:col-span-7" delay={0.05}>
+            <div className="relative flex h-full flex-col justify-center overflow-hidden rounded-[2rem] bg-white p-6 shadow-[0_30px_80px_-40px_rgba(14,26,22,0.45)] md:p-10">
+              <div className="bg-light-gray flex items-center gap-3 rounded-2xl border border-black/10 px-4 py-3.5">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-black">
+                  <Image
+                    src={`${LOGO}/wonka-logo-mark-white-transparent.png`}
+                    alt=""
+                    width={18}
+                    height={18}
+                    className="size-4 object-contain"
                   />
-                  <motion.path
-                    key={`out-${index}`}
-                    d={`M 50 50 C 60 50, 56 ${to}, 70 ${to}`}
-                    fill="none"
-                    stroke="var(--color-blue-400)"
-                    strokeWidth={2}
-                    vectorEffect="non-scaling-stroke"
-                    initial={{ pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.45, delay: 0.4, ease: "easeOut" }}
-                  />
-                </svg>
-
-                <ul className="relative grid grid-rows-4 gap-2">
-                  {copy.tasks.map((t, i) => (
-                    <li key={t.task}>
-                      <button
-                        type="button"
-                        onClick={() => setIndex(i)}
-                        className={cn(
-                          "flex h-full w-full flex-col justify-center rounded-2xl border px-3 py-3 text-left transition duration-300 md:px-4",
-                          i === index
-                            ? "border-blue-400 bg-blue-100"
-                            : "bg-light-gray border-black/[0.06]",
-                        )}
-                      >
-                        <span
-                          className={cn(
-                            "text-xs md:text-sm",
-                            i === index ? "text-black" : "text-black/55",
-                          )}
-                        >
-                          {t.task}
-                        </span>
-                        <span
-                          className={cn(
-                            "mt-1.5 inline-flex w-fit rounded-full px-2 py-0.5 text-[0.65rem] font-medium tracking-wide uppercase",
-                            t.tier === "light"
-                              ? "bg-forest-500/15 text-forest-500"
-                              : "bg-black/[0.07] text-black/60",
-                          )}
-                        >
-                          {t.tier === "light" ? copy.light : copy.advanced}
-                        </span>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="relative flex items-center">
+                </span>
+                <AnimatePresence mode="wait">
                   <motion.span
-                    key={index}
-                    initial={{ scale: 0.92 }}
-                    animate={{ scale: 1 }}
-                    transition={{
-                      type: "spring",
-                      stiffness: 300,
-                      damping: 18,
-                      delay: 0.35,
-                    }}
-                    className="flex flex-col items-center gap-2 rounded-2xl bg-black px-3 py-4 text-center text-white shadow-[0_20px_40px_-20px_rgba(14,26,22,0.8)] md:px-4"
+                    key={task.task}
+                    initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
+                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                    exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+                    transition={{ duration: 0.35 }}
+                    className="min-w-0 flex-1 truncate text-sm text-black md:text-base"
                   >
-                    <Image
-                      src={`${LOGO}/wonka-logo-mark-white-transparent.png`}
-                      alt=""
-                      width={28}
-                      height={28}
-                      className="size-6 object-contain md:size-7"
-                    />
-                    <span className="max-w-[5.5rem] text-[0.65rem] leading-tight text-white/75 md:text-xs">
-                      {copy.auto}
-                    </span>
+                    {task.task}
                   </motion.span>
-                </div>
-
-                <ul className="relative grid grid-rows-4 gap-2">
-                  {MODEL_ORDER.map((id) => {
-                    const meta = MODEL_META[id];
-                    const selected = id === task.model;
-                    return (
-                      <li
-                        key={id}
-                        className={cn(
-                          "relative flex items-center gap-3 rounded-2xl border px-3 py-3 transition-all duration-500 md:px-4",
-                          selected
-                            ? "border-transparent bg-blue-100"
-                            : "border-black/[0.06] bg-white",
-                        )}
-                      >
-                        {selected && (
-                          <motion.span
-                            layoutId="model-ring"
-                            className="absolute inset-0 rounded-2xl ring-2 ring-blue-400"
-                            transition={{
-                              type: "spring",
-                              stiffness: 380,
-                              damping: 32,
-                              delay: 0.5,
-                            }}
-                          />
-                        )}
-                        <span className="flex size-9 shrink-0 items-center justify-center rounded-xl border border-black/[0.06] bg-white md:size-10">
-                          <Image
-                            src={meta.src}
-                            alt={meta.vendor}
-                            width={24}
-                            height={24}
-                            className="size-5 object-contain md:size-6"
-                          />
-                        </span>
-                        <span className="min-w-0">
-                          <span className="block truncate text-sm font-medium text-black">
-                            {meta.name}
-                          </span>
-                          <span className="hidden truncate text-xs text-black/50 sm:block">
-                            {meta.vendor}
-                          </span>
-                        </span>
-                      </li>
-                    );
-                  })}
-                </ul>
+                </AnimatePresence>
+                <span className="hidden items-center gap-1.5 rounded-full border border-black/10 bg-white px-3 py-1 text-xs text-black/70 sm:flex">
+                  <span className="text-blue-500">✦</span> {copy.auto}
+                </span>
               </div>
+
+              <div
+                className="relative mx-auto my-4 h-12 w-px overflow-hidden bg-black/10"
+                aria-hidden
+              >
+                <motion.span
+                  key={index}
+                  className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-transparent via-blue-400 to-transparent"
+                  initial={{ y: -24 }}
+                  animate={{ y: 48 }}
+                  transition={{ duration: 0.7, ease: "easeIn" }}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4">
+                {MODEL_ORDER.map((id) => {
+                  const meta = MODEL_META[id];
+                  const selected = id === task.model;
+                  return (
+                    <div
+                      key={id}
+                      className={cn(
+                        "relative flex items-center gap-3 rounded-2xl border p-4 transition-all duration-500 md:p-5",
+                        selected
+                          ? "border-transparent bg-blue-100"
+                          : "border-black/[0.07] bg-white",
+                      )}
+                    >
+                      {selected && (
+                        <motion.span
+                          layoutId="model-ring"
+                          className="absolute inset-0 rounded-2xl ring-2 ring-blue-400"
+                          transition={{
+                            type: "spring",
+                            stiffness: 380,
+                            damping: 32,
+                          }}
+                        />
+                      )}
+                      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-black/[0.06] bg-white">
+                        <Image
+                          src={meta.src}
+                          alt={meta.vendor}
+                          width={28}
+                          height={28}
+                          className="size-6 object-contain"
+                        />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block truncate text-sm font-medium text-black">
+                          {meta.name}
+                        </span>
+                        <span className="block truncate text-xs text-black/50">
+                          {meta.vendor}
+                        </span>
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={task.task}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="mt-6 flex items-center justify-center gap-2 text-sm text-black/60"
+                >
+                  <span
+                    className={cn(
+                      "rounded-full px-2.5 py-0.5 text-xs font-medium",
+                      task.tier === "light"
+                        ? "bg-forest-500/15 text-forest-500"
+                        : "bg-black/[0.07] text-black/70",
+                    )}
+                  >
+                    {task.tier === "light" ? copy.light : copy.advanced}
+                  </span>
+                  {MODEL_META[task.model].name}
+                </motion.p>
+              </AnimatePresence>
             </div>
           </Reveal>
 
-          {/* Cost */}
-          <Reveal className="min-w-0 lg:col-span-4" delay={0.1}>
-            <CostCard copy={copy} active={inView} />
+          <Reveal className="min-w-0 lg:col-span-5" delay={0.12}>
+            <SavingsCard copy={copy} />
           </Reveal>
         </div>
       </div>
@@ -948,54 +880,46 @@ function Models({ copy }: { copy: HomeV2Copy["models"] }) {
   );
 }
 
-function CostCard({
-  copy,
-  active,
-}: {
-  copy: HomeV2Copy["models"];
-  active: boolean;
-}) {
-  const reduce = useReducedMotion();
-  const bar = (width: string, delay: number) =>
-    reduce
-      ? { width }
-      : {
-          width: active ? width : "0%",
-          transition: { duration: 1.4, delay, ease: EASE },
-        };
+// WonkaChat prod tokenConfig, $ per million tokens: Claude Opus 5 vs GPT-5.6 Luna, 3 tokens read per token written.
+const HEAVY_TASK_COST = 3 * 5.5 + 27.5;
+const LIGHT_TASK_COST = 3 * 0.22 + 1.32;
+
+function SavingsCard({ copy }: { copy: HomeV2Copy["models"] }) {
+  const [share, setShare] = useState(70);
+  const savings = Math.round(share * (1 - LIGHT_TASK_COST / HEAVY_TASK_COST));
+
   return (
-    <div className="flex h-full flex-col gap-12 rounded-[2rem] bg-black p-7 text-white md:p-8">
-      <div className="flex items-baseline justify-between">
-        <p className="font-serif text-2xl">{copy.costTitle}</p>
-        <span className="text-[0.65rem] tracking-[0.16em] text-white/40 uppercase">
-          {copy.costNote}
+    <div className="flex h-full flex-col gap-8 rounded-[2rem] bg-black p-7 text-white md:p-10">
+      <div>
+        <p className="font-serif text-[5.5rem] leading-none tracking-[-0.03em] text-white md:text-[7rem]">
+          −{savings}
+          <span className="text-blue-400">%</span>
+        </p>
+        <p className="mt-3 text-lg text-white/80">{copy.saveLabel}</p>
+      </div>
+
+      <label className="block">
+        <span className="flex items-baseline justify-between gap-4 text-sm text-white/65">
+          {copy.sliderLabel}
+          <span className="font-serif text-2xl text-white tabular-nums">
+            {share}%
+          </span>
         </span>
+        <input
+          type="range"
+          min={0}
+          max={100}
+          step={5}
+          value={share}
+          onChange={(e) => setShare(Number(e.target.value))}
+          className="mt-4 w-full cursor-pointer accent-blue-400"
+        />
+      </label>
+
+      <div className="mt-auto space-y-3 border-t border-white/10 pt-6">
+        <p className="font-serif text-xl text-white">{copy.ratio}</p>
+        <p className="text-xs leading-relaxed text-white/45">{copy.source}</p>
       </div>
-      <div className="space-y-7">
-        <div>
-          <p className="mb-3 text-sm text-white/60">{copy.costAll}</p>
-          <div className="h-3 overflow-hidden rounded-full bg-white/10">
-            <motion.div
-              className="h-full rounded-full bg-white/40"
-              initial={{ width: "0%" }}
-              animate={bar("100%", 0.1)}
-            />
-          </div>
-        </div>
-        <div>
-          <p className="mb-3 text-sm text-white">{copy.costRouted}</p>
-          <div className="h-3 overflow-hidden rounded-full bg-white/10">
-            <motion.div
-              className="h-full rounded-full bg-blue-400"
-              initial={{ width: "0%" }}
-              animate={bar("38%", 0.5)}
-            />
-          </div>
-        </div>
-      </div>
-      <p className="mt-auto font-serif text-xl leading-snug text-white/90">
-        {copy.costFoot}
-      </p>
     </div>
   );
 }
@@ -1315,8 +1239,8 @@ function Clients({
                     </span>
                   </span>
                   <span>
-                    <span className="block font-serif text-6xl leading-none tracking-[-0.02em] text-black">
-                      {c.metric}
+                    <span className="block font-serif text-6xl leading-none tracking-[-0.02em] text-black md:text-7xl">
+                      <CountUpMetric value={c.metric} />
                     </span>
                     <span className="mt-3 block max-w-sm text-base text-black/65">
                       {c.label}
@@ -1648,14 +1572,14 @@ export function HomeV2Client({
         onWatch={watchClient}
       />
       <TrustBand label={copy.hero.trustedBy} />
-      <Platform copy={copy.platform} locale={locale} />
-      <Models copy={copy.models} />
-      <Integrations copy={copy.integrations} />
       <Clients
         copy={copy.clients}
         playing={playing}
         onPlay={() => setPlaying(true)}
       />
+      <Platform copy={copy.platform} locale={locale} />
+      <Models copy={copy.models} />
+      <Integrations copy={copy.integrations} />
       <Team copy={copy.team} links={links} />
       <Security copy={copy.security} links={links} />
       <FinalCta copy={copy.finalCta} hero={copy.hero} links={links} />

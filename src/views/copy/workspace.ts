@@ -41,7 +41,10 @@ const en: WorkspaceCopy = {
     imageAlt: "Wonka Workspace product screenshot",
     talkToSales: "Talk to sales",
   },
-  proofLines: ["Trusted by Belgian teams of every size", "European data storage"],
+  proofLines: [
+    "Trusted by Belgian teams of every size",
+    "European data storage",
+  ],
   products: {
     heading: "Explore Wonka Workspace.",
     aiChat: {

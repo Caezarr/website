@@ -17,17 +17,22 @@ export const CHARTE_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     breadcrumb: "Charte IA entreprise",
     schema: {
       serviceName: "Politique IA et cadre de gouvernance",
-      serviceType: "Accompagnement à la gouvernance et à la charte d'utilisation de l'IA",
+      serviceType:
+        "Accompagnement à la gouvernance et à la charte d'utilisation de l'IA",
     },
     hero: {
       eyebrow: "Guide · Gouvernance IA",
-      title: "Charte IA entreprise : des règles claires, que vos outils appliquent.",
+      title:
+        "Charte IA entreprise : des règles claires, que vos outils appliquent.",
       subtitle:
         "Vos équipes utilisent déjà l'IA, avec ou sans règles. Ce guide détaille ce que doit contenir une charte d'utilisation de l'IA, comment la rédiger en cinq étapes, et comment la faire respecter autrement que par un PDF sur l'intranet.",
       primaryCta: { label: "Réserver un appel de 30 minutes", href: "meeting" },
       secondaryCta: { label: "Découvrir Start AI", href: "/fr/start-ai" },
       facts: [
-        ["AI Act, article 4", "Maîtrise de l'IA exigée depuis le 2 février 2025"],
+        [
+          "AI Act, article 4",
+          "Maîtrise de l'IA exigée depuis le 2 février 2025",
+        ],
         ["Start AI", "Politique IA & cadre de gouvernance inclus"],
         ["Expérience", "+150 programmes Start AI"],
         ["Sécurité", "ISO 27001 · RGPD · NIS 2"],
@@ -79,17 +84,26 @@ export const CHARTE_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "1. Les outils autorisés",
           body: "Listez les outils d'IA approuvés, les modèles autorisés et la procédure pour en faire valider un nouveau. Précisez le statut des comptes personnels : tolérés pour quels usages, ou interdits pour le travail.",
-          link: { label: "Un chat IA sécurisé pour vos équipes", href: "/fr/workspace/ai-chat" },
+          link: {
+            label: "Un chat IA sécurisé pour vos équipes",
+            href: "/fr/workspace/ai-chat",
+          },
         },
         {
           title: "2. La classification des données",
           body: "Définissez des niveaux (public, interne, confidentiel, données personnelles) et, pour chacun, les outils qui peuvent les traiter. Ce qui ne doit jamais être saisi dans une IA publique doit être explicite, avec des exemples.",
-          link: { label: "Comment Wonka protège vos données", href: "/fr/security" },
+          link: {
+            label: "Comment Wonka protège vos données",
+            href: "/fr/security",
+          },
         },
         {
           title: "3. La validation humaine",
           body: "Un contenu généré par IA est un brouillon tant qu'une personne ne l'a pas relu. Fixez les cas où la relecture est obligatoire : e-mails clients, documents contractuels, décisions RH, actions dans vos logiciels.",
-          link: { label: "Des agents IA sous contrôle humain", href: "/fr/agent-ia-entreprise" },
+          link: {
+            label: "Des agents IA sous contrôle humain",
+            href: "/fr/agent-ia-entreprise",
+          },
         },
         {
           title: "4. La transparence",
@@ -102,7 +116,10 @@ export const CHARTE_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "6. La formation et la révision",
           body: "Prévoyez comment chaque collaborateur est formé, pas seulement informé, et à quel rythme la charte est revue. Les outils évoluent vite : une charte figée devient obsolète en quelques mois.",
-          link: { label: "Former vos équipes à l'IA", href: "/fr/acculturation-ia" },
+          link: {
+            label: "Former vos équipes à l'IA",
+            href: "/fr/acculturation-ia",
+          },
         },
       ],
     },
@@ -134,14 +151,39 @@ export const CHARTE_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     },
     comparison: {
       eyebrow: "Du papier à la pratique",
-      heading: "Gouvernance IA : une charte sur papier ou appliquée dans l'outil",
-      columns: ["Règle de la charte", "Si elle reste sur papier", "Avec WonkaChat"],
+      heading:
+        "Gouvernance IA : une charte sur papier ou appliquée dans l'outil",
+      columns: [
+        "Règle de la charte",
+        "Si elle reste sur papier",
+        "Avec WonkaChat",
+      ],
       rows: [
-        ["Outils et modèles autorisés", "Chacun garde son compte personnel", "Un espace de travail commun, modèles approuvés par l'entreprise"],
-        ["Accès aux données", "Dépend de la vigilance de chacun", "Droits d'accès par utilisateur et par équipe, SSO Entra ID"],
-        ["Hébergement", "Inconnu pour les outils personnels", "Azure West Europe (Microsoft Irlande) par défaut"],
-        ["Validation humaine", "Une recommandation", "Actions importantes vérifiées avant exécution"],
-        ["Traçabilité", "Aucune", "Journaux d'audit et contrôle d'accès par rôle"],
+        [
+          "Outils et modèles autorisés",
+          "Chacun garde son compte personnel",
+          "Un espace de travail commun, modèles approuvés par l'entreprise",
+        ],
+        [
+          "Accès aux données",
+          "Dépend de la vigilance de chacun",
+          "Droits d'accès par utilisateur et par équipe, SSO Entra ID",
+        ],
+        [
+          "Hébergement",
+          "Inconnu pour les outils personnels",
+          "Azure West Europe (Microsoft Irlande) par défaut",
+        ],
+        [
+          "Validation humaine",
+          "Une recommandation",
+          "Actions importantes vérifiées avant exécution",
+        ],
+        [
+          "Traçabilité",
+          "Aucune",
+          "Journaux d'audit et contrôle d'accès par rôle",
+        ],
       ],
     },
     faq: {
@@ -163,12 +205,14 @@ export const CHARTE_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
             "Précisez si les comptes personnels sont autorisés et pour quoi, interdisez d'y coller des données confidentielles ou personnelles, et exigez une relecture de tout contenu envoyé à l'extérieur. Le plus efficace reste de proposer un outil approuvé et encadré. Notre page ChatGPT entreprise compare les options.",
         },
         {
-          question: "IA et RGPD : quelles données ne jamais saisir dans une IA publique ?",
+          question:
+            "IA et RGPD : quelles données ne jamais saisir dans une IA publique ?",
           answer:
             "Toute donnée personnelle de clients, de salariés ou de candidats, ainsi que les informations confidentielles : contrats, chiffres non publiés, données de santé, codes d'accès, secrets de fabrication. La charte doit le dire avec des exemples concrets issus de vos métiers, et désigner l'outil à utiliser à la place, hébergé dans un cadre conforme au RGPD.",
         },
         {
-          question: "Qu'est-ce que le shadow AI et comment une charte le limite-t-elle ?",
+          question:
+            "Qu'est-ce que le shadow AI et comment une charte le limite-t-elle ?",
           answer:
             "Le shadow AI désigne l'usage d'outils d'IA non validés par l'entreprise, souvent des comptes personnels. Une charte le limite si elle s'accompagne d'une alternative réelle : un outil autorisé, aussi simple à utiliser, et connecté aux documents de l'entreprise. Interdire sans alternative déplace simplement le problème.",
         },
@@ -190,12 +234,14 @@ export const CHARTE_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           label: "Start AI",
           href: "/fr/start-ai",
-          description: "Stratégie IA, feuille de route et politique IA sur mesure.",
+          description:
+            "Stratégie IA, feuille de route et politique IA sur mesure.",
         },
         {
           label: "Audit IA",
           href: "/fr/audit-ia",
-          description: "Faire l'état des lieux de vos usages et de vos opportunités IA.",
+          description:
+            "Faire l'état des lieux de vos usages et de vos opportunités IA.",
         },
         {
           label: "Acculturation IA",
@@ -210,7 +256,8 @@ export const CHARTE_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           label: "ChatGPT entreprise",
           href: "/fr/chatgpt-entreprise",
-          description: "Les options pour encadrer l'usage de ChatGPT au travail.",
+          description:
+            "Les options pour encadrer l'usage de ChatGPT au travail.",
         },
         {
           label: "Sécurité et conformité",
@@ -225,10 +272,21 @@ export const CHARTE_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           label: "WonkaChat",
           href: "/fr/wonka-chat",
-          description: "L'espace de travail IA gouverné pour toute l'organisation.",
+          description:
+            "L'espace de travail IA gouverné pour toute l'organisation.",
         },
-        { label: "Shadow AI : définition et risques", href: "/fr/shadow-ai", description: "Reprendre la main sur les usages d'IA non encadrés, sans les interdire." },
-        { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
+        {
+          label: "Shadow AI : définition et risques",
+          href: "/fr/shadow-ai",
+          description:
+            "Reprendre la main sur les usages d'IA non encadrés, sans les interdire.",
+        },
+        {
+          label: "Comparatif IA entreprise",
+          href: "/fr/comparatif-ia-entreprise",
+          description:
+            "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI.",
+        },
       ],
     },
     cta: {

@@ -16,16 +16,32 @@ export interface LandingVisual {
 const BG = {
   path: { src: "/images/hero-bg.avif", width: 2880, height: 1620 },
   fields: { src: "/images/start-ai/hero.jpg", width: 1920, height: 1080 },
-  waterfall: { src: "/images/start-ai/wonka-waterfall.png", width: 1536, height: 1024 },
+  waterfall: {
+    src: "/images/start-ai/wonka-waterfall.png",
+    width: 1536,
+    height: 1024,
+  },
   wheat: { src: "/images/wonka-build/hero-bg.png", width: 1264, height: 848 },
-  river: { src: "/images/wonka-build/promo-bg.avif", width: 2688, height: 1040 },
+  river: {
+    src: "/images/wonka-build/promo-bg.avif",
+    width: 2688,
+    height: 1040,
+  },
   valley: { src: "/images/CTA/cta-bg.avif", width: 3000, height: 735 },
   sky: { src: "/images/security/banner-bg.avif", width: 2848, height: 654 },
 } satisfies Record<string, LandingImage>;
 
 const SHOT = {
-  workspace: { src: "/images/wonka-chat/wonka-ai-chat-header.png", width: 3840, height: 2160 },
-  erpChat: { src: "/images/wonka-chat/connect-to-erp.png", width: 3200, height: 1800 },
+  workspace: {
+    src: "/images/wonka-chat/wonka-ai-chat-header.png",
+    width: 3840,
+    height: 2160,
+  },
+  erpChat: {
+    src: "/images/wonka-chat/connect-to-erp.png",
+    width: 3200,
+    height: 1800,
+  },
 } satisfies Record<string, LandingImage>;
 
 /** Hero imagery per landing page (shared by every locale of the page). */

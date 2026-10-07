@@ -41,7 +41,8 @@ const en: SecurityCopy = {
   certificationItems: {
     iso: {
       label: "ISO 27001 certified",
-      detail: "Information security management system certified to ISO/IEC 27001.",
+      detail:
+        "Information security management system certified to ISO/IEC 27001.",
     },
     gdpr: {
       label: "GDPR compliant",
@@ -50,7 +51,8 @@ const en: SecurityCopy = {
     },
     nis2: {
       label: "NIS 2 compliant",
-      detail: "Compliant with the EU Network and Information Security Directive (NIS 2).",
+      detail:
+        "Compliant with the EU Network and Information Security Directive (NIS 2).",
     },
   },
   practices: { heading: "Security practices" },
@@ -211,7 +213,8 @@ const nl: SecurityCopy = {
   certificationItems: {
     iso: {
       label: "ISO 27001-gecertificeerd",
-      detail: "Managementsysteem voor informatiebeveiliging gecertificeerd volgens ISO/IEC 27001.",
+      detail:
+        "Managementsysteem voor informatiebeveiliging gecertificeerd volgens ISO/IEC 27001.",
     },
     gdpr: {
       label: "AVG-conform",
@@ -220,7 +223,8 @@ const nl: SecurityCopy = {
     },
     nis2: {
       label: "NIS 2-conform",
-      detail: "Conform de Europese richtlijn inzake netwerk- en informatiebeveiliging (NIS 2).",
+      detail:
+        "Conform de Europese richtlijn inzake netwerk- en informatiebeveiliging (NIS 2).",
     },
   },
   practices: { heading: "Beveiligingspraktijken" },

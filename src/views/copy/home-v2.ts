@@ -12,7 +12,13 @@ export type SectorId =
 
 export type ChapterId = "templates" | "team" | "triggers" | "analytics";
 export type ModelId = "openai" | "claude" | "gemini" | "mistral";
-export type SecurityTileId = "iso" | "gdpr" | "nis2" | "eu" | "encryption" | "sso";
+export type SecurityTileId =
+  | "iso"
+  | "gdpr"
+  | "nis2"
+  | "eu"
+  | "encryption"
+  | "sso";
 
 export interface HomeV2Copy {
   seo: { title: string; description: string };
@@ -30,7 +36,6 @@ export interface HomeV2Copy {
   platform: {
     eyebrow: string;
     title: string;
-    proofs: { metric: string; label: string; source: string; logo?: string }[];
     chapters: { id: ChapterId; title: string; body: string }[];
   };
   models: {
@@ -41,11 +46,10 @@ export interface HomeV2Copy {
     light: string;
     advanced: string;
     tasks: { task: string; model: ModelId; tier: "light" | "advanced" }[];
-    costTitle: string;
-    costAll: string;
-    costRouted: string;
-    costNote: string;
-    costFoot: string;
+    saveLabel: string;
+    sliderLabel: string;
+    ratio: string;
+    source: string;
   };
   integrations: {
     eyebrow: string;
@@ -63,7 +67,13 @@ export interface HomeV2Copy {
     videoLabel: string;
     videoQuote: string;
     play: string;
-    cases: { metric: string; label: string; client: string; logo: string; href: string }[];
+    cases: {
+      metric: string;
+      label: string;
+      client: string;
+      logo: string;
+      href: string;
+    }[];
     readCase: string;
   };
   team: {
@@ -109,11 +119,6 @@ const en: HomeV2Copy = {
   platform: {
     eyebrow: "What changes",
     title: "Hours handed back to your teams, every week.",
-    proofs: [
-      { metric: "−50%", label: "time on support emails", source: "N-allo (Engie), 70+ employees", logo: NALLO },
-      { metric: "100%", label: "of employees with their own WonkaChat", source: "Itzu", logo: ITZU },
-      { metric: "200", label: "organisations taught us what AI changes at work", source: "Wonka" },
-    ],
     chapters: [
       {
         id: "templates",
@@ -140,35 +145,63 @@ const en: HomeV2Copy = {
   models: {
     eyebrow: "Models",
     title: "The right model for every task. Not a token more.",
-    body: "At company scale, sending every request to the most powerful model gets expensive. WonkaChat routes each task to the model that fits: power where it matters, light models everywhere else.",
-    auto: "Auto routing",
-    light: "Light",
-    advanced: "Advanced",
+    body: "Most tasks do not need the most powerful model. WonkaChat sends each one to the model that fits, so you only pay for power where it matters.",
+    auto: "Auto",
+    light: "Light model",
+    advanced: "Advanced model",
     tasks: [
-      { task: "Sort 2,000 incoming emails", model: "mistral", tier: "light" },
+      { task: "Sort 2,000 incoming emails", model: "openai", tier: "light" },
       { task: "Summarise a meeting", model: "gemini", tier: "light" },
-      { task: "Analyse a sales Excel", model: "openai", tier: "advanced" },
       { task: "Write a commercial offer", model: "claude", tier: "advanced" },
+      { task: "Summarise HR files", model: "mistral", tier: "light" },
     ],
-    costTitle: "Token bill",
-    costAll: "Everything on the most powerful model",
-    costRouted: "Routed by WonkaChat",
-    costNote: "Illustration",
-    costFoot: "Advanced models only run the tasks that need them.",
+    saveLabel: "off your AI bill",
+    sliderLabel: "Share of tasks that do not need the most powerful model",
+    ratio: "Up to 20× cheaper per task on a light model",
+    source:
+      "Based on WonkaChat rates per million tokens: Claude Opus 5 ($5.50 in / $27.50 out) vs GPT-5.6 Luna ($0.22 / $1.32), 3 tokens read for 1 written.",
   },
   integrations: {
     eyebrow: "Integrations",
     title: "Your tools. And the ones of your industry.",
     body: "WonkaChat plugs into the business software your teams use every day, not just the usual suspects.",
     sectors: [
-      { id: "accounting", label: "Accounting firms", pitch: "Bookkeeping, invoices and client files." },
-      { id: "construction", label: "Construction", pitch: "Quotes, sites and construction ERPs." },
-      { id: "hospitality", label: "Short-term rentals", pitch: "Bookings, guests and housekeeping." },
-      { id: "services", label: "Consulting & services", pitch: "Staffing, timesheets and projects." },
+      {
+        id: "accounting",
+        label: "Accounting firms",
+        pitch: "Bookkeeping, invoices and client files.",
+      },
+      {
+        id: "construction",
+        label: "Construction",
+        pitch: "Quotes, sites and construction ERPs.",
+      },
+      {
+        id: "hospitality",
+        label: "Short-term rentals",
+        pitch: "Bookings, guests and housekeeping.",
+      },
+      {
+        id: "services",
+        label: "Consulting & services",
+        pitch: "Staffing, timesheets and projects.",
+      },
       { id: "sales", label: "Sales", pitch: "CRM, calls and pipeline." },
-      { id: "marketing", label: "Marketing", pitch: "Social media, campaigns and ads." },
-      { id: "retail", label: "E-commerce", pitch: "Orders, payments and stock." },
-      { id: "support", label: "Customer support", pitch: "Tickets, chats and messages." },
+      {
+        id: "marketing",
+        label: "Marketing",
+        pitch: "Social media, campaigns and ads.",
+      },
+      {
+        id: "retail",
+        label: "E-commerce",
+        pitch: "Orders, payments and stock.",
+      },
+      {
+        id: "support",
+        label: "Customer support",
+        pitch: "Tickets, chats and messages.",
+      },
     ],
     everydayTitle: "Plus everyday tools",
     everydayCount: "70+ connectors",
@@ -183,15 +216,15 @@ const en: HomeV2Copy = {
     play: "Play video",
     cases: [
       {
-        metric: "−50%",
-        label: "time spent on support emails, across 70+ employees",
+        metric: "2×",
+        label: "more support emails handled by the same team of 70+",
         client: "N-allo (Engie)",
         logo: NALLO,
         href: "/case-studies/n-allo",
       },
       {
-        metric: "100%",
-        label: "of employees have their own WonkaChat, saving hours every week",
+        metric: "Hours",
+        label: "handed back to every employee, every week",
         client: "Itzu",
         logo: ITZU,
         href: "/case-studies/itzu",
@@ -206,8 +239,14 @@ const en: HomeV2Copy = {
     count: "35",
     countLabel: "AI consultants in Belgium and France",
     steps: [
-      { title: "Diagnostic", body: "We find the tasks that cost your teams the most time." },
-      { title: "First agent live", body: "Built with you, plugged into your tools." },
+      {
+        title: "Diagnostic",
+        body: "We find the tasks that cost your teams the most time.",
+      },
+      {
+        title: "First agent live",
+        body: "Built with you, plugged into your tools.",
+      },
       { title: "Adoption", body: "Training, follow-up, next use case." },
     ],
     cta: "Talk to a consultant",
@@ -253,11 +292,6 @@ const fr: HomeV2Copy = {
   platform: {
     eyebrow: "Ce qui change",
     title: "Des heures rendues à vos équipes, chaque semaine.",
-    proofs: [
-      { metric: "−50 %", label: "de temps sur les mails support", source: "N-allo (Engie), 70+ employés", logo: NALLO },
-      { metric: "100 %", label: "des employés équipés de leur WonkaChat", source: "Itzu", logo: ITZU },
-      { metric: "200", label: "organisations nous ont appris ce que l'IA change au travail", source: "Wonka" },
-    ],
     chapters: [
       {
         id: "templates",
@@ -284,35 +318,68 @@ const fr: HomeV2Copy = {
   models: {
     eyebrow: "Modèles",
     title: "Le bon modèle pour chaque tâche. Pas un token de plus.",
-    body: "À l'échelle d'une entreprise, envoyer chaque demande au modèle le plus puissant coûte cher. WonkaChat oriente chaque tâche vers le modèle adapté : la puissance là où elle compte, des modèles légers partout ailleurs.",
-    auto: "Routage automatique",
-    light: "Léger",
-    advanced: "Avancé",
+    body: "La plupart des tâches n'ont pas besoin du modèle le plus puissant. WonkaChat envoie chacune vers le modèle adapté : vous ne payez la puissance que là où elle compte.",
+    auto: "Auto",
+    light: "Modèle léger",
+    advanced: "Modèle avancé",
     tasks: [
-      { task: "Trier 2 000 mails entrants", model: "mistral", tier: "light" },
+      { task: "Trier 2 000 mails entrants", model: "openai", tier: "light" },
       { task: "Résumer une réunion", model: "gemini", tier: "light" },
-      { task: "Analyser un Excel de ventes", model: "openai", tier: "advanced" },
-      { task: "Rédiger une offre commerciale", model: "claude", tier: "advanced" },
+      {
+        task: "Rédiger une offre commerciale",
+        model: "claude",
+        tier: "advanced",
+      },
+      { task: "Synthétiser des dossiers RH", model: "mistral", tier: "light" },
     ],
-    costTitle: "Facture de tokens",
-    costAll: "Tout sur le modèle le plus puissant",
-    costRouted: "Routé par WonkaChat",
-    costNote: "Illustration",
-    costFoot: "Les modèles avancés ne tournent que sur les tâches qui en ont besoin.",
+    saveLabel: "sur votre facture IA",
+    sliderLabel:
+      "Part des tâches qui n'ont pas besoin du modèle le plus puissant",
+    ratio: "Jusqu'à 20× moins cher par tâche sur un modèle léger",
+    source:
+      "Calcul sur les tarifs WonkaChat par million de tokens : Claude Opus 5 (5,50 $ en entrée / 27,50 $ en sortie) contre GPT-5.6 Luna (0,22 $ / 1,32 $), 3 tokens lus pour 1 écrit.",
   },
   integrations: {
     eyebrow: "Intégrations",
     title: "Vos outils. Et ceux de votre secteur.",
     body: "WonkaChat se branche sur les logiciels métier que vos équipes utilisent chaque jour, pas seulement sur les grands classiques.",
     sectors: [
-      { id: "accounting", label: "Fiduciaires & compta", pitch: "Comptabilité, factures et dossiers clients." },
-      { id: "construction", label: "BTP", pitch: "Devis, chantiers et ERP de construction." },
-      { id: "hospitality", label: "Location courte durée", pitch: "Réservations, voyageurs et ménage." },
-      { id: "services", label: "Conseil & services", pitch: "Staffing, temps passés et projets." },
+      {
+        id: "accounting",
+        label: "Fiduciaires & compta",
+        pitch: "Comptabilité, factures et dossiers clients.",
+      },
+      {
+        id: "construction",
+        label: "BTP",
+        pitch: "Devis, chantiers et ERP de construction.",
+      },
+      {
+        id: "hospitality",
+        label: "Location courte durée",
+        pitch: "Réservations, voyageurs et ménage.",
+      },
+      {
+        id: "services",
+        label: "Conseil & services",
+        pitch: "Staffing, temps passés et projets.",
+      },
       { id: "sales", label: "Ventes", pitch: "CRM, appels et pipeline." },
-      { id: "marketing", label: "Marketing", pitch: "Réseaux sociaux, campagnes et pubs." },
-      { id: "retail", label: "E-commerce", pitch: "Commandes, paiements et stock." },
-      { id: "support", label: "Service client", pitch: "Tickets, chats et messages." },
+      {
+        id: "marketing",
+        label: "Marketing",
+        pitch: "Réseaux sociaux, campagnes et pubs.",
+      },
+      {
+        id: "retail",
+        label: "E-commerce",
+        pitch: "Commandes, paiements et stock.",
+      },
+      {
+        id: "support",
+        label: "Service client",
+        pitch: "Tickets, chats et messages.",
+      },
     ],
     everydayTitle: "Et vos outils du quotidien",
     everydayCount: "70+ connecteurs",
@@ -327,15 +394,16 @@ const fr: HomeV2Copy = {
     play: "Lancer la vidéo",
     cases: [
       {
-        metric: "−50 %",
-        label: "de temps sur les mails support, pour plus de 70 employés",
+        metric: "2×",
+        label:
+          "plus de mails support traités par la même équipe de 70+ personnes",
         client: "N-allo (Engie)",
         logo: NALLO,
         href: "/case-studies/n-allo",
       },
       {
-        metric: "100 %",
-        label: "des employés ont leur propre WonkaChat, des heures gagnées chaque semaine",
+        metric: "Des heures",
+        label: "rendues à chaque employé, chaque semaine",
         client: "Itzu",
         logo: ITZU,
         href: "/case-studies/itzu",
@@ -350,8 +418,14 @@ const fr: HomeV2Copy = {
     count: "35",
     countLabel: "consultants IA en Belgique et en France",
     steps: [
-      { title: "Diagnostic", body: "On identifie les tâches qui coûtent le plus de temps à vos équipes." },
-      { title: "Premier agent en production", body: "Construit avec vous, branché sur vos outils." },
+      {
+        title: "Diagnostic",
+        body: "On identifie les tâches qui coûtent le plus de temps à vos équipes.",
+      },
+      {
+        title: "Premier agent en production",
+        body: "Construit avec vous, branché sur vos outils.",
+      },
       { title: "Adoption", body: "Formation, suivi, cas d'usage suivant." },
     ],
     cta: "Parler à un consultant",
@@ -372,7 +446,8 @@ const fr: HomeV2Copy = {
   },
   finalCta: {
     title: "Votre premier agent en production. Seul ou avec nous.",
-    subtitle: "Commencez gratuitement aujourd'hui, ou parlez de votre cas d'usage à un consultant.",
+    subtitle:
+      "Commencez gratuitement aujourd'hui, ou parlez de votre cas d'usage à un consultant.",
   },
 };
 
@@ -397,11 +472,6 @@ const nl: HomeV2Copy = {
   platform: {
     eyebrow: "Wat er verandert",
     title: "Elke week uren terug voor uw teams.",
-    proofs: [
-      { metric: "−50%", label: "tijd op supportmails", source: "N-allo (Engie), 70+ medewerkers", logo: NALLO },
-      { metric: "100%", label: "van de medewerkers met een eigen WonkaChat", source: "Itzu", logo: ITZU },
-      { metric: "200", label: "organisaties leerden ons wat AI verandert op het werk", source: "Wonka" },
-    ],
     chapters: [
       {
         id: "templates",
@@ -428,35 +498,71 @@ const nl: HomeV2Copy = {
   models: {
     eyebrow: "Modellen",
     title: "Het juiste model voor elke taak. Geen token te veel.",
-    body: "Op bedrijfsschaal wordt elke vraag naar het krachtigste model sturen duur. WonkaChat stuurt elke taak naar het model dat past: kracht waar het telt, lichte modellen overal elders.",
-    auto: "Automatische routing",
-    light: "Licht",
-    advanced: "Geavanceerd",
+    body: "De meeste taken hebben het krachtigste model niet nodig. WonkaChat stuurt elke taak naar het model dat past: u betaalt alleen voor kracht waar het telt.",
+    auto: "Auto",
+    light: "Licht model",
+    advanced: "Geavanceerd model",
     tasks: [
-      { task: "2.000 inkomende mails sorteren", model: "mistral", tier: "light" },
+      {
+        task: "2.000 inkomende mails sorteren",
+        model: "openai",
+        tier: "light",
+      },
       { task: "Een vergadering samenvatten", model: "gemini", tier: "light" },
-      { task: "Een sales-Excel analyseren", model: "openai", tier: "advanced" },
-      { task: "Een commerciële offerte schrijven", model: "claude", tier: "advanced" },
+      {
+        task: "Een commerciële offerte schrijven",
+        model: "claude",
+        tier: "advanced",
+      },
+      { task: "HR-dossiers samenvatten", model: "mistral", tier: "light" },
     ],
-    costTitle: "Tokenfactuur",
-    costAll: "Alles op het krachtigste model",
-    costRouted: "Gerouteerd door WonkaChat",
-    costNote: "Illustratie",
-    costFoot: "Geavanceerde modellen draaien alleen op de taken die ze nodig hebben.",
+    saveLabel: "op uw AI-factuur",
+    sliderLabel: "Aandeel taken dat het krachtigste model niet nodig heeft",
+    ratio: "Tot 20× goedkoper per taak op een licht model",
+    source:
+      "Berekend op WonkaChat-tarieven per miljoen tokens: Claude Opus 5 ($5,50 in / $27,50 uit) tegenover GPT-5.6 Luna ($0,22 / $1,32), 3 gelezen tokens per geschreven token.",
   },
   integrations: {
     eyebrow: "Integraties",
     title: "Uw tools. En die van uw sector.",
     body: "WonkaChat koppelt aan de bedrijfssoftware die uw teams elke dag gebruiken, niet alleen aan de bekende namen.",
     sectors: [
-      { id: "accounting", label: "Boekhoudkantoren", pitch: "Boekhouding, facturen en klantendossiers." },
-      { id: "construction", label: "Bouw", pitch: "Offertes, werven en bouw-ERP's." },
-      { id: "hospitality", label: "Kortetermijnverhuur", pitch: "Boekingen, gasten en schoonmaak." },
-      { id: "services", label: "Consulting & diensten", pitch: "Staffing, timesheets en projecten." },
+      {
+        id: "accounting",
+        label: "Boekhoudkantoren",
+        pitch: "Boekhouding, facturen en klantendossiers.",
+      },
+      {
+        id: "construction",
+        label: "Bouw",
+        pitch: "Offertes, werven en bouw-ERP's.",
+      },
+      {
+        id: "hospitality",
+        label: "Kortetermijnverhuur",
+        pitch: "Boekingen, gasten en schoonmaak.",
+      },
+      {
+        id: "services",
+        label: "Consulting & diensten",
+        pitch: "Staffing, timesheets en projecten.",
+      },
       { id: "sales", label: "Sales", pitch: "CRM, gesprekken en pipeline." },
-      { id: "marketing", label: "Marketing", pitch: "Sociale media, campagnes en advertenties." },
-      { id: "retail", label: "E-commerce", pitch: "Bestellingen, betalingen en voorraad." },
-      { id: "support", label: "Klantenservice", pitch: "Tickets, chats en berichten." },
+      {
+        id: "marketing",
+        label: "Marketing",
+        pitch: "Sociale media, campagnes en advertenties.",
+      },
+      {
+        id: "retail",
+        label: "E-commerce",
+        pitch: "Bestellingen, betalingen en voorraad.",
+      },
+      {
+        id: "support",
+        label: "Klantenservice",
+        pitch: "Tickets, chats en berichten.",
+      },
     ],
     everydayTitle: "En uw dagelijkse tools",
     everydayCount: "70+ connectoren",
@@ -471,15 +577,15 @@ const nl: HomeV2Copy = {
     play: "Video afspelen",
     cases: [
       {
-        metric: "−50%",
-        label: "tijd op supportmails, voor meer dan 70 medewerkers",
+        metric: "2×",
+        label: "meer supportmails verwerkt door hetzelfde team van 70+",
         client: "N-allo (Engie)",
         logo: NALLO,
         href: "/case-studies/n-allo",
       },
       {
-        metric: "100%",
-        label: "van de medewerkers heeft een eigen WonkaChat, elke week uren bespaard",
+        metric: "Uren",
+        label: "terug voor elke medewerker, elke week",
         client: "Itzu",
         logo: ITZU,
         href: "/case-studies/itzu",
@@ -494,8 +600,14 @@ const nl: HomeV2Copy = {
     count: "35",
     countLabel: "AI-consultants in België en Frankrijk",
     steps: [
-      { title: "Diagnose", body: "We vinden de taken die uw teams de meeste tijd kosten." },
-      { title: "Eerste agent live", body: "Samen met u gebouwd, gekoppeld aan uw tools." },
+      {
+        title: "Diagnose",
+        body: "We vinden de taken die uw teams de meeste tijd kosten.",
+      },
+      {
+        title: "Eerste agent live",
+        body: "Samen met u gebouwd, gekoppeld aan uw tools.",
+      },
       { title: "Adoptie", body: "Training, opvolging, volgende use case." },
     ],
     cta: "Spreek een consultant",
@@ -516,7 +628,8 @@ const nl: HomeV2Copy = {
   },
   finalCta: {
     title: "Uw eerste agent in productie. Alleen of samen met ons.",
-    subtitle: "Start vandaag gratis, of bespreek uw use case met een consultant.",
+    subtitle:
+      "Start vandaag gratis, of bespreek uw use case met een consultant.",
   },
 };
 

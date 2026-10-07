@@ -16,7 +16,13 @@ export interface AiAgentsCopy {
   connectors: { eyebrow: string; heading: string };
   patterns: { eyebrow: string; heading: string };
   agentTypes: { label: string; title: string; body: string }[];
-  odoo: { eyebrow: string; heading: string; body: string; promptEyebrow: string; prompt: string };
+  odoo: {
+    eyebrow: string;
+    heading: string;
+    body: string;
+    promptEyebrow: string;
+    prompt: string;
+  };
   deployment: { eyebrow: string; heading: string };
   steps: string[];
   faq: { eyebrow: string; heading: string };
@@ -82,7 +88,8 @@ const en: AiAgentsCopy = {
   ],
   odoo: {
     eyebrow: "Odoo example",
-    heading: "Ask Odoo what happened. Then let the agent prepare the next move.",
+    heading:
+      "Ask Odoo what happened. Then let the agent prepare the next move.",
     body: "A Wonka Odoo agent can inspect CRM opportunities, invoices, purchase orders, project records or stock levels, then return a clear answer with the underlying business context. When an action is needed, it can propose the write-back and wait for human validation.",
     promptEyebrow: "Example prompt",
     prompt:
@@ -139,7 +146,8 @@ const fr: AiAgentsCopy = {
   },
   hero: {
     eyebrow: "Agents IA privés pour entreprises",
-    title: "Des agents IA pour les outils sur lesquels tourne déjà votre entreprise.",
+    title:
+      "Des agents IA pour les outils sur lesquels tourne déjà votre entreprise.",
     body: "Wonka connecte des agents IA privés à votre ERP, votre CRM, vos documents, vos e‑mails et vos API internes : vos équipes interrogent, analysent et agissent sans confier de données sensibles à des outils d'IA génériques.",
     primaryCta: "Cartographier un workflow d'agent",
     secondaryCta: "Découvrir les intégrations",
@@ -159,7 +167,8 @@ const fr: AiAgentsCopy = {
   },
   patterns: {
     eyebrow: "Types d'agents",
-    heading: "Pas un seul assistant. Un ensemble d'agents métier sous contrôle.",
+    heading:
+      "Pas un seul assistant. Un ensemble d'agents métier sous contrôle.",
   },
   agentTypes: [
     {
@@ -185,7 +194,8 @@ const fr: AiAgentsCopy = {
   ],
   odoo: {
     eyebrow: "Exemple Odoo",
-    heading: "Demandez à Odoo ce qui s'est passé. Laissez l'agent préparer la suite.",
+    heading:
+      "Demandez à Odoo ce qui s'est passé. Laissez l'agent préparer la suite.",
     body: "Un agent Wonka pour Odoo peut examiner les opportunités CRM, les factures, les bons de commande, les projets ou les niveaux de stock, puis fournir une réponse claire avec le contexte métier sous-jacent. Lorsqu'une action est nécessaire, il propose l'écriture et attend la validation humaine.",
     promptEyebrow: "Exemple de demande",
     prompt:
@@ -288,7 +298,8 @@ const nl: AiAgentsCopy = {
   ],
   odoo: {
     eyebrow: "Odoo-voorbeeld",
-    heading: "Vraag Odoo wat er gebeurd is. Laat de agent de volgende stap voorbereiden.",
+    heading:
+      "Vraag Odoo wat er gebeurd is. Laat de agent de volgende stap voorbereiden.",
     body: "Een Wonka-agent voor Odoo kan CRM-opportuniteiten, facturen, inkooporders, projecten of voorraadniveaus bekijken en een helder antwoord geven met de onderliggende bedrijfscontext. Is er een actie nodig, dan stelt hij de wijziging voor en wacht hij op menselijke validatie.",
     promptEyebrow: "Voorbeeldvraag",
     prompt:

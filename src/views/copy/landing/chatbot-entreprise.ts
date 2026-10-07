@@ -18,7 +18,8 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
     breadcrumb: "Chatbot entreprise",
     schema: {
       serviceName: "WonkaChat, chatbot entreprise interne",
-      serviceType: "Chatbot IA interne et espace de travail IA pour entreprises",
+      serviceType:
+        "Chatbot IA interne et espace de travail IA pour entreprises",
     },
     hero: {
       eyebrow: "Chatbot interne · WonkaChat",
@@ -85,7 +86,10 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "Politiques RH et onboarding",
           body: "Congés, notes de frais, télétravail : les collaborateurs obtiennent une réponse issue de votre règlement interne, avec sa source. Les cas complexes restent transmis aux RH. Les nouveaux arrivants sont guidés pendant leurs premières semaines.",
-          link: { label: "Connecter SharePoint", href: "/fr/integrations/sharepoint" },
+          link: {
+            label: "Connecter SharePoint",
+            href: "/fr/integrations/sharepoint",
+          },
         },
         {
           title: "Interroger votre ERP en langage courant",
@@ -100,12 +104,18 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "E-mails, réunions et documents",
           body: "Avec Outlook et Microsoft Teams connectés, l'assistant travaille là où vos échanges ont lieu. Il rédige et reformule, transforme un résumé en présentation PowerPoint, produit le tableur Excel demandé ou corrige un document Word.",
-          link: { label: "Connecter Outlook", href: "/fr/integrations/outlook" },
+          link: {
+            label: "Connecter Outlook",
+            href: "/fr/integrations/outlook",
+          },
         },
         {
           title: "Des agents IA pour les tâches récurrentes",
           body: "Au-delà du chat, créez des agents qui connaissent un rôle ou un workflow précis : suivi commercial, contrôles financiers, synthèses support. Partagez-les avec le service concerné.",
-          link: { label: "Agents IA pour l'entreprise", href: "/fr/agent-ia-entreprise" },
+          link: {
+            label: "Agents IA pour l'entreprise",
+            href: "/fr/agent-ia-entreprise",
+          },
         },
       ],
     },
@@ -137,14 +147,39 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
     },
     comparison: {
       eyebrow: "FAQ client ou assistant interne",
-      heading: "Chatbot de site web ou chatbot interne : deux outils différents",
-      columns: ["", "Chatbot FAQ sur votre site", "Chatbot interne (WonkaChat)"],
+      heading:
+        "Chatbot de site web ou chatbot interne : deux outils différents",
+      columns: [
+        "",
+        "Chatbot FAQ sur votre site",
+        "Chatbot interne (WonkaChat)",
+      ],
       rows: [
-        ["Utilisateurs", "Visiteurs anonymes", "Collaborateurs identifiés (SSO)"],
-        ["Sources", "Une FAQ publique", "Vos documents, e-mails et logiciels métier"],
-        ["Données traitées", "Informations publiques", "Informations confidentielles, avec droits d'accès"],
-        ["Actions", "Répondre ou rediriger", "Préparer des actions dans vos outils, avec validation humaine"],
-        ["Gouvernance", "Limitée", "Modèles approuvés, contrôle d'accès, journaux d'audit"],
+        [
+          "Utilisateurs",
+          "Visiteurs anonymes",
+          "Collaborateurs identifiés (SSO)",
+        ],
+        [
+          "Sources",
+          "Une FAQ publique",
+          "Vos documents, e-mails et logiciels métier",
+        ],
+        [
+          "Données traitées",
+          "Informations publiques",
+          "Informations confidentielles, avec droits d'accès",
+        ],
+        [
+          "Actions",
+          "Répondre ou rediriger",
+          "Préparer des actions dans vos outils, avec validation humaine",
+        ],
+        [
+          "Gouvernance",
+          "Limitée",
+          "Modèles approuvés, contrôle d'accès, journaux d'audit",
+        ],
       ],
       footnote:
         "WonkaChat est un espace de travail IA pour vos équipes. Si votre besoin se limite à un widget de FAQ sur votre site, dites-le-nous dès le premier échange : ce n'est pas le cœur de notre offre.",
@@ -153,7 +188,8 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
       heading: "Questions fréquentes sur le chatbot entreprise",
       items: [
         {
-          question: "Quelle différence entre un chatbot entreprise et un chatbot de service client ?",
+          question:
+            "Quelle différence entre un chatbot entreprise et un chatbot de service client ?",
           answer:
             "Un chatbot de service client répond aux visiteurs de votre site sur un périmètre public. Un chatbot entreprise interne sert vos collaborateurs : il accède à des documents et des données confidentiels, avec des droits par utilisateur, et peut préparer des actions dans vos outils. WonkaChat se concentre sur ce second usage, y compris pour aider vos équipes support à traiter les demandes clients.",
         },
@@ -163,7 +199,8 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
             "Oui. WonkaChat se connecte à vos sources, par exemple SharePoint, et répond à partir de vos propres documents plutôt que d'internet. Vous n'avez pas à entraîner un modèle : l'assistant retrouve les passages pertinents et s'en sert pour répondre. Notre guide sur le RAG explique ce mécanisme en détail.",
         },
         {
-          question: "Un chatbot IA en entreprise est-il compatible avec le RGPD ?",
+          question:
+            "Un chatbot IA en entreprise est-il compatible avec le RGPD ?",
           answer:
             "Cela dépend de l'outil et de la façon dont vous l'utilisez. WonkaChat est conforme RGPD, hébergé par défaut dans Azure West Europe (Microsoft Irlande), avec un accord de traitement des données (DPA) inclus. Les données clients ne servent pas à entraîner des modèles d'IA publics. Faites valider votre usage par votre DPO, comme pour tout traitement de données personnelles.",
         },
@@ -183,7 +220,8 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
             "WonkaChat est facturé par utilisateur et par mois, avec un tarif dégressif selon le nombre de licences et 20 % de réduction en facturation annuelle. Le détail pour votre taille d'équipe est sur notre page tarifs. Vous pouvez d'abord tester 7 jours gratuitement, sans carte de crédit, avec 5 € d'usage IA inclus.",
         },
         {
-          question: "Peut-on héberger le chatbot dans notre propre environnement ?",
+          question:
+            "Peut-on héberger le chatbot dans notre propre environnement ?",
           answer:
             "Par défaut, WonkaChat est hébergé dans Azure West Europe (Microsoft Irlande) ; ce n'est pas un déploiement sur site sauf mention contractuelle. Pour les grandes organisations, l'offre Enterprise permet un cloud géré, votre propre cloud ou un déploiement on-premise, adapté à vos exigences de sécurité.",
         },
@@ -225,7 +263,8 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           label: "Intégrations",
           href: "/fr/integrations",
-          description: "SharePoint, Outlook, Teams, Odoo et les autres connecteurs.",
+          description:
+            "SharePoint, Outlook, Teams, Odoo et les autres connecteurs.",
         },
         {
           label: "Sécurité et conformité",
@@ -237,7 +276,12 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
           href: "/fr/pricing",
           description: "Prix par utilisateur et essai gratuit de 7 jours.",
         },
-        { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
+        {
+          label: "Comparatif IA entreprise",
+          href: "/fr/comparatif-ia-entreprise",
+          description:
+            "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI.",
+        },
       ],
     },
     cta: {

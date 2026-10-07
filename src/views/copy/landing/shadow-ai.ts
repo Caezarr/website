@@ -18,15 +18,20 @@ export const SHADOW_AI_COPY: Partial<Record<Locale, LandingCopy>> = {
     breadcrumb: "Shadow AI",
     schema: {
       serviceName: "Encadrement du shadow AI et gouvernance de l'IA",
-      serviceType: "Accompagnement à la gouvernance de l'IA et espace de travail IA sécurisé",
+      serviceType:
+        "Accompagnement à la gouvernance de l'IA et espace de travail IA sécurisé",
     },
     hero: {
       eyebrow: "Guide · DSI, RSSI, DPO",
-      title: "Shadow AI : vos équipes utilisent déjà l'IA. Reprenez la main sans l'interdire.",
+      title:
+        "Shadow AI : vos équipes utilisent déjà l'IA. Reprenez la main sans l'interdire.",
       subtitle:
         "Comptes ChatGPT personnels, extensions de navigateur : le shadow AI est rarement de la malveillance, c'est un besoin non couvert. D'où il vient, quels risques, comment le repérer et le réduire en cinq étapes.",
       primaryCta: { label: "Réserver un appel de 30 minutes", href: "meeting" },
-      secondaryCta: { label: "Faire le diagnostic gratuit", href: "/france/diagnostic" },
+      secondaryCta: {
+        label: "Faire le diagnostic gratuit",
+        href: "/france/diagnostic",
+      },
       facts: [
         ["Le problème", "Des données qui sortent sans visibilité"],
         ["La réponse", "Une alternative officielle, pas une interdiction"],
@@ -80,17 +85,26 @@ export const SHADOW_AI_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "Repérer les usages réels",
           body: "Commencez par savoir qui utilise quoi. Interrogez les équipes sans esprit de sanction, croisez avec ce que vos outils réseau et vos journaux de navigation remontent, et listez les tâches pour lesquelles l'IA est utilisée.",
-          link: { label: "Faire l'état des lieux avec un audit IA", href: "/fr/audit-ia" },
+          link: {
+            label: "Faire l'état des lieux avec un audit IA",
+            href: "/fr/audit-ia",
+          },
         },
         {
           title: "Fixer des règles avec une charte IA",
           body: "Outils autorisés, données interdites, validation humaine obligatoire, rôles de chacun : une charte courte et concrète transforme des usages individuels en règles communes, que chacun peut suivre.",
-          link: { label: "Rédiger votre charte IA", href: "/fr/charte-ia-entreprise" },
+          link: {
+            label: "Rédiger votre charte IA",
+            href: "/fr/charte-ia-entreprise",
+          },
         },
         {
           title: "Former toutes les équipes",
           body: "Le shadow AI prospère quand seuls quelques-uns savent utiliser l'IA. Une acculturation pratique, métier par métier, montre ce qui est permis et comment bien s'en servir. L'article 4 de l'AI Act, applicable depuis le 2 février 2025, pousse dans ce sens.",
-          link: { label: "Former vos équipes à l'IA", href: "/fr/acculturation-ia" },
+          link: {
+            label: "Former vos équipes à l'IA",
+            href: "/fr/acculturation-ia",
+          },
         },
         {
           title: "Offrir une alternative officielle",
@@ -100,7 +114,10 @@ export const SHADOW_AI_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "Appliquer les règles dans l'outil",
           body: "Permissions par utilisateur et par équipe, SSO via Azure AD / Entra ID avec MFA, contrôle d'accès par rôle et journaux d'audit : les règles de la charte deviennent des paramètres, pas des vœux pieux.",
-          link: { label: "Sécurité et conformité de Wonka", href: "/fr/security" },
+          link: {
+            label: "Sécurité et conformité de Wonka",
+            href: "/fr/security",
+          },
         },
       ],
     },
@@ -133,13 +150,37 @@ export const SHADOW_AI_COPY: Partial<Record<Locale, LandingCopy>> = {
     comparison: {
       eyebrow: "Deux stratégies",
       heading: "Shadow IT et shadow AI : interdire ou encadrer ?",
-      columns: ["Critère", "Interdire l'IA", "Encadrer avec une alternative officielle"],
+      columns: [
+        "Critère",
+        "Interdire l'IA",
+        "Encadrer avec une alternative officielle",
+      ],
       rows: [
-        ["Usages réels", "Continuent sur les appareils personnels", "Reviennent dans un outil visible par la DSI"],
-        ["Données de l'entreprise", "Sortent sans contrôle, hors du radar", "Restent dans un espace hébergé dans l'UE, avec droits d'accès"],
-        ["RGPD", "Traitements non documentés", "Accord de traitement des données et cadre défini"],
-        ["Traçabilité", "Aucune", "Journaux d'audit et contrôle d'accès par rôle"],
-        ["Adoption", "Réservée à ceux qui contournent la règle", "Ouverte à toute l'équipe, avec formation"],
+        [
+          "Usages réels",
+          "Continuent sur les appareils personnels",
+          "Reviennent dans un outil visible par la DSI",
+        ],
+        [
+          "Données de l'entreprise",
+          "Sortent sans contrôle, hors du radar",
+          "Restent dans un espace hébergé dans l'UE, avec droits d'accès",
+        ],
+        [
+          "RGPD",
+          "Traitements non documentés",
+          "Accord de traitement des données et cadre défini",
+        ],
+        [
+          "Traçabilité",
+          "Aucune",
+          "Journaux d'audit et contrôle d'accès par rôle",
+        ],
+        [
+          "Adoption",
+          "Réservée à ceux qui contournent la règle",
+          "Ouverte à toute l'équipe, avec formation",
+        ],
       ],
       footnote:
         "Comparaison qualitative, à adapter à votre organisation. Ce guide ne constitue pas un conseil juridique : faites valider vos règles par votre DPO et votre conseil juridique.",
@@ -163,7 +204,8 @@ export const SHADOW_AI_COPY: Partial<Record<Locale, LandingCopy>> = {
             "Les principaux : des données confidentielles qui sortent vers des services tiers, des données personnelles traitées sans base légale ni accord de traitement, aucune traçabilité en cas d'incident, et des contenus générés de qualité inégale, parfois envoyés à des clients sans relecture. S'y ajoute un risque moins visible : une adoption de l'IA limitée à quelques personnes.",
         },
         {
-          question: "L'usage non autorisé de ChatGPT en entreprise est-il un problème RGPD ?",
+          question:
+            "L'usage non autorisé de ChatGPT en entreprise est-il un problème RGPD ?",
           answer:
             "Dès que des données personnelles sont saisies dans un outil d'IA tiers, il s'agit d'un traitement qui doit reposer sur une base légale et, si l'outil agit comme sous-traitant, être couvert par un accord de traitement des données. Avec un compte personnel, l'entreprise n'a généralement ni l'un ni l'autre. Faites le point avec votre DPO.",
         },
@@ -205,17 +247,20 @@ export const SHADOW_AI_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           label: "ChatGPT entreprise",
           href: "/fr/chatgpt-entreprise",
-          description: "Remplacer les comptes personnels par un espace gouverné.",
+          description:
+            "Remplacer les comptes personnels par un espace gouverné.",
         },
         {
           label: "WonkaChat",
           href: "/fr/wonka-chat",
-          description: "L'espace de travail IA gouverné pour toute l'organisation.",
+          description:
+            "L'espace de travail IA gouverné pour toute l'organisation.",
         },
         {
           label: "Audit IA",
           href: "/fr/audit-ia",
-          description: "Faire l'état des lieux de vos usages et opportunités IA.",
+          description:
+            "Faire l'état des lieux de vos usages et opportunités IA.",
         },
         {
           label: "Sécurité et conformité",
@@ -230,9 +275,15 @@ export const SHADOW_AI_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           label: "Start AI",
           href: "/fr/start-ai",
-          description: "Stratégie IA, feuille de route et politique IA sur mesure.",
+          description:
+            "Stratégie IA, feuille de route et politique IA sur mesure.",
         },
-        { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
+        {
+          label: "Comparatif IA entreprise",
+          href: "/fr/comparatif-ia-entreprise",
+          description:
+            "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI.",
+        },
       ],
     },
     cta: {

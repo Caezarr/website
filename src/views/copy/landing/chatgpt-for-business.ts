@@ -185,7 +185,8 @@ const en: LandingCopy = {
     heading: "ChatGPT for business: frequently asked questions",
     items: [
       {
-        question: "What is a good ChatGPT Business alternative for European companies?",
+        question:
+          "What is a good ChatGPT Business alternative for European companies?",
         answer:
           "Look for an AI workspace that keeps the chat experience employees know but runs under your company's control. WonkaChat is hosted in Azure West Europe, ISO 27001 certified, GDPR and NIS 2 compliant, lets you choose your AI model and connects to your own tools. You can compare it on a real use case with a 7-day free trial.",
       },
@@ -321,7 +322,8 @@ const fr: LandingCopy = {
   },
   benefits: {
     eyebrow: "Pourquoi les entreprises changent",
-    heading: "Un ChatGPT privé pour entreprise, pensé pour les équipes européennes",
+    heading:
+      "Un ChatGPT privé pour entreprise, pensé pour les équipes européennes",
     items: [
       {
         title: "Vos données restent en Europe",
@@ -361,12 +363,18 @@ const fr: LandingCopy = {
       {
         title: "Interroger les documents de l'entreprise",
         body: "Vos équipes trouvent des réponses dans les contrats, procédures et dossiers projet stockés dans SharePoint, Google Drive ou Notion, avec le contexte de l'entreprise intégré.",
-        link: { label: "Voir toutes les intégrations", href: "/fr/integrations" },
+        link: {
+          label: "Voir toutes les intégrations",
+          href: "/fr/integrations",
+        },
       },
       {
         title: "Des agents IA pour des tâches précises",
         body: "Créez des agents pour un rôle ou un workflow : suivi commercial, contrôles financiers, synthèses de support. Les actions importantes peuvent exiger une validation humaine avant exécution.",
-        link: { label: "Découvrir l'agent IA pour entreprise", href: "/fr/agent-ia-entreprise" },
+        link: {
+          label: "Découvrir l'agent IA pour entreprise",
+          href: "/fr/agent-ia-entreprise",
+        },
       },
       {
         title: "Traitement du support et des e-mails",
@@ -376,13 +384,17 @@ const fr: LandingCopy = {
       {
         title: "Un assistant IA personnel pour chaque collaborateur",
         body: "Itzu a déployé des assistants WonkaChat personnels, connectés à ses systèmes internes, auprès de 100 % de ses collaborateurs. Chacun gagne plusieurs heures par semaine.",
-        link: { label: "L'IA pour entreprise, par où commencer", href: "/fr/ia-pour-entreprise" },
+        link: {
+          label: "L'IA pour entreprise, par où commencer",
+          href: "/fr/ia-pour-entreprise",
+        },
       },
     ],
   },
   process: {
     eyebrow: "Comment démarrer",
-    heading: "De ChatGPT Team à un espace de travail IA privé, en quelques semaines",
+    heading:
+      "De ChatGPT Team à un espace de travail IA privé, en quelques semaines",
     steps: [
       {
         title: "Lancer l'essai gratuit",
@@ -460,7 +472,8 @@ const fr: LandingCopy = {
     heading: "ChatGPT entreprise : questions fréquentes",
     items: [
       {
-        question: "Quelle alternative à ChatGPT Business pour une entreprise européenne ?",
+        question:
+          "Quelle alternative à ChatGPT Business pour une entreprise européenne ?",
         answer:
           "Cherchez un espace de travail IA qui garde l'expérience de chat que vos collaborateurs connaissent, mais sous le contrôle de votre entreprise. WonkaChat est hébergé dans Azure West Europe, certifié ISO 27001, conforme au RGPD et à NIS 2, vous laisse choisir votre modèle d'IA et se connecte à vos outils. Comparez-le sur un vrai cas d'usage avec l'essai gratuit de 7 jours.",
       },
@@ -495,7 +508,8 @@ const fr: LandingCopy = {
           "Oui. WonkaChat se connecte aux outils de l'entreprise, comme le CRM, l'ERP, l'e-mail, les documents, les outils de projet et les bases de données internes : Odoo, SharePoint, Outlook, Microsoft Teams, Salesforce, HubSpot, Jira, Slack, Notion ou Google Drive. Vos équipes trouvent l'information et déclenchent des actions sans changer d'application.",
       },
       {
-        question: "Les actions de l'IA peuvent-elles exiger une validation humaine ?",
+        question:
+          "Les actions de l'IA peuvent-elles exiger une validation humaine ?",
         answer:
           "Oui. WonkaChat prend en charge les workflows avec humain dans la boucle : une action comme la mise à jour d'une fiche ou l'envoi d'une réponse peut être relue avant exécution. Associé aux permissions par utilisateur et par équipe, cela vous permet de confier un vrai travail aux agents sans perdre le contrôle de vos systèmes.",
       },
@@ -512,7 +526,8 @@ const fr: LandingCopy = {
       {
         label: "WonkaChat, l'espace de travail IA",
         href: "/fr/wonka-chat",
-        description: "Chat, agents et connexions à vos outils, au même endroit.",
+        description:
+          "Chat, agents et connexions à vos outils, au même endroit.",
       },
       {
         label: "Tarifs WonkaChat",
@@ -549,12 +564,23 @@ const fr: LandingCopy = {
         href: "/fr/agence-ia",
         description: "Stratégie, développement et déploiement avec Wonka.",
       },
-      { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
-      { label: "Shadow AI : définition et risques", href: "/fr/shadow-ai", description: "Reprendre la main sur les usages d'IA non encadrés, sans les interdire." },
+      {
+        label: "Comparatif IA entreprise",
+        href: "/fr/comparatif-ia-entreprise",
+        description:
+          "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI.",
+      },
+      {
+        label: "Shadow AI : définition et risques",
+        href: "/fr/shadow-ai",
+        description:
+          "Reprendre la main sur les usages d'IA non encadrés, sans les interdire.",
+      },
     ],
   },
   cta: {
-    heading: "Offrez à vos équipes un ChatGPT entreprise, en toute confidentialité.",
+    heading:
+      "Offrez à vos équipes un ChatGPT entreprise, en toute confidentialité.",
     body: "Lancez l'essai gratuit de 7 jours ou réservez une courte démo. Nous vous montrons comment WonkaChat se connecte à vos outils et remplace les comptes ChatGPT personnels par un seul espace de travail IA gouverné.",
   },
 };
@@ -653,7 +679,10 @@ const nl: LandingCopy = {
       {
         title: "Een persoonlijke AI-assistent voor elke medewerker",
         body: "Itzu gaf 100% van zijn medewerkers een persoonlijke WonkaChat-assistent, gekoppeld aan de interne systemen. Medewerkers besparen meerdere uren per week.",
-        link: { label: "AI voor bedrijven: waar begint u?", href: "/nl/ai-voor-bedrijven" },
+        link: {
+          label: "AI voor bedrijven: waar begint u?",
+          href: "/nl/ai-voor-bedrijven",
+        },
       },
     ],
   },
@@ -737,7 +766,8 @@ const nl: LandingCopy = {
     heading: "ChatGPT voor bedrijven: veelgestelde vragen",
     items: [
       {
-        question: "Wat is een goed ChatGPT Business alternatief voor Europese bedrijven?",
+        question:
+          "Wat is een goed ChatGPT Business alternatief voor Europese bedrijven?",
         answer:
           "Kies een AI-werkplek die de chatervaring behoudt die medewerkers kennen, maar onder de controle van uw bedrijf draait. WonkaChat wordt gehost in Azure West Europe, is ISO 27001-gecertificeerd, AVG- en NIS 2-conform, laat u uw AI-model kiezen en koppelt met uw eigen tools. Vergelijk het op een echte use case met de gratis proef van 7 dagen.",
       },
@@ -772,7 +802,8 @@ const nl: LandingCopy = {
           "Ja. WonkaChat koppelt met bedrijfstools zoals CRM, ERP, e-mail, documenten, projecttools en interne databases, waaronder Odoo, SharePoint, Outlook, Microsoft Teams, Salesforce, HubSpot, Jira, Slack, Notion en Google Drive. Medewerkers vinden informatie en starten acties zonder tussen applicaties te wisselen, binnen de rechten die u instelt.",
       },
       {
-        question: "Kunnen belangrijke AI-acties menselijke goedkeuring vereisen?",
+        question:
+          "Kunnen belangrijke AI-acties menselijke goedkeuring vereisen?",
         answer:
           "Ja. WonkaChat ondersteunt human-in-the-loop-workflows: een actie zoals een record bijwerken of een antwoord versturen kan eerst nagekeken worden. Samen met rechten per gebruiker en team geeft u agents zo echt werk, zonder de controle te verliezen over wat er in uw systemen gebeurt.",
       },
@@ -834,4 +865,8 @@ const nl: LandingCopy = {
   },
 };
 
-export const CHATGPT_FOR_BUSINESS_COPY: Record<Locale, LandingCopy> = { en, fr, nl };
+export const CHATGPT_FOR_BUSINESS_COPY: Record<Locale, LandingCopy> = {
+  en,
+  fr,
+  nl,
+};

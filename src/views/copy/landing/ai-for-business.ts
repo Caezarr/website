@@ -17,7 +17,8 @@ const en: LandingCopy = {
   },
   breadcrumb: "AI for business",
   schema: {
-    serviceName: "AI for business: strategy, private AI workspace and AI agents",
+    serviceName:
+      "AI for business: strategy, private AI workspace and AI agents",
     serviceType: "Enterprise AI implementation",
   },
   hero: {
@@ -28,7 +29,10 @@ const en: LandingCopy = {
     primaryCta: { label: "Book a 30-minute call", href: "meeting" },
     secondaryCta: { label: "Discover the Start AI program", href: "/start-ai" },
     facts: [
-      ["Recognition", "#1 AI start-up of the year, Belgium Startup Awards 2026"],
+      [
+        "Recognition",
+        "#1 AI start-up of the year, Belgium Startup Awards 2026",
+      ],
       ["Security", "ISO 27001 · GDPR · NIS 2"],
       ["Hosting", "Azure West Europe by default"],
       ["Start AI", "+150 programs completed"],
@@ -85,7 +89,10 @@ const en: LandingCopy = {
       {
         title: "Give every employee a secure AI workspace",
         body: "WonkaChat gives your whole team one place to chat with AI, use company knowledge and shared agents, with the AI model that fits your needs and the controls your organisation expects.",
-        link: { label: "Discover the WonkaChat AI workspace", href: "/wonka-chat" },
+        link: {
+          label: "Discover the WonkaChat AI workspace",
+          href: "/wonka-chat",
+        },
       },
       {
         title: "Automate workflows with AI agents",
@@ -181,7 +188,8 @@ const en: LandingCopy = {
       {
         label: "Start AI: AI strategy and roadmap",
         href: "/start-ai",
-        description: "A 6-week program to find and prioritise your AI opportunities.",
+        description:
+          "A 6-week program to find and prioritise your AI opportunities.",
       },
       {
         label: "WonkaChat: private AI workspace",
@@ -191,7 +199,8 @@ const en: LandingCopy = {
       {
         label: "Private enterprise AI agents",
         href: "/ai-agents",
-        description: "Agents connected to Odoo, SharePoint, Outlook, CRM and ERP.",
+        description:
+          "Agents connected to Odoo, SharePoint, Outlook, CRM and ERP.",
       },
       {
         label: "Wonka Build: custom AI applications",
@@ -206,7 +215,8 @@ const en: LandingCopy = {
       {
         label: "ChatGPT for business alternative",
         href: "/chatgpt-for-business",
-        description: "A private, EU-hosted, multi-model AI workspace for companies.",
+        description:
+          "A private, EU-hosted, multi-model AI workspace for companies.",
       },
       {
         label: "Security and compliance",
@@ -239,7 +249,8 @@ const fr: LandingCopy = {
   },
   breadcrumb: "IA pour entreprise",
   schema: {
-    serviceName: "IA pour entreprise : stratégie IA, espace de travail IA privé et agents IA",
+    serviceName:
+      "IA pour entreprise : stratégie IA, espace de travail IA privé et agents IA",
     serviceType: "Solution d'intelligence artificielle pour entreprise",
   },
   hero: {
@@ -248,9 +259,15 @@ const fr: LandingCopy = {
     subtitle:
       "De la stratégie IA à un espace de travail IA privé et des agents connectés à vos outils : Wonka AI aide les entreprises belges et européennes à passer des expérimentations dispersées à une IA encadrée, utilisée au quotidien.",
     primaryCta: { label: "Réserver un appel de 30 minutes", href: "meeting" },
-    secondaryCta: { label: "Découvrir le programme Start AI", href: "/fr/start-ai" },
+    secondaryCta: {
+      label: "Découvrir le programme Start AI",
+      href: "/fr/start-ai",
+    },
     facts: [
-      ["Distinction", "Start-up IA n°1 de l'année, Belgium Startup Awards 2026"],
+      [
+        "Distinction",
+        "Start-up IA n°1 de l'année, Belgium Startup Awards 2026",
+      ],
       ["Sécurité", "ISO 27001 · RGPD · NIS 2"],
       ["Hébergement", "Azure West Europe par défaut"],
       ["Start AI", "+150 programmes réalisés"],
@@ -302,17 +319,26 @@ const fr: LandingCopy = {
       {
         title: "Définir votre stratégie et votre feuille de route IA",
         body: "Vous savez que l'IA compte, sans savoir par où commencer ? Start AI analyse vos processus, valide les opportunités au meilleur retour et vous remet une feuille de route priorisée, un plan d'exécution à 90 jours et une politique IA.",
-        link: { label: "Découvrir le programme Start AI", href: "/fr/start-ai" },
+        link: {
+          label: "Découvrir le programme Start AI",
+          href: "/fr/start-ai",
+        },
       },
       {
         title: "Un assistant IA entreprise pour chaque collaborateur",
         body: "WonkaChat offre à toute votre équipe un seul endroit pour échanger avec l'IA, exploiter le savoir de l'entreprise et des agents partagés, avec le modèle d'IA qui vous convient et les contrôles attendus.",
-        link: { label: "Découvrir l'espace de travail WonkaChat", href: "/fr/wonka-chat" },
+        link: {
+          label: "Découvrir l'espace de travail WonkaChat",
+          href: "/fr/wonka-chat",
+        },
       },
       {
         title: "Automatiser vos workflows avec un agent IA entreprise",
         body: "Suivi des leads, réception des commandes, traitement des factures, tri des tickets : les agents lisent les données autorisées, préparent le travail et n'écrivent dans vos systèmes qu'après validation.",
-        link: { label: "Tout savoir sur l'agent IA entreprise", href: "/fr/agent-ia-entreprise" },
+        link: {
+          label: "Tout savoir sur l'agent IA entreprise",
+          href: "/fr/agent-ia-entreprise",
+        },
       },
       {
         title: "Développer des applications d'IA générative sur mesure",
@@ -322,7 +348,10 @@ const fr: LandingCopy = {
       {
         title: "Connecter l'IA aux outils que vous utilisez déjà",
         body: "Odoo, SharePoint, Outlook, Microsoft Teams, Salesforce, HubSpot, Slack, Notion, Jira et Google Drive : l'IA générative en entreprise n'est utile que si elle s'appuie sur vos vrais systèmes.",
-        link: { label: "Voir toutes les intégrations", href: "/fr/integrations" },
+        link: {
+          label: "Voir toutes les intégrations",
+          href: "/fr/integrations",
+        },
       },
     ],
   },
@@ -356,7 +385,8 @@ const fr: LandingCopy = {
     heading: "IA pour entreprise : questions fréquentes",
     items: [
       {
-        question: "Comment utiliser l'intelligence artificielle en entreprise ?",
+        question:
+          "Comment utiliser l'intelligence artificielle en entreprise ?",
         answer:
           "Les entreprises utilisent l'IA pour répondre aux questions des collaborateurs à partir des documents internes, rédiger réponses et rapports, extraire des données d'e-mails et de PDF, traiter commandes et factures, trier les tickets de support et relancer les leads. Les gains les plus importants viennent quand l'IA est connectée à vos propres outils et données.",
       },
@@ -371,7 +401,8 @@ const fr: LandingCopy = {
           "Une IA privée garde les données de votre entreprise dans un environnement maîtrisé, sans qu'elles servent à entraîner des modèles publics. Wonka AI est hébergé par défaut dans Azure West Europe (Microsoft Irlande), avec chiffrement au repos et en transit, contrôle d'accès par rôle et journaux d'audit. Les développements sur mesure peuvent aussi tourner sur site.",
       },
       {
-        question: "Une solution IA entreprise peut-elle être conforme au RGPD ?",
+        question:
+          "Une solution IA entreprise peut-elle être conforme au RGPD ?",
         answer:
           "Oui, selon le fournisseur et le mode de déploiement. Wonka AI est conforme au RGPD, certifié ISO 27001 et conforme à NIS 2, avec un audit SOC 2 Type II en cours. Un accord de traitement des données (DPA) est disponible, et vous décidez quels utilisateurs, équipes et agents accèdent à quelles données.",
       },
@@ -381,7 +412,8 @@ const fr: LandingCopy = {
           "Cela dépend de votre besoin. Le programme de stratégie Start AI démarre à 15 000 €. WonkaChat est facturé par utilisateur, avec un essai gratuit de 7 jours. Les projets sur mesure Wonka Build sont cadrés selon vos processus. Pour les PME flamandes, jusqu'à 70 % peuvent être récupérés via la KMO-portefeuille de VLAIO.",
       },
       {
-        question: "Quelle différence entre un assistant IA entreprise et ChatGPT ?",
+        question:
+          "Quelle différence entre un assistant IA entreprise et ChatGPT ?",
         answer:
           "Un outil de chat généraliste aide surtout l'individu. Un assistant IA entreprise se connecte en plus à vos systèmes, propose des agents partagés, des permissions, des journaux d'audit et une localisation claire des données. Nous comparons les deux approches sur notre page ChatGPT pour entreprise.",
       },
@@ -398,7 +430,8 @@ const fr: LandingCopy = {
       {
         label: "Start AI : stratégie et feuille de route IA",
         href: "/fr/start-ai",
-        description: "Un programme pour identifier et prioriser vos opportunités IA.",
+        description:
+          "Un programme pour identifier et prioriser vos opportunités IA.",
       },
       {
         label: "WonkaChat : espace de travail IA privé",
@@ -418,7 +451,8 @@ const fr: LandingCopy = {
       {
         label: "Agence IA en Belgique",
         href: "/fr/agence-ia",
-        description: "Wonka AI, votre partenaire de la stratégie au déploiement.",
+        description:
+          "Wonka AI, votre partenaire de la stratégie au déploiement.",
       },
       {
         label: "ChatGPT pour entreprise : l'alternative privée",
@@ -440,8 +474,18 @@ const fr: LandingCopy = {
         href: "/fr/cas-clients",
         description: "Comment Itzu et N-allo (Engie) utilisent l'IA.",
       },
-      { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
-      { label: "Shadow AI : définition et risques", href: "/fr/shadow-ai", description: "Reprendre la main sur les usages d'IA non encadrés, sans les interdire." },
+      {
+        label: "Comparatif IA entreprise",
+        href: "/fr/comparatif-ia-entreprise",
+        description:
+          "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI.",
+      },
+      {
+        label: "Shadow AI : définition et risques",
+        href: "/fr/shadow-ai",
+        description:
+          "Reprendre la main sur les usages d'IA non encadrés, sans les interdire.",
+      },
     ],
   },
   cta: {
@@ -458,7 +502,8 @@ const nl: LandingCopy = {
   },
   breadcrumb: "AI voor bedrijven",
   schema: {
-    serviceName: "AI voor bedrijven: AI-strategie, private AI-werkruimte en AI-agents",
+    serviceName:
+      "AI voor bedrijven: AI-strategie, private AI-werkruimte en AI-agents",
     serviceType: "AI-implementatie voor bedrijven",
   },
   hero: {
@@ -467,7 +512,10 @@ const nl: LandingCopy = {
     subtitle:
       "Van AI-strategie tot een private AI-werkruimte en AI-agents die gekoppeld zijn aan uw tools. Wonka AI helpt Belgische en Europese bedrijven om van losse AI-experimenten naar beheerste, dagelijkse AI te gaan.",
     primaryCta: { label: "Plan een gesprek van 30 minuten", href: "meeting" },
-    secondaryCta: { label: "Tot 70% subsidie via de KMO-portefeuille", href: "/nl/kmo-portefeuille-ai" },
+    secondaryCta: {
+      label: "Tot 70% subsidie via de KMO-portefeuille",
+      href: "/nl/kmo-portefeuille-ai",
+    },
     facts: [
       ["Erkenning", "#1 AI-start-up van het jaar, Belgium Startup Awards 2026"],
       ["Beveiliging", "ISO 27001 · AVG · NIS 2"],
@@ -521,7 +569,10 @@ const nl: LandingCopy = {
       {
         title: "AI voor kmo's, met tot 70% subsidie",
         body: "Wonka is een geregistreerde dienstverlener binnen de VLAIO KMO-portefeuille en Start AI komt in aanmerking. De meeste Vlaamse kmo's kunnen tot 70% van de programmakost terugkrijgen, en wij helpen u met de administratie.",
-        link: { label: "Alles over de KMO-portefeuille voor AI", href: "/nl/kmo-portefeuille-ai" },
+        link: {
+          label: "Alles over de KMO-portefeuille voor AI",
+          href: "/nl/kmo-portefeuille-ai",
+        },
       },
       {
         title: "Uw AI-strategie en roadmap bepalen",
@@ -531,7 +582,10 @@ const nl: LandingCopy = {
       {
         title: "Een beveiligde AI-werkruimte voor elke medewerker",
         body: "WonkaChat geeft uw hele team één plek om met AI te werken, met bedrijfskennis en gedeelde agents, het AI-model dat bij u past en de controles die uw organisatie verwacht.",
-        link: { label: "Ontdek de WonkaChat AI-werkruimte", href: "/nl/wonka-chat" },
+        link: {
+          label: "Ontdek de WonkaChat AI-werkruimte",
+          href: "/nl/wonka-chat",
+        },
       },
       {
         title: "Workflows automatiseren met AI-agents",
@@ -600,7 +654,8 @@ const nl: LandingCopy = {
           "Dat hangt af van de leverancier en de manier van uitrollen. Wonka AI is AVG-conform, ISO 27001-gecertificeerd en NIS 2-conform, en de SOC 2 Type II-audit loopt. Een verwerkersovereenkomst (DPA) is beschikbaar, en u bepaalt welke gebruikers, teams en agents toegang hebben tot welke data.",
       },
       {
-        question: "Wat is het verschil tussen ChatGPT en AI-integratie in uw bedrijf?",
+        question:
+          "Wat is het verschil tussen ChatGPT en AI-integratie in uw bedrijf?",
         answer:
           "Een algemene chattool helpt vooral de individuele gebruiker. AI-integratie koppelt AI daarnaast aan uw eigen systemen, met gedeelde agents, rechtenbeheer, auditlogs en een duidelijke datalocatie. Zo werkt AI niet alleen voor wie al weet welke prompt te schrijven, maar voor de hele organisatie. Op onze pagina over ChatGPT voor bedrijven vergelijken we beide benaderingen.",
       },
@@ -637,7 +692,8 @@ const nl: LandingCopy = {
       {
         label: "Private AI-agents voor bedrijven",
         href: "/nl/ai-agents",
-        description: "Agents gekoppeld aan Odoo, SharePoint, Outlook, CRM en ERP.",
+        description:
+          "Agents gekoppeld aan Odoo, SharePoint, Outlook, CRM en ERP.",
       },
       {
         label: "Wonka Build: AI-applicaties op maat",
