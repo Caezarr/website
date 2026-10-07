@@ -29,8 +29,6 @@ export interface HomeV2Copy {
     subtitle: string;
     primaryCta: string;
     secondaryCta: string;
-    videoCta: string;
-    demoCaption: string;
     trustedBy: string;
   };
   platform: {
@@ -64,14 +62,22 @@ export interface HomeV2Copy {
   clients: {
     eyebrow: string;
     title: string;
-    videoLabel: string;
-    videoQuote: string;
     play: string;
-    cases: {
-      metric: string;
-      label: string;
+    close: string;
+    video: {
+      youtubeId: string;
       client: string;
       logo: string;
+      quote: string;
+      person: string;
+      stat?: { value: string; label: string };
+    };
+    cases: {
+      client: string;
+      logo: string;
+      headline: string;
+      metric: string;
+      metricLabel: string;
       href: string;
     }[];
     readCase: string;
@@ -95,9 +101,6 @@ export interface HomeV2Copy {
   finalCta: { title: string; subtitle: string };
 }
 
-const NALLO = "/images/france/logos/n-allo.png";
-const ITZU = "/images/france/logos/itzu.svg";
-
 const en: HomeV2Copy = {
   seo: {
     title: "WonkaChat | AI agents set up with you, inside your tools",
@@ -112,9 +115,7 @@ const en: HomeV2Copy = {
       "Describe a task, WonkaChat builds the agent and connects it to your tools. Our consultants stay with you until it runs in production.",
     primaryCta: "Start free trial",
     secondaryCta: "Talk to a consultant",
-    videoCta: "Hear it from a client",
-    demoCaption: "One sentence. One agent, connected to Outlook and HubSpot.",
-    trustedBy: "They trust us",
+    trustedBy: "Trusted by 250+ companies",
   },
   platform: {
     eyebrow: "What changes",
@@ -211,22 +212,30 @@ const en: HomeV2Copy = {
   clients: {
     eyebrow: "Clients",
     title: "They say it better than we do.",
-    videoLabel: "Pierre Colaiacovo · Founder & CEO, Respace",
-    videoQuote: "How Respace works with WonkaChat every day.",
     play: "Play video",
+    close: "Close",
+    video: {
+      youtubeId: "Qv_65poIhig",
+      client: "Respace",
+      logo: "/images/workspace/logos/respace.png",
+      quote: "How Respace works with WonkaChat every day.",
+      person: "Pierre Colaiacovo, Founder & CEO, Respace",
+    },
     cases: [
       {
-        metric: "2×",
-        label: "more support emails handled by the same team of 70+",
         client: "N-allo (Engie)",
-        logo: NALLO,
+        logo: "/images/france/logos/n-allo.png",
+        headline: "AI agents handle the support inbox for 70+ employees.",
+        metric: "2×",
+        metricLabel: "more support emails handled",
         href: "/case-studies/n-allo",
       },
       {
-        metric: "Hours",
-        label: "handed back to every employee, every week",
         client: "Itzu",
-        logo: ITZU,
+        logo: "/images/france/logos/itzu.svg",
+        headline: "A personal WonkaChat for every Itzu employee.",
+        metric: "Hours",
+        metricLabel: "handed back every week",
         href: "/case-studies/itzu",
       },
     ],
@@ -285,9 +294,7 @@ const fr: HomeV2Copy = {
       "Décrivez une tâche, WonkaChat crée l'agent et le connecte à vos outils. Nos consultants vous accompagnent jusqu'à ce qu'il tourne en production.",
     primaryCta: "Essai gratuit",
     secondaryCta: "Parler à un consultant",
-    videoCta: "L'avis d'un client",
-    demoCaption: "Une phrase. Un agent, connecté à Outlook et HubSpot.",
-    trustedBy: "Ils nous font confiance",
+    trustedBy: "Plus de 250 entreprises nous font confiance",
   },
   platform: {
     eyebrow: "Ce qui change",
@@ -389,23 +396,30 @@ const fr: HomeV2Copy = {
   clients: {
     eyebrow: "Clients",
     title: "Ils en parlent mieux que nous.",
-    videoLabel: "Pierre Colaiacovo · Fondateur & CEO, Respace",
-    videoQuote: "Comment Respace travaille avec WonkaChat au quotidien.",
     play: "Lancer la vidéo",
+    close: "Fermer",
+    video: {
+      youtubeId: "Qv_65poIhig",
+      client: "Respace",
+      logo: "/images/workspace/logos/respace.png",
+      quote: "Comment Respace travaille avec WonkaChat au quotidien.",
+      person: "Pierre Colaiacovo, fondateur et CEO, Respace",
+    },
     cases: [
       {
-        metric: "2×",
-        label:
-          "plus de mails support traités par la même équipe de 70+ personnes",
         client: "N-allo (Engie)",
-        logo: NALLO,
+        logo: "/images/france/logos/n-allo.png",
+        headline: "Des agents IA traitent la boîte support de 70+ employés.",
+        metric: "2×",
+        metricLabel: "plus de mails support traités",
         href: "/case-studies/n-allo",
       },
       {
-        metric: "Des heures",
-        label: "rendues à chaque employé, chaque semaine",
         client: "Itzu",
-        logo: ITZU,
+        logo: "/images/france/logos/itzu.svg",
+        headline: "Un WonkaChat personnel pour chaque employé d'Itzu.",
+        metric: "Des heures",
+        metricLabel: "rendues chaque semaine",
         href: "/case-studies/itzu",
       },
     ],
@@ -465,9 +479,7 @@ const nl: HomeV2Copy = {
       "Beschrijf een taak, WonkaChat bouwt de agent en koppelt hem aan uw tools. Onze consultants begeleiden u tot hij in productie draait.",
     primaryCta: "Gratis proberen",
     secondaryCta: "Spreek een consultant",
-    videoCta: "Hoor het van een klant",
-    demoCaption: "Eén zin. Eén agent, gekoppeld aan Outlook en HubSpot.",
-    trustedBy: "Zij vertrouwen ons",
+    trustedBy: "Meer dan 250 bedrijven vertrouwen ons",
   },
   platform: {
     eyebrow: "Wat er verandert",
@@ -572,22 +584,31 @@ const nl: HomeV2Copy = {
   clients: {
     eyebrow: "Klanten",
     title: "Zij zeggen het beter dan wij.",
-    videoLabel: "Pierre Colaiacovo · Oprichter & CEO, Respace",
-    videoQuote: "Hoe Respace elke dag met WonkaChat werkt.",
     play: "Video afspelen",
+    close: "Sluiten",
+    video: {
+      youtubeId: "rACzzZaz9qA",
+      client: "Itzu",
+      logo: "/images/france/logos/itzu.svg",
+      quote: "Hoe Itzu in enkele weken 100% AI-adoptie bereikte.",
+      person: "Liesbeth Enkels, IT-manager, Itzu",
+      stat: { value: "100%", label: "AI-adoptie" },
+    },
     cases: [
       {
-        metric: "2×",
-        label: "meer supportmails verwerkt door hetzelfde team van 70+",
         client: "N-allo (Engie)",
-        logo: NALLO,
+        logo: "/images/france/logos/n-allo.png",
+        headline: "AI-agents behandelen de supportinbox voor 70+ medewerkers.",
+        metric: "2×",
+        metricLabel: "meer supportmails verwerkt",
         href: "/case-studies/n-allo",
       },
       {
-        metric: "Uren",
-        label: "terug voor elke medewerker, elke week",
         client: "Itzu",
-        logo: ITZU,
+        logo: "/images/france/logos/itzu.svg",
+        headline: "Een persoonlijke WonkaChat voor elke medewerker van Itzu.",
+        metric: "Uren",
+        metricLabel: "elke week teruggegeven",
         href: "/case-studies/itzu",
       },
     ],

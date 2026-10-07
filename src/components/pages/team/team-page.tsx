@@ -3,6 +3,8 @@ import Image from "next/image";
 import { sanityFetch } from "@sanity/lib/live";
 import { SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
 import type { Locale } from "@/i18n/config";
+import { ButtonLink } from "@/components/ui/button";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import type { SiteSettings } from "@/lib/types";
 import { TEAM, TEAM_PAGE_COPY, type TeamMember } from "@/views/copy/team";
@@ -39,14 +41,14 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
   const scene = AVATAR_SCENES[index % AVATAR_SCENES.length];
   return (
     <li className="group">
-      <div className="bg-light-gray relative aspect-[4/5] overflow-hidden rounded-[1.5rem]">
+      <div className="bg-light-gray relative aspect-[4/5] overflow-hidden rounded-sm">
         {member.photo ? (
           <Image
             src={member.photo}
             alt={member.name}
             fill
             sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 45vw"
-            className="object-cover transition duration-700 group-hover:scale-[1.04]"
+            className="object-cover"
           />
         ) : (
           <>
@@ -55,7 +57,7 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
               alt=""
               fill
               sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 45vw"
-              className="object-cover transition duration-700 group-hover:scale-[1.04]"
+              className="object-cover"
             />
             <span className="absolute inset-0 bg-black/25" />
             <span className="absolute inset-0 flex items-center justify-center font-serif text-5xl text-white">
@@ -80,7 +82,7 @@ export async function TeamPage({ locale = "en" }: { locale?: Locale }) {
 
   return (
     <main className="bg-white text-black">
-      <section className="relative overflow-hidden bg-black">
+      <section data-theme="dark" className="relative overflow-hidden bg-black">
         <Image
           src={`${BG}/wonka-bg-river-1920x1080.webp`}
           alt=""
@@ -91,10 +93,7 @@ export async function TeamPage({ locale = "en" }: { locale?: Locale }) {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/30 to-black/70" />
         <div className="relative mx-auto max-w-7xl px-4 pt-36 pb-20 md:pt-44 md:pb-28">
-          <p className="flex items-center gap-2 text-xs font-medium tracking-[0.18em] text-white/70 uppercase">
-            <span className="h-px w-6 bg-white/40" />
-            {copy.eyebrow}
-          </p>
+          <Eyebrow>{copy.eyebrow}</Eyebrow>
           <h1 className="mt-6 max-w-4xl font-serif text-[2.6rem] leading-[1.02] text-white md:text-[4.4rem]">
             {copy.title}
           </h1>
@@ -122,14 +121,9 @@ export async function TeamPage({ locale = "en" }: { locale?: Locale }) {
             </h2>
             <p className="mt-4 text-black/65 md:text-lg">{copy.ctaBody}</p>
           </div>
-          <a
-            href={meetingUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-full bg-black px-6 py-3.5 text-sm font-medium text-white transition hover:-translate-y-0.5"
-          >
-            {copy.cta} <span aria-hidden>→</span>
-          </a>
+          <ButtonLink href={meetingUrl} variant="primary" className="shrink-0">
+            {copy.cta}
+          </ButtonLink>
         </div>
       </section>
     </main>

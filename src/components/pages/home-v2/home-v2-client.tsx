@@ -7,12 +7,13 @@ import {
   motion,
   useInView,
   useReducedMotion,
-  useScroll,
-  useTransform,
 } from "motion/react";
+import { ButtonLink } from "@/components/ui/button";
+import { Eyebrow } from "@/components/ui/eyebrow";
 import { BadgeGdpr } from "@/components/ui/icons/badge-gdpr";
 import { BadgeIso } from "@/components/ui/icons/badge-iso";
 import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
+import { BulletIcon } from "@/components/ui/icons/bullet";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/utils";
 import type {
@@ -22,7 +23,6 @@ import type {
 } from "@/views/copy/home-v2";
 
 const TRIAL_URL = "https://wonka.chat/register";
-const YOUTUBE_ID = "Qv_65poIhig";
 const BG = "/brand/backgrounds/16x9";
 const LOGO = "/images/home/logos";
 const MCP = "/images/mcp-integrations";
@@ -35,11 +35,11 @@ const CLIENT_LOGOS = [
   { src: "/images/france/logos/luminus.svg", alt: "Luminus" },
   { src: "/images/france/logos/itzu.svg", alt: "Itzu" },
   { src: "/images/france/logos/n-allo.png", alt: "N-allo" },
-  { src: "/images/france/logos/cambio.png", alt: "Cambio" },
+  { src: "/images/home/logos/clients/cambio.png", alt: "Cambio" },
   { src: "/images/france/logos/buildwise.svg", alt: "Buildwise" },
-  { src: "/images/france/logos/xerius.png", alt: "Xerius" },
+  { src: "/images/home/logos/clients/xerius.png", alt: "Xerius" },
   { src: "/images/france/logos/zorgi.svg", alt: "Zorgi" },
-  { src: "/images/france/logos/odth.png", alt: "ODTH" },
+  { src: "/images/home/logos/clients/odth.png", alt: "ODTH" },
   { src: "/images/workspace/logos/senitas.png", alt: "Senitas" },
   { src: "/images/workspace/logos/haelvoet.png", alt: "Haelvoet" },
   { src: "/images/workspace/logos/gerantis.png", alt: "Gerantis" },
@@ -143,7 +143,13 @@ const EVERYDAY_TOOLS: Tool[][] = [
   ],
 ];
 
-const TEAM_PHOTOS = [1, 2, 3].map((n) => `/images/home/team/member-${n}.jpg`);
+const TEAM_PHOTOS = [
+  "cedric-gilissen",
+  "antoine-percy",
+  "florian-de-boeck",
+  "bilal-errahil",
+  "nathan-de-witte",
+].map((slug) => `/images/team/${slug}.jpg`);
 
 const MODEL_META = {
   openai: { name: "GPT", vendor: "OpenAI", src: `${LOGO}/model-openai.svg` },
@@ -170,87 +176,11 @@ export interface HomeV2Links {
 
 /* ───────────────────────── primitives ───────────────────────── */
 
-function Eyebrow({
-  children,
-  tone = "dark",
-}: {
-  children: React.ReactNode;
-  tone?: "dark" | "light";
-}) {
-  return (
-    <p
-      className={cn(
-        "flex items-center gap-2 text-xs font-medium tracking-[0.18em] uppercase",
-        tone === "light" ? "text-white/70" : "text-light-brown",
-      )}
-    >
-      <span
-        className={cn(
-          "h-px w-6",
-          tone === "light" ? "bg-white/40" : "bg-black/25",
-        )}
-      />
-      {children}
-    </p>
-  );
-}
-
-function PrimaryCta({
-  children,
-  href,
-  tone = "dark",
-}: {
-  children: React.ReactNode;
-  href: string;
-  tone?: "dark" | "light";
-}) {
-  return (
-    <a
-      href={href}
-      className={cn(
-        "group inline-flex items-center justify-center gap-2 rounded-full px-6 py-3.5 text-sm font-medium transition duration-300 hover:-translate-y-0.5",
-        tone === "dark"
-          ? "bg-black text-white shadow-[0_12px_30px_-12px_rgba(14,26,22,0.6)] hover:bg-black/90"
-          : "bg-white text-black shadow-[0_12px_30px_-12px_rgba(0,0,0,0.5)]",
-      )}
-    >
-      {children}
-      <span className="transition group-hover:translate-x-0.5">→</span>
-    </a>
-  );
-}
-
-function GhostCta({
-  children,
-  href,
-  tone = "light",
-}: {
-  children: React.ReactNode;
-  href: string;
-  tone?: "dark" | "light";
-}) {
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className={cn(
-        "inline-flex items-center justify-center rounded-full border px-6 py-3.5 text-sm font-medium backdrop-blur-md transition duration-300 hover:-translate-y-0.5",
-        tone === "light"
-          ? "border-white/40 bg-white/10 text-white hover:bg-white/20"
-          : "border-black/15 bg-white text-black hover:border-black/30",
-      )}
-    >
-      {children}
-    </a>
-  );
-}
-
 function Reveal({
   children,
   delay = 0,
   className,
-  y = 28,
+  y = 24,
 }: {
   children: React.ReactNode;
   delay?: number;
@@ -261,10 +191,10 @@ function Reveal({
   return (
     <motion.div
       className={className}
-      initial={reduce ? false : { opacity: 0, y, filter: "blur(6px)" }}
-      whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+      initial={reduce ? false : { opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
-      transition={{ duration: 0.9, delay, ease: EASE }}
+      transition={{ duration: 0.8, delay, ease: EASE }}
     >
       {children}
     </motion.div>
@@ -275,35 +205,29 @@ function SectionTitle({
   eyebrow,
   title,
   body,
-  tone = "dark",
   className,
+  align = "left",
 }: {
   eyebrow: string;
   title: string;
   body?: string;
-  tone?: "dark" | "light";
   className?: string;
+  align?: "left" | "center";
 }) {
   return (
-    <Reveal className={cn("max-w-3xl space-y-5", className)}>
-      <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
-      <h2
-        className={cn(
-          "font-serif text-[2.4rem] leading-[1.02] tracking-[-0.01em] md:text-[3.6rem]",
-          tone === "light" ? "text-white" : "text-black",
-        )}
-      >
+    <Reveal
+      className={cn(
+        "flex max-w-3xl flex-col gap-5",
+        align === "center" ? "mx-auto items-center text-center" : "items-start",
+        className,
+      )}
+    >
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <h2 className="text-text font-serif text-[2.4rem] leading-[1.04] tracking-[-0.01em] md:text-[3.4rem]">
         {title}
       </h2>
       {body && (
-        <p
-          className={cn(
-            "max-w-2xl text-base md:text-lg",
-            tone === "light" ? "text-white/70" : "text-black/65",
-          )}
-        >
-          {body}
-        </p>
+        <p className="type-paragraph-l text-text/70 max-w-2xl">{body}</p>
       )}
     </Reveal>
   );
@@ -313,8 +237,8 @@ function ToolTile({ tool, size = "md" }: { tool: Tool; size?: "sm" | "md" }) {
   return (
     <span
       className={cn(
-        "flex shrink-0 items-center justify-center border border-black/[0.06] bg-white shadow-[0_8px_24px_-12px_rgba(14,26,22,0.25)]",
-        size === "sm" ? "size-12 rounded-xl" : "size-14 rounded-2xl md:size-16",
+        "border-border flex shrink-0 items-center justify-center rounded-sm border bg-white",
+        size === "sm" ? "size-12" : "size-14 md:size-16",
       )}
       title={tool.name}
     >
@@ -330,7 +254,7 @@ function ToolTile({ tool, size = "md" }: { tool: Tool; size?: "sm" | "md" }) {
           )}
         />
       ) : (
-        <span className="font-serif text-xl text-black" aria-label={tool.name}>
+        <span className="font-serif text-xl" aria-label={tool.name}>
           {tool.name.slice(0, 1)}
         </span>
       )}
@@ -421,6 +345,64 @@ function CountUpMetric({ value }: { value: string }) {
   );
 }
 
+function VideoModal({
+  youtubeId,
+  title,
+  closeLabel,
+  onClose,
+}: {
+  youtubeId: string;
+  title: string;
+  closeLabel: string;
+  onClose: () => void;
+}) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      document.body.style.overflow = overflow;
+    };
+  }, [onClose]);
+
+  return (
+    <motion.div
+      role="dialog"
+      aria-modal="true"
+      aria-label={title}
+      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/85 p-4"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <div
+        className="relative w-full max-w-5xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          type="button"
+          onClick={onClose}
+          className="type-paragraph-s absolute -top-10 right-0 text-white/80 underline-offset-4 hover:underline"
+        >
+          {closeLabel} ✕
+        </button>
+        <div className="aspect-video overflow-hidden rounded-sm bg-black">
+          <iframe
+            className="size-full"
+            src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
+            title={title}
+            allow="autoplay; encrypted-media; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 /* ───────────────────────── award ───────────────────────── */
 
 function CrownIcon() {
@@ -462,143 +444,206 @@ function Hero({
   copy,
   award,
   links,
-  locale,
-  onWatch,
 }: {
   copy: HomeV2Copy["hero"];
   award: HomeV2Copy["award"];
   links: HomeV2Links;
-  locale: Locale;
-  onWatch: () => void;
 }) {
-  const ref = useRef<HTMLElement>(null);
   const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1.04, 1.18]);
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "12%"]);
-  const frameY = useTransform(scrollYProgress, [0, 1], [0, -60]);
-
+  const logos = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
   return (
-    <section ref={ref} className="relative overflow-hidden bg-black">
-      <motion.div
-        className="absolute inset-0"
-        style={reduce ? undefined : { scale: bgScale, y: bgY }}
-      >
-        <Image
-          src={`${BG}/wonka-bg-hills-1920x1080.webp`}
-          alt=""
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
-        />
-      </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-black/10 to-black/80" />
+    <section
+      data-theme="dark"
+      className="bg-background text-text relative isolate flex min-h-svh w-full flex-col overflow-hidden"
+    >
+      <Image
+        src={`${BG}/wonka-bg-hills-1920x1080.webp`}
+        alt=""
+        fill
+        priority
+        className="-z-10 object-cover"
+        sizes="100vw"
+      />
+      <div className="from-background/40 via-background/10 to-background/50 absolute inset-0 -z-10 bg-gradient-to-b" />
 
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center px-4 pt-32 pb-20 text-center md:pt-40">
-        <Reveal>
-          <AwardTag copy={award} />
-        </Reveal>
-        <Reveal delay={0.08} className="mt-8">
-          <h1 className="mx-auto max-w-5xl font-serif text-[2.6rem] leading-[1.02] tracking-[-0.015em] text-white md:text-[4.6rem]">
-            {copy.title}
-            <span className="block text-white/60">{copy.titleAccent}</span>
-          </h1>
-        </Reveal>
-        <Reveal delay={0.16} className="mt-6">
-          <p className="mx-auto max-w-2xl text-base text-white/85 md:text-lg">
-            {copy.subtitle}
-          </p>
-        </Reveal>
-        <Reveal delay={0.24} className="mt-9 flex flex-col items-center gap-5">
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <PrimaryCta href={TRIAL_URL} tone="light">
-              {copy.primaryCta}
-            </PrimaryCta>
-            <GhostCta href={links.meetingUrl}>{copy.secondaryCta}</GhostCta>
-          </div>
-          <button
-            type="button"
-            onClick={onWatch}
-            className="group inline-flex items-center gap-3 text-sm text-white/85"
-          >
-            <span className="relative flex size-8 items-center justify-center rounded-full bg-white/20 backdrop-blur">
-              <span className="absolute inset-0 animate-ping rounded-full bg-white/20" />
-              <svg
-                viewBox="0 0 12 12"
-                className="size-3 fill-white"
-                aria-hidden
-              >
-                <path d="M3 1.5v9l7.5-4.5z" />
-              </svg>
-            </span>
-            <span className="underline-offset-4 group-hover:underline">
-              {copy.videoCta}
-            </span>
-          </button>
-        </Reveal>
-
-        <motion.div
-          style={reduce ? undefined : { y: frameY }}
-          className="mt-16 w-full"
-        >
-          <Reveal delay={0.3} y={60}>
-            <div className="relative mx-auto max-w-5xl">
-              <div
-                className="absolute -inset-x-10 top-10 -bottom-10 rounded-[3rem] bg-blue-400/25 blur-3xl"
-                aria-hidden
-              />
-              <div className="relative overflow-hidden rounded-[1.75rem] border border-white/15 bg-black shadow-[0_40px_120px_-30px_rgba(0,0,0,0.8)]">
-                <div className="flex items-center gap-2 border-b border-white/10 px-5 py-3">
-                  <span className="size-2.5 rounded-full bg-white/20" />
-                  <span className="size-2.5 rounded-full bg-white/20" />
-                  <span className="size-2.5 rounded-full bg-white/20" />
-                  <span className="ml-3 text-xs text-white/50">WonkaChat</span>
-                </div>
-                <ClipVideo
-                  src={`/videos/home/${locale}/describe.mp4`}
-                  poster={`/videos/home/${locale}/describe.jpg`}
-                  className="aspect-[1920/900] w-full object-cover"
-                />
-              </div>
-              <p className="mt-5 text-sm text-white/65">{copy.demoCaption}</p>
-            </div>
+      <div className="flex flex-1 items-center justify-center px-6 pt-32 pb-20 md:pt-40 md:pb-28">
+        <div className="flex max-w-4xl flex-col items-center gap-6 text-center">
+          <Reveal>
+            <AwardTag copy={award} />
           </Reveal>
-        </motion.div>
+          <Reveal delay={0.08}>
+            <h1 className="text-text font-serif text-[2.6rem] leading-[1.03] tracking-[-0.015em] text-balance md:text-[4.4rem]">
+              {copy.title}
+              <span className="text-text/65 block">{copy.titleAccent}</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.16}>
+            <p className="type-body text-text/90 max-w-[36rem]">
+              {copy.subtitle}
+            </p>
+          </Reveal>
+          <Reveal
+            delay={0.24}
+            className="mt-2 flex flex-wrap items-center justify-center gap-3"
+          >
+            <ButtonLink href={TRIAL_URL} variant="primary">
+              {copy.primaryCta}
+            </ButtonLink>
+            <ButtonLink href={links.meetingUrl} variant="secondary">
+              {copy.secondaryCta}
+            </ButtonLink>
+          </Reveal>
+        </div>
+      </div>
+
+      <div className="border-border bg-text/[0.06] border-t border-dashed">
+        <p className="type-eyebrow border-border text-text/80 border-b border-dashed py-3 text-center">
+          {copy.trustedBy}
+        </p>
+        <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
+          <motion.div
+            className="flex w-max items-center"
+            animate={reduce ? undefined : { x: ["0%", "-50%"] }}
+            transition={{ duration: 55, ease: "linear", repeat: Infinity }}
+          >
+            {logos.map((logo, i) => (
+              <span
+                key={`${logo.alt}-${i}`}
+                className="border-border flex h-16 items-center border-r border-dashed px-10"
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={140}
+                  height={36}
+                  className="h-7 w-auto max-w-[130px] object-contain brightness-0 invert"
+                />
+              </span>
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );
 }
 
-function TrustBand({ label }: { label: string }) {
-  const reduce = useReducedMotion();
-  const logos = [...CLIENT_LOGOS, ...CLIENT_LOGOS];
+/* ───────────────────────── clients ───────────────────────── */
+
+function Clients({ copy }: { copy: HomeV2Copy["clients"] }) {
+  const [open, setOpen] = useState(false);
+  const video = copy.video;
+
   return (
-    <section className="border-b border-black/5 bg-white py-12">
-      <p className="text-light-brown mb-8 text-center text-xs font-medium tracking-[0.18em] uppercase">
-        {label}
-      </p>
-      <div className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_12%,black_88%,transparent)]">
-        <motion.div
-          className="flex w-max items-center gap-16 px-8"
-          animate={reduce ? undefined : { x: ["0%", "-50%"] }}
-          transition={{ duration: 50, ease: "linear", repeat: Infinity }}
-        >
-          {logos.map((logo, i) => (
-            <Image
-              key={`${logo.alt}-${i}`}
-              src={logo.src}
-              alt={logo.alt}
-              width={140}
-              height={40}
-              className="h-9 w-auto max-w-[150px] object-contain transition duration-300 hover:scale-105"
+    <section id="clients" className="bg-background py-20 md:py-30">
+      <div className="mx-auto max-w-7xl px-6 md:px-8">
+        <SectionTitle eyebrow={copy.eyebrow} title={copy.title} />
+
+        {/* Video testimonial, laid out like the site's testimonial card */}
+        <Reveal className="mt-14 grid gap-10 lg:grid-cols-12 lg:items-center">
+          <div className="flex flex-col gap-8 lg:col-span-5">
+            <div className="border-border flex flex-col gap-6 border-b border-dashed pb-8">
+              <Image
+                src={video.logo}
+                alt={video.client}
+                width={140}
+                height={32}
+                className="h-7 w-auto self-start object-contain"
+              />
+              <blockquote className="type-h5 text-text">
+                {video.quote}
+              </blockquote>
+              {video.stat && (
+                <p className="flex items-baseline gap-3">
+                  <span className="text-text font-serif text-5xl leading-none lining-nums">
+                    <CountUpMetric value={video.stat.value} />
+                  </span>
+                  <span className="type-paragraph-m text-text/70">
+                    {video.stat.label}
+                  </span>
+                </p>
+              )}
+            </div>
+            <p className="flex items-center gap-3">
+              <BulletIcon className="text-accent-dark h-[0.625rem] w-[0.4375rem] shrink-0" />
+              <span className="type-paragraph-m text-text">{video.person}</span>
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-label={copy.play}
+            className="group relative aspect-video overflow-hidden rounded-sm bg-black lg:col-span-7"
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`https://i.ytimg.com/vi/${video.youtubeId}/maxresdefault.jpg`}
+              alt=""
+              className="size-full object-cover"
             />
+            <span className="absolute inset-0 bg-black/10" />
+            <span className="absolute top-1/2 left-1/2 flex size-18 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-black">
+              <svg
+                viewBox="0 0 12 12"
+                className="ml-1 size-5 fill-current"
+                aria-hidden
+              >
+                <path d="M3 1.5v9l7.5-4.5z" />
+              </svg>
+            </span>
+          </button>
+        </Reveal>
+
+        {/* Case cards: one sentence on what we did, one key number */}
+        <div className="mt-12 grid gap-4 md:grid-cols-2">
+          {copy.cases.map((c, i) => (
+            <Reveal key={c.client} delay={0.08 * i} className="h-full">
+              <article className="bg-mid-gray flex h-full flex-col justify-between gap-10 rounded-sm p-6 md:p-8">
+                <div className="flex items-start justify-between gap-6">
+                  <p className="type-h6 text-text max-w-sm">{c.headline}</p>
+                  <p className="shrink-0 text-right">
+                    <span
+                      className={cn(
+                        "text-text block font-serif leading-none lining-nums",
+                        /\d/.test(c.metric)
+                          ? "text-5xl md:text-6xl"
+                          : "text-3xl md:text-4xl",
+                      )}
+                    >
+                      <CountUpMetric value={c.metric} />
+                    </span>
+                    <span className="type-paragraph-s text-text/65 mt-2 block max-w-[10rem]">
+                      {c.metricLabel}
+                    </span>
+                  </p>
+                </div>
+                <div className="border-border flex items-center justify-between border-t border-dashed pt-5">
+                  <Image
+                    src={c.logo}
+                    alt={c.client}
+                    width={110}
+                    height={30}
+                    className="h-6 w-auto object-contain"
+                  />
+                  <ButtonLink href={c.href} variant="underline">
+                    {copy.readCase}
+                  </ButtonLink>
+                </div>
+              </article>
+            </Reveal>
           ))}
-        </motion.div>
+        </div>
       </div>
+
+      <AnimatePresence>
+        {open && (
+          <VideoModal
+            youtubeId={video.youtubeId}
+            title={video.quote}
+            closeLabel={copy.close}
+            onClose={() => setOpen(false)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
@@ -625,102 +670,90 @@ function Platform({
   );
 
   return (
-    <section className="relative overflow-hidden bg-black py-24 md:py-36">
-      <div
-        className="pointer-events-none absolute inset-0 opacity-60"
-        style={{
-          background:
-            "radial-gradient(60% 50% at 75% 40%, rgba(117,163,253,0.18), transparent 70%)",
-        }}
-        aria-hidden
-      />
-      <div className="relative mx-auto max-w-7xl px-4">
-        <SectionTitle eyebrow={copy.eyebrow} title={copy.title} tone="light" />
+    <section
+      data-theme="dark"
+      className="bg-background text-text py-20 md:py-30"
+    >
+      <div className="mx-auto max-w-7xl px-6 md:px-8">
+        <SectionTitle eyebrow={copy.eyebrow} title={copy.title} />
 
-        <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:items-stretch lg:gap-14">
-          <div className="order-2 lg:order-1 lg:col-span-5">
-            <ol className="flex h-full flex-col justify-center gap-2">
-              {copy.chapters.map((c, i) => {
-                const isActive = i === active;
-                return (
-                  <li key={c.id}>
-                    <button
-                      type="button"
-                      onClick={() => select(i)}
-                      className={cn(
-                        "w-full rounded-2xl p-5 text-left transition duration-500",
-                        isActive ? "bg-white/[0.06]" : "hover:bg-white/[0.03]",
-                      )}
-                    >
-                      <span className="flex items-baseline gap-4">
-                        <span
-                          className={cn(
-                            "font-serif text-sm tabular-nums",
-                            isActive ? "text-blue-400" : "text-white/30",
-                          )}
-                        >
-                          0{i + 1}
-                        </span>
-                        <span
-                          className={cn(
-                            "font-serif text-xl transition-colors md:text-2xl",
-                            isActive ? "text-white" : "text-white/45",
-                          )}
-                        >
-                          {c.title}
-                        </span>
-                      </span>
-                      <AnimatePresence initial={false}>
-                        {isActive && (
-                          <motion.span
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.45, ease: EASE }}
-                            className="block overflow-hidden pl-9"
-                          >
-                            <span className="block pt-3 text-sm text-white/65 md:text-base">
-                              {c.body}
-                            </span>
-                            <span className="mt-5 block h-px w-full overflow-hidden bg-white/10">
-                              <span
-                                className="block h-full bg-blue-400"
-                                style={{ width: `${progress * 100}%` }}
-                              />
-                            </span>
-                          </motion.span>
-                        )}
-                      </AnimatePresence>
-                    </button>
-                  </li>
-                );
-              })}
-            </ol>
-          </div>
-
-          <div className="order-1 self-center lg:order-2 lg:col-span-7">
-            <div className="relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#18231f] shadow-[0_40px_120px_-40px_rgba(0,0,0,0.9)]">
-              <div className="relative aspect-[1920/905]">
-                <AnimatePresence initial={false}>
-                  <motion.div
-                    key={`${chapter.id}-${locale}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.6, ease: EASE }}
-                    className="absolute inset-0"
+        <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
+          <ol className="divide-border border-border order-2 flex flex-col divide-y divide-dashed border-y border-dashed lg:order-1 lg:col-span-5">
+            {copy.chapters.map((c, i) => {
+              const isActive = i === active;
+              return (
+                <li key={c.id}>
+                  <button
+                    type="button"
+                    onClick={() => select(i)}
+                    className="w-full py-5 text-left"
                   >
-                    <ClipVideo
-                      src={`/videos/home/${locale}/${chapter.id}.mp4`}
-                      poster={`/videos/home/${locale}/${chapter.id}.jpg`}
-                      className="size-full object-cover"
-                      loop={false}
-                      onTime={setProgress}
-                      onEnded={next}
-                    />
-                  </motion.div>
-                </AnimatePresence>
-              </div>
+                    <span className="flex items-baseline gap-4">
+                      <span
+                        className={cn(
+                          "type-eyebrow tabular-nums",
+                          isActive ? "text-accent" : "text-text/35",
+                        )}
+                      >
+                        0{i + 1}
+                      </span>
+                      <span
+                        className={cn(
+                          "type-h6 transition-colors",
+                          isActive ? "text-text" : "text-text/45",
+                        )}
+                      >
+                        {c.title}
+                      </span>
+                    </span>
+                    <AnimatePresence initial={false}>
+                      {isActive && (
+                        <motion.span
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.45, ease: EASE }}
+                          className="block overflow-hidden pl-9"
+                        >
+                          <span className="type-paragraph-m text-text/70 block pt-3">
+                            {c.body}
+                          </span>
+                          <span className="bg-text/10 mt-5 block h-px w-full overflow-hidden">
+                            <span
+                              className="block h-full bg-blue-400"
+                              style={{ width: `${progress * 100}%` }}
+                            />
+                          </span>
+                        </motion.span>
+                      )}
+                    </AnimatePresence>
+                  </button>
+                </li>
+              );
+            })}
+          </ol>
+
+          <div className="order-1 lg:order-2 lg:col-span-7">
+            <div className="border-border relative aspect-video overflow-hidden rounded-sm border border-dashed bg-[#18231f]">
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={`${chapter.id}-${locale}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.6, ease: EASE }}
+                  className="absolute inset-0"
+                >
+                  <ClipVideo
+                    src={`/videos/home/${locale}/${chapter.id}.mp4`}
+                    poster={`/videos/home/${locale}/${chapter.id}.jpg`}
+                    className="size-full object-cover"
+                    loop={false}
+                    onTime={setProgress}
+                    onEnded={next}
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
         </div>
@@ -749,19 +782,19 @@ function Models({ copy }: { copy: HomeV2Copy["models"] }) {
   const task = copy.tasks[index];
 
   return (
-    <section className="bg-light-gray py-24 md:py-36">
-      <div ref={ref} className="mx-auto max-w-7xl px-4">
+    <section className="bg-background py-20 md:py-30">
+      <div ref={ref} className="mx-auto max-w-7xl px-6 md:px-8">
         <SectionTitle
           eyebrow={copy.eyebrow}
           title={copy.title}
           body={copy.body}
         />
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-12">
+        <div className="mt-14 grid gap-4 lg:grid-cols-12">
           <Reveal className="min-w-0 lg:col-span-7" delay={0.05}>
-            <div className="relative flex h-full flex-col justify-center overflow-hidden rounded-[2rem] bg-white p-6 shadow-[0_30px_80px_-40px_rgba(14,26,22,0.45)] md:p-10">
-              <div className="bg-light-gray flex items-center gap-3 rounded-2xl border border-black/10 px-4 py-3.5">
-                <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-black">
+            <div className="bg-mid-gray flex h-full flex-col justify-center rounded-sm p-6 md:p-10">
+              <div className="border-border flex items-center gap-3 rounded-sm border bg-white px-4 py-3.5">
+                <span className="flex size-8 shrink-0 items-center justify-center rounded-xs bg-black">
                   <Image
                     src={`${LOGO}/wonka-logo-mark-white-transparent.png`}
                     alt=""
@@ -773,34 +806,34 @@ function Models({ copy }: { copy: HomeV2Copy["models"] }) {
                 <AnimatePresence mode="wait">
                   <motion.span
                     key={task.task}
-                    initial={{ opacity: 0, y: 8, filter: "blur(4px)" }}
-                    animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                    exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
-                    transition={{ duration: 0.35 }}
-                    className="min-w-0 flex-1 truncate text-sm text-black md:text-base"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.3 }}
+                    className="type-paragraph-m text-text min-w-0 flex-1 truncate"
                   >
                     {task.task}
                   </motion.span>
                 </AnimatePresence>
-                <span className="hidden items-center gap-1.5 rounded-full border border-black/10 bg-white px-3 py-1 text-xs text-black/70 sm:flex">
-                  <span className="text-blue-500">✦</span> {copy.auto}
+                <span className="type-paragraph-s border-border text-text/70 hidden items-center gap-1.5 rounded-full border px-3 py-0.5 sm:flex">
+                  <span className="text-accent">✦</span> {copy.auto}
                 </span>
               </div>
 
               <div
-                className="relative mx-auto my-4 h-12 w-px overflow-hidden bg-black/10"
+                className="border-text/25 relative mx-auto my-4 h-12 w-px overflow-hidden border-l border-dashed"
                 aria-hidden
               >
                 <motion.span
                   key={index}
-                  className="absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-transparent via-blue-400 to-transparent"
+                  className="absolute inset-x-[-1px] top-0 h-6 bg-gradient-to-b from-transparent via-blue-400 to-transparent"
                   initial={{ y: -24 }}
                   animate={{ y: 48 }}
                   transition={{ duration: 0.7, ease: "easeIn" }}
                 />
               </div>
 
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:gap-4">
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                 {MODEL_ORDER.map((id) => {
                   const meta = MODEL_META[id];
                   const selected = id === task.model;
@@ -808,66 +841,36 @@ function Models({ copy }: { copy: HomeV2Copy["models"] }) {
                     <div
                       key={id}
                       className={cn(
-                        "relative flex items-center gap-3 rounded-2xl border p-4 transition-all duration-500 md:p-5",
-                        selected
-                          ? "border-transparent bg-blue-100"
-                          : "border-black/[0.07] bg-white",
+                        "relative flex items-center gap-3 rounded-sm border bg-white p-4 transition-colors duration-500",
+                        selected ? "border-blue-400" : "border-border",
                       )}
                     >
-                      {selected && (
-                        <motion.span
-                          layoutId="model-ring"
-                          className="absolute inset-0 rounded-2xl ring-2 ring-blue-400"
-                          transition={{
-                            type: "spring",
-                            stiffness: 380,
-                            damping: 32,
-                          }}
-                        />
-                      )}
-                      <span className="flex size-11 shrink-0 items-center justify-center rounded-xl border border-black/[0.06] bg-white">
+                      <span className="border-border flex size-10 shrink-0 items-center justify-center rounded-xs border bg-white">
                         <Image
                           src={meta.src}
                           alt={meta.vendor}
-                          width={28}
-                          height={28}
+                          width={24}
+                          height={24}
                           className="size-6 object-contain"
                         />
                       </span>
                       <span className="min-w-0">
-                        <span className="block truncate text-sm font-medium text-black">
+                        <span className="type-paragraph-m text-text block truncate">
                           {meta.name}
                         </span>
-                        <span className="block truncate text-xs text-black/50">
+                        <span className="type-paragraph-s text-text/55 block truncate">
                           {meta.vendor}
                         </span>
                       </span>
+                      {selected && (
+                        <span className="type-paragraph-s ml-auto shrink-0 rounded-full bg-blue-100 px-2.5 py-0.5 text-blue-700">
+                          {task.tier === "light" ? copy.light : copy.advanced}
+                        </span>
+                      )}
                     </div>
                   );
                 })}
               </div>
-
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={task.task}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="mt-6 flex items-center justify-center gap-2 text-sm text-black/60"
-                >
-                  <span
-                    className={cn(
-                      "rounded-full px-2.5 py-0.5 text-xs font-medium",
-                      task.tier === "light"
-                        ? "bg-forest-500/15 text-forest-500"
-                        : "bg-black/[0.07] text-black/70",
-                    )}
-                  >
-                    {task.tier === "light" ? copy.light : copy.advanced}
-                  </span>
-                  {MODEL_META[task.model].name}
-                </motion.p>
-              </AnimatePresence>
             </div>
           </Reveal>
 
@@ -889,19 +892,22 @@ function SavingsCard({ copy }: { copy: HomeV2Copy["models"] }) {
   const savings = Math.round(share * (1 - LIGHT_TASK_COST / HEAVY_TASK_COST));
 
   return (
-    <div className="flex h-full flex-col gap-8 rounded-[2rem] bg-black p-7 text-white md:p-10">
+    <div
+      data-theme="dark"
+      className="bg-background text-text flex h-full flex-col gap-8 rounded-sm p-7 md:p-10"
+    >
       <div>
-        <p className="font-serif text-[5.5rem] leading-none tracking-[-0.03em] text-white md:text-[7rem]">
+        <p className="font-serif text-[5.5rem] leading-none tracking-[-0.03em] lining-nums md:text-[7rem]">
           −{savings}
           <span className="text-blue-400">%</span>
         </p>
-        <p className="mt-3 text-lg text-white/80">{copy.saveLabel}</p>
+        <p className="type-paragraph-l text-text/80 mt-3">{copy.saveLabel}</p>
       </div>
 
       <label className="block">
-        <span className="flex items-baseline justify-between gap-4 text-sm text-white/65">
+        <span className="type-paragraph-s text-text/65 flex items-baseline justify-between gap-4">
           {copy.sliderLabel}
-          <span className="font-serif text-2xl text-white tabular-nums">
+          <span className="text-text font-serif text-2xl lining-nums tabular-nums">
             {share}%
           </span>
         </span>
@@ -916,9 +922,9 @@ function SavingsCard({ copy }: { copy: HomeV2Copy["models"] }) {
         />
       </label>
 
-      <div className="mt-auto space-y-3 border-t border-white/10 pt-6">
-        <p className="font-serif text-xl text-white">{copy.ratio}</p>
-        <p className="text-xs leading-relaxed text-white/45">{copy.source}</p>
+      <div className="border-border mt-auto space-y-3 border-t border-dashed pt-6">
+        <p className="type-h6 text-text lining-nums">{copy.ratio}</p>
+        <p className="type-paragraph-s text-text/45">{copy.source}</p>
       </div>
     </div>
   );
@@ -926,14 +932,33 @@ function SavingsCard({ copy }: { copy: HomeV2Copy["models"] }) {
 
 /* ───────────────────────── integrations ───────────────────────── */
 
+function WonkaAppIcon({ className }: { className?: string }) {
+  return (
+    <span
+      className={cn(
+        "flex items-center justify-center rounded-sm bg-gradient-to-br from-blue-400 via-blue-500 to-blue-700",
+        className,
+      )}
+    >
+      <Image
+        src={`${LOGO}/wonka-logo-mark-white-transparent.png`}
+        alt="WonkaChat"
+        width={64}
+        height={64}
+        className="size-1/2 object-contain"
+      />
+    </span>
+  );
+}
+
 function Constellation({ sector }: { sector: SectorId }) {
   const reduce = useReducedMotion();
   const nodes: Tool[] = [...SECTOR_TOOLS[sector], { name: "+" }];
   const radius = 38;
   const position = (i: number) => {
     const angle = (i / nodes.length) * Math.PI * 2 - Math.PI / 2;
+    // Rounded so server and client render identical attribute strings.
     return {
-      // Rounded so server and client render identical attribute strings.
       x: round(50 + Math.cos(angle) * radius),
       y: round(50 + Math.sin(angle) * radius),
     };
@@ -942,11 +967,11 @@ function Constellation({ sector }: { sector: SectorId }) {
   return (
     <div className="relative mx-auto aspect-square w-full max-w-[34rem]">
       <div
-        className="absolute inset-[12%] rounded-full border border-black/[0.06]"
+        className="border-border absolute inset-[12%] rounded-full border border-dashed"
         aria-hidden
       />
       <div
-        className="absolute inset-[30%] rounded-full border border-black/[0.05]"
+        className="border-border absolute inset-[30%] rounded-full border border-dashed"
         aria-hidden
       />
 
@@ -986,17 +1011,7 @@ function Constellation({ sector }: { sector: SectorId }) {
       </svg>
 
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-        <span
-          className="absolute -inset-4 animate-ping rounded-[2rem] bg-blue-400/20 [animation-duration:2.6s]"
-          aria-hidden
-        />
-        <Image
-          src="/brand/glass-icon/wonka-glass-icon-hills-square.webp"
-          alt="WonkaChat"
-          width={128}
-          height={128}
-          className="relative size-20 rounded-[1.4rem] shadow-[0_20px_50px_-15px_rgba(14,26,22,0.6)] md:size-28 md:rounded-[1.6rem]"
-        />
+        <WonkaAppIcon className="size-20 md:size-24" />
       </div>
 
       {nodes.map((tool, i) => {
@@ -1012,14 +1027,14 @@ function Constellation({ sector }: { sector: SectorId }) {
             transition={{ duration: 0.45, delay: 0.05 * i, ease: EASE }}
           >
             {isCustom ? (
-              <span className="flex size-14 items-center justify-center rounded-2xl border border-dashed border-black/25 bg-white/60 font-serif text-2xl text-black/50 md:size-16">
+              <span className="border-text/30 bg-background text-text/50 flex size-14 items-center justify-center rounded-sm border border-dashed font-serif text-2xl md:size-16">
                 +
               </span>
             ) : (
               <ToolTile tool={tool} />
             )}
             {!isCustom && (
-              <span className="hidden text-xs font-medium whitespace-nowrap text-black/70 sm:block">
+              <span className="type-paragraph-s text-text/70 hidden whitespace-nowrap sm:block">
                 {tool.name}
               </span>
             )}
@@ -1070,8 +1085,8 @@ function Integrations({ copy }: { copy: HomeV2Copy["integrations"] }) {
   }, [inView, paused, reduce, copy.sectors]);
 
   return (
-    <section className="bg-white py-24 md:py-36">
-      <div className="mx-auto max-w-7xl px-4">
+    <section className="bg-background py-20 md:py-30">
+      <div className="mx-auto max-w-7xl px-6 md:px-8">
         <SectionTitle
           eyebrow={copy.eyebrow}
           title={copy.title}
@@ -1082,71 +1097,62 @@ function Integrations({ copy }: { copy: HomeV2Copy["integrations"] }) {
           ref={ref}
           className="mt-14 grid items-center gap-10 lg:grid-cols-12"
         >
-          <div className="lg:col-span-5">
-            <ul className="grid grid-cols-2 gap-1 lg:grid-cols-1">
-              {copy.sectors.map((s) => {
-                const isActive = s.id === sector;
-                return (
-                  <li key={s.id}>
-                    <button
-                      type="button"
-                      onClick={() => {
-                        setSector(s.id);
-                        setPaused(true);
-                      }}
-                      className={cn(
-                        "group w-full rounded-2xl px-4 py-3 text-left transition duration-300 lg:px-5 lg:py-3.5",
-                        isActive ? "bg-light-gray" : "hover:bg-light-gray/60",
-                      )}
-                    >
-                      <span className="flex items-center gap-3">
-                        <span
-                          className={cn(
-                            "size-1.5 shrink-0 rounded-full transition",
-                            isActive ? "bg-blue-500" : "bg-black/15",
-                          )}
-                        />
-                        <span
-                          className={cn(
-                            "font-serif text-lg transition-colors lg:text-2xl",
-                            isActive
-                              ? "text-black"
-                              : "text-black/40 group-hover:text-black/70",
-                          )}
-                        >
-                          {s.label}
-                        </span>
+          <ul className="border-border grid grid-cols-2 border-t border-dashed lg:col-span-5 lg:grid-cols-1">
+            {copy.sectors.map((s) => {
+              const isActive = s.id === sector;
+              return (
+                <li key={s.id} className="border-border border-b border-dashed">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSector(s.id);
+                      setPaused(true);
+                    }}
+                    className="w-full py-3.5 text-left lg:py-4"
+                  >
+                    <span className="flex items-center gap-3">
+                      <BulletIcon
+                        className={cn(
+                          "h-[0.625rem] w-[0.4375rem] shrink-0 transition-colors",
+                          isActive ? "text-accent" : "text-text/20",
+                        )}
+                      />
+                      <span
+                        className={cn(
+                          "type-h6 transition-colors",
+                          isActive ? "text-text" : "text-text/40",
+                        )}
+                      >
+                        {s.label}
                       </span>
-                      {isActive && (
-                        <motion.span
-                          initial={{ opacity: 0, y: 4 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          className="mt-1 hidden pl-[1.125rem] text-sm text-black/55 lg:block"
-                        >
-                          {s.pitch}
-                        </motion.span>
-                      )}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
+                    </span>
+                    {isActive && (
+                      <motion.span
+                        initial={{ opacity: 0, y: 4 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="type-paragraph-s text-text/60 mt-1 hidden pl-[1.2rem] lg:block"
+                      >
+                        {s.pitch}
+                      </motion.span>
+                    )}
+                  </button>
+                </li>
+              );
+            })}
+          </ul>
           <div className="lg:col-span-7">
             <Constellation sector={sector} />
-            <p className="mt-4 text-center text-sm text-black/60">
-              <span className="font-medium text-black">{copy.customTitle}</span>{" "}
+            <p className="type-paragraph-s text-text/60 mt-4 text-center">
+              <span className="text-text">{copy.customTitle}</span>{" "}
               {copy.customBody}
             </p>
           </div>
         </div>
 
-        <div className="bg-light-gray mt-20 rounded-[2rem] p-6 md:p-10">
+        <div className="bg-mid-gray mt-16 rounded-sm p-6 md:p-10">
           <div className="mb-6 flex flex-wrap items-baseline justify-between gap-3">
-            <p className="font-serif text-2xl text-black md:text-3xl">
-              {copy.everydayTitle}
-            </p>
-            <span className="rounded-full bg-black px-4 py-1.5 text-sm text-white">
+            <p className="type-h5 text-text">{copy.everydayTitle}</p>
+            <span className="type-paragraph-s border-text/30 text-text rounded-full border border-dashed px-4 py-1">
               {copy.everydayCount}
             </span>
           </div>
@@ -1158,105 +1164,7 @@ function Integrations({ copy }: { copy: HomeV2Copy["integrations"] }) {
   );
 }
 
-/* ───────────────────────── clients ───────────────────────── */
-
-function Clients({
-  copy,
-  playing,
-  onPlay,
-}: {
-  copy: HomeV2Copy["clients"];
-  playing: boolean;
-  onPlay: () => void;
-}) {
-  return (
-    <section id="clients" className="bg-light-gray py-24 md:py-36">
-      <div className="mx-auto max-w-7xl px-4">
-        <SectionTitle eyebrow={copy.eyebrow} title={copy.title} />
-        <div className="mt-14 grid gap-5 lg:grid-cols-12 lg:items-stretch">
-          <Reveal className="flex flex-col lg:col-span-7">
-            <div className="relative aspect-video overflow-hidden rounded-[2rem] bg-black shadow-[0_40px_100px_-50px_rgba(14,26,22,0.8)]">
-              {playing ? (
-                <iframe
-                  className="absolute inset-0 size-full"
-                  src={`https://www.youtube-nocookie.com/embed/${YOUTUBE_ID}?autoplay=1&rel=0`}
-                  title={copy.videoLabel}
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  allowFullScreen
-                />
-              ) : (
-                <button
-                  type="button"
-                  onClick={onPlay}
-                  className="group absolute inset-0"
-                  aria-label={copy.play}
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`https://i.ytimg.com/vi/${YOUTUBE_ID}/maxresdefault.jpg`}
-                    alt=""
-                    className="size-full object-cover transition duration-1000 group-hover:scale-[1.03]"
-                  />
-                  <span className="absolute inset-0 bg-black/10 transition group-hover:bg-transparent" />
-                  <span className="absolute top-1/2 left-1/2 flex size-20 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white/95 shadow-2xl transition duration-500 group-hover:scale-110">
-                    <svg
-                      viewBox="0 0 12 12"
-                      className="ml-1 size-5 fill-black"
-                      aria-hidden
-                    >
-                      <path d="M3 1.5v9l7.5-4.5z" />
-                    </svg>
-                  </span>
-                </button>
-              )}
-            </div>
-            <div className="mt-5 flex flex-col gap-1 px-1 md:flex-row md:items-baseline md:justify-between md:gap-6">
-              <p className="font-serif text-xl text-black md:text-2xl">
-                {copy.videoQuote}
-              </p>
-              <p className="shrink-0 text-sm text-black/55">
-                {copy.videoLabel}
-              </p>
-            </div>
-          </Reveal>
-          <div className="grid gap-5 lg:col-span-5 lg:grid-rows-2">
-            {copy.cases.map((c, i) => (
-              <Reveal key={c.client} delay={0.1 + i * 0.1} className="h-full">
-                <a
-                  href={c.href}
-                  className="group flex h-full flex-col justify-between gap-5 rounded-[2rem] bg-white p-7 transition duration-500 hover:-translate-y-1 hover:shadow-[0_30px_60px_-30px_rgba(14,26,22,0.35)]"
-                >
-                  <span className="flex items-center justify-between">
-                    <Image
-                      src={c.logo}
-                      alt={c.client}
-                      width={120}
-                      height={36}
-                      className="h-8 w-auto max-w-[120px] object-contain"
-                    />
-                    <span className="text-sm text-black/50 transition group-hover:text-black">
-                      {copy.readCase} →
-                    </span>
-                  </span>
-                  <span>
-                    <span className="block font-serif text-6xl leading-none tracking-[-0.02em] text-black md:text-7xl">
-                      <CountUpMetric value={c.metric} />
-                    </span>
-                    <span className="mt-3 block max-w-sm text-base text-black/65">
-                      {c.label}
-                    </span>
-                  </span>
-                </a>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ───────────────────────── team ───────────────────────── */
+/* ───────────────────────── team / workflow ───────────────────────── */
 
 function Team({
   copy,
@@ -1265,107 +1173,73 @@ function Team({
   copy: HomeV2Copy["team"];
   links: HomeV2Links;
 }) {
-  const lineRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: lineRef,
-    offset: ["start 80%", "end 50%"],
-  });
-  const lineScale = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
   return (
-    <section className="bg-light-gray px-4 pb-24 md:pb-36">
-      <div className="relative mx-auto max-w-7xl overflow-hidden rounded-[2.5rem]">
-        <Image
-          src={`${BG}/wonka-bg-river-1920x1080.webp`}
-          alt=""
-          fill
-          className="object-cover"
-          sizes="100vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/30" />
-        <div className="relative grid gap-12 p-8 md:p-14 lg:grid-cols-12 lg:items-center lg:p-20">
-          <div className="lg:col-span-6">
-            <SectionTitle
-              eyebrow={copy.eyebrow}
-              title={copy.title}
-              body={copy.body}
-              tone="light"
-            />
-            <Reveal
-              delay={0.1}
-              className="mt-10 flex flex-col items-start gap-6"
-            >
-              <span className="flex items-baseline gap-4">
-                <span className="font-serif text-[5.5rem] leading-none text-white md:text-[7rem]">
-                  {copy.count}
-                </span>
-                <span className="max-w-[11rem] text-sm leading-snug text-white/75">
-                  {copy.countLabel}
-                </span>
+    <section className="bg-background py-20 md:py-30">
+      <div className="mx-auto max-w-7xl px-6 md:px-8">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+          <SectionTitle
+            eyebrow={copy.eyebrow}
+            title={copy.title}
+            body={copy.body}
+          />
+          <Reveal
+            delay={0.1}
+            className="flex flex-col items-start gap-5 lg:items-end"
+          >
+            <p className="flex items-baseline gap-3">
+              <span className="text-text font-serif text-7xl leading-none lining-nums">
+                {copy.count}
               </span>
-              <div className="flex flex-wrap items-center gap-5">
-                <span className="flex -space-x-3">
-                  {TEAM_PHOTOS.map((src, i) => (
-                    <motion.span
-                      key={src}
-                      initial={{ opacity: 0, x: -12 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: 0.1 * i, duration: 0.5, ease: EASE }}
-                    >
-                      <Image
-                        src={src}
-                        alt=""
-                        width={96}
-                        height={96}
-                        className="size-12 rounded-full border-2 border-white/80 object-cover"
-                      />
-                    </motion.span>
-                  ))}
-                </span>
-                <GhostCta href={links.meetingUrl}>{copy.cta}</GhostCta>
-                <a
-                  href={links.teamUrl}
-                  className="text-sm text-white underline decoration-white/40 underline-offset-4 hover:decoration-white"
-                >
-                  {copy.pageCta} →
-                </a>
-              </div>
-            </Reveal>
-          </div>
-
-          <div ref={lineRef} className="relative lg:col-span-5 lg:col-start-8">
-            <ol className="space-y-4">
-              {copy.steps.map((step, i) => (
-                <li key={step.title}>
-                  <Reveal delay={0.12 * i}>
-                    <div className="relative flex items-start gap-5 rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur-xl">
-                      {i < copy.steps.length - 1 && (
-                        // Runs from this circle's centre to the next one: card padding (1.25rem) + half circle (1.125rem).
-                        <motion.span
-                          className="absolute top-[2.375rem] left-[2.375rem] h-[calc(100%+1rem)] w-px origin-top bg-blue-400"
-                          style={{ scaleY: lineScale }}
-                          aria-hidden
-                        />
-                      )}
-                      <span className="relative z-10 flex size-9 shrink-0 items-center justify-center rounded-full bg-white font-serif text-sm text-black">
-                        {i + 1}
-                      </span>
-                      <div className="pt-1">
-                        <p className="font-serif text-xl leading-tight text-white">
-                          {step.title}
-                        </p>
-                        <p className="mt-1 text-sm text-white/70">
-                          {step.body}
-                        </p>
-                      </div>
-                    </div>
-                  </Reveal>
-                </li>
-              ))}
-            </ol>
-          </div>
+              <span className="type-paragraph-s text-text/65 max-w-[11rem]">
+                {copy.countLabel}
+              </span>
+            </p>
+            <div className="flex items-center gap-4">
+              <span className="flex -space-x-3">
+                {TEAM_PHOTOS.map((src) => (
+                  <Image
+                    key={src}
+                    src={src}
+                    alt=""
+                    width={96}
+                    height={120}
+                    className="border-background size-11 rounded-full border-2 object-cover object-top"
+                  />
+                ))}
+              </span>
+              <ButtonLink href={links.teamUrl} variant="underline">
+                {copy.pageCta}
+              </ButtonLink>
+            </div>
+          </Reveal>
         </div>
+
+        <ol className="border-border md:divide-border mt-14 grid border-y border-dashed md:grid-cols-3 md:divide-x md:divide-dashed">
+          {copy.steps.map((step, i) => (
+            <li
+              key={step.title}
+              className={cn(
+                "flex flex-col gap-4 py-8 md:px-8 md:py-10",
+                i > 0 && "border-border border-t border-dashed md:border-t-0",
+                i === 0 && "md:pl-0",
+              )}
+            >
+              <Reveal delay={0.1 * i} className="flex flex-col gap-4">
+                <span className="type-eyebrow text-accent tabular-nums">
+                  0{i + 1}
+                </span>
+                <p className="type-h5 text-text">{step.title}</p>
+                <p className="type-paragraph-m text-text/70">{step.body}</p>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
+
+        <Reveal className="mt-10">
+          <ButtonLink href={links.meetingUrl} variant="primary">
+            {copy.cta}
+          </ButtonLink>
+        </Reveal>
       </div>
     </section>
   );
@@ -1454,36 +1328,32 @@ function Security({
   links: HomeV2Links;
 }) {
   return (
-    <section className="bg-white py-24 md:py-32">
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="flex flex-col justify-between gap-6 md:flex-row md:items-end">
+    <section className="bg-background py-20 md:py-30">
+      <div className="mx-auto max-w-7xl px-6 md:px-8">
+        <div className="border-border flex flex-col justify-between gap-6 border-b border-dashed pb-10 md:flex-row md:items-end">
           <SectionTitle eyebrow={copy.eyebrow} title={copy.title} />
           <Reveal>
-            <a
-              href={links.securityUrl}
-              className="inline-flex items-center gap-2 rounded-full border border-black/15 px-5 py-3 text-sm text-black transition hover:border-black/40"
-            >
-              {copy.cta} <span aria-hidden>→</span>
-            </a>
+            <ButtonLink href={links.securityUrl} variant="underline">
+              {copy.cta}
+            </ButtonLink>
           </Reveal>
         </div>
-        <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-6">
+        <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
           {copy.tiles.map((tile, i) => (
-            <Reveal key={tile.id} delay={0.06 * i}>
-              <a
-                href={links.securityUrl}
-                className="group bg-light-gray flex h-full flex-col items-center gap-4 rounded-3xl px-4 py-8 text-center transition duration-500 hover:-translate-y-1 hover:bg-white hover:shadow-[0_24px_50px_-30px_rgba(14,26,22,0.4)]"
+            <li
+              key={tile.id}
+              className="border-border flex flex-col items-center gap-5 border-b border-dashed px-4 py-10 text-center [&:not(:last-child)]:border-r"
+            >
+              <Reveal
+                delay={0.06 * i}
+                className="flex flex-col items-center gap-5"
               >
-                <span className="transition duration-500 group-hover:scale-105">
-                  <SecurityVisual id={tile.id} />
-                </span>
-                <span className="text-sm font-medium text-black">
-                  {tile.label}
-                </span>
-              </a>
-            </Reveal>
+                <SecurityVisual id={tile.id} />
+                <span className="type-paragraph-l text-text">{tile.label}</span>
+              </Reveal>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );
@@ -1500,43 +1370,38 @@ function FinalCta({
   hero: HomeV2Copy["hero"];
   links: HomeV2Links;
 }) {
-  const ref = useRef<HTMLElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end end"],
-  });
-  const scale = useTransform(scrollYProgress, [0, 1], [1.2, 1]);
-
   return (
-    <section ref={ref} className="relative overflow-hidden bg-black">
-      <motion.div
-        className="absolute inset-0"
-        style={reduce ? undefined : { scale }}
-      >
-        <Image
-          src={`${BG}/wonka-bg-snowy-mountain-1920x1080.webp`}
-          alt=""
-          fill
-          className="object-cover"
-          sizes="100vw"
-        />
-      </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/20 to-black/60" />
-      <div className="relative mx-auto flex min-h-[80vh] max-w-4xl flex-col items-center justify-center gap-7 px-4 py-28 text-center">
+    <section
+      data-theme="dark"
+      className="bg-background text-text relative isolate overflow-hidden"
+    >
+      <Image
+        src={`${BG}/wonka-bg-snowy-mountain-1920x1080.webp`}
+        alt=""
+        fill
+        className="-z-10 object-cover"
+        sizes="100vw"
+      />
+      <div className="from-background/20 via-background/20 to-background/60 absolute inset-0 -z-10 bg-gradient-to-b" />
+      <div className="mx-auto flex min-h-[70vh] max-w-4xl flex-col items-center justify-center gap-7 px-6 py-28 text-center">
         <Reveal>
-          <h2 className="font-serif text-[2.6rem] leading-[1.02] text-white md:text-[4.4rem]">
+          <h2 className="text-text font-serif text-[2.6rem] leading-[1.03] text-balance md:text-[4.2rem]">
             {copy.title}
           </h2>
         </Reveal>
         <Reveal delay={0.08}>
-          <p className="text-white/85 md:text-lg">{copy.subtitle}</p>
+          <p className="type-body text-text/85">{copy.subtitle}</p>
         </Reveal>
-        <Reveal delay={0.16} className="flex flex-col gap-3 sm:flex-row">
-          <PrimaryCta href={TRIAL_URL} tone="light">
+        <Reveal
+          delay={0.16}
+          className="flex flex-wrap items-center justify-center gap-3"
+        >
+          <ButtonLink href={TRIAL_URL} variant="primary">
             {hero.primaryCta}
-          </PrimaryCta>
-          <GhostCta href={links.meetingUrl}>{hero.secondaryCta}</GhostCta>
+          </ButtonLink>
+          <ButtonLink href={links.meetingUrl} variant="secondary">
+            {hero.secondaryCta}
+          </ButtonLink>
         </Reveal>
       </div>
     </section>
@@ -1554,29 +1419,10 @@ export function HomeV2Client({
   links: HomeV2Links;
   locale: Locale;
 }) {
-  const [playing, setPlaying] = useState(false);
-  const watchClient = () => {
-    setPlaying(true);
-    document
-      .getElementById("clients")
-      ?.scrollIntoView({ behavior: "smooth", block: "center" });
-  };
-
   return (
-    <main className="bg-white text-black">
-      <Hero
-        copy={copy.hero}
-        award={copy.award}
-        links={links}
-        locale={locale}
-        onWatch={watchClient}
-      />
-      <TrustBand label={copy.hero.trustedBy} />
-      <Clients
-        copy={copy.clients}
-        playing={playing}
-        onPlay={() => setPlaying(true)}
-      />
+    <main className="bg-background text-text">
+      <Hero copy={copy.hero} award={copy.award} links={links} />
+      <Clients copy={copy.clients} />
       <Platform copy={copy.platform} locale={locale} />
       <Models copy={copy.models} />
       <Integrations copy={copy.integrations} />
