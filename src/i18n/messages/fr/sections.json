@@ -2,6 +2,9 @@
   "problem": {
     "ariaLabel": "Problème"
   },
+  "clientProof": {
+    "ariaLabel": "Témoignages clients"
+  },
   "useCases": {
     "industriesLabel": "Secteurs",
     "workflowTag": "Workflow {number}"

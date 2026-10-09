@@ -46,6 +46,10 @@ export function getLanguageSwitchHref(pathname: string, target: Locale): string 
 
   const stripped = stripLocale(pathname).replace(/\/+$/, "");
   const segments = stripped.split("/").filter(Boolean);
+  // Team page: translated in all locales but kept out of the commercial routes.
+  if (segments.length === 1 && segments[0] === "team") {
+    return target === "en" ? "/team" : `/${target}/team`;
+  }
   if (segments.length === 1) {
     const section = HUB_ROOT_SEGMENTS[segments[0]];
     if (section) return hubPath(section, target);
