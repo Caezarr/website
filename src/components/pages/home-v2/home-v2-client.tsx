@@ -280,7 +280,7 @@ function Hero({
 
 /* ───────────────────────── clients ───────────────────────── */
 
-function Clients({ copy }: { copy: HomeV2Copy["clients"] }) {
+export function Clients({ copy }: { copy: HomeV2Copy["clients"] }) {
   return (
     <section id="clients" className="bg-background py-20 md:py-30">
       <Section>
@@ -461,7 +461,7 @@ function ToolRow({ tools, reverse }: { tools: Tool[]; reverse?: boolean }) {
   );
 }
 
-function Integrations({ copy }: { copy: HomeV2Copy["integrations"] }) {
+export function Integrations({ copy }: { copy: HomeV2Copy["integrations"] }) {
   const [department, setDepartment] = useState<DepartmentId>(
     copy.departments[0].id,
   );

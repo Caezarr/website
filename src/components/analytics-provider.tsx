@@ -36,6 +36,11 @@ export function AnalyticsProvider() {
       // Blueprint imports land on a signup wall, so they carry attribution too.
       const isBlueprintImport = isWonkaChat && destination.pathname.startsWith("/blueprint/");
 
+      // Paid landings (`/fr/lp/*`) tag their <main> so every CTA click says
+      // which ad landing it came from.
+      const landing =
+        anchor.closest<HTMLElement>("[data-landing]")?.dataset.landing;
+
       if (isWonkaSignup || isBlueprintImport) {
         anchor.href = decorateWonkaChatUrl(anchor.href);
       }
@@ -44,6 +49,7 @@ export function AnalyticsProvider() {
         trackWebsiteEvent(WEBSITE_EVENTS.TRIAL_CLICKED, {
           destination_path: redactCapabilityPath(destination.pathname),
           placement: anchor.closest<HTMLElement>("[id]")?.id || "unknown",
+          landing,
         });
       }
 
@@ -56,6 +62,7 @@ export function AnalyticsProvider() {
         destination_host: destination.hostname,
         destination_path: redactCapabilityPath(destination.pathname),
         placement: anchor.closest<HTMLElement>("[id]")?.id || "unknown",
+        landing,
       });
     };
 
