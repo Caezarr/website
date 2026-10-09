@@ -17,7 +17,7 @@ const copy = {
     description: {
       en: "Connect private AI to SharePoint, Google Drive, Outlook, Slack, Salesforce, and the systems your teams already use.",
       fr: "Connectez l'IA privée à SharePoint, Google Drive, Outlook, Slack, Salesforce et aux outils déjà utilisés par vos équipes.",
-      nl: "Verbind private AI met SharePoint, Google Drive, Outlook, Slack, Salesforce en de tools die je teams al gebruiken.",
+      nl: "Verbind private AI met SharePoint, Google Drive, Outlook, Slack, Salesforce en de tools die uw teams al gebruiken.",
     },
   },
   googleDrive: {

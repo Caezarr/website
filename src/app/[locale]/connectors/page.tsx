@@ -2,13 +2,16 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { sanityFetch } from "@sanity/lib/live";
 import { CONNECTOR_PAGES_QUERY } from "@sanity/lib/queries";
-import { urlFor } from "@sanity/lib/image";
 import { buildMetadata } from "@/lib/seo";
 import { hubPath, itemPath } from "@/lib/locale-path";
 import { HubPopularLinks } from "@/components/sections/hub-popular-links";
+import { ConnectorsDirectory } from "@/components/sections/connectors-directory";
 import { getHubPopularLinks } from "@/lib/hub-popular-links";
 import type { Locale } from "@/i18n/config";
 import type { ConnectorPage } from "@/lib/types";
+import { resolveConnectorList, type ConnectorView } from "@/lib/resolve-connectors";
+import { radius } from "@/lib/design-tokens";
+import { cn } from "@/lib/utils";
 
 export const dynamic = "force-static";
 
@@ -22,11 +25,9 @@ const copy = {
     popular: "Popular integrations",
     popularGuides: "Popular integration guides",
     all: "All connectors",
-    categories: ["CRM", "Documents", "Project management", "Communication", "ERP", "Knowledge"],
     empty: "No connectors yet.",
-    explainerTitle: "What a Wonka connector does",
-    explainerBody: "A Wonka connector links private AI agents to the tools where company work already happens. Instead of asking teams to move sensitive data into a generic assistant, Wonka keeps the operational context connected to trusted systems such as CRM, ERP, document storage and communication platforms. Each connector is designed to preserve permissions, expose sources, and make answers usable inside real workflows rather than isolated chat sessions. This matters because enterprise AI adoption depends on trust: users need to know which system supplied the context, administrators need to know which permissions apply, and managers need to see whether the workflow produces measurable operational value.",
-    explainerPoints: ["Source-aware answers from business tools", "Governed workflows with human review", "Private deployment for enterprise data"],
+    search: "Search integrations",
+    noResults: "No integrations match your search.",
     seo: {
       metaTitle: "AI Integrations and Connectors | Wonka AI",
       metaDescription: "Explore Wonka AI connectors for Odoo, SharePoint, Salesforce, Slack, Google Drive, HubSpot and other enterprise systems.",
@@ -40,11 +41,9 @@ const copy = {
     popular: "Intégrations populaires",
     popularGuides: "Guides d'intégration populaires",
     all: "Tous les connecteurs",
-    categories: ["CRM", "Documents", "Gestion projet", "Communication", "ERP", "Connaissance"],
     empty: "Aucun connecteur pour le moment.",
-    explainerTitle: "Ce que fait un connecteur Wonka",
-    explainerBody: "Un connecteur Wonka relie des agents IA privés aux outils où le travail existe déjà. Au lieu de déplacer des données sensibles dans un assistant générique, Wonka garde le contexte opérationnel connecté aux systèmes de confiance comme le CRM, l'ERP, les documents et les outils de communication. Chaque connecteur est pensé pour préserver les permissions, afficher les sources et rendre les réponses utiles dans de vrais workflows plutôt que dans des conversations isolées. C'est essentiel pour l'adoption : les utilisateurs doivent savoir quel système fournit le contexte, les administrateurs doivent comprendre les permissions appliquées et les managers doivent mesurer la valeur opérationnelle du workflow.",
-    explainerPoints: ["Réponses sourcées depuis les outils métier", "Workflows gouvernés avec validation humaine", "Déploiement privé pour les données enterprise"],
+    search: "Rechercher une intégration",
+    noResults: "Aucune intégration ne correspond à votre recherche.",
     seo: {
       metaTitle: "Connecteurs IA et intégrations | Wonka AI",
       metaDescription: "Explorez les connecteurs Wonka pour Odoo, SharePoint, Salesforce, Slack, Google Drive, HubSpot et les systèmes enterprise.",
@@ -53,16 +52,14 @@ const copy = {
   },
   nl: {
     eyebrow: "Integraties",
-    title: "Koppel private AI-agents aan je bedrijfsstack",
+    title: "Koppel private AI-agents aan uw bedrijfsstack",
     subtitle: "Ontdek de tools die Wonka kan verbinden voor private search, samenvattingen, workflowautomatisering en beheerde AI-agents.",
     popular: "Populaire integraties",
     popularGuides: "Populaire integratiegidsen",
     all: "Alle connectoren",
-    categories: ["CRM", "Documenten", "Projectmanagement", "Communicatie", "ERP", "Kennis"],
     empty: "Nog geen connectoren.",
-    explainerTitle: "Wat een Wonka-connector doet",
-    explainerBody: "Een Wonka-connector koppelt private AI-agents aan de tools waar het werk al gebeurt. Teams hoeven gevoelige data niet naar een generieke assistent te verplaatsen: Wonka houdt operationele context verbonden met vertrouwde systemen zoals CRM, ERP, documentopslag en communicatietools. Elke connector is ontworpen om permissies te respecteren, bronnen zichtbaar te maken en antwoorden bruikbaar te maken in echte workflows in plaats van losse chatsessies. Dat is belangrijk voor adoptie: gebruikers moeten weten welk systeem context leverde, beheerders moeten de permissies begrijpen en managers moeten zien of de workflow meetbare operationele waarde oplevert.",
-    explainerPoints: ["Antwoorden met bronnen uit bedrijfstools", "Beheerste workflows met menselijke controle", "Private deployment voor enterprise data"],
+    search: "Zoek een integratie",
+    noResults: "Geen integraties gevonden voor uw zoekopdracht.",
     seo: {
       metaTitle: "AI-integraties en connectoren | Wonka AI",
       metaDescription: "Ontdek Wonka AI-connectoren voor Odoo, SharePoint, Salesforce, Slack, Google Drive, HubSpot en enterprise systemen.",
@@ -73,21 +70,23 @@ const copy = {
 
 const prioritySlugs = ["odoo", "sharepoint", "salesforce", "slack", "hubspot", "google-drive"];
 
-function logoUrl(connector: ConnectorPage): string | null {
-  return connector.toolLogo ? urlFor(connector.toolLogo).width(96).height(96).fit("max").url() : null;
-}
-
-function ConnectorLogo({ connector }: { connector: ConnectorPage }) {
-  const src = logoUrl(connector);
+function ConnectorLogo({ connector, size = "md" }: { connector: ConnectorView; size?: "sm" | "md" }) {
   return (
-    <div className="grid size-12 shrink-0 place-items-center rounded-md border border-border bg-background">
-      {src ? (
+    <div
+      className={cn(
+        "grid shrink-0 place-items-center border border-border bg-background",
+        radius.sm,
+        size === "sm" ? "size-10" : "size-12",
+      )}
+    >
+      {connector.logoSrc ? (
         <Image
-          src={src}
-          alt={connector.toolLogo?.alt || `${connector.toolName} logo`}
+          src={connector.logoSrc}
+          alt={connector.logoAlt}
           width={32}
           height={32}
-          className="h-8 w-8 object-contain"
+          unoptimized
+          className={cn("object-contain", size === "sm" ? "size-6" : "size-8")}
         />
       ) : (
         <span className="type-paragraph-m-bold text-text/40">{connector.toolName.slice(0, 1)}</span>
@@ -109,12 +108,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ConnectorsPage({ params }: PageProps) {
   const { locale } = await params;
   const { data } = await sanityFetch({ query: CONNECTOR_PAGES_QUERY, params: { language: locale } });
-  const connectors = (data ?? []) as ConnectorPage[];
+  const connectors = resolveConnectorList((data ?? []) as ConnectorPage[], locale);
   const labels = copy[locale];
   const popular = connectors
-    .filter((connector) => prioritySlugs.includes(connector.slug.current))
-    .sort((a, b) => prioritySlugs.indexOf(a.slug.current) - prioritySlugs.indexOf(b.slug.current));
-
+    .filter((connector) => prioritySlugs.includes(connector.slug))
+    .sort((a, b) => prioritySlugs.indexOf(a.slug) - prioritySlugs.indexOf(b.slug));
   return (
     <main className="bg-background">
       <section className="border-b border-dashed border-border">
@@ -122,13 +120,6 @@ export default async function ConnectorsPage({ params }: PageProps) {
           <p className="type-eyebrow text-text/40">{labels.eyebrow}</p>
           <h1 className="mt-4 type-h2 max-w-4xl">{labels.title}</h1>
           <p className="mt-5 max-w-3xl type-body leading-relaxed text-text/60">{labels.subtitle}</p>
-          <div className="mt-8 flex flex-wrap gap-2">
-            {(labels.categories as string[]).map((category) => (
-              <span key={category} className="rounded-full border border-border px-3 py-1 type-eyebrow text-text/45">
-                {category}
-              </span>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -137,27 +128,18 @@ export default async function ConnectorsPage({ params }: PageProps) {
           <p className="type-body text-text/40">{labels.empty}</p>
         ) : (
           <>
-            <div className="mb-14 grid gap-6 rounded-lg border border-border bg-mid-gray p-6 lg:grid-cols-[1fr_1.4fr]">
-              <div>
-                <h2 className="type-h5">{labels.explainerTitle}</h2>
-                <p className="mt-4 type-paragraph-m leading-relaxed text-text/65">{labels.explainerBody}</p>
-              </div>
-              <div className="grid gap-3 md:grid-cols-3">
-                {(labels.explainerPoints as string[]).map((point) => (
-                  <p key={point} className="rounded-md border border-border bg-background p-4 type-paragraph-m-bold">{point}</p>
-                ))}
-              </div>
-            </div>
-
             {popular.length ? (
               <div className="mb-14">
                 <h2 className="type-h5 mb-6">{labels.popular}</h2>
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   {popular.map((connector) => (
                     <a
-                      key={connector._id}
-                      href={itemPath("connectors", locale, connector.slug.current)}
-                      className="group flex gap-4 rounded-lg border border-border bg-mid-gray p-5 transition-colors hover:border-accent hover:bg-background"
+                      key={connector.id}
+                      href={itemPath("connectors", locale, connector.slug)}
+                      className={cn(
+                        "group flex gap-4 border border-border bg-mid-gray p-5 transition-colors hover:border-accent hover:bg-background",
+                        radius.sm,
+                      )}
                     >
                       <ConnectorLogo connector={connector} />
                       <div>
@@ -170,33 +152,20 @@ export default async function ConnectorsPage({ params }: PageProps) {
               </div>
             ) : null}
 
-            <div>
-              <h2 className="type-h5 mb-6">{labels.all}</h2>
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {connectors.map((connector) => (
-                  <a
-                    key={connector._id}
-                    href={itemPath("connectors", locale, connector.slug.current)}
-                    className="group flex min-h-40 flex-col rounded-lg border border-border p-5 transition-colors hover:border-accent"
-                  >
-                    <div className="mb-5 flex items-center gap-3">
-                      <ConnectorLogo connector={connector} />
-                      <h3 className="type-body font-medium group-hover:text-accent">{connector.toolName}</h3>
-                    </div>
-                    <p className="type-paragraph-m text-text/60">{connector.tagline}</p>
-                    {connector.tags?.length ? (
-                      <div className="mt-auto flex flex-wrap gap-2 pt-5">
-                        {connector.tags.slice(0, 3).map((tag) => (
-                          <span key={tag} className="rounded-full bg-mid-gray px-2 py-1 type-eyebrow text-text/40">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    ) : null}
-                  </a>
-                ))}
-              </div>
-            </div>
+            <ConnectorsDirectory
+              title={labels.all}
+              searchPlaceholder={labels.search}
+              emptyLabel={labels.noResults}
+              items={connectors.map((connector) => ({
+                id: connector.id,
+                href: itemPath("connectors", locale, connector.slug),
+                toolName: connector.toolName,
+                description: connector.description,
+                tags: connector.tags,
+                logoSrc: connector.logoSrc,
+                logoAlt: connector.logoAlt,
+              }))}
+            />
             <HubPopularLinks title={labels.popularGuides as string} links={getHubPopularLinks(locale)} />
           </>
         )}
