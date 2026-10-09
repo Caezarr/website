@@ -15,6 +15,8 @@ export const buttonVariants = cva(
       variant: {
         primary:
           "type-paragraph-m-bold isolate h-[2.6875rem] px-[1.125rem] text-[var(--ds-component-button-primary-foreground)]",
+        primaryOutline:
+          "type-paragraph-m-bold isolate h-[2.6875rem] px-[1.125rem] text-text [text-shadow:0_1px_12px_rgba(0,0,0,0.25)]",
         secondary:
           "type-paragraph-s isolate h-[2rem] px-[0.75rem] text-[var(--ds-component-button-secondary-foreground)]",
         underline: "type-paragraph-m-bold rounded-none text-text",
@@ -43,6 +45,7 @@ export const buttonVariants = cva(
 
 const VARIANTS_WITH_ARROW = new Set([
   "primary",
+  "primaryOutline",
   "secondary",
   "underline",
 ]);
@@ -123,6 +126,40 @@ function ButtonBackgroundShape({
         d={SECONDARY_PATH}
         fill="var(--ds-component-button-secondary-background)"
       />
+    );
+  }
+
+  if (variant === "primaryOutline") {
+    return (
+      <>
+        <span
+          aria-hidden
+          className="pointer-events-none absolute inset-0 -z-10 bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.18),0_8px_32px_rgba(0,0,0,0.12)] backdrop-blur-md transition-[background-color,opacity] duration-[var(--ds-motion-duration-normal)] group-hover/btn:bg-white/[0.16] group-hover/btn:opacity-90"
+          style={{
+            WebkitMaskImage: PRIMARY_MASK_URL,
+            maskImage: PRIMARY_MASK_URL,
+            WebkitMaskSize: "100% 100%",
+            maskSize: "100% 100%",
+            WebkitMaskRepeat: "no-repeat",
+            maskRepeat: "no-repeat",
+          }}
+        />
+        <svg
+          className="pointer-events-none absolute inset-0 -z-10 h-full w-full transition-opacity duration-[var(--ds-motion-duration-normal)] group-hover/btn:opacity-90"
+          viewBox="0 0 167 43"
+          preserveAspectRatio="none"
+          fill="none"
+          aria-hidden
+        >
+          <path
+            d={PRIMARY_PATH}
+            fill="none"
+            stroke="rgba(255,255,255,0.28)"
+            strokeWidth="1"
+            vectorEffect="non-scaling-stroke"
+          />
+        </svg>
+      </>
     );
   }
 
