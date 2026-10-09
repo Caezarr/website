@@ -24,54 +24,51 @@ export function HomeV2Subsidies({
   return (
     <section className="bg-background py-14 md:py-20">
       <Section>
-        <HomeV2Reveal className="mb-10 md:mb-12">
-          <SectionHeader
-            align="left"
-            eyebrow={<Eyebrow>{copy.eyebrow}</Eyebrow>}
-            heading={copy.title}
-            body={copy.body}
-            headingRole="section"
-          />
-          <ButtonLink
-            href={startAiHref}
-            variant="primary"
-            className="mt-6 md:mt-8"
-          >
-            {copy.strategyCta}
-          </ButtonLink>
-        </HomeV2Reveal>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:items-center lg:gap-16">
+          <HomeV2Reveal>
+            <SectionHeader
+              align="left"
+              eyebrow={<Eyebrow>{copy.eyebrow}</Eyebrow>}
+              heading={copy.title}
+              body={copy.body}
+              headingRole="section"
+            />
+            <ButtonLink
+              href={startAiHref}
+              variant="primary"
+              className="mt-6 md:mt-8"
+            >
+              {copy.strategyCta}
+            </ButtonLink>
+          </HomeV2Reveal>
 
-        <HomeV2Reveal delay={0.06}>
-          <p className="type-eyebrow text-text/45 mb-5 md:mb-6">
-            {copy.subsidiesTitle}
-          </p>
-        </HomeV2Reveal>
-
-        <div className="grid gap-5 md:grid-cols-2 md:gap-6">
-          {copy.cards.map((card, index) => (
-            <HomeV2Reveal key={card.title} delay={0.08 + 0.06 * index}>
-              <Surface
-                variant="card"
-                className={cn(
-                  "flex h-full min-h-[14rem] flex-col gap-4 bg-mid-gray p-6 md:p-8",
-                )}
-              >
-                <h3 className={cn(headingClass.card, "text-text")}>
-                  {card.title}
-                </h3>
-                <p className="type-paragraph-m text-text/70 flex-1">
-                  {card.body}
-                </p>
-                <ButtonLink
-                  href={card.href}
-                  variant="underline"
-                  className="mt-auto w-fit"
-                >
-                  {copy.cardCta}
-                </ButtonLink>
-              </Surface>
-            </HomeV2Reveal>
-          ))}
+          {copy.cards.length ? (
+            <div className="grid gap-4">
+              {copy.cards.map((card, index) => (
+                <HomeV2Reveal key={card.title} delay={0.08 + 0.06 * index}>
+                  <Surface
+                    variant="card"
+                    className="flex flex-col gap-3 bg-mid-gray p-6"
+                  >
+                    <p className="type-eyebrow text-text/45">
+                      {copy.subsidiesTitle}
+                    </p>
+                    <h3 className={cn(headingClass.card, "text-text")}>
+                      {card.title}
+                    </h3>
+                    <p className="type-paragraph-m text-text/70">{card.body}</p>
+                    <ButtonLink
+                      href={card.href}
+                      variant="underline"
+                      className="mt-2 w-fit"
+                    >
+                      {copy.cardCta}
+                    </ButtonLink>
+                  </Surface>
+                </HomeV2Reveal>
+              ))}
+            </div>
+          ) : null}
         </div>
       </Section>
     </section>

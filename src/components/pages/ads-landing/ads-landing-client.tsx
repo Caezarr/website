@@ -514,7 +514,7 @@ export function AdsLandingClient({
       <Prompts copy={copy.prompts} />
       <HomeV2PlatformStack copy={shared.platform} locale="fr" />
       <Fit copy={copy.fit} />
-      <Integrations copy={shared.integrations} />
+      <Integrations copy={shared.integrations} locale="fr" />
       <Steps copy={copy.steps} />
       <Pricing copy={copy.hero} links={links} />
       <HomeSecurityBanner data={shared.security} securityUrl={links.securityUrl} />

@@ -7,7 +7,7 @@ import { ClientProofCard } from "@/components/sections/home-client-proof";
 import { HomeV2Reveal } from "@/components/pages/home-v2/reveal";
 import { HomeV2PlatformStack } from "@/components/sections/home-v2-platform-stack";
 import { HomeV2Subsidies } from "@/components/sections/home-v2-subsidies";
-import { ButtonLink } from "@/components/ui/button";
+import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -16,6 +16,7 @@ import { headingClass } from "@/lib/design-tokens";
 import { HomeSecurityBanner } from "@/components/sections/home-security-banner";
 import { BulletIcon } from "@/components/ui/icons/bullet";
 import type { Locale } from "@/i18n/config";
+import { hubPath } from "@/lib/locale-path";
 import { cn } from "@/lib/utils";
 import type {
   HomeV2Copy,
@@ -133,6 +134,7 @@ function ToolTile({ tool, size = "md" }: { tool: Tool; size?: "sm" | "md" }) {
             tool.iconClassName ??
               (size === "sm" ? "size-6" : "size-7 md:size-8"),
           )}
+          unoptimized
         />
       ) : (
         <span className="font-serif text-xl" aria-label={tool.name}>
@@ -166,12 +168,12 @@ function CrownIcon() {
 function AwardTag({ copy }: { copy: HomeV2Copy["award"] }) {
   return (
     <div
-      className="award-marble-badge relative flex items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-4 py-1.5 text-white backdrop-blur-md"
+      className="award-marble-badge relative flex items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-3 py-1.5 text-white backdrop-blur-md md:px-4"
       style={{ animation: "award-glow 3s ease-in-out infinite" }}
     >
       <CrownIcon />
-      <span className="relative z-10 h-4 w-px bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" />
-      <span className="relative z-10 text-[0.66rem] font-medium tracking-[0.14em] uppercase md:text-xs">
+      <span className="relative z-10 h-4 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" />
+      <span className="relative z-10 text-[0.56rem] leading-4 font-medium text-balance tracking-[0.08em] uppercase md:text-xs md:tracking-[0.14em]">
         {copy.label}
       </span>
     </div>
@@ -251,7 +253,6 @@ function Hero({
             {logos.map((logo, i) => {
               const size = HERO_LOGO_SIZE_CLASS[logo.size];
               const imgClass = heroMarqueeImgClass(logo);
-              const isRaster = !logo.src.endsWith(".svg");
               return (
                 <span
                   key={`${logo.alt}-${i}`}
@@ -266,7 +267,7 @@ function Hero({
                     width={280}
                     height={80}
                     className={imgClass}
-                    unoptimized={isRaster}
+                    unoptimized
                   />
                 </span>
               );
@@ -461,7 +462,14 @@ function ToolRow({ tools, reverse }: { tools: Tool[]; reverse?: boolean }) {
   );
 }
 
-export function Integrations({ copy }: { copy: HomeV2Copy["integrations"] }) {
+export function Integrations({
+  copy,
+  locale,
+}: {
+  copy: HomeV2Copy["integrations"];
+  locale: Locale;
+}) {
+  const integrationsHref = hubPath("connectors", locale);
   const [department, setDepartment] = useState<DepartmentId>(
     copy.departments[0].id,
   );
@@ -553,11 +561,16 @@ export function Integrations({ copy }: { copy: HomeV2Copy["integrations"] }) {
         </div>
 
         <div className="bg-mid-gray mt-16 rounded-sm p-6 md:p-10">
-          <div className="mb-6 flex flex-wrap items-baseline justify-between gap-3">
+          <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
             <p className="type-h5 text-text">{copy.everydayTitle}</p>
-            <span className="type-paragraph-s border-text/30 text-text rounded-full border border-dashed px-4 py-1">
+            <ButtonLink
+              href={integrationsHref}
+              variant="outline"
+              className="type-paragraph-s h-auto shrink-0 gap-1.5 rounded-full border border-dashed border-text/30 bg-transparent px-4 py-1.5 shadow-none hover:bg-background"
+            >
               {copy.everydayCount}
-            </span>
+              <ArrowIcon className="transition-transform duration-[var(--ds-motion-duration-normal)] group-hover/btn:translate-x-[0.125rem]" />
+            </ButtonLink>
           </div>
           <ToolRow tools={EVERYDAY_TOOL_ROWS[0]} />
           <ToolRow tools={EVERYDAY_TOOL_ROWS[1]} reverse />
@@ -648,14 +661,14 @@ function Team({
 
 /* ───────────────────────── final CTA ───────────────────────── */
 
-function FinalCta({
+export function HomeV2FinalCta({
   copy,
   hero,
   links,
 }: {
   copy: HomeV2Copy["finalCta"];
-  hero: HomeV2Copy["hero"];
-  links: HomeV2Links;
+  hero: Pick<HomeV2Copy["hero"], "primaryCta" | "secondaryCta">;
+  links: Pick<HomeV2Links, "meetingUrl">;
 }) {
   return (
     <section
@@ -714,11 +727,11 @@ export function HomeV2Client({
         data={copy.security}
         securityUrl={links.securityUrl}
       />
-      <Integrations copy={copy.integrations} />
+      <Integrations copy={copy.integrations} locale={locale} />
       <Team copy={copy.team} links={links} />
       <HomeV2Subsidies copy={copy.subsidies} locale={locale} />
       <Clients copy={copy.clients} />
-      <FinalCta copy={copy.finalCta} hero={copy.hero} links={links} />
+      <HomeV2FinalCta copy={copy.finalCta} hero={copy.hero} links={links} />
     </main>
   );
 }
