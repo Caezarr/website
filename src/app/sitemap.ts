@@ -6,6 +6,7 @@ import { hubPath, itemPath } from "@/lib/locale-path";
 import { locales } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 import { buildExistingItemLanguages, buildHubLanguages } from "@/lib/hreflang";
+import { CATALOG_SLUGS } from "@/lib/resolve-connectors";
 import {
   commercialLanguages,
   commercialPath,
@@ -128,6 +129,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const glossaryBySlug = groupBySlug(data.glossaryTerms ?? []);
     const comparisonsBySlug = groupBySlug(data.comparisons ?? []);
     const connectorsBySlug = groupBySlug(data.connectors ?? []);
+    for (const slug of CATALOG_SLUGS) {
+      const existing = connectorsBySlug[slug] ?? [];
+      const missing = locales
+        .filter((language) => !existing.some((item) => item.language === language))
+        .map((language) => ({ slug: { current: slug }, language }));
+      connectorsBySlug[slug] = [...existing, ...missing];
+    }
     const caseStudiesBySlug = groupBySlug(data.caseStudies ?? []);
 
     const contentPages: MetadataRoute.Sitemap = [
