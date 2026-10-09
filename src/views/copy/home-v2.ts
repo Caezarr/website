@@ -10,9 +10,9 @@ export type DepartmentId =
 
 export type PlatformVideoId =
   | "triggers"
-  | "team"
+  | "routing"
   | "secure"
-  | "analytics";
+  | "control";
 export type SecurityTileId =
   | "iso"
   | "gdpr"
@@ -133,7 +133,7 @@ const en: HomeV2Copy = {
         body: "AI moves beyond quick answers and starts creating documents, answering mails and updating your ERP, so teams finish more without adding hours.",
       },
       {
-        id: "team",
+        id: "routing",
         title: "Processes are respected.",
         body: "Requests get redirected to agents built for those specific tasks, so everyone works in the same way with AI.",
         ctaLabel: "Explore AI Agents",
@@ -144,7 +144,7 @@ const en: HomeV2Copy = {
         body: "Work with sensitive HR, finance and customer data in a secure environment, so even your most valuable AI use cases can go live.",
       },
       {
-        id: "analytics",
+        id: "control",
         title: "You keep control.",
         body: "Permissions, spend and usage stay visible as adoption spreads across departments, so scaling AI never means losing oversight.",
       },
@@ -321,7 +321,7 @@ const fr: HomeV2Copy = {
         body: "L'IA dépasse les réponses rapides et commence à créer des documents, répondre aux e-mails et mettre à jour votre ERP, pour que vos équipes avancent sans y passer plus d'heures.",
       },
       {
-        id: "team",
+        id: "routing",
         title: "Les processus sont respectés.",
         body: "Les demandes sont orientées vers des agents conçus pour ces tâches précises, pour que chacun travaille de la même façon avec l'IA.",
         ctaLabel: "Découvrir AI Agents",
@@ -332,7 +332,7 @@ const fr: HomeV2Copy = {
         body: "Travaillez avec des données RH, financières et clients sensibles dans un environnement sécurisé, pour que vos cas d'usage IA les plus stratégiques puissent passer en production.",
       },
       {
-        id: "analytics",
+        id: "control",
         title: "Vous gardez le contrôle.",
         body: "Droits, dépenses et usage restent visibles quand l'adoption se propage, pour scaler l'IA sans perdre la visibilité.",
       },
@@ -510,7 +510,7 @@ const nl: HomeV2Copy = {
         body: "AI blijft niet bij snelle antwoorden en begint documenten op te stellen, mails te beantwoorden en uw ERP bij te werken, zodat teams meer afronden zonder extra uren.",
       },
       {
-        id: "team",
+        id: "routing",
         title: "Processen worden gerespecteerd.",
         body: "Aanvragen worden doorgestuurd naar agents die voor die specifieke taken zijn opgezet, zodat iedereen op dezelfde manier met AI werkt.",
         ctaLabel: "Ontdek AI Agents",
@@ -521,7 +521,7 @@ const nl: HomeV2Copy = {
         body: "Werk met gevoelige HR-, financiële en klantdata in een veilige omgeving, zodat ook uw meest waardevolle AI-use cases live kunnen.",
       },
       {
-        id: "analytics",
+        id: "control",
         title: "U houdt controle.",
         body: "Rechten, spend en gebruik blijven zichtbaar wanneer adoptie groeit, zodat opschalen nooit betekent dat u het overzicht verliest.",
       },
