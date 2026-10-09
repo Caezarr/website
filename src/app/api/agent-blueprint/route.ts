@@ -6,6 +6,7 @@ import {
 import {
   anonymizeBlueprint,
   anonymizeCompanyResearch,
+  dedupeAgents,
   missingBlueprintEnv,
   normalizeTarget,
   companyPlaceholder,
@@ -252,8 +253,14 @@ export async function POST(request: Request) {
           pages: crawl.pages.length,
           ...timings,
         });
+        const anonymized = anonymizeBlueprint(
+          blueprint.value,
+          identifiers,
+          placeholder,
+        );
         const result = {
-          ...anonymizeBlueprint(blueprint.value, identifiers, placeholder),
+          ...anonymized,
+          agents: dedupeAgents(anonymized.agents),
           sources: research.sources.map((source, index) => ({
             title: `Public source ${index + 1}`,
             url: source.url,

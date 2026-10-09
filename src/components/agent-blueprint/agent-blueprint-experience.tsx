@@ -93,7 +93,7 @@ const progressStages: Array<{
   },
   {
     stage: "design",
-    label: "Designing your three agents",
+    label: "Designing your agents",
     detail: "Workflows, integrations, controls and time saved",
     progress: [52, 96],
   },
@@ -769,6 +769,15 @@ function AgentDetailPanel({
   );
 }
 
+/** CTA label for importing the blueprint, matching how many agents it holds. */
+function importAgentsLabel(locale: Locale, count: number): string {
+  if (count === 1) return t(locale, "Import my agent into WonkaChat");
+  return t(locale, "Import my {count} agents into WonkaChat").replace(
+    "{count}",
+    String(count),
+  );
+}
+
 function BlueprintResults({
   response,
   locale,
@@ -792,6 +801,7 @@ function BlueprintResults({
     ...response.result.agents.map((agent) => agent.weeklyHoursSaved.max),
   );
   const firstAgent = response.result.agents[0];
+  const agentCount = response.result.agents.length;
   const weeklySavings = useMemo(
     () =>
       response.result.agents.reduce(
@@ -830,8 +840,15 @@ function BlueprintResults({
       label: t(locale, "working days freed up every month"),
     },
     {
-      value: String(response.result.agents.length),
-      label: t(locale, "agents, from copilot to autonomous"),
+      value: String(agentCount),
+      label: t(
+        locale,
+        agentCount === 1
+          ? "agent to start with"
+          : agentCount === 2
+            ? "agents to start with"
+            : "agents, from copilot to autonomous",
+      ),
     },
   ];
 
@@ -899,9 +916,11 @@ function BlueprintResults({
                 {t(locale, "Compare the workflow, integrations and weekly time saved.")}
               </p>
             </div>
-            <p className="type-paragraph-s text-text/35 hidden sm:block">
-              {locale === "fr" ? `${selectedAgentIndex + 1} sur ${response.result.agents.length}` : locale === "nl" ? `${selectedAgentIndex + 1} van ${response.result.agents.length}` : `${selectedAgentIndex + 1} of ${response.result.agents.length}`}
-            </p>
+            {agentCount > 1 ? (
+              <p className="type-paragraph-s text-text/35 hidden sm:block">
+                {locale === "fr" ? `${selectedAgentIndex + 1} sur ${agentCount}` : locale === "nl" ? `${selectedAgentIndex + 1} van ${agentCount}` : `${selectedAgentIndex + 1} of ${agentCount}`}
+              </p>
+            ) : null}
           </div>
 
           <div
@@ -981,6 +1000,42 @@ function BlueprintResults({
                 </button>
               );
             })}
+            {agentCount < 3 ? (
+              <div
+                className={cn(
+                  "flex min-w-[15rem] flex-1 snap-start flex-col justify-between gap-4 bg-white p-4 sm:min-w-0",
+                  agentCount === 1 && "sm:col-span-2",
+                )}
+              >
+                <div>
+                  <span className="type-eyebrow text-text/35">
+                    {t(locale, "For now")}
+                  </span>
+                  <p className="type-paragraph-m-bold mt-3">
+                    {t(
+                      locale,
+                      agentCount === 1
+                        ? "We recommend starting with this one."
+                        : "We recommend starting with these two.",
+                    )}
+                  </p>
+                  <p className="type-paragraph-s text-text/55 mt-1">
+                    {t(locale, "Your website did not show another process clear enough for a solid agent. Have other ideas? Tell us and we will scope them with you.")}
+                  </p>
+                </div>
+                <Link
+                  href={meetingUrl}
+                  onClick={trackDemoClick}
+                  data-track="meeting"
+                  data-meeting-type="general"
+                  data-blueprint-cta="more_ideas"
+                  className="type-paragraph-s border-border text-text/70 hover:text-text flex items-center justify-between border-t pt-3"
+                >
+                  <span>{t(locale, "Share my ideas")}</span>
+                  <span aria-hidden>→</span>
+                </Link>
+              </div>
+            ) : null}
           </div>
 
           <div className="mt-4">
@@ -1047,7 +1102,7 @@ function BlueprintResults({
                 data-track="wonkachat_start"
                 data-blueprint-cta="import_wonkachat"
               >
-                {t(locale, "Import my 3 agents into WonkaChat")}
+                {importAgentsLabel(locale, agentCount)}
               </ButtonLink>
               <Link
                 href={meetingUrl}
@@ -1090,6 +1145,7 @@ function StickyBar({
   meetingUrl,
   wonkaChatUrl,
   assessmentId,
+  agentCount,
   onBook,
   onImport,
   formInView,
@@ -1100,6 +1156,7 @@ function StickyBar({
   meetingUrl: string;
   wonkaChatUrl: string;
   assessmentId: string | null;
+  agentCount: number;
   onBook: () => void;
   onImport: () => void;
   formInView: boolean;
@@ -1160,7 +1217,7 @@ function StickyBar({
                   data-track="wonkachat_start"
                   data-blueprint-cta="import_wonkachat"
                 >
-                  {t(locale, "Import my 3 agents into WonkaChat")}
+                  {importAgentsLabel(locale, agentCount)}
                 </ButtonLink>
               ) : (
                 <ButtonLink
@@ -1478,14 +1535,14 @@ export function AgentBlueprintExperience({
                 "mt-5 max-w-[16ch] text-balance md:mt-7",
               )}
             >
-              {t(locale, "See the 3 AI agents your company should build first.")}
+              {t(locale, "See the AI agents your company should build first.")}
             </h1>
             <p className="type-body text-text/80 mt-4 max-w-xl md:mt-6">
               <span className="sm:hidden">
-                {t(locale, "Enter your website. We map how your company works and design three agents around your own processes.")}
+                {t(locale, "Enter your website. We map how your company works and design agents around your own processes.")}
               </span>
               <span className="hidden sm:inline">
-                {t(locale, "Enter your website. We read your pages, map how your company actually works, match it against 570 real enterprise AI projects and design three agents built around your own processes, with the hours each one gives back every week.")}
+                {t(locale, "Enter your website. We read your pages, map how your company actually works, match it against 570 real enterprise AI projects and design agents built around your own processes, with the hours each one gives back every week.")}
               </span>
             </p>
 
@@ -1663,7 +1720,7 @@ export function AgentBlueprintExperience({
             {t(locale, "Your team is too good for repetitive work.")}
           </h2>
           <p className="type-body text-text/80 mt-5 max-w-[35rem]">
-            {t(locale, "Find out which three agents would take it off their plate. Free, ready in about a minute.")}
+            {t(locale, "Find out which agents would take it off their plate. Free, ready in about a minute.")}
           </p>
           <form
             ref={footerFormRef}
@@ -1719,6 +1776,7 @@ export function AgentBlueprintExperience({
         meetingUrl={meetingUrl}
         wonkaChatUrl={wonkaChatUrl}
         assessmentId={response?.assessmentId ?? null}
+        agentCount={response?.result.agents.length ?? 0}
         onBook={trackDemoClick}
         onImport={trackImportClick}
         formInView={formsInView.size > 0}

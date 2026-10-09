@@ -133,7 +133,7 @@ const AGENT_BLUEPRINT_SCHEMA = {
     },
     agents: {
       type: "array",
-      minItems: 3,
+      minItems: 1,
       maxItems: 3,
       items: {
         type: "object",
@@ -541,12 +541,13 @@ export async function designAgents(
 
 Write every natural-language string in ${blueprintOutputLanguage(locale)}. For French, use natural business French for France. For Dutch, use natural business Dutch for Belgium. This applies to every generated user-facing field, including the headline, summary, signals, agent names, process, mission, workflow, controls, impact, benchmark pattern, conversation starters and demo. Keep software/product names unchanged. The tier and effort values must remain the exact schema enum strings.
 
-Design exactly three agents for this specific company, ranked by expected business value. The reader must recognise their own business in every line: an agent that would fit any company in the sector is a failure.
+Design up to three agents for this specific company, ranked by expected business value. The reader must recognise their own business in every line: an agent that would fit any company in the sector is a failure.
 
 How to design:
-1. Start from keyProcesses, hiringSignals and painHypotheses in the company context. Pick three different processes, ideally from different departments, with the strongest evidence and volume.
-2. For each, find the closest benchmark pattern and adapt it to the company's offerings, documents, customers, markets and regulation. Every agent must be supported by a benchmark pattern; never invent a use case without one.
-3. Cover the three tiers once each when it makes sense: one Copilot, one Human in the loop, one Fully autonomous.
+1. Start from keyProcesses, hiringSignals and painHypotheses in the company context. Pick up to three different processes, ideally from different departments, with the strongest evidence and volume.
+2. One agent per process. Never return two agents for the same process, the same documents or the same job with a different name or tier. If the evidence only supports one or two distinct processes, return only one or two agents: fewer strong agents beat padded duplicates.
+3. For each, find the closest benchmark pattern and adapt it to the company's offerings, documents, customers, markets and regulation. Every agent must be supported by a benchmark pattern; never invent a use case without one.
+4. With three agents, cover the three tiers once each when it makes sense: one Copilot, one Human in the loop, one Fully autonomous.
 
 Specificity rules:
 - name: use the company's own vocabulary (its products, documents, customers). Forbidden generic names: "Document assistant", "Email copilot", "Knowledge assistant", "Customer service bot", "AI assistant" and similar.
@@ -581,7 +582,7 @@ Use these tiers exactly:
 - Fully autonomous: a scheduled or workflow-based agent operates without routine human input, with appropriate controls.
 
 signals: 3 or 4 short observations about the company that shaped the blueprint (anonymous, specific).
-headline: one sentence naming what the three agents take off the team's plate, in the company's terms.
+headline: one sentence naming what the agents take off the team's plate, in the company's terms.
 
 Prioritise generative-AI workflows. Deprioritise machine learning, computer vision, voicebots, and commodity chatbots. Be direct, specific, and consultative.
 
