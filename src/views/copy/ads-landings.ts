@@ -149,7 +149,7 @@ const ODOO_STEPS: AdsLandingCopy["steps"] = {
   items: [
     {
       title: "Connectez Odoo",
-      body: "L'adresse de votre Odoo et une clé API suffisent. Nous pouvons le faire avec vous pendant la démo.",
+      body: "L'adresse de votre Odoo, votre base, votre utilisateur et une clé API : vous le faites vous-même depuis WonkaChat, ou avec nous pendant la démo.",
     },
     {
       title: "Choisissez vos premiers usages",
@@ -165,11 +165,11 @@ const ODOO_STEPS: AdsLandingCopy["steps"] = {
 const ODOO_FAQ: AdsLandingCopy["faq"] = [
   {
     q: "Quelles versions d'Odoo sont compatibles ?",
-    a: "WonkaChat passe par l'API externe d'Odoo. Elle est disponible sur Odoo.sh et sur les instances hébergées chez vous ou chez votre intégrateur, en Community comme en Enterprise. Sur Odoo Online, l'accès API dépend de votre formule : nous le vérifions avec vous avant de démarrer.",
+    a: "Odoo Online, Odoo.sh et les instances hébergées chez vous ou chez votre intégrateur, en Community comme en Enterprise, des versions 16 à 19. WonkaChat passe par l'API externe d'Odoo.",
   },
   {
     q: "Faut-il installer un module ou développer quelque chose ?",
-    a: "Non. La connexion se fait depuis WonkaChat, avec l'adresse de votre Odoo et une clé API. Rien n'est installé dans Odoo.",
+    a: "Non. Vous connectez Odoo vous-même depuis WonkaChat, avec l'adresse de votre Odoo, votre base, votre utilisateur et une clé API. Rien n'est installé dans Odoo.",
   },
   {
     q: "L'IA peut-elle modifier mes données Odoo ?",
