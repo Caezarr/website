@@ -48,16 +48,18 @@ type Attribution = Partial<
 };
 
 type ConsentCategories = { analytics: boolean; marketing: boolean };
-type ConsentChoice = "essential" | "all" | "rejected";
 
 let initialized = false;
 let currentConsent: ConsentCategories = { analytics: false, marketing: false };
-let currentChoice: ConsentChoice = "rejected";
 const featureFlagListeners = new Set<() => void>();
 let stopFeatureFlagListener: (() => void) | null = null;
 
 function trackingAllowed(): boolean {
-  return currentChoice !== "rejected";
+  return currentConsent.analytics;
+}
+
+function marketingAllowed(): boolean {
+  return currentConsent.marketing;
 }
 
 function notifyFeatureFlagListeners(): void {
@@ -127,10 +129,8 @@ function captureAttribution(): Attribution {
 
 export function initializeWebsiteAnalytics(
   consent: ConsentCategories,
-  choice: ConsentChoice = "rejected",
 ): void {
   currentConsent = consent;
-  currentChoice = choice;
   const key = process.env.NEXT_PUBLIC_POSTHOG_KEY?.trim();
   if (!key || !trackingAllowed()) {
     if (initialized) posthog.opt_out_capturing();
@@ -231,7 +231,6 @@ export function trackWebsiteEvent(
     window.dataLayer?.push({ event, ...properties });
   }
 
-  if (!trackingAllowed()) return;
   const conversion =
     event === WEBSITE_EVENTS.DIAGNOSTIC_COMPLETED ||
     event === WEBSITE_EVENTS.FRANCE_DIAGNOSTIC_COMPLETE
@@ -240,7 +239,10 @@ export function trackWebsiteEvent(
         ? "StartTrial"
         : null;
   if (!conversion) return;
-  window.fbq?.("track", conversion, properties);
+  if (marketingAllowed()) window.fbq?.("track", conversion, properties);
+  // Always pushed: Google tags in GTM apply Consent Mode themselves (cookieless
+  // pings when ad_storage is denied). Non-Google tags on these events must
+  // require ad_storage in GTM.
   window.dataLayer?.push({
     event: `ads_${conversion.toLowerCase()}`,
     ...properties,

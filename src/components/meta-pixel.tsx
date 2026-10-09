@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { allowsTracking, useCookieConsent } from "@/components/cookie-consent/cookie-consent-provider";
+import { allowsMarketing, useCookieConsent } from "@/components/cookie-consent/cookie-consent-provider";
 import { META_PIXEL_ID } from "@/lib/meta-pixel-id";
 
 const META_PIXEL_SCRIPT_SRC = "https://connect.facebook.net/en_US/fbevents.js";
@@ -55,7 +55,7 @@ export function MetaPixel() {
   const loaded = useRef(false);
 
   useEffect(() => {
-    if (!allowsTracking(consent)) return;
+    if (!allowsMarketing(consent)) return;
     if (loaded.current) return;
     loaded.current = true;
     deferLoadMetaPixel();
