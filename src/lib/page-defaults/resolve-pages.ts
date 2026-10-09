@@ -4,6 +4,7 @@ import {
   resolveUseCasesSection,
 } from "@/lib/cms-sections";
 import { getPageDefaults } from "@/lib/page-defaults/localized";
+import { brandDeep } from "@/lib/workspace-branding";
 import {
   hasSanityImage,
   resolveItems,
@@ -540,11 +541,12 @@ export function resolveWonkaChatContent(
   cms: WonkaChatContent | null,
   homepageUseCases?: UseCasesData | null,
   locale: Locale = "en",
+  options?: { brandAsWorkspace?: boolean },
 ): WonkaChatResolvedContent {
   const defaults = getPageDefaults(locale);
   const d = defaults.wonkaChat;
 
-  return {
+  const resolved: WonkaChatResolvedContent = {
     hero: resolveHero(cms?.hero, d.hero),
     logoStrip: resolveLogoStrip(cms?.logoStrip, d.logoStrip),
     problem: resolveSplitContent(cms?.problem, d.problem),
@@ -570,6 +572,8 @@ export function resolveWonkaChatContent(
     },
     seo: resolveSeo(cms?.seo, d.seo),
   };
+
+  return options?.brandAsWorkspace ? brandDeep(resolved) : resolved;
 }
 
 export function resolveWonkaChatOdooContent(

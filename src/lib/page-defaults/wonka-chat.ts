@@ -200,8 +200,8 @@ export const WONKA_CHAT_DEFAULTS: WonkaChatDefaults = {
   contact: {
     header: {
       eyebrow: "Book a demo",
-      heading: "Want to see what WonkaChat\ncould do for your team?",
-      body: "Book a short demo and we'll show how WonkaChat can connect to your tools, support your workflows and make AI accessible across your organisation.",
+      heading: "Want to see what Wonka Workspace\ncould do for your team?",
+      body: "Book a short demo and we'll show how Wonka Workspace can connect to your tools, support your workflows and make AI accessible across your organisation.",
     },
     portrait: null,
     personName: "Jordy Callens",

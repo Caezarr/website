@@ -1,8 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Surface } from "@/components/ui/surface";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { headingClass } from "@/lib/design-tokens";
 import type { WorkspaceProductsData } from "@/lib/page-defaults/workspace-products";
 
@@ -56,17 +59,21 @@ export function WorkspaceProductCarousel({
 }: WorkspaceProductCarouselProps) {
   return (
     <Section id={id} className={className ?? "py-18 md:py-24"}>
-      <SectionHeader
-        align="left"
-        className="max-w-2xl"
-        heading={data.heading}
-        headingRole="subsection"
-      />
+      <ScrollReveal>
+        <SectionHeader
+          align="left"
+          className="max-w-2xl"
+          heading={data.heading}
+          headingRole="subsection"
+        />
+      </ScrollReveal>
 
       <ul className="mt-10 grid grid-cols-1 gap-5 sm:grid-cols-2">
-        {data.products.map((product) => (
+        {data.products.map((product, index) => (
           <li key={product.title} className="min-w-0">
-            <ProductCard {...product} />
+            <ScrollReveal delay={0.06 + index * 0.06}>
+              <ProductCard {...product} />
+            </ScrollReveal>
           </li>
         ))}
       </ul>

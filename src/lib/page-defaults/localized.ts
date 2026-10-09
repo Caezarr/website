@@ -5,7 +5,7 @@ import {
   DEFAULT_WONKA_CHAT_SECURITY,
 } from "@/lib/cms-sections";
 import {
-  AI_CHAT_CAPABILITY_CLUSTERS,
+  getAiChatCapabilityClusters,
   type AiChatCapabilityClustersData,
 } from "@/lib/page-defaults/ai-chat-capability-grid";
 import { CONTACT_DEFAULTS, type ContactDefaults } from "@/lib/page-defaults/contact";
@@ -52,7 +52,7 @@ const EN_PAGE_DEFAULTS: LocalePageDefaults = {
   security: DEFAULT_SECURITY,
   wonkaChatSecurity: DEFAULT_WONKA_CHAT_SECURITY,
   testimonialsHeader: DEFAULT_TESTIMONIALS_HEADER,
-  aiChatCapabilities: AI_CHAT_CAPABILITY_CLUSTERS,
+  aiChatCapabilities: getAiChatCapabilityClusters("en"),
 };
 
 const PAGE_DEFAULTS: Record<Locale, LocalePageDefaults> = {
