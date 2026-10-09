@@ -7,12 +7,13 @@ import {
   commercialPageFromPathname,
   commercialPath,
   stripLocale,
+  UNLISTED_TRANSLATED_PATHS,
   landingPageFromPathname,
   landingPath,
 } from "@/i18n/routes";
 import { useT, useUiLocale } from "@/i18n/use-t";
 import { HREFLANG } from "@/lib/hreflang";
-import { hubPath } from "@/lib/locale-path";
+import { hubPath, itemPath } from "@/lib/locale-path";
 import { cn } from "@/lib/utils";
 
 const LANGUAGES = ["en", "fr", "nl"] as const satisfies readonly Locale[];
@@ -45,6 +46,9 @@ export function getLanguageSwitchHref(pathname: string, target: Locale): string 
   if (landing) return landingPath(landing, target) ?? commercialPath("home", target);
 
   const stripped = stripLocale(pathname).replace(/\/+$/, "");
+  if (UNLISTED_TRANSLATED_PATHS.has(stripped)) {
+    return target === "en" ? stripped : `/${target}${stripped}`;
+  }
   const segments = stripped.split("/").filter(Boolean);
   // Team page: translated in all locales but kept out of the commercial routes.
   if (segments.length === 1 && segments[0] === "team") {
@@ -53,6 +57,9 @@ export function getLanguageSwitchHref(pathname: string, target: Locale): string 
   if (segments.length === 1) {
     const section = HUB_ROOT_SEGMENTS[segments[0]];
     if (section) return hubPath(section, target);
+  }
+  if (segments.length === 2 && segments[0] === "integrations") {
+    return itemPath("connectors", target, segments[1]);
   }
 
   return commercialPath("home", target);

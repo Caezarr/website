@@ -46,10 +46,12 @@
           "description": "Laat AI het werk van begin tot eind doen"
         },
         "governance": {
-          "label": "Governance"
+          "label": "Governance",
+          "description": "Gebruikers, agents, usage en toegang"
         },
         "integrations": {
-          "label": "Integraties"
+          "label": "Integraties",
+          "description": "Koppel Wonka aan uw bedrijfsstack"
         }
       }
     },
@@ -110,7 +112,7 @@
           "label": "Over Wonka"
         },
         "team": {
-          "label": "Team"
+          "label": "Ontmoet het team"
         },
         "jobs": {
           "label": "Vacatures"
