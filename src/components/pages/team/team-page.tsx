@@ -37,7 +37,15 @@ function initials(name: string) {
   ).toUpperCase();
 }
 
-function MemberCard({ member, index }: { member: TeamMember; index: number }) {
+function MemberCard({
+  member,
+  index,
+  linkedinLabel,
+}: {
+  member: TeamMember;
+  index: number;
+  linkedinLabel: (name: string) => string;
+}) {
   const scene = AVATAR_SCENES[index % AVATAR_SCENES.length];
   return (
     <li className="group">
@@ -64,6 +72,19 @@ function MemberCard({ member, index }: { member: TeamMember; index: number }) {
               {initials(member.name)}
             </span>
           </>
+        )}
+        {member.linkedin && (
+          <a
+            href={`https://www.linkedin.com/in/${encodeURIComponent(member.linkedin)}/`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={linkedinLabel(member.name)}
+            className="absolute right-3 bottom-3 grid size-10 place-items-center rounded-full bg-white text-black shadow-sm transition-all duration-200 hover:bg-blue-900 hover:text-white focus-visible:opacity-100 md:translate-y-1 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100"
+          >
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden className="size-4">
+              <path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z" />
+            </svg>
+          </a>
         )}
       </div>
       <p className="mt-4 font-serif text-xl text-black">{member.name}</p>
@@ -108,7 +129,12 @@ export async function TeamPage({ locale = "en" }: { locale?: Locale }) {
       <section className="px-4 py-20 md:py-28">
         <ul className="mx-auto grid max-w-7xl grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
           {TEAM.map((member, i) => (
-            <MemberCard key={member.name} member={member} index={i} />
+            <MemberCard
+              key={member.name}
+              member={member}
+              index={i}
+              linkedinLabel={copy.linkedinLabel}
+            />
           ))}
         </ul>
       </section>
