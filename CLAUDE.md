@@ -9,7 +9,7 @@
 - **Forms**: react-hook-form + zod (when needed)
 - **Button variants**: class-variance-authority (cva)
 - **Navigation**: Base UI headless NavigationMenu (`@base-ui/react`)
-- **Cookie consent**: vanilla-cookieconsent with GTM integration
+- **Cookie consent**: custom banner (`src/components/cookie-consent/`) + Google Consent Mode v2. Categories drive everything: `analytics` → analytics_storage + PostHog, `marketing` → ad_* signals, Meta Pixel, Apollo. "Essential only" = no tracking.
 - **Package Manager**: bun
 
 The site is published in EN / FR / NL. See **Internationalization** below before adding or editing a page.

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { allowsTracking, useCookieConsent } from "@/components/cookie-consent/cookie-consent-provider";
+import { allowsMarketing, useCookieConsent } from "@/components/cookie-consent/cookie-consent-provider";
 
 const APOLLO_APP_ID = "691d86987b3dc0000db97e49";
 const APOLLO_SCRIPT_SRC_PREFIX =
@@ -45,7 +45,7 @@ export function ApolloTracker() {
   const loaded = useRef(false);
 
   useEffect(() => {
-    if (!allowsTracking(consent)) return;
+    if (!allowsMarketing(consent)) return;
     if (loaded.current) return;
     loaded.current = true;
     deferLoadApolloTracker();

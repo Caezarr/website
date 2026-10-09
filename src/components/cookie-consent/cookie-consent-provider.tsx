@@ -54,13 +54,14 @@ export function useCookieConsent() {
   return useContext(CookieConsentContext);
 }
 
-export function allowsTracking(consent: ConsentRecord | null): boolean {
-  return consent !== null && consent.choice !== "rejected";
+/** Audience measurement (PostHog, analytics_storage). */
+export function allowsAnalytics(consent: ConsentRecord | null): boolean {
+  return consent?.categories.analytics === true;
 }
 
-/** @deprecated Use allowsTracking — essential and accept-all both enable the pixel. */
-export function allowsMetaPixel(consent: ConsentRecord | null): boolean {
-  return allowsTracking(consent);
+/** Ad platforms (Google Ads, Meta Pixel, Apollo, ad_* consent signals). */
+export function allowsMarketing(consent: ConsentRecord | null): boolean {
+  return consent?.categories.marketing === true;
 }
 
 function deriveChoice(categories: ConsentCategories): ConsentChoice {
@@ -92,12 +93,13 @@ function readStored(): ConsentRecord | null {
 
 function pushConsentUpdate(record: ConsentRecord) {
   if (typeof window === "undefined") return;
-  const granted = record.choice !== "rejected";
+  const analytics = record.categories.analytics ? ("granted" as const) : ("denied" as const);
+  const marketing = record.categories.marketing ? ("granted" as const) : ("denied" as const);
   const consentState = {
-    analytics_storage: granted ? ("granted" as const) : ("denied" as const),
-    ad_storage: granted ? ("granted" as const) : ("denied" as const),
-    ad_user_data: granted ? ("granted" as const) : ("denied" as const),
-    ad_personalization: granted ? ("granted" as const) : ("denied" as const),
+    analytics_storage: analytics,
+    ad_storage: marketing,
+    ad_user_data: marketing,
+    ad_personalization: marketing,
   };
 
   if (typeof window.gtag === "function") {
