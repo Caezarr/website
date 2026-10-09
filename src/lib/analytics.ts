@@ -237,7 +237,9 @@ export function trackWebsiteEvent(
       ? "Lead"
       : event === WEBSITE_EVENTS.TRIAL_CLICKED
         ? "StartTrial"
-        : null;
+        : event === WEBSITE_EVENTS.CTA_CLICKED && properties.cta_type === "meeting"
+          ? "Schedule"
+          : null;
   if (!conversion) return;
   if (marketingAllowed()) window.fbq?.("track", conversion, properties);
   // Always pushed: Google tags in GTM apply Consent Mode themselves (cookieless
