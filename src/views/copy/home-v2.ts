@@ -10,8 +10,8 @@ export type DepartmentId =
 
 export type PlatformVideoId =
   | "triggers"
-  | "templates"
-  | "describe"
+  | "team"
+  | "secure"
   | "analytics";
 export type SecurityTileId =
   | "iso"
@@ -133,13 +133,13 @@ const en: HomeV2Copy = {
         body: "AI moves beyond quick answers and starts creating documents, answering mails and updating your ERP, so teams finish more without adding hours.",
       },
       {
-        id: "templates",
+        id: "team",
         title: "Processes are respected.",
         body: "Requests get redirected to agents built for those specific tasks, so everyone works in the same way with AI.",
         ctaLabel: "Explore AI Agents",
       },
       {
-        id: "describe",
+        id: "secure",
         title: "The most valuable use cases get unlocked.",
         body: "Work with sensitive HR, finance and customer data in a secure environment, so even your most valuable AI use cases can go live.",
       },
@@ -321,13 +321,13 @@ const fr: HomeV2Copy = {
         body: "L'IA dépasse les réponses rapides et commence à créer des documents, répondre aux e-mails et mettre à jour votre ERP, pour que vos équipes avancent sans y passer plus d'heures.",
       },
       {
-        id: "templates",
+        id: "team",
         title: "Les processus sont respectés.",
         body: "Les demandes sont orientées vers des agents conçus pour ces tâches précises, pour que chacun travaille de la même façon avec l'IA.",
         ctaLabel: "Découvrir AI Agents",
       },
       {
-        id: "describe",
+        id: "secure",
         title: "Les cas d'usage les plus utiles se débloquent.",
         body: "Travaillez avec des données RH, financières et clients sensibles dans un environnement sécurisé, pour que vos cas d'usage IA les plus stratégiques puissent passer en production.",
       },
@@ -510,13 +510,13 @@ const nl: HomeV2Copy = {
         body: "AI blijft niet bij snelle antwoorden en begint documenten op te stellen, mails te beantwoorden en uw ERP bij te werken, zodat teams meer afronden zonder extra uren.",
       },
       {
-        id: "templates",
+        id: "team",
         title: "Processen worden gerespecteerd.",
         body: "Aanvragen worden doorgestuurd naar agents die voor die specifieke taken zijn opgezet, zodat iedereen op dezelfde manier met AI werkt.",
         ctaLabel: "Ontdek AI Agents",
       },
       {
-        id: "describe",
+        id: "secure",
         title: "De meest waardevolle use cases worden vrijgespeeld.",
         body: "Werk met gevoelige HR-, financiële en klantdata in een veilige omgeving, zodat ook uw meest waardevolle AI-use cases live kunnen.",
       },
