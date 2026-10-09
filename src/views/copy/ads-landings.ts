@@ -499,42 +499,59 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
 
   "ia-europeenne": {
     seo: {
-      title: "IA européenne pour l'entreprise, hébergée en Europe | WonkaChat",
-      description: "Les meilleurs modèles d'IA dans un espace d'équipe hébergé en Europe, édité par une société belge. ISO 27001. Essai gratuit 7 jours.",
+      title: "IA européenne pour l'entreprise : vos données restent en Europe | WonkaChat",
+      description: "GPT, Claude, Mistral et Gemini hébergés en Europe, jamais entraînés sur vos données. Équipes à Paris, Lille et Bruxelles. ISO 27001. Essai gratuit 7 jours.",
     },
     hero: {
       tag: "Une IA européenne pour l'entreprise",
-      title: "Les meilleurs modèles d'IA, hébergés en Europe.",
-      subtitle: "WonkaChat est édité par Wonka AI, société belge. Vos équipes utilisent Mistral, GPT, Claude ou Gemini, avec des données traitées sur Azure West Europe.",
+      title: "Les meilleurs modèles d'IA. Vos données restent en Europe.",
+      subtitle: "Mistral, GPT, Claude ou Gemini pour toute votre équipe, hébergés en Europe et jamais entraînés sur vos données. Une équipe à Paris, Lille et Bruxelles pour vous accompagner.",
       primaryCta: "Essai gratuit",
       secondaryCta: "Parler à l'équipe France",
-      reassurance: REASSURANCE,
+      reassurance: ["Essai gratuit 7 jours", "Hébergé en Europe", "Jamais utilisé pour l'entraînement"],
       logos: ["mistral", "openai", "claude", "gemini"],
     },
     prompts: WORKSPACE_PROMPTS,
     fit: {
-      eyebrow: "Européen, concrètement",
-      title: "Ce que « hébergé en Europe » veut dire chez nous.",
+      eyebrow: "Vos données",
+      title: "Ce qui change avec une IA européenne pour l'entreprise.",
       left: {
-        title: "Où sont vos données",
+        title: "Avec un outil d'IA grand public",
         points: [
-          "Traitement sur Microsoft Azure West Europe (Irlande)",
-          "Modèles IA hébergés dans l'Union européenne",
-          "Chiffrement au repos et en transit",
+          "Vos conversations peuvent servir à entraîner les modèles",
+          "Des données souvent traitées et conservées hors d'Europe",
+          "Chacun son compte, sans contrôle de l'entreprise",
         ],
       },
       right: {
-        title: "Qui s'en occupe",
+        title: "Avec WonkaChat",
         points: [
-          "Wonka AI, société belge, certifiée ISO 27001",
+          "Vos données ne servent jamais à entraîner les modèles",
+          "Aucune conservation de vos données par les fournisseurs d'IA",
+          "Traitement sur Azure West Europe, modèles hébergés dans l'Union européenne",
+          "Chiffrement au repos et en transit, ISO 27001, conforme RGPD et NIS 2",
           "Droits d'accès, journaux d'audit et SSO Entra ID",
-          "Une équipe France pour vous accompagner",
         ],
       },
+      note: "Des équipes à Paris, Lille et Bruxelles, pour vous accompagner sur place.",
     },
     steps: WORKSPACE_STEPS,
-    faq: [SECURITY_FAQ, PRICE_FAQ],
-    finalCta: WORKSPACE_FINAL,
+    faq: [
+      {
+        q: "Nos données servent-elles à entraîner les modèles ?",
+        a: "Non. Les données de vos équipes ne sont jamais utilisées pour entraîner des modèles d'IA, et les fournisseurs de modèles ne les conservent pas.",
+      },
+      SECURITY_FAQ,
+      {
+        q: "Qui est derrière WonkaChat ?",
+        a: "Wonka AI, certifiée ISO 27001, avec des équipes à Paris, Lille et Bruxelles qui accompagnent la mise en place.",
+      },
+      PRICE_FAQ,
+    ],
+    finalCta: {
+      title: "Une IA pour toute l'équipe, des données qui restent en Europe.",
+      subtitle: "Testez gratuitement pendant 7 jours, ou réservez 30 minutes avec l'équipe France.",
+    },
   },
 };
 
