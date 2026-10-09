@@ -25,8 +25,8 @@ const valueStack = [
     detail: "Each process matched to patterns that already work",
   },
   {
-    title: "Three agents, designed for you",
-    detail: "A copilot, a human-in-the-loop and an autonomous agent",
+    title: "Agents designed for you",
+    detail: "From copilot to fully autonomous, each tied to a real process",
   },
   {
     title: "Workflow for every agent",
@@ -188,7 +188,7 @@ const steps = [
     body: "Each high-potential process is matched separately against an anonymised benchmark of enterprise AI projects, so every agent builds on a pattern that already works.",
   },
   {
-    title: "Get three agents, then build one",
+    title: "Get your agents, then build one",
     body: "Pick the agent with the best return. A Wonka engineer validates the scope with you and ships it in weeks.",
   },
 ];

@@ -20,7 +20,7 @@ const localized = {
   fr: {
     path: "/fr/ai-agent-blueprint",
     title: "Plan gratuit d’agents IA pour votre entreprise | Wonka AI",
-    description: "Obtenez trois pistes d’agents IA anonymisées, adaptées à votre activité et comparées à 570 cas d’usage réels.",
+    description: "Obtenez des pistes d’agents IA anonymisées, adaptées à votre activité et comparées à 570 cas d’usage réels.",
     home: "Accueil",
     breadcrumb: "Plan d’agents IA",
     problemLabel: "Problème",
@@ -29,7 +29,7 @@ const localized = {
   nl: {
     path: "/nl/ai-agent-blueprint",
     title: "Gratis AI-agentplan voor je bedrijf | Wonka AI",
-    description: "Ontvang drie anonieme voorstellen voor AI-agents, afgestemd op je bedrijfswerking en vergeleken met 570 echte usecases.",
+    description: "Ontvang anonieme voorstellen voor AI-agents, afgestemd op je bedrijfswerking en vergeleken met 570 echte usecases.",
     home: "Home",
     breadcrumb: "AI-agentplan",
     problemLabel: "Het probleem",

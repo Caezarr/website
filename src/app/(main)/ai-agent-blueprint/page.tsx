@@ -26,7 +26,7 @@ const BLUEPRINT_MEETING_URL =
 const WONKA_CHAT_URL = "https://wonka.chat";
 const title = "Free AI Agent Blueprint for Your Company | Wonka AI";
 const description =
-  "Get three anonymous AI agent recommendations for your company, grounded in 570 real-world enterprise AI use cases.";
+  "Get anonymous AI agent recommendations for your company, grounded in 570 real-world enterprise AI use cases.";
 
 export const metadata: Metadata = {
   title: { absolute: title },

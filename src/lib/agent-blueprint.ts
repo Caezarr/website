@@ -174,9 +174,58 @@ export function isAgentBlueprintResult(
     Array.isArray(candidate.signals) &&
     candidate.signals.every((item) => typeof item === "string") &&
     Array.isArray(candidate.agents) &&
-    candidate.agents.length === 3 &&
+    candidate.agents.length >= 1 &&
+    candidate.agents.length <= MAX_BLUEPRINT_AGENTS &&
     candidate.agents.every(isAgentBlueprintAgent)
   );
+}
+
+/** Most agents a blueprint proposes; fewer when the company has fewer processes. */
+export const MAX_BLUEPRINT_AGENTS = 3;
+
+function comparableWords(value: string): Set<string> {
+  return new Set(
+    value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase()
+      .split(/[^a-z0-9]+/)
+      .filter((word) => word.length > 2),
+  );
+}
+
+/** Jaccard similarity of two word sets. */
+function similarity(a: Set<string>, b: Set<string>): number {
+  if (!a.size || !b.size) return 0;
+  let shared = 0;
+  for (const word of a) if (b.has(word)) shared += 1;
+  return shared / (a.size + b.size - shared);
+}
+
+/**
+ * Drops agents that repeat an earlier one (same process, or near-identical
+ * name and mission), keeping the higher-ranked first occurrence. The model
+ * sometimes pads to three agents when the site only shows one real process.
+ */
+export function dedupeAgents(
+  agents: AgentBlueprintAgent[],
+): AgentBlueprintAgent[] {
+  const kept: Array<{
+    agent: AgentBlueprintAgent;
+    process: Set<string>;
+    identity: Set<string>;
+  }> = [];
+  for (const agent of agents) {
+    const process = comparableWords(agent.process);
+    const identity = comparableWords(`${agent.name} ${agent.mission}`);
+    const duplicate = kept.some(
+      (previous) =>
+        similarity(previous.process, process) >= 0.6 ||
+        similarity(previous.identity, identity) >= 0.5,
+    );
+    if (!duplicate) kept.push({ agent, process, identity });
+  }
+  return kept.map((item) => item.agent);
 }
 
 /** What a redacted company name becomes, in the output language. */
