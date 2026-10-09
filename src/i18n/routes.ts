@@ -32,6 +32,7 @@ export const UNLISTED_TRANSLATED_PATHS = new Set<string>([
   "/team",
   "/workspace",
   "/workspace/ai-agents",
+  "/workspace/governance",
 ]);
 
 /**
