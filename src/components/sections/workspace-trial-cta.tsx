@@ -1,6 +1,7 @@
 import { ButtonLink } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { meetingTrackProps } from "@/lib/meeting-track";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/i18n/config";
@@ -37,6 +38,7 @@ export function WorkspaceTrialCta({
       className={cn("bg-background py-18 text-center md:py-24", className)}
       containerClassName="max-w-2xl"
     >
+      <ScrollReveal>
         <SectionHeader
           align="center"
           heading={title}
@@ -52,6 +54,7 @@ export function WorkspaceTrialCta({
             {ctaLabel}
           </ButtonLink>
         </div>
+      </ScrollReveal>
     </Section>
   );
 }

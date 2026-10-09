@@ -39,6 +39,8 @@ export function getWorkspaceProducts(locale: Locale): WorkspaceProductsData {
       {
         title: copy.aiAgents.title,
         body: copy.aiAgents.body,
+        href: localizeHref("/workspace/ai-agents", locale),
+        ctaLabel: copy.aiAgents.ctaLabel,
         image: {
           src: "/images/workspace/features/ai-agents-feature.png",
           alt: copy.aiAgents.alt,

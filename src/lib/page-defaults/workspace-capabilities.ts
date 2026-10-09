@@ -1,4 +1,5 @@
 import type { Locale } from "@/i18n/config";
+import { localizeHref } from "@/i18n/routes";
 import type {
   AiChatCapabilityClustersData,
   CapabilityGridImage,
@@ -54,13 +55,6 @@ const WORKSPACE_FEATURE_IMAGES: Array<{
       ...CAPABILITY_IMAGE,
     },
   },
-  {
-    id: "hosted-in-eu",
-    image: {
-      src: "/images/workspace/capabilities/hosted-in-the-eu.png",
-      ...CAPABILITY_IMAGE,
-    },
-  },
 ];
 
 export function getWorkspaceCapabilityClusters(
@@ -73,12 +67,25 @@ export function getWorkspaceCapabilityClusters(
       {
         heading: copy.heading,
         layout: "workspace-features",
-        cards: WORKSPACE_FEATURE_IMAGES.map(({ id, image }) => ({
-          id,
-          title: copy.cards[id].title,
-          body: copy.cards[id].body,
-          image: { ...image, alt: copy.cards[id].alt },
-        })),
+        cards: WORKSPACE_FEATURE_IMAGES.map(({ id, image }) => {
+          const cardCopy = copy.cards[id];
+          const footerLabel = cardCopy.footerLink;
+
+          return {
+            id,
+            title: cardCopy.title,
+            body: cardCopy.body,
+            image: { ...image, alt: cardCopy.alt },
+            ...(footerLabel
+              ? {
+                  footerLink: {
+                    label: footerLabel,
+                    href: localizeHref("/workspace/governance", locale),
+                  },
+                }
+              : {}),
+          };
+        }),
       },
     ],
   };

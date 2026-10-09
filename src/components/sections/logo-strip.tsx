@@ -9,6 +9,7 @@ interface LogoStripProps {
   logoGap?: "default" | "wide";
   logoSize?: "default" | "lg";
   marquee?: boolean;
+  ariaLabel?: string;
 }
 
 function LogoStripItem({
@@ -45,6 +46,7 @@ export function LogoStrip({
   logoGap = "default",
   logoSize = "default",
   marquee = false,
+  ariaLabel = "Client logos",
 }: LogoStripProps) {
   const cmsLogos = data.logos?.filter((logo) => hasSanityImage(logo)) ?? [];
   const logos =
@@ -88,7 +90,7 @@ export function LogoStrip({
           <div
             className="group/marquee -mx-6 overflow-clip md:-mx-8 lg:-mx-12"
             role="region"
-            aria-label="Client logos"
+            aria-label={ariaLabel}
           >
             <div className="flex w-max animate-marquee items-center motion-reduce:animate-none group-hover/marquee:[animation-play-state:paused]">
               {logos.map((logo) => (
