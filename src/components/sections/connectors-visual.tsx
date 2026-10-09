@@ -74,11 +74,11 @@ function ConnectorLogo({
   dense: boolean;
 }) {
   const isIcon = connector.variant === "icon";
-  const [src, setSrc] = useState(connector.logo || FALLBACK_CONNECTOR.logo);
-
-  useEffect(() => {
-    setSrc(connector.logo || FALLBACK_CONNECTOR.logo);
-  }, [connector.logo]);
+  const [failedLogo, setFailedLogo] = useState<string | null>(null);
+  const src =
+    connector.logo && connector.logo !== failedLogo
+      ? connector.logo
+      : FALLBACK_CONNECTOR.logo;
 
   return (
     <Image
@@ -86,7 +86,7 @@ function ConnectorLogo({
       alt={connector.name}
       width={isIcon ? 32 : 72}
       height={isIcon ? 32 : 28}
-      onError={() => setSrc(FALLBACK_CONNECTOR.logo)}
+      onError={() => setFailedLogo(connector.logo ?? null)}
       className={cn(
         "w-auto object-contain",
         isIcon
@@ -183,11 +183,13 @@ export function ConnectorsVisual({
   const [cells, setCells] = useState<FlipCellState[]>(() =>
     initialCells(items, buildConnectorFlipPool(items)),
   );
+  const [cellsItems, setCellsItems] = useState(items);
   const [motionOk, setMotionOk] = useState(false);
 
-  useEffect(() => {
+  if (cellsItems !== items) {
+    setCellsItems(items);
     setCells(initialCells(items, flipPool));
-  }, [items, flipPool]);
+  }
 
   useEffect(() => {
     if (!cells.some((cell) => cell.noTransition)) {
