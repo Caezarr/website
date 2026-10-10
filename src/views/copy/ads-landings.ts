@@ -91,7 +91,7 @@ export const ADS_PRICING = {
 const ODOO_PROMPTS: AdsLandingCopy["prompts"] = {
   eyebrow: "Dans Odoo",
   title: "Demandez, l'IA cherche et agit dans Odoo.",
-  body: "Plus besoin de connaître le bon menu ou le bon filtre. Votre équipe écrit sa demande comme à un collègue.",
+  body: "Plus besoin de connaître le bon menu ou le bon filtre. Votre équipe écrit sa demande comme à un collègue, et l'agent agit avec ses droits Odoo, rien de plus.",
   items: [
     {
       tool: "Ventes",
@@ -127,7 +127,8 @@ const ODOO_FIT: AdsLandingCopy["fit"] = {
   left: {
     title: "Ce que vous gardez dans Odoo",
     points: [
-      "Vos données, vos droits et vos processus restent dans Odoo",
+      "L'agent agit avec les droits de votre compte Odoo : rien de plus que ce que vous pouvez déjà faire",
+      "Vos données et vos processus restent dans Odoo",
       "Aucun module à installer, aucun développement",
       "Les actions sensibles restent à valider par un humain",
     ],
@@ -173,7 +174,7 @@ const ODOO_FAQ: AdsLandingCopy["faq"] = [
   },
   {
     q: "L'IA peut-elle modifier mes données Odoo ?",
-    a: "Seulement si vous l'autorisez. Vous choisissez ce que chaque agent peut lire, créer ou modifier, et les actions sensibles restent soumises à validation.",
+    a: "L'agent hérite des droits du compte Odoo connecté : il ne peut rien voir ni rien faire que cet utilisateur ne pourrait pas faire dans Odoo. En plus, vous choisissez ce que chaque agent peut lire, créer ou modifier, et les actions sensibles restent soumises à validation.",
   },
   {
     q: "Où sont traitées mes données ?",
