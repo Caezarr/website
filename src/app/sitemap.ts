@@ -6,6 +6,7 @@ import { hubPath, itemPath } from "@/lib/locale-path";
 import { locales } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 import { buildExistingItemLanguages, buildHubLanguages } from "@/lib/hreflang";
+import { LIBRARY_AGENTS, libraryAgentLanguages, libraryAgentPath } from "@/lib/agent-library";
 import {
   commercialLanguages,
   commercialPath,
@@ -22,6 +23,7 @@ const COMMERCIAL_PRIORITY: Record<Exclude<CommercialPage, "wonkaChat">, number> 
   startAi: 0.9,
   wonkaBuild: 0.9,
   aiAgents: 0.85,
+  agentLibrary: 0.85,
   wonkaChatOdoo: 0.85,
   aiChat: 0.85,
   security: 0.85,
@@ -83,9 +85,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
+  // Agent library detail pages: same slug in every locale
+  const libraryPages: MetadataRoute.Sitemap = LIBRARY_AGENTS.flatMap((agent) => {
+    const languages = libraryAgentLanguages(siteUrl, agent.slug);
+    return locales.map((locale) => ({
+      url: `${siteUrl}${libraryAgentPath(agent.slug, locale as Locale)}`,
+      lastModified,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+      alternates: { languages },
+    }));
+  });
+
   const staticPages: MetadataRoute.Sitemap = [
     ...commercialPages,
     ...landingPages,
+    ...libraryPages,
     { url: `${siteUrl}/ai-agent-blueprint`, lastModified, changeFrequency: "monthly", priority: 0.9 },
     { url: `${siteUrl}/services/start-ai-subsidized-flanders`, lastModified, changeFrequency: "monthly", priority: 0.8 },
     { url: `${siteUrl}/case-studies/itzu`, lastModified, changeFrequency: "monthly", priority: 0.7 },

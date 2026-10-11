@@ -27,7 +27,10 @@ export interface AgentFilmSpec {
     sections: Array<{ heading: string; body: string }>;
   };
   humanControl: string;
-  hours: { min: number; max: number };
+  /** Estimated weekly hours, or null to close on `outcome` instead. */
+  hours: { min: number; max: number } | null;
+  /** Qualitative outcome shown at the end when there is no hours estimate. */
+  outcome?: string;
   labels: AgentFilmLabels;
 }
 

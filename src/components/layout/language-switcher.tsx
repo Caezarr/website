@@ -50,6 +50,10 @@ export function getLanguageSwitchHref(pathname: string, target: Locale): string 
   if (segments.length === 1 && segments[0] === "team") {
     return target === "en" ? "/team" : `/${target}/team`;
   }
+  // Agent library: same slugs in every locale.
+  if (segments[0] === "agent-library" && segments.length === 2) {
+    return target === "en" ? stripped : `/${target}${stripped}`;
+  }
   if (segments.length === 1) {
     const section = HUB_ROOT_SEGMENTS[segments[0]];
     if (section) return hubPath(section, target);

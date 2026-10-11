@@ -64,6 +64,10 @@
           "label": "Design your agent team",
           "description": "Get three tailored AI agent ideas for your company"
         },
+        "agent-library": {
+          "label": "AI agent library",
+          "description": "Ready-to-use agents to import into WonkaChat"
+        },
         "ai-agent-development": {
           "label": "AI Agent Development",
           "description": "We build your agents and ship them"

@@ -70,6 +70,12 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
         description: "Get three tailored AI agent ideas for your company",
       },
       {
+        _key: "agent-library",
+        label: "AI agent library",
+        href: "/agent-library",
+        description: "Ready-to-use agents to import into WonkaChat",
+      },
+      {
         _key: "ai-agent-development",
         label: "AI Agent Development",
         href: "/services/ai-agent-development",

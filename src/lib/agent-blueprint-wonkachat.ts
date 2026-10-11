@@ -132,6 +132,7 @@ export function buildWonkaChatSetup(
     : locale === "nl"
       ? { Copilot: "copiloot", "Human in the loop": "met menselijke controle", "Fully autonomous": "autonoom" }[agent.tier]
       : TIER_PHRASE[agent.tier];
+  const colon = locale === "fr" ? " :" : ":";
   const instructions = [
     locale === "fr"
       ? `Tu es « ${agent.name} », un agent IA ${tierPhrase} pour le processus ${agent.process.toLowerCase()}.`
@@ -139,16 +140,16 @@ export function buildWonkaChatSetup(
         ? `Je bent “${agent.name}”, een ${tierPhrase} AI-agent voor het proces ${agent.process.toLowerCase()}.`
         : `You are "${agent.name}", a ${tierPhrase} AI agent for our ${agent.process.toLowerCase()} process.`,
     "",
-    `${locale === "fr" ? "Mission" : locale === "nl" ? "Opdracht" : "Mission"} : ${agent.mission}`,
-    `${locale === "fr" ? "Déclencheur" : locale === "nl" ? "Trigger" : "Trigger"} : ${agent.trigger}`,
-    agent.inputs.length ? `${locale === "fr" ? "Données d’entrée" : locale === "nl" ? "Invoer" : "Inputs"} : ${agent.inputs.join(", ")}` : null,
+    `${locale === "fr" ? "Mission" : locale === "nl" ? "Opdracht" : "Mission"}${colon} ${agent.mission}`,
+    `${locale === "fr" ? "Déclencheur" : locale === "nl" ? "Trigger" : "Trigger"}${colon} ${agent.trigger}`,
+    agent.inputs.length ? `${locale === "fr" ? "Données d’entrée" : locale === "nl" ? "Invoer" : "Inputs"}${colon} ${agent.inputs.join(", ")}` : null,
     "",
     locale === "fr" ? "Fonctionnement :" : locale === "nl" ? "Werkwijze:" : "How you work:",
     ...agent.workflow.map((step, index) => `${index + 1}. ${step}`),
     "",
-    `${locale === "fr" ? "Validation humaine" : locale === "nl" ? "Menselijke controle" : "Human control"} : ${agent.humanControl}`,
-    connectors.length ? `${locale === "fr" ? "Connecteurs à utiliser" : locale === "nl" ? "Te gebruiken koppelingen" : "Use these connectors"} : ${connectors.join(", ")}` : null,
-    `${locale === "fr" ? "Résultat attendu" : locale === "nl" ? "Verwacht resultaat" : "Expected outcome"} : ${agent.expectedImpact}`,
+    `${locale === "fr" ? "Validation humaine" : locale === "nl" ? "Menselijke controle" : "Human control"}${colon} ${agent.humanControl}`,
+    connectors.length ? `${locale === "fr" ? "Connecteurs à utiliser" : locale === "nl" ? "Te gebruiken koppelingen" : "Use these connectors"}${colon} ${connectors.join(", ")}` : null,
+    `${locale === "fr" ? "Résultat attendu" : locale === "nl" ? "Verwacht resultaat" : "Expected outcome"}${colon} ${agent.expectedImpact}`,
     "",
     locale === "fr" ? "Règles :" : locale === "nl" ? "Regels:" : "Rules:",
     locale === "fr" ? "- Utilise uniquement les informations des outils connectés et des fichiers fournis." : locale === "nl" ? "- Gebruik alleen informatie uit gekoppelde tools en aangeleverde bestanden." : "- Only use information from the connected tools and the files you are given.",
@@ -173,18 +174,19 @@ export function buildWonkaChatSetup(
 
 /** Plain-text setup to paste into WonkaChat's "Create new agent" wizard. */
 export function formatWonkaChatSetup(setup: WonkaChatSetup, locale: Locale = "en"): string {
+  const colon = locale === "fr" ? " :" : ":";
   return [
     locale === "fr" ? "Créez un agent WonkaChat avec cette configuration." : locale === "nl" ? "Maak een WonkaChat-agent met deze configuratie." : "Create a WonkaChat agent with this setup.",
     "",
-    `${locale === "fr" ? "Nom" : locale === "nl" ? "Naam" : "Name"} : ${setup.name}`,
-    `${locale === "fr" ? "Description" : locale === "nl" ? "Beschrijving" : "Description"} : ${setup.description}`,
-    `${locale === "fr" ? "Modèle" : locale === "nl" ? "Model" : "Model"} : ${setup.model}`,
-    `${locale === "fr" ? "Connecteurs" : locale === "nl" ? "Koppelingen" : "Connectors"} : ${setup.connectors.length ? setup.connectors.join(", ") : locale === "fr" ? "Aucun" : locale === "nl" ? "Geen" : "None"}`,
+    `${locale === "fr" ? "Nom" : locale === "nl" ? "Naam" : "Name"}${colon} ${setup.name}`,
+    `${locale === "fr" ? "Description" : locale === "nl" ? "Beschrijving" : "Description"}${colon} ${setup.description}`,
+    `${locale === "fr" ? "Modèle" : locale === "nl" ? "Model" : "Model"}${colon} ${setup.model}`,
+    `${locale === "fr" ? "Connecteurs" : locale === "nl" ? "Koppelingen" : "Connectors"}${colon} ${setup.connectors.length ? setup.connectors.join(", ") : locale === "fr" ? "Aucun" : locale === "nl" ? "Geen" : "None"}`,
     setup.unsupportedTools.length
-      ? `${locale === "fr" ? "Non disponible comme connecteur (à connecter séparément)" : locale === "nl" ? "Niet beschikbaar als koppeling (apart verbinden)" : "Not available as a connector (connect separately)"} : ${setup.unsupportedTools.join(", ")}`
+      ? `${locale === "fr" ? "Non disponible comme connecteur (à connecter séparément)" : locale === "nl" ? "Niet beschikbaar als koppeling (apart verbinden)" : "Not available as a connector (connect separately)"}${colon} ${setup.unsupportedTools.join(", ")}`
       : null,
-    `${locale === "fr" ? "Capacités" : locale === "nl" ? "Mogelijkheden" : "Capabilities"} : ${setup.capabilities.join(", ")}`,
-    `${locale === "fr" ? "Planification" : locale === "nl" ? "Planning" : "Scheduling"} : ${setup.scheduling}`,
+    `${locale === "fr" ? "Capacités" : locale === "nl" ? "Mogelijkheden" : "Capabilities"}${colon} ${setup.capabilities.join(", ")}`,
+    `${locale === "fr" ? "Planification" : locale === "nl" ? "Planning" : "Scheduling"}${colon} ${setup.scheduling}`,
     locale === "fr" ? "Exemples de demandes :" : locale === "nl" ? "Voorbeelden van prompts:" : "Conversation starters:",
     ...setup.conversationStarters.map((starter) => `- ${starter}`),
     "",

@@ -461,15 +461,26 @@ function Outro({ spec, frame, timeline }: SceneProps) {
       className="z-20 items-center justify-center bg-black/50 px-24 text-center text-white"
       style={{ opacity: enter }}
     >
-      <p
-        className="font-serif text-[112px] leading-none font-normal tracking-[-0.03em] text-white lining-nums tabular-nums"
-        style={rise(progress(frame, from + 6, 20))}
-      >
-        {spec.hours.min}–{spec.hours.max}h
-      </p>
-      <p className="mt-3 text-[22px] text-white/80" style={rise(progress(frame, from + 12, 20))}>
-        {spec.labels.hours}
-      </p>
+      {spec.hours ? (
+        <>
+          <p
+            className="font-serif text-[112px] leading-none font-normal tracking-[-0.03em] text-white lining-nums tabular-nums"
+            style={rise(progress(frame, from + 6, 20))}
+          >
+            {spec.hours.min}–{spec.hours.max}h
+          </p>
+          <p className="mt-3 text-[22px] text-white/80" style={rise(progress(frame, from + 12, 20))}>
+            {spec.labels.hours}
+          </p>
+        </>
+      ) : (
+        <p
+          className="max-w-[900px] font-serif text-[52px] leading-[1.1] font-normal tracking-[-0.02em] text-white"
+          style={rise(progress(frame, from + 6, 20))}
+        >
+          {spec.outcome}
+        </p>
+      )}
       <div className="mt-10 flex items-center gap-2" style={rise(progress(frame, from + 22, 20))}>
         {spec.tools.map((tool) => (
           <ToolIcon key={tool.name} tool={tool} size={34} />

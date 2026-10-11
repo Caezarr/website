@@ -39,6 +39,7 @@ import {
 } from "@/lib/agent-blueprint-tools";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/i18n/config";
+import { localizeHref } from "@/i18n/routes";
 import { getT } from "@/i18n/ui";
 import { blueprintText as t } from "@/lib/agent-blueprint-copy";
 import {
@@ -1125,13 +1126,21 @@ function BlueprintResults({
           <p className="type-paragraph-s text-text/40 max-w-3xl">
             {t(locale, "Time savings are directional estimates based on recurring tasks in the benchmark. Validate them against real volumes before investment.")}
           </p>
-          <button
-            type="button"
-            onClick={onReset}
-            className="type-paragraph-s text-text/60 hover:text-text underline underline-offset-4"
-          >
-            {t(locale, "Try another company")}
-          </button>
+          <div className="flex flex-wrap items-center gap-4">
+            <Link
+              href={localizeHref("/agent-library", locale)}
+              className="type-paragraph-s text-text/60 hover:text-text underline underline-offset-4"
+            >
+              {t(locale, "Browse ready-to-use agents")}
+            </Link>
+            <button
+              type="button"
+              onClick={onReset}
+              className="type-paragraph-s text-text/60 hover:text-text underline underline-offset-4"
+            >
+              {t(locale, "Try another company")}
+            </button>
+          </div>
         </div>
       </div>
     </section>
