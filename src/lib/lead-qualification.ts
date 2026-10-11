@@ -40,6 +40,7 @@ export function qualifyLead(
     "wonka-chat-hero": 25,
     "wonka-chat-odoo-hero": 30,
     "france-diagnostic": 35,
+    "agent-blueprint-pdf": 30,
   };
   score += sourceScores[source];
   signals.push(`intent:${source}`);

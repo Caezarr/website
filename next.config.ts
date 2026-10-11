@@ -80,6 +80,12 @@ const headers = async () => [
 const config: NextConfig = {
   redirects,
   headers,
+  // Logos read from disk by the blueprint PDF and OG image renderers.
+  outputFileTracingIncludes: {
+    '/api/agent-blueprint/[id]/pdf': ['./public/images/brand/wonka-logo-black.png'],
+    '/ai-agent-blueprint/r/[id]/opengraph-image': ['./public/images/brand/wonka-logo-white.png'],
+    '/[locale]/ai-agent-blueprint/r/[id]/opengraph-image': ['./public/images/brand/wonka-logo-white.png'],
+  },
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'cdn.sanity.io' },

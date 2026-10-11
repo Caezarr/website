@@ -4,6 +4,7 @@ import {
   isRateLimited,
   isTurnstileRequired,
   normalizeLeadEmail,
+  sanitizeLeadBlueprintId,
   verifyTurnstileToken,
 } from "@/lib/lead-api";
 import { isLeadSource, type LeadErrorCode } from "@/lib/lead-capture";
@@ -19,6 +20,7 @@ interface LeadPayload {
   turnstileToken?: unknown;
   analytics?: unknown;
   diagnostic?: unknown;
+  blueprintId?: unknown;
 }
 
 const ANALYTICS_KEYS = [
@@ -134,8 +136,19 @@ export async function POST(request: Request) {
     }
   }
 
+  const isBlueprintPdf = payload.source === "agent-blueprint-pdf";
+  // Only the PDF form ties a lead to a blueprint; one lead per email and blueprint.
+  const blueprintId = isBlueprintPdf
+    ? sanitizeLeadBlueprintId(payload.blueprintId)
+    : undefined;
+
   try {
-    const duplicate = await hasRecentDuplicateLead(client, email, payload.source);
+    const duplicate = await hasRecentDuplicateLead(
+      client,
+      email,
+      payload.source,
+      blueprintId,
+    );
     if (duplicate) {
       return Response.json(
         {
@@ -172,6 +185,8 @@ export async function POST(request: Request) {
             diagnosticAnswers: sanitizeDiagnostic(payload.diagnostic),
           }
         : {}),
+      ...(isBlueprintPdf ? { firstName: sanitizeText(payload.firstName, 100) } : {}),
+      ...(blueprintId ? { blueprintId } : {}),
       ...(clientIp ? { clientIp } : {}),
     });
 

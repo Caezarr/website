@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Hero } from "@/components/sections/hero";
 import { Problem, type ProblemItem } from "@/components/sections/problem";
 import { Solution } from "@/components/sections/solution";
@@ -134,12 +135,12 @@ export default async function AgentIaEntreprisePage() {
             <div className="rounded-lg border border-border bg-background p-6">
               <h3 className="type-h6 mb-3">Itzu</h3>
               <p className="type-paragraph-m text-text/70">100% des employés sur WonkaChat personnel. Heures économisées par personne chaque semaine sur les workflows RH et ops.</p>
-              <a href="/case-studies/itzu" className="mt-4 inline-block type-paragraph-m-bold text-accent hover:underline">Lire le cas client →</a>
+              <Link href="/case-studies/itzu" className="mt-4 inline-block type-paragraph-m-bold text-accent hover:underline">Lire le cas client →</Link>
             </div>
             <div className="rounded-lg border border-border bg-background p-6">
               <h3 className="type-h6 mb-3">N-allo (filiale Engie)</h3>
-              <p className="type-paragraph-m text-text/70">Équipe de plus de 70 personnes. Réduction de 50% du temps de traitement des emails support. N'a jamais opéré à 70% de capacité.</p>
-              <a href="/case-studies/n-allo" className="mt-4 inline-block type-paragraph-m-bold text-accent hover:underline">Lire le cas client →</a>
+              <p className="type-paragraph-m text-text/70">Équipe de plus de 70 personnes. Réduction de 50% du temps de traitement des emails support. N’a jamais opéré à 70% de capacité.</p>
+              <Link href="/case-studies/n-allo" className="mt-4 inline-block type-paragraph-m-bold text-accent hover:underline">Lire le cas client →</Link>
             </div>
           </div>
           <div className="mt-6 flex flex-wrap gap-4 type-paragraph-m text-text/60">
@@ -178,19 +179,19 @@ export default async function AgentIaEntreprisePage() {
         <div className="text-center">
           <h2 className="type-h4 mb-4">Liens internes</h2>
           <div className="flex flex-wrap justify-center gap-4 type-paragraph-m">
-            <a href="/france" className="text-accent hover:underline">France</a>
+            <Link href="/france" className="text-accent hover:underline">France</Link>
             <span className="text-text/30">•</span>
-            <a href="/security" className="text-accent hover:underline">Sécurité</a>
+            <Link href="/security" className="text-accent hover:underline">Sécurité</Link>
             <span className="text-text/30">•</span>
-            <a href="/wonka-chat" className="text-accent hover:underline">WonkaChat</a>
+            <Link href="/wonka-chat" className="text-accent hover:underline">WonkaChat</Link>
             <span className="text-text/30">•</span>
-            <a href="/fr/wonka-chat/odoo" className="text-accent hover:underline">WonkaChat pour Odoo</a>
+            <Link href="/fr/wonka-chat/odoo" className="text-accent hover:underline">WonkaChat pour Odoo</Link>
             <span className="text-text/30">•</span>
-            <a href="/fr/integrations/odoo" className="text-accent hover:underline">Intégration Odoo</a>
+            <Link href="/fr/integrations/odoo" className="text-accent hover:underline">Intégration Odoo</Link>
             <span className="text-text/30">•</span>
-            <a href="/fr/integrations/sharepoint" className="text-accent hover:underline">Intégration SharePoint</a>
+            <Link href="/fr/integrations/sharepoint" className="text-accent hover:underline">Intégration SharePoint</Link>
             <span className="text-text/30">•</span>
-            <a href="/ai-agents" className="text-accent hover:underline">Agents IA</a>
+            <Link href="/ai-agents" className="text-accent hover:underline">Agents IA</Link>
           </div>
         </div>
       </section>

@@ -1,16 +1,14 @@
 import type { Metadata } from "next";
-import { sanityFetch } from "@sanity/lib/live";
-import { SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
+import Link from "next/link";
 import { Problem, type ProblemItem } from "@/components/sections/problem";
 import { Solution } from "@/components/sections/solution";
 import { Stats } from "@/components/sections/stats";
 import { Security } from "@/components/sections/security";
 import { TrustedBy } from "@/components/sections/trusted-by";
 import { buildMetadata } from "@/lib/seo";
-import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import { cn } from "@/lib/utils";
 import { headingClass } from "@/lib/design-tokens";
-import type { SiteSettings, HeroData, SolutionData } from "@/lib/types";
+import type { HeroData, SolutionData } from "@/lib/types";
 import { FranceHero, FranceCta } from "./france-page-client";
 
 export const dynamic = "force-static";
@@ -28,11 +26,6 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     { path: pagePath, fallbackTitle: title },
   );
-}
-
-async function getSiteSettings() {
-  const { data } = await sanityFetch({ query: SITE_SETTINGS_QUERY });
-  return data as SiteSettings | null;
 }
 
 const heroData: HeroData = {
@@ -87,10 +80,7 @@ const solutionData: SolutionData = {
   ],
 };
 
-export default async function FrancePage() {
-  const settings = await getSiteSettings();
-  const franceMeetingUrl = resolveMeetingUrl(settings?.sharedLinks, "france");
-
+export default function FrancePage() {
   return (
     <>
       <FranceHero data={heroData} />
@@ -107,24 +97,24 @@ export default async function FrancePage() {
             <p className="type-body text-text/70">
               -50 % de temps sur les mails de support, équipe de +70 personnes.
             </p>
-            <a
+            <Link
               href="/case-studies/n-allo"
               className="mt-4 inline-block type-paragraph-m-bold text-accent hover:underline"
             >
               Lire le cas client →
-            </a>
+            </Link>
           </div>
           <div className="rounded-sm border border-border bg-background p-8">
             <h3 className={cn(headingClass.card, "mb-4")}>Itzu</h3>
             <p className="type-body text-text/70">
               100 % des salariés ont leur WonkaChat personnel. Plusieurs heures gagnées chaque semaine.
             </p>
-            <a
+            <Link
               href="/case-studies/itzu"
               className="mt-4 inline-block type-paragraph-m-bold text-accent hover:underline"
             >
               Lire le cas client →
-            </a>
+            </Link>
           </div>
         </div>
       </section>
