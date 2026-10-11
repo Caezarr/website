@@ -6,6 +6,7 @@ export interface AiChatCopy {
   /** Trial CTA block. `null` keeps the component's own (EN) defaults. */
   trial: { title: string; body: string } | null;
   contactHeading: string;
+  modelComparator: { text: string; link: string };
 }
 
 const en: AiChatCopy = {
@@ -22,6 +23,10 @@ const en: AiChatCopy = {
   },
   trial: null,
   contactHeading: "Book a demo meeting.",
+  modelComparator: {
+    text: "Not sure which model to use for which task?",
+    link: "Compare AI models",
+  },
 };
 
 const fr: AiChatCopy = {
@@ -42,6 +47,10 @@ const fr: AiChatCopy = {
     body: "Essai de 7 jours. Sans carte de crédit.",
   },
   contactHeading: "Réservez une démo.",
+  modelComparator: {
+    text: "Vous hésitez sur le modèle à utiliser pour chaque tâche ?",
+    link: "Comparer les modèles d'IA",
+  },
 };
 
 const nl: AiChatCopy = {
@@ -62,6 +71,10 @@ const nl: AiChatCopy = {
     body: "7 dagen proefperiode. Geen creditcard nodig.",
   },
   contactHeading: "Plan een demo in.",
+  modelComparator: {
+    text: "Twijfelt u welk model u voor welke taak gebruikt?",
+    link: "Vergelijk AI-modellen",
+  },
 };
 
 export const AI_CHAT_COPY: Record<Locale, AiChatCopy> = { en, fr, nl };

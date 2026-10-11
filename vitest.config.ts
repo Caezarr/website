@@ -40,6 +40,20 @@ export default defineConfig({
     projects: [
       storybookProject("light"),
       storybookProject("dark"),
+      {
+        extends: true,
+        resolve: {
+          alias: {
+            "@sanity": join(repositoryDirectory, "sanity"),
+            "@": join(repositoryDirectory, "src"),
+          },
+        },
+        test: {
+          name: "unit",
+          environment: "node",
+          include: ["src/**/*.spec.ts"],
+        },
+      },
     ],
   },
 });

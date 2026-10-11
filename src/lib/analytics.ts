@@ -13,6 +13,8 @@ export const WEBSITE_EVENTS = {
   BLUEPRINT_COMPLETED: "website_blueprint_completed",
   BLUEPRINT_FAILED: "website_blueprint_failed",
   TRIAL_CLICKED: "website_trial_clicked",
+  MODEL_COMPARATOR_USED: "website_model_comparator_used",
+  MODEL_COMPARATOR_CTA_CLICKED: "website_model_comparator_cta_clicked",
   FRANCE_DIAGNOSTIC_START: "france_diagnostic_start",
   FRANCE_DIAGNOSTIC_COMPLETE: "france_diagnostic_complete",
   FRANCE_BOOKING_CLICK: "france_booking_click",
