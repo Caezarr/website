@@ -6,7 +6,8 @@ import home from "./nl/home.json";
 import sections from "./nl/sections.json";
 import pricing from "./nl/pricing.json";
 import article from "./nl/article.json";
+import booking from "./nl/booking.json";
 import type { UiMessages } from "./en";
 
-export const nl: UiMessages = { common, shell, cookies, leadForm, home, sections, pricing, article };
+export const nl: UiMessages = { common, shell, cookies, leadForm, home, sections, pricing, article, booking };
 
