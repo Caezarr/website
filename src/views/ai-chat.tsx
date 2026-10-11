@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { sanityFetch } from "@sanity/lib/live";
 import { SITE_SETTINGS_QUERY, WONKA_CHAT_CONTENT_QUERY } from "@sanity/lib/queries";
 import { CapabilityGrid } from "@/components/sections/capability-grid";
@@ -8,8 +9,10 @@ import { LogoStrip } from "@/components/sections/logo-strip";
 import { ProductHero } from "@/components/sections/product-hero";
 import { Security } from "@/components/sections/security";
 import { WorkspaceTrialCta } from "@/components/sections/workspace-trial-cta";
+import { Section } from "@/components/ui/section";
 import type { Locale } from "@/i18n/config";
 import { getT } from "@/i18n/ui";
+import { localizeHref } from "@/i18n/routes";
 import { fetchPageDoc, resolveMeetingLabel } from "@/lib/localized-content";
 import { getPageDefaults } from "@/lib/page-defaults/localized";
 import { resolveWonkaChatContent } from "@/lib/page-defaults/resolve-pages";
@@ -69,6 +72,17 @@ export async function AiChatView({ locale }: { locale: Locale }) {
       />
       <LogoStrip data={content.logoStrip} />
       <CapabilityGrid id="capabilities" data={defaults.aiChatCapabilities} />
+      <Section className="pb-12 text-center md:pb-16" containerClassName="max-w-2xl">
+        <p className="type-body text-text/70">
+          {copy.modelComparator.text}{" "}
+          <Link
+            href={localizeHref("/ai-model-comparator", locale)}
+            className="text-accent underline underline-offset-2 hover:no-underline"
+          >
+            {copy.modelComparator.link}
+          </Link>
+        </p>
+      </Section>
       <FaqSection data={content.faq} bordered={false} />
       <WorkspaceTrialCta
         href={TRIAL_URL}

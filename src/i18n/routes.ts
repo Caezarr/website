@@ -18,6 +18,7 @@ export const COMMERCIAL_PATHS = {
   security: "/security",
   pricing: "/pricing",
   contact: "/contact",
+  modelComparator: "/ai-model-comparator",
 } as const;
 
 export type CommercialPage = keyof typeof COMMERCIAL_PATHS;

@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { sanityFetch } from "@sanity/lib/live";
 import { COMPARISON_PAGES_QUERY } from "@sanity/lib/queries";
 import { buildMetadata } from "@/lib/seo";
 import { hubPath, itemPath } from "@/lib/locale-path";
+import { localizeHref } from "@/i18n/routes";
 import { HubPopularLinks } from "@/components/sections/hub-popular-links";
 import { getHubPopularLinks } from "@/lib/hub-popular-links";
 import type { Locale } from "@/i18n/config";
@@ -23,6 +25,7 @@ const copy = {
     empty: "No comparisons yet.",
     points: ["Private data", "Tool integrations", "Agent workflows", "Governance", "EU readiness"],
     choose: "Compare",
+    tool: { eyebrow: "Free tool", title: "AI model comparator", body: "GPT, Claude, Mistral, Gemini or Llama: which model for which task?", cta: "Compare models" },
     explainer: "These comparisons focus on the buying questions that matter once AI leaves the demo stage: where data is hosted, which business systems are connected, how answers are sourced, and how teams keep control of automated workflows.",
     decisionBody: "A useful evaluation should also include adoption risk. Teams need to understand whether the tool can reach the data they need, whether users can verify answers before acting, and whether the deployment model fits internal security expectations. That is why each comparison links product capabilities back to concrete workflows, not only feature checklists. The strongest choice is usually the platform that fits the operating model: private data access, clear ownership, measurable adoption and enough control for administrators to keep AI inside approved boundaries. A good comparison therefore helps both business leaders and technical teams decide what can safely move from pilot to production.",
     seo: {
@@ -41,6 +44,7 @@ const copy = {
     empty: "Aucune comparaison pour le moment.",
     points: ["Données privées", "Intégrations", "Workflows agents", "Gouvernance", "Déploiement EU"],
     choose: "Comparer",
+    tool: { eyebrow: "Outil gratuit", title: "Comparatif des modèles d'IA", body: "GPT, Claude, Mistral, Gemini ou Llama : quel modèle pour quelle tâche ?", cta: "Comparer les modèles" },
     explainer: "Ces comparaisons se concentrent sur les vraies questions d'achat après la démo : où les données sont hébergées, quels systèmes métier sont connectés, comment les réponses sont sourcées et comment les équipes gardent le contrôle des workflows automatisés.",
     decisionBody: "Une bonne évaluation doit aussi intégrer le risque d'adoption. Les équipes doivent savoir si l'outil peut accéder aux données utiles, si les utilisateurs peuvent vérifier les réponses avant d'agir et si le modèle de déploiement respecte les attentes de sécurité internes. C'est pourquoi chaque comparaison relie les capacités produit à des workflows concrets, pas seulement à une liste de fonctionnalités. Le meilleur choix est souvent la plateforme qui correspond au modèle opérationnel : accès aux données privées, ownership clair, adoption mesurable et contrôle suffisant pour garder l'IA dans des limites approuvées. Une bonne comparaison aide donc les dirigeants et les équipes techniques à décider ce qui peut passer du pilote à la production.",
     seo: {
@@ -59,6 +63,7 @@ const copy = {
     empty: "Nog geen vergelijkingen.",
     points: ["Private data", "Integraties", "Agent workflows", "Governance", "EU-uitrol"],
     choose: "Vergelijk",
+    tool: { eyebrow: "Gratis tool", title: "AI-modellen vergelijken", body: "GPT, Claude, Mistral, Gemini of Llama: welk model voor welke taak?", cta: "Vergelijk modellen" },
     explainer: "Deze vergelijkingen focussen op de koopvragen die belangrijk worden na de demo: waar data gehost wordt, welke bedrijfssystemen gekoppeld zijn, hoe antwoorden bronnen gebruiken en hoe teams controle houden over geautomatiseerde workflows.",
     decisionBody: "Een nuttige evaluatie kijkt ook naar adoptierisico. Teams moeten weten of de tool de juiste data kan bereiken, of gebruikers antwoorden kunnen controleren voordat ze handelen en of het deploymentmodel past bij interne security-eisen. Daarom koppelt elke vergelijking productmogelijkheden aan concrete workflows, niet alleen aan featurelijsten. De sterkste keuze is meestal het platform dat past bij het operating model: private datatoegang, duidelijk eigenaarschap, meetbare adoptie en genoeg controle om AI binnen goedgekeurde grenzen te houden. Een goede vergelijking helpt business leaders en technische teams dus beslissen wat veilig van pilot naar productie kan.",
     seo: {
@@ -67,7 +72,7 @@ const copy = {
       ogImage: null,
     },
   },
-} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; criteria: string; all: string; popular: string; empty: string; points: string[]; choose: string; explainer: string; decisionBody: string; seo: { metaTitle: string; metaDescription: string; ogImage: null } }>;
+} satisfies Record<Locale, { eyebrow: string; title: string; subtitle: string; criteria: string; all: string; popular: string; empty: string; points: string[]; choose: string; tool: { eyebrow: string; title: string; body: string; cta: string }; explainer: string; decisionBody: string; seo: { metaTitle: string; metaDescription: string; ogImage: null } }>;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
@@ -109,6 +114,18 @@ export default async function ComparaisonsPage({ params }: PageProps) {
             ))}
           </div>
         </div>
+
+        <Link
+          href={localizeHref("/ai-model-comparator", locale)}
+          className="group mb-14 flex flex-col gap-2 rounded-sm border border-border p-6 transition-colors hover:border-accent md:flex-row md:items-center md:justify-between"
+        >
+          <span>
+            <span className="type-eyebrow text-text/40">{l.tool.eyebrow}</span>
+            <span className="mt-2 block type-h6 group-hover:text-accent">{l.tool.title}</span>
+            <span className="mt-1 block type-paragraph-m text-text/60">{l.tool.body}</span>
+          </span>
+          <span className="shrink-0 type-paragraph-m-bold text-accent">{l.tool.cta}</span>
+        </Link>
 
         {!comparisons.length ? (
           <p className="type-body text-text/40">{l.empty}</p>

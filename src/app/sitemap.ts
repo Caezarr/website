@@ -27,6 +27,7 @@ const COMMERCIAL_PRIORITY: Record<Exclude<CommercialPage, "wonkaChat">, number> 
   security: 0.85,
   pricing: 0.85,
   contact: 0.85,
+  modelComparator: 0.8,
 };
 
 type SlugItem = { slug: { current: string }; language: string; _updatedAt?: string };

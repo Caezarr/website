@@ -26,6 +26,7 @@
     "storybook:build": "bun run ds:build && storybook build",
     "test:storybook": "vitest run --project=storybook-light --project=storybook-dark",
     "test:storybook:watch": "vitest --project=storybook-light --project=storybook-dark",
+    "test:unit": "vitest run --project=unit",
     "chat:preview:build": "bun run --cwd apps/wonkachat-lab build:preview"
   },
   "dependencies": {
