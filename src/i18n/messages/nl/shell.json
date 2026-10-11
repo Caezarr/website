@@ -64,6 +64,10 @@
           "label": "Stel uw AI-agentteam samen",
           "description": "Ontdek drie agents op maat van uw bedrijf"
         },
+        "agent-library": {
+          "label": "AI-agentbibliotheek",
+          "description": "Kant-en-klare agents om in WonkaChat te importeren"
+        },
         "ai-agent-development": {
           "label": "Ontwikkeling van AI-agents",
           "description": "Wij bouwen en lanceren uw agents"

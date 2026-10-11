@@ -12,6 +12,7 @@ export const COMMERCIAL_PATHS = {
   startAi: "/start-ai",
   wonkaBuild: "/wonka-build",
   aiAgents: "/ai-agents",
+  agentLibrary: "/agent-library",
   wonkaChat: "/wonka-chat",
   wonkaChatOdoo: "/wonka-chat/odoo",
   aiChat: "/workspace/ai-chat",
@@ -115,6 +116,7 @@ const HUB_SEGMENTS: Record<string, Record<Locale, string>> = {
   learn: { en: "learn", fr: "apprendre", nl: "leren" },
   vs: { en: "vs", fr: "vs", nl: "vs" },
   "case-studies": { en: "case-studies", fr: "cas-clients", nl: "klantcases" },
+  "agent-library": { en: "agent-library", fr: "agent-library", nl: "agent-library" },
 };
 
 export function commercialPath(page: CommercialPage, locale: Locale): string {

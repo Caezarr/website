@@ -1,0 +1,228 @@
+import type { LibraryAgent } from "../types";
+
+export const MARKETING_AGENTS: LibraryAgent[] = [
+  {
+    slug: "inbound-lead-qualifier",
+    function: "marketing",
+    sectors: ["professional-services", "industry", "retail"],
+    tier: "Human in the loop",
+    tools: ["HubSpot", "Outlook", "Slack"],
+    stepTools: ["HubSpot", "HubSpot", "Outlook", "Slack"],
+    copy: {
+      en: {
+        name: "Inbound lead qualifier",
+        promise: "Qualifies every website lead against your ideal customer criteria and drafts the first reply for sales.",
+        problem: "Website form leads land in the CRM with half the information missing. Someone has to check who they are, decide if they fit and find the right rep, so good leads wait while weak ones take up time.",
+        process: "inbound lead qualification",
+        steps: [
+          "Read new website form submissions in HubSpot",
+          "Score each lead against the ideal customer criteria using what HubSpot already knows",
+          "Draft a first reply adapted to the request and the lead's profile",
+          "Route the lead to the right rep and ask for validation in Slack",
+        ],
+        findings: [
+          "7 new form submissions since yesterday",
+          "3 strong fits, 2 to clarify, 2 outside the target",
+          "5 first replies drafted in the lead's language",
+          "Leads assigned and validation requested from 2 reps",
+        ],
+        trigger: "A new lead submits a form on the website",
+        humanControl: "Sales validates the qualification and the assignment, and sends the reply. The agent never contacts a lead alone.",
+        gain: "Good leads get a relevant answer quickly, and reps stop sorting forms by hand.",
+        prompt: "Qualify yesterday's website leads and tell me which ones deserve a reply today.",
+        starters: [
+          "Why did you rate this lead as outside the target?",
+          "Show the leads still waiting for a rep",
+        ],
+        deliverable: {
+          kind: "Lead qualification",
+          title: "3 strong leads to answer today",
+          sections: [
+            { heading: "Strong fits", body: "Company profile, need and timing match the criteria, with a first reply ready for the assigned rep." },
+            { heading: "To clarify or decline", body: "Two leads missing key information and two outside the target, with a suggested polite answer." },
+          ],
+        },
+      },
+      fr: {
+        name: "Qualification des prospects entrants",
+        promise: "Qualifie chaque prospect du site au regard de vos critères de client idéal et prépare la première réponse pour les commerciaux.",
+        problem: "Les prospects issus des formulaires du site arrivent dans le CRM avec la moitié des informations manquantes. Quelqu’un doit vérifier qui ils sont, juger s’ils correspondent et trouver le bon commercial : les bons prospects attendent pendant que les moins pertinents prennent du temps.",
+        process: "qualification des prospects entrants",
+        steps: [
+          "Lire les nouveaux formulaires du site dans HubSpot",
+          "Évaluer chaque prospect au regard des critères de client idéal avec ce que HubSpot sait déjà",
+          "Rédiger une première réponse adaptée à la demande et au profil du prospect",
+          "Attribuer le prospect au bon commercial et demander validation dans Slack",
+        ],
+        findings: [
+          "7 nouveaux formulaires depuis hier",
+          "3 prospects très pertinents, 2 à préciser, 2 hors cible",
+          "5 premières réponses rédigées dans la langue du prospect",
+          "Leads attribués et validation demandée à 2 commerciaux",
+        ],
+        trigger: "Un nouveau prospect remplit un formulaire sur le site",
+        humanControl: "Les commerciaux valident la qualification et l’attribution, puis envoient la réponse. L’agent ne contacte jamais un prospect seul.",
+        gain: "Les bons prospects reçoivent vite une réponse pertinente, et les commerciaux ne trient plus les formulaires à la main.",
+        prompt: "Qualifiez les prospects du site reçus hier et indiquez-moi ceux qui méritent une réponse aujourd’hui.",
+        starters: [
+          "Pourquoi avez-vous classé ce prospect hors cible ?",
+          "Montrez les prospects qui attendent encore un commercial",
+        ],
+        deliverable: {
+          kind: "Qualification des prospects",
+          title: "3 prospects prioritaires à traiter aujourd’hui",
+          sections: [
+            { heading: "Très pertinents", body: "Profil d’entreprise, besoin et calendrier conformes aux critères, avec une première réponse prête pour le commercial attribué." },
+            { heading: "À préciser ou décliner", body: "Deux prospects sans informations clés et deux hors cible, avec une réponse courtoise proposée." },
+          ],
+        },
+      },
+      nl: {
+        name: "Kwalificatie van inkomende leads",
+        promise: "Toetst elke websitelead aan uw criteria voor de ideale klant en stelt het eerste antwoord op voor het verkoopteam.",
+        problem: "Leads uit de webformulieren komen in het CRM terecht met de helft van de informatie ontbrekend. Iemand moet nagaan wie ze zijn, beslissen of ze passen en de juiste verkoper vinden, zodat goede leads wachten terwijl zwakke tijd kosten.",
+        process: "kwalificatie van inkomende leads",
+        steps: [
+          "Nieuwe inzendingen van webformulieren in HubSpot lezen",
+          "Elke lead toetsen aan de criteria voor de ideale klant met wat HubSpot al weet",
+          "Een eerste antwoord opstellen dat past bij de vraag en het profiel van de lead",
+          "De lead aan de juiste verkoper toewijzen en om validatie vragen in Slack",
+        ],
+        findings: [
+          "7 nieuwe formulieren sinds gisteren",
+          "3 sterk passend, 2 te verduidelijken, 2 buiten het doelpubliek",
+          "5 eerste antwoorden opgesteld in de taal van de lead",
+          "Leads toegewezen en validatie gevraagd aan 2 verkopers",
+        ],
+        trigger: "Een nieuwe lead vult een formulier in op de website",
+        humanControl: "Het verkoopteam valideert de kwalificatie en de toewijzing en verstuurt het antwoord. De agent neemt nooit zelf contact op met een lead.",
+        gain: "Goede leads krijgen snel een relevant antwoord, en verkopers sorteren geen formulieren meer met de hand.",
+        prompt: "Kwalificeer de websiteleads van gisteren en zeg me welke vandaag een antwoord verdienen.",
+        starters: [
+          "Waarom valt deze lead volgens u buiten het doelpubliek?",
+          "Toon de leads die nog op een verkoper wachten",
+        ],
+        deliverable: {
+          kind: "Leadkwalificatie",
+          title: "3 sterke leads om vandaag te beantwoorden",
+          sections: [
+            { heading: "Sterk passend", body: "Bedrijfsprofiel, behoefte en tijdlijn passen bij de criteria, met een eerste antwoord klaar voor de toegewezen verkoper." },
+            { heading: "Te verduidelijken of af te wijzen", body: "Twee leads zonder belangrijke informatie en twee buiten het doelpubliek, met een voorgesteld beleefd antwoord." },
+          ],
+        },
+      },
+    },
+  },
+  {
+    slug: "content-repurposing-studio",
+    function: "marketing",
+    sectors: ["professional-services", "industry", "retail"],
+    tier: "Copilot",
+    tools: ["SharePoint", "Notion", "Microsoft Teams"],
+    stepTools: ["SharePoint", "Notion", "Notion", "Microsoft Teams"],
+    copy: {
+      en: {
+        name: "Content repurposing studio",
+        promise: "Turns one approved article, webinar or case study into LinkedIn posts, a newsletter block and a short email, in your brand tone.",
+        problem: "Marketing produces a strong article or webinar, then lacks the time to adapt it for each channel. The content is used once, and every new post starts from a blank page.",
+        process: "content repurposing",
+        steps: [
+          "Read the approved source content in SharePoint",
+          "Load the brand tone guide and channel rules from Notion",
+          "Write LinkedIn posts, a newsletter block and a short email",
+          "Share the drafts with the marketing lead for approval in Teams",
+        ],
+        findings: [
+          "1 webinar transcript with 4 key messages",
+          "Tone guide and channel rules loaded",
+          "3 LinkedIn posts, 1 newsletter block and 1 email drafted",
+          "Drafts posted for the marketing lead's approval",
+        ],
+        trigger: "A marketer asks once an article, webinar or case study is approved",
+        humanControl: "The marketing lead approves or edits every piece. Nothing is published by the agent.",
+        gain: "Every approved piece of content lives on several channels, in a consistent brand voice.",
+        prompt: "Turn this webinar transcript into three LinkedIn posts, a newsletter block and a short email.",
+        starters: [
+          "Write a shorter version of this post for a sales rep to share",
+          "Which key messages from the article are not used yet?",
+        ],
+        deliverable: {
+          kind: "Content pack",
+          title: "5 drafts ready for approval",
+          sections: [
+            { heading: "LinkedIn posts", body: "Three posts with different angles, each built on one key message from the source." },
+            { heading: "Newsletter and email", body: "A newsletter block and a short email that point back to the full content." },
+          ],
+        },
+      },
+      fr: {
+        name: "Atelier de déclinaison de contenus",
+        promise: "Transforme un article, un webinaire ou une étude de cas validé en publications LinkedIn, bloc de newsletter et mail court, dans le ton de votre marque.",
+        problem: "Le marketing produit un bon article ou un webinaire, puis manque de temps pour l’adapter à chaque canal. Le contenu ne sert qu’une fois, et chaque nouvelle publication repart d’une page blanche.",
+        process: "déclinaison de contenus",
+        steps: [
+          "Lire le contenu source validé dans SharePoint",
+          "Charger la charte de ton et les règles par canal depuis Notion",
+          "Rédiger des publications LinkedIn, un bloc de newsletter et un mail court",
+          "Partager les brouillons avec le responsable marketing pour validation dans Teams",
+        ],
+        findings: [
+          "1 transcription de webinaire avec 4 messages clés",
+          "Charte de ton et règles par canal chargées",
+          "3 publications LinkedIn, 1 bloc de newsletter et 1 mail rédigés",
+          "Brouillons publiés pour validation du responsable marketing",
+        ],
+        trigger: "L’équipe marketing le sollicite dès qu’un article, un webinaire ou une étude de cas est validé",
+        humanControl: "Le responsable marketing valide ou modifie chaque contenu. L’agent ne publie jamais rien.",
+        gain: "Chaque contenu validé vit sur plusieurs canaux, avec une voix de marque cohérente.",
+        prompt: "Transformez cette transcription de webinaire en trois publications LinkedIn, un bloc de newsletter et un mail court.",
+        starters: [
+          "Rédigez une version plus courte de cette publication à partager par un commercial",
+          "Quels messages clés de l’article ne sont pas encore utilisés ?",
+        ],
+        deliverable: {
+          kind: "Kit de contenus",
+          title: "5 brouillons prêts à valider",
+          sections: [
+            { heading: "Publications LinkedIn", body: "Trois publications sous des angles différents, chacune construite sur un message clé de la source." },
+            { heading: "Newsletter et mail", body: "Un bloc de newsletter et un mail court qui renvoient vers le contenu complet." },
+          ],
+        },
+      },
+      nl: {
+        name: "Studio voor hergebruik van content",
+        promise: "Zet één goedgekeurd artikel, webinar of klantcase om in LinkedIn-posts, een nieuwsbriefblok en een korte mail, in de stem van uw merk.",
+        problem: "Marketing maakt een sterk artikel of webinar, maar heeft daarna geen tijd om het voor elk kanaal aan te passen. De content wordt één keer gebruikt, en elke nieuwe post begint bij een leeg blad.",
+        process: "hergebruik van content",
+        steps: [
+          "De goedgekeurde broncontent in SharePoint lezen",
+          "De stijlgids en de regels per kanaal uit Notion laden",
+          "LinkedIn-posts, een nieuwsbriefblok en een korte mail schrijven",
+          "De ontwerpen ter goedkeuring delen met de marketingverantwoordelijke in Teams",
+        ],
+        findings: [
+          "1 webinartranscript met 4 kernboodschappen",
+          "Stijlgids en regels per kanaal geladen",
+          "3 LinkedIn-posts, 1 nieuwsbriefblok en 1 mail opgesteld",
+          "Ontwerpen gepost ter goedkeuring van de marketingverantwoordelijke",
+        ],
+        trigger: "Een marketeer vraagt het zodra een artikel, webinar of klantcase goedgekeurd is",
+        humanControl: "De marketingverantwoordelijke keurt elk stuk goed of past het aan. De agent publiceert nooit zelf iets.",
+        gain: "Elk goedgekeurd stuk content leeft op meerdere kanalen, met een consistente merkstem.",
+        prompt: "Zet dit webinartranscript om in drie LinkedIn-posts, een nieuwsbriefblok en een korte mail.",
+        starters: [
+          "Schrijf een kortere versie van deze post die een verkoper kan delen",
+          "Welke kernboodschappen uit het artikel zijn nog niet gebruikt?",
+        ],
+        deliverable: {
+          kind: "Contentpakket",
+          title: "5 ontwerpen klaar voor goedkeuring",
+          sections: [
+            { heading: "LinkedIn-posts", body: "Drie posts vanuit verschillende invalshoeken, elk opgebouwd rond één kernboodschap uit de bron." },
+            { heading: "Nieuwsbrief en mail", body: "Een nieuwsbriefblok en een korte mail die naar de volledige content verwijzen." },
+          ],
+        },
+      },
+    },
+  },
+];

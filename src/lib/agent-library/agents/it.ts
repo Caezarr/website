@@ -1,0 +1,228 @@
+import type { LibraryAgent } from "../types";
+
+export const IT_AGENTS: LibraryAgent[] = [
+  {
+    slug: "it-helpdesk-triage",
+    function: "it",
+    sectors: ["professional-services", "industry", "public", "finance"],
+    tier: "Human in the loop",
+    tools: ["Jira", "Microsoft Teams", "Confluence"],
+    stepTools: ["Microsoft Teams", "Jira", "Confluence", "Jira"],
+    copy: {
+      en: {
+        name: "IT helpdesk triage",
+        promise: "Classifies every IT request, suggests the documented fix and keeps Jira tickets clean and prioritised.",
+        problem: "IT requests arrive through chat messages and half-filled tickets. The team re-asks for details, searches the same fixes again and urgent incidents wait in the same queue as password questions.",
+        process: "IT request triage",
+        steps: [
+          "Read new IT requests from Microsoft Teams and Jira",
+          "Classify each request by type and impact",
+          "Find the documented fix in Confluence",
+          "Create or update the Jira ticket with priority and suggested fix",
+        ],
+        findings: [
+          "12 new requests since this morning",
+          "1 incident, 8 standard requests, 3 access requests",
+          "7 requests matched to a documented fix",
+          "12 tickets created or updated, 1 marked high priority",
+        ],
+        trigger: "A new IT request is posted in Microsoft Teams or created in Jira",
+        humanControl: "The IT team validates priorities and applies or adjusts each suggested fix.",
+        gain: "Incidents surface first, tickets arrive complete and known fixes are no longer searched twice.",
+        prompt: "Triage this morning's IT requests and tell me which ones already have a documented fix.",
+        starters: [
+          "Which tickets are high priority right now?",
+          "Show the requests without a documented fix",
+        ],
+        deliverable: {
+          kind: "Triage summary",
+          title: "12 tickets sorted, 1 incident first",
+          sections: [
+            { heading: "With a known fix", body: "Seven requests linked to the matching Confluence page, ready for the team to apply." },
+            { heading: "Needs attention", body: "One incident affecting several users and four requests without a documented fix." },
+          ],
+        },
+      },
+      fr: {
+        name: "Tri des demandes au support informatique",
+        promise: "Classe chaque demande informatique, propose la solution documentée et garde les tickets Jira propres et priorisés.",
+        problem: "Les demandes informatiques arrivent par messages de chat et tickets à moitié remplis. L’équipe redemande des détails, recherche les mêmes solutions et les incidents urgents attendent dans la même file que les questions de mot de passe.",
+        process: "tri des demandes informatiques",
+        steps: [
+          "Lire les nouvelles demandes informatiques dans Microsoft Teams et Jira",
+          "Classer chaque demande par type et par impact",
+          "Retrouver la solution documentée dans Confluence",
+          "Créer ou mettre à jour le ticket Jira avec sa priorité et la solution proposée",
+        ],
+        findings: [
+          "12 nouvelles demandes depuis ce matin",
+          "1 incident, 8 demandes standard, 3 demandes d’accès",
+          "7 demandes associées à une solution documentée",
+          "12 tickets créés ou mis à jour, 1 en priorité haute",
+        ],
+        trigger: "Une nouvelle demande informatique est publiée dans Microsoft Teams ou créée dans Jira",
+        humanControl: "L’équipe informatique valide les priorités et applique ou ajuste chaque solution proposée.",
+        gain: "Les incidents remontent en premier, les tickets arrivent complets et les solutions connues ne sont plus cherchées deux fois.",
+        prompt: "Triez les demandes informatiques de ce matin et dites-moi lesquelles ont déjà une solution documentée.",
+        starters: [
+          "Quels tickets sont en priorité haute en ce moment ?",
+          "Montrez les demandes sans solution documentée",
+        ],
+        deliverable: {
+          kind: "Synthèse du tri",
+          title: "12 tickets triés, 1 incident en tête",
+          sections: [
+            { heading: "Solution connue", body: "Sept demandes liées à la page Confluence correspondante, prêtes à être traitées par l’équipe." },
+            { heading: "À traiter", body: "Un incident qui touche plusieurs utilisateurs et quatre demandes sans solution documentée." },
+          ],
+        },
+      },
+      nl: {
+        name: "Triage voor de IT-helpdesk",
+        promise: "Deelt elke IT-vraag in, stelt de gedocumenteerde oplossing voor en houdt Jira-tickets proper en geprioriteerd.",
+        problem: "IT-vragen komen binnen via chatberichten en half ingevulde tickets. Het team vraagt opnieuw naar details, zoekt telkens dezelfde oplossingen en dringende incidenten wachten in dezelfde wachtrij als wachtwoordvragen.",
+        process: "triage van IT-vragen",
+        steps: [
+          "Nieuwe IT-vragen uit Microsoft Teams en Jira lezen",
+          "Elke vraag indelen per type en impact",
+          "De gedocumenteerde oplossing in Confluence opzoeken",
+          "Het Jira-ticket aanmaken of bijwerken met prioriteit en voorgestelde oplossing",
+        ],
+        findings: [
+          "12 nieuwe vragen sinds vanochtend",
+          "1 incident, 8 standaardvragen, 3 toegangsaanvragen",
+          "7 vragen gekoppeld aan een gedocumenteerde oplossing",
+          "12 tickets aangemaakt of bijgewerkt, 1 met hoge prioriteit",
+        ],
+        trigger: "Er wordt een nieuwe IT-vraag gepost in Microsoft Teams of aangemaakt in Jira",
+        humanControl: "Het IT-team valideert de prioriteiten en past elke voorgestelde oplossing toe of aan.",
+        gain: "Incidenten komen eerst boven, tickets zijn volledig en gekende oplossingen worden niet twee keer gezocht.",
+        prompt: "Sorteer de IT-vragen van vanochtend en zeg me welke al een gedocumenteerde oplossing hebben.",
+        starters: [
+          "Welke tickets hebben nu een hoge prioriteit?",
+          "Toon de vragen zonder gedocumenteerde oplossing",
+        ],
+        deliverable: {
+          kind: "Triageoverzicht",
+          title: "12 tickets gesorteerd, 1 incident vooraan",
+          sections: [
+            { heading: "Gekende oplossing", body: "Zeven vragen gekoppeld aan de juiste Confluence-pagina, klaar voor het team." },
+            { heading: "Aandacht nodig", body: "Eén incident dat meerdere gebruikers treft en vier vragen zonder gedocumenteerde oplossing." },
+          ],
+        },
+      },
+    },
+  },
+  {
+    slug: "release-notes-writer",
+    function: "it",
+    sectors: ["professional-services", "finance", "retail"],
+    tier: "Copilot",
+    tools: ["GitHub", "Jira", "Confluence"],
+    stepTools: ["GitHub", "Jira", "GitHub", "Confluence"],
+    copy: {
+      en: {
+        name: "Release notes writer",
+        promise: "Turns merged pull requests and closed tickets into clear release notes and an internal changelog.",
+        problem: "Before each release someone scrolls through pull requests and tickets to explain what changed. Notes are written in a rush, too technical for users and too vague for support.",
+        process: "release notes writing",
+        steps: [
+          "List the pull requests merged since the last release in GitHub",
+          "Link them to the closed Jira tickets and their context",
+          "Group the changes into features, fixes and internal work",
+          "Publish user-facing notes and an internal changelog page in Confluence",
+        ],
+        findings: [
+          "24 pull requests merged since the last release",
+          "17 linked to a closed ticket, 7 internal changes",
+          "5 features, 9 fixes, 10 internal improvements",
+          "Release notes and changelog page drafted for review",
+        ],
+        trigger: "A team lead asks for release notes before a release goes out",
+        humanControl: "The team lead edits the wording and publishes the notes.",
+        gain: "Every release ships with notes users understand and support knows exactly what changed.",
+        prompt: "Write the release notes for everything merged since the last release, user-facing and internal.",
+        starters: [
+          "Which changes will users actually notice?",
+          "Summarise the fixes for the support team",
+        ],
+        deliverable: {
+          kind: "Release notes",
+          title: "Release notes ready, 5 features and 9 fixes",
+          sections: [
+            { heading: "For users", body: "New features and fixes explained in plain language, without technical jargon." },
+            { heading: "Internal changelog", body: "Every merged pull request linked to its ticket, grouped by area on a Confluence page." },
+          ],
+        },
+      },
+      fr: {
+        name: "Rédacteur de notes de version",
+        promise: "Transforme les demandes de fusion (pull requests) intégrées et les tickets clôturés en notes de version claires et en journal des modifications interne.",
+        problem: "Avant chaque mise en production, quelqu’un parcourt les demandes de fusion et les tickets pour expliquer ce qui a changé. Les notes sont écrites dans l’urgence, trop techniques pour les utilisateurs et trop vagues pour le support.",
+        process: "rédaction des notes de version",
+        steps: [
+          "Lister les demandes de fusion intégrées depuis la dernière version dans GitHub",
+          "Les relier aux tickets Jira clôturés et à leur contexte",
+          "Regrouper les changements en nouveautés, corrections et travaux internes",
+          "Publier les notes utilisateurs et un journal des modifications interne dans Confluence",
+        ],
+        findings: [
+          "24 demandes de fusion intégrées depuis la dernière version",
+          "17 liées à un ticket clôturé, 7 changements internes",
+          "5 nouveautés, 9 corrections, 10 améliorations internes",
+          "Notes de version et page de journal des modifications préparées pour relecture",
+        ],
+        trigger: "Un responsable d’équipe demande les notes de version avant une mise en production",
+        humanControl: "Le responsable d’équipe ajuste la formulation et publie les notes.",
+        gain: "Chaque version part avec des notes compréhensibles par les utilisateurs et le support sait exactement ce qui a changé.",
+        prompt: "Rédigez les notes de version de tout ce qui a été intégré depuis la dernière version, côté utilisateurs et côté interne.",
+        starters: [
+          "Quels changements les utilisateurs vont-ils vraiment remarquer ?",
+          "Résumez les corrections pour l’équipe support",
+        ],
+        deliverable: {
+          kind: "Notes de version",
+          title: "Notes prêtes, 5 nouveautés et 9 corrections",
+          sections: [
+            { heading: "Pour les utilisateurs", body: "Nouveautés et corrections expliquées simplement, sans jargon technique." },
+            { heading: "Journal des modifications interne", body: "Chaque demande de fusion intégrée reliée à son ticket, regroupée par domaine sur une page Confluence." },
+          ],
+        },
+      },
+      nl: {
+        name: "Schrijver van versienota's",
+        promise: "Zet samengevoegde pull requests en afgesloten tickets om in heldere versienota's en een intern wijzigingslogboek.",
+        problem: "Voor elke nieuwe versie scrolt iemand door pull requests en tickets om uit te leggen wat er veranderde. De nota's worden haastig geschreven, te technisch voor gebruikers en te vaag voor support.",
+        process: "schrijven van versienota's",
+        steps: [
+          "De pull requests oplijsten die sinds de vorige versie in GitHub samengevoegd zijn",
+          "Ze koppelen aan de afgesloten Jira-tickets en hun context",
+          "De wijzigingen groeperen in nieuwe functies, correcties en intern werk",
+          "Versienota's voor gebruikers en een intern wijzigingslogboek in Confluence publiceren",
+        ],
+        findings: [
+          "24 pull requests samengevoegd sinds de vorige versie",
+          "17 gekoppeld aan een afgesloten ticket, 7 interne wijzigingen",
+          "5 nieuwe functies, 9 correcties, 10 interne verbeteringen",
+          "Versienota's en wijzigingslogboek klaar ter controle",
+        ],
+        trigger: "Een teamleider vraagt versienota's op voor een nieuwe versie live gaat",
+        humanControl: "De teamleider past de formulering aan en publiceert de nota's.",
+        gain: "Elke versie gaat live met nota's die gebruikers begrijpen, en support weet precies wat er veranderde.",
+        prompt: "Schrijf de versienota's voor alles wat sinds de vorige versie samengevoegd is, voor gebruikers en intern.",
+        starters: [
+          "Welke wijzigingen zullen gebruikers echt merken?",
+          "Vat de correcties samen voor het supportteam",
+        ],
+        deliverable: {
+          kind: "Versienota's",
+          title: "Nota's klaar, 5 nieuwe functies en 9 correcties",
+          sections: [
+            { heading: "Voor gebruikers", body: "Nieuwe functies en correcties in eenvoudige taal uitgelegd, zonder technisch jargon." },
+            { heading: "Intern wijzigingslogboek", body: "Elke samengevoegde pull request gekoppeld aan zijn ticket, per domein gegroepeerd op een Confluence-pagina." },
+          ],
+        },
+      },
+    },
+  },
+];

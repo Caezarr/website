@@ -1,5 +1,9 @@
 import { getSanityWriteClient } from "@sanity/lib/write-client";
 import { isWonkaChatExportExpired } from "@/lib/agent-blueprint-wonkachat";
+import {
+  buildLibraryWonkaChatExport,
+  findLibraryAgentByBlueprintId,
+} from "@/lib/agent-library";
 
 export const dynamic = "force-dynamic";
 
@@ -8,6 +12,10 @@ const BLUEPRINT_ID_PATTERN =
   /^agent-blueprint\.[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 const NO_STORE = { "Cache-Control": "no-store" };
+/** Library exports are public and only change on deploy. */
+const LIBRARY_CACHE = {
+  "Cache-Control": "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800",
+};
 
 function notFound() {
   return Response.json(
@@ -32,6 +40,18 @@ export async function GET(
 ) {
   const { id } = await params;
   if (!BLUEPRINT_ID_PATTERN.test(id)) return notFound();
+
+  // Agent library entries are public and static: their ids are hashed from
+  // slug + locale, so they are served from code and never read from Sanity.
+  // Assessment ids are random v4 uuids (122 random bits), so a collision with
+  // one of the library's few dozen ids is not a practical concern.
+  const library = findLibraryAgentByBlueprintId(id);
+  if (library) {
+    return Response.json(
+      buildLibraryWonkaChatExport(library.agent, library.locale),
+      { headers: LIBRARY_CACHE },
+    );
+  }
 
   // Assessments are written (and only readable) with the server-side token:
   // ids with a dot are private in Sanity, never exposed to the public client.

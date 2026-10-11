@@ -9,27 +9,27 @@ import {
   AGENT_FILM_FPS,
   AGENT_FILM_HEIGHT,
   AGENT_FILM_WIDTH,
+  type AgentFilmSpec,
   agentFilmTimeline,
   buildAgentFilmSpec,
 } from "@/lib/agent-film";
 import { AgentFilm } from "./agent-film";
 
-/** Live, in-browser demo film of one blueprint agent. No server render. */
-export default function AgentFilmPlayer({
-  agent,
-  locale,
+/** Live, in-browser demo film from a resolved spec. No server render. */
+export function AgentFilmSpecPlayer({
+  spec,
+  playerKey,
 }: {
-  agent: AgentBlueprintAgent;
-  locale: Locale;
+  spec: AgentFilmSpec;
+  playerKey?: string;
 }) {
   const reducedMotion = useReducedMotion();
-  const spec = useMemo(() => buildAgentFilmSpec(agent, locale), [agent, locale]);
   const inputProps = useMemo(() => ({ spec }), [spec]);
   const { total } = agentFilmTimeline(spec);
 
   return (
     <Player
-      key={agent.id}
+      key={playerKey}
       component={AgentFilm}
       inputProps={inputProps}
       durationInFrames={total}
@@ -44,4 +44,16 @@ export default function AgentFilmPlayer({
       style={{ width: "100%", aspectRatio: `${AGENT_FILM_WIDTH} / ${AGENT_FILM_HEIGHT}` }}
     />
   );
+}
+
+/** Live, in-browser demo film of one blueprint agent. No server render. */
+export default function AgentFilmPlayer({
+  agent,
+  locale,
+}: {
+  agent: AgentBlueprintAgent;
+  locale: Locale;
+}) {
+  const spec = useMemo(() => buildAgentFilmSpec(agent, locale), [agent, locale]);
+  return <AgentFilmSpecPlayer spec={spec} playerKey={agent.id} />;
 }

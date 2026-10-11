@@ -64,6 +64,10 @@
           "label": "Concevez votre équipe d’agents IA",
           "description": "Identifiez trois agents adaptés à votre entreprise"
         },
+        "agent-library": {
+          "label": "Bibliothèque d’agents IA",
+          "description": "Des agents prêts à importer dans WonkaChat"
+        },
         "ai-agent-development": {
           "label": "Développement d'agents IA",
           "description": "Nous créons et déployons vos agents"
