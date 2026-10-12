@@ -32,9 +32,9 @@ const allStrings = (value: unknown): string[] =>
         : [];
 
 describe("agent library catalogue", () => {
-  it("has a curated catalogue of 24 to 30 agents", () => {
-    expect(LIBRARY_AGENTS.length).toBeGreaterThanOrEqual(24);
-    expect(LIBRARY_AGENTS.length).toBeLessThanOrEqual(30);
+  it("has a curated catalogue of 55 to 70 agents", () => {
+    expect(LIBRARY_AGENTS.length).toBeGreaterThanOrEqual(55);
+    expect(LIBRARY_AGENTS.length).toBeLessThanOrEqual(70);
   });
 
   it("uses unique, URL-safe slugs", () => {
@@ -45,9 +45,22 @@ describe("agent library catalogue", () => {
 
   it("covers every business function and includes Odoo agents", () => {
     for (const fn of AGENT_FUNCTIONS) {
-      expect(LIBRARY_AGENTS.some((agent) => agent.function === fn)).toBe(true);
+      expect(LIBRARY_AGENTS.filter((agent) => agent.function === fn).length, fn).toBeGreaterThanOrEqual(3);
     }
-    expect(LIBRARY_AGENTS.filter((agent) => agent.tools.includes("Odoo ERP")).length).toBeGreaterThanOrEqual(5);
+    expect(LIBRARY_AGENTS.filter((agent) => agent.tools.includes("Odoo ERP")).length).toBeGreaterThanOrEqual(20);
+  });
+
+  it("gives every sector filter enough agents", () => {
+    for (const sector of AGENT_SECTORS) {
+      expect(LIBRARY_AGENTS.filter((agent) => agent.sectors.includes(sector)).length, sector).toBeGreaterThanOrEqual(8);
+    }
+  });
+
+  it("has no duplicate agent names in any locale", () => {
+    for (const locale of locales) {
+      const names = LIBRARY_AGENTS.map((agent) => agent.copy[locale].name.toLowerCase());
+      expect(new Set(names).size, locale).toBe(names.length);
+    }
   });
 
   it.each(LIBRARY_AGENTS.map((agent) => [agent.slug, agent] as const))(
