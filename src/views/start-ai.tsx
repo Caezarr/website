@@ -48,7 +48,13 @@ export async function StartAiView({ locale }: { locale: Locale }) {
 
   return (
     <>
-      <ProductHero data={content.hero} leadForm="start-ai-hero" locale={locale} />
+      <ProductHero
+        data={content.hero}
+        meetingUrl={meetingUrl}
+        meetingLabel={meetingLabel}
+        meetingTrackType="start-ai"
+        locale={locale}
+      />
       <LogoStrip data={content.logoStrip} />
       <NumberedCards data={content.phases} className="py-24" />
       <DeliverablesPanel data={content.deliverables} />
