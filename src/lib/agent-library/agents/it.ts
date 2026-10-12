@@ -3,6 +3,7 @@ import type { LibraryAgent } from "../types";
 export const IT_AGENTS: LibraryAgent[] = [
   {
     slug: "it-helpdesk-triage",
+    code: 58,
     function: "it",
     sectors: ["professional-services", "industry", "public", "finance"],
     tier: "Human in the loop",
@@ -115,6 +116,7 @@ export const IT_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "release-notes-writer",
+    code: 59,
     function: "it",
     sectors: ["professional-services", "finance", "retail"],
     tier: "Copilot",
@@ -227,6 +229,7 @@ export const IT_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "access-rights-request-handler",
+    code: 60,
     function: "it",
     sectors: ["professional-services", "industry", "public", "finance"],
     tier: "Human in the loop",

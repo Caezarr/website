@@ -3,6 +3,7 @@ import { sanityFetch } from "@sanity/lib/live";
 import { SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
 import { AgentLibraryBrowser } from "@/components/agent-library/agent-library-browser";
 import { LibraryBlueprintLink } from "@/components/agent-library/agent-library-client";
+import { LibraryTray } from "@/components/agent-library/agent-library-tray";
 import { BreadcrumbSchema, FaqSchema } from "@/components/json-ld";
 import { JsonLd } from "@/components/json-ld/json-ld";
 import { ButtonLink } from "@/components/ui/button";
@@ -93,17 +94,17 @@ export async function AgentLibraryView({ locale }: { locale: Locale }) {
             <h1 className="type-h2 mt-6 max-w-4xl text-white">{copy.hero.title}</h1>
             <p className="type-body mt-6 max-w-2xl text-white/70">{copy.hero.body}</p>
             <div className="mt-9 flex flex-wrap items-center gap-5">
-              <ButtonLink href="#agents" variant="primary">
-                {copy.hero.primaryCta}
-              </ButtonLink>
               <LibraryBlueprintLink
                 href={blueprintHref}
                 locale={locale}
                 placement="library_hero"
-                variant="text"
+                variant="primary"
               >
-                {copy.hero.secondaryCta}
+                {copy.hero.primaryCta}
               </LibraryBlueprintLink>
+              <ButtonLink href="#agents" variant="primaryOutline">
+                {copy.hero.secondaryCta}
+              </ButtonLink>
             </div>
           </div>
         </section>
@@ -128,6 +129,9 @@ export async function AgentLibraryView({ locale }: { locale: Locale }) {
               >
                 {copy.blueprintBand.cta}
               </LibraryBlueprintLink>
+              <ButtonLink href={meetingUrl} variant="primaryOutline" {...meetingTrackProps("general")}>
+                {copy.booking.cta}
+              </ButtonLink>
             </div>
           </div>
         </section>
@@ -155,6 +159,7 @@ export async function AgentLibraryView({ locale }: { locale: Locale }) {
             </ButtonLink>
           </div>
         </section>
+        <LibraryTray locale={locale} meetingUrl={meetingUrl} />
       </main>
     </>
   );

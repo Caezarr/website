@@ -81,6 +81,12 @@ export interface LibraryAgentCopy {
 
 export interface LibraryAgent {
   slug: string;
+  /**
+   * Stable numeric code (1 to 255) carried in signed WonkaChat import ids.
+   * Never reuse or renumber a code: links already shared would point to
+   * another agent. New agents take the next free number.
+   */
+  code: number;
   function: AgentFunction;
   sectors: AgentSector[];
   tier: AgentTier;

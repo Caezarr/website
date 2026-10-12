@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { locales, type Locale } from "@/i18n/config";
 import type { AgentBlueprintAgent } from "@/lib/agent-blueprint";
 import {
@@ -16,10 +15,13 @@ import { OPERATIONS_AGENTS } from "./agents/operations";
 import { SALES_AGENTS } from "./agents/sales";
 import { SUPPORT_AGENTS } from "./agents/support";
 import { AGENT_LIBRARY_COPY } from "./copy";
+import { decodeLibraryExportId, getLibraryExportSecret } from "./export-token";
 import type { LibraryAgent, LibraryEntry, LibraryUseCase } from "./types";
+import type { LibrarySelectionIndexEntry } from "./selection";
 import { LIBRARY_USE_CASES } from "./use-cases";
 
 export * from "./types";
+export type { LibrarySelectionIndexEntry } from "./selection";
 
 export const LIBRARY_AGENTS: LibraryAgent[] = [
   ...FINANCE_AGENTS,
@@ -128,54 +130,78 @@ export function buildLibraryFilmSpec(
   };
 }
 
+let codeIndex: Map<number, LibraryAgent> | null = null;
+
+/** Full agent by its stable import code. */
+export function getLibraryAgentByCode(code: number): LibraryAgent | undefined {
+  codeIndex ??= new Map(LIBRARY_AGENTS.map((agent) => [agent.code, agent]));
+  return codeIndex.get(code);
+}
+
 /**
- * Stable import id for a library agent in one locale. WonkaChat's one-click
- * import only accepts `agent-blueprint.<uuid>` ids, so library agents get a
- * deterministic uuid v4-shaped id derived from slug and locale. The export
- * route serves these from the static catalogue, never from Sanity.
+ * WonkaChat import payload for a selection of 1 to 3 library agents, same
+ * contract as a blueprint. `id` is the signed selection id it is served under.
  */
-export function libraryBlueprintId(slug: string, locale: Locale): string {
-  const hex = createHash("sha256")
-    .update(`wonka-agent-library:${slug}:${locale}`)
-    .digest("hex");
-  const variant = ((parseInt(hex[16], 16) & 0x3) | 0x8).toString(16);
-  return `agent-blueprint.${hex.slice(0, 8)}-${hex.slice(8, 12)}-4${hex.slice(13, 16)}-${variant}${hex.slice(17, 20)}-${hex.slice(20, 32)}`;
-}
-
-let idIndex: Map<string, { agent: LibraryAgent; locale: Locale }> | null = null;
-
-export function findLibraryAgentByBlueprintId(
-  id: string,
-): { agent: LibraryAgent; locale: Locale } | null {
-  if (!idIndex) {
-    idIndex = new Map();
-    for (const agent of LIBRARY_AGENTS) {
-      for (const locale of locales) {
-        idIndex.set(libraryBlueprintId(agent.slug, locale).toLowerCase(), {
-          agent,
-          locale,
-        });
-      }
-    }
-  }
-  return idIndex.get(id.toLowerCase()) ?? null;
-}
-
-/** WonkaChat import payload for one library agent, same contract as a blueprint. */
-export function buildLibraryWonkaChatExport(
-  agent: LibraryAgent,
+export function buildLibrarySelectionExport(
+  agents: LibraryAgent[],
   locale: Locale,
+  id: string,
 ): WonkaChatExport {
-  const copy = agent.copy[locale];
+  const labels = AGENT_LIBRARY_COPY[locale];
+  const [first] = agents;
+  const sameFunction = agents.every((agent) => agent.function === first.function);
   return buildWonkaChatExport(
     {
-      sector: AGENT_LIBRARY_COPY[locale].functions[agent.function],
-      headline: copy.promise,
-      agents: [toBlueprintAgent(agent, locale)],
+      sector: sameFunction ? labels.functions[first.function] : labels.breadcrumb,
+      headline:
+        agents.length === 1
+          ? first.copy[locale].promise
+          : agents.map((agent) => agent.copy[locale].name).join(", "),
+      agents: agents.map((agent) => toBlueprintAgent(agent, locale)),
     },
-    libraryBlueprintId(agent.slug, locale),
+    id,
     locale,
   );
+}
+
+export type LibraryExportResolution =
+  | { status: "ok"; payload: WonkaChatExport }
+  | { status: "expired" }
+  | null;
+
+/**
+ * Resolves a signed library selection id to its export. Null when the id is
+ * not a library id (or the secret is missing), so the caller can fall back to
+ * Blueprint assessments.
+ */
+export function resolveLibraryExport(
+  id: string,
+  secret: string | null,
+  now: Date = new Date(),
+): LibraryExportResolution {
+  if (!secret) return null;
+  const decoded = decodeLibraryExportId(id, secret, now);
+  if (!decoded.ok) return decoded.reason === "expired" ? { status: "expired" } : null;
+  const agents = decoded.codes.map(getLibraryAgentByCode);
+  if (agents.some((agent) => !agent)) return null;
+  return {
+    status: "ok",
+    payload: buildLibrarySelectionExport(agents as LibraryAgent[], decoded.locale, id),
+  };
+}
+
+/** Whether pages offer the WonkaChat import (false in production without a secret). */
+export function isLibraryImportEnabled(): boolean {
+  return getLibraryExportSecret() !== null;
+}
+
+/** Compact catalogue the selection tray uses to name and link entries. */
+export function librarySelectionIndex(locale: Locale): LibrarySelectionIndexEntry[] {
+  return LIBRARY_ENTRIES.map(({ kind, entry }) => ({
+    slug: entry.slug,
+    kind,
+    name: entry.copy[locale].name,
+  }));
 }
 
 /** Agents to suggest next: same function first, then shared sectors and tools. */
@@ -222,10 +248,4 @@ export function libraryToolsInUse(): string[] {
   return Array.from(new Set(LIBRARY_ENTRIES.flatMap(({ entry }) => entry.tools)));
 }
 
-/** WonkaChat origin, same as the Blueprint import. */
-export const WONKACHAT_ORIGIN = "https://wonka.chat";
-
-/** WonkaChat page that imports this library agent in one click. */
-export function libraryImportUrl(slug: string, locale: Locale): string {
-  return `${WONKACHAT_ORIGIN}/blueprint/${encodeURIComponent(libraryBlueprintId(slug, locale))}`;
-}
+export { WONKACHAT_ORIGIN, wonkaChatImportUrl } from "./selection";

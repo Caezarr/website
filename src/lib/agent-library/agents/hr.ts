@@ -3,6 +3,7 @@ import type { LibraryAgent } from "../types";
 export const HR_AGENTS: LibraryAgent[] = [
   {
     slug: "candidate-screening-assistant",
+    code: 41,
     function: "hr",
     sectors: ["professional-services", "industry", "construction", "retail"],
     tier: "Human in the loop",
@@ -115,6 +116,7 @@ export const HR_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "employee-onboarding-coordinator",
+    code: 42,
     function: "hr",
     sectors: ["professional-services", "industry", "public", "finance"],
     tier: "Fully autonomous",
@@ -227,6 +229,7 @@ export const HR_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "hr-policy-assistant",
+    code: 43,
     function: "hr",
     sectors: ["professional-services", "industry", "public", "retail"],
     tier: "Copilot",
@@ -339,6 +342,7 @@ export const HR_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "training-certification-tracker",
+    code: 44,
     function: "hr",
     sectors: ["construction", "industry"],
     tier: "Fully autonomous",
@@ -451,6 +455,7 @@ export const HR_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "annual-review-preparer",
+    code: 45,
     function: "hr",
     sectors: ["professional-services", "industry", "public", "finance", "retail"],
     tier: "Copilot",

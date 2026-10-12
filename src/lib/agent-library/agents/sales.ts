@@ -3,6 +3,7 @@ import type { LibraryAgent } from "../types";
 export const SALES_AGENTS: LibraryAgent[] = [
   {
     slug: "odoo-quote-builder",
+    code: 11,
     function: "sales",
     sectors: ["industry", "retail", "construction"],
     tier: "Human in the loop",
@@ -115,6 +116,7 @@ export const SALES_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "tender-response-drafter",
+    code: 12,
     function: "sales",
     sectors: ["construction", "professional-services", "public", "industry"],
     tier: "Human in the loop",
@@ -227,6 +229,7 @@ export const SALES_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "crm-meeting-follow-up",
+    code: 13,
     function: "sales",
     sectors: ["professional-services", "industry", "finance"],
     tier: "Copilot",
@@ -339,6 +342,7 @@ export const SALES_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "account-meeting-brief",
+    code: 14,
     function: "sales",
     sectors: ["professional-services", "industry", "finance"],
     tier: "Copilot",
@@ -451,6 +455,7 @@ export const SALES_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "construction-tender-go-no-go",
+    code: 15,
     function: "sales",
     sectors: ["construction", "public"],
     tier: "Copilot",
@@ -563,6 +568,7 @@ export const SALES_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "construction-quantity-takeoff-assistant",
+    code: 16,
     function: "sales",
     sectors: ["construction"],
     tier: "Copilot",
@@ -675,6 +681,7 @@ export const SALES_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-configured-product-quote",
+    code: 17,
     function: "sales",
     sectors: ["industry"],
     tier: "Human in the loop",
@@ -787,6 +794,7 @@ export const SALES_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-crm-pipeline-hygiene",
+    code: 18,
     function: "sales",
     sectors: ["industry", "professional-services", "retail"],
     tier: "Fully autonomous",
@@ -899,6 +907,7 @@ export const SALES_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-store-sales-briefing",
+    code: 19,
     function: "sales",
     sectors: ["retail"],
     tier: "Fully autonomous",
@@ -1011,6 +1020,7 @@ export const SALES_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-customer-reorder-reminder",
+    code: 20,
     function: "sales",
     sectors: ["retail", "industry"],
     tier: "Human in the loop",

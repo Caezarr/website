@@ -3,6 +3,7 @@ import type { LibraryAgent } from "../types";
 export const MARKETING_AGENTS: LibraryAgent[] = [
   {
     slug: "inbound-lead-qualifier",
+    code: 54,
     function: "marketing",
     sectors: ["professional-services", "industry", "retail"],
     tier: "Human in the loop",
@@ -115,6 +116,7 @@ export const MARKETING_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "content-repurposing-studio",
+    code: 55,
     function: "marketing",
     sectors: ["professional-services", "industry", "retail"],
     tier: "Copilot",
@@ -227,6 +229,7 @@ export const MARKETING_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-product-sheet-writer",
+    code: 56,
     function: "marketing",
     sectors: ["retail", "industry"],
     tier: "Copilot",
@@ -339,6 +342,7 @@ export const MARKETING_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-promotion-price-check",
+    code: 57,
     function: "marketing",
     sectors: ["retail"],
     tier: "Human in the loop",

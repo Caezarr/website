@@ -3,6 +3,7 @@ import type { LibraryAgent } from "../types";
 export const SUPPORT_AGENTS: LibraryAgent[] = [
   {
     slug: "support-inbox-triage",
+    code: 21,
     function: "support",
     sectors: ["retail", "industry", "professional-services", "public"],
     tier: "Human in the loop",
@@ -115,6 +116,7 @@ export const SUPPORT_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-order-status-assistant",
+    code: 22,
     function: "support",
     sectors: ["retail", "industry"],
     tier: "Human in the loop",
@@ -227,6 +229,7 @@ export const SUPPORT_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "knowledge-base-copilot",
+    code: 23,
     function: "support",
     sectors: ["professional-services", "industry", "public", "finance"],
     tier: "Copilot",
@@ -339,6 +342,7 @@ export const SUPPORT_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-after-sales-returns",
+    code: 24,
     function: "support",
     sectors: ["retail", "industry"],
     tier: "Human in the loop",
@@ -451,6 +455,7 @@ export const SUPPORT_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "citizen-request-triage",
+    code: 25,
     function: "support",
     sectors: ["public"],
     tier: "Human in the loop",
@@ -563,6 +568,7 @@ export const SUPPORT_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "procedure-writer",
+    code: 26,
     function: "support",
     sectors: ["industry", "construction", "professional-services", "public", "retail"],
     tier: "Copilot",

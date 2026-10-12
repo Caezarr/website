@@ -193,7 +193,7 @@ export function AgentLibraryBrowser({
             {filtered.map((agent, index) =>
               index < limit ? (
                 <li key={agent.slug}>
-                  <AgentCard agent={agent} labels={copy.card} />
+                  <AgentCard agent={agent} labels={copy.card} locale={locale} placement="library_card" />
                 </li>
               ) : (
                 <li key={agent.slug} hidden>

@@ -3,6 +3,7 @@ import type { LibraryAgent } from "../types";
 export const OPERATIONS_AGENTS: LibraryAgent[] = [
   {
     slug: "odoo-supplier-delivery-follow-up",
+    code: 27,
     function: "operations",
     sectors: ["industry", "retail", "construction"],
     tier: "Human in the loop",
@@ -115,6 +116,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-stock-reorder-watch",
+    code: 28,
     function: "operations",
     sectors: ["industry", "retail"],
     tier: "Fully autonomous",
@@ -227,6 +229,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "construction-site-daily-report",
+    code: 29,
     function: "operations",
     sectors: ["construction"],
     tier: "Copilot",
@@ -339,6 +342,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "project-handover-pack",
+    code: 30,
     function: "operations",
     sectors: ["construction", "industry"],
     tier: "Human in the loop",
@@ -451,6 +455,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "quality-nonconformity-assistant",
+    code: 31,
     function: "operations",
     sectors: ["industry", "construction"],
     tier: "Human in the loop",
@@ -563,6 +568,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "construction-subcontractor-compliance",
+    code: 32,
     function: "operations",
     sectors: ["construction"],
     tier: "Fully autonomous",
@@ -675,6 +681,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "construction-schedule-slippage-alert",
+    code: 33,
     function: "operations",
     sectors: ["construction"],
     tier: "Fully autonomous",
@@ -787,6 +794,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "construction-snag-list-tracker",
+    code: 34,
     function: "operations",
     sectors: ["construction"],
     tier: "Human in the loop",
@@ -899,6 +907,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-supplier-performance-scorecard",
+    code: 35,
     function: "operations",
     sectors: ["industry", "retail"],
     tier: "Fully autonomous",
@@ -1011,6 +1020,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-maintenance-request-triage",
+    code: 36,
     function: "operations",
     sectors: ["industry"],
     tier: "Human in the loop",
@@ -1123,6 +1133,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-production-shift-digest",
+    code: 37,
     function: "operations",
     sectors: ["industry"],
     tier: "Fully autonomous",
@@ -1235,6 +1246,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-supplier-quote-comparison",
+    code: 38,
     function: "operations",
     sectors: ["industry", "construction", "retail"],
     tier: "Human in the loop",
@@ -1347,6 +1359,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-inventory-count-variance",
+    code: 39,
     function: "operations",
     sectors: ["retail", "industry"],
     tier: "Human in the loop",
@@ -1459,6 +1472,7 @@ export const OPERATIONS_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "meeting-minutes-action-tracker",
+    code: 40,
     function: "operations",
     sectors: ["professional-services", "construction", "industry", "public", "finance"],
     tier: "Copilot",

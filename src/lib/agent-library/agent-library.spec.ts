@@ -8,19 +8,15 @@ import {
   AGENT_SECTORS,
   LIBRARY_AGENTS,
   LIBRARY_TOOLS,
+  LIBRARY_USE_CASES,
   buildLibraryFilmSpec,
-  buildLibraryWonkaChatExport,
-  findLibraryAgentByBlueprintId,
+  buildLibrarySelectionExport,
+  getLibraryAgentByCode,
   libraryAgentPath,
-  libraryBlueprintId,
-  libraryImportUrl,
+  librarySelectionIndex,
   relatedAgents,
 } from "@/lib/agent-library";
 import { AGENT_LIBRARY_COPY } from "@/lib/agent-library/copy";
-
-/** Same contract as the export route and WonkaChat's import. */
-const BLUEPRINT_ID_PATTERN =
-  /^agent-blueprint\.[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 const allStrings = (value: unknown): string[] =>
   typeof value === "string"
@@ -135,35 +131,24 @@ describe("agent library catalogue", () => {
 });
 
 describe("agent library WonkaChat import", () => {
-  it("derives stable, unique ids that match the import contract", () => {
-    const ids = LIBRARY_AGENTS.flatMap((agent) =>
-      locales.map((locale) => libraryBlueprintId(agent.slug, locale)),
-    );
-    expect(new Set(ids).size).toBe(ids.length);
-    for (const id of ids) expect(id).toMatch(BLUEPRINT_ID_PATTERN);
-    const first = LIBRARY_AGENTS[0];
-    expect(libraryBlueprintId(first.slug, "fr")).toBe(libraryBlueprintId(first.slug, "fr"));
-  });
-
-  it("resolves ids back to the agent and locale, and ignores unknown ids", () => {
-    for (const agent of LIBRARY_AGENTS) {
-      for (const locale of locales) {
-        const found = findLibraryAgentByBlueprintId(libraryBlueprintId(agent.slug, locale));
-        expect(found?.agent.slug).toBe(agent.slug);
-        expect(found?.locale).toBe(locale);
-      }
+  it("gives every agent a unique, explicit code that fits the signed id", () => {
+    const codes = LIBRARY_AGENTS.map((agent) => agent.code);
+    expect(new Set(codes).size).toBe(codes.length);
+    for (const code of codes) {
+      expect(Number.isInteger(code)).toBe(true);
+      expect(code).toBeGreaterThanOrEqual(1);
+      expect(code).toBeLessThanOrEqual(255);
     }
-    expect(
-      findLibraryAgentByBlueprintId("agent-blueprint.123e4567-e89b-42d3-a456-426614174000"),
-    ).toBeNull();
+    for (const agent of LIBRARY_AGENTS) expect(getLibraryAgentByCode(agent.code)).toBe(agent);
   });
 
-  it("builds an export WonkaChat accepts", () => {
+  it("builds a selection export WonkaChat accepts", () => {
+    const id = "agent-blueprint.123e4567-e89b-42d3-a456-426614174000";
     for (const agent of LIBRARY_AGENTS) {
       for (const locale of locales) {
-        const payload = buildLibraryWonkaChatExport(agent, locale);
+        const payload = buildLibrarySelectionExport([agent], locale, id);
         expect(payload.version).toBe(1);
-        expect(payload.blueprintId).toBe(libraryBlueprintId(agent.slug, locale));
+        expect(payload.blueprintId).toBe(id);
         expect(payload.locale).toBe(locale);
         expect(payload.agents).toHaveLength(1);
         const [exported] = payload.agents;
@@ -180,13 +165,17 @@ describe("agent library WonkaChat import", () => {
         if (exported.trigger) expect(exported.trigger.event.length).toBeLessThanOrEqual(200);
       }
     }
+    const team = LIBRARY_AGENTS.slice(0, 3);
+    const payload = buildLibrarySelectionExport(team, "fr", id);
+    expect(payload.agents.map((agent) => agent.key)).toEqual(team.map((agent) => agent.slug));
   });
 
-  it("links to WonkaChat's blueprint import page", () => {
-    const agent = LIBRARY_AGENTS[0];
-    expect(libraryImportUrl(agent.slug, "nl")).toBe(
-      `https://wonka.chat/blueprint/${libraryBlueprintId(agent.slug, "nl")}`,
-    );
+  it("never puts instructions in the selection index sent to the browser", () => {
+    for (const locale of locales) {
+      const index = librarySelectionIndex(locale);
+      expect(index).toHaveLength(LIBRARY_AGENTS.length + LIBRARY_USE_CASES.length);
+      for (const entry of index) expect(Object.keys(entry).sort()).toEqual(["kind", "name", "slug"]);
+    }
   });
 });
 

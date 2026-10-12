@@ -3,6 +3,7 @@ import type { LibraryAgent } from "../types";
 export const LEGAL_AGENTS: LibraryAgent[] = [
   {
     slug: "contract-review-assistant",
+    code: 46,
     function: "legal",
     sectors: ["professional-services", "industry", "finance", "public"],
     tier: "Copilot",
@@ -115,6 +116,7 @@ export const LEGAL_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "gdpr-request-handler",
+    code: 47,
     function: "legal",
     sectors: ["retail", "finance", "public", "professional-services"],
     tier: "Human in the loop",
@@ -227,6 +229,7 @@ export const LEGAL_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "compliance-evidence-collector",
+    code: 48,
     function: "legal",
     sectors: ["finance", "industry", "professional-services", "public"],
     tier: "Fully autonomous",
@@ -339,6 +342,7 @@ export const LEGAL_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "construction-safety-plan-check",
+    code: 49,
     function: "legal",
     sectors: ["construction"],
     tier: "Human in the loop",
@@ -451,6 +455,7 @@ export const LEGAL_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "engagement-letter-drafter",
+    code: 50,
     function: "legal",
     sectors: ["professional-services"],
     tier: "Human in the loop",
@@ -563,6 +568,7 @@ export const LEGAL_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "client-due-diligence-check",
+    code: 51,
     function: "legal",
     sectors: ["professional-services", "finance"],
     tier: "Human in the loop",
@@ -675,6 +681,7 @@ export const LEGAL_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "public-procurement-compliance-check",
+    code: 52,
     function: "legal",
     sectors: ["public"],
     tier: "Human in the loop",
@@ -787,6 +794,7 @@ export const LEGAL_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "council-minutes-drafter",
+    code: 53,
     function: "legal",
     sectors: ["public"],
     tier: "Copilot",

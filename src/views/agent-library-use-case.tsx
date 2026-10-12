@@ -7,6 +7,8 @@ import {
   LibraryBlueprintLink,
   LibraryUseCaseViewTracker,
 } from "@/components/agent-library/agent-library-client";
+import { LibrarySelectionToggle } from "@/components/agent-library/agent-library-selection";
+import { LibraryTray } from "@/components/agent-library/agent-library-tray";
 import { BreadcrumbSchema } from "@/components/json-ld";
 import { ButtonLink } from "@/components/ui/button";
 import type { Locale } from "@/i18n/config";
@@ -134,6 +136,16 @@ export async function LibraryUseCaseView({
               >
                 {labels.useCase.bookCta}
               </ButtonLink>
+              <LibrarySelectionToggle
+                slug={useCase.slug}
+                kind="use-case"
+                name={copy.name}
+                labels={labels.card}
+                locale={locale}
+                placement="use_case_hero"
+                tone="dark"
+                className="h-11 px-4"
+              />
             </div>
             <p className="type-paragraph-s mt-4 max-w-xl text-white/50">
               {labels.useCase.blueprintNote}
@@ -187,7 +199,7 @@ export async function LibraryUseCaseView({
               <ul className="mt-8 grid gap-4 md:grid-cols-3">
                 {related.map((other) => (
                   <li key={other.slug}>
-                    <AgentCard agent={other} labels={labels.card} />
+                    <AgentCard agent={other} labels={labels.card} locale={locale} placement="related_card" />
                   </li>
                 ))}
               </ul>
@@ -231,6 +243,7 @@ export async function LibraryUseCaseView({
             </div>
           </div>
         </section>
+        <LibraryTray locale={locale} meetingUrl={meetingUrl} />
       </main>
     </>
   );

@@ -6,8 +6,12 @@ import { AgentCard, ToolLogo } from "@/components/agent-library/agent-card";
 import {
   LibraryAgentFilm,
   LibraryBlueprintLink,
-  LibraryImportButton,
 } from "@/components/agent-library/agent-library-client";
+import {
+  LibraryImportButton,
+  LibrarySelectionToggle,
+} from "@/components/agent-library/agent-library-selection";
+import { LibraryTray } from "@/components/agent-library/agent-library-tray";
 import { BreadcrumbSchema } from "@/components/json-ld";
 import { JsonLd } from "@/components/json-ld/json-ld";
 import { ButtonLink } from "@/components/ui/button";
@@ -15,9 +19,9 @@ import type { Locale } from "@/i18n/config";
 import { commercialPath, localizeHref } from "@/i18n/routes";
 import {
   buildLibraryFilmSpec,
+  isLibraryImportEnabled,
   libraryAgentLanguages,
   libraryAgentPath,
-  libraryImportUrl,
   libraryIndexPath,
   relatedAgents,
   type LibraryAgent,
@@ -72,7 +76,7 @@ export async function LibraryAgentView({ agent, locale }: { agent: LibraryAgent;
   const meetingUrl = resolveMeetingUrl(sharedLinks, "default", locale);
   const meetingTrack = meetingTrackProps("general");
   const blueprintHref = localizeHref("/ai-agent-blueprint", locale);
-  const importHref = libraryImportUrl(agent.slug, locale);
+  const importEnabled = isLibraryImportEnabled();
   const card = toCardData(agent, locale, pagePath);
   const spec = buildLibraryFilmSpec(agent, locale);
   const related = relatedAgents(agent).map((other) =>
@@ -128,21 +132,40 @@ export async function LibraryAgentView({ agent, locale }: { agent: LibraryAgent;
                 </span>
               ))}
             </div>
-            <div className="mt-9 flex flex-wrap items-center gap-5">
-              <LibraryImportButton href={importHref} slug={agent.slug} locale={locale} placement="detail_hero">
-                {labels.detail.importCta}
-              </LibraryImportButton>
+            <div className="mt-9 flex flex-wrap items-start gap-5">
+              {importEnabled ? (
+                <LibraryImportButton
+                  slug={agent.slug}
+                  locale={locale}
+                  placement="detail_hero"
+                  labels={labels.selection}
+                >
+                  {labels.detail.importCta}
+                </LibraryImportButton>
+              ) : null}
               <LibraryBlueprintLink
                 href={blueprintHref}
                 slug={agent.slug}
                 locale={locale}
                 placement="detail_hero"
-                variant="text"
+                variant={importEnabled ? "primaryOutline" : "primary"}
               >
-                {labels.detail.blueprintCta}
+                {importEnabled ? labels.detail.blueprintCta : labels.selection.designCta}
               </LibraryBlueprintLink>
+              <LibrarySelectionToggle
+                slug={agent.slug}
+                kind="agent"
+                name={copy.name}
+                labels={labels.card}
+                locale={locale}
+                placement="detail_hero"
+                tone="dark"
+                className="h-11 px-4"
+              />
             </div>
-            <p className="type-paragraph-s mt-4 max-w-xl text-white/50">{labels.detail.importNote}</p>
+            {importEnabled ? (
+              <p className="type-paragraph-s mt-4 max-w-xl text-white/50">{labels.detail.importNote}</p>
+            ) : null}
           </div>
         </section>
 
@@ -204,9 +227,34 @@ export async function LibraryAgentView({ agent, locale }: { agent: LibraryAgent;
               </ul>
             </DetailBlock>
             <div className="flex flex-col items-start gap-4 rounded-sm border border-border/20 p-5">
-              <LibraryImportButton href={importHref} slug={agent.slug} locale={locale} placement="detail_sidebar">
-                {labels.detail.importCta}
-              </LibraryImportButton>
+              {importEnabled ? (
+                <LibraryImportButton
+                  slug={agent.slug}
+                  locale={locale}
+                  placement="detail_sidebar"
+                  labels={labels.selection}
+                >
+                  {labels.detail.importCta}
+                </LibraryImportButton>
+              ) : (
+                <LibraryBlueprintLink
+                  href={blueprintHref}
+                  slug={agent.slug}
+                  locale={locale}
+                  placement="detail_sidebar"
+                  variant="primary"
+                >
+                  {labels.selection.designCta}
+                </LibraryBlueprintLink>
+              )}
+              <LibrarySelectionToggle
+                slug={agent.slug}
+                kind="agent"
+                name={copy.name}
+                labels={labels.card}
+                locale={locale}
+                placement="detail_sidebar"
+              />
               <ButtonLink href={meetingUrl} variant="underline" {...meetingTrack}>
                 {labels.detail.bookCta}
               </ButtonLink>
@@ -224,7 +272,7 @@ export async function LibraryAgentView({ agent, locale }: { agent: LibraryAgent;
               <ul className="mt-8 grid gap-4 md:grid-cols-3">
                 {related.map((other) => (
                   <li key={other.slug}>
-                    <AgentCard agent={other} labels={labels.card} />
+                    <AgentCard agent={other} labels={labels.card} locale={locale} placement="related_card" />
                   </li>
                 ))}
               </ul>
@@ -255,6 +303,7 @@ export async function LibraryAgentView({ agent, locale }: { agent: LibraryAgent;
             </div>
           </div>
         </section>
+        <LibraryTray locale={locale} meetingUrl={meetingUrl} />
       </main>
     </>
   );

@@ -1,9 +1,10 @@
 import { getSanityWriteClient } from "@sanity/lib/write-client";
 import { isWonkaChatExportExpired } from "@/lib/agent-blueprint-wonkachat";
+import { resolveLibraryExport } from "@/lib/agent-library";
 import {
-  buildLibraryWonkaChatExport,
-  findLibraryAgentByBlueprintId,
-} from "@/lib/agent-library";
+  getLibraryExportSecret,
+  isAuthorizedLibraryExportRequest,
+} from "@/lib/agent-library/export-token";
 
 export const dynamic = "force-dynamic";
 
@@ -12,10 +13,8 @@ const BLUEPRINT_ID_PATTERN =
   /^agent-blueprint\.[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 const NO_STORE = { "Cache-Control": "no-store" };
-/** Library exports are public and only change on deploy. */
-const LIBRARY_CACHE = {
-  "Cache-Control": "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800",
-};
+/** Library exports carry full agent instructions: never cached by a CDN. */
+const LIBRARY_NO_STORE = { "Cache-Control": "private, no-store" };
 
 function notFound() {
   return Response.json(
@@ -35,22 +34,21 @@ interface AssessmentExportDoc {
  * is an unguessable uuid, so it doubles as the capability to read the export.
  */
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params;
   if (!BLUEPRINT_ID_PATTERN.test(id)) return notFound();
 
-  // Agent library entries are public and static: their ids are hashed from
-  // slug + locale, so they are served from code and never read from Sanity.
-  // Assessment ids are random v4 uuids (122 random bits), so a collision with
-  // one of the library's few dozen ids is not a practical concern.
-  const library = findLibraryAgentByBlueprintId(id);
+  // Agent library selections are signed, expiring ids issued by
+  // POST /api/agent-library/import: the selection is decoded from the id and
+  // served from code, never read from Sanity. Random assessment ids fail the
+  // 70-bit signature check and fall through to Sanity below.
+  const library = resolveLibraryExport(id, getLibraryExportSecret());
   if (library) {
-    return Response.json(
-      buildLibraryWonkaChatExport(library.agent, library.locale),
-      { headers: LIBRARY_CACHE },
-    );
+    if (library.status === "expired") return notFound();
+    if (!isAuthorizedLibraryExportRequest(request.headers)) return notFound();
+    return Response.json(library.payload, { headers: LIBRARY_NO_STORE });
   }
 
   // Assessments are written (and only readable) with the server-side token:

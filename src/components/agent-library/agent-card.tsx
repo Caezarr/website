@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Locale } from "@/i18n/config";
 import type { AgentTier } from "@/lib/agent-blueprint";
 import type { AgentLibraryCopy } from "@/lib/agent-library/copy";
 import type { AgentCardData, AgentCardTool } from "@/lib/agent-library/types";
 import { cn } from "@/lib/utils";
+import { LibrarySelectionToggle } from "./agent-library-selection";
 
 export type { AgentCardData, AgentCardTool };
 
@@ -44,21 +46,23 @@ export function ToolLogo({
 export function AgentCard({
   agent,
   labels,
+  locale,
+  placement = "card",
   className,
   onClick,
 }: {
   agent: AgentCardData;
   labels: AgentLibraryCopy["card"];
+  locale?: Locale;
+  placement?: string;
   className?: string;
   onClick?: () => void;
 }) {
   const useCase = agent.kind === "use-case";
   return (
-    <Link
-      href={agent.href}
-      onClick={onClick}
+    <article
       className={cn(
-        "group flex h-full flex-col rounded-sm border border-border/20 bg-background p-6 transition-colors hover:border-accent focus-visible:border-accent",
+        "group relative flex h-full flex-col rounded-sm border border-border/20 bg-background p-6 transition-colors hover:border-accent focus-within:border-accent",
         useCase && "border-dashed",
         className,
       )}
@@ -76,20 +80,43 @@ export function AgentCard({
           </span>
         ) : null}
       </div>
-      <h3 className="type-h6 mt-4 group-hover:text-accent">{agent.name}</h3>
+      <h3 className="type-h6 mt-4 group-hover:text-accent">
+        <Link
+          href={agent.href}
+          onClick={onClick}
+          className="after:absolute after:inset-0 after:rounded-sm focus-visible:outline-none"
+        >
+          {agent.name}
+        </Link>
+      </h3>
       <p className={cn("type-paragraph-m mt-3 text-text/62", useCase && "line-clamp-3")}>
         {agent.promise}
       </p>
-      <div className="mt-auto flex items-center justify-between gap-3 pt-6">
-        <div className="flex items-center gap-1.5">
-          {agent.tools.map((tool) => (
-            <ToolLogo key={tool.name} tool={tool} />
-          ))}
+      <div className="mt-auto flex flex-col gap-4 pt-6">
+        {agent.tools.length ? (
+          <div className="flex items-center gap-1.5">
+            {agent.tools.map((tool) => (
+              <ToolLogo key={tool.name} tool={tool} />
+            ))}
+          </div>
+        ) : null}
+        <div className="flex items-center justify-between gap-3">
+          <span
+            aria-hidden
+            className="type-paragraph-m-bold text-text/70 underline-offset-4 group-hover:underline"
+          >
+            {useCase ? labels.openUseCase : labels.open}
+          </span>
+          <LibrarySelectionToggle
+            slug={agent.slug}
+            kind={agent.kind}
+            name={agent.name}
+            labels={labels}
+            locale={locale}
+            placement={placement}
+          />
         </div>
-        <span className="type-paragraph-m-bold text-text/70 underline-offset-4 group-hover:underline">
-          {useCase ? labels.openUseCase : labels.open}
-        </span>
       </div>
-    </Link>
+    </article>
   );
 }

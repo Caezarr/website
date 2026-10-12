@@ -69,39 +69,6 @@ export function LibraryUseCaseViewTracker({
   return null;
 }
 
-/** One-click import: WonkaChat fetches the agent's export from our API. */
-export function LibraryImportButton({
-  href,
-  slug,
-  locale,
-  placement,
-  children,
-}: {
-  href: string;
-  slug: string;
-  locale: Locale;
-  placement: string;
-  children: ReactNode;
-}) {
-  return (
-    <ButtonLink
-      href={href}
-      variant="primary"
-      data-track="wonkachat_start"
-      data-library-cta="import_wonkachat"
-      onClick={() =>
-        trackWebsiteEvent(WEBSITE_EVENTS.AGENT_LIBRARY_IMPORT_CLICKED, {
-          agent: slug,
-          locale,
-          placement,
-        })
-      }
-    >
-      {children}
-    </ButtonLink>
-  );
-}
-
 export function LibraryBlueprintLink({
   href,
   slug,

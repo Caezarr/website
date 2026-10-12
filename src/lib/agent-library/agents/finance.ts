@@ -3,6 +3,7 @@ import type { LibraryAgent } from "../types";
 export const FINANCE_AGENTS: LibraryAgent[] = [
   {
     slug: "odoo-supplier-invoice-matching",
+    code: 1,
     function: "finance",
     sectors: ["industry", "construction", "retail"],
     tier: "Human in the loop",
@@ -115,6 +116,7 @@ export const FINANCE_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-overdue-invoice-follow-up",
+    code: 2,
     function: "finance",
     sectors: ["industry", "professional-services", "retail", "construction"],
     tier: "Human in the loop",
@@ -227,6 +229,7 @@ export const FINANCE_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "month-end-close-assistant",
+    code: 3,
     function: "finance",
     sectors: ["industry", "professional-services", "finance"],
     tier: "Fully autonomous",
@@ -339,6 +342,7 @@ export const FINANCE_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "expense-report-checker",
+    code: 4,
     function: "finance",
     sectors: ["professional-services", "construction", "public"],
     tier: "Human in the loop",
@@ -451,6 +455,7 @@ export const FINANCE_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-cash-position-briefing",
+    code: 5,
     function: "finance",
     sectors: ["industry", "retail", "construction"],
     tier: "Fully autonomous",
@@ -563,6 +568,7 @@ export const FINANCE_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "construction-progress-claim-check",
+    code: 6,
     function: "finance",
     sectors: ["construction"],
     tier: "Human in the loop",
@@ -675,6 +681,7 @@ export const FINANCE_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-bank-reconciliation-assistant",
+    code: 7,
     function: "finance",
     sectors: ["industry", "retail", "professional-services", "construction"],
     tier: "Human in the loop",
@@ -787,6 +794,7 @@ export const FINANCE_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-project-margin-watch",
+    code: 8,
     function: "finance",
     sectors: ["construction", "professional-services", "industry"],
     tier: "Fully autonomous",
@@ -899,6 +907,7 @@ export const FINANCE_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "accounting-client-document-collection",
+    code: 9,
     function: "finance",
     sectors: ["professional-services", "finance"],
     tier: "Human in the loop",
@@ -1011,6 +1020,7 @@ export const FINANCE_AGENTS: LibraryAgent[] = [
   },
   {
     slug: "odoo-timesheet-anomaly-check",
+    code: 10,
     function: "finance",
     sectors: ["professional-services", "construction"],
     tier: "Fully autonomous",

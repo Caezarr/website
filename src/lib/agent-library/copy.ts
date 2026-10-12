@@ -29,7 +29,14 @@ export interface AgentLibraryCopy {
     empty: string;
     showMore: string;
   };
-  card: { open: string; openUseCase: string; useCase: string };
+  card: {
+    open: string;
+    openUseCase: string;
+    useCase: string;
+    add: string;
+    added: string;
+    full: string;
+  };
   blueprintBand: {
     eyebrow: string;
     title: string;
@@ -37,6 +44,27 @@ export interface AgentLibraryCopy {
     cta: string;
   };
   booking: { title: string; body: string; cta: string };
+  selection: {
+    label: string;
+    count: string;
+    countOne: string;
+    show: string;
+    hide: string;
+    ready: string;
+    ideas: string;
+    remove: string;
+    clear: string;
+    designCta: string;
+    send: string;
+    sending: string;
+    sendNote: string;
+    sendLimit: string;
+    createIdeas: string;
+    ideasNote: string;
+    book: string;
+    error: string;
+    fullNote: string;
+  };
   detail: {
     backToLibrary: string;
     problem: string;
@@ -85,8 +113,8 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
       eyebrow: "AI agent library",
       title: "Ready-to-use AI agents for the work your teams repeat every week",
       body: "Ready-to-use agents come with their workflow, connected tools and a demo run, and import into WonkaChat as they are. Use cases from real projects show what else teams automate. Or let the Blueprint design agents around your own processes.",
-      primaryCta: "Browse the agents",
-      secondaryCta: "Design agents for my company",
+      primaryCta: "Design your AI agent team",
+      secondaryCta: "Browse the agents",
     },
     functions: {
       finance: "Finance and accounting",
@@ -124,17 +152,45 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
       empty: "No agent matches these filters yet. The Blueprint can design one around your process.",
       showMore: "Show more",
     },
-    card: { open: "See the agent", openUseCase: "See the use case", useCase: "Use case" },
+    card: {
+      open: "See the agent",
+      openUseCase: "See the use case",
+      useCase: "Use case",
+      add: "Add to my team",
+      added: "Added",
+      full: "List full",
+    },
     blueprintBand: {
       eyebrow: "AI Agent Blueprint",
-      title: "Get agents designed for your company in a few minutes",
-      body: "Enter your website. The Blueprint reads how your company works and proposes agents built around your real processes, ready to import into WonkaChat.",
-      cta: "Start my Blueprint",
+      title: "Design your AI agent team in a few minutes",
+      body: "Add the agents and use cases you like to your team, then enter your website. The Blueprint reads how your company works and designs agents around your real processes, ready to import into WonkaChat.",
+      cta: "Design your AI agent team",
     },
     booking: {
       title: "Want us to deploy them with you?",
       body: "Talk to a Wonka AI engineer about your processes, your tools and the controls you need.",
       cta: "Book a call",
+    },
+    selection: {
+      label: "My agent team",
+      count: "{count} in my team",
+      countOne: "1 in my team",
+      show: "Show my list",
+      hide: "Hide my list",
+      ready: "Ready to import",
+      ideas: "Ideas to design",
+      remove: "Remove {name}",
+      clear: "Clear the list",
+      designCta: "Design your AI agent team",
+      send: "Send to WonkaChat",
+      sending: "Opening WonkaChat…",
+      sendNote: "Creates these agents in your WonkaChat workspace. You review every setting before it is saved.",
+      sendLimit: "WonkaChat imports up to 3 agents at a time. Keep 3 ready agents in your list to send them.",
+      createIdeas: "Create them in WonkaChat",
+      ideasNote: "Use cases are ideas: the Blueprint designs them around your processes, or you create them in WonkaChat.",
+      book: "Book a call",
+      error: "WonkaChat could not be opened. Please try again.",
+      fullNote: "Your list holds up to 20 entries.",
     },
     detail: {
       backToLibrary: "All agents",
@@ -202,8 +258,8 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
       eyebrow: "Bibliothèque d’agents IA",
       title: "Des agents IA prêts à l’emploi pour le travail que vos équipes répètent chaque semaine",
       body: "Les agents prêts à l’emploi sont présentés avec leur fonctionnement, leurs outils connectés et une démonstration, et s’importent tels quels dans WonkaChat. Les cas d’usage issus de projets réels montrent ce que les équipes automatisent aussi. Vous pouvez enfin laisser le Blueprint concevoir des agents autour de vos propres processus.",
-      primaryCta: "Parcourir les agents",
-      secondaryCta: "Concevoir des agents pour mon entreprise",
+      primaryCta: "Concevoir mon équipe d’agents IA",
+      secondaryCta: "Parcourir les agents",
     },
     functions: {
       finance: "Finance et comptabilité",
@@ -241,17 +297,45 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
       empty: "Aucun agent ne correspond encore à ces filtres. Le Blueprint peut en concevoir un autour de votre processus.",
       showMore: "Afficher plus",
     },
-    card: { open: "Voir l’agent", openUseCase: "Voir le cas d’usage", useCase: "Cas d’usage" },
+    card: {
+      open: "Voir l’agent",
+      openUseCase: "Voir le cas d’usage",
+      useCase: "Cas d’usage",
+      add: "Ajouter à mon équipe",
+      added: "Ajouté",
+      full: "Liste complète",
+    },
     blueprintBand: {
       eyebrow: "AI Agent Blueprint",
-      title: "Obtenez en quelques minutes des agents conçus pour votre entreprise",
-      body: "Indiquez votre site web. Le Blueprint analyse votre activité et propose des agents construits autour de vos vrais processus, prêts à importer dans WonkaChat.",
-      cta: "Lancer mon Blueprint",
+      title: "Concevez votre équipe d’agents IA en quelques minutes",
+      body: "Ajoutez à votre équipe les agents et cas d’usage qui vous intéressent, puis indiquez votre site web. Le Blueprint analyse votre activité et conçoit des agents autour de vos vrais processus, prêts à importer dans WonkaChat.",
+      cta: "Concevoir mon équipe d’agents IA",
     },
     booking: {
       title: "Vous souhaitez les déployer avec nous ?",
       body: "Échangez avec un ingénieur IA Wonka sur vos processus, vos outils et les contrôles dont vous avez besoin.",
       cta: "Prendre rendez-vous",
+    },
+    selection: {
+      label: "Mon équipe d’agents",
+      count: "{count} dans mon équipe",
+      countOne: "1 dans mon équipe",
+      show: "Voir ma liste",
+      hide: "Masquer ma liste",
+      ready: "Prêts à importer",
+      ideas: "Idées à concevoir",
+      remove: "Retirer {name}",
+      clear: "Vider la liste",
+      designCta: "Concevoir mon équipe d’agents IA",
+      send: "Envoyer dans WonkaChat",
+      sending: "Ouverture de WonkaChat…",
+      sendNote: "Crée ces agents dans votre espace WonkaChat. Vous vérifiez chaque paramètre avant l’enregistrement.",
+      sendLimit: "WonkaChat importe 3 agents au maximum à la fois. Gardez 3 agents prêts à importer dans votre liste pour les envoyer.",
+      createIdeas: "Les créer dans WonkaChat",
+      ideasNote: "Les cas d’usage sont des idées : le Blueprint les conçoit autour de vos processus, ou vous les créez dans WonkaChat.",
+      book: "Prendre rendez-vous",
+      error: "Impossible d’ouvrir WonkaChat. Veuillez réessayer.",
+      fullNote: "Votre liste contient 20 éléments au maximum.",
     },
     detail: {
       backToLibrary: "Tous les agents",
@@ -319,8 +403,8 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
       eyebrow: "AI-agentbibliotheek",
       title: "Kant-en-klare AI-agents voor het werk dat uw teams elke week herhalen",
       body: "Kant-en-klare agents tonen hun werkwijze, gekoppelde tools en een demo, en importeert u zoals ze zijn in WonkaChat. Use cases uit echte projecten tonen wat teams nog meer automatiseren. Of laat de Blueprint agents ontwerpen rond uw eigen processen.",
-      primaryCta: "Bekijk de agents",
-      secondaryCta: "Agents ontwerpen voor mijn bedrijf",
+      primaryCta: "Ontwerp uw team van AI-agents",
+      secondaryCta: "Bekijk de agents",
     },
     functions: {
       finance: "Financiën en boekhouding",
@@ -358,17 +442,45 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
       empty: "Nog geen agent voor deze filters. De Blueprint kan er een ontwerpen rond uw proces.",
       showMore: "Toon meer",
     },
-    card: { open: "Bekijk de agent", openUseCase: "Bekijk de use case", useCase: "Use case" },
+    card: {
+      open: "Bekijk de agent",
+      openUseCase: "Bekijk de use case",
+      useCase: "Use case",
+      add: "Toevoegen aan mijn team",
+      added: "Toegevoegd",
+      full: "Lijst vol",
+    },
     blueprintBand: {
       eyebrow: "AI Agent Blueprint",
-      title: "Krijg in enkele minuten agents op maat van uw bedrijf",
-      body: "Geef uw website in. De Blueprint leest hoe uw bedrijf werkt en stelt agents voor rond uw echte processen, klaar om in WonkaChat te importeren.",
-      cta: "Start mijn Blueprint",
+      title: "Ontwerp in enkele minuten uw team van AI-agents",
+      body: "Voeg de agents en use cases die u aanspreken toe aan uw team en geef daarna uw website in. De Blueprint leest hoe uw bedrijf werkt en ontwerpt agents rond uw echte processen, klaar om in WonkaChat te importeren.",
+      cta: "Ontwerp uw team van AI-agents",
     },
     booking: {
       title: "Wilt u ze samen met ons uitrollen?",
       body: "Bespreek uw processen, tools en de nodige controles met een AI-engineer van Wonka.",
       cta: "Plan een gesprek",
+    },
+    selection: {
+      label: "Mijn agentteam",
+      count: "{count} in mijn team",
+      countOne: "1 in mijn team",
+      show: "Toon mijn lijst",
+      hide: "Verberg mijn lijst",
+      ready: "Klaar om te importeren",
+      ideas: "Ideeën om te ontwerpen",
+      remove: "{name} verwijderen",
+      clear: "Lijst wissen",
+      designCta: "Ontwerp uw team van AI-agents",
+      send: "Naar WonkaChat sturen",
+      sending: "WonkaChat wordt geopend…",
+      sendNote: "Maakt deze agents aan in uw WonkaChat-werkruimte. U controleert elke instelling voordat ze wordt opgeslagen.",
+      sendLimit: "WonkaChat importeert maximaal 3 agents tegelijk. Houd 3 kant-en-klare agents in uw lijst om ze te versturen.",
+      createIdeas: "Maak ze aan in WonkaChat",
+      ideasNote: "Use cases zijn ideeën: de Blueprint ontwerpt ze rond uw processen, of u maakt ze aan in WonkaChat.",
+      book: "Plan een gesprek",
+      error: "WonkaChat kon niet worden geopend. Probeer het opnieuw.",
+      fullNote: "Uw lijst bevat maximaal 20 items.",
     },
     detail: {
       backToLibrary: "Alle agents",
@@ -425,6 +537,13 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
     },
   },
 };
+
+export function formatSelectionCount(
+  copy: AgentLibraryCopy["selection"],
+  count: number,
+): string {
+  return count === 1 ? copy.countOne : copy.count.replace("{count}", String(count));
+}
 
 export function formatResultCount(copy: AgentLibraryCopy, count: number): string {
   return count === 1
