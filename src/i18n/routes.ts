@@ -31,6 +31,7 @@ const COMMERCIAL_PATH_SET = new Set<string>(Object.values(COMMERCIAL_PATHS));
 export const UNLISTED_TRANSLATED_PATHS = new Set<string>([
   "/team",
   "/workspace",
+  "/workspace/ai-agents",
 ]);
 
 /**
