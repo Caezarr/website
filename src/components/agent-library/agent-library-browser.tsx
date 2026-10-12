@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
 import { trackWebsiteEvent, WEBSITE_EVENTS } from "@/lib/analytics";
 import { formatResultCount, type AgentLibraryCopy } from "@/lib/agent-library/copy";
 import {
@@ -11,6 +13,9 @@ import {
 } from "@/lib/agent-library/types";
 import type { Locale } from "@/i18n/config";
 import { AgentCard, type AgentCardData } from "./agent-card";
+
+/** Cards rendered in full before "Show more"; the rest stay in the HTML as plain links. */
+const PAGE_SIZE = 36;
 
 function normalize(value: string): string {
   return value
@@ -57,8 +62,10 @@ function FilterSelect<T extends string>({
 }
 
 /**
- * Search and filters over the full, server-rendered agent list. With no
- * filter set, every card is in the HTML so crawlers see the whole catalogue.
+ * Search and filters over the full, server-rendered list of agents and use
+ * cases. Every entry is linked in the HTML so crawlers see the whole
+ * catalogue; past the first page, entries render as hidden plain links until
+ * "Show more" turns them into cards.
  */
 export function AgentLibraryBrowser({
   agents,
@@ -77,20 +84,28 @@ export function AgentLibraryBrowser({
   const [tool, setTool] = useState("");
   const searchId = useId();
 
+  const haystacks = useMemo(
+    () => agents.map((agent) => `${normalize(`${agent.name} ${agent.promise}`)} ${agent.searchText}`),
+    [agents],
+  );
+
   const filtered = useMemo(() => {
     const words = normalize(query).split(/\s+/).filter(Boolean);
     return agents.filter(
-      (agent) =>
+      (agent, index) =>
         (!fn || agent.function === fn) &&
         (!sector || agent.sectors.includes(sector)) &&
         (!tool || agent.tools.some((item) => item.name === tool)) &&
-        words.every((word) => agent.searchText.includes(word)),
+        words.every((word) => haystacks[index].includes(word)),
     );
-  }, [agents, query, fn, sector, tool]);
+  }, [agents, haystacks, query, fn, sector, tool]);
 
   // Only track real filter changes: not the initial render, and not React's
   // dev-mode effect replay with unchanged filters.
   const filterKey = JSON.stringify([query.trim(), fn, sector, tool]);
+  const [page, setPage] = useState({ key: filterKey, limit: PAGE_SIZE });
+  const limit = page.key === filterKey ? page.limit : PAGE_SIZE;
+  const showMore = () => setPage({ key: filterKey, limit: limit + PAGE_SIZE });
   const trackedKey = useRef(filterKey);
   useEffect(() => {
     if (filterKey === trackedKey.current) return;
@@ -173,13 +188,30 @@ export function AgentLibraryBrowser({
       </div>
 
       {filtered.length ? (
-        <ul className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((agent) => (
-            <li key={agent.slug}>
-              <AgentCard agent={agent} openLabel={copy.card.open} />
-            </li>
-          ))}
-        </ul>
+        <>
+          <ul className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {filtered.map((agent, index) =>
+              index < limit ? (
+                <li key={agent.slug}>
+                  <AgentCard agent={agent} labels={copy.card} />
+                </li>
+              ) : (
+                <li key={agent.slug} hidden>
+                  <Link href={agent.href} prefetch={false} tabIndex={-1}>
+                    {agent.name}
+                  </Link>
+                </li>
+              ),
+            )}
+          </ul>
+          {filtered.length > limit ? (
+            <div className="mt-10 flex justify-center">
+              <Button type="button" variant="secondary" onClick={showMore}>
+                {copy.filters.showMore}
+              </Button>
+            </div>
+          ) : null}
+        </>
       ) : (
         <p className="type-body mt-10 max-w-2xl text-text/60">{copy.filters.empty}</p>
       )}

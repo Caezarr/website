@@ -6,7 +6,7 @@ import { hubPath, itemPath } from "@/lib/locale-path";
 import { locales } from "@/i18n/config";
 import type { Locale } from "@/i18n/config";
 import { buildExistingItemLanguages, buildHubLanguages } from "@/lib/hreflang";
-import { LIBRARY_AGENTS, libraryAgentLanguages, libraryAgentPath } from "@/lib/agent-library";
+import { LIBRARY_ENTRIES, libraryAgentLanguages, libraryAgentPath } from "@/lib/agent-library";
 import {
   commercialLanguages,
   commercialPath,
@@ -85,14 +85,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
   );
 
-  // Agent library detail pages: same slug in every locale
-  const libraryPages: MetadataRoute.Sitemap = LIBRARY_AGENTS.flatMap((agent) => {
-    const languages = libraryAgentLanguages(siteUrl, agent.slug);
+  // Agent library detail pages (full agents and use cases): same slug in every locale
+  const libraryPages: MetadataRoute.Sitemap = LIBRARY_ENTRIES.flatMap(({ kind, entry }) => {
+    const languages = libraryAgentLanguages(siteUrl, entry.slug);
     return locales.map((locale) => ({
-      url: `${siteUrl}${libraryAgentPath(agent.slug, locale as Locale)}`,
+      url: `${siteUrl}${libraryAgentPath(entry.slug, locale as Locale)}`,
       lastModified,
       changeFrequency: "monthly" as const,
-      priority: 0.75,
+      priority: kind === "agent" ? 0.75 : 0.6,
       alternates: { languages },
     }));
   });

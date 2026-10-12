@@ -31,7 +31,7 @@ import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import type { SiteSettings } from "@/lib/types";
 
-function truncate(value: string, max: number): string {
+export function truncate(value: string, max: number): string {
   return value.length <= max ? value : `${value.slice(0, max - 1).trimEnd()}…`;
 }
 
@@ -51,7 +51,7 @@ export function libraryAgentMetadata(agent: LibraryAgent, locale: Locale): Metad
   );
 }
 
-function DetailBlock({ title, children }: { title: string; children: React.ReactNode }) {
+export function DetailBlock({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div className="border-t border-dashed border-border pt-6">
       <h2 className="type-eyebrow text-text/45">{title}</h2>
@@ -224,7 +224,7 @@ export async function LibraryAgentView({ agent, locale }: { agent: LibraryAgent;
               <ul className="mt-8 grid gap-4 md:grid-cols-3">
                 {related.map((other) => (
                   <li key={other.slug}>
-                    <AgentCard agent={other} openLabel={labels.card.open} />
+                    <AgentCard agent={other} labels={labels.card} />
                   </li>
                 ))}
               </ul>

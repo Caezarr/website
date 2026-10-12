@@ -10,12 +10,13 @@ import type { Locale } from "@/i18n/config";
 import { commercialPath, localizeHref } from "@/i18n/routes";
 import {
   LIBRARY_AGENTS,
+  LIBRARY_USE_CASES,
   libraryAgentPath,
   libraryIndexPath,
   libraryToolsInUse,
   toolLabel,
 } from "@/lib/agent-library";
-import { toCardData } from "@/lib/agent-library/cards";
+import { toCardData, toUseCaseCardData } from "@/lib/agent-library/cards";
 import { AGENT_LIBRARY_COPY } from "@/lib/agent-library/copy";
 import { meetingTrackProps } from "@/lib/meeting-track";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
@@ -44,9 +45,14 @@ export async function AgentLibraryView({ locale }: { locale: Locale }) {
   const meetingUrl = resolveMeetingUrl(sharedLinks, "default", locale);
   const blueprintHref = localizeHref("/ai-agent-blueprint", locale);
 
-  const cards = LIBRARY_AGENTS.map((agent) =>
-    toCardData(agent, locale, libraryAgentPath(agent.slug, locale)),
-  );
+  const cards = [
+    ...LIBRARY_AGENTS.map((agent) =>
+      toCardData(agent, locale, libraryAgentPath(agent.slug, locale)),
+    ),
+    ...LIBRARY_USE_CASES.map((useCase) =>
+      toUseCaseCardData(useCase, locale, libraryAgentPath(useCase.slug, locale)),
+    ),
+  ];
   const tools = libraryToolsInUse().map((name) => ({ name, label: toolLabel(name) }));
 
   return (

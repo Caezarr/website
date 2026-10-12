@@ -27,8 +27,9 @@ export interface AgentLibraryCopy {
     results: string;
     resultsOne: string;
     empty: string;
+    showMore: string;
   };
-  card: { open: string };
+  card: { open: string; openUseCase: string; useCase: string };
   blueprintBand: {
     eyebrow: string;
     title: string;
@@ -56,6 +57,18 @@ export interface AgentLibraryCopy {
     pricing: string;
     metaSuffix: string;
   };
+  useCase: {
+    eyebrow: string;
+    function: string;
+    sectors: string;
+    tools: string;
+    noTools: string;
+    blueprintCta: string;
+    blueprintNote: string;
+    bookCta: string;
+    related: string;
+    metaSuffix: string;
+  };
   faq: { heading: string; items: Array<{ question: string; answer: string }> };
 }
 
@@ -71,7 +84,7 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
     hero: {
       eyebrow: "AI agent library",
       title: "Ready-to-use AI agents for the work your teams repeat every week",
-      body: "Each agent comes with its workflow, the tools it connects and a demo run. Import it into WonkaChat as it is, or let the Blueprint design agents around your own processes.",
+      body: "Ready-to-use agents come with their workflow, connected tools and a demo run, and import into WonkaChat as they are. Use cases from real projects show what else teams automate. Or let the Blueprint design agents around your own processes.",
       primaryCta: "Browse the agents",
       secondaryCta: "Design agents for my company",
     },
@@ -106,11 +119,12 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
       tool: "Tool",
       all: "All",
       reset: "Clear filters",
-      results: "{count} agents",
-      resultsOne: "1 agent",
+      results: "{count} results",
+      resultsOne: "1 result",
       empty: "No agent matches these filters yet. The Blueprint can design one around your process.",
+      showMore: "Show more",
     },
-    card: { open: "See the agent" },
+    card: { open: "See the agent", openUseCase: "See the use case", useCase: "Use case" },
     blueprintBand: {
       eyebrow: "AI Agent Blueprint",
       title: "Get agents designed for your company in a few minutes",
@@ -142,12 +156,24 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
       pricing: "See pricing",
       metaSuffix: "AI agent",
     },
+    useCase: {
+      eyebrow: "AI agent use case",
+      function: "Function",
+      sectors: "Sectors",
+      tools: "Connected tools",
+      noTools: "Works with the tools your team already uses.",
+      blueprintCta: "Design this agent for your company",
+      blueprintNote: "The Blueprint adapts this use case to your processes and tools, ready to import into WonkaChat.",
+      bookCta: "Book a call",
+      related: "Related agents and use cases",
+      metaSuffix: "AI agent use case",
+    },
     faq: {
       heading: "Questions about the agent library",
       items: [
         {
           question: "Can I use these agents as they are?",
-          answer: "Yes. Each agent can be imported into WonkaChat in one click with its instructions, conversation starters and connectors. You then connect your own tools and adjust the instructions to your process.",
+          answer: "Yes. Each ready-to-use agent can be imported into WonkaChat in one click with its instructions, conversation starters and connectors. You then connect your own tools and adjust the instructions to your process.",
         },
         {
           question: "Do the agents act without human approval?",
@@ -175,7 +201,7 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
     hero: {
       eyebrow: "Bibliothèque d’agents IA",
       title: "Des agents IA prêts à l’emploi pour le travail que vos équipes répètent chaque semaine",
-      body: "Chaque agent est présenté avec son fonctionnement, les outils qu’il connecte et une démonstration. Importez-le tel quel dans WonkaChat, ou laissez le Blueprint concevoir des agents autour de vos propres processus.",
+      body: "Les agents prêts à l’emploi sont présentés avec leur fonctionnement, leurs outils connectés et une démonstration, et s’importent tels quels dans WonkaChat. Les cas d’usage issus de projets réels montrent ce que les équipes automatisent aussi. Vous pouvez enfin laisser le Blueprint concevoir des agents autour de vos propres processus.",
       primaryCta: "Parcourir les agents",
       secondaryCta: "Concevoir des agents pour mon entreprise",
     },
@@ -210,11 +236,12 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
       tool: "Outil",
       all: "Tous",
       reset: "Effacer les filtres",
-      results: "{count} agents",
-      resultsOne: "1 agent",
+      results: "{count} résultats",
+      resultsOne: "1 résultat",
       empty: "Aucun agent ne correspond encore à ces filtres. Le Blueprint peut en concevoir un autour de votre processus.",
+      showMore: "Afficher plus",
     },
-    card: { open: "Voir l’agent" },
+    card: { open: "Voir l’agent", openUseCase: "Voir le cas d’usage", useCase: "Cas d’usage" },
     blueprintBand: {
       eyebrow: "AI Agent Blueprint",
       title: "Obtenez en quelques minutes des agents conçus pour votre entreprise",
@@ -246,12 +273,24 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
       pricing: "Voir les tarifs",
       metaSuffix: "agent IA",
     },
+    useCase: {
+      eyebrow: "Cas d’usage d’agent IA",
+      function: "Métier",
+      sectors: "Secteurs",
+      tools: "Outils connectés",
+      noTools: "Fonctionne avec les outils que votre équipe utilise déjà.",
+      blueprintCta: "Concevoir cet agent pour votre entreprise",
+      blueprintNote: "Le Blueprint adapte ce cas d’usage à vos processus et à vos outils, prêt à importer dans WonkaChat.",
+      bookCta: "Prendre rendez-vous",
+      related: "Agents et cas d’usage similaires",
+      metaSuffix: "cas d’usage d’agent IA",
+    },
     faq: {
       heading: "Questions sur la bibliothèque d’agents",
       items: [
         {
           question: "Puis-je utiliser ces agents tels quels ?",
-          answer: "Oui. Chaque agent s’importe dans WonkaChat en un clic avec ses instructions, ses exemples de demandes et ses connecteurs. Vous connectez ensuite vos propres outils et ajustez les instructions à votre processus.",
+          answer: "Oui. Chaque agent prêt à l’emploi s’importe dans WonkaChat en un clic avec ses instructions, ses exemples de demandes et ses connecteurs. Vous connectez ensuite vos propres outils et ajustez les instructions à votre processus.",
         },
         {
           question: "Les agents agissent-ils sans validation humaine ?",
@@ -279,7 +318,7 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
     hero: {
       eyebrow: "AI-agentbibliotheek",
       title: "Kant-en-klare AI-agents voor het werk dat uw teams elke week herhalen",
-      body: "Elke agent toont zijn werkwijze, de tools die hij koppelt en een demo. Importeer hem zoals hij is in WonkaChat, of laat de Blueprint agents ontwerpen rond uw eigen processen.",
+      body: "Kant-en-klare agents tonen hun werkwijze, gekoppelde tools en een demo, en importeert u zoals ze zijn in WonkaChat. Use cases uit echte projecten tonen wat teams nog meer automatiseren. Of laat de Blueprint agents ontwerpen rond uw eigen processen.",
       primaryCta: "Bekijk de agents",
       secondaryCta: "Agents ontwerpen voor mijn bedrijf",
     },
@@ -314,11 +353,12 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
       tool: "Tool",
       all: "Alle",
       reset: "Filters wissen",
-      results: "{count} agents",
-      resultsOne: "1 agent",
+      results: "{count} resultaten",
+      resultsOne: "1 resultaat",
       empty: "Nog geen agent voor deze filters. De Blueprint kan er een ontwerpen rond uw proces.",
+      showMore: "Toon meer",
     },
-    card: { open: "Bekijk de agent" },
+    card: { open: "Bekijk de agent", openUseCase: "Bekijk de use case", useCase: "Use case" },
     blueprintBand: {
       eyebrow: "AI Agent Blueprint",
       title: "Krijg in enkele minuten agents op maat van uw bedrijf",
@@ -350,12 +390,24 @@ export const AGENT_LIBRARY_COPY: Record<Locale, AgentLibraryCopy> = {
       pricing: "Bekijk de prijzen",
       metaSuffix: "AI-agent",
     },
+    useCase: {
+      eyebrow: "Use case voor een AI-agent",
+      function: "Functie",
+      sectors: "Sectoren",
+      tools: "Gekoppelde tools",
+      noTools: "Werkt met de tools die uw team al gebruikt.",
+      blueprintCta: "Ontwerp deze agent voor uw bedrijf",
+      blueprintNote: "De Blueprint stemt deze use case af op uw processen en tools, klaar om in WonkaChat te importeren.",
+      bookCta: "Plan een gesprek",
+      related: "Gerelateerde agents en use cases",
+      metaSuffix: "use case voor een AI-agent",
+    },
     faq: {
       heading: "Vragen over de agentbibliotheek",
       items: [
         {
           question: "Kan ik deze agents gebruiken zoals ze zijn?",
-          answer: "Ja. Elke agent importeert u in één klik in WonkaChat, met instructies, voorbeeldprompts en koppelingen. Daarna verbindt u uw eigen tools en past u de instructies aan uw proces aan.",
+          answer: "Ja. Elke kant-en-klare agent importeert u in één klik in WonkaChat, met instructies, voorbeeldprompts en koppelingen. Daarna verbindt u uw eigen tools en past u de instructies aan uw proces aan.",
         },
         {
           question: "Handelen de agents zonder menselijke goedkeuring?",

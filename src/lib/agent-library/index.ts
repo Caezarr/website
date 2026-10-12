@@ -16,7 +16,8 @@ import { OPERATIONS_AGENTS } from "./agents/operations";
 import { SALES_AGENTS } from "./agents/sales";
 import { SUPPORT_AGENTS } from "./agents/support";
 import { AGENT_LIBRARY_COPY } from "./copy";
-import type { LibraryAgent } from "./types";
+import type { LibraryAgent, LibraryEntry, LibraryUseCase } from "./types";
+import { LIBRARY_USE_CASES } from "./use-cases";
 
 export * from "./types";
 
@@ -31,10 +32,26 @@ export const LIBRARY_AGENTS: LibraryAgent[] = [
   ...IT_AGENTS,
 ];
 
+export { LIBRARY_USE_CASES };
+
 export const AGENT_LIBRARY_PATH = "/agent-library";
 
 export function getLibraryAgent(slug: string): LibraryAgent | undefined {
   return LIBRARY_AGENTS.find((agent) => agent.slug === slug);
+}
+
+export function getLibraryUseCase(slug: string): LibraryUseCase | undefined {
+  return LIBRARY_USE_CASES.find((useCase) => useCase.slug === slug);
+}
+
+/** Every library entry: full agents first, then use cases, in display order. */
+export const LIBRARY_ENTRIES: LibraryEntry[] = [
+  ...LIBRARY_AGENTS.map((entry) => ({ kind: "agent" as const, entry })),
+  ...LIBRARY_USE_CASES.map((entry) => ({ kind: "use-case" as const, entry })),
+];
+
+export function getLibraryEntry(slug: string): LibraryEntry | undefined {
+  return LIBRARY_ENTRIES.find(({ entry }) => entry.slug === slug);
 }
 
 export function libraryIndexPath(locale: Locale): string {
@@ -174,9 +191,35 @@ export function relatedAgents(agent: LibraryAgent, count = 3): LibraryAgent[] {
     .map(({ other }) => other);
 }
 
-/** Tools used by at least one agent, in catalogue order of first use. */
+/**
+ * Entries to suggest next to a use case, full agents and use cases mixed:
+ * same function first, then shared sectors and tools.
+ */
+export function relatedEntries(useCase: LibraryUseCase, count = 3): LibraryEntry[] {
+  const score = ({ entry }: LibraryEntry) =>
+    (entry.function === useCase.function ? 4 : 0) +
+    entry.sectors.filter((sector) => useCase.sectors.includes(sector)).length +
+    entry.tools.filter((tool) => useCase.tools.includes(tool)).length;
+  const ranked = LIBRARY_ENTRIES.filter(({ entry }) => entry.slug !== useCase.slug)
+    .map((item, index) => ({ item, index, score: score(item) }))
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+    .map(({ item }) => item);
+  const picked = new Set<LibraryEntry>(
+    [
+      ranked.find((item) => item.kind === "agent"),
+      ranked.find((item) => item.kind === "use-case"),
+    ].filter((item): item is LibraryEntry => Boolean(item)),
+  );
+  for (const item of ranked) {
+    if (picked.size >= count) break;
+    picked.add(item);
+  }
+  return ranked.filter((item) => picked.has(item)).slice(0, count);
+}
+
+/** Tools used by at least one entry, in catalogue order of first use. */
 export function libraryToolsInUse(): string[] {
-  return Array.from(new Set(LIBRARY_AGENTS.flatMap((agent) => agent.tools)));
+  return Array.from(new Set(LIBRARY_ENTRIES.flatMap(({ entry }) => entry.tools)));
 }
 
 /** WonkaChat origin, same as the Blueprint import. */

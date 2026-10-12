@@ -91,6 +91,27 @@ export interface LibraryAgent {
   copy: Record<Locale, LibraryAgentCopy>;
 }
 
+/** Localized copy of one lightweight use case. */
+export interface LibraryUseCaseCopy {
+  name: string;
+  /** Problem, what the agent does and what changes, in a few sentences. */
+  description: string;
+}
+
+/** Lightweight library entry: a validated use case without demo run or import. */
+export interface LibraryUseCase {
+  slug: string;
+  function: AgentFunction;
+  sectors: AgentSector[];
+  /** Connected tools, most important first. May be empty. */
+  tools: LibraryTool[];
+  copy: Record<Locale, LibraryUseCaseCopy>;
+}
+
+export type LibraryEntry =
+  | { kind: "agent"; entry: LibraryAgent }
+  | { kind: "use-case"; entry: LibraryUseCase };
+
 export interface AgentCardTool {
   name: string;
   label: string;
@@ -99,6 +120,7 @@ export interface AgentCardTool {
 
 /** Serializable card data, shaped on the server for the client filters. */
 export interface AgentCardData {
+  kind: "agent" | "use-case";
   slug: string;
   href: string;
   name: string;
@@ -107,8 +129,9 @@ export interface AgentCardData {
   functionLabel: string;
   sectors: AgentSector[];
   tools: AgentCardTool[];
-  tier: AgentTier;
-  tierLabel: string;
-  /** Lowercased, accent-free text the search box matches against. */
+  /** Autonomy level, full agents only. */
+  tier?: AgentTier;
+  tierLabel?: string;
+  /** Lowercased, accent-free text the search box matches on top of name and promise. */
   searchText: string;
 }

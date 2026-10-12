@@ -48,6 +48,27 @@ export function LibraryAgentFilm({
   return <AgentFilmSpecPlayer spec={spec} playerKey={`${slug}-${locale}`} />;
 }
 
+/** Records a use-case detail page view, same event as a full agent. */
+export function LibraryUseCaseViewTracker({
+  slug,
+  agentFunction,
+  locale,
+}: {
+  slug: string;
+  agentFunction: string;
+  locale: Locale;
+}) {
+  useEffect(() => {
+    trackWebsiteEvent(WEBSITE_EVENTS.AGENT_LIBRARY_AGENT_VIEWED, {
+      agent: slug,
+      function: agentFunction,
+      kind: "use_case",
+      locale,
+    });
+  }, [slug, agentFunction, locale]);
+  return null;
+}
+
 /** One-click import: WonkaChat fetches the agent's export from our API. */
 export function LibraryImportButton({
   href,
