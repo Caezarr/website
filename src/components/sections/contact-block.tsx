@@ -9,6 +9,7 @@ import { getT } from "@/i18n/ui";
 import { meetingTrackProps, type MeetingTrackType } from "@/lib/meeting-track";
 import { radius } from "@/lib/design-tokens";
 import { hasSanityImage } from "@/lib/resolve-cms";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { cn } from "@/lib/utils";
 import type { ContactSectionResolved } from "@/lib/types/page-sections";
 
@@ -22,6 +23,7 @@ interface ContactBlockProps {
   id?: string;
   className?: string;
   locale?: Locale;
+  scrollReveal?: boolean;
 }
 
 export function ContactBlock({
@@ -34,6 +36,7 @@ export function ContactBlock({
   id = "contact",
   className,
   locale = "en",
+  scrollReveal = false,
 }: ContactBlockProps) {
   const ctaLabel = meetingLabel ?? getT(locale)("common.bookMeeting");
   const header = data.header;
@@ -47,12 +50,8 @@ export function ContactBlock({
     return null;
   }
 
-  return (
-    <Section
-      id={id}
-      className={cn("py-18 text-center md:py-24", className)}
-      containerClassName="max-w-2xl"
-    >
+  const content = (
+    <>
       {header?.heading ? (
         <SectionHeader
           align="center"
@@ -119,6 +118,16 @@ export function ContactBlock({
           </ButtonLink>
         </div>
       </div>
+    </>
+  );
+
+  return (
+    <Section
+      id={id}
+      className={cn("py-18 text-center md:py-24", className)}
+      containerClassName="max-w-2xl"
+    >
+      {scrollReveal ? <ScrollReveal>{content}</ScrollReveal> : content}
     </Section>
   );
 }

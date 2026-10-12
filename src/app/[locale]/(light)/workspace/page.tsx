@@ -17,7 +17,7 @@ export function generateStaticParams() {
   return TRANSLATED_LOCALES.map((locale) => ({ locale }));
 }
 
-// Same page as the localized homepage: canonical points to `/{locale}`.
+// Workspace product overview at `/{locale}/workspace`.
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale } = await params;
   return workspaceMetadata(locale as Locale);

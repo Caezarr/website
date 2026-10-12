@@ -1,8 +1,5 @@
 import type { LocalePageDefaults } from "@/lib/page-defaults/localized";
-import type {
-  CapabilityGridCard,
-  CapabilityGridConnector,
-} from "@/lib/page-defaults/ai-chat-capability-grid";
+import { getAiChatCapabilityClusters } from "@/lib/page-defaults/ai-chat-capability-grid";
 import type { SecurityData } from "@/lib/types";
 import type {
   IconFeatureGridData,
@@ -51,27 +48,6 @@ function workflowStep(
   const layout = WORKFLOW_STEP_LAYOUT[index] ?? WORKFLOW_STEP_LAYOUT[0];
   return { _key, title, body, visual, image: null, fallbackImage: null, ...layout };
 }
-
-function card(
-  id: string,
-  title: string,
-  body: string,
-  extras: Partial<CapabilityGridCard> = {},
-): CapabilityGridCard {
-  return { id, title, body, image: null, ...extras };
-}
-
-const CONNECTOR_LOGOS: CapabilityGridConnector[] = [
-  { name: "Odoo", logo: "/images/solution/card-3/logos/odoo.svg" },
-  { name: "SharePoint", logo: "/images/visual/sharepoint.svg" },
-  { name: "Microsoft Teams", logo: "/images/solution/card-3/logos/teams.svg" },
-  { name: "Outlook", logo: "/images/solution/card-3/logos/outlook.svg" },
-  { name: "Salesforce", logo: "/images/solution/card-3/logos/salesforce.svg" },
-  { name: "HubSpot", logo: "/images/solution/card-3/logos/hubspot.svg" },
-  { name: "Google Drive", logo: "/images/solution/card-3/logos/googledrive.svg" },
-  { name: "Jira", logo: "/images/solution/card-3/logos/jira.svg" },
-  { name: "Notion", logo: "/images/solution/card-3/logos/notion.svg" },
-];
 
 /* ------------------------------------------------------------------ */
 /* Shared sections                                                    */
@@ -163,8 +139,8 @@ const WONKA_CHAT_HERO_IMAGE = {
 const WONKA_CHAT_CONTACT = {
   header: {
     eyebrow: "Réserver une démo",
-    heading: "Envie de voir ce que WonkaChat\npeut faire pour votre équipe ?",
-    body: "Réservez une courte démo : nous vous montrerons comment WonkaChat se connecte à vos outils, soutient vos workflows et rend l'IA accessible dans toute votre organisation.",
+    heading: "Envie de voir ce que Wonka Workspace\npeut faire pour votre équipe ?",
+    body: "Réservez une courte démo : nous vous montrerons comment Wonka Workspace se connecte à vos outils, soutient vos workflows et rend l'IA accessible dans toute votre organisation.",
   },
   portrait: null,
   personName: "Jordy Callens",
@@ -1184,148 +1160,5 @@ export const FR_PAGE_DEFAULTS: LocalePageDefaults = {
   wonkaChatSecurity: WONKA_CHAT_SECURITY,
   testimonialsHeader: TESTIMONIALS_HEADER,
 
-  /* ---------------------- AI chat capability grid ------------------- */
-  aiChatCapabilities: {
-    clusters: [
-      {
-        heading: "Connecté à tous vos systèmes internes.",
-        cards: [
-          card(
-            "ask-erp",
-            "Interrogez votre ERP",
-            "Commandes ouvertes, marges et factures d'Odoo, en langage courant.",
-            {
-              image: {
-                src: "/images/wonka-chat/connect-to-erp.png",
-                alt: "Interroger votre ERP dans le chat IA de Wonka",
-                width: 3200,
-                height: 1800,
-              },
-              bodyLinks: [{ label: "Odoo", href: "/fr/integrations/odoo" }],
-            },
-          ),
-          card(
-            "company-knowledge",
-            "Connaissances de l'entreprise",
-            "Les réponses viennent de vos propres documents, pas d'internet.",
-            {
-              image: {
-                src: "/images/wonka-chat/company_knowledge.png",
-                alt: "Les connaissances de l'entreprise dans le chat IA de Wonka",
-                width: 3200,
-                height: 1800,
-                fit: "cover",
-              },
-            },
-          ),
-          card(
-            "every-connector",
-            "Tous les connecteurs",
-            "Odoo, SharePoint, Teams, Outlook, Salesforce, HubSpot, Google Drive, Jira, Notion et bien d'autres.",
-            {
-              connectors: CONNECTOR_LOGOS,
-              footerLink: {
-                label: "Voir toutes les intégrations",
-                href: "/fr/integrations",
-              },
-            },
-          ),
-        ],
-      },
-      {
-        heading: "Du chat aux documents.",
-        cards: [
-          card(
-            "build-excel",
-            "Créez le fichier Excel",
-            "Demandez les chiffres, recevez un tableur prêt à l'emploi.",
-            {
-              image: {
-                src: "/images/wonka-chat/build-excel.png",
-                alt: "Créer un tableur Excel avec le chat IA de Wonka",
-                width: 4000,
-                height: 1800,
-                fit: "cover",
-              },
-            },
-          ),
-          card(
-            "write-word",
-            "Rédigez et modifiez dans Word",
-            "Rédigez, reformulez et corrigez vos documents sans quitter le chat.",
-            {
-              image: {
-                src: "/images/wonka-chat/word_creation.png",
-                alt: "Rédiger et modifier dans Word avec le chat IA de Wonka",
-                width: 3200,
-                height: 1800,
-                fit: "cover",
-              },
-            },
-          ),
-          card(
-            "deck-minutes",
-            "Une présentation en quelques minutes",
-            "Transformez un résumé en PowerPoint. Générez aussi les images.",
-            {
-              image: {
-                src: "/images/wonka-chat/presentation-creation.png",
-                alt: "Créer une présentation en quelques minutes avec le chat IA de Wonka",
-                width: 3200,
-                height: 1800,
-                fit: "cover",
-              },
-            },
-          ),
-        ],
-      },
-      {
-        heading: "Sûr et personnalisé pour vous.",
-        cards: [
-          card(
-            "languages",
-            "Néerlandais, français et anglais",
-            "Un espace de travail, trois langues, la même réponse.",
-            {
-              image: {
-                src: "/images/wonka-chat/choose-your-language.png",
-                alt: "Choisir votre langue dans le chat IA de Wonka",
-                width: 3200,
-                height: 1800,
-                fit: "cover",
-              },
-            },
-          ),
-          card(
-            "branding",
-            "Travaillez en équipe",
-            "Partagez un chat, un prompt ou un agent avec votre service.",
-            {
-              image: {
-                src: "/images/wonka-chat/share-agent.png",
-                alt: "Partager un agent avec votre équipe dans le chat IA de Wonka",
-                width: 3200,
-                height: 1800,
-                fit: "cover",
-              },
-            },
-          ),
-          card(
-            "your-model",
-            "Votre modèle",
-            "Tous les principaux modèles, hébergés en Europe. Ou connectez le vôtre.",
-            {
-              image: {
-                src: "/images/wonka-chat/ai-models.png",
-                alt: "Choisir votre modèle d'IA dans le chat IA de Wonka",
-                width: 4000,
-                height: 1800,
-                fit: "cover",
-              },
-            },
-          ),
-        ],
-      },
-    ],
-  },
+  aiChatCapabilities: getAiChatCapabilityClusters("fr"),
 };
