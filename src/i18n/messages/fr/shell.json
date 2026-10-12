@@ -46,10 +46,12 @@
           "description": "Laissez l'IA mener le travail de bout en bout"
         },
         "governance": {
-          "label": "Gouvernance"
+          "label": "Gouvernance",
+          "description": "Utilisateurs, agents, usage et accès"
         },
         "integrations": {
-          "label": "Intégrations"
+          "label": "Intégrations",
+          "description": "Connectez Wonka à votre stack entreprise"
         }
       }
     },
@@ -110,7 +112,7 @@
           "label": "À propos de Wonka"
         },
         "team": {
-          "label": "Équipe"
+          "label": "Rencontrer l'équipe"
         },
         "jobs": {
           "label": "Carrières"

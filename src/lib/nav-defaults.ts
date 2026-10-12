@@ -16,12 +16,12 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
     _key: "ai-workspace",
     itemType: "dropdown",
     label: "AI Workspace",
-    href: "/",
+    href: "/workspace",
     children: [
       {
         _key: "overview",
         label: "Overview",
-        href: "/",
+        href: "/workspace",
         description: "Discover Wonka Workspace",
       },
       {
@@ -35,19 +35,18 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
         label: "AI Agents",
         href: "/workspace/ai-agents",
         description: "Delegate recurring tasks to AI",
-        disabled: true,
-      },
-      {
-        _key: "governance",
-        label: "Governance",
-        href: "/workspace/governance",
-        disabled: true,
       },
       {
         _key: "integrations",
         label: "Integrations",
         href: "/integrations",
-        disabled: true,
+        description: "Connect Wonka to your company stack",
+      },
+      {
+        _key: "governance",
+        label: "Governance",
+        href: "/workspace/governance",
+        description: "Users, agents, usage and access control",
       },
     ],
   },
@@ -68,13 +67,6 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
         label: "Design your agent team",
         href: "/ai-agent-blueprint",
         description: "Get three tailored AI agent ideas for your company",
-      },
-      {
-        _key: "ai-agent-development",
-        label: "AI Agent Development",
-        href: "/services/ai-agent-development",
-        description: "We build your agents and ship them",
-        disabled: true,
       },
     ],
   },
@@ -108,6 +100,7 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
     itemType: "dropdown",
     label: "Company",
     children: [
+      { _key: "team", label: "Meet the team", href: "/team" },
       {
         _key: "jobs",
         label: "Jobs",

@@ -46,10 +46,12 @@
           "description": "Let AI start and finish the job"
         },
         "governance": {
-          "label": "Governance"
+          "label": "Governance",
+          "description": "Users, agents, usage and access control"
         },
         "integrations": {
-          "label": "Integrations"
+          "label": "Integrations",
+          "description": "Connect Wonka to your company stack"
         }
       }
     },
@@ -110,7 +112,7 @@
           "label": "About Wonka"
         },
         "team": {
-          "label": "Team"
+          "label": "Meet the team"
         },
         "jobs": {
           "label": "Jobs"

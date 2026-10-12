@@ -27,6 +27,12 @@ export const TRANSLATED_LOCALES = ["fr", "nl"] as const satisfies readonly Local
 
 const COMMERCIAL_PATH_SET = new Set<string>(Object.values(COMMERCIAL_PATHS));
 
+/** Translated pages that share a slug across locales but stay out of the sitemap. */
+export const UNLISTED_TRANSLATED_PATHS = new Set<string>([
+  "/team",
+  "/workspace",
+]);
+
 /**
  * SEO landing pages. Unlike commercial pages, each locale gets its own
  * keyword slug (`/ai-for-business`, `/fr/ia-pour-entreprise`, …). A page
@@ -161,7 +167,7 @@ export function localizeHref(href: string, locale: Locale): string {
     if (target) return `${target}${suffix}`;
   }
 
-  if (COMMERCIAL_PATH_SET.has(path)) {
+  if (COMMERCIAL_PATH_SET.has(path) || UNLISTED_TRANSLATED_PATHS.has(path)) {
     return `${path === "/" ? `/${locale}` : `/${locale}${path}`}${suffix}`;
   }
 
