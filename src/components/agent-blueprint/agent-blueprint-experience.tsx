@@ -52,7 +52,12 @@ import {
   BLUEPRINT_INPUT_ID,
   focusBlueprintInput,
 } from "./blueprint-scroll-button";
-import { BlueprintShareActions, copyText } from "./blueprint-share-actions";
+import {
+  BLUEPRINT_PDF_CARD_ID,
+  BlueprintPdfCard,
+  BlueprintShareRow,
+  copyText,
+} from "./blueprint-share-actions";
 
 /** Remotion only loads once a blueprint result is on screen. */
 const AgentFilmPlayer = dynamic(
@@ -437,19 +442,37 @@ function FoundryPanel({
           </div>
         )}
 
-        <div className="mt-5 flex items-center justify-between gap-4 border-t border-dashed border-white/12 pt-4">
+        <div className="mt-5 flex flex-col items-start gap-3 border-t border-dashed border-white/12 pt-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           {mode === "result" ? (
             <>
               <p className="type-paragraph-s text-white/50">
                 {t(locale, "Tap an agent for its workflow and integrations")}
               </p>
-              <button
-                type="button"
-                onClick={() => onSelect(selectedIndex)}
-                className="type-paragraph-s shrink-0 text-blue-300 underline-offset-4 hover:underline"
-              >
-                {t(locale, "Full blueprint")} <span aria-hidden>↓</span>
-              </button>
+              <div className="flex shrink-0 items-center gap-4">
+                <a
+                  href={`#${BLUEPRINT_PDF_CARD_ID}`}
+                  onClick={(event) => {
+                    const card = document.getElementById(BLUEPRINT_PDF_CARD_ID);
+                    if (!card) return;
+                    event.preventDefault();
+                    card.scrollIntoView({ behavior: "smooth", block: "start" });
+                    card.querySelector<HTMLInputElement>('input[type="email"]')?.focus({
+                      preventScroll: true,
+                    });
+                  }}
+                  data-blueprint-cta="hero_pdf_shortcut"
+                  className="type-paragraph-s text-blue-300 underline-offset-4 hover:underline"
+                >
+                  {t(locale, "Get the PDF")}
+                </a>
+                <button
+                  type="button"
+                  onClick={() => onSelect(selectedIndex)}
+                  className="type-paragraph-s text-blue-300 underline-offset-4 hover:underline"
+                >
+                  {t(locale, "Full blueprint")} <span aria-hidden>↓</span>
+                </button>
+              </div>
             </>
           ) : (
             <>
@@ -931,8 +954,13 @@ export function BlueprintResults({
               </li>
             ))}
           </ul>
+          <BlueprintPdfCard
+            assessmentId={response.assessmentId}
+            locale={locale}
+            surface={isShared ? "shared" : "owner"}
+          />
           {isShared ? null : (
-            <BlueprintShareActions
+            <BlueprintShareRow
               assessmentId={response.assessmentId}
               locale={locale}
             />

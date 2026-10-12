@@ -14,7 +14,8 @@ import {
   TurnstileWidget,
 } from "@/components/turnstile-widget";
 import { Button } from "@/components/ui/button";
-import { radius } from "@/lib/design-tokens";
+import { Surface } from "@/components/ui/surface";
+import { headingClass, radius } from "@/lib/design-tokens";
 import type { Locale } from "@/i18n/config";
 import { getT } from "@/i18n/ui";
 import { blueprintText as t } from "@/lib/agent-blueprint-copy";
@@ -33,6 +34,8 @@ import { isLeadErrorCode, type LeadSource } from "@/lib/lead-capture";
 import { cn } from "@/lib/utils";
 
 const PDF_LEAD_SOURCE: LeadSource = "agent-blueprint-pdf";
+
+export type BlueprintSurface = "owner" | "shared";
 
 type ShareChannel = "copy" | "native" | "linkedin";
 
@@ -206,7 +209,15 @@ function ShareLinks({ uuid, locale }: { uuid: string; locale: Locale }) {
 
 type PdfFormState = "idle" | "loading" | "success" | "error";
 
-function PdfForm({ uuid, locale }: { uuid: string; locale: Locale }) {
+function PdfForm({
+  uuid,
+  locale,
+  surface,
+}: {
+  uuid: string;
+  locale: Locale;
+  surface: BlueprintSurface;
+}) {
   const formId = useId();
   const turnstileEnabled = isTurnstileEnabled();
   const leadT = getT(locale);
@@ -279,7 +290,10 @@ function PdfForm({ uuid, locale }: { uuid: string; locale: Locale }) {
           lead_source: PDF_LEAD_SOURCE,
         });
       }
-      trackWebsiteEvent(WEBSITE_EVENTS.BLUEPRINT_PDF_REQUESTED, { locale });
+      trackWebsiteEvent(WEBSITE_EVENTS.BLUEPRINT_PDF_REQUESTED, {
+        locale,
+        surface,
+      });
       if (!(await downloadPdf(pdfHref))) {
         fail(leadT("leadForm.errors.generic"));
         return;
@@ -292,8 +306,8 @@ function PdfForm({ uuid, locale }: { uuid: string; locale: Locale }) {
 
   if (state === "success") {
     return (
-      <p className="type-paragraph-m text-text/75" role="status">
-        <span aria-hidden className="text-green-600">
+      <p className="type-paragraph-m text-text/85" role="status">
+        <span aria-hidden className="text-green-300">
           ✓{" "}
         </span>
         {t(locale, "Your PDF is downloading.")}{" "}
@@ -309,7 +323,7 @@ function PdfForm({ uuid, locale }: { uuid: string; locale: Locale }) {
   }
 
   const inputClass = cn(
-    "type-paragraph-m border-border bg-background text-text placeholder:text-text/40 min-w-0 border px-3 py-2.5 focus:ring-2 focus:ring-blue-400 focus:outline-none disabled:opacity-60",
+    "type-paragraph-m w-full min-w-0 border border-transparent bg-white px-3 py-2.5 text-black placeholder:text-black/40 focus:ring-2 focus:ring-blue-400 focus:outline-none disabled:opacity-60",
     radius.xs,
   );
 
@@ -321,11 +335,12 @@ function PdfForm({ uuid, locale }: { uuid: string; locale: Locale }) {
         started.current = true;
         trackWebsiteEvent(WEBSITE_EVENTS.LEAD_STARTED, {
           lead_source: PDF_LEAD_SOURCE,
+          surface,
         });
       }}
       className="flex flex-col gap-3"
     >
-      <div className="grid gap-2 sm:grid-cols-[1.4fr_1fr_auto] sm:items-center">
+      <div className="grid gap-2 lg:grid-cols-[1.4fr_1fr_auto] lg:items-center">
         <label htmlFor={`${formId}-email`} className="sr-only">
           {t(locale, "Work email")}
         </label>
@@ -356,7 +371,8 @@ function PdfForm({ uuid, locale }: { uuid: string; locale: Locale }) {
           type="submit"
           disabled={state === "loading"}
           data-track="blueprint_pdf_submit"
-          className="shrink-0"
+          data-blueprint-cta={`${surface}_pdf_submit`}
+          className="w-full shrink-0 lg:w-auto"
         >
           {state === "loading"
             ? t(locale, "Preparing…")
@@ -382,11 +398,11 @@ function PdfForm({ uuid, locale }: { uuid: string; locale: Locale }) {
       />
 
       {state === "error" && error ? (
-        <p role="alert" className="type-paragraph-s text-orange-900">
+        <p role="alert" className="type-paragraph-s text-orange-300">
           {error}
         </p>
       ) : null}
-      <p className="type-paragraph-s text-text/45">
+      <p className="type-paragraph-s text-text/55">
         {t(locale, "We may follow up by email about this blueprint. See our")}{" "}
         <Link href="/privacy" className="underline underline-offset-4">
           {t(locale, "privacy policy")}
@@ -397,8 +413,115 @@ function PdfForm({ uuid, locale }: { uuid: string; locale: Locale }) {
   );
 }
 
-/** Share link + "PDF for an email" offered once a blueprint has been generated. */
-export function BlueprintShareActions({
+function PdfPreview() {
+  return (
+    <div aria-hidden className="relative w-16 shrink-0 md:w-28">
+      <div
+        className={cn(
+          "absolute inset-0 translate-x-2 -translate-y-2 rotate-3 bg-blue-200/30",
+          radius.xs,
+        )}
+      />
+      <div
+        className={cn(
+          "relative flex aspect-[3/4] flex-col gap-1.5 bg-white p-2 shadow-lg md:gap-2 md:p-3",
+          radius.xs,
+        )}
+      >
+        <span className="h-1 w-1/2 rounded-full bg-blue-700 md:h-1.5" />
+        <span className="h-0.5 w-full rounded-full bg-mid-gray/40 md:h-1" />
+        <span className="h-0.5 w-4/5 rounded-full bg-mid-gray/40 md:h-1" />
+        <span className="mt-1 grid grid-cols-3 gap-1">
+          <span className="aspect-square rounded-xs bg-blue-100" />
+          <span className="aspect-square rounded-xs bg-blue-100" />
+          <span className="aspect-square rounded-xs bg-blue-100" />
+        </span>
+        <span className="h-0.5 w-full rounded-full bg-mid-gray/40 md:h-1" />
+        <span className="h-0.5 w-3/5 rounded-full bg-mid-gray/40 md:h-1" />
+        <span className="type-eyebrow absolute right-1 bottom-1 rounded-xs bg-blue-700 px-1 text-white md:right-2 md:bottom-2 md:px-1.5">
+          PDF
+        </span>
+      </div>
+    </div>
+  );
+}
+
+/** Prominent email capture for the branded PDF, shown on owner and shared views. */
+/** Anchor of the PDF card, targeted by the "PDF" shortcut in the hero panel. */
+export const BLUEPRINT_PDF_CARD_ID = "blueprint-pdf";
+
+export function BlueprintPdfCard({
+  assessmentId,
+  locale,
+  surface,
+}: {
+  assessmentId: string;
+  locale: Locale;
+  surface: BlueprintSurface;
+}) {
+  const uuid = uuidFromAssessmentId(assessmentId);
+  if (!uuid) return null;
+
+  return (
+    <Surface
+      id={BLUEPRINT_PDF_CARD_ID}
+      variant="panel"
+      data-theme="dark"
+      data-blueprint-surface={surface}
+      className="text-text mt-6 scroll-mt-28 bg-blue-900 p-5 sm:p-6 md:p-8"
+    >
+      <div className="flex flex-col gap-6 md:flex-row md:items-center md:gap-10">
+        <div className="flex items-start gap-4 md:contents">
+          <PdfPreview />
+          <div className="min-w-0 md:hidden">
+            <PdfCardHeading locale={locale} surface={surface} />
+          </div>
+        </div>
+        <div className="min-w-0 flex-1">
+          <div className="hidden md:block">
+            <PdfCardHeading locale={locale} surface={surface} />
+          </div>
+          <div className="mt-5">
+            <PdfForm uuid={uuid} locale={locale} surface={surface} />
+          </div>
+        </div>
+      </div>
+    </Surface>
+  );
+}
+
+function PdfCardHeading({
+  locale,
+  surface,
+}: {
+  locale: Locale;
+  surface: BlueprintSurface;
+}) {
+  return (
+    <>
+      <span className="type-eyebrow text-blue-300">
+        {t(locale, "Free PDF")}
+      </span>
+      <h3 className={cn(headingClass.subsection, "mt-2 text-balance")}>
+        {t(
+          locale,
+          surface === "shared"
+            ? "Get this blueprint as a PDF"
+            : "Get your blueprint as a PDF",
+        )}
+      </h3>
+      <p className="type-paragraph-m text-text/75 mt-2 max-w-2xl">
+        {t(
+          locale,
+          "Every agent, workflow and time saving in one branded PDF, ready to forward to your manager or leadership team.",
+        )}
+      </p>
+    </>
+  );
+}
+
+/** Secondary share row, owner view only. */
+export function BlueprintShareRow({
   assessmentId,
   locale,
 }: {
@@ -409,31 +532,20 @@ export function BlueprintShareActions({
   if (!uuid) return null;
 
   return (
-    <div className="border-border mt-4 grid overflow-hidden rounded-sm border border-dashed bg-white md:grid-cols-[0.8fr_1.2fr]">
-      <div className="p-5 md:p-6">
-        <p className="type-eyebrow text-blue-700">
+    <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-start md:justify-between md:gap-8">
+      <div className="min-w-0">
+        <p className="type-paragraph-m-bold">
           {t(locale, "Share this blueprint")}
         </p>
-        <p className="type-paragraph-s text-text/55 mt-2 max-w-md">
+        <p className="type-paragraph-s text-text/55 mt-1 max-w-xl">
           {t(
             locale,
             "Send it to a colleague or your manager. The link shows the same anonymous blueprint, never your company name.",
           )}
         </p>
-        <div className="mt-4">
-          <ShareLinks uuid={uuid} locale={locale} />
-        </div>
       </div>
-      <div className="border-border border-t border-dashed p-5 md:border-t-0 md:border-l md:p-6">
-        <p className="type-eyebrow text-blue-700">
-          {t(locale, "Download as PDF")}
-        </p>
-        <p className="type-paragraph-s text-text/55 mt-2">
-          {t(locale, "A branded PDF of this blueprint, ready to forward internally.")}
-        </p>
-        <div className="mt-4">
-          <PdfForm uuid={uuid} locale={locale} />
-        </div>
+      <div className="md:shrink-0">
+        <ShareLinks uuid={uuid} locale={locale} />
       </div>
     </div>
   );
