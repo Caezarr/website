@@ -2,18 +2,24 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { sanityFetch } from "@sanity/lib/live";
-import { CONNECTOR_PAGE_QUERY, CONNECTOR_SLUGS_QUERY, MEETING_URL_QUERY, RELATED_BLOG_POSTS_QUERY, RELATED_CONNECTOR_PAGES_QUERY } from "@sanity/lib/queries";
+import { CONNECTOR_PAGE_QUERY, CONNECTOR_PAGES_QUERY, CONNECTOR_SLUGS_QUERY, MEETING_URL_QUERY, RELATED_BLOG_POSTS_QUERY } from "@sanity/lib/queries";
 import { client } from "@sanity/lib/client";
-import { urlFor } from "@sanity/lib/image";
 import { buildMetadata } from "@/lib/seo";
 import { getSiteUrl } from "@/lib/site-url";
 import { hubPath, itemPath } from "@/lib/locale-path";
 import { getContentLanguages } from "@/lib/content-languages";
+import { buildExistingItemLanguages } from "@/lib/hreflang";
+import { CATALOG_SLUGS, relatedConnectors as findRelatedConnectors, resolveConnector, resolveConnectorList } from "@/lib/resolve-connectors";
+import { locales } from "@/i18n/config";
 import { resolveTeamMeetingUrl } from "@/lib/resolve-meeting-url";
-import { meetingTrackProps } from "@/lib/meeting-track";
 import { FaqSchema, BreadcrumbSchema, SoftwareAppSchema } from "@/components/json-ld";
-import { WonkaSolves } from "@/components/sections/wonka-solves";
-import { Cta } from "@/components/sections/cta";
+import { WorkspaceTrialCta } from "@/components/sections/workspace-trial-cta";
+import { HomeV2FinalCta } from "@/components/pages/home-v2/home-v2-client";
+import { AI_CHAT_COPY } from "@/views/copy/ai-chat";
+import { HOME_V2_COPY } from "@/views/copy/home-v2";
+import { getT } from "@/i18n/ui";
+import { radius } from "@/lib/design-tokens";
+import { cn } from "@/lib/utils";
 import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
 import { ButtonLink } from "@/components/ui/button";
 import { getContextualInternalLinks, getEvergreenInternalLinks } from "@/lib/internal-links";
@@ -22,43 +28,59 @@ import type { BlogPost, ConnectorPage } from "@/lib/types";
 
 export const dynamic = "force-static";
 
+const TRIAL_URL = "https://wonka.chat/register";
+
 interface PageProps {
   params: Promise<{ locale: Locale; slug: string }>;
 }
 
 export async function generateStaticParams() {
-  const data = await client.fetch(CONNECTOR_SLUGS_QUERY);
-  return (data ?? []).map((item: { slug: { current: string }; language: string }) => ({
-    locale: item.language,
-    slug: item.slug.current,
-  }));
+  const data = (await client.fetch(CONNECTOR_SLUGS_QUERY)) ?? [];
+  const params = new Map<string, { locale: string; slug: string }>();
+  for (const item of data as { slug: { current: string }; language: string }[]) {
+    params.set(`${item.language}:${item.slug.current}`, { locale: item.language, slug: item.slug.current });
+  }
+  for (const slug of CATALOG_SLUGS) {
+    for (const locale of locales) params.set(`${locale}:${slug}`, { locale, slug });
+  }
+  return [...params.values()];
+}
+
+async function getConnectorLanguages(siteUrl: string, slug: string) {
+  if (!CATALOG_SLUGS.includes(slug)) return getContentLanguages(siteUrl, "connectors", slug);
+  return buildExistingItemLanguages(siteUrl, "connectors", locales.map((language) => ({ slug: { current: slug }, language })));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { locale, slug } = await params;
   const { data } = await sanityFetch({ query: CONNECTOR_PAGE_QUERY, params: { slug, language: locale } });
-  if (!data) return {};
-  const c = data as ConnectorPage;
+  const c = resolveConnector((data ?? null) as ConnectorPage | null, slug, locale);
+  if (!c) return {};
   const siteUrl = getSiteUrl();
-  const languages = await getContentLanguages(siteUrl, "connectors", slug);
-  return buildMetadata(c.seo ?? null, { path: itemPath('connectors', locale, slug), fallbackTitle: c.toolName, locale, languages });
+  const languages = await getConnectorLanguages(siteUrl, slug);
+  const metaTitle = {
+    en: `${c.toolName} AI integration | Wonka AI`,
+    fr: `Intégration IA ${c.toolName} | Wonka AI`,
+    nl: `${c.toolName} AI-integratie | Wonka AI`,
+  }[locale];
+  const seo = c.seo ?? { metaTitle, metaDescription: c.description, ogImage: null };
+  return buildMetadata(seo, { path: itemPath('connectors', locale, slug), fallbackTitle: c.toolName, locale, languages });
 }
 
 export default async function ConnectorDetailPage({ params }: PageProps) {
   const { locale, slug } = await params;
-  const [{ data }, { data: meetingUrl }] = await Promise.all([
+  const [{ data }, { data: allDocs }, { data: meetingUrl }] = await Promise.all([
     sanityFetch({ query: CONNECTOR_PAGE_QUERY, params: { slug, language: locale } }),
+    sanityFetch({ query: CONNECTOR_PAGES_QUERY, params: { language: locale } }),
     sanityFetch({ query: MEETING_URL_QUERY }),
   ]);
 
-  if (!data) notFound();
+  const c = resolveConnector((data ?? null) as ConnectorPage | null, slug, locale);
+  if (!c) notFound();
 
   const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null, locale as Locale);
-  const c = data as ConnectorPage;
-  const [{ data: relatedConnectors }, { data: relatedPosts }] = await Promise.all([
-    sanityFetch({ query: RELATED_CONNECTOR_PAGES_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),
-    sanityFetch({ query: RELATED_BLOG_POSTS_QUERY, params: { slug, language: locale, tags: c.tags ?? [] } }),
-  ]);
+  const relatedConnectors = findRelatedConnectors(resolveConnectorList((allDocs ?? []) as ConnectorPage[], locale), c);
+  const { data: relatedPosts } = await sanityFetch({ query: RELATED_BLOG_POSTS_QUERY, params: { slug, language: locale, tags: c.tags } });
   const siteUrl = getSiteUrl();
   const pageUrl = `${siteUrl}${itemPath('connectors', locale, slug)}`;
   const hubUrl = `${siteUrl}${hubPath('connectors', locale)}`;
@@ -67,9 +89,11 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
   const useCasesLabel = { en: "Use cases", fr: "Cas d'usage", nl: "Gebruiksscenario's" }[locale];
   const examplePromptLabel = { en: "Example prompt", fr: "Exemple de prompt", nl: "Voorbeeldprompt" }[locale];
   const faqLabel = { en: "Frequently asked questions", fr: "Questions fréquentes", nl: "Veelgestelde vragen" }[locale];
-  const hubLabel = { en: "Connectors", fr: "Connecteurs", nl: "Connectoren" }[locale];
-  const primaryCtaLabel = { en: "Book a demo", fr: "Réserver une démo", nl: "Boek een demo" }[locale];
-  const secondaryCtaLabel = { en: "Explore integrations", fr: "Voir les intégrations", nl: "Bekijk integraties" }[locale];
+  const hubLabel = { en: "Integrations", fr: "Intégrations", nl: "Integraties" }[locale];
+  const integrationLabel = { en: "Integration", fr: "Intégration", nl: "Integratie" }[locale];
+  const useCasesEyebrow = { en: "Operational AI", fr: "IA opérationnelle", nl: "Operationele AI" }[locale];
+  const deploymentEyebrow = { en: "Private deployment", fr: "Déploiement privé", nl: "Private deployment" }[locale];  const primaryCtaLabel = { en: "Test it out", fr: "Essayer maintenant", nl: "Probeer het uit" }[locale];
+  const secondaryCtaLabel = { en: "Explore all integrations", fr: "Voir toutes les intégrations", nl: "Bekijk alle integraties" }[locale];
   const relatedConnectorsLabel = { en: "Related integrations", fr: "Intégrations liées", nl: "Gerelateerde integraties" }[locale];
   const relatedPostsLabel = { en: "Related guides", fr: "Guides liés", nl: "Gerelateerde gidsen" }[locale];
   const exploreMoreLabel = { en: "Explore related AI topics", fr: "Explorer les sujets IA liés", nl: "Verken gerelateerde AI-thema's" }[locale];
@@ -92,7 +116,7 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
   const rolloutTitle = {
     en: "What to validate before rollout",
     fr: "Ce qu'il faut valider avant le déploiement",
-    nl: "Wat je valideert voor de uitrol",
+    nl: "Wat u valideert vóór de uitrol",
   }[locale];
   const rolloutBody = {
     en: `A reliable ${c.toolName} integration should answer three questions before it reaches production: which users can access which records, what evidence is shown with each AI answer, and how repeated requests become governed workflows instead of one-off prompts. This is where connector quality matters most for enterprise adoption. The integration should preserve existing permissions, support review by the business owner, and make the output useful inside the workflow where the decision already happens. For most teams, the value is not another search box; it is a shorter path from trusted context to the next operational action. That is why Wonka treats connectors as part of the operating layer: the AI experience, the source system and the approval path stay connected from the first answer to the final action.`,
@@ -118,7 +142,7 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
   }[locale];
   const contextualLinks = getContextualInternalLinks(locale, "connectors", slug);
   const evergreenLinks = getEvergreenInternalLinks(locale, "connectors", itemPath("connectors", locale, slug));
-  const logoUrl = c.toolLogo ? urlFor(c.toolLogo).width(160).height(160).fit("max").url() : null;
+  const logoUrl = c.logoSrc;
   const metrics = [
     { label: { en: "Private AI", fr: "IA privée", nl: "Private AI" }[locale] },
     { label: { en: "Source-aware answers", fr: "Réponses sourcées", nl: "Antwoorden met bronnen" }[locale] },
@@ -163,14 +187,14 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
               <p className="mt-6 max-w-3xl type-body leading-relaxed text-text/65">{c.description}</p>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <ButtonLink
-                  href={bookingUrl}
-                  variant="primary"
-                  {...meetingTrackProps("general")}
-                >
+                <ButtonLink href={TRIAL_URL} variant="primary">
                   {primaryCtaLabel}
                 </ButtonLink>
-                <ButtonLink href={hubPath("connectors", locale)} variant="secondary">
+                <ButtonLink
+                  href={hubPath("connectors", locale)}
+                  variant="secondary"
+                  className="type-paragraph-m-bold h-[2.6875rem] px-[1.125rem]"
+                >
                   {secondaryCtaLabel}
                 </ButtonLink>
               </div>
@@ -182,9 +206,10 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
                   {logoUrl ? (
                     <Image
                       src={logoUrl}
-                      alt={c.toolLogo?.alt || `${c.toolName} logo`}
+                      alt={c.logoAlt}
                       width={56}
                       height={56}
+                      unoptimized
                       className="h-14 w-14 object-contain"
                     />
                   ) : (
@@ -192,7 +217,7 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
                   )}
                 </div>
                 <div>
-                  <p className="type-eyebrow text-text/40">Integration</p>
+                  <p className="type-eyebrow text-text/40">{integrationLabel}</p>
                   <p className="type-body font-medium">Wonka + {c.toolName}</p>
                 </div>
               </div>
@@ -212,7 +237,7 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
           <section className="mx-auto max-w-[1200px] px-6 py-16">
             <div className="mb-8 flex items-end justify-between gap-6">
               <div>
-                <p className="type-eyebrow text-text/40">Operational AI</p>
+                <p className="type-eyebrow text-text/40">{useCasesEyebrow}</p>
                 <h2 className="mt-2 type-h4">{useCasesLabel}</h2>
               </div>
             </div>
@@ -239,7 +264,7 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
         <section className="mx-auto max-w-[1200px] px-6 pb-16">
           <div className="grid gap-8 rounded-lg border border-border p-6 lg:grid-cols-[360px_1fr]">
             <div>
-              <p className="type-eyebrow text-text/40">Private deployment</p>
+              <p className="type-eyebrow text-text/40">{deploymentEyebrow}</p>
               <h2 className="mt-2 type-h5">{deploymentTitle}</h2>
             </div>
             <div>
@@ -265,7 +290,7 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
           <section className="border-y border-dashed border-border bg-mid-gray">
             <div className="mx-auto grid max-w-[1200px] gap-10 px-6 py-16 lg:grid-cols-[320px_1fr]">
               <div>
-                <p className="type-eyebrow text-text/40">GEO-ready FAQ</p>
+                <p className="type-eyebrow text-text/40">FAQ</p>
                 <h2 className="mt-2 type-h5">{faqLabel}</h2>
               </div>
               <div className="grid gap-4">
@@ -280,34 +305,58 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
           </section>
         ) : null}
 
-        {((relatedConnectors as ConnectorPage[])?.length || (relatedPosts as BlogPost[])?.length) ? (
-          <section className="mx-auto grid max-w-[1200px] gap-8 px-6 py-16 lg:grid-cols-2">
-            {(relatedConnectors as ConnectorPage[])?.length ? (
-              <div>
-                <h2 className="type-h5 mb-5">{relatedConnectorsLabel}</h2>
-                <div className="grid gap-3">
-                  {(relatedConnectors as ConnectorPage[]).map((connector) => (
-                    <a
-                      key={connector._id}
-                      href={itemPath("connectors", locale, connector.slug.current)}
-                      className="group rounded-lg border border-border p-5 transition-colors hover:border-accent"
-                    >
-                      <span className="type-paragraph-m-bold group-hover:text-accent">{connector.toolName}</span>
-                      <p className="mt-2 type-paragraph-m text-text/60">{connector.tagline}</p>
-                    </a>
-                  ))}
-                </div>
-              </div>
-            ) : null}
-            {(relatedPosts as BlogPost[])?.length ? (
+        {relatedConnectors.length ? (
+          <section className="mx-auto max-w-[1200px] px-6 pt-16">
+            <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+              <h2 className="type-h5">{relatedConnectorsLabel}</h2>
+              <ButtonLink href={hubPath("connectors", locale)} variant="underline">
+                {secondaryCtaLabel}
+              </ButtonLink>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+              {relatedConnectors.map((connector) => (
+                <a
+                  key={connector.id}
+                  href={itemPath("connectors", locale, connector.slug)}
+                  className={cn(
+                    "group flex flex-col border border-border bg-mid-gray p-5 transition-colors hover:border-accent hover:bg-background",
+                    radius.sm,
+                  )}
+                >
+                  <div className="mb-4 flex items-center gap-3">
+                    <div className={cn("grid size-12 shrink-0 place-items-center border border-border bg-background", radius.sm)}>
+                      {connector.logoSrc ? (
+                        <Image
+                          src={connector.logoSrc}
+                          alt={connector.logoAlt}
+                          width={32}
+                          height={32}
+                          unoptimized
+                          className="size-8 object-contain"
+                        />
+                      ) : (
+                        <span className="type-paragraph-m-bold text-text/40">{connector.toolName.slice(0, 1)}</span>
+                      )}
+                    </div>
+                    <span className="type-body font-medium group-hover:text-accent">{connector.toolName}</span>
+                  </div>
+                  <p className="line-clamp-2 type-paragraph-m text-text/60">{connector.tagline}</p>
+                </a>
+              ))}
+            </div>
+          </section>
+        ) : null}
+
+        {(relatedPosts as BlogPost[])?.length ? (
+          <section className="mx-auto max-w-[1200px] px-6 pt-16">
               <div>
                 <h2 className="type-h5 mb-5">{relatedPostsLabel}</h2>
-                <div className="grid gap-3">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
                   {(relatedPosts as BlogPost[]).map((post) => (
                     <a
                       key={post._id}
                       href={itemPath("blog", locale, post.slug.current)}
-                      className="group rounded-lg border border-border p-5 transition-colors hover:border-accent"
+                      className={cn("group border border-border p-5 transition-colors hover:border-accent", radius.sm)}
                     >
                       <span className="type-eyebrow text-text/35">{post.category}</span>
                       <p className="mt-2 type-paragraph-m-bold group-hover:text-accent">{post.title}</p>
@@ -315,25 +364,32 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
                   ))}
                 </div>
               </div>
-            ) : null}
           </section>
         ) : null}
 
         {contextualLinks.length ? (
-          <div className="mx-auto max-w-[1200px] px-6 pb-16">
+          <div className="mx-auto max-w-[1200px] px-6 pt-16">
             <InternalLinkGrid title={contextualGuidesLabel} links={contextualLinks} />
           </div>
         ) : null}
 
-        <div className="mx-auto max-w-[1200px] px-6 pb-16">
+        <div className="mx-auto max-w-[1200px] px-6 py-16">
           <InternalLinkGrid title={exploreMoreLabel} links={evergreenLinks} />
         </div>
 
-        <div className="mx-auto max-w-[1200px] px-6">
-          <WonkaSolves locale={locale} meetingUrl={bookingUrl} />
-        </div>
+        <WorkspaceTrialCta
+          href={TRIAL_URL}
+          ctaLabel={getT(locale)("common.startFreeTrial")}
+          {...(AI_CHAT_COPY[locale].trial ?? {})}
+          className="border-t border-dashed border-border"
+          locale={locale}
+        />
       </main>
-      <Cta meetingUrl={bookingUrl} />
+      <HomeV2FinalCta
+        copy={HOME_V2_COPY[locale].finalCta}
+        hero={HOME_V2_COPY[locale].hero}
+        links={{ meetingUrl: bookingUrl }}
+      />
     </>
   );
 }
