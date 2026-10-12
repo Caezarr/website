@@ -1,11 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import {
   Clients,
   Integrations,
+  TrustBand,
 } from "@/components/pages/home-v2/home-v2-client";
 import { HomeV2PlatformStack } from "@/components/sections/home-v2-platform-stack";
 import { HomeSecurityBanner } from "@/components/sections/home-security-banner";
@@ -49,7 +50,7 @@ export interface AdsLandingLinks {
 export type AdsLandingSharedCopy = Pick<
   HomeV2Copy,
   "platform" | "security" | "clients" | "integrations"
->;
+> & { trustedBy: string };
 
 function Reveal({
   children,
@@ -89,7 +90,9 @@ function SectionTitle({
       <h2 className="text-text font-serif text-[2.4rem] leading-[1.04] tracking-[-0.01em] md:text-[3.4rem]">
         {title}
       </h2>
-      {body && <p className="type-paragraph-l text-text/70 max-w-2xl">{body}</p>}
+      {body && (
+        <p className="type-paragraph-l text-text/70 max-w-2xl">{body}</p>
+      )}
     </Reveal>
   );
 }
@@ -151,9 +154,11 @@ function Reassurance({ items, center }: { items: string[]; center?: boolean }) {
 function Hero({
   copy,
   meetingUrl,
+  trustedBy,
 }: {
   copy: AdsLandingCopy["hero"];
   meetingUrl: string;
+  trustedBy: string;
 }) {
   return (
     <section
@@ -184,9 +189,14 @@ function Hero({
             </h1>
           </Reveal>
           <Reveal delay={0.16}>
-            <p className="type-body text-text/90 max-w-[40rem]">{copy.subtitle}</p>
+            <p className="type-body text-text/90 max-w-[40rem]">
+              {copy.subtitle}
+            </p>
           </Reveal>
-          <Reveal delay={0.24} className="mt-2 flex flex-col items-center gap-5">
+          <Reveal
+            delay={0.24}
+            className="mt-2 flex flex-col items-center gap-5"
+          >
             <CtaPair
               primary={copy.primaryCta}
               secondary={copy.secondaryCta}
@@ -216,6 +226,7 @@ function Hero({
           </Reveal>
         </div>
       </div>
+      <TrustBand label={trustedBy} />
     </section>
   );
 }
@@ -223,10 +234,16 @@ function Hero({
 /* ───────────────────────── prompts ───────────────────────── */
 
 function Prompts({ copy }: { copy: AdsLandingCopy["prompts"] }) {
+  if (copy.items.every((item) => item.film))
+    return <PromptsFilms copy={copy} />;
   return (
     <section id="lp-prompts" className="bg-background py-20 md:py-30">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
-        <SectionTitle eyebrow={copy.eyebrow} title={copy.title} body={copy.body} />
+        <SectionTitle
+          eyebrow={copy.eyebrow}
+          title={copy.title}
+          body={copy.body}
+        />
         <ul className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {copy.items.map((item, i) => (
             <li key={item.ask}>
@@ -247,6 +264,174 @@ function Prompts({ copy }: { copy: AdsLandingCopy["prompts"] }) {
         </ul>
       </div>
     </section>
+  );
+}
+
+const LP_VIDEOS = "/videos/lp";
+
+/**
+ * Each request with its own short product film. The list drives the player,
+ * and the next film starts when one ends.
+ */
+function PromptsFilms({ copy }: { copy: AdsLandingCopy["prompts"] }) {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  // Observe the stable frame: the <video> remounts on every film change.
+  const inView = useInView(frameRef, { amount: 0.4 });
+  const reduce = useReducedMotion();
+  const [active, setActive] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [muted, setMuted] = useState(true);
+  const film = copy.items[active].film;
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (inView && !reduce) void video.play().catch(() => undefined);
+    else video.pause();
+  }, [inView, reduce, film]);
+
+  const select = (i: number) => {
+    setActive(i);
+    setProgress(0);
+  };
+
+  const toggleSound = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setMuted(video.muted);
+    if (!video.muted) void video.play().catch(() => undefined);
+  };
+
+  return (
+    <section id="lp-prompts" className="bg-background py-20 md:py-30">
+      <div className="mx-auto max-w-7xl px-6 md:px-8">
+        <SectionTitle
+          eyebrow={copy.eyebrow}
+          title={copy.title}
+          body={copy.body}
+        />
+        <div className="mt-12 grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,8fr)] lg:items-center lg:gap-12">
+          <Reveal className="order-2 lg:order-1">
+            <ol className="flex flex-col">
+              {copy.items.map((item, i) => {
+                const isActive = i === active;
+                return (
+                  <li
+                    key={item.ask}
+                    className="border-border border-b border-dashed first:border-t"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => select(i)}
+                      aria-current={isActive ? "step" : undefined}
+                      className={cn(
+                        "relative flex w-full flex-col gap-2 py-5 text-left transition-opacity duration-300",
+                        isActive
+                          ? "opacity-100"
+                          : "opacity-45 hover:opacity-80",
+                      )}
+                    >
+                      <span className="type-eyebrow text-accent flex items-center gap-2">
+                        <BulletIcon
+                          className={cn(
+                            "h-[0.625rem] w-[0.4375rem] shrink-0 transition-opacity duration-300",
+                            isActive ? "opacity-100" : "opacity-0",
+                          )}
+                        />
+                        {item.tool}
+                        {item.model ? (
+                          <span className="text-text/45">· {item.model}</span>
+                        ) : null}
+                      </span>
+                      <span className="type-paragraph-m-bold text-text">
+                        « {item.ask} »
+                      </span>
+                      <span
+                        className={cn(
+                          "grid transition-[grid-template-rows] duration-500 ease-out",
+                          isActive ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+                        )}
+                      >
+                        <span className="type-paragraph-m text-text/70 overflow-hidden">
+                          → {item.result}
+                        </span>
+                      </span>
+                      <span
+                        aria-hidden
+                        className="bg-accent absolute -bottom-px left-0 h-px"
+                        style={{ width: isActive ? `${progress * 100}%` : 0 }}
+                      />
+                    </button>
+                  </li>
+                );
+              })}
+            </ol>
+          </Reveal>
+
+          <Reveal delay={0.08} className="order-1 lg:order-2">
+            <div
+              ref={frameRef}
+              className="border-border bg-light-gray relative aspect-video w-full overflow-hidden rounded-sm border border-dashed"
+            >
+              <video
+                key={film}
+                ref={videoRef}
+                className="size-full object-cover"
+                src={`${LP_VIDEOS}/${film}.mp4`}
+                poster={`${LP_VIDEOS}/${film}.jpg`}
+                aria-label={copy.items[active].ask}
+                muted={muted}
+                playsInline
+                preload="metadata"
+                onTimeUpdate={(e) => {
+                  const v = e.currentTarget;
+                  if (v.duration) setProgress(v.currentTime / v.duration);
+                }}
+                onEnded={() => select((active + 1) % copy.items.length)}
+              />
+              <button
+                type="button"
+                onClick={toggleSound}
+                aria-label={muted ? "Activer le son" : "Couper le son"}
+                className="bg-background/85 text-text type-paragraph-s hover:bg-background absolute right-3 bottom-3 flex items-center gap-2 rounded-full px-3 py-1.5 backdrop-blur-md transition-colors"
+              >
+                <SoundIcon muted={muted} />
+                {muted ? "Son" : "Couper"}
+              </button>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function SoundIcon({ muted }: { muted: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      className="size-3.5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      aria-hidden
+    >
+      <path
+        d="M2.5 6h2.5l3.5-3v10l-3.5-3H2.5z"
+        fill="currentColor"
+        stroke="none"
+      />
+      {muted ? (
+        <path d="M11 6l3.5 4M14.5 6L11 10" strokeLinecap="round" />
+      ) : (
+        <path
+          d="M11 5.5a3.5 3.5 0 0 1 0 5M12.8 3.8a6 6 0 0 1 0 8.4"
+          strokeLinecap="round"
+        />
+      )}
+    </svg>
   );
 }
 
@@ -273,7 +458,12 @@ function Fit({ copy }: { copy: AdsLandingCopy["fit"] }) {
                   : "border-border border border-dashed",
               )}
             >
-              <p className={cn("type-h5", highlight ? "text-white" : "text-text")}>
+              <p
+                className={cn(
+                  "type-h5",
+                  highlight ? "text-white" : "text-text",
+                )}
+              >
                 {data.title}
               </p>
               <ul className="flex flex-col gap-3">
@@ -327,7 +517,9 @@ function Steps({ copy }: { copy: AdsLandingCopy["steps"] }) {
               )}
             >
               <Reveal delay={0.1 * i} className="flex flex-col gap-4">
-                <span className="type-eyebrow text-accent tabular-nums">0{i + 1}</span>
+                <span className="type-eyebrow text-accent tabular-nums">
+                  0{i + 1}
+                </span>
                 <p className="type-h5 text-text">{step.title}</p>
                 <p className="type-paragraph-m text-text/70">{step.body}</p>
               </Reveal>
@@ -370,7 +562,11 @@ function Pricing({
                 </li>
               ))}
             </ul>
-            <ButtonLink href={links.pricingUrl} variant="underline" className="self-start">
+            <ButtonLink
+              href={links.pricingUrl}
+              variant="underline"
+              className="self-start"
+            >
               {p.detailsCta}
             </ButtonLink>
           </Reveal>
@@ -400,10 +596,16 @@ function Faq({ items }: { items: AdsLandingCopy["faq"] }) {
   return (
     <section id="lp-faq" className="bg-background py-20 md:py-30">
       <div className="mx-auto max-w-4xl px-6 md:px-8">
-        <SectionTitle eyebrow="Questions fréquentes" title="Ce qu'on nous demande avant de commencer." />
+        <SectionTitle
+          eyebrow="Questions fréquentes"
+          title="Ce qu'on nous demande avant de commencer."
+        />
         <div className="border-border mt-10 border-t border-dashed">
           {items.map((item) => (
-            <details key={item.q} className="group border-border border-b border-dashed">
+            <details
+              key={item.q}
+              className="group border-border border-b border-dashed"
+            >
               <summary className="type-h6 text-text flex cursor-pointer list-none items-center justify-between gap-6 py-5">
                 {item.q}
                 <span
@@ -475,7 +677,8 @@ function FinalCta({
 function StickyCta({ label }: { label: string }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > window.innerHeight * 0.8);
+    const onScroll = () =>
+      setVisible(window.scrollY > window.innerHeight * 0.8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -488,7 +691,12 @@ function StickyCta({ label }: { label: string }) {
         visible ? "translate-y-0" : "translate-y-full",
       )}
     >
-      <ButtonLink href={TRIAL_URL} variant="primary" data-track="trial" className="w-full">
+      <ButtonLink
+        href={TRIAL_URL}
+        variant="primary"
+        data-track="trial"
+        className="w-full"
+      >
         {label}
       </ButtonLink>
     </div>
@@ -510,17 +718,28 @@ export function AdsLandingClient({
 }) {
   return (
     <main data-landing={slug} className="bg-background text-text">
-      <Hero copy={copy.hero} meetingUrl={links.meetingUrl} />
+      <Hero
+        copy={copy.hero}
+        meetingUrl={links.meetingUrl}
+        trustedBy={shared.trustedBy}
+      />
       <Prompts copy={copy.prompts} />
       <HomeV2PlatformStack copy={shared.platform} locale="fr" />
       <Fit copy={copy.fit} />
       <Integrations copy={shared.integrations} />
       <Steps copy={copy.steps} />
       <Pricing copy={copy.hero} links={links} />
-      <HomeSecurityBanner data={shared.security} securityUrl={links.securityUrl} />
+      <HomeSecurityBanner
+        data={shared.security}
+        securityUrl={links.securityUrl}
+      />
       <Clients copy={shared.clients} />
       <Faq items={copy.faq} />
-      <FinalCta copy={copy.finalCta} hero={copy.hero} meetingUrl={links.meetingUrl} />
+      <FinalCta
+        copy={copy.finalCta}
+        hero={copy.hero}
+        meetingUrl={links.meetingUrl}
+      />
       <StickyCta label={copy.hero.primaryCta} />
     </main>
   );

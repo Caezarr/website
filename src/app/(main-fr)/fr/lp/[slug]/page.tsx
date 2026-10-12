@@ -58,6 +58,7 @@ export default async function AdsLandingPage({ params }: PageProps) {
         security: home.security,
         clients: home.clients,
         integrations: home.integrations,
+        trustedBy: home.hero.trustedBy,
       }}
       links={{
         meetingUrl: resolveMeetingUrl(sharedLinks, "wonka-chat", "fr"),

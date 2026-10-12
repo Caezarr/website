@@ -180,6 +180,50 @@ function AwardTag({ copy }: { copy: HomeV2Copy["award"] }) {
 
 /* ───────────────────────── hero ───────────────────────── */
 
+/** Infinite client-logo marquee under a dark hero. Reused by the ads landings. */
+export function TrustBand({ label }: { label: string }) {
+  const reduce = useReducedMotion();
+  const logos = [...HOME_V2_HERO_LOGOS, ...HOME_V2_HERO_LOGOS];
+  return (
+    <div className="border-border bg-text/[0.06] border-t border-dashed">
+      <p className="type-eyebrow border-border text-text/80 border-b border-dashed py-3 text-center">
+        {label}
+      </p>
+      <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
+        <motion.div
+          className="flex w-max items-center"
+          animate={reduce ? undefined : { x: ["0%", "-50%"] }}
+          transition={{ duration: 55, ease: "linear", repeat: Infinity }}
+        >
+          {logos.map((logo, i) => {
+            const size = HERO_LOGO_SIZE_CLASS[logo.size];
+            const imgClass = heroMarqueeImgClass(logo);
+            const isRaster = !logo.src.endsWith(".svg");
+            return (
+              <span
+                key={`${logo.alt}-${i}`}
+                className={cn(
+                  "border-border flex h-16 shrink-0 items-center justify-center border-r border-dashed px-5",
+                  logo.slotClassName ?? size.slot,
+                )}
+              >
+                <Image
+                  src={logo.src}
+                  alt={logo.alt}
+                  width={280}
+                  height={80}
+                  className={imgClass}
+                  unoptimized={isRaster}
+                />
+              </span>
+            );
+          })}
+        </motion.div>
+      </div>
+    </div>
+  );
+}
+
 function Hero({
   copy,
   award,
@@ -189,8 +233,6 @@ function Hero({
   award: HomeV2Copy["award"];
   links: HomeV2Links;
 }) {
-  const reduce = useReducedMotion();
-  const logos = [...HOME_V2_HERO_LOGOS, ...HOME_V2_HERO_LOGOS];
   return (
     <section
       data-theme="dark"
@@ -238,42 +280,7 @@ function Hero({
         </div>
       </div>
 
-      <div className="border-border bg-text/[0.06] border-t border-dashed">
-        <p className="type-eyebrow border-border text-text/80 border-b border-dashed py-3 text-center">
-          {copy.trustedBy}
-        </p>
-        <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
-          <motion.div
-            className="flex w-max items-center"
-            animate={reduce ? undefined : { x: ["0%", "-50%"] }}
-            transition={{ duration: 55, ease: "linear", repeat: Infinity }}
-          >
-            {logos.map((logo, i) => {
-              const size = HERO_LOGO_SIZE_CLASS[logo.size];
-              const imgClass = heroMarqueeImgClass(logo);
-              const isRaster = !logo.src.endsWith(".svg");
-              return (
-                <span
-                  key={`${logo.alt}-${i}`}
-                  className={cn(
-                    "border-border flex h-16 shrink-0 items-center justify-center border-r border-dashed px-5",
-                    logo.slotClassName ?? size.slot,
-                  )}
-                >
-                  <Image
-                    src={logo.src}
-                    alt={logo.alt}
-                    width={280}
-                    height={80}
-                    className={imgClass}
-                    unoptimized={isRaster}
-                  />
-                </span>
-              );
-            })}
-          </motion.div>
-        </div>
-      </div>
+      <TrustBand label={copy.trustedBy} />
     </section>
   );
 }
