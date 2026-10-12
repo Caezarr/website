@@ -183,8 +183,8 @@ const en: HomeV2Copy = {
       },
     ],
     everydayTitle: "Integrate everyday tools and industry-specific software.",
-    everydayCount: "70+ connectors",
-    customTitle: "We make the connection for you.",
+    everydayCount: "80+ connectors",
+    customTitle: "Your tool not present? We make the connection for you.",
     customBody: "",
   },
   clients: {
@@ -260,18 +260,13 @@ const en: HomeV2Copy = {
     title: "No clear AI strategy yet?",
     body: "We help you identify where AI creates value, set priorities and turn them into a roadmap your teams can adopt.",
     strategyCta: "Explore AI Strategy Program",
-    subsidiesTitle: "Subsidies for SMEs in Belgium",
+    subsidiesTitle: "Funding available",
     cardCta: "Discover more",
     cards: [
       {
         title: "Subsidy for Flemish SMEs.",
         body: "Financial support is available to help your business fund an AI strategy programme in Flanders.",
         href: "/services/start-ai-subsidized-flanders",
-      },
-      {
-        title: "Subsidy for Walloon SMEs.",
-        body: "Financial support is available to help your business fund an AI strategy programme in Wallonia.",
-        href: "/services/start-ai-subsidized-wallonia",
       },
     ],
   },
@@ -372,8 +367,8 @@ const fr: HomeV2Copy = {
     ],
     everydayTitle:
       "Intégrez vos outils du quotidien et vos logiciels métier.",
-    everydayCount: "70+ connecteurs",
-    customTitle: "Nous mettons en place la connexion pour vous.",
+    everydayCount: "80+ connecteurs",
+    customTitle: "Votre outil n'est pas dans la liste ? Nous mettons en place la connexion pour vous.",
     customBody: "",
   },
   clients: {
@@ -449,18 +444,13 @@ const fr: HomeV2Copy = {
     title: "Pas encore de stratégie IA claire ?",
     body: "Nous vous aidons à identifier où l'IA crée de la valeur, à fixer les priorités et à en faire une feuille de route adoptable par vos équipes.",
     strategyCta: "Découvrir le programme stratégie IA",
-    subsidiesTitle: "Subventions pour les PME en Belgique",
+    subsidiesTitle: "Financement disponible",
     cardCta: "En savoir plus",
     cards: [
       {
         title: "Subvention pour les PME flamandes.",
         body: "Un soutien financier peut financer votre programme de stratégie IA en Flandre.",
         href: "/services/start-ai-subsidized-flanders",
-      },
-      {
-        title: "Subvention pour les PME wallonnes.",
-        body: "Un soutien financier peut financer votre programme de stratégie IA en Wallonie.",
-        href: "/services/start-ai-subsidized-wallonia",
       },
     ],
   },
@@ -561,8 +551,8 @@ const nl: HomeV2Copy = {
     ],
     everydayTitle:
       "Integreer alledaagse tools en branchespecifieke software.",
-    everydayCount: "70+ connectoren",
-    customTitle: "Wij maken de koppeling voor u.",
+    everydayCount: "80+ connectoren",
+    customTitle: "Staat uw tool er niet tussen? Wij maken de koppeling voor u.",
     customBody: "",
   },
   clients: {
@@ -638,18 +628,13 @@ const nl: HomeV2Copy = {
     title: "Nog geen duidelijke AI-strategie?",
     body: "Wij helpen u te bepalen waar AI waarde creëert, prioriteiten te stellen en daar een roadmap van te maken die uw teams kunnen adopteren.",
     strategyCta: "Ontdek het AI-strategieprogramma",
-    subsidiesTitle: "Subsidies voor kmo's in België",
+    subsidiesTitle: "Subsidie beschikbaar",
     cardCta: "Meer ontdekken",
     cards: [
       {
         title: "Subsidie voor Vlaamse kmo's.",
         body: "Financiële steun kan helpen om uw AI-strategietraject in Vlaanderen te financieren.",
         href: "/services/start-ai-subsidized-flanders",
-      },
-      {
-        title: "Subsidie voor Waalse kmo's.",
-        body: "Financiële steun kan helpen om uw AI-strategietraject in Wallonië te financieren.",
-        href: "/services/start-ai-subsidized-wallonia",
       },
     ],
   },
