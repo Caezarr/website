@@ -6,7 +6,7 @@ import {
 
 export const dynamic = "force-static";
 
-// Same page as the homepage: canonical points to `/`.
+// Product overview at `/workspace` (homepage is the marketing landing at `/`).
 export function generateMetadata(): Promise<Metadata> {
   return workspaceMetadata("en");
 }

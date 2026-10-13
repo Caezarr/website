@@ -11,6 +11,7 @@ import { headingClass, radius } from "@/lib/design-tokens";
 import type { LeadSource } from "@/lib/lead-capture";
 import { hasSanityImage } from "@/lib/resolve-cms";
 import type { ProductHeroResolved } from "@/lib/types/page-sections";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 interface ProductHeroProps {
   data: ProductHeroResolved;
@@ -20,6 +21,7 @@ interface ProductHeroProps {
   meetingTrackType?: MeetingTrackType;
   secondaryMeetingTrackType?: MeetingTrackType;
   locale?: Locale;
+  scrollReveal?: boolean;
 }
 
 function HeroCta({
@@ -84,6 +86,7 @@ export function ProductHero({
   meetingTrackType,
   secondaryMeetingTrackType,
   locale = "en",
+  scrollReveal = false,
 }: ProductHeroProps) {
   const theme = data.theme ?? "dark";
   const eyebrow = data.eyebrow ?? "";
@@ -96,58 +99,90 @@ export function ProductHero({
   const heroSrc = resolveImageSrc(data.heroImage, heroFallback);
   const heroAlt = resolveImageAlt(data.heroImage, heroFallback);
 
+  function renderLightHeroCopy() {
+    return (
+      <>
+        {eyebrow ? (
+          <span
+            className={`inline-block ${radius.full} bg-mid-gray px-4 py-1.5 type-eyebrow text-text`}
+          >
+            {eyebrow}
+          </span>
+        ) : null}
+        {title ? (
+          <h1
+            className={`mx-auto mt-6 max-w-[20ch] text-balance ${headingClass.hero}`}
+          >
+            {title}
+          </h1>
+        ) : null}
+        {subtitle ? (
+          <p className="mx-auto mt-6 max-w-2xl type-body text-text/70">
+            {subtitle}
+          </p>
+        ) : null}
+        {secondaryText ? (
+          <p className="mx-auto mt-3 max-w-xl type-paragraph-m text-text/50">
+            {secondaryText}
+          </p>
+        ) : null}
+        <HeroCta
+          leadForm={leadForm}
+          meetingUrl={meetingUrl}
+          meetingLabel={meetingLabel}
+          meetingTrackType={meetingTrackType}
+          secondaryMeetingTrackType={secondaryMeetingTrackType}
+          secondaryLink={data.secondaryLink}
+          theme="light"
+          locale={locale}
+        />
+      </>
+    );
+  }
+
   if (theme === "light") {
     return (
       <Section containerClassName="pb-12 pt-32 md:pb-16 md:pt-40">
-        <div className="mx-auto max-w-3xl text-center">
-          {eyebrow ? (
-            <span
-              className={`inline-block ${radius.full} bg-mid-gray px-4 py-1.5 type-eyebrow text-text`}
-            >
-              {eyebrow}
-            </span>
-          ) : null}
-          {title ? (
-            <h1
-              className={`mx-auto mt-6 max-w-[20ch] text-balance ${headingClass.hero}`}
-            >
-              {title}
-            </h1>
-          ) : null}
-          {subtitle ? (
-            <p className="mx-auto mt-6 max-w-2xl type-body text-text/70">
-              {subtitle}
-            </p>
-          ) : null}
-          {secondaryText ? (
-            <p className="mx-auto mt-3 max-w-xl type-paragraph-m text-text/50">
-              {secondaryText}
-            </p>
-          ) : null}
-          <HeroCta
-            leadForm={leadForm}
-            meetingUrl={meetingUrl}
-            meetingLabel={meetingLabel}
-            meetingTrackType={meetingTrackType}
-            secondaryMeetingTrackType={secondaryMeetingTrackType}
-            secondaryLink={data.secondaryLink}
-            theme="light"
-            locale={locale}
-          />
-        </div>
-        {heroSrc ? (
-          <div className="mx-auto mt-12 max-w-[1400px] md:mt-16">
-            <Image
-              src={heroSrc}
-              alt={heroAlt}
-              width={heroFallback.width ?? 1920}
-              height={heroFallback.height ?? 694}
-              priority
-              sizes="(min-width: 1400px) 1400px, 100vw"
-              className="h-auto w-full"
-              unoptimized={!hasSanityImage(data.heroImage)}
-            />
+        {scrollReveal ? (
+          <ScrollReveal className="mx-auto max-w-3xl text-center">
+            {renderLightHeroCopy()}
+          </ScrollReveal>
+        ) : (
+          <div className="mx-auto max-w-3xl text-center">
+            {renderLightHeroCopy()}
           </div>
+        )}
+        {heroSrc ? (
+          scrollReveal ? (
+            <ScrollReveal
+              delay={0.1}
+              className="mx-auto mt-12 max-w-[1400px] md:mt-16"
+            >
+              <Image
+                src={heroSrc}
+                alt={heroAlt}
+                width={heroFallback.width ?? 1920}
+                height={heroFallback.height ?? 694}
+                priority
+                sizes="(min-width: 1400px) 1400px, 100vw"
+                className="h-auto w-full"
+                unoptimized={!hasSanityImage(data.heroImage)}
+              />
+            </ScrollReveal>
+          ) : (
+            <div className="mx-auto mt-12 max-w-[1400px] md:mt-16">
+              <Image
+                src={heroSrc}
+                alt={heroAlt}
+                width={heroFallback.width ?? 1920}
+                height={heroFallback.height ?? 694}
+                priority
+                sizes="(min-width: 1400px) 1400px, 100vw"
+                className="h-auto w-full"
+                unoptimized={!hasSanityImage(data.heroImage)}
+              />
+            </div>
+          )
         ) : null}
       </Section>
     );

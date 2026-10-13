@@ -3,7 +3,7 @@ import { AiChatView, aiChatMetadata } from "@/views/ai-chat";
 
 export const dynamic = "force-static";
 
-export function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   return aiChatMetadata("en");
 }
 
