@@ -2,6 +2,7 @@ import { FaqAccordion } from "@/components/ui/faq-accordion";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { cn } from "@/lib/utils";
 import type { FaqSectionData } from "@/lib/types/page-sections";
 
@@ -10,6 +11,7 @@ interface FaqSectionProps {
   className?: string;
   bordered?: boolean;
   variant?: "default" | "plain";
+  scrollReveal?: boolean;
 }
 
 export function FaqSection({
@@ -17,6 +19,7 @@ export function FaqSection({
   className,
   bordered = true,
   variant = "default",
+  scrollReveal = false,
 }: FaqSectionProps) {
   const header = data.header;
   const items = data.items ?? [];
@@ -36,21 +39,47 @@ export function FaqSection({
         className={cn("py-18 md:py-24", className)}
         containerClassName="max-w-2xl"
       >
-        {header?.heading ? (
-          <SectionHeader
-            align="center"
-            eyebrow={
-              header.eyebrow ? <Eyebrow>{header.eyebrow}</Eyebrow> : undefined
-            }
-            heading={header.heading}
-            headingClassName="text-center"
-          />
-        ) : null}
-        {items.length > 0 ? (
-          <div className="mt-10">
-            <FaqAccordion items={items} />
-          </div>
-        ) : null}
+        {scrollReveal ? (
+          <ScrollReveal>
+            {header?.heading ? (
+              <SectionHeader
+                align="center"
+                eyebrow={
+                  header.eyebrow ? (
+                    <Eyebrow>{header.eyebrow}</Eyebrow>
+                  ) : undefined
+                }
+                heading={header.heading}
+                headingClassName="text-center"
+              />
+            ) : null}
+            {items.length > 0 ? (
+              <div className="mt-10">
+                <FaqAccordion items={items} />
+              </div>
+            ) : null}
+          </ScrollReveal>
+        ) : (
+          <>
+            {header?.heading ? (
+              <SectionHeader
+                align="center"
+                eyebrow={
+                  header.eyebrow ? (
+                    <Eyebrow>{header.eyebrow}</Eyebrow>
+                  ) : undefined
+                }
+                heading={header.heading}
+                headingClassName="text-center"
+              />
+            ) : null}
+            {items.length > 0 ? (
+              <div className="mt-10">
+                <FaqAccordion items={items} />
+              </div>
+            ) : null}
+          </>
+        )}
       </Section>
     </section>
   );

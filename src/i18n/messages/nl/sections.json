@@ -5,6 +5,9 @@
   "clientProof": {
     "ariaLabel": "Klantverhalen"
   },
+  "logoStrip": {
+    "ariaLabel": "Klantlogo's"
+  },
   "useCases": {
     "industriesLabel": "Sectoren",
     "workflowTag": "Workflow {number}"

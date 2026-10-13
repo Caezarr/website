@@ -1,227 +1,457 @@
 import type { Locale } from "@/i18n/config";
 
-type CardCopy = { title: string; body: string; alt: string };
 
-/** Page-level copy for the Workspace page (`/`, `/fr`, `/nl`). Images and structure live in the EN defaults. */
+
+type CardCopy = {
+  title: string;
+  body: string;
+  alt: string;
+  footerLink?: string;
+};
+
+
+
+/** Page-level copy for the Workspace page (`/workspace`, `/fr/workspace`, `/nl/workspace`). */
+
 export interface WorkspaceCopy {
+
   hero: {
+
     eyebrow: string;
+
     title: string;
+
     subtitle: string;
+
     imageAlt: string;
+
     talkToSales: string;
+
   };
+
   proofLines: string[];
+
   products: {
+
     heading: string;
+
     aiChat: CardCopy & { ctaLabel: string };
-    aiAgents: CardCopy;
+
+    aiAgents: CardCopy & { ctaLabel: string };
+
   };
+
   capabilities: {
+
     heading: string;
+
     cards: Record<
+
       | "connected-tools"
+
       | "set-up-per-team"
+
       | "human-approves"
+
       | "your-model-choice"
-      | "workflow-templates"
-      | "hosted-in-eu",
+
+      | "workflow-templates",
+
       CardCopy
+
     >;
+
   };
+
   contactHeading: string;
+
+  contactBody: string;
+
 }
 
+
+
 const en: WorkspaceCopy = {
+
   hero: {
-    eyebrow: "Wonka Workspace",
-    title: "The AI workspace for your entire organization.",
+
+    eyebrow: "AI Workspace",
+
+    title: "One place for your whole team to work with AI.",
+
     subtitle:
-      "Let your entire organization use AI in a safe and secure way. Optimize your work by connecting to your daily tools.",
+
+      "Give everyone a secure place to find answers, work with company knowledge and get repetitive tasks done with AI.",
+
     imageAlt: "Wonka Workspace product screenshot",
-    talkToSales: "Talk to sales",
+
+    talkToSales: "Talk to a consultant",
+
   },
-  proofLines: ["Trusted by Belgian teams of every size", "European data storage"],
+
+  proofLines: [
+
+    "Trusted by Belgian teams of every size",
+
+    "European data storage",
+
+  ],
+
   products: {
+
     heading: "Explore Wonka Workspace.",
+
     aiChat: {
+
       title: "AI Chat",
-      body: "Chat with your data, safely.",
-      ctaLabel: "Discover AI Chat",
+
+      body: "Find answers faster with AI that understands your company knowledge.",
+
+      ctaLabel: "Discover AI Chat →",
+
       alt: "AI Chat in Wonka Workspace",
+
     },
+
     aiAgents: {
+
       title: "AI Agents",
-      body: "Delegate recurring tasks to AI.",
+
+      body: "Take repetitive work off your team's plate with agents built around your processes.",
+
+      ctaLabel: "Discover AI Agents →",
+
       alt: "AI Agents in Wonka Workspace",
+
     },
+
   },
+
   capabilities: {
-    heading: "Safe and customized for you.",
+
+    heading: "Make AI fit the way you work.",
+
     cards: {
+
       "connected-tools": {
-        title: "Connected to your tools",
-        body: "Odoo, SharePoint, Teams and your mailbox.",
-        alt: "Connected to your tools in Wonka Workspace",
+
+        title: "Work with the tools you already use.",
+
+        body: "Connect your business systems so AI can use the information your teams work with every day.",
+
+        alt: "Business tool integrations in Wonka Workspace",
+
       },
+
       "set-up-per-team": {
-        title: "Set up per team",
-        body: "SSO, user management and who reaches what.",
-        alt: "Team setup in Wonka Workspace",
+
+        title: "Give every team the right access.",
+
+        body: "Manage who can use which tools, features and company information, all from one place.",
+
+        alt: "Team access settings in Wonka Workspace",
+
+        footerLink: "More about governance →",
+
       },
+
       "human-approves": {
-        title: "A human approves",
-        body: "AI does the work, you sign off before it leaves.",
+
+        title: "Keep people in control.",
+
+        body: "Let AI prepare the work, while your team reviews and approves important actions.",
+
         alt: "Human approval in Wonka Workspace",
+
       },
+
       "your-model-choice": {
-        title: "Your model, your choice",
-        body: "Every leading model, or connect your own.",
-        alt: "Choose your AI model in Wonka Workspace",
+
+        title: "The right AI for every task.",
+
+        body: "Use different AI models depending on what the work requires.",
+
+        alt: "AI model selection in Wonka Workspace",
+
       },
+
       "workflow-templates": {
-        title: "Workflow templates included",
-        body: "Fifty processes that already run at other companies.",
-        alt: "Workflow templates in Wonka Workspace",
+
+        title: "Useful agents, ready for your team.",
+
+        body: "Find and share agents that help your colleagues get recurring work done.",
+
+        alt: "Shared agents in Wonka Workspace",
+
       },
-      "hosted-in-eu": {
-        title: "Hosted in the EU",
-        body: "Your data stays in Europe and never trains a model.",
-        alt: "EU hosting in Wonka Workspace",
-      },
+
     },
+
   },
-  contactHeading: "Book a demo meeting.",
+
+  contactHeading: "Want to see what Wonka Workspace\ncould do for your team?",
+
+  contactBody:
+    "Book a short demo and we'll show how Wonka Workspace can connect to your tools, support your workflows and make AI accessible across your organisation.",
+
 };
+
+
 
 const fr: WorkspaceCopy = {
+
   hero: {
-    eyebrow: "Wonka Workspace",
-    title: "L'espace de travail IA pour toute votre organisation.",
+
+    eyebrow: "Espace de travail IA",
+
+    title: "Un seul endroit pour que toute votre équipe travaille avec l'IA.",
+
     subtitle:
-      "Permettez à toute votre organisation d'utiliser l'IA de façon sûre et sécurisée. Optimisez votre travail en vous connectant à vos outils du quotidien.",
+
+      "Offrez à chacun un espace sécurisé pour trouver des réponses, utiliser la connaissance de l'entreprise et traiter les tâches répétitives avec l'IA.",
+
     imageAlt: "Capture d'écran de Wonka Workspace",
-    talkToSales: "Parler à un commercial",
+
+    talkToSales: "Parler à un consultant",
+
   },
+
   proofLines: [
+
     "La confiance d'équipes belges de toutes tailles",
+
     "Données stockées en Europe",
+
   ],
+
   products: {
+
     heading: "Découvrez Wonka Workspace.",
+
     aiChat: {
+
       title: "Chat IA",
-      body: "Échangez avec vos données, en sécurité.",
-      ctaLabel: "Découvrir le Chat IA",
+
+      body: "Trouvez des réponses plus vite avec une IA qui comprend la connaissance de votre entreprise.",
+
+      ctaLabel: "Découvrir le Chat IA →",
+
       alt: "Chat IA dans Wonka Workspace",
+
     },
+
     aiAgents: {
+
       title: "Agents IA",
-      body: "Confiez vos tâches récurrentes à l'IA.",
+
+      body: "Allégez le travail répétitif de vos équipes avec des agents alignés sur vos processus.",
+
+      ctaLabel: "Découvrir les Agents IA →",
+
       alt: "Agents IA dans Wonka Workspace",
+
     },
+
   },
+
   capabilities: {
-    heading: "Sûr et adapté à vous.",
+
+    heading: "Faites entrer l'IA dans votre façon de travailler.",
+
     cards: {
+
       "connected-tools": {
-        title: "Connecté à vos outils",
-        body: "Odoo, SharePoint, Teams et votre boîte mail.",
-        alt: "Wonka Workspace connecté à vos outils",
+
+        title: "Travaillez avec les outils que vous utilisez déjà.",
+
+        body: "Connectez vos systèmes métier pour que l'IA s'appuie sur les informations avec lesquelles vos équipes travaillent chaque jour.",
+
+        alt: "Intégrations d'outils métier dans Wonka Workspace",
+
       },
+
       "set-up-per-team": {
-        title: "Configuré par équipe",
-        body: "SSO, gestion des utilisateurs et qui accède à quoi.",
-        alt: "Configuration par équipe dans Wonka Workspace",
+
+        title: "Donnez à chaque équipe le bon accès.",
+
+        body: "Gérez qui peut utiliser quels outils, fonctionnalités et informations de l'entreprise, depuis un seul endroit.",
+
+        alt: "Paramètres d'accès par équipe dans Wonka Workspace",
+
+        footerLink: "En savoir plus sur la gouvernance →",
+
       },
+
       "human-approves": {
-        title: "Un humain valide",
-        body: "L'IA fait le travail, vous validez avant l'envoi.",
+
+        title: "Gardez les personnes aux commandes.",
+
+        body: "L'IA prépare le travail, vos équipes relisent et valident les actions importantes.",
+
         alt: "Validation humaine dans Wonka Workspace",
+
       },
+
       "your-model-choice": {
-        title: "Votre modèle, votre choix",
-        body: "Tous les grands modèles, ou connectez le vôtre.",
-        alt: "Choix du modèle d'IA dans Wonka Workspace",
+
+        title: "La bonne IA pour chaque tâche.",
+
+        body: "Utilisez différents modèles d'IA selon ce que le travail exige.",
+
+        alt: "Choix de modèle d'IA dans Wonka Workspace",
+
       },
+
       "workflow-templates": {
-        title: "Modèles de workflows inclus",
-        body: "Cinquante processus qui tournent déjà dans d'autres entreprises.",
-        alt: "Modèles de workflows dans Wonka Workspace",
+
+        title: "Des agents utiles, prêts pour vos équipes.",
+
+        body: "Trouvez et partagez des agents qui aident vos collègues à traiter le travail récurrent.",
+
+        alt: "Agents partagés dans Wonka Workspace",
+
       },
-      "hosted-in-eu": {
-        title: "Hébergé dans l'UE",
-        body: "Vos données restent en Europe et n'entraînent jamais de modèle.",
-        alt: "Hébergement européen de Wonka Workspace",
-      },
+
     },
+
   },
-  contactHeading: "Réservez une démo.",
+
+  contactHeading: "Envie de voir ce que Wonka Workspace\npeut faire pour votre équipe ?",
+
+  contactBody:
+    "Réservez une courte démo : nous vous montrerons comment Wonka Workspace se connecte à vos outils, soutient vos workflows et rend l'IA accessible dans toute votre organisation.",
+
 };
+
+
 
 const nl: WorkspaceCopy = {
+
   hero: {
-    eyebrow: "Wonka Workspace",
-    title: "De AI-werkruimte voor uw hele organisatie.",
+
+    eyebrow: "AI-werkruimte",
+
+    title: "Eén plek waar uw hele team met AI werkt.",
+
     subtitle:
-      "Laat uw hele organisatie AI op een veilige manier gebruiken. Optimaliseer uw werk door te koppelen met uw dagelijkse tools.",
+
+      "Geef iedereen een veilige plek om antwoorden te vinden, met bedrijfskennis te werken en repetitieve taken met AI te doen.",
+
     imageAlt: "Screenshot van Wonka Workspace",
-    talkToSales: "Praat met sales",
+
+    talkToSales: "Spreek een consultant",
+
   },
+
   proofLines: [
+
     "Vertrouwd door Belgische teams van elke omvang",
+
     "Europese dataopslag",
+
   ],
+
   products: {
+
     heading: "Ontdek Wonka Workspace.",
+
     aiChat: {
+
       title: "AI-chat",
-      body: "Chat veilig met uw data.",
-      ctaLabel: "Ontdek AI-chat",
+
+      body: "Vind sneller antwoorden met AI die uw bedrijfskennis begrijpt.",
+
+      ctaLabel: "Ontdek AI-chat →",
+
       alt: "AI-chat in Wonka Workspace",
+
     },
+
     aiAgents: {
+
       title: "AI-agents",
-      body: "Delegeer terugkerende taken aan AI.",
+
+      body: "Neem repetitief werk weg bij uw team met agents rond uw processen.",
+
+      ctaLabel: "Ontdek AI-agents →",
+
       alt: "AI-agents in Wonka Workspace",
+
     },
+
   },
+
   capabilities: {
-    heading: "Veilig en op maat van u.",
+
+    heading: "Laat AI aansluiten op de manier waarop u werkt.",
+
     cards: {
+
       "connected-tools": {
-        title: "Gekoppeld aan uw tools",
-        body: "Odoo, SharePoint, Teams en uw mailbox.",
-        alt: "Wonka Workspace gekoppeld aan uw tools",
+
+        title: "Werk met de tools die u al gebruikt.",
+
+        body: "Koppel uw bedrijfssystemen zodat AI de informatie kan gebruiken waarmee uw teams dagelijks werken.",
+
+        alt: "Integraties met bedrijfstools in Wonka Workspace",
+
       },
+
       "set-up-per-team": {
-        title: "Ingesteld per team",
-        body: "SSO, gebruikersbeheer en wie wat mag zien.",
-        alt: "Teaminstellingen in Wonka Workspace",
+
+        title: "Geef elk team de juiste toegang.",
+
+        body: "Beheer wie welke tools, functies en bedrijfsinformatie mag gebruiken, vanuit één plek.",
+
+        alt: "Teamtoegang in Wonka Workspace",
+
+        footerLink: "Meer over governance →",
+
       },
+
       "human-approves": {
-        title: "Een mens keurt goed",
-        body: "AI doet het werk, u keurt goed voor het vertrekt.",
+
+        title: "Houd mensen aan het stuur.",
+
+        body: "Laat AI het werk voorbereiden, terwijl uw team belangrijke acties nakijkt en goedkeurt.",
+
         alt: "Menselijke goedkeuring in Wonka Workspace",
+
       },
+
       "your-model-choice": {
-        title: "Uw model, uw keuze",
-        body: "Elk toonaangevend model, of koppel uw eigen model.",
-        alt: "Kies uw AI-model in Wonka Workspace",
+
+        title: "De juiste AI voor elke taak.",
+
+        body: "Gebruik verschillende AI-modellen afhankelijk van wat het werk vraagt.",
+
+        alt: "AI-modelkeuze in Wonka Workspace",
+
       },
+
       "workflow-templates": {
-        title: "Workflowsjablonen inbegrepen",
-        body: "Vijftig processen die al bij andere bedrijven draaien.",
-        alt: "Workflowsjablonen in Wonka Workspace",
+
+        title: "Handige agents, klaar voor uw team.",
+
+        body: "Vind en deel agents die collega's helpen terugkerend werk af te handelen.",
+
+        alt: "Gedeelde agents in Wonka Workspace",
+
       },
-      "hosted-in-eu": {
-        title: "Gehost in de EU",
-        body: "Uw data blijft in Europa en traint nooit een model.",
-        alt: "EU-hosting van Wonka Workspace",
-      },
+
     },
+
   },
-  contactHeading: "Plan een demo.",
+
+  contactHeading: "Benieuwd wat Wonka Workspace\nvoor uw team kan doen?",
+
+  contactBody:
+    "Boek een korte demo en wij tonen hoe Wonka Workspace aansluit op uw tools, uw workflows ondersteunt en AI toegankelijk maakt in heel uw organisatie.",
+
 };
 
+
+
 export const WORKSPACE_COPY: Record<Locale, WorkspaceCopy> = { en, fr, nl };
+
+
