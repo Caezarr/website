@@ -6,6 +6,7 @@ const SOURCE_OPTIONS = [
   { title: "WonkaChat hero", value: "wonka-chat-hero" },
   { title: "WonkaChat Odoo hero", value: "wonka-chat-odoo-hero" },
   { title: "France diagnostic", value: "france-diagnostic" },
+  { title: "AI agent blueprint PDF", value: "agent-blueprint-pdf" },
 ];
 
 export const siteLead = defineType({
@@ -32,6 +33,15 @@ export const siteLead = defineType({
       type: "string",
       readOnly: true,
       hidden: ({ document }) => !document?.company,
+    }),
+    defineField({
+      name: "blueprintId",
+      title: "Blueprint ID",
+      type: "string",
+      description:
+        "UUID of the AI agent blueprint this lead asked for (agentBlueprintAssessment agent-blueprint.<uuid>).",
+      readOnly: true,
+      hidden: ({ document }) => !document?.blueprintId,
     }),
     defineField({
       name: "submittedAt",

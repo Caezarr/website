@@ -25,6 +25,7 @@ import {
   type ExternalSignals,
 } from "@/lib/agent-blueprint-requesty";
 import { searchBenchmark } from "@/lib/agent-blueprint-search";
+import { shareableResult } from "@/lib/agent-blueprint-share";
 import { buildWonkaChatExport } from "@/lib/agent-blueprint-wonkachat";
 import { getSanityWriteClient } from "@sanity/lib/write-client";
 import type { Locale } from "@/i18n/config";
@@ -300,6 +301,8 @@ export async function POST(request: Request) {
             wonkachatExport: JSON.stringify(
               buildWonkaChatExport(result, assessmentId, locale),
             ),
+            // Anonymised on-screen result (no sources) for the share page and PDF.
+            shareResult: JSON.stringify(shareableResult(result)),
             completedAt,
             requestyResponseIds: responseIds,
             ...(requestCost > 0 ? { requestCost } : {}),

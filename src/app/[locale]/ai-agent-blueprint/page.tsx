@@ -13,6 +13,10 @@ import { Stats } from "@/components/sections/stats";
 import { BreadcrumbSchema } from "@/components/json-ld";
 import { PageLayout } from "@/components/layout/page-layout";
 import { getSiteUrl } from "@/lib/site-url";
+import {
+  BLUEPRINT_WONKACHAT_URL,
+  blueprintMeetingUrl,
+} from "@/lib/agent-blueprint-links";
 
 export const dynamic = "force-static";
 
@@ -102,10 +106,8 @@ export default async function LocalizedAgentBlueprintPage({ params }: PageProps)
   const locale: "fr" | "nl" = rawLocale;
   const page = localized[locale];
   const siteUrl = getSiteUrl();
-  const meetingUrl = locale === "fr"
-    ? "https://bookings.cloud.microsoft/book/WonkaAIFrance@meetwonka.com/?ismsaljsauthenabled"
-    : "https://bookings.cloud.microsoft/book/WonkaAI@meetwonka.com/?ismsaljsauthenabled";
-  const wonkaChatUrl = "https://wonka.chat";
+  const meetingUrl = blueprintMeetingUrl(locale);
+  const wonkaChatUrl = BLUEPRINT_WONKACHAT_URL;
   const problemItems = locale === "fr"
     ? [
         { tag: "h2" as const, content: "L’IA aide déjà certaines personnes." },

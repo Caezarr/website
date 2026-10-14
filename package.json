@@ -31,6 +31,7 @@
   "dependencies": {
     "@base-ui/react": "^1.4.1",
     "@portabletext/react": "^6.0.3",
+    "@react-pdf/renderer": "^4.9.0",
     "@remotion/player": "4.0.533",
     "@sanity/document-internationalization": "^6.2.1",
     "@sanity/icons": "^3.7.4",

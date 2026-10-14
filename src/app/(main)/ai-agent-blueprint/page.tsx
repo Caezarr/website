@@ -12,6 +12,10 @@ import { Stats } from "@/components/sections/stats";
 import { Testimonials } from "@/components/sections/testimonials";
 import { BreadcrumbSchema } from "@/components/json-ld";
 import { getSiteUrl } from "@/lib/site-url";
+import {
+  BLUEPRINT_WONKACHAT_URL,
+  blueprintMeetingUrl,
+} from "@/lib/agent-blueprint-links";
 import { sanityFetch } from "@sanity/lib/live";
 import { TESTIMONIALS_QUERY } from "@sanity/lib/queries";
 
@@ -19,11 +23,8 @@ export const dynamic = "force-static";
 
 const pagePath = "/ai-agent-blueprint";
 
-/** Every meeting CTA on this page books directly with Gabriel. */
-const BLUEPRINT_MEETING_URL =
-  "https://bookings.cloud.microsoft/book/WonkaAIFrance@meetwonka.com/?ismsaljsauthenabled";
-/** Where visitors go to build and run their agents. */
-const WONKA_CHAT_URL = "https://wonka.chat";
+const BLUEPRINT_MEETING_URL = blueprintMeetingUrl("en");
+const WONKA_CHAT_URL = BLUEPRINT_WONKACHAT_URL;
 const title = "Free AI Agent Blueprint for Your Company | Wonka AI";
 const description =
   "Get anonymous AI agent recommendations for your company, grounded in 570 real-world enterprise AI use cases.";

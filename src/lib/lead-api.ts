@@ -1,5 +1,6 @@
 import type { LeadSource } from "@/lib/lead-capture";
 import type { SanityClient } from "next-sanity";
+import { parseBlueprintUuid } from "@/lib/agent-blueprint-share";
 
 export const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -15,6 +16,14 @@ export function normalizeLeadEmail(value: unknown): string | null {
   const email = value.trim().toLowerCase();
   if (!email || !EMAIL_PATTERN.test(email)) return null;
   return email;
+}
+
+/**
+ * Blueprint a lead asked for, as the bare UUID v4 of its assessment. Anything
+ * else (Sanity ids, paths, free text) is dropped.
+ */
+export function sanitizeLeadBlueprintId(value: unknown): string | undefined {
+  return parseBlueprintUuid(value) ?? undefined;
 }
 
 export function getClientIp(request: Request): string | null {
@@ -56,6 +65,7 @@ export async function hasRecentDuplicateLead(
   client: SanityClient,
   email: string,
   source: LeadSource,
+  blueprintId?: string,
 ): Promise<{
   _id: string;
   lifecycleStage?: "lead" | "mql" | "sql";
@@ -68,8 +78,9 @@ export async function hasRecentDuplicateLead(
       && email == $email
       && source == $source
       && submittedAt > $since
+      && ($blueprintId == null || blueprintId == $blueprintId)
     ][0]{_id, lifecycleStage, qualificationScore}`,
-    { email, source, since },
+    { email, source, since, blueprintId: blueprintId ?? null },
   );
 
 }

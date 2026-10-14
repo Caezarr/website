@@ -46,10 +46,18 @@ import {
   formatWonkaChatSetup,
   WONKACHAT_MODEL,
 } from "@/lib/agent-blueprint-wonkachat";
+import { wonkaChatImportUrl } from "@/lib/agent-blueprint-links";
+import { localizeHref } from "@/i18n/routes";
 import {
   BLUEPRINT_INPUT_ID,
   focusBlueprintInput,
 } from "./blueprint-scroll-button";
+import {
+  BLUEPRINT_PDF_CARD_ID,
+  BlueprintPdfCard,
+  BlueprintShareRow,
+  copyText,
+} from "./blueprint-share-actions";
 
 /** Remotion only loads once a blueprint result is on screen. */
 const AgentFilmPlayer = dynamic(
@@ -62,7 +70,7 @@ const AgentFilmPlayer = dynamic(
 
 type ExperienceState = "idle" | "loading" | "result" | "error";
 
-interface BlueprintApiResponse {
+export interface BlueprintApiResponse {
   assessmentId: string;
   result: AgentBlueprintResult;
 }
@@ -434,19 +442,37 @@ function FoundryPanel({
           </div>
         )}
 
-        <div className="mt-5 flex items-center justify-between gap-4 border-t border-dashed border-white/12 pt-4">
+        <div className="mt-5 flex flex-col items-start gap-3 border-t border-dashed border-white/12 pt-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
           {mode === "result" ? (
             <>
               <p className="type-paragraph-s text-white/50">
                 {t(locale, "Tap an agent for its workflow and integrations")}
               </p>
-              <button
-                type="button"
-                onClick={() => onSelect(selectedIndex)}
-                className="type-paragraph-s shrink-0 text-blue-300 underline-offset-4 hover:underline"
-              >
-                {t(locale, "Full blueprint")} <span aria-hidden>↓</span>
-              </button>
+              <div className="flex shrink-0 items-center gap-4">
+                <a
+                  href={`#${BLUEPRINT_PDF_CARD_ID}`}
+                  onClick={(event) => {
+                    const card = document.getElementById(BLUEPRINT_PDF_CARD_ID);
+                    if (!card) return;
+                    event.preventDefault();
+                    card.scrollIntoView({ behavior: "smooth", block: "start" });
+                    card.querySelector<HTMLInputElement>('input[type="email"]')?.focus({
+                      preventScroll: true,
+                    });
+                  }}
+                  data-blueprint-cta="hero_pdf_shortcut"
+                  className="type-paragraph-s text-blue-300 underline-offset-4 hover:underline"
+                >
+                  {t(locale, "Get the PDF")}
+                </a>
+                <button
+                  type="button"
+                  onClick={() => onSelect(selectedIndex)}
+                  className="type-paragraph-s text-blue-300 underline-offset-4 hover:underline"
+                >
+                  {t(locale, "Full blueprint")} <span aria-hidden>↓</span>
+                </button>
+              </div>
             </>
           ) : (
             <>
@@ -494,25 +520,6 @@ function ToolLogo({ tool }: { tool: ConnectedTool }) {
       )}
     </span>
   );
-}
-
-/** Clipboard API first; hidden-textarea fallback for older or locked-down browsers. */
-async function copyText(text: string): Promise<boolean> {
-  try {
-    await navigator.clipboard.writeText(text);
-    return true;
-  } catch {
-    const textarea = document.createElement("textarea");
-    textarea.value = text;
-    textarea.setAttribute("readonly", "");
-    textarea.style.position = "fixed";
-    textarea.style.opacity = "0";
-    document.body.appendChild(textarea);
-    textarea.select();
-    const copied = document.execCommand("copy");
-    textarea.remove();
-    return copied;
-  }
 }
 
 function CopyInstructionsButton({ agent, locale }: { agent: AgentBlueprintAgent; locale: Locale }) {
@@ -666,7 +673,8 @@ function AgentDetailPanel({
                 {t(locale, agent.tier)}
               </span>
               <span className="type-eyebrow text-text/40">
-                Agent 0{index + 1} · {agent.process}
+                Agent 0{index + 1}
+                {agent.process ? ` · ${agent.process}` : ""}
               </span>
             </div>
             <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-2">
@@ -691,6 +699,7 @@ function AgentDetailPanel({
         </div>
       </div>
 
+      {agent.demo || agent.workflow.length ? (
       <div className="border-border bg-light-gray border-b border-dashed p-5 md:p-6">
         <p className="type-eyebrow text-blue-700">{t(locale, "Watch it run")}</p>
         <p className="type-paragraph-s text-text/45 mt-1">
@@ -700,7 +709,9 @@ function AgentDetailPanel({
           <AgentFilmPlayer agent={agent} locale={locale} />
         </div>
       </div>
+      ) : null}
 
+      {agent.trigger || agent.workflow.length || agent.humanControl ? (
       <div className="border-border border-b border-dashed p-5 md:p-6">
         <p className="type-eyebrow text-text/35">{t(locale, "How it runs")}</p>
         <ol className="mt-4 flex flex-col md:flex-row">
@@ -717,19 +728,37 @@ function AgentDetailPanel({
               text: agent.humanControl,
               tone: "human" as const,
             },
-          ].map((node) => (
-            <FlowNode key={`${node.label}-${node.text}`} {...node} />
-          ))}
+          ]
+            .filter((node) => node.text)
+            .map((node) => (
+              <FlowNode key={`${node.label}-${node.text}`} {...node} />
+            ))}
         </ol>
       </div>
+      ) : null}
 
       <div className="grid md:grid-cols-3">
         <div className="p-5 md:p-6">
-          <p className="type-eyebrow text-blue-700">{t(locale, "What we saw")}</p>
-          <p className="type-paragraph-m text-text/75 mt-2">
-            {agent.companySignal}
-          </p>
-          <p className="type-paragraph-s text-text/45 mt-2">{agent.whyNow}</p>
+          {agent.companySignal || agent.whyNow ? (
+            <>
+              <p className="type-eyebrow text-blue-700">{t(locale, "What we saw")}</p>
+              <p className="type-paragraph-m text-text/75 mt-2">
+                {agent.companySignal}
+              </p>
+              <p className="type-paragraph-s text-text/45 mt-2">{agent.whyNow}</p>
+            </>
+          ) : agent.conversationStarters?.length ? (
+            <>
+              <p className="type-eyebrow text-blue-700">{t(locale, "Example requests")}</p>
+              <ul className="mt-2 grid gap-1.5">
+                {agent.conversationStarters.map((starter) => (
+                  <li key={starter} className="type-paragraph-s text-text/75">
+                    “{starter}”
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
         </div>
         <div className="border-border border-t border-dashed p-5 md:border-t-0 md:border-l md:p-6">
           <p className="type-eyebrow text-text/35">{t(locale, "Plugs into")}</p>
@@ -770,15 +799,30 @@ function AgentDetailPanel({
 }
 
 /** CTA label for importing the blueprint, matching how many agents it holds. */
-function importAgentsLabel(locale: Locale, count: number): string {
-  if (count === 1) return t(locale, "Import my agent into WonkaChat");
-  return t(locale, "Import my {count} agents into WonkaChat").replace(
-    "{count}",
-    String(count),
-  );
+function importAgentsLabel(
+  locale: Locale,
+  count: number,
+  shared = false,
+): string {
+  if (count === 1) {
+    return t(
+      locale,
+      shared ? "Import this agent into WonkaChat" : "Import my agent into WonkaChat",
+    );
+  }
+  return t(
+    locale,
+    shared
+      ? "Import these {count} agents into WonkaChat"
+      : "Import my {count} agents into WonkaChat",
+  ).replace("{count}", String(count));
 }
 
-function BlueprintResults({
+/**
+ * The blueprint result: right after generation ("owner", with share and PDF
+ * actions) or on the public shared page ("shared", read-only).
+ */
+export function BlueprintResults({
   response,
   locale,
   meetingUrl,
@@ -786,15 +830,21 @@ function BlueprintResults({
   onReset,
   selectedAgentIndex,
   onSelectAgent,
+  variant = "owner",
+  importAvailable = true,
 }: {
   response: BlueprintApiResponse;
   locale: Locale;
   meetingUrl: string;
   wonkaChatUrl: string;
-  onReset: () => void;
+  onReset?: () => void;
   selectedAgentIndex: number;
   onSelectAgent: (index: number, scroll: boolean) => void;
+  variant?: "owner" | "shared";
+  importAvailable?: boolean;
 }) {
+  const isShared = variant === "shared";
+  const generateHref = localizeHref("/ai-agent-blueprint", locale);
   const selectedAgent = response.result.agents[selectedAgentIndex];
   const maxAgentHours = Math.max(
     1,
@@ -814,21 +864,13 @@ function BlueprintResults({
     [response.result.agents],
   );
 
+  // Shared-page visitors must not stamp the original visitor's assessment.
   const trackDemoClick = useCallback(() => {
-    void fetch("/api/agent-blueprint", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        assessmentId: response.assessmentId,
-        event: "demo_clicked",
-      }),
-      keepalive: true,
-    });
-  }, [response.assessmentId]);
-  const trackImportClick = useCallback(
-    () => trackBlueprintEvent(response.assessmentId, "import_clicked"),
-    [response.assessmentId],
-  );
+    if (!isShared) trackBlueprintEvent(response.assessmentId, "demo_clicked");
+  }, [isShared, response.assessmentId]);
+  const trackImportClick = useCallback(() => {
+    if (!isShared) trackBlueprintEvent(response.assessmentId, "import_clicked");
+  }, [isShared, response.assessmentId]);
 
   const impactTiles = [
     {
@@ -860,7 +902,10 @@ function BlueprintResults({
       <div className="mx-auto max-w-[84rem] px-6 py-10 md:px-8 md:py-14 lg:px-12">
         <div className="border-border border-b border-dashed pb-8">
           <span className="type-eyebrow text-blue-700">
-            {t(locale, "Your blueprint is ready")}
+            {t(
+              locale,
+              isShared ? "AI agent blueprint" : "Your blueprint is ready",
+            )}
           </span>
           <h2 className={cn(headingClass.section, "mt-3 max-w-5xl")}>
             {response.result.headline}
@@ -871,7 +916,12 @@ function BlueprintResults({
           {response.result.signals.length ? (
             <div className="mt-6">
               <p className="type-eyebrow text-text/40">
-                {t(locale, "What shaped your blueprint")}
+                {t(
+                  locale,
+                  isShared
+                    ? "What shaped this blueprint"
+                    : "What shaped your blueprint",
+                )}
               </p>
               <ul className="mt-3 flex flex-wrap gap-2">
                 {response.result.signals.map((signal) => (
@@ -904,6 +954,17 @@ function BlueprintResults({
               </li>
             ))}
           </ul>
+          <BlueprintPdfCard
+            assessmentId={response.assessmentId}
+            locale={locale}
+            surface={isShared ? "shared" : "owner"}
+          />
+          {isShared ? null : (
+            <BlueprintShareRow
+              assessmentId={response.assessmentId}
+              locale={locale}
+            />
+          )}
         </div>
 
         <div className="mt-7">
@@ -1096,14 +1157,26 @@ function BlueprintResults({
               </ul>
             </div>
             <div className="flex flex-col items-start gap-4 lg:items-end">
-              <ButtonLink
-                href={wonkaChatImportUrl(wonkaChatUrl, response.assessmentId)}
-                onClick={trackImportClick}
-                data-track="wonkachat_start"
-                data-blueprint-cta="import_wonkachat"
-              >
-                {importAgentsLabel(locale, agentCount)}
-              </ButtonLink>
+              {importAvailable ? (
+                <ButtonLink
+                  href={wonkaChatImportUrl(wonkaChatUrl, response.assessmentId)}
+                  onClick={trackImportClick}
+                  data-track="wonkachat_start"
+                  data-blueprint-cta={
+                    isShared ? "shared_import_wonkachat" : "import_wonkachat"
+                  }
+                >
+                  {importAgentsLabel(locale, agentCount, isShared)}
+                </ButtonLink>
+              ) : (
+                <ButtonLink
+                  href={generateHref}
+                  data-track="blueprint_shared_generate"
+                  data-blueprint-cta="shared_generate"
+                >
+                  {t(locale, "Generate the blueprint for your company")}
+                </ButtonLink>
+              )}
               <Link
                 href={meetingUrl}
                 onClick={trackDemoClick}
@@ -1125,13 +1198,24 @@ function BlueprintResults({
           <p className="type-paragraph-s text-text/40 max-w-3xl">
             {t(locale, "Time savings are directional estimates based on recurring tasks in the benchmark. Validate them against real volumes before investment.")}
           </p>
-          <button
-            type="button"
-            onClick={onReset}
-            className="type-paragraph-s text-text/60 hover:text-text underline underline-offset-4"
-          >
-            {t(locale, "Try another company")}
-          </button>
+          {isShared || !onReset ? (
+            <Link
+              href={generateHref}
+              data-track="blueprint_shared_generate"
+              data-blueprint-cta="shared_footer_generate"
+              className="type-paragraph-s text-text/60 hover:text-text underline underline-offset-4"
+            >
+              {t(locale, "Generate the blueprint for your company")}
+            </Link>
+          ) : (
+            <button
+              type="button"
+              onClick={onReset}
+              className="type-paragraph-s text-text/60 hover:text-text underline underline-offset-4"
+            >
+              {t(locale, "Try another company")}
+            </button>
+          )}
         </div>
       </div>
     </section>
@@ -1245,11 +1329,6 @@ function StickyBar({
   );
 }
 
-/** WonkaChat page that imports this blueprint's agents in one click. */
-function wonkaChatImportUrl(wonkaChatUrl: string, assessmentId: string): string {
-  return `${wonkaChatUrl.replace(/\/+$/, "")}/blueprint/${encodeURIComponent(assessmentId)}`;
-}
-
 function trackBlueprintEvent(
   assessmentId: string,
   event: "demo_clicked" | "import_clicked",
@@ -1349,16 +1428,7 @@ export function AgentBlueprintExperience({
   );
 
   const trackDemoClick = useCallback(() => {
-    if (!response) return;
-    void fetch("/api/agent-blueprint", {
-      method: "PATCH",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        assessmentId: response.assessmentId,
-        event: "demo_clicked",
-      }),
-      keepalive: true,
-    });
+    if (response) trackBlueprintEvent(response.assessmentId, "demo_clicked");
   }, [response]);
 
   const trackImportClick = useCallback(() => {

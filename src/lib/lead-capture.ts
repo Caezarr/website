@@ -9,6 +9,7 @@ export const LEAD_SOURCES = [
   "wonka-chat-hero",
   "wonka-chat-odoo-hero",
   "france-diagnostic",
+  "agent-blueprint-pdf",
 ] as const;
 
 export type LeadSource = (typeof LEAD_SOURCES)[number];
@@ -44,6 +45,10 @@ export const LEAD_FORM_COPY: Record<LeadSource, LeadFormCopy> = {
   "france-diagnostic": {
     submitLabel: "Voir mon résultat",
     successMessage: "Merci — nous vous contacterons bientôt.",
+  },
+  "agent-blueprint-pdf": {
+    submitLabel: "Get the PDF",
+    successMessage: "Your PDF is downloading.",
   },
 };
 

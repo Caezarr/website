@@ -145,6 +145,15 @@ export const agentBlueprintAssessment = defineType({
       hidden: true,
     }),
     defineField({
+      name: "shareResult",
+      title: "Shareable result (JSON)",
+      description:
+        "Anonymised result (without sources) served by the shared page and the PDF. Written on completion.",
+      type: "text",
+      readOnly: true,
+      hidden: true,
+    }),
+    defineField({
       name: "clientIp",
       title: "Client IP",
       type: "string",
