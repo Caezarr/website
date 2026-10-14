@@ -24,6 +24,7 @@
     "ds:query": "node scripts/design-system/query.mjs",
     "storybook": "bun run ds:build && storybook dev -p 6006",
     "storybook:build": "bun run ds:build && storybook build",
+    "test:unit": "vitest run --project=unit",
     "test:storybook": "vitest run --project=storybook-light --project=storybook-dark",
     "test:storybook:watch": "vitest --project=storybook-light --project=storybook-dark",
     "chat:preview:build": "bun run --cwd apps/wonkachat-lab build:preview"

@@ -4,6 +4,8 @@ import type { Locale } from "@/i18n/config";
 import type { SiteSettings } from "@/lib/types";
 import { resolveNavigation } from "@/lib/nav-defaults";
 import { isBookingUrl, resolveMeetingUrl } from "@/lib/resolve-meeting-url";
+import { pickBookingLinks } from "@/lib/booking-modal";
+import { BookingModalProvider } from "@/components/booking-modal/booking-modal-provider";
 import { Header, type HeaderVariant } from "./header";
 import { Footer } from "./footer";
 
@@ -32,20 +34,22 @@ export async function PageLayout({
       : settings?.headerCta;
 
   return (
-    <div className="relative">
-      <Header
-        navItems={navItems}
-        headerCta={headerCta}
-        variant={headerVariant}
-        locale={locale}
-      />
-      <main>{children}</main>
-      <Footer
-        navItems={navItems}
-        linkGroups={settings?.footerLinkGroups ?? null}
-        locale={locale}
-      />
-      <SanityLive />
-    </div>
+    <BookingModalProvider links={pickBookingLinks(settings?.sharedLinks)}>
+      <div className="relative">
+        <Header
+          navItems={navItems}
+          headerCta={headerCta}
+          variant={headerVariant}
+          locale={locale}
+        />
+        <main>{children}</main>
+        <Footer
+          navItems={navItems}
+          linkGroups={settings?.footerLinkGroups ?? null}
+          locale={locale}
+        />
+        <SanityLive />
+      </div>
+    </BookingModalProvider>
   );
 }

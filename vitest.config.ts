@@ -38,6 +38,20 @@ export default defineConfig({
   optimizeDeps: { include: ["next-intl"] },
   test: {
     projects: [
+      {
+        extends: true,
+        resolve: {
+          alias: {
+            "@sanity": join(repositoryDirectory, "sanity"),
+            "@": join(repositoryDirectory, "src"),
+          },
+        },
+        test: {
+          name: "unit",
+          environment: "node",
+          include: ["src/**/*.spec.ts"],
+        },
+      },
       storybookProject("light"),
       storybookProject("dark"),
     ],
