@@ -75,7 +75,6 @@ const content = {
     linksHeading: "Internal links",
     links: [
       { href: "/france", text: "France" },
-      { href: "/security", text: "Security" },
       { href: "/wonka-chat", text: "WonkaChat" },
       { href: "/integrations/odoo", text: "Odoo integration" },
       { href: "/integrations/sharepoint", text: "SharePoint integration" },
@@ -143,7 +142,6 @@ const content = {
     linksHeading: "Liens internes",
     links: [
       { href: "/france", text: "France" },
-      { href: "/security", text: "Sécurité" },
       { href: "/wonka-chat", text: "WonkaChat" },
       { href: "/fr/wonka-chat/odoo", text: "Odoo" },
       { href: "/fr/integrations/odoo", text: "Intégration Odoo" },

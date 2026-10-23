@@ -245,11 +245,6 @@ const en: LandingCopy = {
         description: "Per-seat plans and the 7-day free trial.",
       },
       {
-        label: "Security and compliance",
-        href: "/security",
-        description: "ISO 27001, GDPR, NIS 2 and EU hosting.",
-      },
-      {
         label: "Wonka AI vs Microsoft Copilot",
         href: "/vs/wonka-ai-vs-microsoft-copilot",
         description: "How WonkaChat compares with Copilot.",
@@ -518,11 +513,6 @@ const fr: LandingCopy = {
         label: "Tarifs WonkaChat",
         href: "/fr/pricing",
         description: "Licences par utilisateur et essai gratuit de 7 jours.",
-      },
-      {
-        label: "Sécurité et conformité",
-        href: "/fr/security",
-        description: "ISO 27001, RGPD, NIS 2 et hébergement dans l'UE.",
       },
       {
         label: "Wonka AI vs Microsoft Copilot",
@@ -795,11 +785,6 @@ const nl: LandingCopy = {
         label: "Prijzen van WonkaChat",
         href: "/nl/pricing",
         description: "Licenties per gebruiker en een gratis proef van 7 dagen.",
-      },
-      {
-        label: "Beveiliging en compliance",
-        href: "/nl/security",
-        description: "ISO 27001, AVG, NIS 2 en hosting in de EU.",
       },
       {
         label: "Wonka AI vs Microsoft Copilot",

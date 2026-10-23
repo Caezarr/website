@@ -228,11 +228,6 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
           description: "SharePoint, Outlook, Teams, Odoo et les autres connecteurs.",
         },
         {
-          label: "Sécurité et conformité",
-          href: "/fr/security",
-          description: "ISO 27001, RGPD, NIS 2 et hébergement dans l'UE.",
-        },
-        {
           label: "Tarifs",
           href: "/fr/pricing",
           description: "Prix par utilisateur et essai gratuit de 7 jours.",

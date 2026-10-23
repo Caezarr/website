@@ -21,7 +21,6 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { headingClass } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/i18n/config";
-import { commercialPath } from "@/i18n/routes";
 import { getT } from "@/i18n/ui";
 import { fetchPageDoc, resolveMeetingLabel } from "@/lib/localized-content";
 import { getWorkspaceAiAgentsWorkGrid } from "@/lib/page-defaults/workspace-ai-agents-grid";
@@ -127,7 +126,6 @@ export async function WorkspaceAiAgentsView({ locale }: { locale: Locale }) {
       <HomeSecurityBanner
         id="security"
         data={HOME_V2_COPY[locale].security}
-        securityUrl={commercialPath("security", locale)}
       />
       <FaqSection data={content.faq} bordered={false} scrollReveal />
       <ContactBlock

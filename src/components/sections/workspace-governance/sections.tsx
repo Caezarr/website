@@ -217,7 +217,6 @@ export function WorkspaceGovernancePageSections({
 
   securityBanner,
 
-  securityUrl,
 
 }: {
 
@@ -235,7 +234,6 @@ export function WorkspaceGovernancePageSections({
 
   securityBanner: HomeSecurityBannerData;
 
-  securityUrl: string;
 
 }) {
 
@@ -300,7 +298,6 @@ export function WorkspaceGovernancePageSections({
       <HomeSecurityBanner
         id="security"
         data={securityBanner}
-        securityUrl={securityUrl}
       />
 
       <WorkspaceGovernanceDeployment deployment={deployment} />

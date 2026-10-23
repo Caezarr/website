@@ -84,7 +84,6 @@ export const CHARTE_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "2. La classification des données",
           body: "Définissez des niveaux (public, interne, confidentiel, données personnelles) et, pour chacun, les outils qui peuvent les traiter. Ce qui ne doit jamais être saisi dans une IA publique doit être explicite, avec des exemples.",
-          link: { label: "Comment Wonka protège vos données", href: "/fr/security" },
         },
         {
           title: "3. La validation humaine",
@@ -211,11 +210,6 @@ export const CHARTE_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
           label: "ChatGPT entreprise",
           href: "/fr/chatgpt-entreprise",
           description: "Les options pour encadrer l'usage de ChatGPT au travail.",
-        },
-        {
-          label: "Sécurité et conformité",
-          href: "/fr/security",
-          description: "ISO 27001, RGPD, NIS 2 et hébergement dans l'UE.",
         },
         {
           label: "LLM privé ou LLM public",

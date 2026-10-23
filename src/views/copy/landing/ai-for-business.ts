@@ -209,11 +209,6 @@ const en: LandingCopy = {
         description: "A private, EU-hosted, multi-model AI workspace for companies.",
       },
       {
-        label: "Security and compliance",
-        href: "/security",
-        description: "ISO 27001, GDPR, NIS 2 and hosting in Azure West Europe.",
-      },
-      {
         label: "How to calculate enterprise AI ROI",
         href: "/blog/how-to-calculate-roi-enterprise-ai",
         description: "Build the business case before you invest.",
@@ -424,11 +419,6 @@ const fr: LandingCopy = {
         label: "ChatGPT pour entreprise : l'alternative privée",
         href: "/fr/chatgpt-entreprise",
         description: "Un espace IA hébergé dans l'UE et multi-modèles.",
-      },
-      {
-        label: "Sécurité et conformité",
-        href: "/fr/security",
-        description: "ISO 27001, RGPD, NIS 2 et hébergement en Europe.",
       },
       {
         label: "Calculer le ROI de l'IA en entreprise",
@@ -653,11 +643,6 @@ const nl: LandingCopy = {
         label: "ChatGPT voor bedrijven: het private alternatief",
         href: "/nl/chatgpt-voor-bedrijven",
         description: "Een AI-werkruimte in de EU, met meerdere modellen.",
-      },
-      {
-        label: "Beveiliging en compliance",
-        href: "/nl/security",
-        description: "ISO 27001, AVG, NIS 2 en hosting in Europa.",
       },
       {
         label: "De ROI van enterprise AI berekenen",

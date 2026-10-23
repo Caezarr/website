@@ -7,7 +7,6 @@ import { SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
 import { WorkspaceGovernancePageSections } from "@/components/sections/workspace-governance/sections";
 
 import type { Locale } from "@/i18n/config";
-import { commercialPath } from "@/i18n/routes";
 
 import { getWorkspaceGovernanceFeatures } from "@/lib/page-defaults/workspace-governance-grid";
 
@@ -82,7 +81,6 @@ export async function WorkspaceGovernanceView({ locale }: { locale: Locale }) {
 
         securityBanner={HOME_V2_COPY[locale].security}
 
-        securityUrl={commercialPath("security", locale)}
 
       />
 

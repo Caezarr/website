@@ -42,7 +42,6 @@ const LOGOS: Record<AdsLandingLogo, { src: string; name: string }> = {
 
 export interface AdsLandingLinks {
   meetingUrl: string;
-  securityUrl: string;
   pricingUrl: string;
 }
 
@@ -731,7 +730,6 @@ export function AdsLandingClient({
       <Pricing copy={copy.hero} links={links} />
       <HomeSecurityBanner
         data={shared.security}
-        securityUrl={links.securityUrl}
       />
       <Clients copy={shared.clients} />
       <Faq items={copy.faq} />

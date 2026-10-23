@@ -96,7 +96,6 @@ export const KMO_PORTEFEUILLE_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "Een AI-beleid op maat",
           body: "Richtlijnen en governance zodat alles wat volgt binnen het juiste kader gebeurt, met advies over training, tooling en investeringen.",
-          link: { label: "Hoe Wonka met beveiliging omgaat", href: "/nl/security" },
         },
         {
           title: "Quick wins en concepten voor AI-agents",

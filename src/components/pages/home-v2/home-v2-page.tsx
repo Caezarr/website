@@ -35,7 +35,6 @@ export async function HomeV2Page({ locale = "en" }: { locale?: Locale }) {
       copy={HOME_V2_COPY[locale]}
       links={{
         meetingUrl: resolveMeetingUrl(sharedLinks, "wonka-chat", locale),
-        securityUrl: commercialPath("security", locale),
         teamUrl: locale === "en" ? "/team" : `/${locale}/team`,
       }}
     />

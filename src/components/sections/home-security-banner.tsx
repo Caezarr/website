@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { ButtonLink } from "@/components/ui/button";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Section } from "@/components/ui/section";
 import { Surface } from "@/components/ui/surface";
@@ -138,14 +137,12 @@ export interface HomeSecurityBannerData {
 interface HomeSecurityBannerProps {
   id?: string;
   data: HomeSecurityBannerData;
-  securityUrl: string;
   className?: string;
 }
 
 export function HomeSecurityBanner({
   id,
   data,
-  securityUrl,
   className,
 }: HomeSecurityBannerProps) {
   return (
@@ -170,13 +167,6 @@ export function HomeSecurityBanner({
                 {data.title}
               </h2>
             </div>
-            <ButtonLink
-              href={securityUrl}
-              variant="underline"
-              className="text-white"
-            >
-              {data.cta}
-            </ButtonLink>
           </div>
           <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
             {data.tiles.map((tile) => (

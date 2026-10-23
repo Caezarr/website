@@ -51,7 +51,6 @@ const TEAM_PHOTOS = [
 
 export interface HomeV2Links {
   meetingUrl: string;
-  securityUrl: string;
   teamUrl: string;
 }
 
@@ -732,7 +731,6 @@ export function HomeV2Client({
       <HomeV2PlatformStack copy={copy.platform} locale={locale} />
       <HomeSecurityBanner
         data={copy.security}
-        securityUrl={links.securityUrl}
       />
       <Integrations copy={copy.integrations} locale={locale} />
       <Team copy={copy.team} links={links} />

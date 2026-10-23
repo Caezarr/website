@@ -263,11 +263,6 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
           description: "Ce qui change quand l'IA tourne en privé.",
         },
         {
-          label: "Sécurité et conformité",
-          href: "/fr/security",
-          description: "ISO 27001, RGPD, NIS 2 et hébergement dans l'UE.",
-        },
-        {
           label: "Tarifs WonkaChat",
           href: "/fr/pricing",
           description: "Licences par utilisateur et essai gratuit de 7 jours.",
