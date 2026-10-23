@@ -114,7 +114,6 @@ export async function WorkspacePage({ locale = "en" }: { locale?: Locale }) {
       <HomeSecurityBanner
         id="security"
         data={HOME_V2_COPY[locale].security}
-        securityUrl={commercialPath("security", locale)}
       />
       <FaqSection data={content.faq} bordered={false} scrollReveal />
       <ContactBlock

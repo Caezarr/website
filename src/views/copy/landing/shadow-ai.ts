@@ -100,7 +100,6 @@ export const SHADOW_AI_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           title: "Appliquer les règles dans l'outil",
           body: "Permissions par utilisateur et par équipe, SSO via Azure AD / Entra ID avec MFA, contrôle d'accès par rôle et journaux d'audit : les règles de la charte deviennent des paramètres, pas des vœux pieux.",
-          link: { label: "Sécurité et conformité de Wonka", href: "/fr/security" },
         },
       ],
     },
@@ -216,11 +215,6 @@ export const SHADOW_AI_COPY: Partial<Record<Locale, LandingCopy>> = {
           label: "Audit IA",
           href: "/fr/audit-ia",
           description: "Faire l'état des lieux de vos usages et opportunités IA.",
-        },
-        {
-          label: "Sécurité et conformité",
-          href: "/fr/security",
-          description: "ISO 27001, RGPD, NIS 2 et hébergement dans l'UE.",
         },
         {
           label: "LLM privé ou LLM public",

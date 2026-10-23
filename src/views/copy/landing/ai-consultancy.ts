@@ -186,7 +186,6 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         { label: "AI for business", href: "/ai-for-business", description: "What companies can do with AI, and how to start." },
         { label: "AI agents for companies", href: "/ai-agents", description: "Private agents connected to your business tools." },
         { label: "Customer case studies", href: "/case-studies", description: "How Itzu and N-allo put AI into production." },
-        { label: "Security and compliance", href: "/security", description: "ISO 27001, GDPR, NIS 2 and EU hosting." },
         { label: "WonkaChat pricing", href: "/pricing", description: "Transparent per-seat pricing and a free trial." },
       ],
     },
@@ -374,7 +373,6 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         { label: "L'IA pour entreprise", href: "/fr/ia-pour-entreprise", description: "Ce que l'IA peut faire pour votre entreprise, et par où commencer." },
         { label: "Agent IA pour entreprise", href: "/fr/agent-ia-entreprise", description: "Des agents privés connectés à vos outils métier." },
         { label: "Cas clients", href: "/fr/cas-clients", description: "Comment nos clients ont mis l'IA en production." },
-        { label: "Sécurité et conformité", href: "/fr/security", description: "ISO 27001, RGPD, NIS 2 et hébergement européen." },
         { label: "Tarifs WonkaChat", href: "/fr/pricing", description: "Tarification par utilisateur et essai gratuit." },
         { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
       ],
@@ -569,7 +567,6 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         { label: "AI voor bedrijven", href: "/nl/ai-voor-bedrijven", description: "Wat bedrijven met AI kunnen doen, en hoe u start." },
         { label: "AI-agents voor bedrijven", href: "/nl/ai-agents", description: "Private agents gekoppeld aan uw bedrijfstools." },
         { label: "Klantcases", href: "/nl/klantcases", description: "Hoe klanten AI in productie brachten." },
-        { label: "Beveiliging en compliance", href: "/nl/security", description: "ISO 27001, GDPR, NIS 2 en Europese hosting." },
       ],
     },
     cta: {

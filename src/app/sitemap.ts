@@ -18,14 +18,14 @@ import {
 } from "@/i18n/routes";
 
 // /wonka-chat redirects to /workspace (a duplicate of the homepage): not listed.
-const COMMERCIAL_PRIORITY: Record<Exclude<CommercialPage, "wonkaChat">, number> = {
+// /security is hidden (redirects home): not listed.
+const COMMERCIAL_PRIORITY: Record<Exclude<CommercialPage, "wonkaChat" | "security">, number> = {
   home: 1.0,
   startAi: 0.9,
   wonkaBuild: 0.9,
   aiAgents: 0.85,
   wonkaChatOdoo: 0.85,
   aiChat: 0.85,
-  security: 0.85,
   pricing: 0.85,
   contact: 0.85,
 };

@@ -180,8 +180,6 @@ export default async function AgentIaEntreprisePage() {
           <div className="flex flex-wrap justify-center gap-4 type-paragraph-m">
             <a href="/france" className="text-accent hover:underline">France</a>
             <span className="text-text/30">•</span>
-            <a href="/security" className="text-accent hover:underline">Sécurité</a>
-            <span className="text-text/30">•</span>
             <a href="/wonka-chat" className="text-accent hover:underline">WonkaChat</a>
             <span className="text-text/30">•</span>
             <a href="/fr/wonka-chat/odoo" className="text-accent hover:underline">WonkaChat pour Odoo</a>

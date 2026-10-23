@@ -7,7 +7,6 @@ import { FaqSection } from "@/components/sections/faq-section";
 import { LogoStrip } from "@/components/sections/logo-strip";
 import { ProductHero } from "@/components/sections/product-hero";
 import { HomeSecurityBanner } from "@/components/sections/home-security-banner";
-import { commercialPath } from "@/i18n/routes";
 import { HOME_V2_COPY } from "@/views/copy/home-v2";
 import { WorkspaceTrialCta } from "@/components/sections/workspace-trial-cta";
 import type { Locale } from "@/i18n/config";
@@ -90,7 +89,6 @@ export async function AiChatView({ locale }: { locale: Locale }) {
       <HomeSecurityBanner
         id="security"
         data={HOME_V2_COPY[locale].security}
-        securityUrl={commercialPath("security", locale)}
       />
       <FaqSection data={content.faq} bordered={false} scrollReveal />
       <ContactBlock

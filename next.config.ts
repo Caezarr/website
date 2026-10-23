@@ -4,6 +4,10 @@ import createNextIntlPlugin from 'next-intl/plugin';
 const withNextIntl = createNextIntlPlugin('./src/i18n/request.ts');
 
 const redirects = async () => [
+  // Security page hidden for now (temporary, so it can come back)
+  { source: '/security', destination: '/', permanent: false },
+  { source: '/fr/security', destination: '/fr', permanent: false },
+  { source: '/nl/security', destination: '/nl', permanent: false },
   // EN is unprefixed: /en/* is never canonical (runs before the i18n middleware)
   { source: '/en', destination: '/', permanent: true },
   { source: '/en/:path*', destination: '/:path*', permanent: true },

@@ -62,7 +62,6 @@ export default async function AdsLandingPage({ params }: PageProps) {
       }}
       links={{
         meetingUrl: resolveMeetingUrl(sharedLinks, "wonka-chat", "fr"),
-        securityUrl: commercialPath("security", "fr"),
         pricingUrl: commercialPath("pricing", "fr"),
       }}
     />
