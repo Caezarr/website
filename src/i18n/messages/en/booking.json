@@ -1,0 +1,41 @@
+{
+  "close": "Close",
+  "step": "Step {current} of {total}",
+  "qualify": {
+    "title": "Book a call with our team",
+    "body": "Two quick questions so we send you to the right expert.",
+    "sizeLabel": "Company size",
+    "sizeUnit": "employees",
+    "needLabel": "Main need",
+    "skip": "Skip and pick a time"
+  },
+  "sizes": {
+    "1-10": "1–10",
+    "11-50": "11–50",
+    "51-250": "51–250",
+    "251-1000": "251–1,000",
+    "1000+": "1,000+"
+  },
+  "needs": {
+    "workspace": "WonkaChat, an AI workspace for my team",
+    "agents": "Custom AI agents",
+    "odoo": "Odoo × AI",
+    "training": "AI training and adoption",
+    "unsure": "Not sure yet"
+  },
+  "calendar": {
+    "title": "Your calendar is open in a new tab",
+    "body": "Pick a time with {calendar}. The calendar is hosted by Microsoft Bookings.",
+    "blocked": "Nothing opened? Your browser may have blocked the new tab. Use the button below.",
+    "openCalendar": "Open the calendar",
+    "openInNewTab": "Open in a new tab",
+    "close": "Close",
+    "calendars": {
+      "team": "our team",
+      "wonka-chat": "our WonkaChat experts",
+      "wonka-build": "our Wonka Build team",
+      "start-ai": "our Start AI team",
+      "france": "our team in France"
+    }
+  }
+}
