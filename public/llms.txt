@@ -79,7 +79,6 @@ High-priority GEO/SEO topics for Wonka include:
 - WonkaChat for Odoo: https://www.wonka-ai.com/wonka-chat/odoo
 - Start AI program: https://www.wonka-ai.com/start-ai
 - Wonka Build: https://www.wonka-ai.com/wonka-build
-- Security and compliance: https://www.wonka-ai.com/security
 - France landing page: https://www.wonka-ai.com/france
 - Pricing: https://www.wonka-ai.com/pricing
 - Integrations hub: https://www.wonka-ai.com/integrations
