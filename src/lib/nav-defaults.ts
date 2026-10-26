@@ -63,10 +63,10 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
         description: "Become AI native in four weeks",
       },
       {
-        _key: "agent-blueprint",
-        label: "Design your agent team",
-        href: "/ai-agent-blueprint",
-        description: "Get three tailored AI agent ideas for your company",
+        _key: "flemish-ai-strategy",
+        label: "Flemish AI Strategy",
+        href: "/services/start-ai-subsidized-flanders",
+        description: "Up to 70% subsidy for Flemish SMEs",
       },
     ],
   },
@@ -75,6 +75,12 @@ export const DEFAULT_NAVIGATION: NavItem[] = [
     itemType: "dropdown",
     label: "Resources",
     children: [
+      {
+        _key: "agent-blueprint",
+        label: "Design your agent team",
+        href: "/ai-agent-blueprint",
+        description: "Get three tailored AI agent ideas for your company",
+      },
       {
         _key: "blog",
         label: "Blog",
