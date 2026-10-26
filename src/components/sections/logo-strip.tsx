@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Section } from "@/components/ui/section";
 import { resolveImageAlt, resolveImageSrc } from "@/lib/cms-image";
+import { SHOW_LOGO_BANNERS } from "@/lib/feature-flags";
 import { hasSanityImage } from "@/lib/resolve-cms";
 import type { LogoStripResolved } from "@/lib/types/page-sections";
 
@@ -48,6 +49,8 @@ export function LogoStrip({
   marquee = false,
   ariaLabel = "Client logos",
 }: LogoStripProps) {
+  if (!SHOW_LOGO_BANNERS) return null;
+
   const cmsLogos = data.logos?.filter((logo) => hasSanityImage(logo)) ?? [];
   const logos =
     cmsLogos.length > 0

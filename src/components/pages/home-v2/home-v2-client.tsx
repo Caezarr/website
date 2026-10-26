@@ -17,11 +17,9 @@ import { HomeSecurityBanner } from "@/components/sections/home-security-banner";
 import { BulletIcon } from "@/components/ui/icons/bullet";
 import type { Locale } from "@/i18n/config";
 import { hubPath } from "@/lib/locale-path";
+import { SHOW_LOGO_BANNERS } from "@/lib/feature-flags";
 import { cn } from "@/lib/utils";
-import type {
-  HomeV2Copy,
-  DepartmentId,
-} from "@/views/copy/home-v2";
+import type { HomeV2Copy, DepartmentId } from "@/views/copy/home-v2";
 import {
   HOME_V2_HERO_LOGOS,
   HERO_LOGO_SIZE_CLASS,
@@ -51,6 +49,7 @@ const TEAM_PHOTOS = [
 
 export interface HomeV2Links {
   meetingUrl: string;
+  securityUrl: string;
   teamUrl: string;
 }
 
@@ -172,7 +171,7 @@ function AwardTag({ copy }: { copy: HomeV2Copy["award"] }) {
     >
       <CrownIcon />
       <span className="relative z-10 h-4 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" />
-      <span className="relative z-10 text-[0.56rem] leading-4 font-medium text-balance tracking-[0.08em] uppercase md:text-xs md:tracking-[0.14em]">
+      <span className="relative z-10 text-[0.56rem] leading-4 font-medium tracking-[0.08em] text-balance uppercase md:text-xs md:tracking-[0.14em]">
         {copy.label}
       </span>
     </div>
@@ -180,49 +179,6 @@ function AwardTag({ copy }: { copy: HomeV2Copy["award"] }) {
 }
 
 /* ───────────────────────── hero ───────────────────────── */
-
-/** Infinite client-logo marquee under a dark hero. Reused by the ads landings. */
-export function TrustBand({ label }: { label: string }) {
-  const reduce = useReducedMotion();
-  const logos = [...HOME_V2_HERO_LOGOS, ...HOME_V2_HERO_LOGOS];
-  return (
-    <div className="border-border bg-text/[0.06] border-t border-dashed">
-      <p className="type-eyebrow border-border text-text/80 border-b border-dashed py-3 text-center">
-        {label}
-      </p>
-      <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
-        <motion.div
-          className="flex w-max items-center"
-          animate={reduce ? undefined : { x: ["0%", "-50%"] }}
-          transition={{ duration: 55, ease: "linear", repeat: Infinity }}
-        >
-          {logos.map((logo, i) => {
-            const size = HERO_LOGO_SIZE_CLASS[logo.size];
-            const imgClass = heroMarqueeImgClass(logo);
-            return (
-              <span
-                key={`${logo.alt}-${i}`}
-                className={cn(
-                  "border-border flex h-16 shrink-0 items-center justify-center border-r border-dashed px-5",
-                  logo.slotClassName ?? size.slot,
-                )}
-              >
-                <Image
-                  src={logo.src}
-                  alt={logo.alt}
-                  width={280}
-                  height={80}
-                  className={imgClass}
-                  unoptimized
-                />
-              </span>
-            );
-          })}
-        </motion.div>
-      </div>
-    </div>
-  );
-}
 
 function Hero({
   copy,
@@ -233,6 +189,8 @@ function Hero({
   award: HomeV2Copy["award"];
   links: HomeV2Links;
 }) {
+  const reduce = useReducedMotion();
+  const logos = [...HOME_V2_HERO_LOGOS, ...HOME_V2_HERO_LOGOS];
   return (
     <section
       data-theme="dark"
@@ -280,14 +238,50 @@ function Hero({
         </div>
       </div>
 
-      <TrustBand label={copy.trustedBy} />
+      {SHOW_LOGO_BANNERS ? (
+        <div className="border-border bg-text/[0.06] border-t border-dashed">
+          <p className="type-eyebrow border-border text-text/80 border-b border-dashed py-3 text-center">
+            {copy.trustedBy}
+          </p>
+          <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_8%,black_92%,transparent)]">
+            <motion.div
+              className="flex w-max items-center"
+              animate={reduce ? undefined : { x: ["0%", "-50%"] }}
+              transition={{ duration: 55, ease: "linear", repeat: Infinity }}
+            >
+              {logos.map((logo, i) => {
+                const size = HERO_LOGO_SIZE_CLASS[logo.size];
+                const imgClass = heroMarqueeImgClass(logo);
+                return (
+                  <span
+                    key={`${logo.alt}-${i}`}
+                    className={cn(
+                      "border-border flex h-16 shrink-0 items-center justify-center border-r border-dashed px-5",
+                      logo.slotClassName ?? size.slot,
+                    )}
+                  >
+                    <Image
+                      src={logo.src}
+                      alt={logo.alt}
+                      width={280}
+                      height={80}
+                      className={imgClass}
+                      unoptimized
+                    />
+                  </span>
+                );
+              })}
+            </motion.div>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }
 
 /* ───────────────────────── clients ───────────────────────── */
 
-export function Clients({ copy }: { copy: HomeV2Copy["clients"] }) {
+function Clients({ copy }: { copy: HomeV2Copy["clients"] }) {
   return (
     <section id="clients" className="bg-background py-20 md:py-30">
       <Section>
@@ -468,7 +462,7 @@ function ToolRow({ tools, reverse }: { tools: Tool[]; reverse?: boolean }) {
   );
 }
 
-export function Integrations({
+function Integrations({
   copy,
   locale,
 }: {
@@ -572,7 +566,7 @@ export function Integrations({
             <ButtonLink
               href={integrationsHref}
               variant="outline"
-              className="type-paragraph-s h-auto shrink-0 gap-1.5 rounded-full border border-dashed border-text/30 bg-transparent px-4 py-1.5 shadow-none hover:bg-background"
+              className="type-paragraph-s border-text/30 hover:bg-background h-auto shrink-0 gap-1.5 rounded-full border border-dashed bg-transparent px-4 py-1.5 shadow-none"
             >
               {copy.everydayCount}
               <ArrowIcon className="transition-transform duration-[var(--ds-motion-duration-normal)] group-hover/btn:translate-x-[0.125rem]" />
@@ -605,7 +599,11 @@ function Team({
               {copy.title}
             </h2>
             <p className="type-paragraph-l text-text/70">{copy.body}</p>
-            <ButtonLink href={links.meetingUrl} variant="primary" className="mt-2">
+            <ButtonLink
+              href={links.meetingUrl}
+              variant="primary"
+              className="mt-2"
+            >
               {copy.cta}
             </ButtonLink>
           </Reveal>
@@ -622,7 +620,7 @@ function Team({
                 {copy.countLabel}
               </span>
             </div>
-            <span className="flex -space-x-3 justify-start lg:justify-end">
+            <span className="flex justify-start -space-x-3 lg:justify-end">
               {TEAM_PHOTOS.map((src) => (
                 <Image
                   key={src}
@@ -731,6 +729,7 @@ export function HomeV2Client({
       <HomeV2PlatformStack copy={copy.platform} locale={locale} />
       <HomeSecurityBanner
         data={copy.security}
+        securityUrl={links.securityUrl}
       />
       <Integrations copy={copy.integrations} locale={locale} />
       <Team copy={copy.team} links={links} />
