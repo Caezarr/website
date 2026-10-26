@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Section } from "@/components/ui/section";
+import { SHOW_LOGO_BANNERS } from "@/lib/feature-flags";
 
 const CLIENT_LOGOS = [
   { src: "/images/start-ai-subsidized-flanders/logos/kijzer.png", alt: "Kijzer" },
@@ -35,6 +36,8 @@ function LogoItem({ logo }: { logo: (typeof CLIENT_LOGOS)[number] }) {
 }
 
 export function StartAiSubsidizedFlandersLogoStrip() {
+  if (!SHOW_LOGO_BANNERS) return null;
+
   return (
     <>
       <Section>

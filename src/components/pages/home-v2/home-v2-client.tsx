@@ -17,6 +17,7 @@ import { HomeSecurityBanner } from "@/components/sections/home-security-banner";
 import { BulletIcon } from "@/components/ui/icons/bullet";
 import type { Locale } from "@/i18n/config";
 import { hubPath } from "@/lib/locale-path";
+import { SHOW_LOGO_BANNERS } from "@/lib/feature-flags";
 import { cn } from "@/lib/utils";
 import type {
   HomeV2Copy,
@@ -184,6 +185,7 @@ function AwardTag({ copy }: { copy: HomeV2Copy["award"] }) {
 /** Infinite client-logo marquee under a dark hero. Reused by the ads landings. */
 export function TrustBand({ label }: { label: string }) {
   const reduce = useReducedMotion();
+  if (!SHOW_LOGO_BANNERS) return null;
   const logos = [...HOME_V2_HERO_LOGOS, ...HOME_V2_HERO_LOGOS];
   return (
     <div className="border-border bg-text/[0.06] border-t border-dashed">
