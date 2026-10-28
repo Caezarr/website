@@ -16,7 +16,6 @@ export type PlatformVideoId =
 export type SecurityTileId =
   | "iso"
   | "gdpr"
-  | "nis2"
   | "eu"
   | "encryption"
   | "sso";
@@ -279,7 +278,6 @@ const en: HomeV2Copy = {
       { id: "sso", label: "SSO with Entra ID" },
       { id: "iso", label: "ISO 27001" },
       { id: "gdpr", label: "GDPR" },
-      { id: "nis2", label: "NIS 2" },
     ],
     cta: "Security details",
   },
@@ -463,7 +461,6 @@ const fr: HomeV2Copy = {
       { id: "sso", label: "SSO avec Entra ID" },
       { id: "iso", label: "ISO 27001" },
       { id: "gdpr", label: "RGPD" },
-      { id: "nis2", label: "NIS 2" },
     ],
     cta: "Détails sécurité",
   },
@@ -647,7 +644,6 @@ const nl: HomeV2Copy = {
       { id: "sso", label: "SSO met Entra ID" },
       { id: "iso", label: "ISO 27001" },
       { id: "gdpr", label: "AVG" },
-      { id: "nis2", label: "NIS 2" },
     ],
     cta: "Details beveiliging",
   },

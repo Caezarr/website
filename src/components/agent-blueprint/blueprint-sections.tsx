@@ -1,6 +1,5 @@
 import { BadgeGdpr } from "@/components/ui/icons/badge-gdpr";
 import { BadgeIso } from "@/components/ui/icons/badge-iso";
-import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/button";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -281,9 +280,6 @@ export function BlueprintTrust({ locale }: { locale: Locale }) {
           </li>
           <li>
             <BadgeIso className="size-16 opacity-70 md:size-20" />
-          </li>
-          <li>
-            <BadgeNis2 className="size-16 opacity-70 md:size-20" />
           </li>
         </ul>
       </div>

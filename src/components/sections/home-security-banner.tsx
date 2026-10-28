@@ -4,7 +4,6 @@ import { Section } from "@/components/ui/section";
 import { Surface } from "@/components/ui/surface";
 import { BadgeGdpr } from "@/components/ui/icons/badge-gdpr";
 import { BadgeIso } from "@/components/ui/icons/badge-iso";
-import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { headingClass } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
@@ -21,9 +20,8 @@ function SecurityTileVisual({
 }) {
   const iconSize = onPanel ? "size-14 md:size-16" : "size-16";
 
-  if (id === "iso" || id === "gdpr" || id === "nis2") {
-    const Badge =
-      id === "iso" ? BadgeIso : id === "gdpr" ? BadgeGdpr : BadgeNis2;
+  if (id === "iso" || id === "gdpr") {
+    const Badge = id === "iso" ? BadgeIso : BadgeGdpr;
     if (onPanel) {
       return <Badge className={cn(iconSize, "shrink-0")} />;
     }
