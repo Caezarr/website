@@ -4,7 +4,6 @@ import { Surface } from "@/components/ui/surface";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { BadgeGdpr } from "@/components/ui/icons/badge-gdpr";
 import { BadgeIso } from "@/components/ui/icons/badge-iso";
-import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
 import { DEFAULT_SECURITY, resolveSecuritySection } from "@/lib/cms-sections";
 import { cn } from "@/lib/utils";
 import { headingClass } from "@/lib/design-tokens";
@@ -43,15 +42,12 @@ export function Security({ id, data, defaults = DEFAULT_SECURITY }: SecurityProp
               <p className={cn("type-body text-white/70")}>{body}</p>
             ) : null}
           </div>
-          <ul className="grid grid-cols-3">
+          <ul className="grid grid-cols-2">
             <li className="flex min-h-40 items-center justify-center border border-dashed border-white/40 px-3 py-2.5 md:min-h-[14.4375rem] md:px-7">
               <BadgeGdpr className="size-16 md:size-31" />
             </li>
             <li className="flex min-h-40 items-center justify-center border border-l-0 border-dashed border-white/40 px-3 py-2.5 md:min-h-[14.4375rem] md:px-7">
               <BadgeIso className="size-16 md:size-31" />
-            </li>
-            <li className="flex min-h-40 items-center justify-center border border-l-0 border-dashed border-white/40 px-3 py-2.5 md:min-h-[14.4375rem] md:px-7">
-              <BadgeNis2 className="size-16 md:size-31" />
             </li>
           </ul>
         </div>

@@ -3,7 +3,6 @@ import Image from "next/image";
 import { ButtonLink } from "@/components/ui/button";
 import { BadgeGdpr } from "@/components/ui/icons/badge-gdpr";
 import { BadgeIso } from "@/components/ui/icons/badge-iso";
-import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
 import { AgentExplorer, BtpVideo } from "./btp-interactive";
 import {
   btpComparison,
@@ -420,10 +419,6 @@ export default function BtpLandingPage() {
           <li>
             <BadgeGdpr className={styles.badge} />
             <span>RGPD</span>
-          </li>
-          <li>
-            <BadgeNis2 className={styles.badge} />
-            <span>NIS 2</span>
           </li>
         </ul>
       </section>

@@ -6,7 +6,6 @@ import { Surface } from "@/components/ui/surface";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { BadgeGdpr } from "@/components/ui/icons/badge-gdpr";
 import { BadgeIso } from "@/components/ui/icons/badge-iso";
-import { BadgeNis2 } from "@/components/ui/icons/badge-nis2";
 import type { Locale } from "@/i18n/config";
 import { headingClass } from "@/lib/design-tokens";
 import { buildCommercialMetadata } from "@/lib/seo";
@@ -28,7 +27,6 @@ export async function SecurityView({ locale }: { locale: Locale }) {
   const certificationItems = [
     { icon: BadgeIso, ...copy.certificationItems.iso },
     { icon: BadgeGdpr, ...copy.certificationItems.gdpr },
-    { icon: BadgeNis2, ...copy.certificationItems.nis2 },
   ];
 
   return (
@@ -53,15 +51,12 @@ export async function SecurityView({ locale }: { locale: Locale }) {
               <h2 className={headingClass.section}>{copy.certifications.heading}</h2>
               <p className={cn("type-body text-white/70")}>{copy.certifications.body}</p>
             </div>
-            <ul className="grid grid-cols-3">
+            <ul className="grid grid-cols-2">
               <li className="flex min-h-40 items-center justify-center border border-dashed border-white/40 px-3 py-2.5 md:min-h-[14.4375rem] md:px-7">
                 <BadgeGdpr className="size-16 md:size-31" />
               </li>
               <li className="flex min-h-40 items-center justify-center border border-l-0 border-dashed border-white/40 px-3 py-2.5 md:min-h-[14.4375rem] md:px-7">
                 <BadgeIso className="size-16 md:size-31" />
-              </li>
-              <li className="flex min-h-40 items-center justify-center border border-l-0 border-dashed border-white/40 px-3 py-2.5 md:min-h-[14.4375rem] md:px-7">
-                <BadgeNis2 className="size-16 md:size-31" />
               </li>
             </ul>
           </div>
@@ -69,7 +64,7 @@ export async function SecurityView({ locale }: { locale: Locale }) {
       </Section>
 
       <Section className="py-12 md:py-16" containerClassName="max-w-[64rem]">
-        <div className="grid gap-8 md:grid-cols-3 md:gap-6">
+        <div className="grid gap-8 md:grid-cols-2 md:gap-6">
           {certificationItems.map((cert) => {
             const Icon = cert.icon;
             return (
