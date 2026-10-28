@@ -62,9 +62,9 @@
           "label": "AI Strategy",
           "description": "Become AI native in four weeks"
         },
-        "agent-blueprint": {
-          "label": "Design your agent team",
-          "description": "Get three tailored AI agent ideas for your company"
+        "flemish-ai-strategy": {
+          "label": "Flemish AI Strategy",
+          "description": "Up to 70% subsidy for Flemish SMEs"
         },
         "ai-agent-development": {
           "label": "AI Agent Development",
@@ -83,6 +83,10 @@
     "resources": {
       "label": "Resources",
       "children": {
+        "agent-blueprint": {
+          "label": "Design your agent team",
+          "description": "Get three tailored AI agent ideas for your company"
+        },
         "use-cases": {
           "label": "Use cases",
           "description": "The work AI already takes over"

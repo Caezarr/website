@@ -62,9 +62,9 @@
           "label": "AI-strategie",
           "description": "Word AI-native in vier weken"
         },
-        "agent-blueprint": {
-          "label": "Stel uw AI-agentteam samen",
-          "description": "Ontdek drie agents op maat van uw bedrijf"
+        "flemish-ai-strategy": {
+          "label": "Vlaamse AI-strategie",
+          "description": "Tot 70% subsidie voor Vlaamse kmo's"
         },
         "ai-agent-development": {
           "label": "Ontwikkeling van AI-agents",
@@ -83,6 +83,10 @@
     "resources": {
       "label": "Resources",
       "children": {
+        "agent-blueprint": {
+          "label": "Stel uw AI-agentteam samen",
+          "description": "Ontdek drie agents op maat van uw bedrijf"
+        },
         "use-cases": {
           "label": "Use cases",
           "description": "Het werk dat AI nu al overneemt"

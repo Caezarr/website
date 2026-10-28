@@ -62,9 +62,9 @@
           "label": "Stratégie IA",
           "description": "Devenez AI native en quatre semaines"
         },
-        "agent-blueprint": {
-          "label": "Concevez votre équipe d’agents IA",
-          "description": "Identifiez trois agents adaptés à votre entreprise"
+        "flemish-ai-strategy": {
+          "label": "Stratégie IA en Flandre",
+          "description": "Start AI subventionné jusqu'à 70 % pour les PME flamandes"
         },
         "ai-agent-development": {
           "label": "Développement d'agents IA",
@@ -83,6 +83,10 @@
     "resources": {
       "label": "Ressources",
       "children": {
+        "agent-blueprint": {
+          "label": "Concevez votre équipe d’agents IA",
+          "description": "Identifiez trois agents adaptés à votre entreprise"
+        },
         "use-cases": {
           "label": "Cas d'usage",
           "description": "Le travail que l'IA prend déjà en charge"
