@@ -17,6 +17,11 @@ export const WEBSITE_EVENTS = {
   FRANCE_DIAGNOSTIC_COMPLETE: "france_diagnostic_complete",
   FRANCE_BOOKING_CLICK: "france_booking_click",
   OFFICE_OPENING_REGISTER_CLICK: "office_opening_register_click",
+  BOOKING_MODAL_OPENED: "website_booking_modal_opened",
+  BOOKING_QUALIFIED: "website_booking_qualified",
+  BOOKING_QUALIFICATION_SKIPPED: "website_booking_qualification_skipped",
+  BOOKING_CALENDAR_OPENED: "website_booking_calendar_opened",
+  BOOKING_FALLBACK_OPENED: "website_booking_fallback_opened",
 } as const;
 
 export type WebsiteEvent = (typeof WEBSITE_EVENTS)[keyof typeof WEBSITE_EVENTS];
