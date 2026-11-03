@@ -1,0 +1,41 @@
+{
+  "close": "Sluiten",
+  "step": "Stap {current} van {total}",
+  "qualify": {
+    "title": "Plan een gesprek met ons team",
+    "body": "Twee korte vragen, zodat we u bij de juiste expert brengen.",
+    "sizeLabel": "Grootte van uw bedrijf",
+    "sizeUnit": "medewerkers",
+    "needLabel": "Uw belangrijkste nood",
+    "skip": "Overslaan en een moment kiezen"
+  },
+  "sizes": {
+    "1-10": "1–10",
+    "11-50": "11–50",
+    "51-250": "51–250",
+    "251-1000": "251–1.000",
+    "1000+": "1.000+"
+  },
+  "needs": {
+    "workspace": "WonkaChat, een AI-werkplek voor mijn team",
+    "agents": "AI-agents op maat",
+    "odoo": "Odoo × AI",
+    "training": "AI-opleiding en -adoptie",
+    "unsure": "Nog niet zeker"
+  },
+  "calendar": {
+    "title": "Uw agenda is geopend in een nieuw tabblad",
+    "body": "Kies een moment met {calendar}. De agenda wordt gehost door Microsoft Bookings.",
+    "blocked": "Niets geopend? Uw browser heeft het nieuwe tabblad misschien geblokkeerd. Gebruik de knop hieronder.",
+    "openCalendar": "Agenda openen",
+    "openInNewTab": "Openen in een nieuw tabblad",
+    "close": "Sluiten",
+    "calendars": {
+      "team": "ons team",
+      "wonka-chat": "onze WonkaChat-experts",
+      "wonka-build": "ons Wonka Build-team",
+      "start-ai": "ons Start AI-team",
+      "france": "ons team in Frankrijk"
+    }
+  }
+}

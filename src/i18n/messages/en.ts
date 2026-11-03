@@ -6,8 +6,9 @@ import home from "./en/home.json";
 import sections from "./en/sections.json";
 import pricing from "./en/pricing.json";
 import article from "./en/article.json";
+import booking from "./en/booking.json";
 
 
-export const en = { common, shell, cookies, leadForm, home, sections, pricing, article };
+export const en = { common, shell, cookies, leadForm, home, sections, pricing, article, booking };
 
 export type UiMessages = typeof en;

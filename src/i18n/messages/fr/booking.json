@@ -1,0 +1,41 @@
+{
+  "close": "Fermer",
+  "step": "Étape {current} sur {total}",
+  "qualify": {
+    "title": "Réservez un appel avec notre équipe",
+    "body": "Deux questions rapides pour vous orienter vers le bon expert.",
+    "sizeLabel": "Taille de votre entreprise",
+    "sizeUnit": "salariés",
+    "needLabel": "Votre besoin principal",
+    "skip": "Passer et choisir un créneau"
+  },
+  "sizes": {
+    "1-10": "1 à 10",
+    "11-50": "11 à 50",
+    "51-250": "51 à 250",
+    "251-1000": "251 à 1 000",
+    "1000+": "Plus de 1 000"
+  },
+  "needs": {
+    "workspace": "WonkaChat, un espace de travail IA pour mon équipe",
+    "agents": "Des agents IA sur mesure",
+    "odoo": "Odoo × IA",
+    "training": "Formation et acculturation à l'IA",
+    "unsure": "Je ne sais pas encore"
+  },
+  "calendar": {
+    "title": "Votre calendrier est ouvert dans un nouvel onglet",
+    "body": "Choisissez un créneau avec {calendar}. Le calendrier est hébergé par Microsoft Bookings.",
+    "blocked": "Rien ne s'est ouvert ? Votre navigateur a peut-être bloqué le nouvel onglet. Utilisez le bouton ci-dessous.",
+    "openCalendar": "Ouvrir le calendrier",
+    "openInNewTab": "Ouvrir dans un nouvel onglet",
+    "close": "Fermer",
+    "calendars": {
+      "team": "notre équipe",
+      "wonka-chat": "nos experts WonkaChat",
+      "wonka-build": "notre équipe Wonka Build",
+      "start-ai": "notre équipe Start AI",
+      "france": "notre équipe en France"
+    }
+  }
+}

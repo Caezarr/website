@@ -51,7 +51,19 @@ export function resolveTeamMeetingUrl(
   return teamUrl ?? DEFAULT_MEETING_URLS.team;
 }
 
-/** True for Microsoft Bookings links (the team calendars). */
+const BOOKING_HOSTS = new Set(["outlook.office.com", "bookings.cloud.microsoft"]);
+
+/** True for Microsoft Bookings links (the team calendars): https, exact host, /book path. */
 export function isBookingUrl(href: string | null | undefined): boolean {
-  return Boolean(href && /outlook\.office\.com\/book|bookings\.cloud\.microsoft\/book/.test(href));
+  if (!href) return false;
+  try {
+    const url = new URL(href);
+    return (
+      url.protocol === "https:" &&
+      BOOKING_HOSTS.has(url.hostname) &&
+      url.pathname.startsWith("/book")
+    );
+  } catch {
+    return false;
+  }
 }
