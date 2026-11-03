@@ -156,6 +156,9 @@ export async function POST(request: Request) {
     const qualification = qualifyLead(email, payload.source, attribution);
     const isDiagnostic = payload.source === "france-diagnostic";
     const lead = await client.create({
+      // The dataset is public: a dotted id puts the lead in a private path
+      // that anonymous queries cannot read.
+      _id: `site-lead.${crypto.randomUUID()}`,
       _type: "siteLead",
       email,
       submittedAt: new Date().toISOString(),
