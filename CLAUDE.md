@@ -78,6 +78,7 @@ src/
 - **Data fetching**: `defineLive` from `next-sanity/live` exposes `sanityFetch` (used in server components) and `<SanityLive />` (mounted inside `PageLayout` — only on content routes, never on `/studio`). Standard Next.js ISR — sanityFetch handles tag-based cache automatically.
 - **Live updates**: `<SanityLive />` listens to Sanity's Live Content API and triggers revalidation when documents change. **No webhook needed** — SanityLive replaces the legacy `revalidateTag` webhook flow.
 - **Client config**: `useCdn: true`, `apiVersion: '2026-03-01'` in `sanity/lib/client.ts` (Sanity's recommended defaults).
+- **Public dataset**: `production` is readable by anyone through the Sanity API. Documents holding personal data (leads, blueprint assessments) must be created with a dotted `_id` (`site-lead.<uuid>`, `agent-blueprint.<uuid>`): ids in a path are only readable with a token. `scripts/privatize-site-leads.ts` moves any lead left outside that path.
 - **Images**: Via `cdn.sanity.io`, optimized through `next/image` + `urlFor()` helper.
 - **Visual Editing / Presentation Tool / draft mode**: intentionally NOT included. Add when needed — see https://www.sanity.io/docs/visual-editing/visual-editing-with-next-js-app-router.
 
