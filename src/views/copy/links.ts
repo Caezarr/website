@@ -17,6 +17,19 @@ export interface LinksQuote {
   stat?: string;
 }
 
+export interface LinksAward {
+  key: "bsa" | "vlaio";
+  top: string;
+  bottom: string;
+  /** Callout shown when the badge is opened (tap on phone, hover/click on desktop). */
+  title: string;
+  body: string;
+  meta: string;
+  image: string;
+  imageAlt: string;
+  links: { label: string; href: string }[];
+}
+
 export interface LinksEvent {
   id: string;
   name: string;
@@ -34,7 +47,8 @@ export interface LinksCopy {
   metaTitle: string;
   metaDescription: string;
   line: string;
-  awards: { key: "bsa" | "vlaio"; top: string; bottom: string; href: string }[];
+  awards: LinksAward[];
+  closeLabel: string;
   website: string;
   trial: string;
   consultant: string;
@@ -86,8 +100,15 @@ const CLIP_LINKS = {
 
 const AWARD_LINKS = {
   bsa: "https://www.tvl.be/nieuws/hasseltse-ai-startup-wonka-uitgeroepen-tot-beste-van-belgie-181192",
+  bsaOfficial: "https://www.startupawards.be/finalists-of-the-belgium-startup-awards",
   vlaio:
     "https://www.tvl.be/nieuws/hasseltse-wonka-ai-wint-vlaio-award-voor-samenwerking-met-buildwise-183787",
+  vlaioOfficial: "https://www.vlaio.be/en/node/14711",
+} as const;
+
+const AWARD_IMAGES = {
+  bsa: { image: "/links/awards/bsa-2026.webp", alt: "The Wonka AI team on stage with the Belgium Startup Awards trophy" },
+  vlaio: { image: "/links/awards/vlaio-2026.webp", alt: "The Wonka AI team on the VLAIO Awards stage with the award" },
 } as const;
 
 const IAKA = {
@@ -111,9 +132,24 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
       "Make AI work for your whole team. Website, free trial, a call with a consultant, our socials and latest news.",
     line: "Make AI work for your whole team.",
     awards: [
-      { key: "bsa", top: "#1 AI start-up of the year", bottom: "Belgium Startup Awards 2026", href: AWARD_LINKS.bsa },
-      { key: "vlaio", top: "VLAIO Award 2026 winner", bottom: "“Sterk samenwerken”, with Buildwise", href: AWARD_LINKS.vlaio },
+      {
+        key: "bsa", top: "#1 AI start-up of the year", bottom: "Belgium Startup Awards 2026",
+        title: "Gold in the AI category",
+        body: "Named the most promising AI start-up in Belgium at the Belgium Startup Awards 2026, by a jury of 30+ experts together with a public vote of more than 14,000 votes.",
+        meta: "Belgium Startup Awards · June 2026",
+        image: AWARD_IMAGES.bsa.image, imageAlt: AWARD_IMAGES.bsa.alt,
+        links: [{ label: "Read on TVL ↗", href: AWARD_LINKS.bsa }, { label: "Belgium Startup Awards ↗", href: AWARD_LINKS.bsaOfficial }],
+      },
+      {
+        key: "vlaio", top: "VLAIO Award 2026 winner", bottom: "“Sterk samenwerken”, with Buildwise",
+        title: "Won together with Buildwise",
+        body: "For Tooli, an AI assistant for quotes, site reports, specifications and technical questions in construction. Built with Buildwise, Embuild, Bouwunie and Constructiv, and available to more than 120,000 construction professionals in Belgium.",
+        meta: "VLAIO Awards · Flanders Technology & Innovation Festival · October 2026",
+        image: AWARD_IMAGES.vlaio.image, imageAlt: AWARD_IMAGES.vlaio.alt,
+        links: [{ label: "Read on TVL ↗", href: AWARD_LINKS.vlaio }, { label: "VLAIO Awards ↗", href: AWARD_LINKS.vlaioOfficial }],
+      },
     ],
+    closeLabel: "Close",
     website: "Visit our website",
     trial: "Try WonkaChat for free",
     consultant: "Talk to a consultant",
@@ -200,9 +236,24 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
       "Laat AI werken voor uw hele team. Website, gratis proefperiode, een gesprek met een consultant, onze socials en het laatste nieuws.",
     line: "Laat AI werken voor uw hele team.",
     awards: [
-      { key: "bsa", top: "#1 AI-start-up van het jaar", bottom: "Belgium Startup Awards 2026", href: AWARD_LINKS.bsa },
-      { key: "vlaio", top: "Winnaar VLAIO Award 2026", bottom: "“Sterk samenwerken”, met Buildwise", href: AWARD_LINKS.vlaio },
+      {
+        key: "bsa", top: "#1 AI-start-up van het jaar", bottom: "Belgium Startup Awards 2026",
+        title: "Goud in de AI-categorie",
+        body: "Uitgeroepen tot meest beloftevolle AI-start-up van België op de Belgium Startup Awards 2026, door een jury van meer dan 30 experten samen met een publieksstemming van meer dan 14.000 stemmen.",
+        meta: "Belgium Startup Awards · juni 2026",
+        image: AWARD_IMAGES.bsa.image, imageAlt: AWARD_IMAGES.bsa.alt,
+        links: [{ label: "Lees op TVL ↗", href: AWARD_LINKS.bsa }, { label: "Belgium Startup Awards ↗", href: AWARD_LINKS.bsaOfficial }],
+      },
+      {
+        key: "vlaio", top: "Winnaar VLAIO Award 2026", bottom: "“Sterk samenwerken”, met Buildwise",
+        title: "Samen met Buildwise gewonnen",
+        body: "Voor Tooli, een AI-assistent voor offertes, werfverslagen, lastenboeken en technische vragen in de bouw. Gebouwd met Buildwise, Embuild, Bouwunie en Constructiv, en beschikbaar voor meer dan 120.000 bouwprofessionals in België.",
+        meta: "VLAIO Awards · Flanders Technology & Innovation Festival · oktober 2026",
+        image: AWARD_IMAGES.vlaio.image, imageAlt: AWARD_IMAGES.vlaio.alt,
+        links: [{ label: "Lees op TVL ↗", href: AWARD_LINKS.vlaio }, { label: "VLAIO Awards ↗", href: AWARD_LINKS.vlaioOfficial }],
+      },
     ],
+    closeLabel: "Sluiten",
     website: "Bezoek onze website",
     trial: "Probeer WonkaChat gratis",
     consultant: "Spreek een consultant",
@@ -289,9 +340,24 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
       "Faites fonctionner l’IA pour toute votre équipe. Site, essai gratuit, échange avec un consultant, nos réseaux et nos actualités.",
     line: "Faites fonctionner l’IA pour toute votre équipe.",
     awards: [
-      { key: "bsa", top: "Start-up IA n°1 de l’année", bottom: "Belgium Startup Awards 2026", href: AWARD_LINKS.bsa },
-      { key: "vlaio", top: "Lauréat du VLAIO Award 2026", bottom: "« Sterk samenwerken », avec Buildwise", href: AWARD_LINKS.vlaio },
+      {
+        key: "bsa", top: "Start-up IA n°1 de l’année", bottom: "Belgium Startup Awards 2026",
+        title: "Or dans la catégorie IA",
+        body: "Désignée start-up IA la plus prometteuse de Belgique aux Belgium Startup Awards 2026, par un jury de plus de 30 experts et un vote du public de plus de 14 000 voix.",
+        meta: "Belgium Startup Awards · juin 2026",
+        image: AWARD_IMAGES.bsa.image, imageAlt: AWARD_IMAGES.bsa.alt,
+        links: [{ label: "Lire sur TVL ↗", href: AWARD_LINKS.bsa }, { label: "Belgium Startup Awards ↗", href: AWARD_LINKS.bsaOfficial }],
+      },
+      {
+        key: "vlaio", top: "Lauréat du VLAIO Award 2026", bottom: "« Sterk samenwerken », avec Buildwise",
+        title: "Remporté avec Buildwise",
+        body: "Pour Tooli, un assistant IA pour les devis, rapports de chantier, cahiers des charges et questions techniques dans la construction. Développé avec Buildwise, Embuild, Bouwunie et Constructiv, et disponible pour plus de 120 000 professionnels belges de la construction.",
+        meta: "VLAIO Awards · Flanders Technology & Innovation Festival · octobre 2026",
+        image: AWARD_IMAGES.vlaio.image, imageAlt: AWARD_IMAGES.vlaio.alt,
+        links: [{ label: "Lire sur TVL ↗", href: AWARD_LINKS.vlaio }, { label: "VLAIO Awards ↗", href: AWARD_LINKS.vlaioOfficial }],
+      },
     ],
+    closeLabel: "Fermer",
     website: "Visitez notre site",
     trial: "Essayez WonkaChat gratuitement",
     consultant: "Parler à un consultant",

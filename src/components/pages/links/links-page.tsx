@@ -16,7 +16,7 @@ import {
   LINKS_ROLES,
   LINKS_SOCIALS,
 } from "@/views/copy/links";
-import { AutoVideo, EventList, ModelPicker, ShareButton, SocialHere, SwipeRow } from "./links-client";
+import { AutoVideo, AwardTicker, BackgroundRotator, EventList, ModelPicker, ShareButton, SocialHere, SwipeRow } from "./links-client";
 import { WonkaAiLockup } from "./wonka-ai-lockup";
 import styles from "./links.module.css";
 
@@ -100,7 +100,7 @@ export async function LinksPage({ locale }: { locale: Locale }) {
 
   return (
     <div className={styles.root} data-landing="links">
-      <div className={styles.bg} aria-hidden />
+      <BackgroundRotator />
       <main className={styles.page}>
         <div className={styles.col}>
           <nav className={styles.topbar} aria-label={copy.languageLabel}>
@@ -119,24 +119,7 @@ export async function LinksPage({ locale }: { locale: Locale }) {
                 <WonkaAiLockup className={styles.logo} />
               </Link>
               <h1 className={styles.line}>{copy.line}</h1>
-              <div className={styles.award} role="group" aria-label="Awards">
-                {copy.awards.map((award) => (
-                  <a
-                    key={award.key}
-                    href={award.href}
-                    className={`${styles.awardItem} ${award.key === "bsa" ? styles.awardBsa : styles.awardVlaio}`}
-                    data-track={`links-award-${award.key}`}
-                  >
-                    <Icon name={award.key === "bsa" ? "crown" : "trophy"} className={styles.awardIco} strokeWidth={1.6} />
-                    <span className={styles.awardDivider} aria-hidden />
-                    <span className={styles.awardText}>
-                      <span className={styles.awardTop}>{award.top}</span>
-                      <span className={styles.awardBottom}>{award.bottom}</span>
-                    </span>
-                    <Arrow className={styles.arrow} />
-                  </a>
-                ))}
-              </div>
+              <AwardTicker awards={copy.awards} closeLabel={copy.closeLabel} />
             </header>
 
             <ul className={styles.links}>

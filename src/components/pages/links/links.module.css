@@ -43,7 +43,20 @@
   position: fixed;
   inset: 0;
   z-index: 0;
-  background: var(--wonka-black) var(--links-bg-image, url("/brand/backgrounds/9x16/wonka-bg-hills-1080x1920.webp")) center 62% / cover no-repeat;
+  background: var(--wonka-black);
+}
+/* Crossfading landscapes (see BackgroundRotator): portrait crops on tall screens,
+   landscape versions on wide ones. */
+.bgLayer {
+  position: absolute;
+  inset: 0;
+  background: var(--bg-portrait) center 62% / cover no-repeat;
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+}
+.bgLayer[data-active="true"] { opacity: 1; }
+@media (min-aspect-ratio: 1/1) {
+  .bgLayer { background-image: var(--bg-landscape); background-position: center; }
 }
 .bg::after {
   content: "";
@@ -118,40 +131,109 @@
   text-shadow: 0 1px 18px rgba(14, 26, 22, 0.35);
 }
 
-/* Award ticker: two award links take turns every 4.5 s. Flat badges in each
+/* Award ticker: badges take turns every 4.5 s. Opening one (tap on phone, hover or
+   click on desktop) stops the rotation and unfolds a callout card. Flat, in each
    award's own colours: Belgium Startup Awards = deep indigo #14004F on lavender,
    VLAIO = navy #002776 with VLAIO green #009B48. */
-.award { align-self: center; max-width: 100%; display: grid; }
+.award { align-self: center; width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; }
+.awardBsa { --award-bg: #f1eeff; --award-ink: #14004f; --award-accent: #14004f; --award-label: #5a4a9e; --award-line: rgba(20, 0, 79, 0.14); }
+.awardVlaio { --award-bg: #ffffff; --award-ink: #002776; --award-accent: #009b48; --award-label: #009b48; --award-line: rgba(0, 39, 118, 0.14); }
+
+.awardStack {
+  display: grid;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 14px;
+}
 .awardItem {
   grid-area: 1 / 1;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 9px 16px 9px 12px;
+  padding: 9px 14px 9px 12px;
   border-radius: 14px;
   border: 1px solid var(--award-line);
   background: var(--award-bg);
   color: var(--award-ink);
-  text-decoration: none;
   box-shadow: 0 6px 20px rgba(14, 26, 22, 0.16);
-  animation: links-swap 9s ease-in-out infinite;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(30%);
+  transition: opacity 0.45s ease, transform 0.45s ease, visibility 0.45s;
 }
-.awardItem + .awardItem { opacity: 0; visibility: hidden; animation-delay: -4.5s; }
-.awardBsa { --award-bg: #f1eeff; --award-ink: #14004f; --award-accent: #14004f; --award-label: #5a4a9e; --award-line: rgba(20, 0, 79, 0.14); }
-.awardVlaio { --award-bg: #ffffff; --award-ink: #002776; --award-accent: #009b48; --award-label: #009b48; --award-line: rgba(0, 39, 118, 0.14); }
+.awardItem[data-active="true"] { opacity: 1; visibility: visible; transform: none; }
 .awardIco { width: 22px; height: 22px; flex: none; color: var(--award-accent); }
 .awardDivider { width: 1px; height: 28px; flex: none; background: var(--award-line); }
 .awardVlaio .awardDivider { width: 3px; border-radius: 2px; background: var(--award-accent); }
 .awardText { display: flex; flex-direction: column; gap: 2px; min-width: 0; text-align: left; }
 .awardTop { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--award-label); }
 .awardBottom { font-size: 13.5px; font-weight: 500; }
-.awardItem .arrow { width: 15px; height: 15px; opacity: 0.6; color: var(--award-ink); }
-@keyframes links-swap {
-  0%, 43% { opacity: 1; transform: none; visibility: visible; }
-  50% { opacity: 0; transform: translateY(-30%); visibility: hidden; }
-  50.1%, 93% { opacity: 0; transform: translateY(30%); visibility: hidden; }
-  100% { opacity: 1; transform: none; visibility: visible; }
+.awardChevron { width: 16px; height: 16px; flex: none; opacity: 0.6; transition: transform 0.3s ease; }
+.award[data-open="true"] .awardChevron { transform: rotate(180deg); }
+
+/* Callout: unfolds under the badge */
+.awardPanel { display: grid; grid-template-rows: 0fr; width: 100%; transition: grid-template-rows 0.4s ease; }
+.awardPanel[data-open="true"] { grid-template-rows: 1fr; }
+.awardPanelInner { overflow: hidden; min-height: 0; }
+.awardCard {
+  margin-top: 10px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--award-bg);
+  color: var(--award-ink);
+  border: 1px solid var(--award-line);
+  box-shadow: 0 14px 40px rgba(14, 26, 22, 0.28);
+  text-align: left;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
+.awardPanel[data-open="true"] .awardCard { opacity: 1; transform: none; }
+.awardMedia { position: relative; aspect-ratio: 16 / 10; max-width: 100%; }
+.awardMedia img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.awardMedia::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 45%, var(--award-bg) 100%);
+  pointer-events: none;
+}
+.awardClose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(14, 26, 22, 0.55);
+  color: #fff;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+.awardClose svg { width: 14px; height: 14px; }
+.awardBody { display: flex; flex-direction: column; gap: 8px; padding: 2px 18px 16px; margin-top: -18px; position: relative; }
+.awardMeta { margin: 0; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--award-label); }
+.awardTitle { margin: 0; font-family: var(--font-serif); font-weight: 400; font-size: 22px; line-height: 1.12; }
+.awardCopy { margin: 0; font-size: 14px; font-weight: 400; line-height: 1.45; opacity: 0.85; }
+.awardLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 6px 0 0;
+  padding: 10px 0 0;
+  list-style: none;
+  border-top: 1px solid var(--award-line);
+}
+.awardLinks a { display: inline-flex; align-items: center; min-height: 36px; color: var(--award-ink); font-size: 13.5px; font-weight: 500; }
 
 /* Main links */
 .links { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
@@ -176,7 +258,7 @@
 .ico { width: 22px; height: 22px; flex: none; }
 .label { flex: 1; min-width: 0; }
 .arrow { width: 18px; height: 18px; flex: none; opacity: 0.55; transition: transform 0.18s ease, opacity 0.18s ease; }
-.link:hover .arrow, .awardItem:hover .arrow { transform: translate(2px, -2px); opacity: 1; }
+.link:hover .arrow { transform: translate(2px, -2px); opacity: 1; }
 
 /* Partner marquee */
 .marquee {
@@ -442,7 +524,8 @@
   .head { align-items: flex-start; text-align: left; padding-top: 24px; }
   .logo { width: 210px; }
   .line { font-size: 52px; }
-  .award { align-self: flex-start; }
+  .award { align-self: flex-start; align-items: flex-start; position: relative; z-index: 5; }
+  .awardPanel { position: absolute; top: 100%; left: 0; width: 400px; }
   .right .kicker, .left .kicker { text-align: left; }
   .quote { flex-basis: 48%; }
   .clip { flex-basis: 32%; }
@@ -451,8 +534,8 @@
 @media (prefers-reduced-motion: reduce) {
   .link, .arrow, .social { transition: none; }
   .link:hover { transform: none; }
-  .awardItem, .marqueeTrack { animation: none; }
-  .award { gap: 8px; }
-  .awardItem, .awardItem + .awardItem { grid-area: auto; opacity: 1; visibility: visible; animation: none; }
+  .marqueeTrack { animation: none; }
+  .bgLayer { transition: none; }
+  .awardItem, .awardPanel, .awardCard, .awardChevron { transition: none; }
   .marquee { overflow-x: auto; }
 }

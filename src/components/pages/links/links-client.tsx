@@ -1,6 +1,6 @@
 "use client";
 
-import { Children, useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import { Children, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from "react";
 import Link from "next/link";
 import type { LinksCopy, LinksEvent } from "@/views/copy/links";
 import styles from "./links.module.css";
@@ -312,5 +312,201 @@ export function ShareButton({ label, copied, url }: { label: string; copied: str
         {status}
       </span>
     </>
+  );
+}
+
+function AwardIcon({ award, className }: { award: "bsa" | "vlaio"; className: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      {award === "bsa" ? (
+        <>
+          <path d="M4 17.5 3 7.5l5 4 4-6.5 4 6.5 5-4-1 10H4Z" />
+          <path d="M4.5 20.5h15" />
+        </>
+      ) : (
+        <>
+          <path d="M8 4h8v5a4 4 0 0 1-8 0V4Z" />
+          <path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M9 20h6M10 17h4" />
+        </>
+      )}
+    </svg>
+  );
+}
+
+function subscribeHoverCapable(onChange: () => void) {
+  const mq = window.matchMedia("(hover: hover) and (pointer: fine)");
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+}
+
+/**
+ * Award badges take turns. Opening one (tap on phone; hover or click on desktop)
+ * stops the rotation and unfolds a callout: photo fading into the facts, with the
+ * article links at the bottom so nobody leaves the page by accident.
+ */
+export function AwardTicker({ awards, closeLabel }: { awards: LinksCopy["awards"]; closeLabel: string }) {
+  const [active, setActive] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [pinned, setPinned] = useState(false);
+  const reduce = usePrefersReducedMotion();
+  const canHover = useSyncExternalStore(
+    subscribeHoverCapable,
+    () => window.matchMedia("(hover: hover) and (pointer: fine)").matches,
+    () => false,
+  );
+  const closeTimer = useRef<number | undefined>(undefined);
+
+  useEffect(() => {
+    if (open || reduce || awards.length < 2) return;
+    const id = window.setInterval(() => setActive((i) => (i + 1) % awards.length), 4500);
+    return () => window.clearInterval(id);
+  }, [open, reduce, awards.length]);
+
+  const award = awards[active];
+  const panelId = "links-award-panel";
+
+  const onEnter = () => {
+    if (!canHover) return;
+    window.clearTimeout(closeTimer.current);
+    setOpen(true);
+  };
+  const onLeave = () => {
+    if (!canHover || pinned) return;
+    closeTimer.current = window.setTimeout(() => setOpen(false), 180);
+  };
+  const toggle = () => {
+    if (open && (pinned || !canHover)) {
+      setOpen(false);
+      setPinned(false);
+    } else {
+      setOpen(true);
+      setPinned(true);
+    }
+  };
+  const close = () => {
+    setOpen(false);
+    setPinned(false);
+  };
+
+  return (
+    <div className={styles.award} onMouseEnter={onEnter} onMouseLeave={onLeave} data-open={open}>
+      <button
+        type="button"
+        className={styles.awardStack}
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={toggle}
+      >
+        {awards.map((a, i) => (
+          <span
+            key={a.key}
+            className={`${styles.awardItem} ${a.key === "bsa" ? styles.awardBsa : styles.awardVlaio}`}
+            data-active={i === active}
+            aria-hidden={i !== active}
+          >
+            <AwardIcon award={a.key} className={styles.awardIco} />
+            <span className={styles.awardDivider} aria-hidden />
+            <span className={styles.awardText}>
+              <span className={styles.awardTop}>{a.top}</span>
+              <span className={styles.awardBottom}>{a.bottom}</span>
+            </span>
+            <svg className={styles.awardChevron} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+              <path d="m6 9 6 6 6-6" />
+            </svg>
+          </span>
+        ))}
+      </button>
+
+      <div id={panelId} className={styles.awardPanel} data-open={open} role="region" aria-label={award.bottom}>
+        <div className={styles.awardPanelInner}>
+          <div className={`${styles.awardCard} ${award.key === "bsa" ? styles.awardBsa : styles.awardVlaio}`} inert={!open}>
+            <div className={styles.awardMedia}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={award.image} alt={award.imageAlt} width={960} height={600} loading="lazy" />
+              <button type="button" className={styles.awardClose} onClick={close} aria-label={closeLabel}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
+                  <path d="M6 6l12 12M18 6 6 18" />
+                </svg>
+              </button>
+            </div>
+            <div className={styles.awardBody}>
+              <p className={styles.awardMeta}>{award.meta}</p>
+              <p className={styles.awardTitle}>{award.title}</p>
+              <p className={styles.awardCopy}>{award.body}</p>
+              <ul className={styles.awardLinks}>
+                {award.links.map((l) => (
+                  <li key={l.href}>
+                    <a href={l.href} target="_blank" rel="noopener noreferrer" data-track={`links-award-${award.key}`}>
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const BACKGROUNDS = [
+  { name: "hills", portrait: "/brand/backgrounds/9x16/wonka-bg-hills-1080x1920.webp", landscape: "/brand/backgrounds/16x9/wonka-bg-hills-1920x1080.webp" },
+  { name: "snowy-mountain", portrait: "/links/backgrounds/wonka-bg-snowy-mountain-720x1280.webp", landscape: "/brand/backgrounds/16x9/wonka-bg-snowy-mountain-1920x1080.webp" },
+  { name: "wheatfield", portrait: "/links/backgrounds/wonka-bg-wheatfield-720x1280.webp", landscape: "/brand/backgrounds/16x9/wonka-bg-wheatfield-1920x1080.webp" },
+  { name: "river", portrait: "/brand/backgrounds/9x16/wonka-bg-river-1080x1920.webp", landscape: "/brand/backgrounds/16x9/wonka-bg-river-1920x1080.webp" },
+  { name: "waterfall", portrait: "/brand/backgrounds/9x16/wonka-bg-waterfall-1080x1920.webp", landscape: "/brand/backgrounds/16x9/wonka-bg-waterfall-1920x1080.webp" },
+  { name: "mountain-range", portrait: "/links/backgrounds/wonka-bg-mountain-range-720x1280.webp", landscape: "/brand/backgrounds/16x9/wonka-bg-mountain-range-1920x1080.webp" },
+] as const;
+
+/**
+ * Wonka AI landscapes crossfade every `intervalMs` of time the page is actually
+ * visible. The next image is preloaded before the fade, so it never flashes empty.
+ * Phone-shaped images on portrait screens, landscape ones on wide screens.
+ */
+export function BackgroundRotator({ intervalMs = 30000 }: { intervalMs?: number }) {
+  const [active, setActive] = useState(0);
+  const [loaded, setLoaded] = useState<number[]>([0]);
+  const activeRef = useRef(0);
+  const reduce = usePrefersReducedMotion();
+
+  useEffect(() => {
+    if (reduce) return;
+    let visibleMs = 0;
+    const tickMs = 1000;
+    const id = window.setInterval(() => {
+      if (document.hidden) return;
+      visibleMs += tickMs;
+      if (visibleMs < intervalMs) return;
+      visibleMs = 0;
+      const next = (activeRef.current + 1) % BACKGROUNDS.length;
+      const wide = window.matchMedia("(min-aspect-ratio: 1/1)").matches;
+      const img = new Image();
+      img.onload = () => {
+        setLoaded((list) => (list.includes(next) ? list : [...list, next]));
+        // Let the new layer mount at opacity 0 before fading it in.
+        window.setTimeout(() => {
+          activeRef.current = next;
+          setActive(next);
+        }, 60);
+      };
+      img.src = wide ? BACKGROUNDS[next].landscape : BACKGROUNDS[next].portrait;
+    }, tickMs);
+    return () => window.clearInterval(id);
+  }, [intervalMs, reduce]);
+
+  return (
+    <div className={styles.bg} aria-hidden>
+      {BACKGROUNDS.map((bg, i) =>
+        loaded.includes(i) ? (
+          <div
+            key={bg.name}
+            className={styles.bgLayer}
+            data-active={i === active}
+            style={{ "--bg-portrait": `url(${bg.portrait})`, "--bg-landscape": `url(${bg.landscape})` } as CSSProperties}
+          />
+        ) : null,
+      )}
+    </div>
   );
 }
