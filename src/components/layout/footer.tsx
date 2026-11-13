@@ -6,7 +6,7 @@ import { Section } from "@/components/ui/section";
 import { CookieSettingsLink } from "@/components/cookie-consent/cookie-settings-link";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/i18n/config";
-import { commercialPath } from "@/i18n/routes";
+import { commercialPath, localizeHref } from "@/i18n/routes";
 import { getT } from "@/i18n/ui";
 import {
   getFooterLegalLinks,
@@ -49,7 +49,18 @@ export function Footer({ navItems, linkGroups, locale = "en" }: FooterProps) {
   const t = getT(locale);
   const year = new Date().getFullYear();
   void linkGroups;
-  const groups = getFooterLinkGroups(navItems);
+  // Link-in-bio page: footer only (not in the header's Company menu).
+  const groups = getFooterLinkGroups(navItems).map((group) =>
+    group._key === "company"
+      ? {
+          ...group,
+          links: [
+            ...group.links,
+            { _key: "links", label: t("shell.footer.linksPage"), href: localizeHref("/links", locale) },
+          ],
+        }
+      : group,
+  );
   const groupCount = groups.length;
 
   return (
