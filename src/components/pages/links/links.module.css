@@ -4,6 +4,9 @@
    Forest Green #5C7F5D). Award hints borrow a light tint from each award's own
    branding (Belgium Startup Awards indigo, VLAIO navy + green). */
 
+@property --fade-l { syntax: "<length>"; inherits: false; initial-value: 0px; }
+@property --fade-r { syntax: "<length>"; inherits: false; initial-value: 36px; }
+
 .root {
   --wonka-black: #0e1a16;
   --wonka-white: #f7f7f7;
@@ -115,49 +118,40 @@
   text-shadow: 0 1px 18px rgba(14, 26, 22, 0.35);
 }
 
-/* Award ticker: two links take turns every 4.5 s */
+/* Award ticker: two award links take turns every 4.5 s. Flat badges in each
+   award's own colours: Belgium Startup Awards = deep indigo #14004F on lavender,
+   VLAIO = navy #002776 with VLAIO green #009B48. */
 .award { align-self: center; max-width: 100%; display: grid; }
 .awardItem {
   grid-area: 1 / 1;
-  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 9px 16px 9px 13px;
-  border-radius: 999px;
+  padding: 9px 16px 9px 12px;
+  border-radius: 14px;
   border: 1px solid var(--award-line);
-  background: radial-gradient(120% 180% at 16% -40%, rgba(255, 255, 255, 0.16), rgba(0, 0, 0, 0) 40%), var(--award-tint);
-  color: var(--wonka-white);
+  background: var(--award-bg);
+  color: var(--award-ink);
   text-decoration: none;
-  overflow: hidden;
-  backdrop-filter: blur(14px);
+  box-shadow: 0 6px 20px rgba(14, 26, 22, 0.16);
   animation: links-swap 9s ease-in-out infinite;
 }
-.awardItem::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(105deg, transparent 35%, var(--award-sheen) 50%, transparent 65%);
-  transform: translateX(-100%);
-  animation: links-sheen 4.5s ease-in-out infinite;
-  pointer-events: none;
-}
 .awardItem + .awardItem { opacity: 0; visibility: hidden; animation-delay: -4.5s; }
-.awardBsa { --award-tint: rgba(20, 0, 79, 0.62); --award-line: rgba(201, 189, 255, 0.75); --award-accent: #d3c9ff; --award-sheen: rgba(201, 189, 255, 0.28); }
-.awardVlaio { --award-tint: rgba(0, 39, 118, 0.62); --award-line: rgba(0, 155, 72, 0.85); --award-accent: #7bd9a6; --award-sheen: rgba(0, 155, 72, 0.3); }
-.awardIco { width: 22px; height: 22px; flex: none; color: var(--award-accent); position: relative; z-index: 1; }
-.awardDivider { width: 1px; height: 30px; flex: none; position: relative; z-index: 1; background: linear-gradient(transparent, var(--award-line), transparent); }
-.awardText { display: flex; flex-direction: column; gap: 2px; min-width: 0; position: relative; z-index: 1; text-align: left; }
-.awardTop { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--award-accent); }
-.awardBottom { font-size: 13px; font-weight: 400; }
-.awardItem .arrow { width: 15px; height: 15px; opacity: 0.7; position: relative; z-index: 1; color: var(--award-accent); }
+.awardBsa { --award-bg: #f1eeff; --award-ink: #14004f; --award-accent: #14004f; --award-label: #5a4a9e; --award-line: rgba(20, 0, 79, 0.14); }
+.awardVlaio { --award-bg: #ffffff; --award-ink: #002776; --award-accent: #009b48; --award-label: #009b48; --award-line: rgba(0, 39, 118, 0.14); }
+.awardIco { width: 22px; height: 22px; flex: none; color: var(--award-accent); }
+.awardDivider { width: 1px; height: 28px; flex: none; background: var(--award-line); }
+.awardVlaio .awardDivider { width: 3px; border-radius: 2px; background: var(--award-accent); }
+.awardText { display: flex; flex-direction: column; gap: 2px; min-width: 0; text-align: left; }
+.awardTop { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--award-label); }
+.awardBottom { font-size: 13.5px; font-weight: 500; }
+.awardItem .arrow { width: 15px; height: 15px; opacity: 0.6; color: var(--award-ink); }
 @keyframes links-swap {
   0%, 43% { opacity: 1; transform: none; visibility: visible; }
-  50% { opacity: 0; transform: translateY(-40%); visibility: hidden; }
-  50.1%, 93% { opacity: 0; transform: translateY(40%); visibility: hidden; }
+  50% { opacity: 0; transform: translateY(-30%); visibility: hidden; }
+  50.1%, 93% { opacity: 0; transform: translateY(30%); visibility: hidden; }
   100% { opacity: 1; transform: none; visibility: visible; }
 }
-@keyframes links-sheen { 0%, 55% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
 
 /* Main links */
 .links { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
@@ -219,6 +213,14 @@
   overscroll-behavior-x: contain;
 }
 .quotes::-webkit-scrollbar, .reel::-webkit-scrollbar { display: none; }
+.quotes, .reel {
+  --fade-l: 0px;
+  --fade-r: 36px;
+  mask-image: linear-gradient(90deg, transparent 0, #000 var(--fade-l), #000 calc(100% - var(--fade-r)), transparent 100%);
+  transition: --fade-l 0.25s ease, --fade-r 0.25s ease;
+}
+.quotes[data-start="false"], .reel[data-start="false"] { --fade-l: 36px; }
+.quotes[data-end="true"], .reel[data-end="true"] { --fade-r: 0px; }
 .quote {
   flex: 0 0 88%;
   scroll-snap-align: start;
@@ -405,14 +407,51 @@
 .share svg { width: 16px; height: 16px; }
 .status { min-height: 1em; font-size: 12px; }
 
+/* Phone: one column. The two desktop columns dissolve and blocks are ordered
+   logo → links → partners → quotes → socials → videos → event → jobs → footer. */
+.left, .right { display: contents; }
+.topbar { order: 0; }
+.head { order: 1; }
+.links { order: 2; }
+.partnersBlock { order: 3; }
+.clientsBlock { order: 4; }
+.socialsBlock { order: 5; }
+.right > * { order: 6; }
+.right > .partnersBlock { order: 3; }
+.right > .clientsBlock { order: 4; }
+
 @media (min-width: 720px) {
   .page { padding-top: 28px; padding-bottom: 40px; }
   .clip { flex-basis: 62%; }
 }
+
+/* Desktop: left column (who we are + actions) stays in view, right column scrolls. */
+@media (min-width: 960px) {
+  .page { padding-top: 32px; padding-bottom: 56px; }
+  .col {
+    max-width: 1120px;
+    display: grid;
+    grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+    column-gap: 72px;
+    row-gap: 24px;
+    align-items: start;
+  }
+  .topbar { grid-column: 1 / -1; margin-bottom: 0; }
+  .left, .right { display: flex; flex-direction: column; gap: 28px; min-width: 0; }
+  .left { position: sticky; top: 32px; }
+  .head { align-items: flex-start; text-align: left; padding-top: 24px; }
+  .logo { width: 210px; }
+  .line { font-size: 52px; }
+  .award { align-self: flex-start; }
+  .right .kicker, .left .kicker { text-align: left; }
+  .quote { flex-basis: 48%; }
+  .clip { flex-basis: 32%; }
+  .foot { align-items: flex-start; text-align: left; }
+}
 @media (prefers-reduced-motion: reduce) {
   .link, .arrow, .social { transition: none; }
   .link:hover { transform: none; }
-  .awardItem, .awardItem::after, .marqueeTrack { animation: none; }
+  .awardItem, .marqueeTrack { animation: none; }
   .award { gap: 8px; }
   .awardItem, .awardItem + .awardItem { grid-area: auto; opacity: 1; visibility: visible; animation: none; }
   .marquee { overflow-x: auto; }

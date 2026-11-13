@@ -401,9 +401,8 @@ export const LINKS_PARTNERS: { name: string; slug: string; shape?: "tall" | "wid
 
 export const LINKS_SOCIALS: { platform: "linkedin" | "instagram" | "tiktok" | "youtube"; label: string; href: string | null }[] = [
   { platform: "linkedin", label: "LinkedIn", href: LINKEDIN },
-  // TODO: confirm the real profile URLs before going live (null = button hidden).
-  { platform: "instagram", label: "Instagram", href: null },
-  { platform: "tiktok", label: "TikTok", href: null },
+  { platform: "instagram", label: "Instagram", href: "https://www.instagram.com/meetwonka" },
+  { platform: "tiktok", label: "TikTok", href: "https://www.tiktok.com/@meet.wonka" },
   { platform: "youtube", label: "YouTube", href: "https://www.youtube.com/@meetwonka" },
 ];
 

@@ -113,162 +113,166 @@ export async function LinksPage({ locale }: { locale: Locale }) {
             </div>
           </nav>
 
-          <header className={styles.head}>
-            <Link href={homeHref} aria-label="Wonka AI" data-track="links-logo">
-              <WonkaAiLockup className={styles.logo} />
-            </Link>
-            <h1 className={styles.line}>{copy.line}</h1>
-            <div className={styles.award} role="group" aria-label="Awards">
-              {copy.awards.map((award) => (
-                <a
-                  key={award.key}
-                  href={award.href}
-                  className={`${styles.awardItem} ${award.key === "bsa" ? styles.awardBsa : styles.awardVlaio}`}
-                  data-track={`links-award-${award.key}`}
-                >
-                  <Icon name={award.key === "bsa" ? "crown" : "trophy"} className={styles.awardIco} strokeWidth={1.6} />
-                  <span className={styles.awardDivider} aria-hidden />
-                  <span className={styles.awardText}>
-                    <span className={styles.awardTop}>{award.top}</span>
-                    <span className={styles.awardBottom}>{award.bottom}</span>
-                  </span>
+          <div className={styles.left}>
+            <header className={styles.head}>
+              <Link href={homeHref} aria-label="Wonka AI" data-track="links-logo">
+                <WonkaAiLockup className={styles.logo} />
+              </Link>
+              <h1 className={styles.line}>{copy.line}</h1>
+              <div className={styles.award} role="group" aria-label="Awards">
+                {copy.awards.map((award) => (
+                  <a
+                    key={award.key}
+                    href={award.href}
+                    className={`${styles.awardItem} ${award.key === "bsa" ? styles.awardBsa : styles.awardVlaio}`}
+                    data-track={`links-award-${award.key}`}
+                  >
+                    <Icon name={award.key === "bsa" ? "crown" : "trophy"} className={styles.awardIco} strokeWidth={1.6} />
+                    <span className={styles.awardDivider} aria-hidden />
+                    <span className={styles.awardText}>
+                      <span className={styles.awardTop}>{award.top}</span>
+                      <span className={styles.awardBottom}>{award.bottom}</span>
+                    </span>
+                    <Arrow className={styles.arrow} />
+                  </a>
+                ))}
+              </div>
+            </header>
+
+            <ul className={styles.links}>
+              <li>
+                <Link className={styles.link} href={homeHref} data-track="links-website">
+                  <Icon name="globe" className={styles.ico} />
+                  <span className={styles.label}>{copy.website}</span>
+                  <Arrow className={styles.arrow} />
+                </Link>
+              </li>
+              <li>
+                <a className={styles.link} href="https://wonka.chat/register" data-track="trial">
+                  <Icon name="chat" className={styles.ico} />
+                  <span className={styles.label}>{copy.trial}</span>
                   <Arrow className={styles.arrow} />
                 </a>
-              ))}
-            </div>
-          </header>
-
-          <ul className={styles.links}>
-            <li>
-              <Link className={styles.link} href={homeHref} data-track="links-website">
-                <Icon name="globe" className={styles.ico} />
-                <span className={styles.label}>{copy.website}</span>
-                <Arrow className={styles.arrow} />
-              </Link>
-            </li>
-            <li>
-              <a className={styles.link} href="https://wonka.chat/register" data-track="trial">
-                <Icon name="chat" className={styles.ico} />
-                <span className={styles.label}>{copy.trial}</span>
-                <Arrow className={styles.arrow} />
-              </a>
-            </li>
-            <li>
-              <a className={styles.link} href={meetingUrl} data-track="meeting" data-meeting-type="links">
-                <Icon name="calendar" className={styles.ico} />
-                <span className={styles.label}>{copy.consultant}</span>
-                <Arrow className={styles.arrow} />
-              </a>
-            </li>
-          </ul>
-
-          <section className={styles.section} aria-labelledby="links-partners">
-            <h2 className={styles.kicker} id="links-partners">{copy.partnersKicker}</h2>
-            <div className={styles.marquee}>
-              <ul className={styles.marqueeTrack}>
-                {[0, 1].flatMap((copyIndex) =>
-                  LINKS_PARTNERS.map((p) => (
-                    <li
-                      key={`${copyIndex}-${p.slug}`}
-                      className={`${styles.partner} ${p.shape === "tall" ? styles.partnerTall : p.shape === "wide" ? styles.partnerWide : ""}`}
-                      aria-hidden={copyIndex === 1 ? true : undefined}
-                    >
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={`/links/partners/${p.slug}.png`} alt={copyIndex === 1 ? "" : p.name} height={30} loading="lazy" />
-                    </li>
-                  )),
-                )}
-              </ul>
-            </div>
-          </section>
-
-          <section className={styles.section} aria-labelledby="links-clients">
-            <h2 className={styles.kicker} id="links-clients">{copy.clientsKicker}</h2>
-            <SwipeRow className={styles.quotes} label={copy.quotesLabel} autoAdvanceMs={6000}>
-              {copy.quotes.map((q) => (
-                <li key={q.key} className={styles.quote}>
-                  <blockquote>{q.quote}</blockquote>
-                  <div className={styles.quoteBy}>
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={q.logo} alt={q.logoAlt} height={18} />
-                    <span>
-                      <b>{q.name}</b>
-                      <span>{q.role}</span>
-                    </span>
-                  </div>
-                  {q.stat ? (
-                    <p className={styles.quoteStat}>
-                      <Stat text={q.stat} />
-                    </p>
-                  ) : null}
-                </li>
-              ))}
-            </SwipeRow>
-          </section>
-
-          <section className={styles.section} aria-labelledby="links-follow">
-            <h2 className={styles.kicker} id="links-follow">{copy.followKicker}</h2>
-            <ul className={styles.socials}>
-              {socials.map((s) => (
-                <li key={s.platform}>
-                  <a className={styles.social} href={s.href!} data-platform={s.platform} data-track={`links-social-${s.platform}`}>
-                    <Icon name={s.platform} className={styles.ico} />
-                    {s.label}
-                    <SocialHere platform={s.platform} label={copy.youAreHere} />
-                  </a>
-                </li>
-              ))}
+              </li>
+              <li>
+                <a className={styles.link} href={meetingUrl} data-track="meeting" data-meeting-type="links">
+                  <Icon name="calendar" className={styles.ico} />
+                  <span className={styles.label}>{copy.consultant}</span>
+                  <Arrow className={styles.arrow} />
+                </a>
+              </li>
             </ul>
-          </section>
-
-          <section className={styles.section} aria-labelledby="links-see">
-            <h2 className={styles.kicker} id="links-see">{copy.seeKicker}</h2>
-            <SwipeRow className={styles.reel} label={copy.clipsLabel}>
-              {[
-                ...copy.clips.map((clip) => (
-                  <li key={clip.key} className={styles.clip}>
-                    <a className={styles.clipCard} href={clip.href} data-track={`links-video-${clip.key}`}>
-                      <AutoVideo src={`/links/${clip.key}.mp4`} poster={`/links/${clip.key}-poster.jpg`} label={clip.aria} />
-                      <span className={styles.clipText}>
-                        <span className={styles.clipTitle}>{clip.title}</span>
-                        <span className={styles.clipMeta}>{copy.watchOnLinkedIn}</span>
-                      </span>
+            <section className={`${styles.section} ${styles.socialsBlock}`} aria-labelledby="links-follow">
+              <h2 className={styles.kicker} id="links-follow">{copy.followKicker}</h2>
+              <ul className={styles.socials}>
+                {socials.map((s) => (
+                  <li key={s.platform}>
+                    <a className={styles.social} href={s.href!} data-platform={s.platform} data-track={`links-social-${s.platform}`}>
+                      <Icon name={s.platform} className={styles.ico} />
+                      {s.label}
+                      <SocialHere platform={s.platform} label={copy.youAreHere} />
                     </a>
                   </li>
-                )),
-                <li key="models" className={styles.clip}>
-                  <ModelPicker copy={copy} pricingHref={pricingHref} />
-                </li>,
-              ]}
-            </SwipeRow>
-          </section>
+                ))}
+              </ul>
+            </section>
+          </div>
 
-          <section className={styles.section} aria-labelledby="links-meet">
-            <h2 className={styles.kicker} id="links-meet">{copy.meetKicker}</h2>
-            <EventList events={copy.events} copy={copy} linkedinUrl={FOLLOW_LINKEDIN_URL} />
-          </section>
+          <div className={styles.right}>
+            <section className={`${styles.section} ${styles.partnersBlock}`} aria-labelledby="links-partners">
+              <h2 className={styles.kicker} id="links-partners">{copy.partnersKicker}</h2>
+              <div className={styles.marquee}>
+                <ul className={styles.marqueeTrack}>
+                  {[0, 1].flatMap((copyIndex) =>
+                    LINKS_PARTNERS.map((p) => (
+                      <li
+                        key={`${copyIndex}-${p.slug}`}
+                        className={`${styles.partner} ${p.shape === "tall" ? styles.partnerTall : p.shape === "wide" ? styles.partnerWide : ""}`}
+                        aria-hidden={copyIndex === 1 ? true : undefined}
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={`/links/partners/${p.slug}.png`} alt={copyIndex === 1 ? "" : p.name} height={30} loading="lazy" />
+                      </li>
+                    )),
+                  )}
+                </ul>
+              </div>
+            </section>
 
-          <section className={styles.jobs} aria-labelledby="links-hiring">
-            <h2 className={styles.jobsTitle} id="links-hiring">{copy.jobsTitle}</h2>
-            <p className={styles.jobsSub}>{copy.jobsSub}</p>
-            <ul className={styles.roles}>
-              {LINKS_ROLES.map((role) => (
-                <li key={role}>{role}</li>
-              ))}
-            </ul>
-            <a className={styles.link} href={LINKS_JOBS_URL} data-track="links-jobs">
-              <Icon name="briefcase" className={styles.ico} />
-              <span className={styles.label}>{copy.jobsAll}</span>
-              <Arrow className={styles.arrow} />
-            </a>
-          </section>
+            <section className={`${styles.section} ${styles.clientsBlock}`} aria-labelledby="links-clients">
+              <h2 className={styles.kicker} id="links-clients">{copy.clientsKicker}</h2>
+              <SwipeRow className={styles.quotes} label={copy.quotesLabel} autoAdvanceMs={6000}>
+                {copy.quotes.map((q) => (
+                  <li key={q.key} className={styles.quote}>
+                    <blockquote>{q.quote}</blockquote>
+                    <div className={styles.quoteBy}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={q.logo} alt={q.logoAlt} height={18} />
+                      <span>
+                        <b>{q.name}</b>
+                        <span>{q.role}</span>
+                      </span>
+                    </div>
+                    {q.stat ? (
+                      <p className={styles.quoteStat}>
+                        <Stat text={q.stat} />
+                      </p>
+                    ) : null}
+                  </li>
+                ))}
+              </SwipeRow>
+            </section>
 
-          <footer className={styles.foot}>
-            <ShareButton label={copy.share} copied={copy.copied} url={pageUrl} />
-            <span>
-              © {new Date().getFullYear()} Wonka AI · <Link href="/privacy">{copy.privacy}</Link>
-            </span>
-          </footer>
+
+            <section className={styles.section} aria-labelledby="links-see">
+              <h2 className={styles.kicker} id="links-see">{copy.seeKicker}</h2>
+              <SwipeRow className={styles.reel} label={copy.clipsLabel}>
+                {[
+                  ...copy.clips.map((clip) => (
+                    <li key={clip.key} className={styles.clip}>
+                      <a className={styles.clipCard} href={clip.href} data-track={`links-video-${clip.key}`}>
+                        <AutoVideo src={`/links/${clip.key}.mp4`} poster={`/links/${clip.key}-poster.jpg`} label={clip.aria} />
+                        <span className={styles.clipText}>
+                          <span className={styles.clipTitle}>{clip.title}</span>
+                          <span className={styles.clipMeta}>{copy.watchOnLinkedIn}</span>
+                        </span>
+                      </a>
+                    </li>
+                  )),
+                  <li key="models" className={styles.clip}>
+                    <ModelPicker copy={copy} pricingHref={pricingHref} />
+                  </li>,
+                ]}
+              </SwipeRow>
+            </section>
+
+            <section className={styles.section} aria-labelledby="links-meet">
+              <h2 className={styles.kicker} id="links-meet">{copy.meetKicker}</h2>
+              <EventList events={copy.events} copy={copy} linkedinUrl={FOLLOW_LINKEDIN_URL} />
+            </section>
+
+            <section className={styles.jobs} aria-labelledby="links-hiring">
+              <h2 className={styles.jobsTitle} id="links-hiring">{copy.jobsTitle}</h2>
+              <p className={styles.jobsSub}>{copy.jobsSub}</p>
+              <ul className={styles.roles}>
+                {LINKS_ROLES.map((role) => (
+                  <li key={role}>{role}</li>
+                ))}
+              </ul>
+              <a className={styles.link} href={LINKS_JOBS_URL} data-track="links-jobs">
+                <Icon name="briefcase" className={styles.ico} />
+                <span className={styles.label}>{copy.jobsAll}</span>
+                <Arrow className={styles.arrow} />
+              </a>
+            </section>
+
+            <footer className={styles.foot}>
+              <ShareButton label={copy.share} copied={copy.copied} url={pageUrl} />
+              <span>
+                © {new Date().getFullYear()} Wonka AI · <Link href="/privacy">{copy.privacy}</Link>
+              </span>
+            </footer>
+          </div>
         </div>
       </main>
     </div>

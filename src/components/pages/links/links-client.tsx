@@ -53,7 +53,12 @@ export function SwipeRow({
         }
       });
       setActive(best);
+      // Edge fades: fade a side only while there is more content on that side.
+      el.dataset.start = String(el.scrollLeft <= 2);
+      el.dataset.end = String(el.scrollLeft + el.clientWidth >= el.scrollWidth - 2);
     };
+    onScroll();
+    window.addEventListener("resize", onScroll);
     const markTouched = () => {
       touched.current = true;
     };
@@ -63,6 +68,7 @@ export function SwipeRow({
     );
     return () => {
       el.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
       ["pointerdown", "touchstart", "focusin", "wheel"].forEach((ev) => el.removeEventListener(ev, markTouched));
     };
   }, []);
