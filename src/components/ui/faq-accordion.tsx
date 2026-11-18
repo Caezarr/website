@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import type { FaqItem } from "@/lib/types";
 
@@ -36,28 +37,41 @@ function MinusIcon({ className }: { className?: string }) {
   );
 }
 
-function FaqAccordionItem({ question, answer }: FaqItem) {
+function FaqAccordionItem({ question, answer, link }: FaqItem) {
   const [open, setOpen] = useState(false);
 
   return (
-    <button
-      type="button"
-      onClick={() => setOpen((v) => !v)}
-      className="block w-full py-5 text-left"
-      aria-expanded={open}
-    >
-      <div className="flex items-center justify-between gap-4">
+    <div className="py-5">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="flex w-full items-center justify-between gap-4 text-left"
+        aria-expanded={open}
+      >
         <span className="type-body text-text">{question}</span>
         {open ? (
           <MinusIcon className="h-4 w-4 shrink-0 text-text/50" />
         ) : (
           <PlusIcon className="h-4 w-4 shrink-0 text-text/50" />
         )}
-      </div>
+      </button>
       {open ? (
-        <p className="mt-3 type-paragraph-m text-text/65">{answer}</p>
+        <p className="mt-3 type-paragraph-m text-text/65">
+          {answer}
+          {link ? (
+            <>
+              {" "}
+              <Link
+                href={link.href}
+                className="text-text underline underline-offset-4 hover:text-text/70"
+              >
+                {link.label}
+              </Link>
+            </>
+          ) : null}
+        </p>
       ) : null}
-    </button>
+    </div>
   );
 }
 

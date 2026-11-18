@@ -44,6 +44,7 @@ const MODEL_ORDER: ModelsSectionModelId[] = [
   "mistral",
 ];
 
+// TODO: CHECK token rates for Claude Opus 5.5 and GPT-5.6 Luna (also quoted in views/copy/models-section.ts).
 const HEAVY_TASK_COST = 3 * 5.5 + 27.5;
 const LIGHT_TASK_COST = 3 * 0.22 + 1.32;
 
