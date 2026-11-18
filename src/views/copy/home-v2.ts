@@ -18,7 +18,14 @@ export type SecurityTileId =
   | "gdpr"
   | "eu"
   | "encryption"
-  | "sso";
+  | "sso"
+  | "deploy";
+
+export interface SecurityPoint {
+  id: SecurityTileId;
+  title: string;
+  body: string;
+}
 
 export interface HomeV2Copy {
   seo: { title: string; description: string };
@@ -100,8 +107,9 @@ export interface HomeV2Copy {
   security: {
     eyebrow: string;
     title: string;
-    tiles: { id: SecurityTileId; label: string }[];
+    points: SecurityPoint[];
     cta: string;
+    ctaHref: string;
   };
   finalCta: { title: string; subtitle: string };
 }
@@ -272,14 +280,15 @@ const en: HomeV2Copy = {
   security: {
     eyebrow: "Security",
     title: "Your data stays yours.",
-    tiles: [
-      { id: "eu", label: "Hosted in Europe" },
-      { id: "encryption", label: "Encrypted at rest and in transit" },
-      { id: "sso", label: "SSO with Entra ID" },
-      { id: "iso", label: "ISO 27001" },
-      { id: "gdpr", label: "GDPR" },
+    // TODO: CHECK whether ISO 27001 / SOC 2 certificates may be shown in the security points.
+    points: [
+      { id: "eu", title: "EU-hosted", body: "Your data and most AI models stay in the EU" },
+      { id: "gdpr", title: "GDPR-compliant", body: "Built to meet European privacy rules" },
+      { id: "sso", title: "Single sign-on", body: "Sign in with Microsoft Entra ID" },
+      { id: "deploy", title: "Deploy anywhere", body: "Managed cloud, your own cloud or on-premise" },
     ],
-    cta: "Security details",
+    cta: "More about security",
+    ctaHref: "/security",
   },
   finalCta: {
     title: "Start adopting AI across your teams.",
@@ -455,14 +464,14 @@ const fr: HomeV2Copy = {
   security: {
     eyebrow: "Sécurité",
     title: "Vos données restent les vôtres.",
-    tiles: [
-      { id: "eu", label: "Hébergé en Europe" },
-      { id: "encryption", label: "Chiffré au repos et en transit" },
-      { id: "sso", label: "SSO avec Entra ID" },
-      { id: "iso", label: "ISO 27001" },
-      { id: "gdpr", label: "RGPD" },
+    points: [
+      { id: "eu", title: "Hébergé dans l'UE", body: "Vos données et la plupart des modèles IA restent dans l'UE" },
+      { id: "gdpr", title: "Conforme au RGPD", body: "Conçu pour respecter les règles européennes de protection des données" },
+      { id: "sso", title: "Authentification unique", body: "Connexion avec Microsoft Entra ID" },
+      { id: "deploy", title: "Déployez où vous voulez", body: "Cloud géré, votre propre cloud ou sur site" },
     ],
-    cta: "Détails sécurité",
+    cta: "En savoir plus sur la sécurité",
+    ctaHref: "/fr/security",
   },
   finalCta: {
     title: "Déployez l'IA au sein de vos équipes.",
@@ -638,14 +647,14 @@ const nl: HomeV2Copy = {
   security: {
     eyebrow: "Beveiliging",
     title: "Uw data blijft van u.",
-    tiles: [
-      { id: "eu", label: "Gehost in Europa" },
-      { id: "encryption", label: "Versleuteld in rust en tijdens transport" },
-      { id: "sso", label: "SSO met Entra ID" },
-      { id: "iso", label: "ISO 27001" },
-      { id: "gdpr", label: "AVG" },
+    points: [
+      { id: "eu", title: "Gehost in de EU", body: "Uw data en de meeste AI-modellen blijven in de EU" },
+      { id: "gdpr", title: "AVG-conform", body: "Gebouwd volgens de Europese privacyregels" },
+      { id: "sso", title: "Single sign-on", body: "Aanmelden met Microsoft Entra ID" },
+      { id: "deploy", title: "Overal te installeren", body: "Beheerde cloud, uw eigen cloud of on-premise" },
     ],
-    cta: "Details beveiliging",
+    cta: "Meer over beveiliging",
+    ctaHref: "/nl/security",
   },
   finalCta: {
     title: "Start met AI-adoptie in al uw teams.",

@@ -166,15 +166,24 @@ function CrownIcon() {
 }
 
 function AwardTag({ copy }: { copy: HomeV2Copy["award"] }) {
+  const [title, event] = copy.label.split(" · ");
   return (
     <div
-      className="award-marble-badge relative flex items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-3 py-1.5 text-white backdrop-blur-md md:px-4"
+      className="award-marble-badge relative flex w-fit items-center gap-2 overflow-hidden rounded-full border border-[#c9962c]/75 px-3 py-1.5 text-white backdrop-blur-md md:px-4"
       style={{ animation: "award-glow 3s ease-in-out infinite" }}
     >
       <CrownIcon />
       <span className="relative z-10 h-4 w-px shrink-0 bg-gradient-to-b from-transparent via-[#d7a23c]/80 to-transparent" />
-      <span className="relative z-10 text-[0.56rem] leading-4 font-medium text-balance tracking-[0.08em] uppercase md:text-xs md:tracking-[0.14em]">
-        {copy.label}
+      <span className="relative z-10 flex flex-col text-left text-[0.56rem] leading-3.5 font-medium tracking-[0.08em] whitespace-nowrap uppercase md:flex-row md:gap-[0.5em] md:text-xs md:leading-4 md:tracking-[0.14em]">
+        <span>{title}</span>
+        {event ? (
+          <>
+            <span className="hidden md:inline" aria-hidden>
+              ·
+            </span>
+            <span>{event}</span>
+          </>
+        ) : null}
       </span>
     </div>
   );

@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import { Eyebrow } from "@/components/ui/eyebrow";
 import { Section } from "@/components/ui/section";
 import { Surface } from "@/components/ui/surface";
@@ -7,11 +8,11 @@ import { BadgeIso } from "@/components/ui/icons/badge-iso";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { headingClass } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
-import type { SecurityTileId } from "@/views/copy/home-v2";
+import type { SecurityPoint, SecurityTileId } from "@/views/copy/home-v2";
 
 const round = (n: number) => Math.round(n * 100) / 100;
 
-function SecurityTileVisual({
+export function SecurityTileVisual({
   id,
   onPanel = false,
 }: {
@@ -57,6 +58,27 @@ function SecurityTileVisual({
             />
           );
         })}
+      </svg>
+    );
+  }
+  if (id === "deploy") {
+    return (
+      <svg viewBox="0 0 64 64" className={iconSize} aria-hidden>
+        <circle
+          cx="32"
+          cy="32"
+          r="31"
+          fill={onPanel ? "rgba(255,255,255,0.12)" : "var(--color-blue-800)"}
+          stroke={onPanel ? "rgba(255,255,255,0.35)" : "none"}
+          strokeWidth="1.5"
+        />
+        <path
+          d="M23 41h18.5a6.5 6.5 0 0 0 .9-12.94A9 9 0 0 0 25 27.5a7 7 0 0 0-2 13.5z"
+          fill="none"
+          stroke="white"
+          strokeWidth="2.5"
+          strokeLinejoin="round"
+        />
       </svg>
     );
   }
@@ -125,11 +147,49 @@ function SecurityTileVisual({
   );
 }
 
+export function SecurityPoints({
+  points,
+  cta,
+  ctaHref,
+}: {
+  points: SecurityPoint[];
+  cta?: string;
+  ctaHref?: string;
+}) {
+  return (
+    <>
+      <ul className="grid md:grid-cols-2 lg:grid-cols-4">
+        {points.map((point) => (
+          <li
+            key={point.id}
+            className="flex flex-col items-start gap-5 border-b border-dashed border-white/40 py-8 last:border-b-0 md:px-6 md:py-10 lg:border-b-0 lg:first:pl-0 [&:not(:last-child)]:lg:border-r"
+          >
+            <SecurityTileVisual id={point.id} onPanel />
+            <div className="flex flex-col gap-1">
+              <p className="type-paragraph-m-bold text-white">{point.title}</p>
+              <p className="type-paragraph-m text-white/75">{point.body}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      {cta && ctaHref ? (
+        <Link
+          href={ctaHref}
+          className="type-paragraph-m-bold mt-8 inline-block text-white underline underline-offset-4 transition-colors hover:text-white/75"
+        >
+          {cta}
+        </Link>
+      ) : null}
+    </>
+  );
+}
+
 export interface HomeSecurityBannerData {
   eyebrow: string;
   title: string;
-  tiles: { id: SecurityTileId; label: string }[];
+  points: SecurityPoint[];
   cta: string;
+  ctaHref: string;
 }
 
 interface HomeSecurityBannerProps {
@@ -166,19 +226,11 @@ export function HomeSecurityBanner({
               </h2>
             </div>
           </div>
-          <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
-            {data.tiles.map((tile) => (
-              <li
-                key={tile.id}
-                className="flex flex-col items-center gap-5 border-b border-dashed border-white/40 px-4 py-10 text-center md:border-b-0 [&:not(:last-child)]:border-r"
-              >
-                <SecurityTileVisual id={tile.id} onPanel />
-                <span className="type-paragraph-l text-white/80">
-                  {tile.label}
-                </span>
-              </li>
-            ))}
-          </ul>
+          <SecurityPoints
+            points={data.points}
+            cta={data.cta}
+            ctaHref={data.ctaHref}
+          />
         </div>
         </Surface>
       </ScrollReveal>
