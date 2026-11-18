@@ -2,11 +2,17 @@ import {
   MAX_SEATS,
   MIN_SEATS,
   PLANS,
+  seatPriceForBand,
+  VOLUME_BAND_LABELS,
   type Billing,
   type ModelAccess,
   type PlanId,
   type PriceBand,
 } from "@/lib/pricing.config";
+
+export function volumeBandLabel(bandIndex: number): string {
+  return VOLUME_BAND_LABELS[bandIndex] ?? `Band ${bandIndex + 1}`;
+}
 
 export interface BreakdownRow {
   from: number;
@@ -40,14 +46,13 @@ export function getAverageStandardSeatPrice(
   return Math.round((total / count) * 100) / 100;
 }
 
-/** Starting Standard seat price: first band, or the flat BYOK price. */
+/** Starting Standard seat price at the first volume band. */
 export function getStandardSeatPrice(
   plan: PlanId,
   billing: Billing,
   access: ModelAccess,
 ) {
-  const { standardBands, byokSeat } = PLANS[plan];
-  return access === "byok" ? byokSeat[billing] : standardBands[0][billing];
+  return seatPriceForBand(PLANS[plan].standardBands[0], billing, access);
 }
 
 export function getPowerSeatPrice(plan: PlanId, billing: Billing) {
@@ -60,8 +65,8 @@ function seatsInBand(band: PriceBand, seats: number) {
 }
 
 /**
- * Graduated Standard seat pricing: like tax brackets, each band price only
- * applies to the seats inside that band. BYOK seats have one flat price.
+ * Graduated Standard seat pricing: each band price only applies to seats in
+ * that band. BYOK uses the same bands at included minus the fixed discount.
  */
 export function calculateBreakdown(
   plan: PlanId,
@@ -71,25 +76,15 @@ export function calculateBreakdown(
 ): PricingBreakdown {
   const count = clampSeats(seats);
 
-  if (access === "byok") {
-    const price = PLANS[plan].byokSeat[billing];
-    const subtotal = (toCents(price) * count) / 100;
-    return {
-      rows: [
-        { from: 1, to: null, seatsInBand: count, pricePerSeat: price, subtotal },
-      ],
-      total: subtotal,
-    };
-  }
-
   const rows = PLANS[plan].standardBands.map((band) => {
     const inBand = seatsInBand(band, count);
+    const pricePerSeat = seatPriceForBand(band, billing, access);
     return {
       from: band.from,
       to: band.to,
       seatsInBand: inBand,
-      pricePerSeat: band[billing],
-      subtotal: (toCents(band[billing]) * inBand) / 100,
+      pricePerSeat,
+      subtotal: (toCents(pricePerSeat) * inBand) / 100,
     };
   });
 

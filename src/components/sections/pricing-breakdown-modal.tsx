@@ -3,10 +3,14 @@
 import { useEffect, useId, useState } from "react";
 import {
   ControlField,
+  ModelsAccessControl,
   SeatsControl,
 } from "@/components/sections/pricing-seats-control";
 import { SegmentedControl } from "@/components/sections/pricing-segmented-control";
-import { calculateBreakdown } from "@/lib/pricing-calculator";
+import {
+  calculateBreakdown,
+  volumeBandLabel,
+} from "@/lib/pricing-calculator";
 import {
   PLAN_ORDER,
   PLANS,
@@ -20,6 +24,7 @@ import { radius } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 
 const copy = PRICING_COPY.breakdown;
+const controls = PRICING_COPY.controls;
 
 interface PricingBreakdownModalProps {
   open: boolean;
@@ -30,25 +35,25 @@ interface PricingBreakdownModalProps {
   access: ModelAccess;
 }
 
-function bandLabel(from: number, to: number | null) {
-  return to === null ? `${from.toLocaleString("en")}+` : `${from}-${to}`;
-}
-
 export function PricingBreakdownModal({
   open,
   onClose,
   seats,
   onSeatsChange,
-  billing,
-  access,
+  billing: initialBilling,
+  access: initialAccess,
 }: PricingBreakdownModalProps) {
   const titleId = useId();
   const [plan, setPlan] = useState<PlanId>("chat");
+  const [billing, setBilling] = useState<Billing>(initialBilling);
+  const [access, setAccess] = useState<ModelAccess>(initialAccess);
   const { rows, total } = calculateBreakdown(plan, seats, billing, access);
-  const billingLabel =
-    billing === "annual"
-      ? PRICING_COPY.controls.annual
-      : PRICING_COPY.controls.monthly;
+
+  useEffect(() => {
+    if (!open) return;
+    setBilling(initialBilling);
+    setAccess(initialAccess);
+  }, [open, initialBilling, initialAccess]);
 
   useEffect(() => {
     if (!open) return;
@@ -104,37 +109,61 @@ export function PricingBreakdownModal({
           </button>
         </div>
 
-        <div className="mt-8 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-          <ControlField label={copy.planAriaLabel} className="items-start lg:items-start">
+        <div className="mt-8 flex flex-col gap-5">
+          <ControlField label={copy.planAriaLabel} className="items-start">
             <SegmentedControl<PlanId>
               label={copy.planAriaLabel}
               value={plan}
               onChange={setPlan}
-              options={PLAN_ORDER.map((id) => ({ value: id, label: PLANS[id].name }))}
+              options={PLAN_ORDER.map((id) => ({
+                value: id,
+                label: PLANS[id].name,
+              }))}
             />
           </ControlField>
-          <SeatsControl
-            seats={seats}
-            onChange={onSeatsChange}
-            className="items-start lg:items-start"
-          />
+          <div className="flex flex-col gap-5 sm:flex-row sm:flex-wrap sm:items-end">
+            <ModelsAccessControl value={access} onChange={setAccess} />
+            <ControlField label={controls.billing} className="items-start">
+              <SegmentedControl<Billing>
+                label={controls.billing}
+                value={billing}
+                onChange={setBilling}
+                options={[
+                  { value: "monthly", label: controls.monthly },
+                  {
+                    value: "annual",
+                    label: controls.annual,
+                    badge: controls.save,
+                  },
+                ]}
+              />
+            </ControlField>
+            <SeatsControl
+              seats={seats}
+              onChange={onSeatsChange}
+              className="items-start"
+            />
+          </div>
         </div>
-        <p className="mt-4 type-paragraph-s text-text/55">
-          {copy.billingSummary(billingLabel)}
-        </p>
 
         <div className="mt-8 overflow-x-auto">
           <table className="w-full min-w-[26rem] border-collapse text-left">
             <thead>
               <tr className="bg-surface-muted type-paragraph-s text-text/55">
-                <th className="px-4 py-3 font-medium">{copy.bandColumn}</th>
-                <th className="px-4 py-3 text-right font-medium">{copy.seatsColumn}</th>
-                <th className="px-4 py-3 text-right font-medium">{copy.priceColumn}</th>
-                <th className="px-4 py-3 text-right font-medium">{copy.subtotalColumn}</th>
+                <th className="px-4 py-3 font-medium" />
+                <th className="px-4 py-3 text-right font-medium">
+                  {copy.seatsColumn}
+                </th>
+                <th className="px-4 py-3 text-right font-medium">
+                  {copy.priceColumn}
+                </th>
+                <th className="px-4 py-3 text-right font-medium">
+                  {copy.subtotalColumn}
+                </th>
               </tr>
             </thead>
             <tbody className="type-paragraph-m text-text">
-              {rows.map((row) => (
+              {rows.map((row, index) => (
                 <tr
                   key={row.from}
                   className={cn(
@@ -142,9 +171,7 @@ export function PricingBreakdownModal({
                     row.seatsInBand === 0 && "text-text/40",
                   )}
                 >
-                  <td className="px-4 py-4 tabular-nums">
-                    {access === "byok" ? copy.flatBand : bandLabel(row.from, row.to)}
-                  </td>
+                  <td className="px-4 py-4">{volumeBandLabel(index)}</td>
                   <td className="px-4 py-4 text-right tabular-nums">
                     {row.seatsInBand.toLocaleString("en")}
                   </td>
@@ -169,10 +196,6 @@ export function PricingBreakdownModal({
             </tfoot>
           </table>
         </div>
-
-        {access === "byok" ? (
-          <p className="mt-4 type-paragraph-s text-text/55">{copy.byokNote}</p>
-        ) : null}
       </div>
     </div>
   );

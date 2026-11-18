@@ -6,6 +6,7 @@ import { ButtonLink } from "@/components/ui/button";
 import { PricingBreakdownModal } from "@/components/sections/pricing-breakdown-modal";
 import {
   ControlField,
+  ModelsAccessControl,
   SeatsControl,
 } from "@/components/sections/pricing-seats-control";
 import { SegmentedControl } from "@/components/sections/pricing-segmented-control";
@@ -184,8 +185,8 @@ function PlanCard({
       : { text: feature.text, link: feature.link },
   );
   const divider = emphasized ? "border-white/25" : "border-border";
-  const powerPrice =
-    access === "included" ? getPowerSeatPrice(planId, billing) : null;
+  const powerPrice = getPowerSeatPrice(planId, billing);
+  const powerIncluded = access === "included";
 
   return (
     <Surface
@@ -251,7 +252,7 @@ function PlanCard({
                 emphasized ? "text-white/80" : "text-text/70",
               )}
             >
-              {copy.card.byokNote}
+              {copy.card.modelsNotIncludedNote}
             </p>
           ) : null}
           <p
@@ -296,16 +297,20 @@ function PlanCard({
           <div
             className={cn(
               radius.xs,
-              "mt-3 border border-dashed p-4",
+              "mt-3 border border-dashed p-4 transition-opacity",
+              powerIncluded ? "opacity-100" : "pointer-events-none opacity-40",
               emphasized
                 ? "border-white/30 bg-white/10"
                 : "border-border bg-surface-muted",
             )}
+            aria-disabled={!powerIncluded}
           >
             <SeatPrice
               amount={powerPrice}
               label={copy.card.powerSeat}
-              note={copy.card.powerNote}
+              note={
+                powerIncluded ? copy.card.powerNote : copy.card.powerIncludedOnly
+              }
               emphasized={emphasized}
               compact
             />
@@ -402,17 +407,7 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
               ]}
             />
           </ControlField>
-          <ControlField label={copy.controls.models}>
-            <SegmentedControl<ModelAccess>
-              label={copy.controls.models}
-              value={access}
-              onChange={setAccess}
-              options={[
-                { value: "included", label: copy.controls.included },
-                { value: "byok", label: copy.controls.byok },
-              ]}
-            />
-          </ControlField>
+          <ModelsAccessControl value={access} onChange={setAccess} />
         </div>
         <div className="mt-5 flex justify-center">
           <button

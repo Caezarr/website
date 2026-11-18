@@ -42,8 +42,6 @@ export interface PricingPlan {
   standardBands: PriceBand[];
   /** Flat Power seat price. Omitted when the plan has no Power seat. */
   powerSeat?: SeatPrice;
-  /** Flat Standard seat price when the team brings its own API keys. */
-  byokSeat: SeatPrice;
   ctaLabel: string;
 }
 
@@ -71,6 +69,19 @@ export const MAX_SEATS = 1000;
 export const DEFAULT_BILLING: Billing = "annual";
 export const DEFAULT_MODEL_ACCESS: ModelAccess = "included";
 export const POWER_SEAT_USAGE_MULTIPLIER = 5;
+
+/** BYOK Standard seat is always this much below Included for the same band. */
+export const MODEL_INCLUDED_DISCOUNT = {
+  monthly: 7,
+  annual: 5.6,
+} as const;
+
+export const VOLUME_BAND_LABELS = [
+  "For the first 50",
+  "For the next 200",
+  "For the next 300",
+  "For the next 1,000+",
+] as const;
 
 export const TRIAL_REGISTER_URL = "https://wonka.chat/register";
 export const START_AI_HREF = "/start-ai";
@@ -104,8 +115,6 @@ export const PLANS: Record<PlanId, PricingPlan> = {
       { from: 251, to: 550, monthly: 19, annual: 15.2 },
       { from: 551, to: null, monthly: 16, annual: 12.8 },
     ],
-    // TODO: CHECK placeholder BYOK price for AI Chat, not confirmed.
-    byokSeat: { monthly: 15, annual: 12 },
     ctaLabel: "Start free trial",
   },
   workspace: {
@@ -131,11 +140,23 @@ export const PLANS: Record<PlanId, PricingPlan> = {
       { from: 551, to: null, monthly: 22.25, annual: 17.8 },
     ],
     powerSeat: { monthly: 129, annual: 109 },
-    // TODO: CHECK BYOK price for AI Workspace (current site price, not confirmed for the new plans).
-    byokSeat: { monthly: 20, annual: 16 },
     ctaLabel: "Start free trial",
   },
 };
+
+export function roundSeatPrice(amount: number) {
+  return Math.round(amount * 100) / 100;
+}
+
+export function seatPriceForBand(
+  band: PriceBand,
+  billing: Billing,
+  access: ModelAccess,
+): number {
+  const included = band[billing];
+  if (access === "included") return included;
+  return roundSeatPrice(included - MODEL_INCLUDED_DISCOUNT[billing]);
+}
 
 /** Order of the plan cards on desktop. On mobile AI Workspace stacks on top. */
 export const PLAN_ORDER: PlanId[] = ["chat", "workspace"];
@@ -220,7 +241,7 @@ export const PRICING_FAQ: PricingFaqItem[] = [
   {
     question: "Can we use our own API keys?",
     answer:
-      "Yes, with Bring your own key you pay the model providers directly and the seat price is lower, with no usage limits on our side.",
+      "Yes. When AI models are not included in your seat price, you connect your own model keys and pay providers directly, with no usage limits on our side.",
   },
   {
     question: "How do volume discounts work?",
@@ -268,7 +289,11 @@ export const PRICING_COPY = {
     save: "Save 20%",
     models: "AI models",
     included: "Included",
-    byok: "Bring your own",
+    notIncluded: "Not included",
+    includedTooltip:
+      "Price includes access to all AI models we host. Fair usage limits apply.",
+    notIncludedTooltip:
+      "AI models aren't included. Bring your own model keys, with no usage limits.",
     viewBreakdown: "View pricing breakdown",
   },
   trial: {
@@ -282,9 +307,10 @@ export const PRICING_COPY = {
     perUser: "Per user / month (excl. VAT)",
     perUserAverage: "Average per user / month (excl. VAT)",
     powerNote: `${POWER_SEAT_USAGE_MULTIPLIER}x more usage than a Standard seat`,
+    powerIncludedOnly: "Only available when AI models are included.",
     or: "or",
-    byokNote:
-      "You pay the model providers directly, with no usage limits on our side.",
+    modelsNotIncludedNote:
+      "You bring your own model keys and pay providers directly, with no usage limits on our side.",
     totalFor: (seats: number, total: string) =>
       `${total} per month for ${seats.toLocaleString("en")} Standard seats`,
   },
@@ -311,13 +337,12 @@ export const PRICING_COPY = {
     planAriaLabel: "Plan",
     billingSummary: (billing: string) =>
       `Standard seats, ${billing.toLowerCase()} billing`,
-    bandColumn: "Band",
     seatsColumn: "Seats",
-    priceColumn: "Price per seat",
-    subtotalColumn: "Subtotal",
-    flatBand: "All seats",
+    priceColumn: "Price (per standard seat)",
+    subtotalColumn: "Aggregated price",
+    models: "AI models",
+    billing: "Billing",
     total: "Total per month (excl. VAT)",
-    byokNote: "With your own key every Standard seat has the same price.",
   },
   social: {
     ariaLabel: "Customer logos",
