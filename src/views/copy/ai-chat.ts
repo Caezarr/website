@@ -80,7 +80,7 @@ const en: AiChatCopy = {
 
     eyebrow: "AI Chat",
 
-    title: "Find answers. Get work done.",
+    title: "Find answers and get work done faster.",
 
     subtitle:
 

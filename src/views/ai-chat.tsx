@@ -62,12 +62,13 @@ export async function AiChatView({ locale }: { locale: Locale }) {
           fallbackHero: {
             src: "/images/wonka-chat/wonka-ai-chat-header.png",
             alt: copy.hero.imageAlt,
-            width: 3840,
-            height: 2160,
+            width: 1920,
+            height: 1080,
           },
         }}
         meetingUrl={TRIAL_URL}
         meetingLabel={trialLabel}
+        youtubeId="IqtdY9ZOcLw"
         scrollReveal
         locale={locale}
       />
