@@ -45,7 +45,7 @@ const en: ModelsSectionCopy = {
     supportingLine:
       "Use premium models where they add value, and lighter models where they get the job done.",
     source:
-      "Illustrative estimate based on Wonka Workspace token rates: Claude Opus 5 at $5.50 input / $27.50 output per million tokens versus GPT-5.6 Luna at $0.22 / $1.32, assuming 3 input tokens for every 1 output token.",
+      "Illustrative estimate based on Wonka Workspace token rates: Claude Opus 5.5 at $5.50 input / $27.50 output per million tokens versus GPT-5.6 Luna at $0.22 / $1.32, assuming 3 input tokens for every 1 output token.",
   },
 };
 
@@ -74,7 +74,7 @@ const fr: ModelsSectionCopy = {
     supportingLine:
       "Utilisez les modèles premium là où ils apportent de la valeur, et des modèles plus légers là où ils suffisent.",
     source:
-      "Estimation illustrative basée sur les tarifs Wonka Workspace par million de tokens : Claude Opus 5 à 5,50 $ en entrée / 27,50 $ en sortie contre GPT-5.6 Luna à 0,22 $ / 1,32 $, en supposant 3 tokens d'entrée pour 1 token de sortie.",
+      "Estimation illustrative basée sur les tarifs Wonka Workspace par million de tokens : Claude Opus 5.5 à 5,50 $ en entrée / 27,50 $ en sortie contre GPT-5.6 Luna à 0,22 $ / 1,32 $, en supposant 3 tokens d'entrée pour 1 token de sortie.",
   },
 };
 
@@ -107,7 +107,7 @@ const nl: ModelsSectionCopy = {
     supportingLine:
       "Zet premium modellen in waar ze waarde toevoegen, en lichtere modellen waar ze het werk doen.",
     source:
-      "Illustratieve schatting op basis van Wonka Workspace-tokens: Claude Opus 5 aan $5,50 input / $27,50 output per miljoen tokens versus GPT-5.6 Luna aan $0,22 / $1,32, uitgaande van 3 inputtokens per 1 outputtoken.",
+      "Illustratieve schatting op basis van Wonka Workspace-tokens: Claude Opus 5.5 aan $5,50 input / $27,50 output per miljoen tokens versus GPT-5.6 Luna aan $0,22 / $1,32, uitgaande van 3 inputtokens per 1 outputtoken.",
   },
 };
 

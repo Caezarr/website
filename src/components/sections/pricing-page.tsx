@@ -1,29 +1,42 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useState } from "react";
+import Link from "next/link";
 import { ButtonLink } from "@/components/ui/button";
 import { PricingBreakdownModal } from "@/components/sections/pricing-breakdown-modal";
+import {
+  ControlField,
+  SeatsControl,
+} from "@/components/sections/pricing-seats-control";
+import { SegmentedControl } from "@/components/sections/pricing-segmented-control";
 import { Section } from "@/components/ui/section";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Surface } from "@/components/ui/surface";
 import { CheckmarkIcon } from "@/components/ui/icons/checkmark-icon";
-import { calculatePricing } from "@/lib/pricing-calculator";
+import {
+  calculateBreakdown,
+  getAverageStandardSeatPrice,
+  getPowerSeatPrice,
+} from "@/lib/pricing-calculator";
+import {
+  DEFAULT_BILLING,
+  DEFAULT_MODEL_ACCESS,
+  DEFAULT_SEATS,
+  PLAN_ORDER,
+  PLANS,
+  PRICING_COPY,
+  TRIAL_REGISTER_URL,
+  type Billing,
+  type ModelAccess,
+  type PlanId,
+} from "@/lib/pricing.config";
 import { formatEuro } from "@/lib/pricing-format";
-import { useT, useUiLocale } from "@/i18n/use-t";
-import { radius } from "@/lib/design-tokens";
+import { localizeHref } from "@/i18n/routes";
+import { useUiLocale } from "@/i18n/use-t";
+import { headingClass, radius } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 
-const MIN_SEATS = 1;
-const MAX_SEATS = 1000;
-const SEAT_PRESETS = [25, 100, 250] as const;
-
-function clampSeats(value: number) {
-  if (!Number.isFinite(value)) return MIN_SEATS;
-  return Math.min(MAX_SEATS, Math.max(MIN_SEATS, Math.round(value)));
-}
-
-const TOGGLE_GRADIENT =
-  "radial-gradient(ellipse 70% 110% at 65% 115%, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0) 65%)";
+const copy = PRICING_COPY;
 
 const priceAmountClass =
   "font-sans text-[1.875rem] leading-none md:text-[2.125rem] lg:text-[2.375rem]";
@@ -31,397 +44,338 @@ const priceAmountClass =
 const pricingCtaClassName =
   "h-[2.6875rem] min-w-[9.5rem] px-[1.125rem] type-paragraph-m-bold";
 
-const TRIAL_REGISTER_URL = "https://wonka.chat/register";
+const pricingCardGridClass =
+  "relative flex h-full flex-col p-6 md:p-8 lg:grid lg:row-span-3 lg:grid-rows-subgrid";
+
+const focusRing =
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2";
 
 interface PricingPageProps {
   bookingHref: string;
 }
 
-function PriceDisplay({
-  amount,
-  className,
-  inverted = false,
-}: {
-  amount: number;
-  className?: string;
-  inverted?: boolean;
-}) {
-  const locale = useUiLocale();
-  return (
-    <p
-      className={cn(
-        priceAmountClass,
-        "tabular-nums",
-        inverted ? "text-white" : "text-text",
-        className,
-      )}
-    >
-      {formatEuro(amount, locale)}
-    </p>
-  );
-}
-
-function PricingTierBlock({
-  amount,
-  seatLabel,
-  billingNote,
-  description,
-  inverted = false,
-}: {
-  amount: number;
-  seatLabel: string;
-  billingNote: string;
-  description?: React.ReactNode;
-  inverted?: boolean;
-}) {
-  return (
-    <div className="flex flex-col gap-0.5">
-      <PriceDisplay amount={amount} inverted={inverted} />
-      <p
-        className={cn(
-          "type-paragraph-m-bold",
-          inverted ? "text-white" : "text-text",
-        )}
-      >
-        {seatLabel}
-      </p>
-      {description ? (
-        <p
-          className={cn(
-            "type-paragraph-m",
-            inverted ? "text-white/70" : "text-text/70",
-          )}
-        >
-          {description}
-        </p>
-      ) : null}
-      <p
-        className={cn(
-          "type-paragraph-m",
-          inverted ? "text-white/70" : "text-text/70",
-        )}
-      >
-        {billingNote}
-      </p>
-    </div>
-  );
-}
-
-function Toggle({
-  id,
-  label,
-  checked,
-  onChange,
-  inverted = false,
-}: {
-  id: string;
-  label: string;
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-  inverted?: boolean;
-}) {
-  return (
-    <div className="flex items-center gap-3">
-      <label
-        id={`${id}-label`}
-        htmlFor={id}
-        className={cn(
-          "type-paragraph-m",
-          inverted ? "text-white/70" : "text-text/70",
-        )}
-      >
-        {label}
-      </label>
-      <button
-        id={id}
-        type="button"
-        role="switch"
-        aria-checked={checked}
-        aria-labelledby={`${id}-label`}
-        onClick={() => onChange(!checked)}
-        className={cn(
-          "relative inline-flex h-6 w-11 shrink-0 items-center rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
-          inverted
-            ? checked
-              ? "bg-white focus-visible:ring-white focus-visible:ring-offset-blue-400"
-              : "bg-mid-gray focus-visible:ring-white/50 focus-visible:ring-offset-blue-400"
-            : "bg-light-gray focus-visible:ring-blue-400 focus-visible:ring-offset-2",
-        )}
-      >
-        {checked && !inverted ? (
-          <>
-            <span
-              aria-hidden
-              className="absolute inset-0 rounded-full bg-blue-400"
-            />
-            <span
-              aria-hidden
-              className="absolute inset-0 rounded-full"
-              style={{ background: TOGGLE_GRADIENT }}
-            />
-          </>
-        ) : null}
-        <span
-          aria-hidden
-          className={cn(
-            "relative inline-block size-4 rounded-full shadow-subtle transition-transform",
-            inverted
-              ? checked
-                ? "translate-x-6 bg-dark-gray"
-                : "translate-x-1 bg-white"
-              : checked
-                ? "translate-x-6 bg-white"
-                : "translate-x-1 bg-white",
-          )}
-        />
-      </button>
-    </div>
-  );
-}
-
-function SeatPresetButtons({
-  seats,
-  onSelect,
-}: {
-  seats: number;
-  onSelect: (value: number) => void;
-}) {
-  return (
-    <div className="flex items-center gap-1">
-      {SEAT_PRESETS.map((preset) => {
-        const selected = seats === preset;
-
-        return (
-          <button
-            key={preset}
-            type="button"
-            aria-pressed={selected}
-            onClick={() => onSelect(preset)}
-            className={cn(
-              radius.full,
-              "min-w-[2.25rem] px-2 py-1 type-paragraph-s tabular-nums transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2",
-              selected
-                ? "bg-text text-white"
-                : "bg-light-gray text-text/60 hover:text-text",
-            )}
-          >
-            {preset}
-          </button>
-        );
-      })}
-    </div>
-  );
-}
-
-function BillingCycleToggle({
-  annual,
-  onChange,
-}: {
-  annual: boolean;
-  onChange: (annual: boolean) => void;
-}) {
-  const t = useT();
-  return (
-    <div
-      role="group"
-      aria-label={t("pricing.billing.ariaLabel")}
-      className={cn(
-        radius.full,
-        "inline-flex border bg-light-gray p-1 transition-colors",
-        annual ? "border-blue-400" : "border-transparent",
-      )}
-    >
-      <button
-        type="button"
-        aria-pressed={!annual}
-        onClick={() => onChange(false)}
-        className={cn(
-          radius.full,
-          "px-4 py-1.5 type-paragraph-m transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2",
-          !annual ? "bg-white text-text shadow-subtle" : "text-text/60",
-        )}
-      >
-        {t("pricing.billing.monthly")}
-      </button>
-      <button
-        type="button"
-        aria-pressed={annual}
-        onClick={() => onChange(true)}
-        className={cn(
-          radius.full,
-          "flex items-center gap-1.5 px-3 py-1.5 type-paragraph-m transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2",
-          annual ? "bg-white text-text shadow-subtle" : "text-text/60",
-        )}
-      >
-        {t("pricing.billing.annual")}
-        <span
-          className={cn(
-            radius.full,
-            "type-paragraph-s bg-blue-100 px-1.5 py-0.5 text-blue-900",
-          )}
-        >
-          {t("pricing.billing.save")}
-        </span>
-      </button>
-    </div>
-  );
+interface CheckListItem {
+  text: string;
+  link?: { label: string; href: string };
 }
 
 function PricingCheckList({
   items,
-  variant = "default",
+  emphasized = false,
 }: {
-  items: string[];
-  variant?: "default" | "emphasized" | "inverted";
+  items: (string | CheckListItem)[];
+  emphasized?: boolean;
 }) {
+  const locale = useUiLocale();
   return (
     <ul className="space-y-2.5">
-      {items.map((item) => (
-        <li key={item} className="flex items-start gap-2.5">
-          <span
-            className={cn(
-              "mt-0.5 inline-flex size-4 shrink-0 items-center justify-center",
-              variant === "default" && "text-blue-400",
-              variant === "emphasized" &&
-                cn(radius.full, "bg-white/20 text-white"),
-              variant === "inverted" &&
-                cn(radius.full, "bg-white/10 text-white/80"),
-            )}
-          >
-            <CheckmarkIcon className="size-2.5" />
-          </span>
-          <span
-            className={cn(
-              "type-paragraph-m",
-              variant === "default" ? "text-text/70" : "text-white/75",
-            )}
-          >
-            {item}
-          </span>
-        </li>
-      ))}
+      {items.map((entry) => {
+        const item = typeof entry === "string" ? { text: entry } : entry;
+        return (
+          <li key={item.text} className="flex items-start gap-2.5">
+            <span
+              className={cn(
+                "mt-1 inline-flex size-4 shrink-0 items-center justify-center",
+                emphasized
+                  ? cn(radius.full, "bg-white/20 text-white")
+                  : "text-blue-400",
+              )}
+            >
+              <CheckmarkIcon className="size-2.5" />
+            </span>
+            <span
+              className={cn(
+                "type-paragraph-m",
+                emphasized ? "text-white/80" : "text-text/70",
+              )}
+            >
+              {item.text}
+              {item.link ? (
+                <>
+                  {" "}
+                  <Link
+                    href={localizeHref(item.link.href, locale)}
+                    className={cn(
+                      "underline underline-offset-4 transition-colors",
+                      emphasized
+                        ? "text-white hover:text-white/75"
+                        : "text-text hover:text-text/70",
+                    )}
+                  >
+                    {item.link.label}
+                  </Link>
+                </>
+              ) : null}
+            </span>
+          </li>
+        );
+      })}
     </ul>
   );
 }
 
-function PricingFeatureSection({
-  title,
-  children,
-  variant = "default",
+function SeatPrice({
+  amount,
+  label,
+  note,
+  emphasized,
+  compact = false,
 }: {
-  title: string;
-  children: React.ReactNode;
-  variant?: "default" | "emphasized" | "inverted";
+  amount: number;
+  label: string;
+  note: string;
+  emphasized: boolean;
+  compact?: boolean;
 }) {
   return (
-    <div
-      className={cn(
-        "border-t border-dashed pt-4",
-        variant === "default" && "border-border",
-        (variant === "emphasized" || variant === "inverted") &&
-          "border-white/25",
-      )}
-    >
+    <div className="flex flex-col gap-1">
       <p
         className={cn(
-          "type-eyebrow",
-          variant === "default" && "text-text/45",
-          variant === "emphasized" && "text-white/55",
-          variant === "inverted" && "text-white/45",
+          compact ? "type-paragraph-s" : "type-paragraph-m-bold",
+          emphasized ? "text-white" : "text-text",
         )}
       >
-        {title}
+        {label}
       </p>
-      <div className="mt-3">{children}</div>
+      <p
+        className={cn(
+          compact
+            ? "font-sans text-[1.25rem] leading-none md:text-[1.375rem]"
+            : priceAmountClass,
+          "tabular-nums",
+          emphasized ? "text-white" : "text-text",
+        )}
+      >
+        {formatEuro(amount)}
+      </p>
+      <p
+        className={cn(
+          compact ? "type-paragraph-s" : "type-paragraph-m",
+          emphasized ? "text-white/70" : "text-text/70",
+        )}
+      >
+        {note}
+      </p>
     </div>
   );
 }
 
-function PricingCard({
-  title,
-  badge,
-  children,
+function PlanCard({
+  planId,
+  seats,
+  billing,
+  access,
+  href,
   className,
-  emphasized = false,
-  inverted = false,
 }: {
-  title: string;
-  badge?: string;
-  children: React.ReactNode;
+  planId: PlanId;
+  seats: number;
+  billing: Billing;
+  access: ModelAccess;
+  href: string;
   className?: string;
-  emphasized?: boolean;
-  inverted?: boolean;
 }) {
+  const plan = PLANS[planId];
+  const emphasized = Boolean(plan.badge);
+  const total = calculateBreakdown(planId, seats, billing, access).total;
+  const features = plan.features.map((feature) =>
+    access === "byok" && feature.byokText
+      ? { text: feature.byokText }
+      : { text: feature.text, link: feature.link },
+  );
+  const divider = emphasized ? "border-white/25" : "border-border";
+  const powerPrice =
+    access === "included" ? getPowerSeatPrice(planId, billing) : null;
+
   return (
     <Surface
       variant="card"
       className={cn(
-        "flex h-full flex-col p-6",
-        emphasized &&
-          "border border-blue-400 bg-blue-400 text-white",
-        inverted && "border border-black bg-black text-white",
-        !emphasized &&
-          !inverted &&
-          "border border-dashed border-border bg-background",
+        pricingCardGridClass,
+        emphasized
+          ? "border border-blue-400 bg-blue-400 text-white"
+          : "border-border bg-background border border-dashed",
         className,
       )}
     >
-      <div className="flex items-start justify-between gap-3">
-        <h2
-          className={cn(
-            "type-paragraph-m-bold",
-            emphasized || inverted ? "text-white" : "text-text",
-          )}
-        >
-          {title}
-        </h2>
-        {badge ? (
+      <div>
+        {plan.badge ? (
           <span
             className={cn(
               radius.full,
-              "type-eyebrow shrink-0 px-2.5 py-1",
-              emphasized && "bg-white/20 text-white",
-              inverted && "bg-white/10 text-white/70",
-              !emphasized &&
-                !inverted &&
-                "bg-blue-100 text-blue-900",
+              "type-paragraph-s shadow-subtle absolute -top-3.5 left-1/2 -translate-x-1/2 border border-dashed border-blue-400 bg-white px-3.5 py-1 whitespace-nowrap text-blue-900",
             )}
           >
-            {badge}
+            {plan.badge}
           </span>
         ) : null}
+        <h2
+          className={cn(
+            headingClass.card,
+            emphasized ? "text-white" : "text-text",
+          )}
+        >
+          {plan.name}
+        </h2>
+        <p
+          className={cn(
+            "type-paragraph-m mt-2 lg:min-h-12",
+            emphasized ? "text-white/80" : "text-text/70",
+          )}
+        >
+          {plan.tagline}
+        </p>
       </div>
-      <div className="mt-5 flex flex-1 flex-col gap-4">{children}</div>
+
+      <div
+        className={cn(
+          "mt-4 flex h-full flex-col border-t border-dashed pt-4 pb-5",
+          divider,
+        )}
+      >
+        <div className="flex flex-col gap-3">
+          <SeatPrice
+            amount={getAverageStandardSeatPrice(planId, seats, billing, access)}
+            label={copy.card.standardSeat}
+            note={
+              access === "included" && seats > (plan.standardBands[0].to ?? seats)
+                ? copy.card.perUserAverage
+                : copy.card.perUser
+            }
+            emphasized={emphasized}
+          />
+          {access === "byok" ? (
+            <p
+              className={cn(
+                "type-paragraph-m",
+                emphasized ? "text-white/80" : "text-text/70",
+              )}
+            >
+              {copy.card.byokNote}
+            </p>
+          ) : null}
+          <p
+            className={cn(
+              "type-paragraph-m-bold tabular-nums",
+              emphasized ? "text-white" : "text-text",
+            )}
+            aria-live="polite"
+          >
+            {copy.card.totalFor(seats, formatEuro(total))}
+          </p>
+        </div>
+        <div className="mt-auto flex justify-center pt-3">
+          <ButtonLink
+            href={href}
+            variant="secondary"
+            className={pricingCtaClassName}
+          >
+            {plan.ctaLabel}
+          </ButtonLink>
+        </div>
+      </div>
+
+      <div
+        className={cn(
+          "mt-6 flex flex-1 flex-col gap-3 border-t border-dashed pt-6",
+          divider,
+        )}
+      >
+        {plan.featuresIntro ? (
+          <p
+            className={cn(
+              "type-paragraph-m-bold",
+              emphasized ? "text-white" : "text-text",
+            )}
+          >
+            {plan.featuresIntro}
+          </p>
+        ) : null}
+        <PricingCheckList items={features} emphasized={emphasized} />
+        {powerPrice !== null ? (
+          <div
+            className={cn(
+              radius.xs,
+              "mt-3 border border-dashed p-4",
+              emphasized
+                ? "border-white/30 bg-white/10"
+                : "border-border bg-surface-muted",
+            )}
+          >
+            <SeatPrice
+              amount={powerPrice}
+              label={copy.card.powerSeat}
+              note={copy.card.powerNote}
+              emphasized={emphasized}
+              compact
+            />
+          </div>
+        ) : null}
+      </div>
+    </Surface>
+  );
+}
+
+function EnterpriseCard({ href }: { href: string }) {
+  return (
+    <Surface
+      variant="card"
+      className={cn(
+        pricingCardGridClass,
+        "border border-mid-gray bg-mid-gray text-black",
+      )}
+    >
+      <div>
+        <h2 className={cn(headingClass.card, "text-black")}>
+          {copy.enterprise.title}
+        </h2>
+        <p className="type-paragraph-m mt-2 text-black/70 lg:min-h-12">
+          {copy.enterprise.body}
+        </p>
+      </div>
+
+      <div className="mt-4 flex h-full flex-col border-t border-dashed border-black/20 pt-4 pb-5">
+        <div className="flex flex-col gap-3">
+          <p className="font-sans text-[1.375rem] leading-snug text-black md:text-[1.5rem] lg:text-[1.625rem]">
+            {copy.enterprise.price}
+          </p>
+          <p className="type-paragraph-m text-black/70">
+            {copy.enterprise.priceNote}
+          </p>
+        </div>
+        <div className="mt-auto flex justify-center pt-3">
+          <ButtonLink
+            href={href}
+            variant="secondary"
+            className={pricingCtaClassName}
+          >
+            {copy.enterprise.cta}
+          </ButtonLink>
+        </div>
+      </div>
+
+      <div className="mt-6 flex flex-1 flex-col gap-3 border-t border-dashed border-black/20 pt-6">
+        <p className="type-paragraph-m-bold text-black">
+          {copy.enterprise.featuresIntro}
+        </p>
+        <PricingCheckList items={[...copy.enterprise.items]} />
+      </div>
     </Surface>
   );
 }
 
 export function PricingPage({ bookingHref }: PricingPageProps) {
-  const t = useT();
-  const seatsInputId = useId();
-  const aiModelsToggleId = useId();
   const [breakdownOpen, setBreakdownOpen] = useState(false);
-  const [seats, setSeats] = useState(MIN_SEATS);
-  const [seatsInput, setSeatsInput] = useState(String(MIN_SEATS));
-  const [annual, setAnnual] = useState(true);
-  const [aiModelsIncluded, setAiModelsIncluded] = useState(true);
-
-  const pricing = calculatePricing(seats, annual, aiModelsIncluded);
-
-  const workspaceItems = [
-    ...(t.raw("pricing.workspace.features") as string[]),
-    aiModelsIncluded
-      ? t("pricing.workspace.featureModelsIncluded")
-      : t("pricing.workspace.featureOwnModels"),
-  ];
+  const [seats, setSeats] = useState(DEFAULT_SEATS);
+  const [billing, setBilling] = useState<Billing>(DEFAULT_BILLING);
+  const [access, setAccess] = useState<ModelAccess>(DEFAULT_MODEL_ACCESS);
 
   return (
     <Section className="bg-background py-16 md:py-24">
       <div className="mx-auto max-w-2xl">
         <SectionHeader
           align="center"
-          heading={t("pricing.header.heading")}
-          body={t("pricing.header.body")}
+          heading={copy.hero.heading}
           headingAs="h1"
           headingRole="hero"
         />
@@ -429,181 +383,95 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
 
       <Surface
         variant="card"
-        className="mx-auto mt-10 max-w-3xl border border-dashed border-border bg-white p-6"
+        className="border-border bg-background mx-auto mt-10 max-w-4xl border border-dashed p-6"
       >
-        <div className="flex flex-wrap items-baseline justify-center gap-x-2 gap-y-1">
-          <p className="type-paragraph-m-bold text-text">
-            {t("pricing.builder.title")}
-          </p>
+        <div className="flex flex-col items-center gap-6 lg:flex-row lg:items-end lg:justify-center lg:gap-10">
+          <SeatsControl seats={seats} onChange={setSeats} />
+          <ControlField label={copy.controls.billing}>
+            <SegmentedControl<Billing>
+              label={copy.controls.billing}
+              value={billing}
+              onChange={setBilling}
+              options={[
+                { value: "monthly", label: copy.controls.monthly },
+                {
+                  value: "annual",
+                  label: copy.controls.annual,
+                  badge: copy.controls.save,
+                },
+              ]}
+            />
+          </ControlField>
+          <ControlField label={copy.controls.models}>
+            <SegmentedControl<ModelAccess>
+              label={copy.controls.models}
+              value={access}
+              onChange={setAccess}
+              options={[
+                { value: "included", label: copy.controls.included },
+                { value: "byok", label: copy.controls.byok },
+              ]}
+            />
+          </ControlField>
+        </div>
+        <div className="mt-5 flex justify-center">
           <button
             type="button"
             onClick={() => setBreakdownOpen(true)}
-            className="type-paragraph-m text-text/60 underline underline-offset-4 transition-colors hover:text-text"
+            className={cn(
+              "type-paragraph-m text-text/60 hover:text-text underline underline-offset-4 transition-colors",
+              focusRing,
+            )}
           >
-            {t("pricing.builder.viewBreakdown")}
+            {copy.controls.viewBreakdown}
           </button>
-        </div>
-        <div className="mt-5 flex flex-col items-center gap-6 lg:flex-row lg:flex-wrap lg:items-center lg:justify-center lg:gap-x-10 lg:gap-y-4">
-          <div className="flex shrink-0 flex-wrap items-center justify-center gap-2 md:justify-start">
-              <label
-                htmlFor={seatsInputId}
-                className="type-paragraph-m text-text/70"
-              >
-                {t("pricing.builder.seats")}
-              </label>
-              <input
-                id={seatsInputId}
-                type="text"
-                inputMode="numeric"
-                value={seatsInput}
-                onChange={(event) => {
-                  const value = event.target.value;
-                  if (value !== "" && !/^\d+$/.test(value)) return;
-
-                  setSeatsInput(value);
-                  if (value !== "") {
-                    setSeats(clampSeats(Number(value)));
-                  }
-                }}
-                onBlur={() => {
-                  if (seatsInput === "") {
-                    setSeats(MIN_SEATS);
-                    setSeatsInput(String(MIN_SEATS));
-                    return;
-                  }
-
-                  const parsed = clampSeats(Number(seatsInput));
-                  setSeats(parsed);
-                  setSeatsInput(String(parsed));
-                }}
-                className={cn(
-                  radius.sm,
-                  "w-24 border border-dashed border-border bg-background px-2 py-1.5 text-center type-paragraph-m tabular-nums text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2",
-                )}
-              />
-              <SeatPresetButtons
-                seats={seats}
-                onSelect={(value) => {
-                  const next = clampSeats(value);
-                  setSeats(next);
-                  setSeatsInput(String(next));
-                }}
-              />
-            </div>
-
-          <div className="flex shrink-0 justify-center lg:justify-start">
-              <BillingCycleToggle annual={annual} onChange={setAnnual} />
-            </div>
         </div>
       </Surface>
 
       <PricingBreakdownModal
         open={breakdownOpen}
         onClose={() => setBreakdownOpen(false)}
+        seats={seats}
+        onSeatsChange={setSeats}
+        billing={billing}
+        access={access}
       />
 
-      <div className="mt-5 grid gap-5 lg:grid-cols-3">
-        <PricingCard
-          title={t("pricing.trial.title")}
-          badge={t("pricing.trial.badge")}
-          className="order-1 bg-light-gray"
-        >
-          <p className={cn(priceAmountClass, "text-text")}>
-            {t("pricing.trial.price")}
-          </p>
-          <p className="type-paragraph-m text-text/70">
-            {t("pricing.trial.body")}
-          </p>
-          <PricingFeatureSection title={t("pricing.trial.featuresTitle")}>
-            <PricingCheckList
-              variant="default"
-              items={t.raw("pricing.trial.features") as string[]}
-            />
-          </PricingFeatureSection>
-          <div className="mt-auto flex justify-center pt-2">
-            <ButtonLink
-              href={TRIAL_REGISTER_URL}
-              variant="secondary"
-              className={pricingCtaClassName}
-            >
-              {t("pricing.trial.cta")}
-            </ButtonLink>
-          </div>
-        </PricingCard>
-
-        <PricingCard
-          title={t("pricing.workspace.title")}
-          badge={t("pricing.workspace.badge")}
-          emphasized
-          className="order-2"
-        >
-          <PricingTierBlock
-            amount={pricing.perSeatMonth}
-            seatLabel={t("pricing.workspace.seatLabel")}
-            billingNote={t("pricing.workspace.billingNote")}
-            inverted
+      <div className="mt-8 grid gap-5 lg:grid-cols-3 lg:gap-x-5 lg:gap-y-0">
+        {PLAN_ORDER.map((planId) => (
+          <PlanCard
+            key={planId}
+            planId={planId}
+            seats={seats}
+            billing={billing}
+            access={access}
+            href={TRIAL_REGISTER_URL}
+            className={
+              PLANS[planId].badge ? "order-first lg:order-none" : undefined
+            }
           />
-
-          <div className="mt-6">
-            <Toggle
-              id={aiModelsToggleId}
-              label={t("pricing.workspace.aiModelsToggle")}
-              checked={aiModelsIncluded}
-              onChange={setAiModelsIncluded}
-              inverted
-            />
-          </div>
-
-          <PricingFeatureSection
-            title={t("pricing.workspace.featuresTitle")}
-            variant="emphasized"
-          >
-            <PricingCheckList items={workspaceItems} variant="emphasized" />
-          </PricingFeatureSection>
-
-          <div className="mt-auto flex justify-center pt-2">
-            <ButtonLink
-              href={bookingHref}
-              variant="secondary"
-              className={pricingCtaClassName}
-            >
-              {t("pricing.workspace.cta")}
-            </ButtonLink>
-          </div>
-        </PricingCard>
-
-        <PricingCard
-          title={t("pricing.enterprise.title")}
-          badge={t("pricing.enterprise.badge")}
-          inverted
-          className="order-3"
-        >
-          <p className={cn(priceAmountClass, "text-white")}>
-            {t("pricing.enterprise.price")}
-          </p>
-          <p className="type-paragraph-m text-white/70">
-            {t("pricing.enterprise.body")}
-          </p>
-          <PricingFeatureSection
-            title={t("pricing.enterprise.featuresTitle")}
-            variant="inverted"
-          >
-            <PricingCheckList
-              variant="inverted"
-              items={t.raw("pricing.enterprise.features") as string[]}
-            />
-          </PricingFeatureSection>
-          <div className="mt-auto flex justify-center pt-2">
-            <ButtonLink
-              href={bookingHref}
-              variant="secondary"
-              className={pricingCtaClassName}
-            >
-              {t("pricing.enterprise.cta")}
-            </ButtonLink>
-          </div>
-        </PricingCard>
+        ))}
+        <EnterpriseCard href={bookingHref} />
       </div>
+
+      <Surface
+        variant="card"
+        className="bg-surface-muted mt-5 flex flex-col items-start gap-5 p-6 md:flex-row md:items-center md:justify-between md:p-8"
+      >
+        <div className="flex max-w-2xl flex-col gap-2">
+          <h2 className={cn(headingClass.card, "text-text")}>
+            {copy.trial.title}
+          </h2>
+          <p className="type-paragraph-m text-text/70">{copy.trial.body}</p>
+        </div>
+        <ButtonLink
+          href={TRIAL_REGISTER_URL}
+          variant="primary"
+          className={cn(pricingCtaClassName, "shrink-0")}
+        >
+          {copy.trial.cta}
+        </ButtonLink>
+      </Surface>
     </Section>
   );
 }

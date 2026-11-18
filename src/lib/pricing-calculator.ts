@@ -1,108 +1,102 @@
-export interface PricingBandBreakdown {
-  tier: number;
-  seats: number;
-  rate: number;
+import {
+  MAX_SEATS,
+  MIN_SEATS,
+  PLANS,
+  type Billing,
+  type ModelAccess,
+  type PlanId,
+  type PriceBand,
+} from "@/lib/pricing.config";
+
+export interface BreakdownRow {
+  from: number;
+  to: number | null;
+  seatsInBand: number;
+  pricePerSeat: number;
   subtotal: number;
 }
 
-/** Annual billing discount (20% off list monthly). */
-export const ANNUAL_DISCOUNT_FACTOR = 0.8;
-
-export interface PricingResult {
-  bands: PricingBandBreakdown[];
-  listMonthly: number;
-  payableMonthly: number;
-  acv: number;
-  perSeatPerYear: number;
-  perSeatMonth: number;
-  annualSaving: number;
+export interface PricingBreakdown {
+  rows: BreakdownRow[];
+  total: number;
 }
 
-const AI_CREDITS_ADDON = 7;
+const toCents = (amount: number) => Math.round(amount * 100);
 
-const TIER_BASE_RATES = [20, 16, 12, 9] as const;
-
-function rateForTier(tierIndex: number, aiModelsIncluded: boolean) {
-  const base = TIER_BASE_RATES[tierIndex];
-  return aiModelsIncluded ? base + AI_CREDITS_ADDON : base;
+export function clampSeats(value: number) {
+  if (!Number.isFinite(value)) return MIN_SEATS;
+  return Math.min(MAX_SEATS, Math.max(MIN_SEATS, Math.round(value)));
 }
 
-export function bandSeatCounts(seats: number) {
-  const s = Math.max(0, Math.floor(seats));
-  return {
-    band1: Math.min(s, 50),
-    band2: Math.max(0, Math.min(s, 250) - 50),
-    band3: Math.max(0, Math.min(s, 1000) - 250),
-    band4: Math.max(0, s - 1000),
-  };
-}
-
-/** Band label keys; translated via `pricing.breakdown.bandFirst|bandNext`. */
-export type PricingBandLabel = "bandFirst" | "bandNext";
-
-const TIER_LABELS: readonly PricingBandLabel[] = [
-  "bandFirst",
-  "bandNext",
-  "bandNext",
-  "bandNext",
-];
-
-const TIER_CAPACITIES: readonly (number | "1000+")[] = [
-  50,
-  200,
-  750,
-  "1000+",
-];
-
-/** Tier rate card for the pricing breakdown modal (first 3 tiers only). */
-export function getPricingTierCatalog(
-  annual: boolean,
-  aiModelsIncluded: boolean,
-) {
-  const discount = annual ? ANNUAL_DISCOUNT_FACTOR : 1;
-
-  return TIER_LABELS.slice(0, 3).map((labelKey, index) => ({
-    labelKey,
-    tierSeats: TIER_CAPACITIES[index],
-    ratePerSeat: rateForTier(index, aiModelsIncluded) * discount,
-  }));
-}
-
-export function calculatePricing(
+/** Average Standard seat price for the whole team, shown on the plan card. */
+export function getAverageStandardSeatPrice(
+  plan: PlanId,
   seats: number,
-  annual: boolean,
-  aiModelsIncluded: boolean,
-): PricingResult {
-  const counts = bandSeatCounts(seats);
-  const seatBands = [counts.band1, counts.band2, counts.band3, counts.band4];
+  billing: Billing,
+  access: ModelAccess,
+) {
+  const count = clampSeats(seats);
+  const { total } = calculateBreakdown(plan, count, billing, access);
+  return Math.round((total / count) * 100) / 100;
+}
 
-  const bands: PricingBandBreakdown[] = seatBands
-    .map((bandSeats, index) => {
-      if (bandSeats <= 0) return null;
-      const rate = rateForTier(index, aiModelsIncluded);
-      return {
-        tier: index + 1,
-        seats: bandSeats,
-        rate,
-        subtotal: bandSeats * rate,
-      };
-    })
-    .filter((band): band is PricingBandBreakdown => band !== null);
+/** Starting Standard seat price: first band, or the flat BYOK price. */
+export function getStandardSeatPrice(
+  plan: PlanId,
+  billing: Billing,
+  access: ModelAccess,
+) {
+  const { standardBands, byokSeat } = PLANS[plan];
+  return access === "byok" ? byokSeat[billing] : standardBands[0][billing];
+}
 
-  const listMonthly = bands.reduce((sum, band) => sum + band.subtotal, 0);
-  const payableMonthly = annual ? listMonthly * ANNUAL_DISCOUNT_FACTOR : listMonthly;
-  const acv = payableMonthly * 12;
-  const perSeatPerYear = seats > 0 ? acv / seats : 0;
-  const perSeatMonth = seats > 0 ? payableMonthly / seats : 0;
-  const annualSaving = annual ? (listMonthly - payableMonthly) * 12 : 0;
+export function getPowerSeatPrice(plan: PlanId, billing: Billing) {
+  return PLANS[plan].powerSeat?.[billing] ?? null;
+}
 
-  return {
-    bands,
-    listMonthly,
-    payableMonthly,
-    acv,
-    perSeatPerYear,
-    perSeatMonth,
-    annualSaving,
-  };
+function seatsInBand(band: PriceBand, seats: number) {
+  const upper = band.to === null ? seats : Math.min(seats, band.to);
+  return Math.max(0, upper - band.from + 1);
+}
+
+/**
+ * Graduated Standard seat pricing: like tax brackets, each band price only
+ * applies to the seats inside that band. BYOK seats have one flat price.
+ */
+export function calculateBreakdown(
+  plan: PlanId,
+  seats: number,
+  billing: Billing,
+  access: ModelAccess,
+): PricingBreakdown {
+  const count = clampSeats(seats);
+
+  if (access === "byok") {
+    const price = PLANS[plan].byokSeat[billing];
+    const subtotal = (toCents(price) * count) / 100;
+    return {
+      rows: [
+        { from: 1, to: null, seatsInBand: count, pricePerSeat: price, subtotal },
+      ],
+      total: subtotal,
+    };
+  }
+
+  const rows = PLANS[plan].standardBands.map((band) => {
+    const inBand = seatsInBand(band, count);
+    return {
+      from: band.from,
+      to: band.to,
+      seatsInBand: inBand,
+      pricePerSeat: band[billing],
+      subtotal: (toCents(band[billing]) * inBand) / 100,
+    };
+  });
+
+  const totalCents = rows.reduce(
+    (sum, row) => sum + toCents(row.pricePerSeat) * row.seatsInBand,
+    0,
+  );
+
+  return { rows, total: totalCents / 100 };
 }
