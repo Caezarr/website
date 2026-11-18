@@ -9,7 +9,8 @@ import { Section } from "@/components/ui/section";
 import { cn } from "@/lib/utils";
 import { SHOW_LANGUAGE_SWITCHER } from "@/lib/nav-defaults";
 import type { Locale } from "@/i18n/config";
-import { commercialPath, localizeHref } from "@/i18n/routes";
+import { commercialPath, isFranceMarketPath, localizeHref } from "@/i18n/routes";
+import { isBookingUrl } from "@/lib/resolve-meeting-url";
 import { getT } from "@/i18n/ui";
 import { DesktopNav } from "./desktop-nav";
 import { LanguageSwitcher } from "./language-switcher";
@@ -22,6 +23,7 @@ export type HeaderVariant = "overlay-dark" | "inline-light";
 interface HeaderProps {
   navItems: NavItem[];
   headerCta?: CtaButtonData | null;
+  franceMeetingUrl?: string | null;
   variant?: HeaderVariant;
   locale?: Locale;
 }
@@ -31,11 +33,13 @@ const MEGA_CLOSE_DELAY_MS = 120;
 export function Header({
   navItems,
   headerCta,
+  franceMeetingUrl,
   variant = "overlay-dark",
   locale = "en",
 }: HeaderProps) {
   const pathname = usePathname();
   const isBtpLanding = pathname === "/france/btp";
+  const isFranceMarket = isFranceMarketPath(pathname);
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [activeNavKey, setActiveNavKey] = useState<string | null>(null);
   const [headerBarHeight, setHeaderBarHeight] = useState(0);
@@ -46,7 +50,17 @@ export function Header({
   const t = getT(locale);
   const homeHref = commercialPath("home", locale);
   const ctaLabel = t("shell.headerCta");
-  const ctaHref = headerCta ? localizeHref(headerCta.href, locale) : null;
+  const headerBookingHref =
+    headerCta &&
+    isFranceMarket &&
+    !isBtpLanding &&
+    franceMeetingUrl &&
+    isBookingUrl(headerCta.href)
+      ? franceMeetingUrl
+      : headerCta?.href;
+  const ctaHref = headerBookingHref
+    ? localizeHref(headerBookingHref, locale)
+    : null;
   const isOverlayDark = variant === "overlay-dark" && !isBtpLanding;
   const isMegaOpen = activeNavKey !== null;
   const activeNavItem =

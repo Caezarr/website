@@ -22,6 +22,7 @@ export interface FaqItem {
   _key?: string;
   question: string;
   answer: string;
+  link?: { label: string; href: string };
 }
 
 export interface SeoData {

@@ -3,15 +3,15 @@ import type { Locale } from "@/i18n/config";
 import type { SharedLinks } from "@/lib/types";
 
 /**
- * Booking link for a meeting CTA. French pages always book with the French
- * team, whatever the page context; other locales use the context's calendar.
+ * Booking link for a meeting CTA. Only pages that pass context `"france"`
+ * (the `/france*` market pages) use the French team calendar. Translated
+ * `/fr/*` pages use the same calendars as English and Dutch.
  */
 export function resolveMeetingUrl(
   sharedLinks: SharedLinks | null | undefined,
   context: MeetingContext = "default",
-  locale?: Locale,
+  _locale?: Locale,
 ): string {
-  if (locale === "fr") context = "france";
   switch (context) {
     case "start-ai":
       return (
