@@ -202,6 +202,7 @@ export default async function AgentIaEntreprisePage() {
             heading: "Vos données restent les vôtres.",
             body: null,
           }}
+          locale="fr"
         />
       </div>
       <Cta

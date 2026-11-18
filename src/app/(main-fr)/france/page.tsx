@@ -136,6 +136,7 @@ export default async function FrancePage() {
             heading: "Vos données restent les vôtres.",
             body: null,
           }}
+          locale="fr"
         />
       </div>
       <FranceCta

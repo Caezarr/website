@@ -135,6 +135,13 @@ export function commercialPath(page: CommercialPage, locale: Locale): string {
 /** French-market pages served outside the /fr prefix (/france, /france/diagnostic). */
 const FRENCH_UNPREFIXED_SEGMENTS = new Set(["france"]);
 
+export function isFranceMarketPath(pathname: string | null | undefined): boolean {
+  if (!pathname) return false;
+  const segments = pathname.split("/").filter(Boolean);
+  if (segments[0] === "france") return true;
+  return segments[0] === "fr" && segments[1] === "lp";
+}
+
 export function getLocaleFromPathname(pathname: string | null | undefined): Locale {
   const first = pathname?.split("/")[1];
   if (first === "fr" || first === "nl") return first;
