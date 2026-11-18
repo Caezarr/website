@@ -2,6 +2,7 @@ import Image from "next/image";
 import { ButtonLink } from "@/components/ui/button";
 import { Section } from "@/components/ui/section";
 import { HeroLeadForm } from "@/components/sections/hero-lead-form";
+import { HeroVideoPoster } from "@/components/sections/hero-video-poster";
 import { resolveImageAlt, resolveImageSrc } from "@/lib/cms-image";
 import type { Locale } from "@/i18n/config";
 import { localizeHref } from "@/i18n/routes";
@@ -22,6 +23,7 @@ interface ProductHeroProps {
   secondaryMeetingTrackType?: MeetingTrackType;
   locale?: Locale;
   scrollReveal?: boolean;
+  youtubeId?: string;
 }
 
 function HeroCta({
@@ -87,6 +89,7 @@ export function ProductHero({
   secondaryMeetingTrackType,
   locale = "en",
   scrollReveal = false,
+  youtubeId,
 }: ProductHeroProps) {
   const theme = data.theme ?? "dark";
   const eyebrow = data.eyebrow ?? "";
@@ -158,29 +161,59 @@ export function ProductHero({
               delay={0.1}
               className="mx-auto mt-12 max-w-[1400px] md:mt-16"
             >
-              <Image
-                src={heroSrc}
-                alt={heroAlt}
-                width={heroFallback.width ?? 1920}
-                height={heroFallback.height ?? 694}
-                priority
-                sizes="(min-width: 1400px) 1400px, 100vw"
-                className="h-auto w-full"
-                unoptimized={!hasSanityImage(data.heroImage)}
-              />
+              {youtubeId ? (
+                <HeroVideoPoster
+                  src={heroSrc}
+                  alt={heroAlt}
+                  width={heroFallback.width ?? 1920}
+                  height={heroFallback.height ?? 694}
+                  youtubeId={youtubeId}
+                  playLabel={getT(locale)("common.playVideo")}
+                  closeLabel={getT(locale)("common.closeVideo")}
+                  sizes="(min-width: 1400px) 1400px, 100vw"
+                  unoptimized={!hasSanityImage(data.heroImage)}
+                  priority
+                />
+              ) : (
+                <Image
+                  src={heroSrc}
+                  alt={heroAlt}
+                  width={heroFallback.width ?? 1920}
+                  height={heroFallback.height ?? 694}
+                  priority
+                  sizes="(min-width: 1400px) 1400px, 100vw"
+                  className="h-auto w-full"
+                  unoptimized={!hasSanityImage(data.heroImage)}
+                />
+              )}
             </ScrollReveal>
           ) : (
             <div className="mx-auto mt-12 max-w-[1400px] md:mt-16">
-              <Image
-                src={heroSrc}
-                alt={heroAlt}
-                width={heroFallback.width ?? 1920}
-                height={heroFallback.height ?? 694}
-                priority
-                sizes="(min-width: 1400px) 1400px, 100vw"
-                className="h-auto w-full"
-                unoptimized={!hasSanityImage(data.heroImage)}
-              />
+              {youtubeId ? (
+                <HeroVideoPoster
+                  src={heroSrc}
+                  alt={heroAlt}
+                  width={heroFallback.width ?? 1920}
+                  height={heroFallback.height ?? 694}
+                  youtubeId={youtubeId}
+                  playLabel={getT(locale)("common.playVideo")}
+                  closeLabel={getT(locale)("common.closeVideo")}
+                  sizes="(min-width: 1400px) 1400px, 100vw"
+                  unoptimized={!hasSanityImage(data.heroImage)}
+                  priority
+                />
+              ) : (
+                <Image
+                  src={heroSrc}
+                  alt={heroAlt}
+                  width={heroFallback.width ?? 1920}
+                  height={heroFallback.height ?? 694}
+                  priority
+                  sizes="(min-width: 1400px) 1400px, 100vw"
+                  className="h-auto w-full"
+                  unoptimized={!hasSanityImage(data.heroImage)}
+                />
+              )}
             </div>
           )
         ) : null}

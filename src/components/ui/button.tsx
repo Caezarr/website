@@ -7,6 +7,7 @@ import {
 export {
   ArrowIcon,
   Button,
+  ButtonBackgroundShape,
   buttonVariants,
   type ButtonProps,
   type ButtonVariant,

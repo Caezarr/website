@@ -87,14 +87,15 @@ export async function WorkspaceAiAgentsView({ locale }: { locale: Locale }) {
           fallbackHero: {
             src: WORKSPACE_AI_AGENTS_IMAGES.hero,
             alt: copy.hero.imageAlt,
-            width: 3840,
-            height: 2160,
+            width: 1920,
+            height: 1080,
           },
         }}
         meetingUrl={TRIAL_URL}
         meetingLabel={copy.hero.primaryCta}
         meetingTrackType="wonka-chat"
         secondaryMeetingTrackType="general"
+        youtubeId="KTogEQeMcWQ"
         scrollReveal
         locale={locale}
       />

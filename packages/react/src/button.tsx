@@ -89,7 +89,7 @@ const PRIMARY_MASK_URL = `url("data:image/svg+xml,${encodeURIComponent(
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 167 43" preserveAspectRatio="none"><path d="${PRIMARY_PATH}" fill="black"/></svg>`,
 )}")`;
 
-function ButtonBackgroundShape({
+export function ButtonBackgroundShape({
   variant,
 }: {
   variant: ButtonVariant | null | undefined;
