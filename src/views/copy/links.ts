@@ -111,18 +111,6 @@ const AWARD_IMAGES = {
   vlaio: { image: "/links/awards/vlaio-2026.webp", alt: "The Wonka AI team on the VLAIO Awards stage with the award" },
 } as const;
 
-const IAKA = {
-  id: "iaka-2026",
-  name: "IAKA 2026",
-  place: "Business Village d'Ecolys, Namur",
-  ends: "2026-11-10T18:00:00+01:00",
-  href: "https://salon-iaka2026.eventmaker.io/",
-  calendarHref:
-    "https://calendar.google.com/calendar/render?action=TEMPLATE&text=IAKA%202026%20%C2%B7%20meet%20Wonka%20AI&dates=20261110T073000Z%2F20261110T170000Z&location=Business%20Village%20d%27Ecolys%2C%20Namur&details=https%3A%2F%2Fsalon-iaka2026.eventmaker.io%2F",
-  image: "/links/iaka-2026.jpg",
-  imageAlt: "IAKA 2026 at Business Village d'Ecolys, Namur",
-};
-
 export const FOLLOW_LINKEDIN_URL = LINKEDIN;
 
 export const LINKS_COPY: Record<Locale, LinksCopy> = {
@@ -221,7 +209,8 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
     addToCalendar: "Add to calendar",
     noEvent: "Our next event is coming soon.",
     followOnLinkedIn: "Follow us on LinkedIn",
-    events: [{ ...IAKA, dateLabel: "Tue 10 Nov 2026 · 8:30–18:00" }],
+    // Add upcoming events here; past ones hide themselves.
+    events: [],
     jobsTitle: "We’re hiring.",
     jobsSub: "Help us make AI work for whole organisations, not just the early adopters.",
     jobsAll: "See all open roles",
@@ -325,7 +314,8 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
     addToCalendar: "Zet in agenda",
     noEvent: "Ons volgende event komt eraan.",
     followOnLinkedIn: "Volg ons op LinkedIn",
-    events: [{ ...IAKA, dateLabel: "Di 10 nov 2026 · 8:30–18:00" }],
+    // Add upcoming events here; past ones hide themselves.
+    events: [],
     jobsTitle: "We zoeken collega’s.",
     jobsSub: "Help ons AI laten werken voor hele organisaties, niet alleen voor de early adopters.",
     jobsAll: "Bekijk alle vacatures",
@@ -429,7 +419,8 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
     addToCalendar: "Ajouter à l’agenda",
     noEvent: "Notre prochain événement arrive bientôt.",
     followOnLinkedIn: "Suivez-nous sur LinkedIn",
-    events: [{ ...IAKA, dateLabel: "Mar. 10 nov. 2026 · 8h30–18h00" }],
+    // Add upcoming events here; past ones hide themselves.
+    events: [],
     jobsTitle: "On recrute.",
     jobsSub:
       "Aidez-nous à faire fonctionner l’IA pour des organisations entières, pas seulement pour les pionniers.",
@@ -441,28 +432,23 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
   },
 };
 
+/**
+ * Only logos already shown elsewhere on the public site (plus PLUO, which approved its quote).
+ * Add a partner here only once they have OK'd the use of their logo.
+ */
 export const LINKS_PARTNERS: { name: string; slug: string; shape?: "tall" | "wide" }[] = [
-  { name: "SNCB", slug: "sncb", shape: "tall" },
   { name: "ENGIE", slug: "engie" },
   { name: "PwC", slug: "pwc" },
-  { name: "Stellantis", slug: "stellantis", shape: "wide" },
-  { name: "Decathlon", slug: "decathlon", shape: "wide" },
-  { name: "D'Ieteren", slug: "dieteren", shape: "wide" },
   { name: "Luminus", slug: "luminus" },
-  { name: "Police Fédérale", slug: "police-federale", shape: "tall" },
   { name: "KRC Genk", slug: "krc-genk", shape: "tall" },
   { name: "Itzu", slug: "itzu" },
   { name: "Ingenium Group", slug: "ingenium-group" },
   { name: "Buildwise", slug: "buildwise", shape: "tall" },
   { name: "Cambio", slug: "cambio", shape: "tall" },
   { name: "Medi-Market", slug: "medi-market", shape: "tall" },
-  { name: "Eggo", slug: "eggo", shape: "tall" },
   { name: "PLUO", slug: "pluo" },
-  { name: "Fermax", slug: "fermax" },
   { name: "PMV", slug: "pmv" },
-  { name: "Macq", slug: "macq", shape: "tall" },
   { name: "Zorgi", slug: "zorgi" },
-  { name: "NDQ Logistics", slug: "ndq-logistics" },
 ];
 
 export const LINKS_SOCIALS: { platform: "linkedin" | "instagram" | "tiktok" | "youtube"; label: string; href: string | null }[] = [
