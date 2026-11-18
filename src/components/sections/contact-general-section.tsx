@@ -18,18 +18,22 @@ function ContactDetailValue({ detail }: { detail: ContactDetail }) {
       ? `mailto:${detail.value}`
       : null);
 
+  const valueClass = "type-body text-text whitespace-pre-line";
+
   if (href) {
+    const external = href.startsWith("http");
     return (
       <Link
         href={href}
-        className="type-body text-text transition-opacity hover:opacity-70"
+        className={cn(valueClass, "transition-opacity hover:opacity-70")}
+        {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
       >
         {detail.value}
       </Link>
     );
   }
 
-  return <p className="type-body text-text">{detail.value}</p>;
+  return <p className={valueClass}>{detail.value}</p>;
 }
 
 export function ContactGeneralSection({

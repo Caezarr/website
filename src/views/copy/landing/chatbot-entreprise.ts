@@ -9,7 +9,7 @@ import type { LandingCopy } from "@/views/copy/landing-types";
  */
 export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
   fr: {
-    meetingContext: "france",
+    meetingContext: "default",
     seo: {
       title: "Chatbot entreprise : assistant IA interne sécurisé | Wonka",
       description:

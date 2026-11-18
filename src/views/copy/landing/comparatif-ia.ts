@@ -11,7 +11,7 @@ import type { LandingCopy } from "@/views/copy/landing-types";
  */
 export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
   fr: {
-    meetingContext: "france",
+    meetingContext: "default",
     seo: {
       title: "Comparatif IA entreprise : ChatGPT, Claude, Gemini, Mistral",
       description:

@@ -11,7 +11,7 @@ import type { LandingCopy } from "@/views/copy/landing-types";
  */
 export const ACCULTURATION_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
   fr: {
-    meetingContext: "france",
+    meetingContext: "default",
     seo: {
       title: "Acculturation IA : embarquer direction et équipes | Wonka",
       description:

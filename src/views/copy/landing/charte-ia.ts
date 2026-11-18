@@ -8,7 +8,7 @@ import type { LandingCopy } from "@/views/copy/landing-types";
  */
 export const CHARTE_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
   fr: {
-    meetingContext: "france",
+    meetingContext: "default",
     seo: {
       title: "Charte IA entreprise : guide pratique en 5 étapes | Wonka",
       description:

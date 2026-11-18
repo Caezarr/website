@@ -268,7 +268,7 @@ export default async function DustVsPage({ params }: PageProps) {
 
       <Stats id="stats" />
       <div className="pb-20 md:pb-24">
-        <Security id="security" data={{ eyebrow: null, heading: c.securityHeading, body: null }} />
+        <Security id="security" data={{ eyebrow: null, heading: c.securityHeading, body: null }} locale={locale} />
       </div>
       <Cta
         id="get-started"
