@@ -102,9 +102,8 @@ export default async function LocalizedAgentBlueprintPage({ params }: PageProps)
   const locale: "fr" | "nl" = rawLocale;
   const page = localized[locale];
   const siteUrl = getSiteUrl();
-  const meetingUrl = locale === "fr"
-    ? "https://bookings.cloud.microsoft/book/WonkaAIFrance@meetwonka.com/?ismsaljsauthenabled"
-    : "https://bookings.cloud.microsoft/book/WonkaAI@meetwonka.com/?ismsaljsauthenabled";
+  const meetingUrl =
+    "https://bookings.cloud.microsoft/book/WonkaAI@meetwonka.com/?ismsaljsauthenabled";
   const wonkaChatUrl = "https://wonka.chat";
   const problemItems = locale === "fr"
     ? [

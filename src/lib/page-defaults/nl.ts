@@ -932,8 +932,13 @@ export const NL_PAGE_DEFAULTS: LocalePageDefaults = {
       },
       details: [
         { _key: "email", label: "E-mail", value: "hello@wonka.ai", href: "mailto:hello@wonka.ai" },
-        { _key: "phone", label: "Telefoon", value: "+32 9 000 00 00", href: "tel:+3290000000" },
-        { _key: "office", label: "Kantoor", value: "Gent, België", href: null },
+        {
+          _key: "office",
+          label: "Kantoor",
+          value: "(re)space Airport\nDe Kleetlaan 2, 1831 Machelen, België",
+          href:
+            "https://www.google.com/maps/search/?api=1&query=(re)space+Airport,+De+Kleetlaan+2,+1831+Machelen",
+        },
       ],
     },
     team: {
@@ -956,7 +961,7 @@ export const NL_PAGE_DEFAULTS: LocalePageDefaults = {
     seo: {
       metaTitle: "Contact | Wonka",
       metaDescription:
-        "Neem contact op met Wonka. E-mail, telefoon en rechtstreekse contactpersonen voor al uw vragen over AI voor bedrijven.",
+        "Neem contact op met Wonka. E-mail en rechtstreekse contactpersonen voor al uw vragen over AI voor bedrijven.",
       ogImage: null,
     },
   },

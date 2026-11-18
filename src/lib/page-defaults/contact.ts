@@ -20,16 +20,11 @@ export const CONTACT_DEFAULTS: ContactPageResolved = {
         href: "mailto:hello@wonka.ai",
       },
       {
-        _key: "phone",
-        label: "Phone",
-        value: "+32 9 000 00 00",
-        href: "tel:+3290000000",
-      },
-      {
         _key: "office",
         label: "Office",
-        value: "Ghent, Belgium",
-        href: null,
+        value: "(re)space Airport\nDe Kleetlaan 2, 1831 Machelen, Belgium",
+        href:
+          "https://www.google.com/maps/search/?api=1&query=(re)space+Airport,+De+Kleetlaan+2,+1831+Machelen",
       },
     ],
   },
@@ -56,7 +51,7 @@ export const CONTACT_DEFAULTS: ContactPageResolved = {
   seo: {
     metaTitle: "Contact | Wonka",
     metaDescription:
-      "Get in touch with Wonka. Email, phone, and direct contacts for your AI questions.",
+      "Get in touch with Wonka. Email and direct contacts for your AI questions.",
     ogImage: null,
   },
 };

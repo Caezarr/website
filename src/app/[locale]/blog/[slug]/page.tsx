@@ -108,7 +108,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   ]);
 
   const bookingUrl = resolveTeamMeetingUrl(meetingUrl as string | null, locale as Locale);
-  const meetingTrack = locale === "fr" ? "france" : "general";
+  const meetingTrack = "general";
   const t = getT(locale);
   const siteUrl  = getSiteUrl();
   const postPath = itemPath("blog", locale, slug);

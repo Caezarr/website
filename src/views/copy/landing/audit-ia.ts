@@ -10,7 +10,7 @@ import type { LandingCopy } from "@/views/copy/landing-types";
  */
 export const AUDIT_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
   fr: {
-    meetingContext: "france",
+    meetingContext: "default",
     seo: {
       title: "Audit IA : maturité, priorités et feuille de route | Wonka",
       description:

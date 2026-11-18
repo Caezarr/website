@@ -55,6 +55,47 @@ export function FaqSchema({ items }: { items: FaqItem[] }) {
   return <JsonLd id="schema-faq" data={schema} />;
 }
 
+export interface ProductOffer {
+  name: string;
+  price: number;
+  description: string;
+}
+
+export function ProductOffersSchema({ name, description, url, offers }: {
+  name: string;
+  description: string;
+  url: string;
+  offers: ProductOffer[];
+}) {
+  const siteUrl = getSiteUrl();
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name,
+    description,
+    url,
+    brand: { "@type": "Organization", name: "Wonka AI", url: siteUrl },
+    offers: offers.map((offer) => ({
+      "@type": "Offer",
+      name: offer.name,
+      description: offer.description,
+      url,
+      priceCurrency: "EUR",
+      price: offer.price.toFixed(2),
+      availability: "https://schema.org/OnlineOnly",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: offer.price.toFixed(2),
+        priceCurrency: "EUR",
+        valueAddedTaxIncluded: false,
+        unitText: "per user per month",
+        referenceQuantity: { "@type": "QuantitativeValue", value: 1, unitCode: "MON" },
+      },
+    })),
+  };
+  return <JsonLd id="schema-product-offers" data={schema} />;
+}
+
 export function BreadcrumbSchema({ items }: { items: { name: string; url: string }[] }) {
   const schema = {
     "@context": "https://schema.org",

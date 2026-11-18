@@ -9,7 +9,7 @@ import type { LandingCopy } from "@/views/copy/landing-types";
  */
 export const SHADOW_AI_COPY: Partial<Record<Locale, LandingCopy>> = {
   fr: {
-    meetingContext: "france",
+    meetingContext: "default",
     seo: {
       title: "Shadow AI : définition, risques et comment l'éviter | Wonka",
       description:

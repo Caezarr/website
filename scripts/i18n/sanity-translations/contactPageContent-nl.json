@@ -11,17 +11,11 @@
         "value": "info@meetwonka.com"
       },
       {
-        "_key": "phone",
-        "_type": "contactDetail",
-        "href": "tel:+32471622429 ",
-        "label": "Telefoon",
-        "value": "+32 471 62 24 29"
-      },
-      {
         "_key": "office",
         "_type": "contactDetail",
         "label": "Kantoor",
-        "value": "Brussel, België"
+        "value": "(re)space Airport\nDe Kleetlaan 2, 1831 Machelen, België",
+        "href": "https://www.google.com/maps/search/?api=1&query=(re)space+Airport,+De+Kleetlaan+2,+1831+Machelen"
       }
     ],
     "header": {
@@ -31,7 +25,7 @@
     }
   },
   "seo": {
-    "metaDescription": "Neem contact op met Wonka: e-mail, telefoon en directe contactpersonen voor al uw vragen over AI voor bedrijven.",
+    "metaDescription": "Neem contact op met Wonka: e-mail en directe contactpersonen voor al uw vragen over AI voor bedrijven.",
     "metaTitle": "Contact | Wonka - AI voor bedrijven",
     "ogImage": null
   },
