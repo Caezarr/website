@@ -174,11 +174,9 @@ export function WorkspaceAiAgentsImplementation({
 
 export function WorkspaceAiAgentsFinalCta({
   copy,
-  trialUrl,
   meetingUrl,
 }: {
   copy: WorkspaceAiAgentsCopy["finalCta"];
-  trialUrl: string;
   meetingUrl: string;
 }) {
   return (
@@ -200,7 +198,7 @@ export function WorkspaceAiAgentsFinalCta({
         </h2>
         <p className="type-body text-text/85 max-w-2xl">{copy.subtitle}</p>
         <div className="flex flex-wrap items-center justify-center gap-3">
-          <ButtonLink href={trialUrl} variant="primary">
+          <ButtonLink href={meetingUrl} variant="primary">
             {copy.primaryCta}
           </ButtonLink>
           <ButtonLink href={meetingUrl} variant="primaryOutline">

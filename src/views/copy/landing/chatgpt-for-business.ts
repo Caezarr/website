@@ -23,7 +23,7 @@ const en: LandingCopy = {
     title: "ChatGPT for business, private and hosted in Europe.",
     subtitle:
       "Your team already uses ChatGPT. WonkaChat gives them the same chat experience in a governed AI workspace: EU hosting, your company knowledge and tools built in, and admin controls your IT team can trust.",
-    primaryCta: { label: "Start your free trial", href: "trial" },
+    primaryCta: { label: "Talk to sales", href: "meeting" },
     secondaryCta: {
       label: "Compare with ChatGPT Enterprise",
       href: "/vs/wonka-ai-vs-chatgpt-enterprise",
@@ -293,7 +293,7 @@ const fr: LandingCopy = {
     title: "ChatGPT entreprise : privé, sécurisé et hébergé en Europe.",
     subtitle:
       "Vos équipes utilisent déjà ChatGPT. WonkaChat leur offre la même expérience de chat dans un espace de travail IA gouverné : hébergement dans l'UE, connaissances et outils de l'entreprise intégrés, et des contrôles d'administration dignes de confiance pour votre IT.",
-    primaryCta: { label: "Commencer l'essai gratuit", href: "trial" },
+    primaryCta: { label: "Contacter l'équipe commerciale", href: "meeting" },
     secondaryCta: {
       label: "Comparer avec ChatGPT Enterprise",
       href: "/fr/vs/wonka-ai-vs-chatgpt-enterprise",
@@ -565,7 +565,7 @@ const nl: LandingCopy = {
     title: "ChatGPT voor bedrijven: privé, veilig en gehost in Europa.",
     subtitle:
       "Uw medewerkers gebruiken al ChatGPT. WonkaChat geeft hen dezelfde chatervaring in een beheerde AI-werkplek: hosting in de EU, de kennis en tools van uw bedrijf ingebouwd, en beheercontroles waar uw IT-team op kan vertrouwen.",
-    primaryCta: { label: "Start uw gratis proef", href: "trial" },
+    primaryCta: { label: "Contacteer sales", href: "meeting" },
     secondaryCta: {
       label: "Vergelijk met ChatGPT Enterprise",
       href: "/nl/vs/wonka-ai-vs-chatgpt-enterprise",

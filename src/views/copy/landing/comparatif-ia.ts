@@ -27,7 +27,7 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
       title: "Comparatif IA entreprise : quelle IA choisir pour votre organisation ?",
       subtitle:
         "ChatGPT, Claude, Gemini, Copilot, Le Chat de Mistral : les offres se ressemblent en démo et diffèrent sur ce qui compte. Ce guide compare les critères d'achat d'une PME ou d'une ETI.",
-      primaryCta: { label: "Essai gratuit 7 jours", href: "trial" },
+      primaryCta: { label: "Contacter l'équipe commerciale", href: "meeting" },
       secondaryCta: { label: "Réserver un appel de 30 minutes", href: "meeting" },
       facts: [
         ["Offres comparées", "ChatGPT · Claude · Gemini · Copilot · Le Chat"],

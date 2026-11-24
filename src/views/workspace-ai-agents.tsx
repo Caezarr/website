@@ -35,7 +35,6 @@ import { AI_CHAT_COPY } from "@/views/copy/ai-chat";
 import { HOME_V2_COPY } from "@/views/copy/home-v2";
 import { WORKSPACE_AI_AGENTS_COPY } from "@/views/copy/workspace-ai-agents";
 
-const TRIAL_URL = "https://wonka.chat/register";
 const PAGE_PATH = "/workspace/ai-agents";
 
 export async function workspaceAiAgentsMetadata(locale: Locale): Promise<Metadata> {
@@ -51,7 +50,6 @@ export async function WorkspaceAiAgentsView({ locale }: { locale: Locale }) {
   const copy = WORKSPACE_AI_AGENTS_COPY[locale];
   const chatCopy = AI_CHAT_COPY[locale];
   const t = getT(locale);
-  const trialLabel = t("common.startFreeTrial");
 
   const [rawContent, { data: settings }] = await Promise.all([
     fetchPageDoc<WonkaChatContent>(
@@ -91,8 +89,8 @@ export async function WorkspaceAiAgentsView({ locale }: { locale: Locale }) {
             height: 1080,
           },
         }}
-        meetingUrl={TRIAL_URL}
-        meetingLabel={copy.hero.primaryCta}
+        meetingUrl={meetingUrl}
+        meetingLabel={t("common.getStarted")}
         meetingTrackType="wonka-chat"
         secondaryMeetingTrackType="general"
         youtubeId="KTogEQeMcWQ"
@@ -119,8 +117,8 @@ export async function WorkspaceAiAgentsView({ locale }: { locale: Locale }) {
       <WorkspaceAiAgentsGovernance copy={copy.governance} locale={locale} />
       <WorkspaceAiAgentsImplementation copy={copy.implementation} meetingUrl={meetingUrl} />
       <WorkspaceTrialCta
-        href={TRIAL_URL}
-        ctaLabel={trialLabel}
+        href={meetingUrl}
+        ctaLabel={t("common.talkToSales")}
         {...(chatCopy.trial ?? {})}
         locale={locale}
       />

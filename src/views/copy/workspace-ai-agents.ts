@@ -116,7 +116,7 @@ const en: WorkspaceAiAgentsCopy = {
 
       "Make recurring tasks easier to handle with agents that follow your processes and work with the information and tools you already use.",
 
-    primaryCta: "Start free trial",
+    primaryCta: "Get started",
 
     secondaryCta: "Talk to a consultant",
 
@@ -247,7 +247,7 @@ const en: WorkspaceAiAgentsCopy = {
 
     subtitle: "Try building an agent yourself, or talk to our team about where to start.",
 
-    primaryCta: "Start free trial",
+    primaryCta: "Get started",
 
     secondaryCta: "Talk to a consultant",
 
@@ -279,7 +279,7 @@ const fr: WorkspaceAiAgentsCopy = {
 
       "Facilitez les tâches récurrentes avec des agents qui respectent vos processus et s'appuient sur les informations et outils que vous utilisez déjà.",
 
-    primaryCta: "Essai gratuit",
+    primaryCta: "Commencer",
 
     secondaryCta: "Parler à un consultant",
 
@@ -412,7 +412,7 @@ const fr: WorkspaceAiAgentsCopy = {
 
       "Essayez de créer un agent vous-même, ou échangez avec nous pour savoir par où commencer.",
 
-    primaryCta: "Essai gratuit",
+    primaryCta: "Commencer",
 
     secondaryCta: "Parler à un consultant",
 
@@ -444,7 +444,7 @@ const nl: WorkspaceAiAgentsCopy = {
 
       "Maak terugkerende taken eenvoudiger met agents die uw processen volgen en werken met de informatie en tools die u al gebruikt.",
 
-    primaryCta: "Gratis proberen",
+    primaryCta: "Aan de slag",
 
     secondaryCta: "Spreek een consultant",
 
@@ -577,7 +577,7 @@ const nl: WorkspaceAiAgentsCopy = {
 
       "Probeer zelf een agent te bouwen, of bespreek met ons team waar u het best start.",
 
-    primaryCta: "Gratis proberen",
+    primaryCta: "Aan de slag",
 
     secondaryCta: "Spreek een consultant",
 

@@ -117,7 +117,7 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
   en: {
     metaTitle: "Wonka AI · Links",
     metaDescription:
-      "Make AI work for your whole team. Website, free trial, a call with a consultant, our socials and latest news.",
+      "Make AI work for your whole team. Website, get started, a call with a consultant, our socials and latest news.",
     line: "Make AI work for your whole team.",
     awards: [
       {
@@ -139,7 +139,7 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
     ],
     closeLabel: "Close",
     website: "Visit our website",
-    trial: "Try WonkaChat for free",
+    trial: "Get started",
     consultant: "Talk to a consultant",
     partnersKicker: "Trusted by our partners",
     clientsKicker: "What our clients say",
@@ -244,7 +244,7 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
     ],
     closeLabel: "Sluiten",
     website: "Bezoek onze website",
-    trial: "Probeer WonkaChat gratis",
+    trial: "Aan de slag",
     consultant: "Spreek een consultant",
     partnersKicker: "Onze partners",
     clientsKicker: "Wat onze klanten zeggen",
@@ -349,7 +349,7 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
     ],
     closeLabel: "Fermer",
     website: "Visitez notre site",
-    trial: "Essayez WonkaChat gratuitement",
+    trial: "Commencer",
     consultant: "Parler à un consultant",
     partnersKicker: "Ils nous font confiance",
     clientsKicker: "Ce que disent nos clients",

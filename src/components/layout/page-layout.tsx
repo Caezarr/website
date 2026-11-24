@@ -3,6 +3,7 @@ import { SITE_SETTINGS_QUERY } from "@sanity/lib/queries";
 import type { Locale } from "@/i18n/config";
 import type { SiteSettings } from "@/lib/types";
 import { resolveNavigation } from "@/lib/nav-defaults";
+import { resolveHeaderCta } from "@/lib/resolve-header-cta";
 import { resolveMeetingUrl } from "@/lib/resolve-meeting-url";
 import { Header, type HeaderVariant } from "./header";
 import { Footer } from "./footer";
@@ -29,7 +30,11 @@ export async function PageLayout({
     <div className="relative">
       <Header
         navItems={navItems}
-        headerCta={settings?.headerCta}
+        headerCta={resolveHeaderCta(
+          settings?.headerCta,
+          settings?.sharedLinks,
+          locale,
+        )}
         franceMeetingUrl={resolveMeetingUrl(settings?.sharedLinks, "france")}
         variant={headerVariant}
         locale={locale}

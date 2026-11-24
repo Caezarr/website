@@ -29,7 +29,6 @@ import type { LandingCopy, LandingCta } from "@/views/copy/landing-types";
 import { LANDING_COPY } from "@/views/copy/landing";
 import { LANDING_VISUALS } from "@/views/copy/landing-visuals";
 
-const TRIAL_URL = "https://wonka.chat/register";
 const FRANCE_DIAGNOSTIC_PATH = "/france/diagnostic";
 const FRANCE_DIAGNOSTIC_LABEL = "Faire le diagnostic gratuit";
 
@@ -62,7 +61,7 @@ export async function landingMetadata(
 
 function ctaHref(cta: LandingCta, meetingUrl: string): string {
   if (cta.href === "meeting") return meetingUrl;
-  if (cta.href === "trial") return TRIAL_URL;
+  if (cta.href === "trial") return meetingUrl;
   return cta.href;
 }
 

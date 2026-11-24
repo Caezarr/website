@@ -125,7 +125,10 @@ export default async function BlogPostPage({ params }: PageProps) {
   const headings = extractHeadings(body);
   const inserts: Record<number, ReactNode> = {};
   if (headings.length >= 2) inserts[1] = <ArticleProductCard locale={locale} topic={topic} />;
-  if (headings.length >= 4) inserts[Math.ceil(headings.length * 0.6)] = <ArticleProof locale={locale} />;
+  if (headings.length >= 4)
+    inserts[Math.ceil(headings.length * 0.6)] = (
+      <ArticleProof locale={locale} bookingUrl={bookingUrl} />
+    );
   const proofInBody = headings.length >= 4;
 
   return (
@@ -167,7 +170,7 @@ export default async function BlogPostPage({ params }: PageProps) {
             <div className="prose prose-lg max-w-none">
               {body.length ? <SmartPortableText value={body} inserts={inserts} /> : null}
             </div>
-            {proofInBody ? null : <ArticleProof locale={locale} />}
+            {proofInBody ? null : <ArticleProof locale={locale} bookingUrl={bookingUrl} />}
 
             <section className="mt-16 rounded-lg border border-border bg-mid-gray p-6">
               <h2 className="type-h5">{L(labels.applyTitle, locale)}</h2>

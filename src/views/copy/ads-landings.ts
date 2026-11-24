@@ -78,8 +78,8 @@ export interface AdsLandingCopy {
 /* ───────────────────────── shared blocks ───────────────────────── */
 
 const REASSURANCE = [
-  "Essai gratuit 7 jours",
-  "Sans carte bancaire",
+  "Démo sur votre cas d'usage",
+  "Sans engagement",
   "Hébergé en Europe",
 ];
 
@@ -94,8 +94,8 @@ export const ADS_PRICING = {
     "Connexions à vos outils et agents partagés",
     "Gouvernance, droits d'accès et journaux d'audit",
   ],
-  trialTitle: "Essai gratuit 7 jours",
-  trialBody: "Accès complet, 5 € d'usage IA offerts, sans carte bancaire.",
+  trialTitle: "Parler à l'équipe France",
+  trialBody: "Réservez un appel : nous vous montrons Wonka sur un cas concret de votre équipe.",
   detailsCta: "Voir le détail des tarifs",
 };
 
@@ -285,7 +285,7 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
       title: "Un copilote IA pour toute votre équipe Odoo.",
       subtitle:
         "Posez vos questions à Odoo, préparez devis et relances en langage naturel. Avec Claude, GPT ou Mistral, sans module ni développement.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Voir une démo sur Odoo",
       reassurance: REASSURANCE,
       logos: ["odoo", "claude", "openai", "mistral", "gemini"],
@@ -308,7 +308,7 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
       title: "Claude, connecté à votre Odoo.",
       subtitle:
         "Votre équipe interroge Odoo, prépare devis et relances avec Claude, directement sur vos données. Sans module, sans développement, hébergé en Europe.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Voir une démo sur Odoo",
       reassurance: REASSURANCE,
       logos: ["claude", "odoo"],
@@ -337,7 +337,7 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
       title: "Les modèles de ChatGPT, connectés à votre Odoo.",
       subtitle:
         "GPT, mais aussi Claude et Mistral, branchés sur vos données Odoo pour toute l'équipe. Devis, relances, stock : sans copier-coller, sans module.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Voir une démo sur Odoo",
       reassurance: REASSURANCE,
       logos: ["openai", "odoo", "claude", "mistral"],
@@ -366,7 +366,7 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
       title: "L'IA qui travaille dans tous vos outils, pas seulement Office.",
       subtitle:
         "WonkaChat se connecte à Outlook, Teams et SharePoint, mais aussi à Odoo, HubSpot ou Salesforce. Et vous choisissez le modèle selon la tâche : GPT, Claude, Mistral ou Gemini.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Comparer avec un expert",
       reassurance: REASSURANCE,
       logos: [
@@ -440,7 +440,7 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
       title: "Faites fonctionner l'IA pour toute votre équipe.",
       subtitle:
         "Un espace sécurisé où vos équipes utilisent GPT, Claude, Mistral et Gemini sur vos documents et vos outils. Hébergé en Europe.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Parler à l'équipe France",
       reassurance: REASSURANCE,
       logos: ["openai", "claude", "mistral", "gemini"],
@@ -495,7 +495,7 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
       title: "GPT, Claude et Mistral pour toute votre équipe.",
       subtitle:
         "Un seul espace, plusieurs modèles : vos équipes choisissent le meilleur selon la tâche, sur vos documents et vos outils, avec des données hébergées en Europe.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Parler à l'équipe France",
       reassurance: REASSURANCE,
       logos: ["openai", "claude", "mistral", "gemini"],
@@ -550,7 +550,7 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
       title: "Les meilleurs modèles d'IA. Vos données restent en Europe.",
       subtitle:
         "Mistral, GPT, Claude ou Gemini pour toute votre équipe, hébergés en Europe et jamais entraînés sur vos données. Une équipe à Paris, Lille et Bruxelles pour vous accompagner.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Parler à l'équipe France",
       reassurance: [
         "Essai gratuit 7 jours",

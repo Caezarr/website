@@ -22,8 +22,6 @@ import type { SiteSettings, WonkaChatContent } from "@/lib/types";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { AI_CHAT_COPY } from "@/views/copy/ai-chat";
 
-const TRIAL_URL = "https://wonka.chat/register";
-
 export async function aiChatMetadata(locale: Locale): Promise<Metadata> {
   // Own SEO: the CMS `seo` on the WonkaChat document belongs to /wonka-chat
   const { seo } = AI_CHAT_COPY[locale];
@@ -47,7 +45,7 @@ export async function AiChatView({ locale }: { locale: Locale }) {
   const sharedLinks = (settings as SiteSettings | null)?.sharedLinks ?? null;
   const meetingUrl = resolveMeetingUrl(sharedLinks, "wonka-chat", locale);
   const meetingLabel = resolveMeetingLabel(sharedLinks, locale);
-  const trialLabel = t("common.startFreeTrial");
+  const primaryCtaLabel = t("common.getStarted");
 
   return (
     <main className="bg-background text-text">
@@ -66,8 +64,8 @@ export async function AiChatView({ locale }: { locale: Locale }) {
             height: 1080,
           },
         }}
-        meetingUrl={TRIAL_URL}
-        meetingLabel={trialLabel}
+        meetingUrl={meetingUrl}
+        meetingLabel={primaryCtaLabel}
         youtubeId="IqtdY9ZOcLw"
         scrollReveal
         locale={locale}
@@ -82,8 +80,8 @@ export async function AiChatView({ locale }: { locale: Locale }) {
       </ScrollReveal>
       <CapabilityGrid id="capabilities" data={getAiChatCapabilityClusters(locale)} />
       <WorkspaceTrialCta
-        href={TRIAL_URL}
-        ctaLabel={trialLabel}
+        href={meetingUrl}
+        ctaLabel={t("common.talkToSales")}
         {...(copy.trial ?? {})}
         locale={locale}
       />

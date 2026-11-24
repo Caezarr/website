@@ -25,7 +25,7 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
       title: "Un chatbot entreprise qui connaît vos documents et vos outils.",
       subtitle:
         "WonkaChat donne à chaque collaborateur un assistant IA interne branché sur SharePoint, Outlook, Teams ou Odoo. Les réponses viennent de vos propres documents, chacun ne voit que ce qu'il a le droit de voir, et les données restent hébergées dans l'UE.",
-      primaryCta: { label: "Essai gratuit 7 jours", href: "trial" },
+      primaryCta: { label: "Contacter l'équipe commerciale", href: "meeting" },
       secondaryCta: { label: "Réserver une démo", href: "meeting" },
       facts: [
         ["Essai", "7 jours, sans carte de crédit"],
