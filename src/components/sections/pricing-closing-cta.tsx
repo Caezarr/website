@@ -5,7 +5,7 @@ import { Surface } from "@/components/ui/surface";
 import { SecurityPoints } from "@/components/sections/home-security-banner";
 import type { Locale } from "@/i18n/config";
 import { headingClass } from "@/lib/design-tokens";
-import { PRICING_COPY, TRIAL_REGISTER_URL } from "@/lib/pricing.config";
+import { PRICING_COPY } from "@/lib/pricing.config";
 import { cn } from "@/lib/utils";
 import { HOME_V2_COPY } from "@/views/copy/home-v2";
 
@@ -41,16 +41,13 @@ export function PricingClosingCta({
               <h2 className={cn(headingClass.section, "text-white")}>{copy.title}</h2>
               <p className="type-body text-white/80">{copy.body}</p>
             </div>
-            <div className="flex shrink-0 flex-wrap gap-3">
-              <ButtonLink href={TRIAL_REGISTER_URL} variant="secondary" className={ctaClassName}>
-                {copy.primaryCta}
-              </ButtonLink>
-              <div data-theme="dark" className="contents">
-                <ButtonLink href={bookingHref} variant="primaryOutline" className={ctaClassName}>
-                  {copy.secondaryCta}
-                </ButtonLink>
-              </div>
-            </div>
+            <ButtonLink
+              href={bookingHref}
+              variant="secondary"
+              className={ctaClassName}
+            >
+              {copy.primaryCta}
+            </ButtonLink>
           </div>
           <SecurityPoints
             points={security.points}

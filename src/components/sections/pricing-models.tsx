@@ -8,6 +8,7 @@ import { Surface } from "@/components/ui/surface";
 import {
   MODELS,
   PRICING_COPY,
+  PRICING_MODELS_SECTION_ID,
   PROVIDER_LOGOS,
   type ModelRegion,
   type PricingModel,
@@ -124,7 +125,7 @@ export function PricingModels() {
   const featured = MODELS.filter((model) => model.featured);
 
   return (
-    <Section className="bg-background py-18 md:py-24">
+    <Section id={PRICING_MODELS_SECTION_ID} className="bg-background py-18 md:py-24">
       <SectionHeader
         align="left"
         heading={copy.title}
