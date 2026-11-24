@@ -126,7 +126,7 @@ export const PLANS: Record<PlanId, PricingPlan> = {
   workspace: {
     id: "workspace",
     name: "AI Workspace",
-    tagline: "AI Chat and all the controls to roll it out organisation wide.",
+    tagline: "AI Essentials and all the controls to roll it out organisation wide.",
     badge: "Recommended",
     featuresIntro: "Everything in AI Essentials, plus:",
     features: [
@@ -222,18 +222,18 @@ const workspaceFirstBand = PLANS.workspace.standardBands[0];
 export const PRICING_FAQ: PricingFaqItem[] = [
   {
     question: "How much does Wonka cost?",
-    answer: `AI Chat costs ${proseEuro(chatFirstBand.monthly)} per user per month and AI Workspace ${proseEuro(workspaceFirstBand.monthly)}, or ${proseEuro(chatFirstBand.annual)} and ${proseEuro(workspaceFirstBand.annual)} with annual billing. These are Standard seat prices for the first ${chatFirstBand.to} users, excluding VAT and with AI models included, and the price per seat drops as your team grows.`,
+    answer: `AI Essentials costs ${proseEuro(chatFirstBand.monthly)} per user per month and AI Workspace ${proseEuro(workspaceFirstBand.monthly)}, or ${proseEuro(chatFirstBand.annual)} and ${proseEuro(workspaceFirstBand.annual)} with annual billing. These are Standard seat prices for the first ${chatFirstBand.to} users, excluding VAT and with AI models included, and the price per seat drops as your team grows.`,
   },
   {
     question: "Can we try Wonka before we buy?",
     answer:
-      "Yes, you can try Wonka free for 7 days without a credit card, with full access, €5 in AI usage and room to invite your colleagues.",
+      "Yes. Book a call with our team and we'll walk you through Wonka on a real use case from your company before you commit.",
   },
   {
-    question: "What is the difference between AI Chat and AI Workspace?",
+    question: "What is the difference between AI Essentials and AI Workspace?",
     // TODO: CHECK
     answer:
-      "AI Chat gives everyone in your company secure access to AI chat, agents and your company knowledge. AI Workspace adds governance, audit logs and admin controls, so you stay in control as AI use grows across teams.",
+      "AI Essentials gives everyone in your company secure access to AI chat, agents and your company knowledge. AI Workspace adds governance, audit logs and admin controls, so you stay in control as AI use grows across teams.",
   },
   {
     question: "Are the AI models included in the price?",
@@ -283,7 +283,7 @@ export const PRICING_COPY = {
   seo: {
     title: "Pricing | Wonka",
     description:
-      "Try Wonka free for 7 days, no credit card needed. Choose AI Chat or AI Workspace for your team, with EU-hosted AI models included.",
+      "Transparent per-seat pricing for Wonka. Choose AI Essentials or AI Workspace for your team, with EU-hosted AI models included.",
     productName: "Wonka Workspace",
   },
   hero: {
@@ -305,8 +305,8 @@ export const PRICING_COPY = {
     viewBreakdown: "View pricing breakdown",
   },
   trial: {
-    title: "Try Wonka free for 7 days",
-    body: "No credit card needed. You get full access, €5 in AI usage and you can invite your team to test it on a real use case.",
+    title: "See Wonka on a real use case",
+    body: "Book a call with our team. We'll walk you through Wonka on a use case from your company and help you pick the right plan.",
     cta: PRICING_SALES_CTA,
   },
   card: {
@@ -369,9 +369,8 @@ export const PRICING_COPY = {
     title: "Frequently asked questions",
   },
   closing: {
-    title: "Try Wonka free for 7 days",
-    body: "No credit card needed. Prefer to talk first? Our team is happy to walk you through it.",
+    title: "Not sure which plan fits your team?",
+    body: "Our team is happy to walk you through Wonka on a real use case.",
     primaryCta: PRICING_SALES_CTA,
-    secondaryCta: PRICING_SALES_CTA,
   },
 } as const;
