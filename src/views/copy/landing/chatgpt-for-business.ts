@@ -11,7 +11,7 @@ const en: LandingCopy = {
   seo: {
     title: "ChatGPT for Business, private & EU-hosted | Wonka AI",
     description:
-      "ChatGPT for business without shadow AI: WonkaChat is a private AI workspace hosted in the EU, ISO 27001 certified. Start your 7-day free trial.",
+      "ChatGPT for business without shadow AI: WonkaChat is a private AI workspace hosted in the EU, ISO 27001 certified. Book a demo with our team.",
   },
   breadcrumb: "ChatGPT for business",
   schema: {
@@ -31,7 +31,7 @@ const en: LandingCopy = {
     facts: [
       ["Hosting", "Azure West Europe"],
       ["Compliance", "ISO 27001 · GDPR · NIS 2"],
-      ["Free trial", "7 days, no credit card"],
+      ["Demo", "On a real use case"],
       ["Pricing", "Per seat, 20% off annual"],
     ],
   },
@@ -41,7 +41,7 @@ const en: LandingCopy = {
       "ChatGPT for business means giving employees ChatGPT-style AI chat inside a company-controlled environment, with business data protected, access managed and usage governed. WonkaChat is a private alternative to ChatGPT Business and Team: an AI workspace hosted in Azure West Europe, connected to your tools and certified ISO 27001.",
       "Most companies do not start from zero. Employees already paste emails, contracts and customer data into personal ChatGPT accounts because it saves them time. That is shadow AI: useful for the individual, invisible to IT and risky for the company. Banning it rarely works. Offering a better, approved alternative does. The real question is not whether your teams use ChatGPT for business, but where company data goes when they do.",
       "WonkaChat keeps the familiar chat experience and adds what a company actually needs. Answers are grounded in your own knowledge and systems, from SharePoint documents to Odoo, Salesforce or HubSpot records. Your organisation chooses the AI model that fits its needs and security requirements, with EU-hosted models included or your own model API key. Admins manage who can access which data and agents, with single sign-on, audit logs and human approval for important actions. And it goes beyond chat: teams can create AI agents for specific tasks and AI automations for repetitive work.",
-      "The result is a private ChatGPT for companies that stays GDPR compliant by design: data hosted in the EU, a Data Processing Agreement included, and customer data never used to train public AI models. You can test it on a real use case with a 7-day free trial, without a credit card.",
+      "The result is a private ChatGPT for companies that stays GDPR compliant by design: data hosted in the EU, a Data Processing Agreement included, and customer data never used to train public AI models. Our team can walk you through it on a real use case.",
     ],
   },
   benefits: {
@@ -110,8 +110,8 @@ const en: LandingCopy = {
     heading: "From ChatGPT Team to a private AI workspace in weeks",
     steps: [
       {
-        title: "Start a free trial",
-        body: "Open a 7-day trial with full AI Workspace access and €5 of included AI usage. No credit card required.",
+        title: "Book a demo",
+        body: "Talk to our team and see AI Workspace on a real use case from your company.",
       },
       {
         title: "Test a real use case",
@@ -187,7 +187,7 @@ const en: LandingCopy = {
       {
         question: "What is a good ChatGPT Business alternative for European companies?",
         answer:
-          "Look for an AI workspace that keeps the chat experience employees know but runs under your company's control. WonkaChat is hosted in Azure West Europe, ISO 27001 certified, GDPR and NIS 2 compliant, lets you choose your AI model and connects to your own tools. You can compare it on a real use case with a 7-day free trial.",
+          "Look for an AI workspace that keeps the chat experience employees know but runs under your company's control. WonkaChat is hosted in Azure West Europe, ISO 27001 certified, GDPR and NIS 2 compliant, lets you choose your AI model and connects to your own tools. Book a demo to compare it on a real use case.",
       },
       {
         question: "Is ChatGPT Team the same as ChatGPT Business?",
@@ -242,7 +242,7 @@ const en: LandingCopy = {
       {
         label: "WonkaChat pricing",
         href: "/pricing",
-        description: "Per-seat plans and the 7-day free trial.",
+        description: "Per-seat plans, AI models included.",
       },
       {
         label: "Wonka AI vs Microsoft Copilot",
@@ -273,7 +273,7 @@ const en: LandingCopy = {
   },
   cta: {
     heading: "Give your team ChatGPT for business, the private way.",
-    body: "Start a 7-day free trial or book a short demo. We'll show how WonkaChat connects to your tools and replaces personal ChatGPT accounts with one governed AI workspace.",
+    body: "Book a short demo. We'll show how WonkaChat connects to your tools and replaces personal ChatGPT accounts with one governed AI workspace.",
   },
 };
 
@@ -281,7 +281,7 @@ const fr: LandingCopy = {
   seo: {
     title: "ChatGPT entreprise privé, hébergé en Europe | Wonka AI",
     description:
-      "ChatGPT entreprise sans shadow AI : WonkaChat, l'espace de travail IA privé hébergé dans l'UE, certifié ISO 27001. Essai gratuit de 7 jours.",
+      "ChatGPT entreprise sans shadow AI : WonkaChat, l'espace de travail IA privé hébergé dans l'UE, certifié ISO 27001. Réservez une démo avec notre équipe.",
   },
   breadcrumb: "ChatGPT entreprise",
   schema: {
@@ -301,7 +301,7 @@ const fr: LandingCopy = {
     facts: [
       ["Hébergement", "Azure West Europe"],
       ["Conformité", "ISO 27001 · RGPD · NIS 2"],
-      ["Essai gratuit", "7 jours, sans carte"],
+      ["Démo", "Sur un vrai cas d'usage"],
       ["Tarifs", "Par utilisateur, -20 % en annuel"],
     ],
   },
@@ -311,7 +311,7 @@ const fr: LandingCopy = {
       "Un ChatGPT entreprise, c'est un chat IA comparable à ChatGPT, mis à disposition des collaborateurs dans un environnement contrôlé par l'entreprise : données protégées, accès gérés, usage encadré. WonkaChat est une alternative privée à ChatGPT Business et Team : un espace de travail IA hébergé dans Azure West Europe, connecté à vos outils et certifié ISO 27001.",
       "Dans la plupart des entreprises, l'IA est déjà là. Des collaborateurs collent des e-mails, des contrats ou des données clients dans leur compte ChatGPT personnel, parce que cela leur fait gagner du temps. C'est le shadow AI : utile pour la personne, invisible pour l'IT et risqué pour l'entreprise. L'interdire fonctionne rarement. Proposer une alternative validée, et meilleure, fonctionne.",
       "WonkaChat conserve l'expérience de chat familière et ajoute ce dont une entreprise a réellement besoin. Les réponses s'appuient sur vos propres connaissances et systèmes, des documents SharePoint aux fiches Odoo, Salesforce ou HubSpot. Votre organisation choisit le modèle d'IA adapté à ses besoins et à ses exigences de sécurité : modèles hébergés dans l'UE inclus, ou votre propre clé API. Les administrateurs gèrent qui accède à quelles données et à quels agents, avec authentification unique, journaux d'audit et validation humaine pour les actions importantes.",
-      "Résultat : un ChatGPT privé pour votre entreprise, conforme au RGPD dès la conception. Données hébergées dans l'UE, accord de traitement des données (DPA) inclus, et des données clients qui ne servent jamais à entraîner des modèles d'IA publics. Vous pouvez le tester sur un vrai cas d'usage pendant 7 jours, gratuitement et sans carte de crédit.",
+      "Résultat : un ChatGPT privé pour votre entreprise, conforme au RGPD dès la conception. Données hébergées dans l'UE, accord de traitement des données (DPA) inclus, et des données clients qui ne servent jamais à entraîner des modèles d'IA publics. Notre équipe vous le montre sur un vrai cas d'usage.",
     ],
   },
   benefits: {
@@ -380,8 +380,8 @@ const fr: LandingCopy = {
     heading: "De ChatGPT Team à un espace de travail IA privé, en quelques semaines",
     steps: [
       {
-        title: "Lancer l'essai gratuit",
-        body: "Ouvrez un essai de 7 jours avec un accès complet à AI Workspace et 5 € d'usage IA inclus. Sans carte de crédit.",
+        title: "Réserver une démo",
+        body: "Échangez avec notre équipe et découvrez AI Workspace sur un vrai cas d'usage de votre entreprise.",
       },
       {
         title: "Tester un vrai cas d'usage",
@@ -457,7 +457,7 @@ const fr: LandingCopy = {
       {
         question: "Quelle alternative à ChatGPT Business pour une entreprise européenne ?",
         answer:
-          "Cherchez un espace de travail IA qui garde l'expérience de chat que vos collaborateurs connaissent, mais sous le contrôle de votre entreprise. WonkaChat est hébergé dans Azure West Europe, certifié ISO 27001, conforme au RGPD et à NIS 2, vous laisse choisir votre modèle d'IA et se connecte à vos outils. Comparez-le sur un vrai cas d'usage avec l'essai gratuit de 7 jours.",
+          "Cherchez un espace de travail IA qui garde l'expérience de chat que vos collaborateurs connaissent, mais sous le contrôle de votre entreprise. WonkaChat est hébergé dans Azure West Europe, certifié ISO 27001, conforme au RGPD et à NIS 2, vous laisse choisir votre modèle d'IA et se connecte à vos outils. Réservez une démo pour le comparer sur un vrai cas d'usage.",
       },
       {
         question: "ChatGPT Team et ChatGPT Business, est-ce la même chose ?",
@@ -512,7 +512,7 @@ const fr: LandingCopy = {
       {
         label: "Tarifs WonkaChat",
         href: "/fr/pricing",
-        description: "Licences par utilisateur et essai gratuit de 7 jours.",
+        description: "Licences par utilisateur, modèles IA inclus.",
       },
       {
         label: "Wonka AI vs Microsoft Copilot",
@@ -545,7 +545,7 @@ const fr: LandingCopy = {
   },
   cta: {
     heading: "Offrez à vos équipes un ChatGPT entreprise, en toute confidentialité.",
-    body: "Lancez l'essai gratuit de 7 jours ou réservez une courte démo. Nous vous montrons comment WonkaChat se connecte à vos outils et remplace les comptes ChatGPT personnels par un seul espace de travail IA gouverné.",
+    body: "Réservez une courte démo. Nous vous montrons comment WonkaChat se connecte à vos outils et remplace les comptes ChatGPT personnels par un seul espace de travail IA gouverné.",
   },
 };
 
@@ -553,7 +553,7 @@ const nl: LandingCopy = {
   seo: {
     title: "ChatGPT voor bedrijven, privé en in de EU | Wonka AI",
     description:
-      "ChatGPT voor bedrijven zonder shadow AI: WonkaChat is een privé AI-werkplek, gehost in de EU en ISO 27001-gecertificeerd. Start uw gratis proef.",
+      "ChatGPT voor bedrijven zonder shadow AI: WonkaChat is een privé AI-werkplek, gehost in de EU en ISO 27001-gecertificeerd. Plan een demo met ons team.",
   },
   breadcrumb: "ChatGPT voor bedrijven",
   schema: {
@@ -573,7 +573,7 @@ const nl: LandingCopy = {
     facts: [
       ["Hosting", "Azure West Europe"],
       ["Compliance", "ISO 27001 · AVG · NIS 2"],
-      ["Gratis proef", "7 dagen, geen kredietkaart"],
+      ["Demo", "Op een echte use case"],
       ["Prijs", "Per licentie, -20% jaarlijks"],
     ],
   },
@@ -583,7 +583,7 @@ const nl: LandingCopy = {
       "ChatGPT voor bedrijven betekent dat medewerkers een AI-chat zoals ChatGPT gebruiken binnen een omgeving die het bedrijf zelf beheert: bedrijfsdata beschermd, toegang geregeld en gebruik onder controle. WonkaChat is een privé alternatief voor ChatGPT Business en Team: een AI-werkplek gehost in Azure West Europe, gekoppeld aan uw tools en ISO 27001-gecertificeerd.",
       "In de meeste bedrijven is AI er al. Medewerkers plakken e-mails, contracten en klantgegevens in hun persoonlijke ChatGPT-account, omdat het hen tijd bespaart. Dat is shadow AI: nuttig voor de medewerker, onzichtbaar voor IT en riskant voor het bedrijf. Een verbod werkt zelden. Een beter, goedgekeurd alternatief aanbieden wel. De echte vraag is niet óf uw teams ChatGPT zakelijk gebruiken, maar waar uw bedrijfsdata dan terechtkomt.",
       "WonkaChat behoudt de vertrouwde chatervaring en voegt toe wat een bedrijf echt nodig heeft. Antwoorden steunen op uw eigen kennis en systemen, van SharePoint-documenten tot records in Odoo, Salesforce of HubSpot. Uw organisatie kiest het AI-model dat past bij haar behoeften en beveiligingseisen: in de EU gehoste modellen inbegrepen, of uw eigen API-sleutel. Beheerders bepalen wie toegang heeft tot welke data en agents, met single sign-on, auditlogs en menselijke goedkeuring voor belangrijke acties. En het gaat verder dan chat: teams maken AI-agents voor specifieke taken en AI-automatiseringen voor repetitief werk.",
-      "Het resultaat is een privé ChatGPT voor uw bedrijf dat AVG-conform is by design: data gehost in de EU, een verwerkersovereenkomst (DPA) inbegrepen, en klantdata die nooit gebruikt wordt om publieke AI-modellen te trainen. U test het op een echte use case met een gratis proef van 7 dagen, zonder kredietkaart.",
+      "Het resultaat is een privé ChatGPT voor uw bedrijf dat AVG-conform is by design: data gehost in de EU, een verwerkersovereenkomst (DPA) inbegrepen, en klantdata die nooit gebruikt wordt om publieke AI-modellen te trainen. Ons team toont het u op een echte use case.",
     ],
   },
   benefits: {
@@ -652,8 +652,8 @@ const nl: LandingCopy = {
     heading: "Van ChatGPT Team naar een privé AI-werkplek, in enkele weken",
     steps: [
       {
-        title: "Start een gratis proef",
-        body: "Open een proef van 7 dagen met volledige toegang tot AI Workspace en € 5 AI-gebruik inbegrepen. Geen kredietkaart nodig.",
+        title: "Plan een demo",
+        body: "Spreek met ons team en ontdek AI Workspace op een echte use case van uw bedrijf.",
       },
       {
         title: "Test een echte use case",
@@ -729,7 +729,7 @@ const nl: LandingCopy = {
       {
         question: "Wat is een goed ChatGPT Business alternatief voor Europese bedrijven?",
         answer:
-          "Kies een AI-werkplek die de chatervaring behoudt die medewerkers kennen, maar onder de controle van uw bedrijf draait. WonkaChat wordt gehost in Azure West Europe, is ISO 27001-gecertificeerd, AVG- en NIS 2-conform, laat u uw AI-model kiezen en koppelt met uw eigen tools. Vergelijk het op een echte use case met de gratis proef van 7 dagen.",
+          "Kies een AI-werkplek die de chatervaring behoudt die medewerkers kennen, maar onder de controle van uw bedrijf draait. WonkaChat wordt gehost in Azure West Europe, is ISO 27001-gecertificeerd, AVG- en NIS 2-conform, laat u uw AI-model kiezen en koppelt met uw eigen tools. Plan een demo om het op een echte use case te vergelijken.",
       },
       {
         question: "Is ChatGPT Team hetzelfde als ChatGPT Business?",
@@ -784,7 +784,7 @@ const nl: LandingCopy = {
       {
         label: "Prijzen van WonkaChat",
         href: "/nl/pricing",
-        description: "Licenties per gebruiker en een gratis proef van 7 dagen.",
+        description: "Licenties per gebruiker, AI-modellen inbegrepen.",
       },
       {
         label: "Wonka AI vs Microsoft Copilot",
@@ -815,7 +815,7 @@ const nl: LandingCopy = {
   },
   cta: {
     heading: "Geef uw team ChatGPT voor bedrijven, op de privé manier.",
-    body: "Start een gratis proef van 7 dagen of plan een korte demo. We tonen u hoe WonkaChat koppelt met uw tools en persoonlijke ChatGPT-accounts vervangt door één beheerde AI-werkplek.",
+    body: "Plan een korte demo. We tonen u hoe WonkaChat koppelt met uw tools en persoonlijke ChatGPT-accounts vervangt door één beheerde AI-werkplek.",
   },
 };
 

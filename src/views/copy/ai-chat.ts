@@ -374,7 +374,7 @@ const nl: AiChatCopy = {
 
     description:
 
-      "Vind antwoorden en krijg werk gedaan met AI, bedrijfskennis, bedrijfstools en toonaangevende modellen. Gehost in de EU, met toegangsbeheer. Gratis proberen.",
+      "Vind antwoorden en krijg werk gedaan met AI, bedrijfskennis, bedrijfstools en toonaangevende modellen. Gehost in de EU, met toegangsbeheer. Contacteer ons team.",
 
   },
 

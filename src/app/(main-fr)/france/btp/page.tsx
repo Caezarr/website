@@ -459,7 +459,7 @@ export default function BtpLandingPage() {
             <a className={styles.planCtaSecondary} href={contactHref}>
               Découvrir Wonka Chat <span aria-hidden="true">↗</span>
             </a>
-            <small>Tarifs et conditions présentés à l’inscription.</small>
+            <small>Tarifs et conditions présentés lors de l’échange.</small>
           </article>
 
           <article className={styles.planCard + " " + styles.planRecommended}>

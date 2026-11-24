@@ -245,7 +245,7 @@ const en: WorkspaceAiAgentsCopy = {
 
     title: "Start with one task your team repeats.",
 
-    subtitle: "Try building an agent yourself, or talk to our team about where to start.",
+    subtitle: "Talk to our team about where to start with agents.",
 
     primaryCta: "Get started",
 
@@ -410,7 +410,7 @@ const fr: WorkspaceAiAgentsCopy = {
 
     subtitle:
 
-      "Essayez de créer un agent vous-même, ou échangez avec nous pour savoir par où commencer.",
+      "Échangez avec notre équipe pour savoir par où commencer avec les agents.",
 
     primaryCta: "Commencer",
 
@@ -575,7 +575,7 @@ const nl: WorkspaceAiAgentsCopy = {
 
     subtitle:
 
-      "Probeer zelf een agent te bouwen, of bespreek met ons team waar u het best start.",
+      "Bespreek met ons team waar u het best start met agents.",
 
     primaryCta: "Aan de slag",
 

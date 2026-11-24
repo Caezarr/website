@@ -118,7 +118,7 @@ const en: LandingCopy = {
       },
       {
         title: "Roll out a private AI workspace",
-        body: "Your team gets WonkaChat, connected to your tools and knowledge, with SSO, permissions and audit logs. Test it first with a 7-day free trial, no credit card required.",
+        body: "Your team gets WonkaChat, connected to your tools and knowledge, with SSO, permissions and audit logs. Book a demo to see it on a real use case first.",
       },
       {
         title: "Build agents for the processes that cost you",
@@ -156,7 +156,7 @@ const en: LandingCopy = {
       {
         question: "How much does AI for business cost?",
         answer:
-          "It depends on what you need. The Start AI strategy program starts at €15,000, and Flemish SMEs can claim up to 70% back through the VLAIO KMO-portefeuille. WonkaChat is priced per seat, with a 7-day free trial. Custom Wonka Build projects are scoped to your processes.",
+          "It depends on what you need. The Start AI strategy program starts at €15,000, and Flemish SMEs can claim up to 70% back through the VLAIO KMO-portefeuille. WonkaChat is priced per seat. Custom Wonka Build projects are scoped to your processes.",
       },
       {
         question: "Do we need technical AI skills in-house?",
@@ -335,7 +335,7 @@ const fr: LandingCopy = {
       },
       {
         title: "Déployer un espace de travail IA privé",
-        body: "Votre équipe reçoit WonkaChat, connecté à vos outils et à vos connaissances, avec SSO, permissions et journaux d'audit. Testez-le d'abord avec un essai gratuit de 7 jours, sans carte bancaire.",
+        body: "Votre équipe reçoit WonkaChat, connecté à vos outils et à vos connaissances, avec SSO, permissions et journaux d'audit. Réservez une démo pour le voir d'abord sur un vrai cas d'usage.",
       },
       {
         title: "Construire des agents pour les processus qui vous coûtent",
@@ -373,7 +373,7 @@ const fr: LandingCopy = {
       {
         question: "Combien coûte l'IA pour une entreprise ?",
         answer:
-          "Cela dépend de votre besoin. Le programme de stratégie Start AI démarre à 15 000 €. WonkaChat est facturé par utilisateur, avec un essai gratuit de 7 jours. Les projets sur mesure Wonka Build sont cadrés selon vos processus. Pour les PME flamandes, jusqu'à 70 % peuvent être récupérés via la KMO-portefeuille de VLAIO.",
+          "Cela dépend de votre besoin. Le programme de stratégie Start AI démarre à 15 000 €. WonkaChat est facturé par utilisateur. Les projets sur mesure Wonka Build sont cadrés selon vos processus. Pour les PME flamandes, jusqu'à 70 % peuvent être récupérés via la KMO-portefeuille de VLAIO.",
       },
       {
         question: "Quelle différence entre un assistant IA entreprise et ChatGPT ?",
@@ -549,7 +549,7 @@ const nl: LandingCopy = {
       },
       {
         title: "Een private AI-werkruimte uitrollen",
-        body: "Uw team krijgt WonkaChat, gekoppeld aan uw tools en kennis, met SSO, rechtenbeheer en auditlogs. Test het eerst met een gratis proefperiode van 7 dagen, zonder kredietkaart.",
+        body: "Uw team krijgt WonkaChat, gekoppeld aan uw tools en kennis, met SSO, rechtenbeheer en auditlogs. Plan een demo om het eerst op een echte use case te zien.",
       },
       {
         title: "Agents bouwen voor de processen die u geld kosten",

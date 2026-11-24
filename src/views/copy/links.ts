@@ -222,7 +222,7 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
   nl: {
     metaTitle: "Wonka AI · Links",
     metaDescription:
-      "Laat AI werken voor uw hele team. Website, gratis proefperiode, een gesprek met een consultant, onze socials en het laatste nieuws.",
+      "Laat AI werken voor uw hele team. Website, aan de slag, een gesprek met een consultant, onze socials en het laatste nieuws.",
     line: "Laat AI werken voor uw hele team.",
     awards: [
       {
@@ -327,7 +327,7 @@ export const LINKS_COPY: Record<Locale, LinksCopy> = {
   fr: {
     metaTitle: "Wonka AI · Liens",
     metaDescription:
-      "Faites fonctionner l’IA pour toute votre équipe. Site, essai gratuit, échange avec un consultant, nos réseaux et nos actualités.",
+      "Faites fonctionner l’IA pour toute votre équipe. Site, premiers pas, échange avec un consultant, nos réseaux et nos actualités.",
     line: "Faites fonctionner l’IA pour toute votre équipe.",
     awards: [
       {
