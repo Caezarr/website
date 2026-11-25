@@ -38,6 +38,10 @@ export interface HomeV2Copy {
     secondaryCta: string;
     trustedBy: string;
   };
+  workspaceTour: {
+    title: string;
+    posterAlt: string;
+  };
   platform: {
     eyebrow: string;
     title: string;
@@ -118,7 +122,7 @@ const en: HomeV2Copy = {
   seo: {
     title: "WonkaChat | AI agents set up with you, inside your tools",
     description:
-      "Describe a task, WonkaChat builds the agent, connects it to your tools and shares it with your teams. 35 AI consultants help you get it into production.",
+      "Describe a task, WonkaChat builds the agent, connects it to your tools and shares it with your teams. 40+ AI consultants help you get it into production.",
   },
   award: { label: "#1 AI start-up of the year · Belgium Startup Awards 2026" },
   hero: {
@@ -126,9 +130,13 @@ const en: HomeV2Copy = {
     titleAccent: "",
     subtitle:
       "Wonka helps you roll out AI across your entire team, in a safe and flexible way.",
-    primaryCta: "Start free trial",
+    primaryCta: "Get started",
     secondaryCta: "Talk to a consultant",
     trustedBy: "Trusted by 10,000+ people",
+  },
+  workspaceTour: {
+    title: "Discover Wonka Workspace in 3 minutes",
+    posterAlt: "Wonka Workspace product tour video",
   },
   platform: {
     eyebrow: "What changes",
@@ -239,8 +247,8 @@ const en: HomeV2Copy = {
   team: {
     eyebrow: "The team",
     title: "AI adoption takes more than software.",
-    body: "35+ AI consultants help you find the right use cases, get them into production and make adoption stick across your organisation.",
-    count: "35+",
+    body: "40+ AI consultants help you find the right use cases, get them into production and make adoption stick across your organisation.",
+    count: "40+",
     countLabel: "AI consultants across Belgium and France",
     steps: [
       {
@@ -301,7 +309,7 @@ const fr: HomeV2Copy = {
   seo: {
     title: "WonkaChat | Des agents IA mis en place avec vous, dans vos outils",
     description:
-      "Décrivez une tâche, WonkaChat crée l'agent, le connecte à vos outils et le partage à vos équipes. 35 consultants IA vous accompagnent jusqu'à la production.",
+      "Décrivez une tâche, WonkaChat crée l'agent, le connecte à vos outils et le partage à vos équipes. Plus de 40 consultants IA vous accompagnent jusqu'à la production.",
   },
   award: { label: "Start-up IA n°1 de l'année · Belgium Startup Awards 2026" },
   hero: {
@@ -309,9 +317,13 @@ const fr: HomeV2Copy = {
     titleAccent: "",
     subtitle:
       "Wonka vous aide à déployer l'IA auprès de toutes vos équipes, de façon sûre et flexible.",
-    primaryCta: "Essai gratuit",
+    primaryCta: "Commencer",
     secondaryCta: "Parler à un consultant",
     trustedBy: "Plus de 10 000 personnes nous font confiance",
+  },
+  workspaceTour: {
+    title: "Découvrez Wonka Workspace en 3 minutes",
+    posterAlt: "Vidéo de présentation de Wonka Workspace",
   },
   platform: {
     eyebrow: "Ce qui change",
@@ -423,8 +435,8 @@ const fr: HomeV2Copy = {
   team: {
     eyebrow: "L'équipe",
     title: "Adopter l'IA, ce n'est pas qu'un logiciel.",
-    body: "Plus de 35 consultants IA vous aident à identifier les bons cas d'usage, à les mettre en production et à ancrer l'adoption dans toute votre organisation.",
-    count: "35+",
+    body: "Plus de 40 consultants IA vous aident à identifier les bons cas d'usage, à les mettre en production et à ancrer l'adoption dans toute votre organisation.",
+    count: "40+",
     countLabel: "consultants IA en Belgique et en France",
     steps: [
       {
@@ -484,7 +496,7 @@ const nl: HomeV2Copy = {
   seo: {
     title: "WonkaChat | AI-agents samen met u opgezet, in uw tools",
     description:
-      "Beschrijf een taak, WonkaChat bouwt de agent, koppelt hem aan uw tools en deelt hem met uw teams. 35 AI-consultants begeleiden u tot in productie.",
+      "Beschrijf een taak, WonkaChat bouwt de agent, koppelt hem aan uw tools en deelt hem met uw teams. Meer dan 40 AI-consultants begeleiden u tot in productie.",
   },
   award: { label: "#1 AI-start-up van het jaar · Belgium Startup Awards 2026" },
   hero: {
@@ -492,9 +504,13 @@ const nl: HomeV2Copy = {
     titleAccent: "",
     subtitle:
       "Wonka helpt u AI uit te rollen over uw hele team, op een veilige en flexibele manier.",
-    primaryCta: "Gratis proberen",
+    primaryCta: "Aan de slag",
     secondaryCta: "Spreek een consultant",
     trustedBy: "Vertrouwd door 10.000+ mensen",
+  },
+  workspaceTour: {
+    title: "Ontdek Wonka Workspace in 3 minuten",
+    posterAlt: "Producttourvideo van Wonka Workspace",
   },
   platform: {
     eyebrow: "Wat er verandert",
@@ -606,8 +622,8 @@ const nl: HomeV2Copy = {
   team: {
     eyebrow: "Het team",
     title: "AI-adoptie vraagt meer dan software.",
-    body: "Meer dan 35 AI-consultants helpen u de juiste use cases te vinden, in productie te brengen en adoptie organisatiebreed te laten beklijven.",
-    count: "35+",
+    body: "Meer dan 40 AI-consultants helpen u de juiste use cases te vinden, in productie te brengen en adoptie organisatiebreed te laten beklijven.",
+    count: "40+",
     countLabel: "AI-consultants in België en Frankrijk",
     steps: [
       {
@@ -662,5 +678,14 @@ const nl: HomeV2Copy = {
       "Verken het platform zelf, of werk met onze consultants om de juiste AI-use cases in productie te brengen.",
   },
 };
+
+export const HOME_V2_WORKSPACE_TOUR = {
+  youtubeId: "gHWkKXg79_U",
+  poster: {
+    src: "/images/workspace/wonka-workspace-header.png",
+    width: 1920,
+    height: 1080,
+  },
+} as const;
 
 export const HOME_V2_COPY: Record<Locale, HomeV2Copy> = { en, fr, nl };

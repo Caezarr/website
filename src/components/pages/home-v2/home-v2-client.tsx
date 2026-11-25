@@ -6,6 +6,7 @@ import { motion, useInView, useReducedMotion } from "motion/react";
 import { ClientProofCard } from "@/components/sections/home-client-proof";
 import { HomeV2Reveal } from "@/components/pages/home-v2/reveal";
 import { HomeV2PlatformStack } from "@/components/sections/home-v2-platform-stack";
+import { HomeV2WorkspaceTour } from "@/components/sections/home-v2-workspace-tour";
 import { HomeV2Subsidies } from "@/components/sections/home-v2-subsidies";
 import { ArrowIcon, ButtonLink } from "@/components/ui/button";
 import { Eyebrow } from "@/components/ui/eyebrow";
@@ -35,7 +36,6 @@ import {
   type HomeTool,
 } from "@/lib/home-integration-tools";
 
-const TRIAL_URL = "https://wonka.chat/register";
 const BG = "/brand/backgrounds/16x9";
 const EASE = [0.22, 1, 0.36, 1] as const;
 const round = (n: number) => Math.round(n * 100) / 100;
@@ -281,7 +281,7 @@ function Hero({
             delay={0.24}
             className="mt-2 flex flex-wrap items-center justify-center gap-3"
           >
-            <ButtonLink href={TRIAL_URL} variant="primary">
+            <ButtonLink href={links.meetingUrl} variant="primary">
               {copy.primaryCta}
             </ButtonLink>
             <ButtonLink href={links.meetingUrl} variant="primaryOutline">
@@ -713,7 +713,7 @@ export function HomeV2FinalCta({
           delay={0.16}
           className="flex flex-wrap items-center justify-center gap-3"
         >
-          <ButtonLink href={TRIAL_URL} variant="primary">
+          <ButtonLink href={links.meetingUrl} variant="primary">
             {hero.primaryCta}
           </ButtonLink>
           <ButtonLink href={links.meetingUrl} variant="primaryOutline">
@@ -739,6 +739,7 @@ export function HomeV2Client({
   return (
     <main className="bg-background text-text">
       <Hero copy={copy.hero} award={copy.award} links={links} />
+      <HomeV2WorkspaceTour copy={copy.workspaceTour} />
       <HomeV2PlatformStack copy={copy.platform} locale={locale} />
       <HomeSecurityBanner
         data={copy.security}

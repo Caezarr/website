@@ -25,31 +25,6 @@ function PlayIcon({
   );
 }
 
-function PlayInCircle({
-  className,
-  iconClassName,
-}: {
-  className?: string;
-  iconClassName?: string;
-}) {
-  return (
-    <span
-      className={cn(
-        radius.full,
-        "flex size-6 shrink-0 items-center justify-center border border-current",
-        className,
-      )}
-    >
-      <PlayIcon
-        className={cn(
-          "size-2.5 translate-x-[0.0625rem]",
-          iconClassName,
-        )}
-      />
-    </span>
-  );
-}
-
 interface HeroVideoPosterProps {
   src: string;
   alt: string;
@@ -122,9 +97,9 @@ export function HeroVideoPoster({
                   "flex size-16 items-center justify-center bg-white text-black shadow-lg transition-transform duration-[var(--ds-motion-duration-normal)] will-change-transform group-hover/poster:scale-110 md:hidden",
                 )}
               >
-                <PlayInCircle
-                  className="size-9 border-black/25"
-                  iconClassName="size-3"
+                <PlayIcon
+                  centered
+                  className="size-7 text-black"
                 />
               </span>
               <span
@@ -137,7 +112,7 @@ export function HeroVideoPoster({
               >
                 <ButtonBackgroundShape variant="primary" />
                 <span className="whitespace-nowrap">{caption}</span>
-                <PlayInCircle className="size-[1.625rem] translate-y-px border-white/90" />
+                <PlayIcon centered className="size-5 text-white" />
               </span>
             </>
           ) : (
@@ -147,9 +122,9 @@ export function HeroVideoPoster({
                 "flex size-16 items-center justify-center bg-white text-black shadow-lg transition-transform duration-[var(--ds-motion-duration-normal)] will-change-transform group-hover/poster:scale-110 md:size-20",
               )}
             >
-              <PlayInCircle
-                className="size-9 border-black/25 md:size-10"
-                iconClassName="size-3 md:size-3.5"
+              <PlayIcon
+                centered
+                className="size-7 text-black md:size-8"
               />
             </span>
           )}
