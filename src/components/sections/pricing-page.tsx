@@ -15,7 +15,6 @@ import { SectionHeader } from "@/components/ui/section-header";
 import { Surface } from "@/components/ui/surface";
 import { CheckmarkIcon } from "@/components/ui/icons/checkmark-icon";
 import {
-  calculateBreakdown,
   getAverageStandardSeatPrice,
   getPowerSeatPrice,
 } from "@/lib/pricing-calculator";
@@ -26,7 +25,6 @@ import {
   PLAN_ORDER,
   PLANS,
   PRICING_COPY,
-  TRIAL_REGISTER_URL,
   type Billing,
   type ModelAccess,
   type PlanId,
@@ -58,6 +56,7 @@ interface PricingPageProps {
 interface CheckListItem {
   text: string;
   link?: { label: string; href: string };
+  textHref?: string;
 }
 
 function PricingCheckList({
@@ -90,7 +89,21 @@ function PricingCheckList({
                 emphasized ? "text-white/80" : "text-text/70",
               )}
             >
-              {item.text}
+              {item.textHref ? (
+                <a
+                  href={item.textHref}
+                  className={cn(
+                    "underline underline-offset-4 transition-colors",
+                    emphasized
+                      ? "text-white hover:text-white/75"
+                      : "text-text hover:text-text/70",
+                  )}
+                >
+                  {item.text}
+                </a>
+              ) : (
+                item.text
+              )}
               {item.link ? (
                 <>
                   {" "}
@@ -121,38 +134,57 @@ function SeatPrice({
   note,
   emphasized,
   compact = false,
+  muted = false,
 }: {
   amount: number;
   label: string;
   note: string;
   emphasized: boolean;
   compact?: boolean;
+  muted?: boolean;
 }) {
   return (
     <div className="flex flex-col gap-1">
       <p
         className={cn(
-          compact ? "type-paragraph-s" : "type-paragraph-m-bold",
-          emphasized ? "text-white" : "text-text",
+          "type-paragraph-m-bold",
+          emphasized
+            ? muted
+              ? "text-white/55"
+              : "text-white"
+            : muted
+              ? "text-text/50"
+              : "text-text",
         )}
       >
         {label}
       </p>
       <p
         className={cn(
-          compact
-            ? "font-sans text-[1.25rem] leading-none md:text-[1.375rem]"
-            : priceAmountClass,
+          compact ? "type-paragraph-m-bold" : priceAmountClass,
+          compact ? "leading-snug" : undefined,
           "tabular-nums",
-          emphasized ? "text-white" : "text-text",
+          emphasized
+            ? muted
+              ? "text-white/50"
+              : "text-white"
+            : muted
+              ? "text-text/45"
+              : "text-text",
         )}
       >
         {formatEuro(amount)}
       </p>
       <p
         className={cn(
-          compact ? "type-paragraph-s" : "type-paragraph-m",
-          emphasized ? "text-white/70" : "text-text/70",
+          "type-paragraph-m",
+          emphasized
+            ? muted
+              ? "text-white/40"
+              : "text-white/70"
+            : muted
+              ? "text-text/45"
+              : "text-text/70",
         )}
       >
         {note}
@@ -178,11 +210,14 @@ function PlanCard({
 }) {
   const plan = PLANS[planId];
   const emphasized = Boolean(plan.badge);
-  const total = calculateBreakdown(planId, seats, billing, access).total;
   const features = plan.features.map((feature) =>
     access === "byok" && feature.byokText
       ? { text: feature.byokText }
-      : { text: feature.text, link: feature.link },
+      : {
+          text: feature.text,
+          link: feature.link,
+          textHref: feature.textHref,
+        },
   );
   const divider = emphasized ? "border-white/25" : "border-border";
   const powerPrice = getPowerSeatPrice(planId, billing);
@@ -255,15 +290,6 @@ function PlanCard({
               {copy.card.modelsNotIncludedNote}
             </p>
           ) : null}
-          <p
-            className={cn(
-              "type-paragraph-m-bold tabular-nums",
-              emphasized ? "text-white" : "text-text",
-            )}
-            aria-live="polite"
-          >
-            {copy.card.totalFor(seats, formatEuro(total))}
-          </p>
         </div>
         <div className="mt-auto flex justify-center pt-3">
           <ButtonLink
@@ -297,11 +323,17 @@ function PlanCard({
           <div
             className={cn(
               radius.xs,
-              "mt-3 border border-dashed p-4 transition-opacity",
-              powerIncluded ? "opacity-100" : "pointer-events-none opacity-40",
+              "mt-3 border border-dashed p-4 transition-[opacity,filter]",
+              powerIncluded
+                ? "opacity-100"
+                : "pointer-events-none opacity-[0.45] grayscale",
               emphasized
-                ? "border-white/30 bg-white/10"
-                : "border-border bg-surface-muted",
+                ? powerIncluded
+                  ? "border-white/30 bg-white/10"
+                  : "border-white/15 bg-white/5"
+                : powerIncluded
+                  ? "border-border bg-surface-muted"
+                  : "border-border/50 bg-surface-muted/40",
             )}
             aria-disabled={!powerIncluded}
           >
@@ -309,10 +341,13 @@ function PlanCard({
               amount={powerPrice}
               label={copy.card.powerSeat}
               note={
-                powerIncluded ? copy.card.powerNote : copy.card.powerIncludedOnly
+                powerIncluded
+                  ? copy.card.perUser
+                  : copy.card.powerIncludedOnly
               }
               emphasized={emphasized}
               compact
+              muted={!powerIncluded}
             />
           </div>
         ) : null}
@@ -341,7 +376,7 @@ function EnterpriseCard({ href }: { href: string }) {
 
       <div className="mt-4 flex h-full flex-col border-t border-dashed border-black/20 pt-4 pb-5">
         <div className="flex flex-col gap-3">
-          <p className="font-sans text-[1.375rem] leading-snug text-black md:text-[1.5rem] lg:text-[1.625rem]">
+          <p className={cn(priceAmountClass, "text-black")}>
             {copy.enterprise.price}
           </p>
           <p className="type-paragraph-m text-black/70">
@@ -440,7 +475,7 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
             seats={seats}
             billing={billing}
             access={access}
-            href={TRIAL_REGISTER_URL}
+            href={bookingHref}
             className={
               PLANS[planId].badge ? "order-first lg:order-none" : undefined
             }
@@ -460,7 +495,7 @@ export function PricingPage({ bookingHref }: PricingPageProps) {
           <p className="type-paragraph-m text-text/70">{copy.trial.body}</p>
         </div>
         <ButtonLink
-          href={TRIAL_REGISTER_URL}
+          href={bookingHref}
           variant="primary"
           className={cn(pricingCtaClassName, "shrink-0")}
         >

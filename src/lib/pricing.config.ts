@@ -27,6 +27,8 @@ export interface PlanFeature {
   text: string;
   /** Rendered after `text` as an inline link. */
   link?: { label: string; href: string };
+  /** Same-page anchor; `text` is rendered as the link label. */
+  textHref?: string;
   /** Replaces `text` when the team brings its own API keys. */
   byokText?: string;
 }
@@ -83,29 +85,32 @@ export const VOLUME_BAND_LABELS = [
   "For the next 1,000+",
 ] as const;
 
-export const TRIAL_REGISTER_URL = "https://wonka.chat/register";
+export const PRICING_SALES_CTA = "Talk to sales";
 export const START_AI_HREF = "/start-ai";
 export const CONNECTORS_HREF = "/integrations";
+export const PRICING_MODELS_SECTION_ID = "pricing-models";
 export const PLANS: Record<PlanId, PricingPlan> = {
   chat: {
     id: "chat",
-    name: "AI Chat",
+    name: "AI Essentials",
     tagline: "The best AI models in one chat, for everyone in your company.",
     features: [
-      {
-        text: "The leading AI models in one place, or let Auto pick the best one",
-      },
       { text: "Answers from your own files and company knowledge" },
       {
         text: "Agents for recurring tasks, shared with colleagues",
       },
       {
-        text: "Connects to Odoo, SharePoint, Outlook, Salesforce and",
+        text: "Connectors: Odoo, SharePoint, Outlook, Salesforce and",
         link: { label: "more", href: CONNECTORS_HREF },
       },
+      { text: "Single sign-on with Microsoft Entra ID" },
+      { text: "Workflows: 1,000 runs a month" },
       {
-        text: "EU-hosted models, no surprise usage bills",
-        // TODO: CHECK wording of the feature line when bringing your own key.
+        text: "Apps: build dashboards and internal tools, and share each app with up to 5 people",
+      },
+      {
+        text: "EU-hosted models",
+        textHref: `#${PRICING_MODELS_SECTION_ID}`,
         byokText: "Use your own API keys and pay the model providers directly",
       },
     ],
@@ -115,23 +120,26 @@ export const PLANS: Record<PlanId, PricingPlan> = {
       { from: 251, to: 550, monthly: 19, annual: 15.2 },
       { from: 551, to: null, monthly: 16, annual: 12.8 },
     ],
-    ctaLabel: "Start free trial",
+    powerSeat: { monthly: 119, annual: 99 },
+    ctaLabel: PRICING_SALES_CTA,
   },
   workspace: {
     id: "workspace",
     name: "AI Workspace",
-    tagline: "AI Chat and all the controls to roll it out organisation wide.",
+    tagline: "AI Essentials and all the controls to roll it out organisation wide.",
     badge: "Recommended",
-    featuresIntro: "Everything in AI Chat, plus:",
+    featuresIntro: "Everything in AI Essentials, plus:",
     features: [
-      { text: "Decide which teams use which models, agents and data" },
-      { text: "Audit logs of how AI is used across the company" },
-      // TODO: CHECK
+      { text: "Evaluate and audit the agents your teams rely on" },
+      {
+        text: "Set access levels on connectors, agents and shared mailboxes",
+      },
       { text: "Usage insights per team and per agent" },
-      // TODO: CHECK
-      { text: "Admin controls for users, roles and access" },
-      // TODO: CHECK
-      { text: "Hands-on support during your rollout" },
+      {
+        text: "Unlimited app sharing: with anyone, any team or the whole company",
+      },
+      { text: "10× the workflow runs: 10,000 a month" },
+      { text: "Premium support" },
     ],
     standardBands: [
       { from: 1, to: 50, monthly: 39, annual: 31.2 },
@@ -140,7 +148,7 @@ export const PLANS: Record<PlanId, PricingPlan> = {
       { from: 551, to: null, monthly: 22.25, annual: 17.8 },
     ],
     powerSeat: { monthly: 129, annual: 109 },
-    ctaLabel: "Start free trial",
+    ctaLabel: PRICING_SALES_CTA,
   },
 };
 
@@ -214,18 +222,18 @@ const workspaceFirstBand = PLANS.workspace.standardBands[0];
 export const PRICING_FAQ: PricingFaqItem[] = [
   {
     question: "How much does Wonka cost?",
-    answer: `AI Chat costs ${proseEuro(chatFirstBand.monthly)} per user per month and AI Workspace ${proseEuro(workspaceFirstBand.monthly)}, or ${proseEuro(chatFirstBand.annual)} and ${proseEuro(workspaceFirstBand.annual)} with annual billing. These are Standard seat prices for the first ${chatFirstBand.to} users, excluding VAT and with AI models included, and the price per seat drops as your team grows.`,
+    answer: `AI Essentials costs ${proseEuro(chatFirstBand.monthly)} per user per month and AI Workspace ${proseEuro(workspaceFirstBand.monthly)}, or ${proseEuro(chatFirstBand.annual)} and ${proseEuro(workspaceFirstBand.annual)} with annual billing. These are Standard seat prices for the first ${chatFirstBand.to} users, excluding VAT and with AI models included, and the price per seat drops as your team grows.`,
   },
   {
     question: "Can we try Wonka before we buy?",
     answer:
-      "Yes, you can try Wonka free for 7 days without a credit card, with full access, €5 in AI usage and room to invite your colleagues.",
+      "Yes. Book a call with our team and we'll walk you through Wonka on a real use case from your company before you commit.",
   },
   {
-    question: "What is the difference between AI Chat and AI Workspace?",
+    question: "What is the difference between AI Essentials and AI Workspace?",
     // TODO: CHECK
     answer:
-      "AI Chat gives everyone in your company secure access to AI chat, agents and your company knowledge. AI Workspace adds governance, audit logs and admin controls, so you stay in control as AI use grows across teams.",
+      "AI Essentials gives everyone in your company secure access to AI chat, agents and your company knowledge. AI Workspace adds governance, audit logs and admin controls, so you stay in control as AI use grows across teams.",
   },
   {
     question: "Are the AI models included in the price?",
@@ -275,7 +283,7 @@ export const PRICING_COPY = {
   seo: {
     title: "Pricing | Wonka",
     description:
-      "Try Wonka free for 7 days, no credit card needed. Choose AI Chat or AI Workspace for your team, with EU-hosted AI models included.",
+      "Transparent per-seat pricing for Wonka. Choose AI Essentials or AI Workspace for your team, with EU-hosted AI models included.",
     productName: "Wonka Workspace",
   },
   hero: {
@@ -297,16 +305,15 @@ export const PRICING_COPY = {
     viewBreakdown: "View pricing breakdown",
   },
   trial: {
-    title: "Try Wonka free for 7 days",
-    body: "No credit card needed. You get full access, €5 in AI usage and you can invite your team to test it on a real use case.",
-    cta: "Start free trial",
+    title: "See Wonka on a real use case",
+    body: "Book a call with our team. We'll walk you through Wonka on a use case from your company and help you pick the right plan.",
+    cta: PRICING_SALES_CTA,
   },
   card: {
     standardSeat: "Standard seat",
-    powerSeat: "Power seat",
+    powerSeat: `Power seat (${POWER_SEAT_USAGE_MULTIPLIER}x usage)`,
     perUser: "Per user / month (excl. VAT)",
     perUserAverage: "Average per user / month (excl. VAT)",
-    powerNote: `${POWER_SEAT_USAGE_MULTIPLIER}x more usage than a Standard seat`,
     powerIncludedOnly: "Only available when AI models are included.",
     or: "or",
     modelsNotIncludedNote:
@@ -316,7 +323,7 @@ export const PRICING_COPY = {
   },
   enterprise: {
     title: "Enterprise",
-    price: "Your cloud or on-premise, at volume pricing",
+    price: "Custom",
     priceNote: "For 1,000+ seats",
     body: "For organisations that need their own deployment.",
     featuresIntro: "Everything in AI Workspace, plus:",
@@ -325,9 +332,9 @@ export const PRICING_COPY = {
       "Deployment built around your security requirements",
       "Bring your own model API keys",
       "Volume pricing",
-      "Dedicated support",
+      "Hands-on support during your rollout by a dedicated account manager",
     ],
-    cta: "Talk to sales",
+    cta: PRICING_SALES_CTA,
   },
   breakdown: {
     title: "Pricing breakdown",
@@ -362,9 +369,8 @@ export const PRICING_COPY = {
     title: "Frequently asked questions",
   },
   closing: {
-    title: "Try Wonka free for 7 days",
-    body: "No credit card needed. Prefer to talk first? Our team is happy to walk you through it.",
-    primaryCta: "Start free trial",
-    secondaryCta: "Talk to sales",
+    title: "Not sure which plan fits your team?",
+    body: "Our team is happy to walk you through Wonka on a real use case.",
+    primaryCta: PRICING_SALES_CTA,
   },
 } as const;
