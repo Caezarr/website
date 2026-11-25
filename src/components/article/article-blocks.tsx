@@ -7,8 +7,6 @@ import type { ResolvedTopic, TopicLink } from "@/lib/article-topics";
 import { radius } from "@/lib/design-tokens";
 import { meetingTrackProps } from "@/lib/meeting-track";
 
-const TRIAL_URL = "https://wonka.chat/register";
-
 /* ── Hero ─────────────────────────────────────────────────────────────── */
 
 interface ArticleHeroProps {
@@ -177,7 +175,13 @@ export function ArticleProductCard({ locale, topic }: { locale: Locale; topic: R
 
 /* ── Customer proof + trial CTA (inserted in the body) ────────────────── */
 
-export function ArticleProof({ locale }: { locale: Locale }) {
+export function ArticleProof({
+  locale,
+  bookingUrl,
+}: {
+  locale: Locale;
+  bookingUrl: string;
+}) {
   const t = getT(locale);
   const proof = t.raw("article.proof") as { value: string; label: string }[];
   return (
@@ -198,7 +202,7 @@ export function ArticleProof({ locale }: { locale: Locale }) {
             <p className="type-paragraph-m-bold text-white">{t("article.midCtaTitle")}</p>
             <p className="mt-1 type-paragraph-s text-white/65">{t("article.midCtaBody")}</p>
           </div>
-          <ButtonLink href={TRIAL_URL} variant="primary">
+          <ButtonLink href={bookingUrl} variant="primary" {...meetingTrackProps("general")}>
             {t("article.trialCta")}
           </ButtonLink>
         </div>

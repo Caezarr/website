@@ -131,7 +131,12 @@ export async function LinksPage({ locale }: { locale: Locale }) {
                 </Link>
               </li>
               <li>
-                <a className={styles.link} href="https://wonka.chat/register" data-track="trial">
+                <a
+                  className={styles.link}
+                  href={meetingUrl}
+                  data-track="meeting"
+                  data-meeting-type="links"
+                >
                   <Icon name="chat" className={styles.ico} />
                   <span className={styles.label}>{copy.trial}</span>
                   <Arrow className={styles.arrow} />

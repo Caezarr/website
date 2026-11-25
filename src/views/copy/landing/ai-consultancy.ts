@@ -148,7 +148,7 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         {
           question: "How much does AI consulting cost?",
           answer:
-            "Start AI programmes start at €15,000, and Flemish SMEs can claim up to 70% back through the VLAIO KMO-portefeuille. Wonka Build engagements are scoped to your business. WonkaChat has transparent per-seat pricing and a 7-day free trial, so you can test it with a real company use case before committing.",
+            "Start AI programmes start at €15,000, and Flemish SMEs can claim up to 70% back through the VLAIO KMO-portefeuille. Wonka Build engagements are scoped to your business. WonkaChat has transparent per-seat pricing, and our team can show it on a real company use case before you commit.",
         },
         {
           question: "Do we need a finished AI strategy before hiring AI experts to build?",
@@ -186,7 +186,7 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         { label: "AI for business", href: "/ai-for-business", description: "What companies can do with AI, and how to start." },
         { label: "AI agents for companies", href: "/ai-agents", description: "Private agents connected to your business tools." },
         { label: "Customer case studies", href: "/case-studies", description: "How Itzu and N-allo put AI into production." },
-        { label: "WonkaChat pricing", href: "/pricing", description: "Transparent per-seat pricing and a free trial." },
+        { label: "WonkaChat pricing", href: "/pricing", description: "Transparent per-seat pricing." },
       ],
     },
     cta: {
@@ -335,7 +335,7 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         {
           question: "Combien coûte le conseil IA chez Wonka ?",
           answer:
-            "Les programmes Start AI démarrent à 15 000 €, et les PME flamandes peuvent récupérer jusqu'à 70 % via le KMO-portefeuille de VLAIO. Les missions Wonka Build sont cadrées selon votre activité. WonkaChat a une tarification transparente par utilisateur et un essai gratuit de 7 jours.",
+            "Les programmes Start AI démarrent à 15 000 €, et les PME flamandes peuvent récupérer jusqu'à 70 % via le KMO-portefeuille de VLAIO. Les missions Wonka Build sont cadrées selon votre activité. WonkaChat a une tarification transparente par utilisateur.",
         },
         {
           question: "Faut-il une stratégie IA finalisée avant de faire appel à un expert IA ?",
@@ -373,7 +373,7 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         { label: "L'IA pour entreprise", href: "/fr/ia-pour-entreprise", description: "Ce que l'IA peut faire pour votre entreprise, et par où commencer." },
         { label: "Agent IA pour entreprise", href: "/fr/agent-ia-entreprise", description: "Des agents privés connectés à vos outils métier." },
         { label: "Cas clients", href: "/fr/cas-clients", description: "Comment nos clients ont mis l'IA en production." },
-        { label: "Tarifs WonkaChat", href: "/fr/pricing", description: "Tarification par utilisateur et essai gratuit." },
+        { label: "Tarifs WonkaChat", href: "/fr/pricing", description: "Tarification transparente par utilisateur." },
         { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
       ],
     },
@@ -528,7 +528,7 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         {
           question: "Wat kost AI consultancy en kan ik subsidie krijgen?",
           answer:
-            "Start AI-programma's starten vanaf € 15.000. Vlaamse kmo's kunnen via de VLAIO KMO-portefeuille tot 70% terugkrijgen; Wonka is een erkende dienstverlener en helpt met het papierwerk. Wonka Build wordt afgestemd op uw bedrijf. WonkaChat heeft transparante prijzen per gebruiker en een gratis proefperiode van 7 dagen.",
+            "Start AI-programma's starten vanaf € 15.000. Vlaamse kmo's kunnen via de VLAIO KMO-portefeuille tot 70% terugkrijgen; Wonka is een erkende dienstverlener en helpt met het papierwerk. Wonka Build wordt afgestemd op uw bedrijf. WonkaChat heeft transparante prijzen per gebruiker.",
         },
         {
           question: "Hebben we een afgewerkte AI-strategie nodig voor AI-implementatie?",

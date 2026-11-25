@@ -78,8 +78,8 @@ export interface AdsLandingCopy {
 /* ───────────────────────── shared blocks ───────────────────────── */
 
 const REASSURANCE = [
-  "Essai gratuit 7 jours",
-  "Sans carte bancaire",
+  "Démo sur votre cas d'usage",
+  "Sans engagement",
   "Hébergé en Europe",
 ];
 
@@ -94,8 +94,8 @@ export const ADS_PRICING = {
     "Connexions à vos outils et agents partagés",
     "Gouvernance, droits d'accès et journaux d'audit",
   ],
-  trialTitle: "Essai gratuit 7 jours",
-  trialBody: "Accès complet, 5 € d'usage IA offerts, sans carte bancaire.",
+  trialTitle: "Parler à l'équipe France",
+  trialBody: "Réservez un appel : nous vous montrons Wonka sur un cas concret de votre équipe.",
   detailsCta: "Voir le détail des tarifs",
 };
 
@@ -198,14 +198,14 @@ const ODOO_FAQ: AdsLandingCopy["faq"] = [
   },
   {
     q: "Combien ça coûte ?",
-    a: "21,60 € HT par utilisateur et par mois en facturation annuelle, modèles IA inclus. L'essai de 7 jours est gratuit, sans carte bancaire.",
+    a: "21,60 € HT par utilisateur et par mois en facturation annuelle, modèles IA inclus. Nous vous montrons WonkaChat sur votre Odoo lors d'une démo, sans engagement.",
   },
 ];
 
 const ODOO_FINAL: AdsLandingCopy["finalCta"] = {
   title: "Voyez WonkaChat sur votre Odoo.",
   subtitle:
-    "Testez gratuitement pendant 7 jours, ou réservez 30 minutes avec l'équipe France pour une démo sur vos cas d'usage.",
+    "Réservez 30 minutes avec l'équipe France pour une démo sur vos cas d'usage.",
 };
 
 const WORKSPACE_PROMPTS: AdsLandingCopy["prompts"] = {
@@ -238,11 +238,11 @@ const WORKSPACE_PROMPTS: AdsLandingCopy["prompts"] = {
 
 const WORKSPACE_STEPS: AdsLandingCopy["steps"] = {
   eyebrow: "Démarrage",
-  title: "De l'essai à toute l'équipe.",
+  title: "De la démo à toute l'équipe.",
   items: [
     {
-      title: "Créez votre espace",
-      body: "Inscription en ligne, essai gratuit de 7 jours, sans carte bancaire.",
+      title: "Réservez une démo",
+      body: "30 minutes avec l'équipe France, sur un cas concret de votre équipe. Sans engagement.",
     },
     {
       title: "Connectez vos outils",
@@ -262,13 +262,13 @@ const SECURITY_FAQ = {
 
 const PRICE_FAQ = {
   q: "Combien ça coûte ?",
-  a: "21,60 € HT par utilisateur et par mois en facturation annuelle (27 € HT en mensuel), modèles IA inclus. Tarif dégressif au-delà de 50 utilisateurs. Essai gratuit de 7 jours, sans carte bancaire.",
+  a: "21,60 € HT par utilisateur et par mois en facturation annuelle (27 € HT en mensuel), modèles IA inclus. Tarif dégressif au-delà de 50 utilisateurs.",
 };
 
 const WORKSPACE_FINAL: AdsLandingCopy["finalCta"] = {
   title: "Faites fonctionner l'IA pour toute votre équipe.",
   subtitle:
-    "Testez gratuitement pendant 7 jours, ou réservez 30 minutes avec l'équipe France.",
+    "Réservez 30 minutes avec l'équipe France pour une démo sur vos cas d'usage.",
 };
 
 /* ───────────────────────── pages ───────────────────────── */
@@ -278,14 +278,14 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
     seo: {
       title: "IA pour Odoo : un copilote pour toute l'équipe | WonkaChat",
       description:
-        "Interrogez Odoo, préparez devis et relances en langage naturel avec Claude, GPT ou Mistral. Sans module, hébergé en Europe. Essai gratuit 7 jours.",
+        "Interrogez Odoo, préparez devis et relances en langage naturel avec Claude, GPT ou Mistral. Sans module, hébergé en Europe. Démo sur votre cas d'usage.",
     },
     hero: {
       tag: "Pour les entreprises sur Odoo",
       title: "Un copilote IA pour toute votre équipe Odoo.",
       subtitle:
         "Posez vos questions à Odoo, préparez devis et relances en langage naturel. Avec Claude, GPT ou Mistral, sans module ni développement.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Voir une démo sur Odoo",
       reassurance: REASSURANCE,
       logos: ["odoo", "claude", "openai", "mistral", "gemini"],
@@ -301,14 +301,14 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
     seo: {
       title: "Claude connecté à Odoo, pour toute l'équipe | WonkaChat",
       description:
-        "Utilisez Claude sur vos données Odoo : devis, relances, stock, comptabilité. Sans module, hébergé en Europe. Essai gratuit 7 jours.",
+        "Utilisez Claude sur vos données Odoo : devis, relances, stock, comptabilité. Sans module, hébergé en Europe. Démo sur votre cas d'usage.",
     },
     hero: {
       tag: "Claude + Odoo",
       title: "Claude, connecté à votre Odoo.",
       subtitle:
         "Votre équipe interroge Odoo, prépare devis et relances avec Claude, directement sur vos données. Sans module, sans développement, hébergé en Europe.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Voir une démo sur Odoo",
       reassurance: REASSURANCE,
       logos: ["claude", "odoo"],
@@ -330,14 +330,14 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
     seo: {
       title: "ChatGPT pour Odoo : GPT connecté à vos données | WonkaChat",
       description:
-        "Les modèles GPT de ChatGPT, connectés à votre Odoo pour toute l'équipe. Claude et Mistral inclus. Sans module, hébergé en Europe. Essai gratuit.",
+        "Les modèles GPT de ChatGPT, connectés à votre Odoo pour toute l'équipe. Claude et Mistral inclus. Sans module, hébergé en Europe. Démo sur votre cas d'usage.",
     },
     hero: {
       tag: "Vous cherchez ChatGPT pour Odoo ?",
       title: "Les modèles de ChatGPT, connectés à votre Odoo.",
       subtitle:
         "GPT, mais aussi Claude et Mistral, branchés sur vos données Odoo pour toute l'équipe. Devis, relances, stock : sans copier-coller, sans module.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Voir une démo sur Odoo",
       reassurance: REASSURANCE,
       logos: ["openai", "odoo", "claude", "mistral"],
@@ -359,14 +359,14 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
     seo: {
       title: "Alternative à Microsoft Copilot pour l'entreprise | WonkaChat",
       description:
-        "Une IA d'équipe connectée à Microsoft 365, mais aussi à votre ERP et votre CRM. GPT, Claude, Mistral et Gemini. Hébergé en Europe. Essai gratuit.",
+        "Une IA d'équipe connectée à Microsoft 365, mais aussi à votre ERP et votre CRM. GPT, Claude, Mistral et Gemini. Hébergé en Europe. Démo sur votre cas d'usage.",
     },
     hero: {
       tag: "Vous comparez avec Microsoft Copilot ?",
       title: "L'IA qui travaille dans tous vos outils, pas seulement Office.",
       subtitle:
         "WonkaChat se connecte à Outlook, Teams et SharePoint, mais aussi à Odoo, HubSpot ou Salesforce. Et vous choisissez le modèle selon la tâche : GPT, Claude, Mistral ou Gemini.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Comparer avec un expert",
       reassurance: REASSURANCE,
       logos: [
@@ -418,13 +418,13 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
       SECURITY_FAQ,
       {
         q: "Peut-on tester sur nos vrais cas d'usage ?",
-        a: "Oui. L'essai de 7 jours donne un accès complet avec 5 € d'usage IA offerts, sans carte bancaire. Vous pouvez aussi réserver 30 minutes avec l'équipe France pour comparer sur vos cas d'usage.",
+        a: "Oui. Réservez 30 minutes avec l'équipe France : nous comparons avec vous sur vos propres cas d'usage, sans engagement.",
       },
     ],
     finalCta: {
       title: "Comparez sur vos propres cas d'usage.",
       subtitle:
-        "Testez WonkaChat gratuitement pendant 7 jours, ou réservez 30 minutes avec l'équipe France.",
+        "Réservez 30 minutes avec l'équipe France pour comparer sur vos cas d'usage.",
     },
   },
 
@@ -433,14 +433,14 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
       title:
         "IA pour entreprise : un espace sécurisé pour toute l'équipe | WonkaChat",
       description:
-        "GPT, Claude, Mistral et Gemini pour toute l'équipe, connectés à vos outils et documents. Hébergé en Europe, ISO 27001. Essai gratuit 7 jours.",
+        "GPT, Claude, Mistral et Gemini pour toute l'équipe, connectés à vos outils et documents. Hébergé en Europe, ISO 27001. Démo sur votre cas d'usage.",
     },
     hero: {
       tag: "L'IA pour les entreprises",
       title: "Faites fonctionner l'IA pour toute votre équipe.",
       subtitle:
         "Un espace sécurisé où vos équipes utilisent GPT, Claude, Mistral et Gemini sur vos documents et vos outils. Hébergé en Europe.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Parler à l'équipe France",
       reassurance: REASSURANCE,
       logos: ["openai", "claude", "mistral", "gemini"],
@@ -488,14 +488,14 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
       title:
         "ChatGPT pour votre entreprise ? GPT, Claude et Mistral en équipe | WonkaChat",
       description:
-        "Les modèles de ChatGPT, Claude et Mistral dans un seul espace d'équipe, connecté à vos outils. Hébergé en Europe. Essai gratuit 7 jours.",
+        "Les modèles de ChatGPT, Claude et Mistral dans un seul espace d'équipe, connecté à vos outils. Hébergé en Europe. Démo sur votre cas d'usage.",
     },
     hero: {
       tag: "Vous cherchez ChatGPT pour votre entreprise ?",
       title: "GPT, Claude et Mistral pour toute votre équipe.",
       subtitle:
         "Un seul espace, plusieurs modèles : vos équipes choisissent le meilleur selon la tâche, sur vos documents et vos outils, avec des données hébergées en Europe.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Parler à l'équipe France",
       reassurance: REASSURANCE,
       logos: ["openai", "claude", "mistral", "gemini"],
@@ -531,8 +531,8 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
       SECURITY_FAQ,
       PRICE_FAQ,
       {
-        q: "Peut-on tester avant de s'engager ?",
-        a: "Oui : 7 jours d'accès complet, 5 € d'usage IA offerts, sans carte bancaire.",
+        q: "Peut-on voir WonkaChat avant de s'engager ?",
+        a: "Oui : réservez 30 minutes avec l'équipe France pour une démo sur un cas concret de votre équipe, sans engagement.",
       },
     ],
     finalCta: WORKSPACE_FINAL,
@@ -543,17 +543,17 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
       title:
         "IA européenne pour l'entreprise : vos données restent en Europe | WonkaChat",
       description:
-        "GPT, Claude, Mistral et Gemini hébergés en Europe, jamais entraînés sur vos données. Équipes à Paris, Lille et Bruxelles. ISO 27001. Essai gratuit 7 jours.",
+        "GPT, Claude, Mistral et Gemini hébergés en Europe, jamais entraînés sur vos données. Équipes à Paris, Lille et Bruxelles. ISO 27001. Démo sur votre cas d'usage.",
     },
     hero: {
       tag: "Une IA européenne pour l'entreprise",
       title: "Les meilleurs modèles d'IA. Vos données restent en Europe.",
       subtitle:
         "Mistral, GPT, Claude ou Gemini pour toute votre équipe, hébergés en Europe et jamais entraînés sur vos données. Une équipe à Paris, Lille et Bruxelles pour vous accompagner.",
-      primaryCta: "Essai gratuit",
+      primaryCta: "Commencer",
       secondaryCta: "Parler à l'équipe France",
       reassurance: [
-        "Essai gratuit 7 jours",
+        "Démo sur votre cas d'usage",
         "Hébergé en Europe",
         "Jamais utilisé pour l'entraînement",
       ],
@@ -599,7 +599,7 @@ export const ADS_LANDINGS: Record<AdsLandingSlug, AdsLandingCopy> = {
     finalCta: {
       title: "Une IA pour toute l'équipe, des données qui restent en Europe.",
       subtitle:
-        "Testez gratuitement pendant 7 jours, ou réservez 30 minutes avec l'équipe France.",
+        "Réservez 30 minutes avec l'équipe France pour une démo sur vos cas d'usage.",
     },
   },
 };

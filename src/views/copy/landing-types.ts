@@ -7,7 +7,7 @@ import type { MeetingContext } from "@/lib/shared-links-defaults";
  */
 export interface LandingCta {
   label: string;
-  /** "meeting" → the team booking link; "trial" → WonkaChat free trial; otherwise an internal path. */
+  /** "meeting" / "trial" → the team booking link; otherwise an internal path. */
   href: "meeting" | "trial" | string;
 }
 

@@ -213,8 +213,6 @@ export function WorkspaceGovernancePageSections({
 
   meetingUrl,
 
-  trialUrl,
-
   securityBanner,
 
 
@@ -229,8 +227,6 @@ export function WorkspaceGovernancePageSections({
   finalCta: WorkspaceGovernanceCopy["finalCta"];
 
   meetingUrl: string;
-
-  trialUrl: string;
 
   securityBanner: HomeSecurityBannerData;
 
@@ -322,10 +318,12 @@ export function WorkspaceGovernancePageSections({
 
             <div className="flex shrink-0 flex-wrap gap-3">
 
-              <ButtonLink href={trialUrl} variant="primary">
-
+              <ButtonLink
+                href={meetingUrl}
+                variant="primary"
+                {...meetingTrackProps("wonka-chat")}
+              >
                 {finalCta.primaryCta}
-
               </ButtonLink>
 
               <ButtonLink

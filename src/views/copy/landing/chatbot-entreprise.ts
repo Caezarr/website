@@ -13,7 +13,7 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
     seo: {
       title: "Chatbot entreprise : assistant IA interne sécurisé | Wonka",
       description:
-        "Chatbot entreprise connecté à SharePoint, Outlook, Teams et Odoo, avec droits d'accès et hébergement UE. Essai gratuit 7 jours, sans carte de crédit.",
+        "Chatbot entreprise connecté à SharePoint, Outlook, Teams et Odoo, avec droits d'accès et hébergement UE. Démo sur un vrai cas d'usage.",
     },
     breadcrumb: "Chatbot entreprise",
     schema: {
@@ -25,10 +25,10 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
       title: "Un chatbot entreprise qui connaît vos documents et vos outils.",
       subtitle:
         "WonkaChat donne à chaque collaborateur un assistant IA interne branché sur SharePoint, Outlook, Teams ou Odoo. Les réponses viennent de vos propres documents, chacun ne voit que ce qu'il a le droit de voir, et les données restent hébergées dans l'UE.",
-      primaryCta: { label: "Essai gratuit 7 jours", href: "trial" },
+      primaryCta: { label: "Contacter l'équipe commerciale", href: "meeting" },
       secondaryCta: { label: "Réserver une démo", href: "meeting" },
       facts: [
-        ["Essai", "7 jours, sans carte de crédit"],
+        ["Démo", "Sur un vrai cas d'usage"],
         ["Hébergement", "Azure West Europe (Microsoft Irlande)"],
         ["Sécurité", "ISO 27001 · RGPD · NIS 2"],
         ["Connecteurs", "SharePoint, Outlook, Teams, Odoo…"],
@@ -40,7 +40,7 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
         "Un chatbot entreprise est un assistant IA réservé à vos collaborateurs, connecté aux documents, e-mails et logiciels de l'entreprise. Il répond aux questions à partir de vos propres sources, pas d'internet, respecte les droits d'accès de chacun et peut préparer des actions dans vos outils, sous contrôle de l'entreprise.",
         "Il ne faut pas le confondre avec le chatbot de FAQ affiché sur un site web. Celui-ci répond à des clients anonymes sur un périmètre figé : horaires, suivi de commande, questions fréquentes. Un chatbot interne entreprise travaille pour vos équipes, sur des informations confidentielles : procédures, contrats, données ERP, historique client. Les exigences ne sont pas les mêmes : identification des utilisateurs, permissions, traçabilité et hébergement maîtrisé.",
         "WonkaChat est construit pour ce second usage. C'est un espace de travail IA privé : un chat familier avec le contexte de votre entreprise intégré, des connecteurs vers vos systèmes, des agents IA pour des tâches précises et une gouvernance centralisée. Vous choisissez le modèle d'IA parmi les principaux modèles hébergés en Europe, ou vous connectez le vôtre. Vous gérez les accès, les autorisations et les agents disponibles pour chaque utilisateur ou équipe.",
-        "Côté sécurité, Wonka est certifié ISO 27001, conforme RGPD et NIS 2, et héberge WonkaChat par défaut dans Azure West Europe (Microsoft Irlande). Les données clients ne servent pas à entraîner des modèles d'IA publics. Pour tester sur un vrai cas d'usage, l'essai gratuit dure 7 jours, sans carte de crédit. Chez Itzu, 100 % des salariés disposent de leur propre WonkaChat, qui leur fait gagner plusieurs heures par semaine.",
+        "Côté sécurité, Wonka est certifié ISO 27001, conforme RGPD et NIS 2, et héberge WonkaChat par défaut dans Azure West Europe (Microsoft Irlande). Les données clients ne servent pas à entraîner des modèles d'IA publics. Pour le voir sur un vrai cas d'usage, réservez une démo avec notre équipe. Chez Itzu, 100 % des salariés disposent de leur propre WonkaChat, qui leur fait gagner plusieurs heures par semaine.",
       ],
     },
     benefits: {
@@ -114,8 +114,8 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
       heading: "Déployer votre chatbot interne entreprise en cinq étapes",
       steps: [
         {
-          title: "Lancez l'essai gratuit",
-          body: "7 jours d'accès complet à l'espace de travail, 5 € d'usage IA inclus, sans carte de crédit. Choisissez un vrai cas d'usage : une procédure interne, une boîte support, un reporting.",
+          title: "Réservez une démo",
+          body: "Un appel avec notre équipe pour voir l'espace de travail sur votre contexte. Choisissez un vrai cas d'usage : une procédure interne, une boîte support, un reporting.",
         },
         {
           title: "Connectez vos sources",
@@ -180,7 +180,7 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           question: "Combien coûte un chatbot entreprise comme WonkaChat ?",
           answer:
-            "WonkaChat est facturé par utilisateur et par mois, avec un tarif dégressif selon le nombre de licences et 20 % de réduction en facturation annuelle. Le détail pour votre taille d'équipe est sur notre page tarifs. Vous pouvez d'abord tester 7 jours gratuitement, sans carte de crédit, avec 5 € d'usage IA inclus.",
+            "WonkaChat est facturé par utilisateur et par mois, avec un tarif dégressif selon le nombre de licences et 20 % de réduction en facturation annuelle. Le détail pour votre taille d'équipe est sur notre page tarifs.",
         },
         {
           question: "Peut-on héberger le chatbot dans notre propre environnement ?",
@@ -230,14 +230,14 @@ export const CHATBOT_ENTREPRISE_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           label: "Tarifs",
           href: "/fr/pricing",
-          description: "Prix par utilisateur et essai gratuit de 7 jours.",
+          description: "Prix par utilisateur, modèles IA inclus.",
         },
         { label: "Comparatif IA entreprise", href: "/fr/comparatif-ia-entreprise", description: "ChatGPT, Claude, Gemini, Copilot et Le Chat comparés pour les PME et ETI." },
       ],
     },
     cta: {
-      heading: "Testez votre chatbot entreprise sur un vrai cas d'usage.",
-      body: "7 jours d'essai gratuit, sans carte de crédit. Vous préférez voir WonkaChat connecté à vos outils avant de tester ? Réservez une démo avec notre équipe.",
+      heading: "Voyez votre chatbot entreprise sur un vrai cas d'usage.",
+      body: "Réservez une démo avec notre équipe : nous vous montrons WonkaChat connecté à vos outils, sur un cas concret de votre entreprise.",
     },
   },
 };

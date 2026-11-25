@@ -27,13 +27,13 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
       title: "Comparatif IA entreprise : quelle IA choisir pour votre organisation ?",
       subtitle:
         "ChatGPT, Claude, Gemini, Copilot, Le Chat de Mistral : les offres se ressemblent en démo et diffèrent sur ce qui compte. Ce guide compare les critères d'achat d'une PME ou d'une ETI.",
-      primaryCta: { label: "Essai gratuit 7 jours", href: "trial" },
+      primaryCta: { label: "Contacter l'équipe commerciale", href: "meeting" },
       secondaryCta: { label: "Réserver un appel de 30 minutes", href: "meeting" },
       facts: [
         ["Offres comparées", "ChatGPT · Claude · Gemini · Copilot · Le Chat"],
         ["Critères", "8 critères d'achat pour PME et ETI"],
         ["WonkaChat", "Hébergé dans Azure West Europe"],
-        ["Essai gratuit", "7 jours, sans carte"],
+        ["Démo", "Sur un vrai cas d'usage"],
       ],
     },
     answer: {
@@ -127,7 +127,7 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         },
         {
           title: "Tester sur vos propres données",
-          body: "Faites exécuter les mêmes cas d'usage par de vrais utilisateurs. WonkaChat peut être testé 7 jours gratuitement, sans carte de crédit.",
+          body: "Faites exécuter les mêmes cas d'usage par de vrais utilisateurs. Notre équipe vous montre WonkaChat sur vos cas d'usage lors d'une démo.",
         },
         {
           title: "Décider en pensant à l'adoption",
@@ -265,7 +265,7 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           label: "Tarifs WonkaChat",
           href: "/fr/pricing",
-          description: "Licences par utilisateur et essai gratuit de 7 jours.",
+          description: "Licences par utilisateur, modèles IA inclus.",
         },
         { label: "Shadow AI : définition et risques", href: "/fr/shadow-ai", description: "Reprendre la main sur les usages d'IA non encadrés, sans les interdire." },
         { label: "Charte IA entreprise", href: "/fr/charte-ia-entreprise", description: "Des règles d'usage claires, appliquées par vos outils." },
@@ -273,7 +273,7 @@ export const COMPARATIF_IA_COPY: Partial<Record<Locale, LandingCopy>> = {
     },
     cta: {
       heading: "Ne pariez pas sur un seul modèle d'IA.",
-      body: "Testez WonkaChat 7 jours, sans carte, sur un vrai cas d'usage : plusieurs modèles, vos outils connectés, hébergement dans l'UE. Ou réservez un appel de 30 minutes avec notre équipe.",
+      body: "Voyez WonkaChat sur un vrai cas d'usage : plusieurs modèles, vos outils connectés, hébergement dans l'UE. Réservez un appel de 30 minutes avec notre équipe.",
     },
   },
 };

@@ -22,13 +22,12 @@ import { radius } from "@/lib/design-tokens";
 import { cn } from "@/lib/utils";
 import { InternalLinkGrid } from "@/components/sections/internal-link-grid";
 import { ButtonLink } from "@/components/ui/button";
+import { meetingTrackProps } from "@/lib/meeting-track";
 import { getContextualInternalLinks, getEvergreenInternalLinks } from "@/lib/internal-links";
 import type { Locale } from "@/i18n/config";
 import type { BlogPost, ConnectorPage } from "@/lib/types";
 
 export const dynamic = "force-static";
-
-const TRIAL_URL = "https://wonka.chat/register";
 
 interface PageProps {
   params: Promise<{ locale: Locale; slug: string }>;
@@ -92,7 +91,8 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
   const hubLabel = { en: "Integrations", fr: "Intégrations", nl: "Integraties" }[locale];
   const integrationLabel = { en: "Integration", fr: "Intégration", nl: "Integratie" }[locale];
   const useCasesEyebrow = { en: "Operational AI", fr: "IA opérationnelle", nl: "Operationele AI" }[locale];
-  const deploymentEyebrow = { en: "Private deployment", fr: "Déploiement privé", nl: "Private deployment" }[locale];  const primaryCtaLabel = { en: "Test it out", fr: "Essayer maintenant", nl: "Probeer het uit" }[locale];
+  const deploymentEyebrow = { en: "Private deployment", fr: "Déploiement privé", nl: "Private deployment" }[locale];
+  const primaryCtaLabel = getT(locale)("common.getStarted");
   const secondaryCtaLabel = { en: "Explore all integrations", fr: "Voir toutes les intégrations", nl: "Bekijk alle integraties" }[locale];
   const relatedConnectorsLabel = { en: "Related integrations", fr: "Intégrations liées", nl: "Gerelateerde integraties" }[locale];
   const relatedPostsLabel = { en: "Related guides", fr: "Guides liés", nl: "Gerelateerde gidsen" }[locale];
@@ -187,7 +187,7 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
               <p className="mt-6 max-w-3xl type-body leading-relaxed text-text/65">{c.description}</p>
 
               <div className="mt-8 flex flex-wrap gap-3">
-                <ButtonLink href={TRIAL_URL} variant="primary">
+                <ButtonLink href={bookingUrl} variant="primary" {...meetingTrackProps("wonka-chat")}>
                   {primaryCtaLabel}
                 </ButtonLink>
                 <ButtonLink
@@ -378,8 +378,8 @@ export default async function ConnectorDetailPage({ params }: PageProps) {
         </div>
 
         <WorkspaceTrialCta
-          href={TRIAL_URL}
-          ctaLabel={getT(locale)("common.startFreeTrial")}
+          href={bookingUrl}
+          ctaLabel={getT(locale)("common.talkToSales")}
           {...(AI_CHAT_COPY[locale].trial ?? {})}
           className="border-t border-dashed border-border"
           locale={locale}

@@ -21,8 +21,6 @@ import { WORKSPACE_GOVERNANCE_COPY } from "@/views/copy/workspace-governance";
 
 
 
-const TRIAL_URL = "https://wonka.chat/register";
-
 const PAGE_PATH = "/workspace/governance";
 
 
@@ -76,8 +74,6 @@ export async function WorkspaceGovernanceView({ locale }: { locale: Locale }) {
         finalCta={copy.finalCta}
 
         meetingUrl={meetingUrl}
-
-        trialUrl={TRIAL_URL}
 
         securityBanner={HOME_V2_COPY[locale].security}
 

@@ -23,7 +23,6 @@ import {
   type AdsLandingSlug,
 } from "@/views/copy/ads-landings";
 
-const TRIAL_URL = "https://wonka.chat/register";
 const BG = "/brand/backgrounds/16x9";
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -96,7 +95,7 @@ function SectionTitle({
   );
 }
 
-/** Trial + booking pair. `data-track` feeds the CTA click events in AnalyticsProvider. */
+/** Primary get-started + demo pair. `data-track` feeds CTA click events in AnalyticsProvider. */
 function CtaPair({
   primary,
   secondary,
@@ -115,14 +114,19 @@ function CtaPair({
         center && "justify-center",
       )}
     >
-      <ButtonLink href={TRIAL_URL} variant="primary" data-track="trial">
+      <ButtonLink
+        href={meetingUrl}
+        variant="primary"
+        data-track="meeting"
+        data-meeting-type="ads-landing"
+      >
         {primary}
       </ButtonLink>
       <ButtonLink
         href={meetingUrl}
         variant="primaryOutline"
         data-track="meeting"
-        data-meeting-type="ads-landing"
+        data-meeting-type="ads-landing-demo"
       >
         {secondary}
       </ButtonLink>
@@ -673,7 +677,7 @@ function FinalCta({
 
 /* ───────────────────────── sticky mobile CTA ───────────────────────── */
 
-function StickyCta({ label }: { label: string }) {
+function StickyCta({ label, meetingUrl }: { label: string; meetingUrl: string }) {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     const onScroll = () =>
@@ -691,9 +695,10 @@ function StickyCta({ label }: { label: string }) {
       )}
     >
       <ButtonLink
-        href={TRIAL_URL}
+        href={meetingUrl}
         variant="primary"
-        data-track="trial"
+        data-track="meeting"
+        data-meeting-type="ads-landing-sticky"
         className="w-full"
       >
         {label}
@@ -738,7 +743,7 @@ export function AdsLandingClient({
         hero={copy.hero}
         meetingUrl={links.meetingUrl}
       />
-      <StickyCta label={copy.hero.primaryCta} />
+      <StickyCta label={copy.hero.primaryCta} meetingUrl={links.meetingUrl} />
     </main>
   );
 }

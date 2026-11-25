@@ -456,10 +456,10 @@ export default function BtpLandingPage() {
                 <li>Préparer comptes rendus et tableaux</li>
               </ul>
             </div>
-            <a className={styles.planCtaSecondary} href="https://wonka.chat/register">
+            <a className={styles.planCtaSecondary} href={contactHref}>
               Découvrir Wonka Chat <span aria-hidden="true">↗</span>
             </a>
-            <small>Tarifs et conditions présentés à l’inscription.</small>
+            <small>Tarifs et conditions présentés lors de l’échange.</small>
           </article>
 
           <article className={styles.planCard + " " + styles.planRecommended}>

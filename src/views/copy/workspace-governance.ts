@@ -189,7 +189,7 @@ const en: WorkspaceGovernanceCopy = {
 
       "Start using Wonka, or talk to our team about setting up AI safely across your company.",
 
-    primaryCta: "Start free trial",
+    primaryCta: "Get started",
 
     secondaryCta: "Talk to a consultant",
 
@@ -321,7 +321,7 @@ const fr: WorkspaceGovernanceCopy = {
 
       "Commencez avec Wonka, ou échangez avec nous pour déployer l'IA en toute sécurité dans votre entreprise.",
 
-    primaryCta: "Essai gratuit",
+    primaryCta: "Commencer",
 
     secondaryCta: "Parler à un consultant",
 
@@ -453,7 +453,7 @@ const nl: WorkspaceGovernanceCopy = {
 
       "Begin met Wonka, of bespreek met ons team hoe u AI veilig inzet in uw bedrijf.",
 
-    primaryCta: "Gratis proberen",
+    primaryCta: "Aan de slag",
 
     secondaryCta: "Spreek een consultant",
 

@@ -72,7 +72,7 @@ const en: AiChatCopy = {
 
     description:
 
-      "Find answers and get work done with AI connected to your company knowledge, business tools and leading models. EU-hosted, with enterprise access control. Start a free trial.",
+      "Find answers and get work done with AI connected to your company knowledge, business tools and leading models. EU-hosted, with enterprise access control. Talk to our team to get started.",
 
   },
 
@@ -223,7 +223,7 @@ const fr: AiChatCopy = {
 
     description:
 
-      "Trouvez des réponses et avancez le travail avec l'IA, la connaissance de l'entreprise, vos outils métier et les principaux modèles. Hébergé dans l'UE, avec contrôle d'accès. Essai gratuit.",
+      "Trouvez des réponses et avancez le travail avec l'IA, la connaissance de l'entreprise, vos outils métier et les principaux modèles. Hébergé dans l'UE, avec contrôle d'accès. Contactez notre équipe.",
 
   },
 
@@ -241,13 +241,7 @@ const fr: AiChatCopy = {
 
   },
 
-  trial: {
-
-    title: "Essayez Wonka Workspace gratuitement.",
-
-    body: "Essai de 7 jours. Sans carte de crédit.",
-
-  },
+  trial: null,
 
   contactHeading: "Envie de voir ce que Wonka Workspace\npeut faire pour votre équipe ?",
 
@@ -380,7 +374,7 @@ const nl: AiChatCopy = {
 
     description:
 
-      "Vind antwoorden en krijg werk gedaan met AI, bedrijfskennis, bedrijfstools en toonaangevende modellen. Gehost in de EU, met toegangsbeheer. Gratis proberen.",
+      "Vind antwoorden en krijg werk gedaan met AI, bedrijfskennis, bedrijfstools en toonaangevende modellen. Gehost in de EU, met toegangsbeheer. Contacteer ons team.",
 
   },
 
@@ -398,13 +392,7 @@ const nl: AiChatCopy = {
 
   },
 
-  trial: {
-
-    title: "Probeer Wonka Workspace gratis.",
-
-    body: "7 dagen proefperiode. Geen creditcard nodig.",
-
-  },
+  trial: null,
 
   contactHeading: "Benieuwd wat Wonka Workspace\nvoor uw team kan doen?",
 

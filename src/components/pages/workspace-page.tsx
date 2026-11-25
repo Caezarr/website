@@ -30,8 +30,6 @@ import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { HOME_V2_COPY } from "@/views/copy/home-v2";
 import { WORKSPACE_COPY } from "@/views/copy/workspace";
 
-const TRIAL_URL = "https://wonka.chat/register";
-
 async function getPageContent(locale: Locale) {
   const content = await fetchPageDoc<WonkaChatContent>(
     WONKA_CHAT_CONTENT_QUERY,
@@ -90,8 +88,8 @@ export async function WorkspacePage({ locale = "en" }: { locale?: Locale }) {
             href: meetingUrl,
           },
         }}
-        meetingUrl={TRIAL_URL}
-        meetingLabel={getT(locale)("common.startFreeTrial")}
+        meetingUrl={meetingUrl}
+        meetingLabel={getT(locale)("common.getStarted")}
         secondaryMeetingTrackType="wonka-chat"
         scrollReveal
         locale={locale}
@@ -110,7 +108,11 @@ export async function WorkspacePage({ locale = "en" }: { locale?: Locale }) {
         id="capabilities"
         data={getWorkspaceCapabilityClusters(locale)}
       />
-      <WorkspaceTrialCta href={TRIAL_URL} locale={locale} />
+      <WorkspaceTrialCta
+        href={meetingUrl}
+        ctaLabel={getT(locale)("common.talkToSales")}
+        locale={locale}
+      />
       <HomeSecurityBanner
         id="security"
         data={HOME_V2_COPY[locale].security}

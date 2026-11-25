@@ -179,7 +179,7 @@ export const SHADOW_AI_COPY: Partial<Record<Locale, LandingCopy>> = {
         {
           question: "Comment éviter le shadow AI durablement ?",
           answer:
-            "En traitant la cause, pas le symptôme. Les équipes ont besoin de l'IA : donnez-leur un espace de travail IA validé, connecté à leurs documents, avec des modèles approuvés, des permissions et des journaux d'audit. Accompagnez-le d'une charte et d'une formation, puis suivez l'adoption. WonkaChat peut être testé 7 jours, gratuitement et sans carte.",
+            "En traitant la cause, pas le symptôme. Les équipes ont besoin de l'IA : donnez-leur un espace de travail IA validé, connecté à leurs documents, avec des modèles approuvés, des permissions et des journaux d'audit. Accompagnez-le d'une charte et d'une formation, puis suivez l'adoption. Notre équipe vous montre WonkaChat sur un vrai cas d'usage lors d'une démo.",
         },
         {
           question: "Wonka peut-il nous aider à encadrer le shadow AI ?",

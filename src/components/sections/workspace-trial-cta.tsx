@@ -7,14 +7,12 @@ import { cn } from "@/lib/utils";
 import type { Locale } from "@/i18n/config";
 import { getT } from "@/i18n/ui";
 
-const DEFAULT_HREF = "https://wonka.chat/register";
-
 interface WorkspaceTrialCtaProps {
   id?: string;
   title?: string;
   body?: string;
   ctaLabel?: string;
-  href?: string;
+  href: string;
   className?: string;
   locale?: Locale;
 }
@@ -24,14 +22,14 @@ export function WorkspaceTrialCta({
   title: titleProp,
   body: bodyProp,
   ctaLabel: ctaLabelProp,
-  href = DEFAULT_HREF,
+  href,
   className,
   locale = "en",
 }: WorkspaceTrialCtaProps) {
   const t = getT(locale);
   const title = titleProp ?? t("sections.workspaceTrialCta.title");
   const body = bodyProp ?? t("sections.workspaceTrialCta.body");
-  const ctaLabel = ctaLabelProp ?? t("common.startFreeTrial");
+  const ctaLabel = ctaLabelProp ?? t("common.talkToSales");
   return (
     <Section
       id={id}
