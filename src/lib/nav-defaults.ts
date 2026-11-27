@@ -6,7 +6,7 @@ import { nl } from "@/i18n/messages/nl";
 import type { NavItem } from "@/lib/types";
 
 /** English header CTA label. Localized: `getT(locale)("shell.headerCta")`. */
-export const HEADER_CTA_LABEL = "Get started";
+export const HEADER_CTA_LABEL = "Login";
 
 /** Toggle when locale switching is ready to ship. */
 export const SHOW_LANGUAGE_SWITCHER = true;

@@ -277,14 +277,8 @@ function Hero({
               {copy.subtitle}
             </p>
           </Reveal>
-          <Reveal
-            delay={0.24}
-            className="mt-2 flex flex-wrap items-center justify-center gap-3"
-          >
+          <Reveal delay={0.24} className="mt-2 flex justify-center">
             <ButtonLink href={links.meetingUrl} variant="primary">
-              {copy.primaryCta}
-            </ButtonLink>
-            <ButtonLink href={links.meetingUrl} variant="primaryOutline">
               {copy.secondaryCta}
             </ButtonLink>
           </Reveal>
@@ -709,14 +703,8 @@ export function HomeV2FinalCta({
         <Reveal delay={0.08}>
           <p className="type-body text-text/85">{copy.subtitle}</p>
         </Reveal>
-        <Reveal
-          delay={0.16}
-          className="flex flex-wrap items-center justify-center gap-3"
-        >
+        <Reveal delay={0.16} className="flex justify-center">
           <ButtonLink href={links.meetingUrl} variant="primary">
-            {hero.primaryCta}
-          </ButtonLink>
-          <ButtonLink href={links.meetingUrl} variant="primaryOutline">
             {hero.secondaryCta}
           </ButtonLink>
         </Reveal>
