@@ -1,7 +1,7 @@
 {
   "logoLabel": "Wonka",
   "mainNavLabel": "Navigation principale",
-  "headerCta": "Commencer",
+  "headerCta": "Connexion",
   "toggleMenu": "Ouvrir ou fermer le menu",
   "expandSection": "Déplier {label}",
   "collapseSection": "Replier {label}",

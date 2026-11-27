@@ -1,7 +1,7 @@
 {
   "logoLabel": "Wonka",
   "mainNavLabel": "Main",
-  "headerCta": "Get started",
+  "headerCta": "Login",
   "toggleMenu": "Toggle menu",
   "expandSection": "Expand {label}",
   "collapseSection": "Collapse {label}",
