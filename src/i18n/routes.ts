@@ -39,7 +39,7 @@ export const UNLISTED_TRANSLATED_PATHS = new Set<string>([
 /**
  * SEO landing pages. Unlike commercial pages, each locale gets its own
  * keyword slug (`/ai-for-business`, `/fr/ia-pour-entreprise`, …). A page
- * may exist in a subset of locales (e.g. the Flemish KMO-portefeuille page).
+ * may exist in a subset of locales.
  */
 export const LANDING_PATHS = {
   aiForBusiness: {
@@ -56,9 +56,6 @@ export const LANDING_PATHS = {
     en: "/chatgpt-for-business",
     fr: "/fr/chatgpt-entreprise",
     nl: "/nl/chatgpt-voor-bedrijven",
-  },
-  kmoPortefeuille: {
-    nl: "/nl/kmo-portefeuille-ai",
   },
   // French-market pages (France): published in French only
   auditIa: {

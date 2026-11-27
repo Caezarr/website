@@ -31,7 +31,7 @@ export const LEAD_FORM_COPY: Record<LeadSource, LeadFormCopy> = {
   "start-ai-flanders-hero": {
     submitLabel: "Check subsidy eligibility",
     successMessage:
-      "Thanks — we'll be in touch about Start AI and the KMO-portefeuille.",
+      "Thanks — we'll be in touch about Start AI.",
   },
   "wonka-chat-hero": {
     submitLabel: "Try WonkaChat",

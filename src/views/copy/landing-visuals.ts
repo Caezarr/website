@@ -33,7 +33,6 @@ export const LANDING_VISUALS: Record<SeoLandingPage, LandingVisual> = {
   aiForBusiness: { background: BG.path },
   aiConsultancy: { background: BG.valley },
   chatgptForBusiness: { background: BG.river, productShot: SHOT.workspace },
-  kmoPortefeuille: { background: BG.waterfall },
   auditIa: { background: BG.fields },
   acculturationIa: { background: BG.wheat },
   chatbotEntreprise: { background: BG.path, productShot: SHOT.erpChat },

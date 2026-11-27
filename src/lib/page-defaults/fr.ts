@@ -115,7 +115,7 @@ const WHY_NOW = {
 
 const PROMO_HEADING = "70 % de réduction pour les PME flamandes.";
 const PROMO_BODY =
-  "Wonka est un prestataire agréé KMO-portefeuille. La plupart des PME flamandes récupèrent jusqu'à 70 % du coût du programme. Nous vous aidons avec les formalités.";
+  "Nous accompagnons les PME flamandes dans Start AI. Un financement régional peut s'appliquer ; nous clarifions les options lors d'un premier échange.";
 
 const TALK_TO_US_HEADER = {
   eyebrow: "Parlons-en",
@@ -420,7 +420,7 @@ export const FR_PAGE_DEFAULTS: LocalePageDefaults = {
     },
     whyNow: WHY_NOW,
     promo: {
-      eyebrow: "VLAIO KMO-portefeuille",
+      eyebrow: "Start AI en Flandre",
       heading: PROMO_HEADING,
       body: PROMO_BODY,
       variant: "darkImage",
@@ -446,12 +446,6 @@ export const FR_PAGE_DEFAULTS: LocalePageDefaults = {
           question: "À qui s'adresse Start AI ?",
           answer:
             "Aux PME et scale-ups belges qui veulent passer des expérimentations IA à une stratégie claire, à l'échelle de l'entreprise, en quelques semaines.",
-        },
-        {
-          _key: "cost",
-          question: "Combien cela coûte-t-il ?",
-          answer:
-            "Les programmes démarrent à 15 000 €. Les PME flamandes peuvent récupérer jusqu'à 70 % via le KMO-portefeuille de VLAIO.",
         },
         {
           _key: "time",
@@ -586,7 +580,7 @@ export const FR_PAGE_DEFAULTS: LocalePageDefaults = {
     },
     whyNow: WHY_NOW,
     promo: {
-      eyebrow: "VLAIO KMO-portefeuille",
+      eyebrow: "Start AI en Flandre",
       heading: PROMO_HEADING,
       body: PROMO_BODY,
       variant: "darkImage",

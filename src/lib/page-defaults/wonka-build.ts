@@ -178,9 +178,9 @@ export const WONKA_BUILD_DEFAULTS: WonkaBuildDefaults = {
     ],
   },
   promo: {
-    eyebrow: "VLAIO KMO-portefeuille",
+    eyebrow: "Start AI in Flanders",
     heading: "Get 70% off as a Flemish SME.",
-    body: "Wonka is a registered KMO-portefeuille service provider. Most Flemish SMEs claim back up to 70% of the program cost. We'll help you with the paperwork.",
+    body: "We guide Flemish SMEs through Start AI. Regional funding may apply for your company; we'll explain the options in a first call.",
     variant: "darkImage",
     backgroundImage: null,
     showCta: true,

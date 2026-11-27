@@ -95,7 +95,7 @@ const T = {
   audit: [L("AI audit", "Audit IA", "AI-audit"), L("Assess, prioritise, plan.", "Évaluer, prioriser, planifier.", "Beoordelen, prioriteren, plannen.")] as const,
   shadowAi: [L("Shadow AI", "Shadow AI", "Shadow AI"), L("Regain control without banning AI.", "Reprendre la main sans interdire l'IA.", "Weer grip zonder AI te verbieden.")] as const,
   charte: [L("AI charter", "Charte IA entreprise", "AI-beleid"), L("Clear rules, applied by your tools.", "Des règles claires, appliquées par vos outils.", "Duidelijke regels, toegepast door uw tools.")] as const,
-  kmo: [L("KMO-portefeuille", "KMO-portefeuille", "KMO-portefeuille voor AI"), L("Up to 70% subsidy for Flemish SMEs.", "Jusqu'à 70 % de subside pour les PME flamandes.", "Tot 70% subsidie voor Vlaamse kmo's.")] as const,
+  flandersStartAi: [L("Start AI in Flanders", "Start AI en Flandre", "Start AI in Vlaanderen"), L("Strategy programme for Flemish SMEs.", "Programme stratégie pour les PME flamandes.", "Strategieprogramma voor Vlaamse kmo's.")] as const,
   vsChatgpt: [L("Wonka AI vs ChatGPT Enterprise", "Wonka AI vs ChatGPT Enterprise", "Wonka AI vs ChatGPT Enterprise"), L("A detailed comparison for European companies.", "Comparaison détaillée pour les entreprises européennes.", "Gedetailleerde vergelijking voor Europese bedrijven.")] as const,
   privateLlm: [L("Private vs public LLM", "LLM privé vs public", "Private vs publieke LLM"), L("Which model setup fits your data?", "Quel choix de modèle pour vos données ?", "Welke modelkeuze past bij uw data?")] as const,
   gAgent: [L("What is an AI agent?", "Qu'est-ce qu'un agent IA ?", "Wat is een AI-agent?"), L("Definition and examples.", "Définition et exemples.", "Definitie en voorbeelden.")] as const,
@@ -156,7 +156,7 @@ const TOPICS: Record<ArticleTopic, TopicConfig> = {
     links: (l) => [
       page("/start-ai", l, ...T.startAi),
       landing("auditIa", l, ...T.audit),
-      landing("kmoPortefeuille", l, ...T.kmo),
+      page("/services/start-ai-subsidized-flanders", l, ...T.flandersStartAi),
       landing("aiConsultancy", l, ...T.consultancy),
       landing("aiForBusiness", l, ...T.aiForBusiness),
       page("/wonka-build", l, ...T.wonkaBuild),

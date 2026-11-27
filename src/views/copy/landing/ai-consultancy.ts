@@ -148,7 +148,7 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         {
           question: "How much does AI consulting cost?",
           answer:
-            "Start AI programmes start at €15,000, and Flemish SMEs can claim up to 70% back through the VLAIO KMO-portefeuille. Wonka Build engagements are scoped to your business. WonkaChat has transparent per-seat pricing, and our team can show it on a real company use case before you commit.",
+            "Start AI programmes start at €15,000, and Flemish SMEs may qualify for regional funding that covers up to 70% of the cost. Wonka Build engagements are scoped to your business. WonkaChat has transparent per-seat pricing, and our team can show it on a real company use case before you commit.",
         },
         {
           question: "Do we need a finished AI strategy before hiring AI experts to build?",
@@ -335,7 +335,7 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         {
           question: "Combien coûte le conseil IA chez Wonka ?",
           answer:
-            "Les programmes Start AI démarrent à 15 000 €, et les PME flamandes peuvent récupérer jusqu'à 70 % via le KMO-portefeuille de VLAIO. Les missions Wonka Build sont cadrées selon votre activité. WonkaChat a une tarification transparente par utilisateur.",
+            "Les programmes Start AI démarrent à 15 000 €, et les PME flamandes peuvent bénéficier d'un financement régional jusqu'à 70 %. Les missions Wonka Build sont cadrées selon votre activité. WonkaChat a une tarification transparente par utilisateur.",
         },
         {
           question: "Faut-il une stratégie IA finalisée avant de faire appel à un expert IA ?",
@@ -407,7 +407,7 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
       facts: [
         ["Start AI-trajecten", "+150 afgerond"],
         ["Erkenning", "#1 AI start-up of the year, Belgium Startup Awards 2026"],
-        ["KMO-portefeuille", "Tot 70% subsidie op Start AI"],
+        ["Vlaanderen", "Tot 70% subsidie op Start AI"],
         ["Beveiliging", "ISO 27001 · GDPR · NIS 2"],
       ],
     },
@@ -417,7 +417,7 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         "Een AI consultancy helpt een bedrijf bepalen waar artificiële intelligentie echte waarde oplevert en zet die keuzes om in werkende systemen. Een goede AI consultant analyseert uw processen, prioriteert de meest rendabele toepassingen, legt governance vast en levert een AI-implementatie op die uw teams echt gebruiken.",
         "Wonka is AI consultancy en productbedrijf in één. Met Start AI analyseren onze AI-experts uw werkprocessen en krijgt u een concrete AI-strategie: een AI-readiness assessment, geprioriteerde business cases, een AI-roadmap, een AI-beleid en quick wins waar uw team vanaf dag één mee aan de slag kan. Er werden al meer dan 150 Start AI-trajecten afgerond, in onder meer logistiek, zorg, finance, legal, industrie en de publieke sector.",
         "Met Wonka Build bouwt hetzelfde team de AI-applicaties en agents op maat die uw bedrijf nodig heeft en brengt ze in productie, gekoppeld aan uw e-mail, ERP, CRM, documenten en databanken. Met WonkaChat draait alles wat we bouwen op één veilige AI-werkplek, gehost in Azure West Europe en ISO 27001-gecertificeerd. U kiest het AI-model dat past, beheert wie toegang heeft tot wat en kunt menselijke goedkeuring vereisen voor belangrijke acties.",
-        "Dat is het verschil met een klassiek AI-bureau: wij laten u niet achter met een plan. We blijven na de livegang, leiden een eigenaar in uw team op en houden het platform draaiende. Vlaamse kmo's kunnen via de VLAIO KMO-portefeuille tot 70% van de Start AI-kost terugkrijgen. Wonka is daarvoor een erkende dienstverlener en helpt u met het papierwerk.",
+        "Dat is het verschil met een klassiek AI-bureau: wij laten u niet achter met een plan. We blijven na de livegang, leiden een eigenaar in uw team op en houden het platform draaiende. Vlaamse kmo's kunnen in veel gevallen tot 70% regionale ondersteuning krijgen op Start AI; we begeleiden u door het traject.",
       ],
     },
     benefits: {
@@ -441,8 +441,8 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
           body: "ISO 27001-gecertificeerd, GDPR- en NIS 2-conform, gehost in Azure West Europe (Microsoft Ierland). Maatwerk kan ook volledig on-premise draaien, binnen uw eigen netwerk.",
         },
         {
-          title: "Subsidie via de KMO-portefeuille",
-          body: "Wonka is een erkende dienstverlener voor de KMO-portefeuille. De meeste Vlaamse kmo's recupereren tot 70% van de programmakost van Start AI, en wij helpen u met het papierwerk.",
+          title: "Subsidie voor Start AI in Vlaanderen",
+          body: "Voor veel Vlaamse kmo's komt tot 70% regionale ondersteuning in aanmerking op Start AI. Wij begeleiden u van intake tot oplevering.",
         },
         {
           title: "Uw onafhankelijkheid hoort bij de oplevering",
@@ -460,9 +460,12 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
           link: { label: "Ontdek het Start AI-programma", href: "/nl/start-ai" },
         },
         {
-          title: "Start AI met KMO-portefeuille",
-          body: "Start AI komt in aanmerking voor de VLAIO KMO-portefeuille. Vlaamse kmo's kunnen tot 70% subsidie aanvragen, zodat een AI-strategie ook voor kleinere teams haalbaar wordt.",
-          link: { label: "Start AI met 70% subsidie via de KMO-portefeuille", href: "/nl/kmo-portefeuille-ai" },
+          title: "Start AI met subsidie in Vlaanderen",
+          body: "Vlaamse kmo's kunnen in veel gevallen tot 70% subsidie aanvragen op Start AI, zodat een AI-strategie ook voor kleinere teams haalbaar wordt.",
+          link: {
+            label: "Start AI met subsidie in Vlaanderen",
+            href: "/services/start-ai-subsidized-flanders",
+          },
         },
         {
           title: "Wonka Build: AI-agents en applicaties op maat",
@@ -528,7 +531,7 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
         {
           question: "Wat kost AI consultancy en kan ik subsidie krijgen?",
           answer:
-            "Start AI-programma's starten vanaf € 15.000. Vlaamse kmo's kunnen via de VLAIO KMO-portefeuille tot 70% terugkrijgen; Wonka is een erkende dienstverlener en helpt met het papierwerk. Wonka Build wordt afgestemd op uw bedrijf. WonkaChat heeft transparante prijzen per gebruiker.",
+            "Start AI-programma's starten vanaf € 15.000. Vlaamse kmo's kunnen in veel gevallen tot 70% regionale ondersteuning krijgen op Start AI. Wonka Build wordt afgestemd op uw bedrijf. WonkaChat heeft transparante prijzen per gebruiker.",
         },
         {
           question: "Hebben we een afgewerkte AI-strategie nodig voor AI-implementatie?",
@@ -561,7 +564,11 @@ export const AI_CONSULTANCY_COPY: Record<Locale, LandingCopy> = {
       heading: "Meer over AI-strategie, platform en resultaten",
       links: [
         { label: "Start AI-programma", href: "/nl/start-ai", description: "AI-strategie en roadmap in 6 weken." },
-        { label: "Start AI met KMO-portefeuille", href: "/nl/kmo-portefeuille-ai", description: "Tot 70% subsidie voor Vlaamse kmo's." },
+        {
+          label: "Start AI met subsidie in Vlaanderen",
+          href: "/services/start-ai-subsidized-flanders",
+          description: "Tot 70% subsidie voor Vlaamse kmo's.",
+        },
         { label: "Wonka Build", href: "/nl/wonka-build", description: "AI-agents en applicaties op maat, in productie." },
         { label: "WonkaChat", href: "/nl/wonka-chat", description: "De veilige AI-werkplek voor uw hele team." },
         { label: "AI voor bedrijven", href: "/nl/ai-voor-bedrijven", description: "Wat bedrijven met AI kunnen doen, en hoe u start." },
