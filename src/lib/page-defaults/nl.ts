@@ -115,7 +115,7 @@ const WHY_NOW = {
 
 const PROMO_HEADING = "Krijg 70% korting als Vlaamse kmo.";
 const PROMO_BODY =
-  "Wonka is een erkende dienstverlener voor de KMO-portefeuille. De meeste Vlaamse kmo's recupereren tot 70% van de programmakost. Wij helpen u met het papierwerk.";
+  "We begeleiden Vlaamse kmo's door Start AI. Voor veel bedrijven is regionale ondersteuning mogelijk; in een eerste gesprek bekijken we wat op u van toepassing is.";
 
 const TALK_TO_US_HEADER = {
   eyebrow: "Spreek met ons",
@@ -420,7 +420,7 @@ export const NL_PAGE_DEFAULTS: LocalePageDefaults = {
     },
     whyNow: WHY_NOW,
     promo: {
-      eyebrow: "VLAIO KMO-portefeuille",
+      eyebrow: "Start AI in Vlaanderen",
       heading: PROMO_HEADING,
       body: PROMO_BODY,
       variant: "darkImage",
@@ -446,12 +446,6 @@ export const NL_PAGE_DEFAULTS: LocalePageDefaults = {
           question: "Voor wie is Start AI?",
           answer:
             "Voor Belgische kmo's en scale-ups die in enkele weken willen evolueren van AI-experimenten naar een duidelijke, bedrijfsbrede strategie.",
-        },
-        {
-          _key: "cost",
-          question: "Wat kost het?",
-          answer:
-            "Programma's starten vanaf € 15.000. Vlaamse kmo's kunnen tot 70% terugkrijgen via de KMO-portefeuille van VLAIO.",
         },
         {
           _key: "time",
@@ -586,7 +580,7 @@ export const NL_PAGE_DEFAULTS: LocalePageDefaults = {
     },
     whyNow: WHY_NOW,
     promo: {
-      eyebrow: "VLAIO KMO-portefeuille",
+      eyebrow: "Start AI in Vlaanderen",
       heading: PROMO_HEADING,
       body: PROMO_BODY,
       variant: "darkImage",

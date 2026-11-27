@@ -53,8 +53,8 @@ export function StartAiSubsidizedFlandersSubsidyPopup() {
               id="flanders-subsidy-popup-body"
               className="mt-3 type-body text-white/85"
             >
-              Start AI komt in aanmerking voor de VLAIO KMO-portefeuille. Vraag
-              vandaag nog uw subsidie aan.
+              Start AI komt in aanmerking voor regionale ondersteuning in
+              Vlaanderen. Vraag vandaag nog uw subsidie aan.
             </p>
             <Link
               href={FLANDERS_SUBSIDY_URL}

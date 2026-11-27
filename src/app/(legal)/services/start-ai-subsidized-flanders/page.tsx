@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+﻿import type { Metadata } from "next";
 import { sanityFetch } from "@sanity/lib/live";
 import { SITE_SETTINGS_QUERY, START_AI_CONTENT_QUERY } from "@sanity/lib/queries";
 import { ContactBlock } from "@/components/sections/contact-block";
@@ -40,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
     {
       metaTitle: "Start AI met 70% subsidie in Vlaanderen | Wonka",
       metaDescription:
-        "Vlaamse KMO's kunnen tot 70% subsidie krijgen op Start AI via de VLAIO KMO-portefeuille. Ontdek het programma en plan een gesprek met Wonka.",
+        "Vlaamse kmo's kunnen in veel gevallen tot 70% ondersteuning krijgen op Start AI. Ontdek het programma en plan een gesprek met Wonka.",
       ogImage: null,
     },
     {

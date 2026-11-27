@@ -78,7 +78,6 @@ function rules(locale: Locale): LinkRule[] {
       ["charteIa", ["charte IA", "charte d'utilisation de l'IA"]],
       ["acculturationIa", ["acculturation IA", "acculturation à l'IA"]],
       ["auditIa", ["audit IA"]],
-      ["kmoPortefeuille", ["KMO-portefeuille", "kmo-portefeuille"]],
     ].map(([page, terms]) => {
       const href = land(page as Parameters<typeof landingPath>[0]);
       return href ? { terms: terms as string[], href } : null;

@@ -45,6 +45,21 @@ const redirects = async () => [
   { source: '/services/start-ai-en', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-nl', destination: '/start-ai', permanent: true },
   { source: '/services/start-ai-old', destination: '/start-ai', permanent: true },
+  {
+    source: '/nl/kmo-portefeuille-ai',
+    destination: '/services/start-ai-subsidized-flanders',
+    permanent: true,
+  },
+  {
+    source: '/nl/services/start-ai-subsidized-flanders',
+    destination: '/services/start-ai-subsidized-flanders',
+    permanent: true,
+  },
+  {
+    source: '/fr/services/start-ai-subsidized-flanders',
+    destination: '/services/start-ai-subsidized-flanders',
+    permanent: true,
+  },
   { source: '/products/wonka-chat-odoo', destination: '/wonka-chat/odoo', permanent: true },
   { source: '/products/wonka-chat', destination: '/workspace', permanent: true },
   { source: '/wonka-chat', destination: '/workspace', permanent: true },
